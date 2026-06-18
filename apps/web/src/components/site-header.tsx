@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { COMPANY_SITE_URL } from '@/lib/site-urls';
 
 export function SiteHeader() {
   return (
@@ -13,6 +14,9 @@ export function SiteHeader() {
           <Link href="/connect" className="site-nav-cta">
             Connect
           </Link>
+          <a href={COMPANY_SITE_URL} className="site-nav-external">
+            PBM Labs
+          </a>
         </nav>
       </div>
     </header>

@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { SiteHeader } from '@/components/site-header';
+import { COMPANY_SITE_URL } from '@/lib/site-urls';
 
 export const metadata: Metadata = {
   title: 'PACT Protocol',
@@ -16,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="site-footer">
           <p>
             Phase 0a staging · Roots not yet on-chain ·{' '}
-            <a href="https://pbm-labs.com">pbm-labs.com</a>
+            <a href={COMPANY_SITE_URL}>PBM Labs</a>
           </p>
         </footer>
       </body>

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Apply pbm-labs.com DNS (Proton apex + PACT pact subdomain) via Cloudflare API.
+"""Apply pbm-labs.com DNS (company apex + Proton mail + PACT pact subdomain) via Cloudflare API.
 
 Requires CLOUDFLARE_API_TOKEN with Zone DNS Edit + Email Routing Edit.
 
-Create token: https://dash.cloudflare.com/profile/api-tokens
-  → Custom token → Zone DNS Edit + Email Routing Edit for pbm-labs.com
-
 Usage:
-  export CLOUDFLARE_API_TOKEN=...
-  export PROTON_VERIFICATION='protonmail-verification=...'  # Proton → Domain names → Verify tab
+  export CLOUDFLARE_API_TOKEN=...   # or set in repo-root .env.local
+  export PROTON_VERIFICATION='protonmail-verification=...'  # optional if already live
+  export COMPANY_SITE_CNAME=cname.vercel-dns.com             # apex/www website
+  export VERCEL_DOMAIN_VERIFY='vc-domain-verify=...'         # from Vercel dashboard
+  export CLOUDFLARE_OAUTH_PUBLISHER='cloudflare_oauth_client_publisher=...'  # pact subdomain
   python3 scripts/sync-cloudflare-dns.py
 """
 
@@ -24,26 +24,25 @@ from env_local import load_env_local
 
 ZONE_ID = "eda4b298d663534da9d8868b7b60c084"
 ZONE = "pbm-labs.com"
+PACT = f"pact.{ZONE}"
 
-# From Proton → Settings → Domain names → pbm-labs.com → Verify tab
 PROTON_VERIFICATION = os.environ.get("PROTON_VERIFICATION", "").strip()
+COMPANY_SITE_CNAME = os.environ.get("COMPANY_SITE_CNAME", "cname.vercel-dns.com").strip()
+VERCEL_DOMAIN_VERIFY = os.environ.get("VERCEL_DOMAIN_VERIFY", "").strip()
+OAUTH_PUBLISHER = os.environ.get("CLOUDFLARE_OAUTH_PUBLISHER", "").strip()
 
-DESIRED = [
-    ("A", ZONE, "104.21.40.67", None),
-    ("A", ZONE, "172.67.179.28", None),
+DESIRED: list[tuple[str, str, str, int | None]] = [
+    ("CNAME", ZONE, COMPANY_SITE_CNAME, None),
+    ("CNAME", f"www.{ZONE}", COMPANY_SITE_CNAME, None),
 ]
+if VERCEL_DOMAIN_VERIFY:
+    DESIRED.append(("TXT", f"_vercel.{ZONE}", VERCEL_DOMAIN_VERIFY, None))
 if PROTON_VERIFICATION:
     DESIRED.append(("TXT", ZONE, PROTON_VERIFICATION, None))
 DESIRED += [
     ("MX", ZONE, "mail.protonmail.ch", 10),
     ("MX", ZONE, "mailsec.protonmail.ch", 20),
     ("TXT", ZONE, "v=spf1 include:_spf.protonmail.ch ~all", None),
-    (
-        "TXT",
-        ZONE,
-        "cloudflare_oauth_client_publisher=558166b07f9c5d43137b0b073fa97ea7",
-        None,
-    ),
     (
         "CNAME",
         f"protonmail._domainkey.{ZONE}",
@@ -69,15 +68,24 @@ DESIRED += [
         None,
     ),
     ("TXT", f"_report._dmarc.pact.{ZONE}", "v=DMARC1", None),
-    ("MX", f"pact.{ZONE}", "route1.mx.cloudflare.net", 58),
-    ("MX", f"pact.{ZONE}", "route2.mx.cloudflare.net", 39),
-    ("MX", f"pact.{ZONE}", "route3.mx.cloudflare.net", 35),
-    ("TXT", f"pact.{ZONE}", "v=spf1 include:_spf.mx.cloudflare.net ~all", None),
+    ("MX", PACT, "route1.mx.cloudflare.net", 58),
+    ("MX", PACT, "route2.mx.cloudflare.net", 39),
+    ("MX", PACT, "route3.mx.cloudflare.net", 35),
+    ("TXT", PACT, "v=spf1 include:_spf.mx.cloudflare.net ~all", None),
+    # Proxied placeholders so pact.pbm-labs.com resolves for the Worker route (MX stays DNS-only).
+    ("A", PACT, "192.0.2.1", None),
+    ("AAAA", PACT, "100::", None),
 ]
+if OAUTH_PUBLISHER:
+    DESIRED.append(("TXT", PACT, OAUTH_PUBLISHER, None))
 
+# Remove legacy PACT web on apex (Worker A records), old apex OAuth TXT, apex Email Routing MX.
 REMOVE_PREFIXES = [
+    ("A", ZONE, None),
+    ("A", f"www.{ZONE}", None),
     ("MX", ZONE, "route"),
     ("TXT", ZONE, "v=spf1 include:_spf.mx.cloudflare.net"),
+    ("TXT", ZONE, "cloudflare_oauth_client_publisher"),
     ("TXT", f"cf2024-1._domainkey.{ZONE}", None),
 ]
 
@@ -173,14 +181,22 @@ def main() -> None:
             print(f"  keep {rtype} {name}")
             continue
         body: dict = {"type": rtype, "name": name, "content": content, "ttl": 1}
+        if rtype == "CNAME":
+            body["proxied"] = False
+        if rtype == "AAAA" and content == "100::":
+            body["proxied"] = True
+        if rtype == "A" and name == PACT:
+            body["proxied"] = True
         if priority is not None:
             body["priority"] = priority
         print(f"  add  {rtype} {name}")
         api("POST", f"/zones/{ZONE_ID}/dns_records", body)
 
     print("\nDone. Verify:")
-    print(f"  dig @1.1.1.1 MX {ZONE} +short")
-    print(f"  dig @1.1.1.1 MX pact.{ZONE} +short")
+    print(f"  dig @1.1.1.1 CNAME {ZONE} +short          # company site")
+    print(f"  dig @1.1.1.1 MX {ZONE} +short             # Proton")
+    print(f"  dig @1.1.1.1 MX {PACT} +short            # PACT intake")
+    print("  PACT web app: https://pact.pbm-labs.com (Worker route — see wrangler.jsonc)")
 
 
 if __name__ == "__main__":

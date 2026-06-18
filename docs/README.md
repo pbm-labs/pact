@@ -1,8 +1,9 @@
 # PACT Protocol — Documentation
 
 **Reference domain:** `pbm-labs.com`  
+**PACT app:** `https://pact.pbm-labs.com`  
 **Intake address:** `rua@pact.pbm-labs.com`  
-**Staging page:** `/domain/pbm-labs.com` (Next.js app in `apps/web`)
+**Staging page:** `https://pact.pbm-labs.com/domain/pbm-labs.com`
 
 ## Protocol specifications
 
@@ -36,8 +37,9 @@ Operational setup (DNS, Supabase, worker deploy) is in the root [README.md](../R
 
 | Record | Value |
 |--------|-------|
+| Apex CNAME | Company site (e.g. Vercel) |
 | Apex MX | `mail.protonmail.ch` (Proton — `hello@`, etc.) |
-| `pact` MX | Cloudflare Email Routing (`rua@`) |
+| `pact` subdomain | Worker route `pact.pbm-labs.com` (web) + MX (intake) |
 | `_dmarc` TXT | `rua=mailto:rua@pact.pbm-labs.com` + Proton DMARC tags |
 | `_report._dmarc.pact` TXT | `v=DMARC1` |
 | Email Routing rule | `rua@pact.pbm-labs.com` → Worker `pact-ingest` only |

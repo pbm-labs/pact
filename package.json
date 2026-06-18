@@ -5,7 +5,7 @@
     "build": "pnpm -r run build",
     "test": "pnpm --filter @pact/core test",
     "dev:web": "pnpm --filter @pact/web dev",
-    "deploy:web": "pnpm --filter @pact/core build && pnpm --filter @pact/web deploy:cf",
+    "deploy:web": "pnpm --filter @pact/core build && env -u CLOUDFLARE_API_TOKEN pnpm --filter @pact/web deploy:cf",
     "dev:fixture": "tsx scripts/process-fixture.ts",
     "dev:ingest-fixture": "tsx scripts/ingest-fixture.ts",
     "typecheck": "pnpm -r run typecheck"

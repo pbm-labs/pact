@@ -3,6 +3,8 @@
 Domain provenance from DMARC aggregate reports. Protocol spec: [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md). Full doc index: [docs/README.md](docs/README.md).
 
 **Reference domain:** `pbm-labs.com`  
+**PACT app:** `https://pact.pbm-labs.com`  
+**Company site:** `https://pbm-labs.com`  
 **Intake address:** `rua@pact.pbm-labs.com`
 
 ## Monorepo structure
@@ -26,7 +28,7 @@ pnpm --filter @pact/core build
 pnpm dev:fixture                  # parse sample XML locally (no DB)
 pnpm dev:ingest-fixture           # simulate rua report → Supabase
 pnpm dev:web                      # http://localhost:3000
-pnpm deploy:web                   # Cloudflare Workers (pbm-labs.com)
+pnpm deploy:web                   # Cloudflare Workers (pact.pbm-labs.com)
 ```
 
 ## Environment
@@ -44,9 +46,13 @@ Used by `pnpm dev:web`, `pnpm dev:ingest-fixture`, and DNS sync scripts.
 |----------|---------|
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, ingest fixture, worker (via wrangler secrets) |
 | `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/connect` OAuth flow |
-| `NEXT_PUBLIC_APP_URL` | OAuth redirect base URL |
+| `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://pact.pbm-labs.com` in prod) |
+| `NEXT_PUBLIC_COMPANY_SITE_URL` | Company site (`https://pbm-labs.com`) |
 | `CLOUDFLARE_API_TOKEN` | `scripts/sync-cloudflare-dns*.py` |
 | `PROTON_VERIFICATION` | DNS sync scripts (Proton domain verify TXT) |
+| `COMPANY_SITE_CNAME` | Apex/www CNAME target (default `cname.vercel-dns.com`) |
+| `VERCEL_DOMAIN_VERIFY` | `_vercel` TXT from Vercel when connecting apex |
+| `CLOUDFLARE_OAUTH_PUBLISHER` | OAuth publisher TXT on `pact` subdomain |
 
 Cloudflare Worker production secrets:
 
@@ -63,13 +69,23 @@ Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 
 ### Cloudflare OAuth onboarding (`/connect`)
 
-1. Cloudflare dashboard → **Manage Account → OAuth clients → Create client**
-2. Redirect URL: `https://pbm-labs.com/api/connect/cloudflare/callback`
-3. Client URL: `https://pbm-labs.com` (HTTPS required; verify with TXT on apex)
+1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
+2. Redirect URL: `https://pact.pbm-labs.com/api/connect/cloudflare/callback`
+3. Client URL: `https://pact.pbm-labs.com` (HTTPS required; verify with TXT on `pact` subdomain)
 4. Promote to **public** after domain verification on `client_uri` (required for external users)
-   - **Logo URL:** `https://pbm-labs.com/pact-logo.svg` (hosted in `apps/web/public/`)
-   - Logo, client URL, and scopes are required before going public
+   - **Logo URL:** `https://pact.pbm-labs.com/pact-logo.svg` (hosted in `apps/web/public/`)
+   - Add `CLOUDFLARE_OAUTH_PUBLISHER=cloudflare_oauth_client_publisher=…` to `.env.local`, then run `scripts/sync-cloudflare-dns.py`
 5. Add client ID and secret to `.env.local` (see `.env.example`)
+
+After moving the app to `pact.pbm-labs.com`, update the OAuth client in the dashboard (API token needs **OAuth Clients Write**):
+
+| Field | Value |
+|-------|--------|
+| Client URL | `https://pact.pbm-labs.com` |
+| Redirect URL | `https://pact.pbm-labs.com/api/connect/cloudflare/callback` |
+| Logo URL | `https://pact.pbm-labs.com/pact-logo.svg` |
+
+Copy the new **publisher TXT** from the client page → `CLOUDFLARE_OAUTH_PUBLISHER` in `.env.local` → run `scripts/sync-cloudflare-dns.py`.
 
 Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.example`.
 
@@ -83,6 +99,17 @@ Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.exampl
 insert into domains (domain) values ('pbm-labs.com');
 insert into domains (domain) values ('witnessed.cc');
 ```
+
+## Hostnames
+
+| Host | Role |
+|------|------|
+| `pbm-labs.com` / `www` | Company website (Vercel or other host — not the PACT Worker) |
+| `pact.pbm-labs.com` | PACT web app (`pact-web` Worker) |
+| `rua@pact.pbm-labs.com` | DMARC intake (`pact-ingest` Worker) |
+| `hello@pbm-labs.com` | Proton mail (apex MX) |
+
+Apply DNS with `python3 scripts/sync-cloudflare-dns.py` (see `.env.example` for optional vars).
 
 ## DNS (pbm-labs.com)
 
@@ -119,25 +146,31 @@ In [Proton Mail](https://mail.proton.me) → **Settings → All settings → Pro
 
 ### 3. Cloudflare DNS
 
-**Apex (`@`) — Proton**
+**Apex (`@`) — company site + Proton mail**
 
 | Type | Name | Content |
 |------|------|---------|
+| CNAME | `@` | Company host (e.g. `cname.vercel-dns.com`) |
+| CNAME | `www` | Same as apex |
 | MX | `@` | `10 mail.protonmail.ch` |
 | MX | `@` | `20 mailsec.protonmail.ch` |
 | TXT | `@` | Proton SPF (from wizard) |
 | TXT | `_dmarc` | Include `rua=mailto:rua@pact.pbm-labs.com` **and** Proton DMARC tags |
 | CNAME | `protonmail._domainkey` etc. | From Proton wizard |
 
-Delete apex MX records pointing to `route*.mx.cloudflare.net`.
+Remove apex **A** records that pointed the PACT Worker at the root domain.
 
-**Subdomain `pact` — PACT intake (keep)**
+**Subdomain `pact` — PACT app route + intake**
 
 | Type | Name | Content |
 |------|------|---------|
 | MX | `pact` | `route1/2/3.mx.cloudflare.net` (priorities from CF) |
+| A / AAAA | `pact` | Proxied `192.0.2.1` + `100::` (Worker HTTP; mail uses MX above) |
 | TXT | `pact` | `v=spf1 include:_spf.mx.cloudflare.net ~all` |
+| TXT | `pact` | `cloudflare_oauth_client_publisher=…` (OAuth client URL on `pact.pbm-labs.com`) |
 | TXT | `_report._dmarc.pact` | `v=DMARC1` |
+
+Worker route (wrangler): `pact.pbm-labs.com/*` → `pact-web`. HTTP and MX on the same subdomain is fine in Cloudflare.
 
 ### 4. Cloudflare Email Routing — rules
 
@@ -150,13 +183,23 @@ Remove apex rules (catch-all, `hello@` forwards). Keep **only**:
 ### 5. Verify
 
 ```bash
-dig @1.1.1.1 MX pbm-labs.com +short          # mail.protonmail.ch
-dig @1.1.1.1 MX pact.pbm-labs.com +short     # route*.mx.cloudflare.net
-dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short  # includes rua=mailto:rua@pact.pbm-labs.com
+dig @1.1.1.1 CNAME pbm-labs.com +short         # company site
+dig @1.1.1.1 MX pbm-labs.com +short            # mail.protonmail.ch
+dig @1.1.1.1 MX pact.pbm-labs.com +short       # route*.mx.cloudflare.net
+dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short    # includes rua=mailto:rua@pact.pbm-labs.com
+curl -sI https://pact.pbm-labs.com/ | head -1  # PACT app
 ```
 
 Send test to `hello@pbm-labs.com` → Proton inbox.  
 DMARC reports still go to `rua@pact.pbm-labs.com` → worker (~24–48h).
+
+## Deploy PACT web app
+
+```bash
+pnpm deploy:web   # pact.pbm-labs.com (see apps/web/wrangler.jsonc)
+```
+
+After first deploy on the new hostname, remove any leftover Worker routes for `pbm-labs.com/*` in the Cloudflare dashboard.
 
 ## Deploy ingest worker
 

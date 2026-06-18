@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "pact-web",
+  "account_id": "9deab2b981096c5b012feb4a52546fe6",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-05-05",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -16,11 +17,7 @@
   ],
   "routes": [
     {
-      "pattern": "pbm-labs.com/*",
-      "zone_id": "eda4b298d663534da9d8868b7b60c084"
-    },
-    {
-      "pattern": "www.pbm-labs.com/*",
+      "pattern": "pact.pbm-labs.com/*",
       "zone_id": "eda4b298d663534da9d8868b7b60c084"
     }
   ],
@@ -28,6 +25,7 @@
   //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
   //   CLOUDFLARE_OAUTH_CLIENT_ID, CLOUDFLARE_OAUTH_CLIENT_SECRET
   "vars": {
-    "NEXT_PUBLIC_APP_URL": "https://pbm-labs.com"
+    "NEXT_PUBLIC_APP_URL": "https://pact.pbm-labs.com",
+    "NEXT_PUBLIC_COMPANY_SITE_URL": "https://pbm-labs.com"
   }
 }
