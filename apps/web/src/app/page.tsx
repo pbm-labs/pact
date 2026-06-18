@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 import { fetchDomainSummaries } from '@/lib/domain-data';
 
@@ -74,7 +75,7 @@ export default async function HomePage() {
         <h2>How it works</h2>
         <ol className="steps">
           <li>
-            <strong>Connect</strong> — add <code>rua@pact.pbm-labs.com</code> to your{' '}
+            <strong>Connect</strong> — add <code>{PACT_RUA_ADDRESS}</code> to your{' '}
             <code>_dmarc</code> record via Cloudflare OAuth.
           </li>
           <li>

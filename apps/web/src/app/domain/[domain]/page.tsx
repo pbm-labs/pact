@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
 import type { DomainLiveData } from '@/lib/domain-data';
@@ -56,7 +57,7 @@ function WaitingPage({
         <h2>What happens next</h2>
         <ol className="steps steps-compact">
           <li>Mail providers read your <code>_dmarc</code> record (usually within 24 hours).</li>
-          <li>They send aggregate XML to <code>rua@pact.pbm-labs.com</code>.</li>
+          <li>They send aggregate XML to <code>{PACT_RUA_ADDRESS}</code>.</li>
           <li>PACT ingests the report and this page shows a provisional trust score.</li>
         </ol>
       </section>

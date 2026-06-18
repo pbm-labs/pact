@@ -119,8 +119,11 @@ See `fixtures/dmarc-google-pbm-labs.xml` for sample report shape.
 |--------|---------|
 | `_dmarc` TXT with `rua=mailto:rua@pact.pbm-labs.com` | Send aggregate reports to PACT |
 | `_report._dmarc.pact` TXT `v=DMARC1` | Authorize external rua destination |
-| `pact` MX → `route1/route2.mx.cloudflare.net` | Receive mail on subdomain |
+| `pact` MX → `route1/route2.mx.cloudflare.net` | Receive DMARC mail on subdomain |
+| `pact` proxied `A 192.0.2.1` | Worker HTTP (required alongside MX) |
 | `pact` TXT SPF for Cloudflare Email Routing | Allow Cloudflare to receive |
+
+**Note:** Some home routers mishandle names that have both MX and proxied A records (IPv4 missing, IPv6 only). Use Cloudflare DNS (`1.1.1.1`) on clients if the app URL fails to resolve.
 
 Nameservers must point to Cloudflare for records to go live.
 
@@ -160,17 +163,17 @@ In [Proton Mail](https://mail.proton.me) → **Settings → All settings → Pro
 
 Remove apex **A** records that pointed the PACT Worker at the root domain.
 
-**Subdomain `pact` — PACT app route + intake**
+**Subdomain `pact` — PACT web + DMARC intake**
 
 | Type | Name | Content |
 |------|------|---------|
 | MX | `pact` | `route1/2/3.mx.cloudflare.net` (priorities from CF) |
-| A / AAAA | `pact` | Proxied `192.0.2.1` + `100::` (Worker HTTP; mail uses MX above) |
+| A | `pact` | Proxied `192.0.2.1` (Worker HTTP) |
 | TXT | `pact` | `v=spf1 include:_spf.mx.cloudflare.net ~all` |
-| TXT | `pact` | `cloudflare_oauth_client_publisher=…` (OAuth client URL on `pact.pbm-labs.com`) |
+| TXT | `pact` | `cloudflare_oauth_client_publisher=…` |
 | TXT | `_report._dmarc.pact` | `v=DMARC1` |
 
-Worker route (wrangler): `pact.pbm-labs.com/*` → `pact-web`. HTTP and MX on the same subdomain is fine in Cloudflare.
+Worker route (wrangler): `pact.pbm-labs.com/*` → `pact-web`.
 
 ### 4. Cloudflare Email Routing — rules
 
@@ -186,6 +189,7 @@ Remove apex rules (catch-all, `hello@` forwards). Keep **only**:
 dig @1.1.1.1 CNAME pbm-labs.com +short         # company site
 dig @1.1.1.1 MX pbm-labs.com +short            # mail.protonmail.ch
 dig @1.1.1.1 MX pact.pbm-labs.com +short       # route*.mx.cloudflare.net
+dig @1.1.1.1 A pact.pbm-labs.com +short        # Cloudflare edge (web)
 dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short    # includes rua=mailto:rua@pact.pbm-labs.com
 curl -sI https://pact.pbm-labs.com/ | head -1  # PACT app
 ```

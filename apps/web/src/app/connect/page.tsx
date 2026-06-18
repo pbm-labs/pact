@@ -1,3 +1,4 @@
+import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 
 const ERRORS: Record<string, string> = {
@@ -29,7 +30,7 @@ export default async function ConnectPage({ searchParams }: PageProps) {
       <h1>Add a domain</h1>
       <p className="hero-lead">
         PACT only edits your <code>_dmarc</code> TXT record — nothing else in DNS. Reports go to{' '}
-        <code>rua@pact.pbm-labs.com</code>, not your inbox.
+        <code>{PACT_RUA_ADDRESS}</code>, not your inbox.
       </p>
 
       {errorKey && (

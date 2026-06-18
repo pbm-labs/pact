@@ -72,9 +72,7 @@ DESIRED += [
     ("MX", PACT, "route2.mx.cloudflare.net", 39),
     ("MX", PACT, "route3.mx.cloudflare.net", 35),
     ("TXT", PACT, "v=spf1 include:_spf.mx.cloudflare.net ~all", None),
-    # Proxied placeholders so pact.pbm-labs.com resolves for the Worker route (MX stays DNS-only).
     ("A", PACT, "192.0.2.1", None),
-    ("AAAA", PACT, "100::", None),
 ]
 if OAUTH_PUBLISHER:
     DESIRED.append(("TXT", PACT, OAUTH_PUBLISHER, None))
@@ -83,9 +81,11 @@ if OAUTH_PUBLISHER:
 REMOVE_PREFIXES = [
     ("A", ZONE, None),
     ("A", f"www.{ZONE}", None),
+    ("AAAA", PACT, None),
     ("MX", ZONE, "route"),
     ("TXT", ZONE, "v=spf1 include:_spf.mx.cloudflare.net"),
     ("TXT", ZONE, "cloudflare_oauth_client_publisher"),
+    ("TXT", PACT, "cloudflare_oauth_client_publisher"),
     ("TXT", f"cf2024-1._domainkey.{ZONE}", None),
 ]
 
@@ -183,8 +183,6 @@ def main() -> None:
         body: dict = {"type": rtype, "name": name, "content": content, "ttl": 1}
         if rtype == "CNAME":
             body["proxied"] = False
-        if rtype == "AAAA" and content == "100::":
-            body["proxied"] = True
         if rtype == "A" and name == PACT:
             body["proxied"] = True
         if priority is not None:
@@ -196,7 +194,8 @@ def main() -> None:
     print(f"  dig @1.1.1.1 CNAME {ZONE} +short          # company site")
     print(f"  dig @1.1.1.1 MX {ZONE} +short             # Proton")
     print(f"  dig @1.1.1.1 MX {PACT} +short            # PACT intake")
-    print("  PACT web app: https://pact.pbm-labs.com (Worker route — see wrangler.jsonc)")
+    print(f"  dig @1.1.1.1 A {PACT} +short              # PACT web")
+    print("  PACT web app: https://pact.pbm-labs.com (see apps/web/wrangler.jsonc)")
 
 
 if __name__ == "__main__":
