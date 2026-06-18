@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 import { fetchDomainSummaries } from '@/lib/domain-data';
 
@@ -21,12 +20,7 @@ export default async function HomePage() {
       </div>
 
       <section className="section">
-        <div className="section-header">
-          <h2>Connected domains</h2>
-          <Link href="/connect" className="text-link">
-            + Connect
-          </Link>
-        </div>
+        <h2>Connected domains</h2>
 
         {domains.length > 0 ? (
           <ul className="domain-cards">
@@ -69,23 +63,6 @@ export default async function HomePage() {
             </Link>
           </div>
         )}
-      </section>
-
-      <section className="section how-it-works">
-        <h2>How it works</h2>
-        <ol className="steps">
-          <li>
-            <strong>Connect</strong> — add <code>{PACT_RUA_ADDRESS}</code> to your{' '}
-            <code>_dmarc</code> record via Cloudflare OAuth.
-          </li>
-          <li>
-            <strong>Ingest</strong> — Google and Microsoft send daily aggregate XML reports to PACT.
-          </li>
-          <li>
-            <strong>Prove</strong> — leaves are hashed into a Merkle tree; this page shows trust
-            score and history (on-chain anchor in Phase 0b).
-          </li>
-        </ol>
       </section>
     </PageShell>
   );
