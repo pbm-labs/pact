@@ -1,0 +1,12 @@
+# Copy to apps/web/.dev.vars for `wrangler preview` / OpenNext local Cloudflare dev.
+# Production secrets: wrangler secret put <NAME>
+#
+#   cp .dev.vars.example .dev.vars
+#
+# Or symlink repo-root .env.local (same keys):
+#   ln -sf ../../.env.local .dev.vars
+
+SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+CLOUDFLARE_OAUTH_CLIENT_ID=
+CLOUDFLARE_OAUTH_CLIENT_SECRET=

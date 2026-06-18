@@ -1,0 +1,60 @@
+export const PACT_RUA_MAILTO = 'mailto:rua@pact.pbm-labs.com';
+export const PACT_RUA_ADDRESS = 'rua@pact.pbm-labs.com';
+
+const TAG_ORDER = ['v', 'p', 'sp', 'adkim', 'aspf', 'pct', 'rua', 'ruf', 'np'] as const;
+
+export function parseDmarcTags(record: string): Map<string, string> {
+  const content = record.trim().replace(/^"|"$/g, '');
+  const tags = new Map<string, string>();
+  for (const part of content.split(';')) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) continue;
+    tags.set(trimmed.slice(0, eq).trim().toLowerCase(), trimmed.slice(eq + 1).trim());
+  }
+  return tags;
+}
+
+export function serializeDmarcTags(tags: Map<string, string>): string {
+  const used = new Set<string>();
+  const parts: string[] = [];
+  for (const key of TAG_ORDER) {
+    const val = tags.get(key);
+    if (val !== undefined) {
+      parts.push(`${key}=${val}`);
+      used.add(key);
+    }
+  }
+  for (const [key, val] of tags) {
+    if (!used.has(key)) parts.push(`${key}=${val}`);
+  }
+  return parts.join('; ');
+}
+
+export function dmarcIncludesPactRua(record: string): boolean {
+  const rua = parseDmarcTags(record).get('rua') ?? '';
+  return rua.includes(PACT_RUA_ADDRESS);
+}
+
+/** Add PACT rua= to an existing _dmarc TXT value, or return a minimal new record. */
+export function addPactRuaToDmarc(record: string | null | undefined): {
+  content: string;
+  changed: boolean;
+} {
+  const base = record?.trim().replace(/^"|"$/g, '') ?? '';
+  if (!base) {
+    return { content: `v=DMARC1; p=none; rua=${PACT_RUA_MAILTO}`, changed: true };
+  }
+
+  const tags = parseDmarcTags(base);
+  if (!tags.has('v')) tags.set('v', 'DMARC1');
+
+  if (dmarcIncludesPactRua(base)) {
+    return { content: serializeDmarcTags(tags), changed: false };
+  }
+
+  const rua = tags.get('rua') ?? '';
+  tags.set('rua', rua ? `${rua},${PACT_RUA_MAILTO}` : PACT_RUA_MAILTO);
+  return { content: serializeDmarcTags(tags), changed: true };
+}

@@ -1,0 +1,48 @@
+; =============================================================================
+; pbm-labs.com — COMPLETE DNS (Option B: Proton apex + PACT pact subdomain)
+; =============================================================================
+;
+; Cloudflare: DNS → delete ALL existing records → Import this file
+;   (or add manually from dns/pbm-labs.com.md)
+;
+; If Proton domain not yet verified, add verification TXT from Proton wizard first.
+;
+; Email Routing (dashboard):
+;   Settings → unlock apex MX | subdomain "pact" configured
+;   Routing rules → ONLY rua@pact.pbm-labs.com → Worker pact-ingest
+; =============================================================================
+
+$ORIGIN pbm-labs.com.
+$TTL 3600
+
+; --- Website (Cloudflare proxy) -----------------------------------------------
+@                       A       104.21.40.67
+@                       A       172.67.179.28
+
+; --- Proton: domain verification (required — do not drop on re-import) ------
+@                       TXT     "protonmail-verification=0f0cc5106a6ca47f73babea74cd7b4c6d738243f"
+
+; --- Proton: receive mail (apex) --------------------------------------------
+@                       MX      10 mail.protonmail.ch.
+@                       MX      20 mailsec.protonmail.ch.
+
+; --- Proton: send mail (apex SPF) -------------------------------------------
+@                       TXT     "v=spf1 include:_spf.protonmail.ch ~all"
+@                       TXT     "cloudflare_oauth_client_publisher=558166b07f9c5d43137b0b073fa97ea7"
+
+; --- Proton: DKIM ------------------------------------------------------------
+protonmail._domainkey   CNAME   protonmail.domainkey.daaj4dcu6lnnliilt6sgsscqbafafk5ns55aeuy7rrd7qf56y3uxa.domains.proton.ch.
+protonmail2._domainkey  CNAME   protonmail2.domainkey.daaj4dcu6lnnliilt6sgsscqbafafk5ns55aeuy7rrd7qf56y3uxa.domains.proton.ch.
+protonmail3._domainkey  CNAME   protonmail3.domainkey.daaj4dcu6lnnliilt6sgsscqbafafk5ns55aeuy7rrd7qf56y3uxa.domains.proton.ch.
+
+; --- DMARC (apex): PACT aggregate reports only --------------------------------
+_dmarc                  TXT     "v=DMARC1; p=quarantine; adkim=r; aspf=r; rua=mailto:rua@pact.pbm-labs.com"
+
+; --- PACT: authorize external rua destination ---------------------------------
+_report._dmarc.pact     TXT     "v=DMARC1"
+
+; --- PACT: intake subdomain (Cloudflare Email Routing) ------------------------
+pact                    MX      58 route1.mx.cloudflare.net.
+pact                    MX      39 route2.mx.cloudflare.net.
+pact                    MX      35 route3.mx.cloudflare.net.
+pact                    TXT     "v=spf1 include:_spf.mx.cloudflare.net ~all"

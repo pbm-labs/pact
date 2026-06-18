@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pact-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-05-05",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "pact-web"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "pbm-labs.com/*",
+      "zone_id": "eda4b298d663534da9d8868b7b60c084"
+    },
+    {
+      "pattern": "www.pbm-labs.com/*",
+      "zone_id": "eda4b298d663534da9d8868b7b60c084"
+    }
+  ],
+  // Non-secret runtime config only. Set secrets via wrangler (see README):
+  //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
+  //   CLOUDFLARE_OAUTH_CLIENT_ID, CLOUDFLARE_OAUTH_CLIENT_SECRET
+  "vars": {
+    "NEXT_PUBLIC_APP_URL": "https://pbm-labs.com"
+  }
+}

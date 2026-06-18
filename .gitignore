@@ -1,0 +1,23 @@
+# Dependencies & build
+node_modules/
+dist/
+.next/
+.open-next/
+.wrangler/
+*.tsbuildinfo
+coverage/
+
+# Environment (never commit secrets)
+.env
+.env.local
+.env.*.local
+.dev.vars
+apps/web/.env.local
+apps/web/.dev.vars
+
+# OS & tooling
+.DS_Store
+.vercel
+
+# Editor / local
+.cursor/

@@ -1,0 +1,22 @@
+name = "pact-ingest"
+main = "src/index.ts"
+compatibility_date = "2025-06-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[queues.producers]]
+queue = "pact-reports"
+binding = "REPORT_QUEUE"
+
+[[queues.consumers]]
+queue = "pact-reports"
+max_batch_size = 1
+max_retries = 3
+
+[vars]
+ENVIRONMENT = "staging"
+
+# Secrets (wrangler secret put):
+#   SUPABASE_URL
+#   SUPABASE_SERVICE_ROLE_KEY
+
+# After deploy: Cloudflare → Email Routing → rua@pact.pbm-labs.com → Send to Worker → pact-ingest

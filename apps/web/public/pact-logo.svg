@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none">
+  <rect width="256" height="256" rx="48" fill="#18181b"/>
+  <rect x="8" y="8" width="240" height="240" rx="40" stroke="#3f3f46" stroke-width="2"/>
+  <text x="128" y="118" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="700" fill="#e4e4e7" letter-spacing="4">PACT</text>
+  <text x="128" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="500" fill="#71717a" letter-spacing="6">PROTOCOL</text>
+  <circle cx="128" cy="188" r="6" fill="#2563eb"/>
+</svg>
