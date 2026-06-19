@@ -69,6 +69,22 @@ function WaitingPage({
   );
 }
 
+function formatPeriod(start: number, end: number): string {
+  const fmt = (ts: number) =>
+    new Date(ts * 1000).toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  return `${fmt(start)} – ${fmt(end)}`;
+}
+
+function reporterLabel(org: string): string {
+  if (org === 'google.com') return 'Google';
+  if (org === 'outlook.com') return 'Microsoft';
+  return org;
+}
+
 function LivePage({ data }: { data: DomainLiveData }) {
   const rootPreview = data.latestRoot
     ? `${data.latestRoot.slice(0, 10)}…${data.latestRoot.slice(-8)}`
@@ -97,6 +113,12 @@ function LivePage({ data }: { data: DomainLiveData }) {
           {SCORE_ALGORITHM} · connected{' '}
           {data.connectedSince ? new Date(data.connectedSince).toLocaleDateString() : '—'}
         </p>
+        {data.trust.status === 'provisional' && (
+          <p className="meta meta-note">
+            Provisional — score rises as verified volume, reporter diversity, and history depth
+            accumulate (~139 days to activate).
+          </p>
+        )}
       </div>
 
       <div className="stat-grid">
@@ -117,6 +139,53 @@ function LivePage({ data }: { data: DomainLiveData }) {
           <span className="stat-value">{Math.floor(data.trust.ageDays)}d</span>
         </div>
       </div>
+
+      <section className="section card">
+        <h2>Report history</h2>
+        <p className="section-lead">
+          Authenticated DMARC aggregate batches ingested for this domain. Each row is one reporter
+          for one reporting period.
+        </p>
+        <div className="report-history-wrap">
+          <table className="report-history">
+            <thead>
+              <tr>
+                <th>Reporter</th>
+                <th>Period</th>
+                <th>DKIM pass</th>
+                <th>DKIM fail</th>
+                <th>Selectors</th>
+                <th>Ingested</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.leaves.map((leaf) => (
+                <tr key={`${leaf.reporterOrg}-${leaf.periodStart}`}>
+                  <td>{reporterLabel(leaf.reporterOrg)}</td>
+                  <td>{formatPeriod(leaf.periodStart, leaf.periodEnd)}</td>
+                  <td>{leaf.dkimPassCount.toLocaleString()}</td>
+                  <td>{leaf.dkimFailCount.toLocaleString()}</td>
+                  <td>
+                    {leaf.selectors.length ? (
+                      leaf.selectors.map((s) => <code key={s}>{s}</code>)
+                    ) : (
+                      '—'
+                    )}
+                  </td>
+                  <td>
+                    {leaf.receivedAt
+                      ? new Date(leaf.receivedAt).toLocaleDateString(undefined, {
+                          month: 'short',
+                          day: 'numeric',
+                        })
+                      : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <section className="section card">
         <h2>Trust components</h2>

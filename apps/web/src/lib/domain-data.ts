@@ -1,6 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 import { computeTrustScore, normalizeDomain, SCORE_ALGORITHM, byteaToHex } from '@pact/core';
 
+export interface DomainLeafSummary {
+  reporterOrg: string;
+  periodStart: number;
+  periodEnd: number;
+  dkimPassCount: number;
+  dkimFailCount: number;
+  selectors: string[];
+  receivedAt: string | null;
+}
+
 export interface DomainLiveData {
   domain: string;
   connectedSince: string | null;
@@ -14,6 +24,7 @@ export interface DomainLiveData {
   globalTreeLeafCount: number | null;
   anchorType: 'staging' | 'base' | null;
   staging: boolean;
+  leaves: DomainLeafSummary[];
 }
 
 export interface DomainWaitingData {
@@ -137,8 +148,11 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 
   const { data: leaves, error: leavesError } = await supabase
     .from('leaves')
-    .select('dkim_pass_count, dkim_fail_count, reporter_org, period_start')
-    .eq('domain', normalized);
+    .select(
+      'dkim_pass_count, dkim_fail_count, reporter_org, period_start, period_end, selectors, created_at',
+    )
+    .eq('domain', normalized)
+    .order('period_start', { ascending: false });
 
   if (leavesError) return null;
   if (!leaves?.length && !domainRow) return null;
@@ -199,6 +213,15 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       globalTreeLeafCount: rootRow?.leaf_count ?? null,
       anchorType: (rootRow?.anchor_type as 'staging' | 'base') ?? null,
       staging: rootRow?.anchor_type !== 'base',
+      leaves: leaves.map((leaf) => ({
+        reporterOrg: leaf.reporter_org,
+        periodStart: Number(leaf.period_start),
+        periodEnd: Number(leaf.period_end),
+        dkimPassCount: Number(leaf.dkim_pass_count),
+        dkimFailCount: Number(leaf.dkim_fail_count),
+        selectors: leaf.selectors ?? [],
+        receivedAt: leaf.created_at ?? null,
+      })),
     },
   };
 }

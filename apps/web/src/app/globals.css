@@ -212,6 +212,54 @@ h2 {
   margin: 0.5rem 0 0;
 }
 
+.meta-note {
+  max-width: 42ch;
+  line-height: 1.45;
+}
+
+.section-lead {
+  color: #71717a;
+  font-size: 0.85rem;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.report-history-wrap {
+  overflow-x: auto;
+  margin: 0 -0.15rem;
+}
+
+.report-history {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.report-history th {
+  text-align: left;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #52525b;
+  padding: 0 0.65rem 0.5rem 0;
+  border-bottom: 1px solid #27272a;
+}
+
+.report-history td {
+  padding: 0.65rem 0.65rem 0.65rem 0;
+  border-bottom: 1px solid #1c1c1f;
+  vertical-align: top;
+}
+
+.report-history tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.report-history td code + code {
+  margin-left: 0.35rem;
+}
+
 .text-link {
   font-size: 0.85rem;
   font-weight: 500;
