@@ -277,12 +277,56 @@ code {
 /* —— Hero (home) —— */
 
 .hero {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .hero h1 {
   font-size: 1.75rem;
-  max-width: 20ch;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+  line-height: 1.25;
+}
+
+/* —— Homepage narrative —— */
+
+.narrative {
+  max-width: 38rem;
+}
+
+.narrative p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #d4d4d8;
+  margin: 0 0 1.15rem;
+}
+
+.narrative-closing {
+  color: #e4e4e7;
+  margin-bottom: 0 !important;
+}
+
+.narrative-bridge {
+  padding-top: 0;
+  margin-bottom: 2.5rem;
+  border-top: 1px solid #27272a;
+  padding-top: 2rem;
+}
+
+.bridge-lead {
+  font-size: 0.95rem;
+  color: #a1a1aa;
+  line-height: 1.65;
+  max-width: 38rem;
+  margin: 0 0 1.25rem;
+}
+
+.bridge-actions {
+  margin: 0;
+}
+
+.bridge-actions .button-primary {
+  margin-top: 0;
 }
 
 /* —— Sections & cards —— */
@@ -604,4 +648,96 @@ code {
 .connect-form .button-primary {
   width: 100%;
   margin-top: 0.75rem;
+}
+
+.button-secondary {
+  display: inline-block;
+  margin-top: 0.5rem;
+  background: transparent;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  color: #e4e4e7 !important;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.7rem 1.15rem;
+  text-align: center;
+  text-decoration: none !important;
+}
+
+.button-secondary:hover {
+  border-color: #52525b;
+  background: #18181b;
+}
+
+.connect-form .button-secondary {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.dmarc-snippet {
+  margin-bottom: 1rem;
+}
+
+.snippet-code {
+  background: #09090b;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  color: #a1a1aa;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin: 0.5rem 0 0;
+  overflow-x: auto;
+  padding: 0.85rem 1rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.merkle-summary {
+  margin-bottom: 1rem;
+}
+
+.proof-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.proof-details {
+  background: #09090b;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+}
+
+.proof-details summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  list-style: none;
+}
+
+.proof-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.proof-valid {
+  color: #86efac;
+}
+
+.proof-invalid {
+  color: #fca5a5;
+}
+
+.proof-siblings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.proof-siblings code {
+  background: #18181b;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.35rem;
 }

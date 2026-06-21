@@ -13,6 +13,7 @@ export function SiteHeader() {
           <Link href="/connect" className="site-nav-cta">
             Connect
           </Link>
+          <Link href="/disconnect">Disconnect</Link>
         </nav>
       </div>
     </header>

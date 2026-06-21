@@ -1,7 +1,8 @@
 # PACT Protocol — MVP Strategy & Roadmap
 **PBM Labs LLC**
 **June 2026 — Internal Working Document**
-**Protocol baseline:** [Protocol Specification v0.2](pact_protocol_v02.md)
+
+> **Companion document:** `pact_movement_strategy.md` specifies the adoption mechanism — narrative, signature-line distribution, and the public ordinal counter — that should be built in parallel with the phases below, starting at MVP launch. See that document before implementing the public-facing site described in this roadmap.
 
 ---
 
@@ -9,111 +10,9 @@
 
 The MVP does not build a product. It proves the protocol works with real data from a real domain, visible to anyone on the internet. Everything else follows from that proof.
 
-No domain connected means no leaves. No leaves means no trust score. No trust score means no Chain credential. No sustained history means no Signal baseline. The ecosystem layers are sequentially dependent. The only way to unlock them is to make the protocol real first.
+No domain connected means no trust score. No trust score means no Chain credential. No Chain credential means no Signal baseline. No baseline means no Proof context. The four layers of the ecosystem are sequentially dependent. The only way to unlock them is to make the protocol real first.
 
-The MVP is complete when `pact.pbm-labs.com/domain/pbm-labs.com` shows a live trust score (labeled **provisional** per v0.2 until ~139 days of history) backed by real DMARC aggregate reports, authenticated per the reporter allowlist, anchored in a real 32-level Merkle tree on Base. That page is the product. Everything before it is infrastructure. Everything after it is growth.
-
-**Build sequence:** MVP is delivered in two internal phases. **Phase 0a (staging)** proves the pipeline with real data but no blockchain. **Phase 0b (MVP complete)** adds Base as the trust anchor. Do not call the MVP done until 0b ships.
-
----
-
-## Phase 0a / Phase 0b — Staging Then Chain
-
-| Phase | Name | Base? | Purpose |
-|-------|------|-------|---------|
-| **0a** | Staging / internal | No | Prove real DMARC → real leaves → real score |
-| **0b** | MVP complete | Yes | Prove independent verification without trusting PBM Labs |
-
-### Phase 0a — Staging (Week 1–2, no Base)
-
-**Goal:** One connected domain (`pbm-labs.com`), real `rua=` reports, leaves in Supabase, trust score on a staging page — no blockchain.
-
-**Build (same as MVP minus chain):**
-
-1. SMTP receiver + reporter allowlist + SPF
-2. DMARC parser + leaf aggregation (Appendix C)
-3. 32-level Merkle tree in Supabase — do not simplify; required unchanged for 0b
-4. `pact-score-0.2` on read
-5. Staging page at `pact.pbm-labs.com/domain/{domain}` with a visible **"Staging — not yet anchored on-chain"** banner
-
-**Staging root model (replaces on-chain in 0a):**
-
-Roots are published daily into Supabase instead of Base. Same Merkle math; different trust anchor.
-
-```
-merkle_roots {
-  root_hash:      bytes32
-  leaf_count:     integer
-  published_at:   timestamp
-  anchor_type:    'staging' | 'base'
-  tx_hash:        text      // null in 0a
-  block_number:   bigint    // null in 0a
-}
-```
-
-Verification in 0a recomputes the inclusion proof against the published staging root. Same cryptography as 0b — verifier still relies on PBM Labs for the root until chain ships.
-
-**0a success criteria:**
-
-```
-[x] pbm-labs.com DNS + Email Routing configured (rua@pact.pbm-labs.com → worker)
-[x] Ingest pipeline deployed (parse, allowlist, dedup, insert_leaf, staging root)
-[ ] pbm-labs.com receiving authenticated rua= reports (awaiting ~24–48h)
-[ ] At least one leaf from Gmail (or other allowlisted reporter)
-[x] Leaf hash reproducible from Appendix C test vector (pnpm test)
-[ ] Merkle inclusion proof verifies against staging root (live data)
-[ ] Trust score visible with provisional label (live data)
-[ ] End-to-end within 48h of first report batch
-```
-
-**Skip in 0a:** Solidity deploy, Base wallet, block explorer links, "verify without PBM Labs" claims, FluidRWA / external partnership demos.
-
-### Phase 0a — Reference implementation status (June 2026)
-
-The monorepo at repository root implements Phase 0a. Operational domain: **`pbm-labs.com`**.
-
-| Component | Location | Status |
-|-----------|----------|--------|
-| DMARC parser + leaf encoding | `packages/pact-core` | Done |
-| Reporter allowlist | `packages/pact-core/src/auth/allowlist.ts` | Done |
-| 32-level sparse Merkle tree | `packages/pact-core` | Done |
-| `pact-score-0.2` trust score | `packages/pact-core` | Done |
-| Email intake worker | `workers/ingest` (Cloudflare) | Deployed |
-| Queue processor | `pact-reports` → Supabase | Deployed |
-| PostgreSQL schema | `supabase/schema.sql` | Done |
-| Public domain page | `apps/web` → `/domain/{domain}` | Done |
-| Intake address | `rua@pact.pbm-labs.com` | Live |
-| First real DMARC report | Supabase `leaves` table | **Pending** (~24–48h) |
-
-**Page behavior:** Connected domains with no reports yet show a waiting state. The full dashboard (trust score, Merkle root, staging banner) appears after the first authenticated leaf is ingested.
-
-**Local testing:** `pnpm dev:ingest-fixture` simulates a Google report into Supabase without email. Use only for pipeline verification — production staging page waits for real reporter data.
-
-See root [README.md](../README.md) for DNS, Email Routing, and deploy steps.
-
-### Phase 0b — MVP Complete (Week 2–3, add Base)
-
-**Goal:** Same pipeline; only the trust anchor changes — staging root → on-chain root.
-
-**Add (minimal delta):**
-
-1. Deploy v0.2 contract on Base
-2. Daily job: read latest canonical root → `publishRoot(root, leafCount)`
-3. Store `tx_hash` and `block_number` on `merkle_roots` row with `anchor_type = 'base'`
-4. Update public page: Base explorer link; remove staging banner
-5. Proofs verifiable via contract `verifyProof` + on-chain `roots[]`
-
-**Critical rule:** Do not change leaf format or Merkle algorithm between 0a and 0b. Only the root publication destination changes. 0a leaves must remain valid when anchored.
-
-**0b success criteria:** See [MVP Success Criteria](#mvp-success-criteria) below (Week 2–8 gates).
-
-### Who sees what when
-
-| Audience | Minimum phase |
-|----------|----------------|
-| Engineering / internal | 0a |
-| FluidRWA / partnerships | 0b + 1–2 external domains |
-| Compliance / FinCEN pitch | 0b — "anchored on Base" is the line |
+The MVP is complete when `pact.pbm-labs.com/domain/pbm-labs.com` shows a live trust score backed by real DMARC aggregate reports anchored in a real Merkle tree on a real blockchain. That page is the product. Everything before it is infrastructure. Everything after it is growth.
 
 ---
 
@@ -131,206 +30,159 @@ Third, Cloudflare Workers is the natural deployment environment for PACT's edge 
 
 The MVP connects PBM Labs' own domain via Cloudflare as the first proof. Then opens onboarding for external domains via the same OAuth flow.
 
+**Everyone else** (GoDaddy, Namecheap, Google Domains, Route 53 console, etc.) uses the **manual DNS** path on `/connect` — copy the `_dmarc` snippet, paste at their provider, register. Zero provider-specific integrations required for MVP.
+
 ---
 
 ## MVP — Weeks 1 Through 8
 
-**The objective:** Phase 0a proves the pipeline with real data (staging). Phase 0b adds Base and delivers the public, independently verifiable domain page. One domain connected, one trust score live, one page verifiable by anyone without trusting PBM Labs — **at 0b completion**.
+**The objective:** one domain connected, one trust score live, one public page verifiable by anyone.
 
 ### What Gets Built
 
 **SMTP Receiver for rua= Reports**
 
-A purpose-built SMTP receiver at `rua@pact.pbm-labs.com` that accepts incoming DMARC aggregate reports. Built on Cloudflare Email Workers or a minimal VPS with Postfix.
-
-Per v0.2 §3.1.1, each report MUST pass source authentication before processing:
-
-- **Direct delivery:** SPF validation; envelope sender matches reporter allowlist or report `org_name`.
-- **Forwarded delivery (Path B):** Forwarding agent (Valimail, Postmark, etc.) on allowlist; original `org_name` preserved for leaf construction.
-- **Anti-abuse:** Rate limits, deduplication on `(report_id, org_name, date_range, header_from)`.
-
-Reports failing authentication are discarded. Authenticated reports are parsed, aggregated into leaf candidates, and passed to the processing pipeline. Raw XML is discarded after extraction.
+A purpose-built SMTP receiver at `rua@pact.pbm-labs.com` that accepts incoming DMARC aggregate reports. Built on Cloudflare Email Workers or a minimal VPS with Postfix. Receives the XML report, validates the sender is a legitimate mail server, extracts the authentication records, and passes them to the processing pipeline. The raw report is discarded after extraction.
 
 This is the only external-facing component that receives data. Everything else is internal processing or public read.
 
 **Aggregate Report Parser**
 
-Parses the DMARC aggregate report XML schema (RFC 7489). Extracts per record: sending domain (`header_from`), DKIM result (pass/fail), message count, sending IP, DKIM selector, reporting period (`date_range`), and reporting organization (`report_metadata/org_name`).
+Parses the DMARC aggregate report XML schema (RFC 7489). Extracts per-domain records: sending domain, DKIM result (pass/fail), message count, sending IP range, DKIM selector, reporting period start and end.
 
-Produces normalized structs per Appendix C of the v0.2 spec. No message content. No recipient identity. No personal data.
+Produces a normalized struct per record. No message content. No recipient identity. No personal data.
 
 **Leaf Construction and Merkle Tree**
 
-Aggregates rows into one leaf per leaf key: `(domain, period_start, period_end, reporter_org)`. Constructs a keccak256 leaf per v0.2 §3.2:
+Constructs a keccak256 leaf from each processed aggregate record:
 
 ```
 leaf = keccak256(
   domain_hash,
   period_start,
   period_end,
-  reporter_hash,    // keccak256 of normalized org_name
-  dkim_pass_count,  // summed across rows in this key
+  dkim_pass_count,
   dkim_fail_count,
-  selector_hash,    // keccak256 of lexicographically sorted selectors
-  source_ip_hash,   // keccak256 of sorted /24 IP ranges
+  selector_hash,
+  source_ip_hash,
   report_hash
 )
 ```
 
-Inserts the leaf into a 32-level append-only sparse Merkle tree (v0.2 §3.3.1). Leaf insertion index is monotonic; trust scoring uses report period timestamps, not insertion order.
+Inserts the leaf into an append-only Merkle tree. The tree and all domain statistics are stored in Supabase (PostgreSQL) with atomic transactions via a stored procedure. This prevents race conditions between concurrent Workers processing reports simultaneously. R2 is used only for immutable, append-only storage of finalized leaf data after on-chain anchoring.
 
-Mutable state (leaf index, domain stats, pending batches, staging roots) lives in Supabase (PostgreSQL) with atomic transactions via a stored procedure. R2 stores immutable finalized leaf blobs after on-chain anchoring (0b; optional in 0a).
+**On-Chain Root Publication**
 
-**Root Publication — Staging (Phase 0a)**
+Publishes the Merkle root to Base (Ethereum L2) at regular intervals — daily in the MVP, aligned with the natural 24-hour cadence of aggregate reports. Uses a minimal Solidity contract with a single `publishRoot(bytes32 root, uint256 timestamp, uint256 leafCount)` function. Gas cost on Base is negligible.
 
-Publishes the Merkle root to the `merkle_roots` table daily (`anchor_type = 'staging'`). Staging page shows root hash, leaf count, and downloadable inclusion proofs verified against this root. No gas cost. No wallet required.
-
-**On-Chain Root Publication (Phase 0b)**
-
-Publishes the Merkle root to Base (Ethereum L2) daily, aligned with aggregate report cadence. Uses the v0.2 minimal contract:
-
-```solidity
-publishRoot(bytes32 root, uint256 leafCount)
-// timestamp = block.timestamp at publication
-
-verifyProof(bytes32 leaf, uint32 index, bytes32[] proof, bytes32 root)
-```
-
-Gas cost on Base is negligible. Contract is deployed once and immutable.
+The contract is deployed once and is immutable. No upgrade mechanism.
 
 **Domain Stats Index**
 
-Maintains an off-chain index of per-domain statistics derived from processed leaves:
+Maintains a simple off-chain index of per-domain statistics derived from processed leaves:
 
 ```
 domain_stats {
   domain: string
-  total_pass_count: integer       // V(d,t): sum of dkim_pass_count
+  total_pass_count: integer
   total_fail_count: integer
-  unique_reporter_count: integer    // distinct org_name values (R)
   unique_selector_count: integer
   unique_ip_range_count: integer
-  first_report_time: timestamp      // first authenticated leaf period
+  first_report_time: timestamp
   last_report_time: timestamp
+  trust_score: float  // computed, not stored
 }
 ```
 
-Trust score is computed on read using algorithm `pact-score-0.2` (v0.2 §4.2):
-
-```
-T(d,t) = log(V + 1) × min(1, log(|R| + 1) / log(50)) × (1 - e^(-0.005 × age_days))
-```
-
-Score status is derived at read time: **provisional** when maturity `A(d,t) < 0.5` (~139 days); **activated** when `A(d,t) ≥ 0.5`. Neither score nor status is stored.
+Trust score is computed on read, not stored. This ensures the score always reflects the current state of the Merkle tree.
 
 **Public Domain Page**
 
-`pact.pbm-labs.com/domain/{domain}` — a public, no-authentication page.
-
-**Phase 0a** shows a staging banner and a staging root (no block explorer). **Phase 0b** removes the banner and shows Base anchoring as below:
+`pact.pbm-labs.com/domain/{domain}` — a public, no-authentication page that shows:
 
 ```
 PACT Protocol — Domain Provenance Record
 
 Domain:          wise.com
 Connected since: March 14, 2026
-Trust score:     7.4  (Activated)
-Score algorithm: pact-score-0.2
-Anchor:          Base  [or: Staging — not yet on-chain]
+Trust score:     7.4 / 10
 
 Authentication history
   Total verified messages:    2,847,291
   DKIM pass rate:             99.94%
-  History depth:              847 days
-  Unique reporting orgs:      312
-  Maturity factor:            0.98
+  Active since:               847 days
+  Unique receiving servers:   312
 
 Infrastructure
   Known DKIM selectors:       google-2024, ses-2024
-  Known sending IP ranges:    4 verified /24 ranges
+  Known sending IP ranges:    4 verified ranges
+
+Anomalies detected:           None
 
 Merkle proof
   Latest on-chain root:       0x4a7f...c291
-  Leaf index:                 1,847,291
   Block:                      Base #18,472,981
   Timestamp:                  June 14, 2026 00:00 UTC
   [Download Merkle proof →]
 
 Verification
-  Anyone can verify this record independently using the
-  on-chain root, leaf index, and inclusion proof.
-  Leaf data provided by PBM Labs; roots attest inclusion.
+  Anyone can verify this record independently
+  using only the on-chain root and the proof above.
+  No contact with PBM Labs required.
   [How to verify independently →]
 ```
 
-New domains show **Provisional** status and a lower maturity factor until ~139 days of continuous history. No login. No paywall. Fully public.
-
-This page is what the bank, the compliance officer, the attorney, or the counterparty visits when they receive a document from a domain connected to PACT. High-stakes reliance (Chain credentials, onboarding decisions) requires **activated** status per v0.2 §4.3.
+No login. No paywall. Fully public. This page is what the bank, the compliance officer, the attorney, or the counterparty visits when they receive a document from a domain connected to PACT.
 
 **Cloudflare OAuth Onboarding**
 
 `pact.pbm-labs.com/connect` — a single-page onboarding flow:
 
 Step 1: Enter your domain.
-Step 2: Choose connection method — Cloudflare OAuth, manual DNS, or DMARC service forwarding.
-Step 3 (Cloudflare path): Authorize via Cloudflare OAuth with zone-scoped DNS edit scope only (v0.2 §2.3). PACT reads the existing `_dmarc` TXT record, adds `rua@pact.pbm-labs.com` as a co-recipient, writes the updated record via the Cloudflare API. One confirmation click.
-Step 4: Done. First aggregate reports arrive within 24 hours. Provisional trust score visible within 48 hours.
+Step 2: Choose connection method — **Cloudflare OAuth** (lowest friction) or **manual DNS** (everyone else).
+Step 3 (Cloudflare path): Authorize via Cloudflare OAuth. PACT reads the existing `_dmarc` TXT record, adds `rua@pact.pbm-labs.com` as a co-recipient, writes the updated record via the Cloudflare API. One confirmation click.
+Step 4: Done. First aggregate reports arrive within 24 hours. Trust score visible within 48 hours.
 
-The manual DNS path shows the exact string to add to the existing `_dmarc` record with a copy button. The DMARC service path shows per-service instructions for the most common providers (Postmark, Valimail, EasyDMARC), with forwarding-agent authentication per §3.1.1.
+The manual DNS path shows the exact string to add to the existing `_dmarc` record. The operator updates DNS at any provider, then clicks **Register domain**.
+
+**Disconnect**
+
+`pact.pbm-labs.com/disconnect` — same two paths in reverse. Cloudflare OAuth removes PACT from `_dmarc` and unregisters the domain. Manual path unregisters after the operator removes PACT from DNS. Historical provenance data already ingested remains public.
 
 ### What Does Not Get Built in the MVP
 
-- PACT Chain credential generation (requires activated scores)
+- Route 53 / AWS IAM automation (manual DNS covers Route 53 users)
+- DMARC service forwarding integrations (Postmark, Valimail, EasyDMARC)
+- PACT Chain credential generation
 - PACT Signal anomaly detection and alerting
 - PACT Proof document verification
-- Lookalike passive DNS monitoring (optional v0.3 feed)
 - Mobile application
 - Payments or subscription management
 - Email notifications of any kind
 - Dashboard for connected domain operators
 - API documentation for external developers
 - Any ZK proof circuit
-- Permissionless root publication (v0.3)
 
 These are not deferred because they are unimportant. They are deferred because building them before the protocol has real data is building on sand.
 
-### Protocol Spec Blockers (Week 1)
-
-These v0.2 requirements MUST ship before the first leaf:
-
-1. Reporter and forwarding-agent allowlist (§3.1.1)
-2. Leaf aggregation per `(domain, period, reporter_org)` (§3.2.1)
-3. Canonical encoding per Appendix C (sorted selectors/IPs, domain normalization)
-4. 32-level Merkle tree with indexed inclusion proofs (§3.3.1)
-5. `pact-score-0.2` trust computation with provisional/activated labeling (§4.2–4.3)
-
-### Phase 0a Success Criteria (Week 1–2)
+### MVP Success Criteria
 
 ```
-Day 14:  pbm-labs.com connected and receiving authenticated rua= reports.
-         Reporter allowlist rejecting unauthenticated submissions.
-         First leaf in Supabase with verifiable staging-root inclusion proof.
-         Staging page live at pact.pbm-labs.com/domain/pbm-labs.com
-         showing provisional trust score and staging banner.
-```
+Week 2:  pbm-labs.com connected and receiving rua= reports.
+         First leaf anchored on Base.
+         Public page live at pact.pbm-labs.com/domain/pbm-labs.com.
 
-### MVP Success Criteria (Phase 0b — Weeks 2 Through 8)
+Week 4:  First external domain connected via Cloudflare OAuth.
+         Trust score computed from real aggregate report data.
+         Merkle proof independently verifiable on-chain.
 
-```
-Week 2–3: 0b complete.
-          First root published on Base.
-          Staging root hash == on-chain root hash for same leaf_count.
-          Staging banner removed; Base block explorer link on public page.
-          Merkle proof verifiable via contract (leaf + index + proof + root).
-
-Week 4:   First external domain connected via Cloudflare OAuth.
-          Trust score computed from real data (pact-score-0.2).
-          Merkle proof independently verifiable on-chain.
-
-Week 8:   Five external domains connected. Public pages live for each.
-          Provisional vs. activated labeling visible; new domains
-          show near-zero maturity vs. established domains.
-          Jean Guerrier or equivalent contact shown the live system.
+Week 8:  Five external domains connected.
+         Public pages live for each.
+         At least one domain with 30+ days of history
+         showing meaningful trust score differentiation
+         from a new domain with zero history.
+         Jean Guerrier or equivalent contact shown
+         the live system.
 ```
 
 ---
@@ -339,7 +191,7 @@ Week 8:   Five external domains connected. Public pages live for each.
 
 **The objective:** a domain operator can generate a portable, auditable Chain credential from their PACT history and submit it to a bank, compliance body, or counterparty as proof of institutional legitimacy.
 
-**Requires:** At least one connected domain reaching **activated** trust score status (`A(d,t) ≥ 0.5`, approximately 139 days of continuous history per v0.2 §4.3). Chain credentials MUST use activated scores for third-party reliance. Early credentials with provisional status may be generated for demonstration but are labeled as such.
+**Requires:** 60+ days of history for at least one connected domain. The Chain credential needs enough depth to be credible. A 3-day history proves the system works. A 90-day history proves the domain is legitimate.
 
 ### What Gets Built
 
@@ -348,12 +200,11 @@ Week 8:   Five external domains connected. Public pages live for each.
 Takes a connected domain's full Merkle history and produces a structured credential containing:
 
 - Domain identity and connection date
-- **Activated** trust score with component breakdown (V, D, A) and algorithm version `pact-score-0.2`
+- Trust score with component breakdown (volume, diversity, maturity)
 - Summary of authentication history (message counts, pass rates, periods covered)
-- Merkle inclusion proofs for a representative sample of anchored leaves (with leaf indices)
+- Merkle inclusion proofs for a representative sample of anchored leaves
 - The sequence of on-chain roots that cover the full history period
 - A verification URL that any party can use to independently confirm the credential
-- Data availability notice: on-chain roots attest inclusion; verifiers should archive proofs they rely on (v0.2 §9.3)
 
 Output formats: PDF for human consumption, JSON for machine verification.
 
@@ -372,13 +223,14 @@ A simple authenticated view for connected domain operators showing their domain'
 ### V1 Success Criteria
 
 ```
-Month 3:  First Chain credential generated for an external
-          domain (provisional label if < 139 days history).
+Month 3:  First Chain credential generated for an
+          external domain with 60+ days of history.
 
-Month 4:  First activated Chain credential submitted by a
-          domain operator to a real bank, compliance body,
-          or counterparty. Outcome documented (accepted,
-          questioned, or rejected — all outcomes are useful).
+Month 4:  First Chain credential submitted by a domain
+          operator to a real bank, compliance body,
+          or counterparty as part of an actual process.
+          Outcome documented (accepted, questioned,
+          or rejected — all outcomes are useful data).
 ```
 
 ---
@@ -399,35 +251,34 @@ Computes a rolling statistical baseline per connected domain from historical agg
 - Known sending IP ranges (set of authorized ranges)
 - Known DKIM selectors (set of authorized selectors)
 - Normal daily message volume range
-- Normal distribution across reporting organizations (`org_name`)
+- Normal distribution across receiving mail server domains
 
 Baseline is recomputed after each new aggregate report batch. Stored per domain. Never exposed publicly — only used internally for anomaly scoring.
 
 **Anomaly Detection Engine**
 
-Implements v0.2 §3.4 signals. Scores each incoming leaf against the domain's baseline:
+Scores each incoming aggregate report against the domain's baseline across four dimensions:
 
 ```
-Failure rate delta (TYPE 1):
+Failure rate delta:
   Current failure rate vs baseline mean.
   Alert threshold: > 3 standard deviations.
 
-Unknown infrastructure (TYPE 2):
-  DKIM failures from IP ranges outside authorized set.
-  Alert threshold: any failure from unknown /24.
+Unknown infrastructure:
+  Sending IPs outside the known authorized range.
+  Alert threshold: any failure from unknown IP.
 
-Unknown selector (TYPE 3):
-  Selector not seen in prior 90 days.
-  Suppressed during 30-day selector learning mode (§3.4.1).
-  Informational only if new selector + 0% failures + known IPs.
+Unknown selector:
+  DKIM selector not seen in prior 90 days.
+  Alert threshold: any occurrence.
 
-Lookalike domain activity (TYPE 4):
-  Scoped per v0.2 §3.4.2 — not all lookalikes are visible.
-  Sources: connected lookalike domains with low trust;
-  spoofing failures in connected domain telemetry;
-  optional passive DNS monitoring (v0.3).
-  Methodology: Levenshtein ≤ 2 on punycoded labels.
-  Alerts MUST label their data source.
+Lookalike domain activity:
+  Domains visually similar to connected domains
+  appearing in aggregate reports from the same
+  receiving mail servers.
+  Detection: Levenshtein distance ≤ 2 from
+  any connected domain name.
+  Alert threshold: any occurrence.
 ```
 
 **Alert Delivery**
@@ -502,7 +353,7 @@ A PDF certificate containing:
 - The sending domain and the validated DKIM selector
 - The body hash (`bh=`) — proof of content integrity
 - The timestamp of the DKIM signature
-- The sending domain's activated PACT Protocol trust score (if available) and Chain history
+- The sending domain's current PACT Protocol trust score and Chain history
 - A statement that the DKIM signature was valid at the time of certificate generation
 - A unique certificate ID and a public verification URL
 
@@ -564,9 +415,9 @@ after anchoring)                       on-chain publication.
                                        Never for mutable
                                        state.
 
-Root publication   Supabase (0a)       Staging roots in merkle_roots
-                   Base (0b)           Low gas cost. EVM compatible.
-                                       Added in Phase 0b only.
+On-chain           Base (Ethereum L2)  Low gas cost.
+(root publication)                     EVM compatible.
+                                       Mature ecosystem.
 
 Frontend           Next.js + Vercel    Fast deployment.
 (public pages,                         Edge rendering
@@ -574,6 +425,7 @@ onboarding)                            for public pages.
 
 DNS Integration    Cloudflare API      OAuth available.
                                        32% of DNS market.
+                   Manual DNS          Everyone else.
 
 Authentication     Magic link to       No password
 (operator          domain admin email  management.
@@ -586,16 +438,7 @@ dashboard)                             Self-verifying
 ## Capital Requirement
 
 ```
-Phase 0a (weeks 1-2)
-  Development:    PBM Labs (founder time)
-  Infrastructure: < USD 20/month
-    Cloudflare Workers: free tier
-    Supabase: free tier
-    Base gas: none (chain deferred to 0b)
-    Domain + SSL: already owned
-  External:       Zero
-
-MVP / Phase 0b (weeks 2-8)
+MVP (weeks 1-8)
   Development:    PBM Labs (founder time)
   Infrastructure: < USD 50/month
     Cloudflare Workers: free tier
@@ -634,42 +477,34 @@ The protocol is default alive from infrastructure cost perspective within existi
 ## The First 30 Days in Order
 
 ```
-DAY 1-3   [0a]
+DAY 1-3
   Deploy SMTP receiver at rua@pact.pbm-labs.com
-  Implement reporter allowlist and SPF validation (§3.1.1)
   Connect pbm-labs.com as the first domain
   Add rua@pact.pbm-labs.com to pbm-labs.com DMARC record
 
-DAY 4-7   [0a]
-  Build aggregate report parser (incl. org_name, date_range)
-  Verify authenticated rua= reports from Gmail and other
-  allowlisted reporters are received and parsed correctly
+DAY 4-7
+  Build aggregate report parser
+  Verify first real rua= reports are being received
+  and parsed correctly from Gmail and other providers
+  sending to pbm-labs.com
 
-DAY 8-10  [0a]
-  Build leaf aggregation and canonical encoding (Appendix C)
-  Build 32-level Merkle tree with indexed proofs
-  Implement staging root publication (merkle_roots table)
-
-DAY 11-14 [0a] ← Phase 0a complete
-  Build pact-score-0.2 trust computation
-  Build public domain page with staging banner
-  pact.pbm-labs.com/domain/pbm-labs.com goes live (staging root)
-  Verify: leaf + index + proof against staging root
-
-DAY 15-17 [0b]
-  Deploy Base smart contract (v0.2 interface)
+DAY 8-14
+  Build leaf construction and Merkle tree
+  Deploy Base smart contract
   Publish first on-chain root
-  Confirm staging root hash == on-chain root for same leaf_count
 
-DAY 18-21 [0b] ← MVP complete
-  Remove staging banner; add Base explorer link to public page
-  Merkle proofs verifiable via contract + explorer
+DAY 15-21
+  Build trust score computation
+  Build public domain page
+  pact.pbm-labs.com/domain/pbm-labs.com goes live
 
-DAY 22-30 [0b]
-  Build Cloudflare OAuth onboarding (zone-scoped scope)
+DAY 22-30
+  Build Cloudflare OAuth onboarding flow
   Connect second domain (external, from network)
-  Verify end-to-end: domain connects → authenticated reports
-  arrive → leaves anchored on-chain → provisional score visible
+  Verify end-to-end: domain connects →
+  rua= reports arrive → leaves anchored →
+  trust score visible → Merkle proof downloadable
+  → on-chain root verifiable on Base explorer
 ```
 
 ---
@@ -678,13 +513,12 @@ DAY 22-30 [0b]
 
 Not a metric. Not an MRR number. One specific event:
 
-A compliance officer, attorney, or bank employee visits `pact.pbm-labs.com/domain/{domain}`, reads the trust score and history of a domain they received a document from, verifies the on-chain root independently, and says — unprompted — "this is what I needed."
+A compliance officer, attorney, or bank employee visits `pact.pbm-labs.com/domain/{domain}`, reads the trust score and history of a domain they received a document from, and says — unprompted — "this is what I needed."
 
-That conversation is the signal. It requires **Phase 0b** — staging alone is not sufficient for external trust conversations. Everything before 0b is internal validation. Everything after it is scale.
+That conversation is the signal. Everything before it is setup. Everything after it is scale.
 
 ---
 
 *PBM Labs LLC — Internal document*
-*PACT Protocol MVP Strategy & Roadmap v1.2*
-*Aligned with Protocol Specification v0.2 — June 2026*
-*Phase 0a (staging) + Phase 0b (Base) build sequence*
+*PACT Protocol MVP Strategy & Roadmap v1.0*
+*June 2026*

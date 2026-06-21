@@ -1,12 +1,12 @@
 import { normalizeDomain } from '@pact/core';
 import { NextResponse } from 'next/server';
 import {
-  ensurePactDmarcRecord,
   exchangeCloudflareCode,
   findZoneForDomain,
+  removePactDmarcRecord,
 } from '@/lib/cloudflare-connect';
 import { appOrigin, decodeConnectState } from '@/lib/connect-state';
-import { registerDomain } from '@/lib/supabase-admin';
+import { disconnectDomain } from '@/lib/supabase-admin';
 
 function redirectWith(path: string, params: Record<string, string>) {
   const url = new URL(path, appOrigin());
@@ -18,26 +18,26 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const error = searchParams.get('error');
   if (error) {
-    return redirectWith('/connect', { error });
+    return redirectWith('/disconnect', { error });
   }
 
   const code = searchParams.get('code');
   const state = searchParams.get('state');
   if (!code || !state) {
-    return redirectWith('/connect', { error: 'missing_code' });
+    return redirectWith('/disconnect', { error: 'missing_code' });
   }
 
   const payload = decodeConnectState(state);
-  if (!payload || payload.action !== 'connect') {
-    return redirectWith('/connect', { error: 'invalid_state' });
+  if (!payload || payload.action !== 'disconnect') {
+    return redirectWith('/disconnect', { error: 'invalid_state' });
   }
 
   const domain = normalizeDomain(payload.domain);
-  const redirectUri = `${appOrigin()}/api/connect/cloudflare/callback`;
+  const redirectUri = `${appOrigin()}/api/disconnect/cloudflare/callback`;
 
   const tokenResult = await exchangeCloudflareCode(code, redirectUri);
   if ('error' in tokenResult) {
-    return redirectWith('/connect', {
+    return redirectWith('/disconnect', {
       error: 'token_exchange',
       domain,
       detail: tokenResult.error,
@@ -46,20 +46,20 @@ export async function GET(request: Request) {
 
   const zone = await findZoneForDomain(tokenResult.accessToken, domain);
   if (!zone) {
-    return redirectWith('/connect', { error: 'zone_not_found', domain });
+    return redirectWith('/disconnect', { error: 'zone_not_found', domain });
   }
 
-  const dmarc = await ensurePactDmarcRecord(tokenResult.accessToken, zone.id, domain);
+  const dmarc = await removePactDmarcRecord(tokenResult.accessToken, zone.id, domain);
   if (!dmarc.ok) {
-    return redirectWith('/connect', { error: 'dmarc_update', domain, detail: dmarc.error });
+    return redirectWith('/disconnect', { error: 'dmarc_update', domain, detail: dmarc.error });
   }
 
-  const registered = await registerDomain(domain);
-  if (!registered.ok) {
-    return redirectWith('/connect', { error: 'register', domain, detail: registered.error });
+  const disconnected = await disconnectDomain(domain);
+  if (!disconnected.ok) {
+    return redirectWith('/disconnect', { error: 'disconnect', domain, detail: disconnected.error });
   }
 
-  return redirectWith('/connect/success', {
+  return redirectWith('/disconnect/success', {
     domain,
     provider: 'cloudflare',
     dmarc: dmarc.action,

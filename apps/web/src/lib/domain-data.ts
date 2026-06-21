@@ -1,5 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
-import { computeTrustScore, normalizeDomain, SCORE_ALGORITHM, byteaToHex } from '@pact/core';
+import {
+  computeTrustScore,
+  normalizeDomain,
+  SCORE_ALGORITHM,
+  byteaToHex,
+  byteaToHash,
+  type Hash,
+} from '@pact/core';
+import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
 
 export interface DomainLeafSummary {
   reporterOrg: string;
@@ -9,6 +17,10 @@ export interface DomainLeafSummary {
   dkimFailCount: number;
   selectors: string[];
   receivedAt: string | null;
+  leafIndex: number;
+  leafHash: Hash;
+  merkleProof: Hash[];
+  merkleProofValid: boolean;
 }
 
 export interface DomainLiveData {
@@ -20,6 +32,8 @@ export interface DomainLiveData {
   uniqueReporters: number;
   passRate: number;
   latestRoot: string | null;
+  computedRoot: string | null;
+  rootMatchesPublished: boolean;
   domainLeafCount: number;
   globalTreeLeafCount: number | null;
   anchorType: 'staging' | 'base' | null;
@@ -32,9 +46,16 @@ export interface DomainWaitingData {
   connectedSince: string | null;
 }
 
+export interface DomainDisconnectedData {
+  domain: string;
+  connectedSince: string | null;
+  disconnectedSince: string;
+}
+
 export type DomainPageState =
   | { status: 'live'; data: DomainLiveData }
   | { status: 'waiting'; data: DomainWaitingData }
+  | { status: 'disconnected'; data: DomainDisconnectedData }
   | null;
 
 function getSupabase() {
@@ -69,6 +90,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
   const { data: domainRows, error: domainError } = await supabase
     .from('domains')
     .select('domain, connected_at')
+    .is('disconnected_at', null)
     .order('domain', { ascending: true });
 
   if (domainError || !domainRows?.length) return [];
@@ -140,32 +162,52 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 
   const { data: domainRow, error: domainError } = await supabase
     .from('domains')
-    .select('connected_at')
+    .select('connected_at, disconnected_at')
     .eq('domain', normalized)
     .maybeSingle();
 
   if (domainError) return null;
+  if (!domainRow) return null;
+
+  if (domainRow.disconnected_at) {
+    return {
+      status: 'disconnected',
+      data: {
+        domain: normalized,
+        connectedSince: domainRow.connected_at,
+        disconnectedSince: domainRow.disconnected_at,
+      },
+    };
+  }
 
   const { data: leaves, error: leavesError } = await supabase
     .from('leaves')
     .select(
-      'dkim_pass_count, dkim_fail_count, reporter_org, period_start, period_end, selectors, created_at',
+      'leaf_index, leaf_hash, dkim_pass_count, dkim_fail_count, reporter_org, period_start, period_end, selectors, created_at',
     )
     .eq('domain', normalized)
     .order('period_start', { ascending: false });
 
   if (leavesError) return null;
-  if (!leaves?.length && !domainRow) return null;
 
   if (!leaves?.length) {
     return {
       status: 'waiting',
       data: {
         domain: normalized,
-        connectedSince: domainRow!.connected_at,
+        connectedSince: domainRow.connected_at,
       },
     };
   }
+
+  const { data: globalLeaves, error: globalLeavesError } = await supabase
+    .from('leaves')
+    .select('leaf_index, leaf_hash')
+    .order('leaf_index', { ascending: true });
+
+  if (globalLeavesError) return null;
+
+  const merkleContext = rebuildGlobalMerkleTree(globalLeaves ?? []);
 
   const totalPassCount = leaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
   const totalFailCount = leaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
@@ -198,6 +240,11 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     .limit(1)
     .maybeSingle();
 
+  const latestRoot = byteaToHex(rootRow?.root_hash);
+  const computedRoot = merkleContext?.root ?? null;
+  const rootMatchesPublished =
+    latestRoot !== null && computedRoot !== null && latestRoot === computedRoot;
+
   return {
     status: 'live',
     data: {
@@ -208,20 +255,40 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       totalFailCount,
       uniqueReporters: reporters.size,
       passRate,
-      latestRoot: byteaToHex(rootRow?.root_hash),
+      latestRoot,
+      computedRoot,
+      rootMatchesPublished,
       domainLeafCount: leaves.length,
-      globalTreeLeafCount: rootRow?.leaf_count ?? null,
+      globalTreeLeafCount: rootRow?.leaf_count ?? merkleContext?.tree.size ?? null,
       anchorType: (rootRow?.anchor_type as 'staging' | 'base') ?? null,
       staging: rootRow?.anchor_type !== 'base',
-      leaves: leaves.map((leaf) => ({
-        reporterOrg: leaf.reporter_org,
-        periodStart: Number(leaf.period_start),
-        periodEnd: Number(leaf.period_end),
-        dkimPassCount: Number(leaf.dkim_pass_count),
-        dkimFailCount: Number(leaf.dkim_fail_count),
-        selectors: leaf.selectors ?? [],
-        receivedAt: leaf.created_at ?? null,
-      })),
+      leaves: leaves.map((leaf) => {
+        const leafHash = byteaToHash(leaf.leaf_hash);
+        const leafIndex = Number(leaf.leaf_index);
+        const proof =
+          merkleContext != null
+            ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
+            : {
+                leafIndex,
+                leafHash,
+                proof: [] as Hash[],
+                proofValid: false,
+              };
+
+        return {
+          reporterOrg: leaf.reporter_org,
+          periodStart: Number(leaf.period_start),
+          periodEnd: Number(leaf.period_end),
+          dkimPassCount: Number(leaf.dkim_pass_count),
+          dkimFailCount: Number(leaf.dkim_fail_count),
+          selectors: leaf.selectors ?? [],
+          receivedAt: leaf.created_at ?? null,
+          leafIndex: proof.leafIndex,
+          leafHash: proof.leafHash,
+          merkleProof: proof.proof,
+          merkleProofValid: proof.proofValid && rootMatchesPublished,
+        };
+      }),
     },
   };
 }

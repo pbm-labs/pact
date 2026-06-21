@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { PageShell } from '@/components/page-shell';
+import { SiteNarrative } from '@/components/site-narrative';
 import { fetchDomainSummaries } from '@/lib/domain-data';
 
 export const dynamic = 'force-dynamic';
@@ -9,18 +10,30 @@ export default async function HomePage() {
 
   return (
     <PageShell>
-      <div className="hero">
-        <p className="eyebrow">Phase 0a · Staging</p>
-        <h1>Domain provenance from DMARC</h1>
-        <p className="hero-lead">
-          PACT builds a public trust record for each connected domain using aggregate authentication
-          reports already sent by Gmail, Microsoft, and other mail providers. No message content is
-          ever read.
+      <header className="hero">
+        <p className="eyebrow">PACT Protocol</p>
+        <SiteNarrative />
+      </header>
+
+      <section className="section narrative-bridge">
+        <p className="bridge-lead">
+          PACT lays that foundation one domain at a time — a public, verifiable history built from
+          the authentication signals mail providers already send. No message content. One honest day
+          at a time.
         </p>
-      </div>
+        <p className="bridge-actions">
+          <Link href="/connect" className="button-primary">
+            Connect a domain
+          </Link>
+        </p>
+      </section>
 
       <section className="section">
-        <h2>Connected domains</h2>
+        <h2>Live records</h2>
+        <p className="section-lead">
+          Public provenance pages for connected domains. Trust scores computed from real DMARC
+          aggregate reports.
+        </p>
 
         {domains.length > 0 ? (
           <ul className="domain-cards">
@@ -58,9 +71,6 @@ export default async function HomePage() {
         ) : (
           <div className="empty-state">
             <p>No domains connected yet.</p>
-            <Link href="/connect" className="button-primary">
-              Connect your first domain
-            </Link>
           </div>
         )}
       </section>

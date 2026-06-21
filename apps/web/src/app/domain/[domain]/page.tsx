@@ -30,7 +30,62 @@ export default async function DomainPage({ params }: PageProps) {
     return <WaitingPage domain={state.data.domain} connectedSince={state.data.connectedSince} />;
   }
 
+  if (state.status === 'disconnected') {
+    return (
+      <DisconnectedPage
+        domain={state.data.domain}
+        connectedSince={state.data.connectedSince}
+        disconnectedSince={state.data.disconnectedSince}
+      />
+    );
+  }
+
   return <LivePage data={state.data} />;
+}
+
+function DisconnectedPage({
+  domain,
+  connectedSince,
+  disconnectedSince,
+}: {
+  domain: string;
+  connectedSince: string | null;
+  disconnectedSince: string;
+}) {
+  return (
+    <PageShell backHref="/">
+      <div className="record-header">
+        <p className="eyebrow">Domain record</p>
+        <h1>{domain}</h1>
+        <span className="badge badge-waiting">Disconnected</span>
+      </div>
+
+      <p className="lead">
+        This domain is no longer connected to PACT. New DMARC reports are not accepted. Any
+        provenance data ingested before disconnect remains part of the public historical record.
+      </p>
+
+      <section className="section card">
+        <h2>Timeline</h2>
+        <dl className="dl-relaxed">
+          {connectedSince && (
+            <>
+              <dt>Connected</dt>
+              <dd>{new Date(connectedSince).toLocaleDateString()}</dd>
+            </>
+          )}
+          <dt>Disconnected</dt>
+          <dd>{new Date(disconnectedSince).toLocaleDateString()}</dd>
+        </dl>
+      </section>
+
+      <p>
+        <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className="button-primary">
+          Reconnect {domain}
+        </Link>
+      </p>
+    </PageShell>
+  );
 }
 
 function WaitingPage({
@@ -202,6 +257,51 @@ function LivePage({ data }: { data: DomainLiveData }) {
       </section>
 
       <section className="section card">
+        <h2>Merkle inclusion proofs</h2>
+        <p className="section-lead">
+          Each ingested report is a leaf in the global sparse Merkle tree (v0.2 §3.3.1). Proofs are
+          recomputed from live data and verified against the latest published staging root.
+        </p>
+        <dl className="dl-relaxed merkle-summary">
+          <dt>Published root</dt>
+          <dd className="hash" title={data.latestRoot ?? undefined}>
+            {data.latestRoot ?? '—'}
+          </dd>
+          <dt>Recomputed root</dt>
+          <dd className="hash" title={data.computedRoot ?? undefined}>
+            {data.computedRoot ?? '—'}
+          </dd>
+          <dt>Roots match</dt>
+          <dd>{data.rootMatchesPublished ? 'Yes' : 'No'}</dd>
+        </dl>
+        <div className="proof-list">
+          {data.leaves.map((leaf) => (
+            <details key={`proof-${leaf.leafIndex}`} className="proof-details">
+              <summary>
+                Leaf #{leaf.leafIndex} · {reporterLabel(leaf.reporterOrg)} ·{' '}
+                {formatPeriod(leaf.periodStart, leaf.periodEnd)} ·{' '}
+                <span className={leaf.merkleProofValid ? 'proof-valid' : 'proof-invalid'}>
+                  {leaf.merkleProofValid ? 'verified' : 'unverified'}
+                </span>
+              </summary>
+              <dl className="dl-relaxed">
+                <dt>Leaf hash</dt>
+                <dd className="hash">{leaf.leafHash}</dd>
+                <dt>Proof ({leaf.merkleProof.length} siblings)</dt>
+                <dd className="proof-siblings">
+                  {leaf.merkleProof.map((sibling, i) => (
+                    <code key={i} title={sibling}>
+                      {sibling.slice(0, 10)}…{sibling.slice(-6)}
+                    </code>
+                  ))}
+                </dd>
+              </dl>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="section card">
         <h2>Merkle tree</h2>
         <dl className="dl-relaxed">
           <dt>Anchor</dt>
@@ -227,8 +327,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
       <h1>{domain}</h1>
       <p className="lead">Not connected to PACT</p>
       <p className="muted">
-        This domain is not registered yet. Connect it via Cloudflare to add PACT to your DMARC
-        record.
+        This domain is not registered with PACT. Connect via Cloudflare OAuth or manual DNS.
       </p>
       <p>
         <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className="button-primary">

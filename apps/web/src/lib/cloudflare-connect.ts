@@ -1,4 +1,4 @@
-import { addPactRuaToDmarc } from '@pact/core';
+import { addPactRuaToDmarc, removePactRuaFromDmarc } from '@pact/core';
 
 const CF_API = 'https://api.cloudflare.com/client/v4';
 
@@ -87,6 +87,37 @@ export async function ensurePactDmarcRecord(
     return { ok: true, action: 'unchanged', content };
   }
 
+  const updated = await cfFetch<CfDnsRecord>(
+    accessToken,
+    `/zones/${zoneId}/dns_records/${primary.id}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify({ type: 'TXT', name: dmarcName, content, ttl: 1 }),
+    },
+  );
+  if (!updated.success) {
+    return { ok: false, error: updated.errors?.[0]?.message ?? 'Failed to update _dmarc record' };
+  }
+  return { ok: true, action: 'updated', content };
+}
+
+export async function removePactDmarcRecord(
+  accessToken: string,
+  zoneId: string,
+  domain: string,
+): Promise<DmarcUpdateResult> {
+  const records = await listDmarcRecords(accessToken, zoneId, domain);
+  if (!records.length) {
+    return { ok: true, action: 'unchanged', content: '' };
+  }
+
+  const primary = records[0]!;
+  const { content, changed } = removePactRuaFromDmarc(primary.content);
+  if (!changed) {
+    return { ok: true, action: 'unchanged', content: primary.content };
+  }
+
+  const dmarcName = `_dmarc.${domain}`;
   const updated = await cfFetch<CfDnsRecord>(
     accessToken,
     `/zones/${zoneId}/dns_records/${primary.id}`,

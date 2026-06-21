@@ -36,6 +36,7 @@ export {
   PACT_RUA_MAILTO,
   PACT_RUA_ADDRESS,
   addPactRuaToDmarc,
+  removePactRuaFromDmarc,
   dmarcIncludesPactRua,
   parseDmarcTags,
   serializeDmarcTags,

@@ -1,4 +1,4 @@
-import { addPactRuaToDmarc, PACT_RUA_ADDRESS, PACT_RUA_MAILTO } from '@pact/core';
+import { PACT_RUA_ADDRESS, PACT_RUA_MAILTO } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 
 const ERRORS: Record<string, string> = {
@@ -11,29 +11,27 @@ const ERRORS: Record<string, string> = {
   zone_not_found:
     'This domain was not found in the Cloudflare account you authorized. Pick the account that hosts DNS for this zone.',
   dmarc_update: 'Could not update the _dmarc DNS record.',
-  register: 'DNS updated but domain registration failed.',
+  disconnect: 'Could not unregister this domain.',
 };
 
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default async function ConnectPage({ searchParams }: PageProps) {
+export default async function DisconnectPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const errorKey = typeof params.error === 'string' ? params.error : undefined;
   const domainPrefill = typeof params.domain === 'string' ? params.domain : '';
   const detail = typeof params.detail === 'string' ? params.detail : undefined;
 
-  const { content: newDmarcSnippet } = addPactRuaToDmarc(null);
-
   return (
     <PageShell backHref="/">
-      <p className="eyebrow">Connect</p>
-      <h1>Add a domain</h1>
+      <p className="eyebrow">Disconnect</p>
+      <h1>Remove a domain</h1>
       <p className="hero-lead">
-        Two paths — pick whichever matches your DNS setup. PACT only touches your{' '}
-        <code>_dmarc</code> TXT record. Reports go to <code>{PACT_RUA_ADDRESS}</code>, not your
-        inbox.
+        Stops new DMARC reports from reaching PACT. Historical provenance data already ingested
+        remains in the public record. Remove <code>{PACT_RUA_ADDRESS}</code> from your{' '}
+        <code>_dmarc</code> record so mail providers stop sending reports.
       </p>
 
       {errorKey && (
@@ -46,10 +44,10 @@ export default async function ConnectPage({ searchParams }: PageProps) {
       <section className="section card">
         <h2>Cloudflare OAuth</h2>
         <p className="section-lead">
-          Lowest friction — for domains on Cloudflare DNS. One authorization click; PACT adds{' '}
-          <code>{PACT_RUA_MAILTO}</code> to your existing <code>_dmarc</code> record.
+          PACT removes <code>{PACT_RUA_MAILTO}</code> from your <code>_dmarc</code> record and
+          unregisters the domain.
         </p>
-        <form className="connect-form" action="/api/connect/cloudflare" method="GET">
+        <form className="connect-form" action="/api/disconnect/cloudflare" method="GET">
           <label htmlFor="cf-domain">Domain name</label>
           <input
             id="cf-domain"
@@ -62,7 +60,7 @@ export default async function ConnectPage({ searchParams }: PageProps) {
             spellCheck={false}
           />
           <button type="submit" className="button-primary">
-            Connect with Cloudflare
+            Disconnect with Cloudflare
           </button>
         </form>
       </section>
@@ -70,21 +68,10 @@ export default async function ConnectPage({ searchParams }: PageProps) {
       <section className="section card">
         <h2>Manual DNS</h2>
         <p className="section-lead">
-          For GoDaddy, Namecheap, Google Domains, Route 53 console, or any other DNS host. Add PACT
-          to <code>_dmarc</code>, then register.
+          Edit <code>_dmarc</code> at your DNS provider and remove{' '}
+          <code>{PACT_RUA_MAILTO}</code> from the <code>rua=</code> list, then unregister below.
         </p>
-        <div className="dmarc-snippet">
-          <p className="muted left">
-            Host: <code>_dmarc.yourdomain.com</code> · Type: <code>TXT</code>
-          </p>
-          <p className="muted left">
-            If you already have a <code>_dmarc</code> record, add{' '}
-            <code>{PACT_RUA_MAILTO}</code> to the existing <code>rua=</code> list (comma-separated).
-            Otherwise use this minimal record:
-          </p>
-          <pre className="snippet-code">{newDmarcSnippet}</pre>
-        </div>
-        <form className="connect-form" action="/api/connect/manual" method="POST">
+        <form className="connect-form" action="/api/disconnect/manual" method="POST">
           <label htmlFor="manual-domain">Domain name</label>
           <input
             id="manual-domain"
@@ -97,7 +84,7 @@ export default async function ConnectPage({ searchParams }: PageProps) {
             spellCheck={false}
           />
           <button type="submit" className="button-secondary">
-            Register domain (after DNS update)
+            Unregister domain (after DNS update)
           </button>
         </form>
       </section>

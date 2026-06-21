@@ -14,6 +14,7 @@ import {
   mergeLeafAggregation,
   leafInputFromAggregation,
   addPactRuaToDmarc,
+  removePactRuaFromDmarc,
   PACT_RUA_MAILTO,
 } from './index.js';
 
@@ -54,6 +55,20 @@ describe('dmarc rua', () => {
     const { content, changed } = addPactRuaToDmarc(null);
     expect(changed).toBe(true);
     expect(content).toBe(`v=DMARC1; p=none; rua=${PACT_RUA_MAILTO}`);
+  });
+
+  it('removes pact rua from existing record', () => {
+    const { content, changed } = removePactRuaFromDmarc(
+      `v=DMARC1; p=none; rua=mailto:hello@example.com,${PACT_RUA_MAILTO}`,
+    );
+    expect(changed).toBe(true);
+    expect(content).toBe('v=DMARC1; p=none; rua=mailto:hello@example.com');
+    expect(content).not.toContain('pact.pbm-labs.com');
+  });
+
+  it('is idempotent when removing pact rua that is absent', () => {
+    const { changed } = removePactRuaFromDmarc('v=DMARC1; p=none; rua=mailto:hello@example.com');
+    expect(changed).toBe(false);
   });
 });
 
