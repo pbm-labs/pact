@@ -120,6 +120,15 @@ function WaitingPage({
       {connectedSince && (
         <p className="meta">Connected {new Date(connectedSince).toLocaleDateString()}</p>
       )}
+
+      <p className="meta">
+        <Link
+          href={`/disconnect?domain=${encodeURIComponent(domain)}`}
+          className="text-link"
+        >
+          Disconnect this domain →
+        </Link>
+      </p>
     </PageShell>
   );
 }
@@ -316,6 +325,15 @@ function LivePage({ data }: { data: DomainLiveData }) {
           <dd>{data.globalTreeLeafCount ?? '—'}</dd>
         </dl>
       </section>
+
+      <p className="meta">
+        <Link
+          href={`/disconnect?domain=${encodeURIComponent(data.domain)}`}
+          className="text-link"
+        >
+          Disconnect this domain →
+        </Link>
+      </p>
     </PageShell>
   );
 }

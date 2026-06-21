@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { PACT_RUA_ADDRESS, PACT_RUA_MAILTO } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 
@@ -88,6 +89,12 @@ export default async function DisconnectPage({ searchParams }: PageProps) {
           </button>
         </form>
       </section>
+
+      <p className="meta">
+        <Link href="/connect" className="text-link">
+          Connect a domain →
+        </Link>
+      </p>
     </PageShell>
   );
 }
