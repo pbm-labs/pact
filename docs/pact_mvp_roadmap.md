@@ -6,6 +6,28 @@
 
 ---
 
+## Implementation status (June 2026)
+
+Reference deployment: `pact.pbm-labs.com` on Cloudflare Workers. Normative spec: [pact_protocol_v02.md](pact_protocol_v02.md).
+
+| Item | Status |
+|------|--------|
+| SMTP intake `rua@pact.pbm-labs.com` | Live |
+| Parser, dedup, leaves, staging Merkle roots | Live |
+| Public domain page + Merkle inclusion proofs | Live |
+| Homepage narrative (`pact_site_narrative.md`) | Live |
+| Connect: Cloudflare OAuth + manual DNS | Live |
+| Disconnect: Cloudflare OAuth + manual DNS | Live |
+| Real reports for `pbm-labs.com` | Live (Google, Microsoft) |
+| On-chain Base anchoring (Phase 0b) | Not started |
+| Movement counter + ordinal # + signature line | Not started |
+| DMARC service forwarding onboarding | Deferred |
+| Route 53 / AWS DNS automation | Deferred |
+
+**Phase 0a** is staging (off-chain roots). **MVP complete** per this roadmap still requires Phase 0b on-chain anchoring.
+
+---
+
 ## The Single Governing Principle
 
 The MVP does not build a product. It proves the protocol works with real data from a real domain, visible to anyone on the internet. Everything else follows from that proof.
@@ -30,7 +52,7 @@ Third, Cloudflare Workers is the natural deployment environment for PACT's edge 
 
 The MVP connects PBM Labs' own domain via Cloudflare as the first proof. Then opens onboarding for external domains via the same OAuth flow.
 
-**Everyone else** (GoDaddy, Namecheap, Google Domains, Route 53 console, etc.) uses the **manual DNS** path on `/connect` — copy the `_dmarc` snippet, paste at their provider, register. Zero provider-specific integrations required for MVP.
+**Everyone else** uses **manual DNS** on `/connect` — copy the `_dmarc` snippet, paste at any provider (GoDaddy, Namecheap, Route 53 console, etc.), register. Zero additional integrations for MVP.
 
 ---
 
@@ -136,22 +158,18 @@ No login. No paywall. Fully public. This page is what the bank, the compliance o
 
 **Cloudflare OAuth Onboarding**
 
-`pact.pbm-labs.com/connect` — a single-page onboarding flow:
+`pact.pbm-labs.com/connect` — two paths, zero provider sprawl for MVP:
 
 Step 1: Enter your domain.
-Step 2: Choose connection method — **Cloudflare OAuth** (lowest friction) or **manual DNS** (everyone else).
-Step 3 (Cloudflare path): Authorize via Cloudflare OAuth. PACT reads the existing `_dmarc` TXT record, adds `rua@pact.pbm-labs.com` as a co-recipient, writes the updated record via the Cloudflare API. One confirmation click.
-Step 4: Done. First aggregate reports arrive within 24 hours. Trust score visible within 48 hours.
+Step 2: **Cloudflare OAuth** — authorize DNS edit; PACT adds `rua@pact.pbm-labs.com` to `_dmarc` via API. One confirmation click.
+Step 2 (alternate): **Manual DNS** — copy the `_dmarc` snippet, update DNS at any provider, click **Register domain**.
+Step 3: First aggregate reports arrive within 24 hours. Trust score visible within 48 hours.
 
-The manual DNS path shows the exact string to add to the existing `_dmarc` record. The operator updates DNS at any provider, then clicks **Register domain**.
-
-**Disconnect**
-
-`pact.pbm-labs.com/disconnect` — same two paths in reverse. Cloudflare OAuth removes PACT from `_dmarc` and unregisters the domain. Manual path unregisters after the operator removes PACT from DNS. Historical provenance data already ingested remains public.
+**Disconnect** — `pact.pbm-labs.com/disconnect` mirrors both paths. Cloudflare removes PACT from `_dmarc` and unregisters the domain; manual path unregisters after the operator edits DNS. Historical provenance already ingested remains public.
 
 ### What Does Not Get Built in the MVP
 
-- Route 53 / AWS IAM automation (manual DNS covers Route 53 users)
+- Route 53 / AWS IAM DNS automation (manual DNS covers Route 53 users)
 - DMARC service forwarding integrations (Postmark, Valimail, EasyDMARC)
 - PACT Chain credential generation
 - PACT Signal anomaly detection and alerting
@@ -419,12 +437,12 @@ On-chain           Base (Ethereum L2)  Low gas cost.
 (root publication)                     EVM compatible.
                                        Mature ecosystem.
 
-Frontend           Next.js + Vercel    Fast deployment.
-(public pages,                         Edge rendering
-onboarding)                            for public pages.
+Frontend           Next.js on          Same platform as
+(public pages,     Cloudflare Workers  ingest; OpenNext
+onboarding)                            deploy to pact.pbm-labs.com
 
-DNS Integration    Cloudflare API      OAuth available.
-                                       32% of DNS market.
+DNS Integration    Cloudflare OAuth    Lowest friction (~32%
+                                       of DNS market).
                    Manual DNS          Everyone else.
 
 Authentication     Magic link to       No password

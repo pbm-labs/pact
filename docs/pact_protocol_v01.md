@@ -1,6 +1,8 @@
 # PACT — Provenance Attestation and Chain of Trust
 ## Protocol Specification v0.1 — Draft
 
+> **Superseded by [Protocol Specification v0.2](pact_protocol_v02.md).** Retained for history only. Do not implement from this document.
+
 **Authors:** PBM Labs LLC  
 **Status:** Draft  
 **Date:** June 2026  

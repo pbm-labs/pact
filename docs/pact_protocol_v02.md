@@ -180,15 +180,19 @@ That is the only change required. No software installation. No API integration. 
 
 ### 2.3 Zero-Friction Onboarding
 
-For domain operators who manage their DNS through supported providers, PACT offers OAuth-based onboarding that adds the rua= field automatically:
+The reference MVP implementation (`pact.pbm-labs.com`) supports two onboarding paths:
 
-- Cloudflare OAuth: one confirmation click, no manual DNS editing
-- Route53 OAuth: one confirmation click, no manual DNS editing
-- Manual: one DNS field addition for all other providers
+- **Cloudflare OAuth** — one confirmation click; PACT adds the rua= field to `_dmarc` via API. Minimum scope: zone-scoped DNS edit for the target domain only.
+- **Manual DNS** — one `_dmarc` field edit at any provider (GoDaddy, Namecheap, Route 53 console, etc.), then domain registration.
 
-OAuth integrations MUST request the minimum DNS edit scope required (e.g., zone-scoped DNS edit permission for the target domain only). PACT MUST NOT read unrelated DNS records or modify fields other than `_dmarc`.
+**Disconnect** mirrors both paths: OAuth removes PACT from `_dmarc` and unregisters the domain; manual path unregisters after the operator edits DNS.
 
-For domain operators already using a DMARC reporting service (Postmark, Valimail, EasyDMARC, Dmarcian), PACT can be added as a forwarding destination in those services' dashboards — zero DNS changes required.
+OAuth integrations MUST NOT read unrelated DNS records or modify fields other than `_dmarc`.
+
+**Deferred post-MVP** (specified for future versions, not required for protocol compliance in v0.2 reference deployment):
+
+- Route 53 / AWS IAM cross-account DNS automation
+- DMARC analytics service forwarding (Postmark, Valimail, EasyDMARC, Dmarcian) as a zero-DNS-change onboarding path
 
 ### 2.4 What PACT Does Not Use
 
@@ -542,16 +546,20 @@ This record is published once and authorizes all domains to send their DMARC agg
 
 ### 6.3 Onboarding Paths
 
-Three onboarding paths are supported, in order of friction:
+The reference MVP implements two paths (lowest friction first):
 
-**Path A — OAuth (lowest friction)**
-Domain operator connects their DNS provider (Cloudflare, Route53) via OAuth. PACT reads the existing `_dmarc` record and adds the rua= field automatically. OAuth scope MUST be limited to the target zone (Section 2.3).
+**Path A — Cloudflare OAuth**
+Domain operator authorizes zone-scoped DNS edit. PACT reads the existing `_dmarc` record and adds the rua= field automatically.
 
-**Path B — DMARC service forwarding (zero DNS changes)**
-Domain operator adds PACT as a forwarding destination in their existing DMARC reporting service. Forwarded reports are authenticated per Section 3.1.1.
+**Path B — Manual DNS edit**
+Domain operator adds the PACT rua= address to the `rua=` field of their existing `_dmarc` TXT record at any DNS provider, then registers the domain with PACT.
 
-**Path C — Manual DNS edit**
-Domain operator adds the PACT rua= address to the `rua=` field of their existing `_dmarc` TXT record.
+**Disconnect** — symmetric to connect: OAuth removes PACT from `_dmarc` and marks the domain disconnected; manual path marks disconnected after the operator removes PACT from DNS. Leaves already anchored remain immutable in the public record.
+
+**Future paths (not in reference MVP):**
+
+- **OAuth for other DNS providers** (e.g., AWS Route 53 via cross-account IAM) where public OAuth is unavailable
+- **DMARC service forwarding** — operator adds PACT as a forwarding destination in an analytics service dashboard; forwarded reports authenticated per Section 3.1.1
 
 ### 6.4 Domain Control and Hijack Window
 

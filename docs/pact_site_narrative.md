@@ -1,6 +1,6 @@
 # PACT — Site narrative
 
-Homepage copy. Source of truth for `apps/web/src/components/site-narrative.tsx`.
+**Canonical homepage copy** — rendered on `pact.pbm-labs.com` via `apps/web/src/components/site-narrative.tsx`. Edit here first; do not duplicate in other docs.
 
 ---
 
