@@ -17,7 +17,7 @@ PACT (Provenance Attestation and Chain of Trust) is an open protocol for establi
 
 PACT is signature-primitive agnostic. The v1 implementation is sourced exclusively from DMARC aggregate reporting, the universally deployed email authentication reporting standard. The protocol is designed from the outset to incorporate S/MIME, DKIM2, post-quantum signatures, and any future signing primitive that meets the protocol's attestation interface.
 
-The result is a decentralized domain provenance layer — the trust foundation on which applications requiring richer semantics (document verification, compliance certification, KYC, anti-spam) can be built. PACT itself requires no participation from senders beyond a single DNS field addition, no behavioral change from verifiers, no message content access, and no trusted third party to adjudicate authenticity claims. It is the TCP/IP of institutional email trust: narrow, blind to content, and universally applicable.
+The result is a decentralized domain provenance layer — the trust cornerstone on which applications requiring richer semantics (document verification, compliance certification, KYC, anti-spam) can be built. PACT itself requires no participation from senders beyond a single DNS field addition, no behavioral change from verifiers, no message content access, and no trusted third party to adjudicate authenticity claims. It is the TCP/IP of institutional email trust: narrow, blind to content, and universally applicable.
 
 ---
 
@@ -67,7 +67,7 @@ PACT is a domain provenance protocol. It is not a document authentication protoc
 
 PACT answers the question: "Is this domain a legitimate institutional sender with a verified history of authenticated email activity?" It does not answer: "Is this specific email or attachment authentic and unaltered?"
 
-Applications that require document-level or message-level proof — legal evidence certification, invoice authentication, individual email verification — can be built on top of PACT, using the domain trust score as a foundational trust signal. These are separate products that consume the PACT protocol. They are not part of the PACT protocol itself.
+Applications that require document-level or message-level proof — legal evidence certification, invoice authentication, individual email verification — can be built on top of PACT, using the domain trust score as a cornerstone trust signal. These are separate products that consume the PACT protocol. They are not part of the PACT protocol itself.
 
 This boundary exists for a reason. Domain provenance from aggregate reports is structurally privacy-preserving. Message-level proof requires access to individual message data — a fundamentally different privacy model that requires explicit user consent and is outside the scope of this specification.
 
@@ -112,7 +112,7 @@ LAYER 1 — PACT PROTOCOL (this specification)
   Domain provenance from DMARC aggregate reports.
   No message content. No personal data. Ever.
   Structurally private. Universally applicable.
-  The trust foundation everything else builds on.
+  The trust cornerstone everything else builds on.
 ──────────────────────────────────────────────────
 LAYER 0 — EXISTING INFRASTRUCTURE (unchanged)
   DKIM signing by sending mail servers.

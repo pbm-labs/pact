@@ -28,8 +28,6 @@ Implementation truth for Phase 0a also lives in `packages/pact-core/` and `supab
 | [pact_movement_strategy.md](pact_movement_strategy.md) | Internal — adoption mechanism, signature line, ordinal counter |
 | [pact_site_narrative.md](pact_site_narrative.md) | Public — canonical homepage manifesto (long form) |
 | [pact_whitepaper.md](pact_whitepaper.md) | External — non-technical overview for compliance / counterparty audiences |
-| [pact_fincen_position.md](pact_fincen_position.md) | External — FinCEN / financial institution positioning |
-| [pact_fluidrwa_partnership_strategy.md](pact_fluidrwa_partnership_strategy.md) | Internal — FluidRWA integration strategy |
 | [pact_build_spec.md](pact_build_spec.md) | Agents — detailed build notes; **verify against repo before use** |
 
 ---

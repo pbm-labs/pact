@@ -33,7 +33,7 @@ For PACT, the equivalent is: a connected domain's outbound email becomes, automa
 
 ---
 
-## 2. The Movement — Narrative Foundation
+## 2. The Movement — Narrative Cornerstone
 
 ### 2.1 The Core Insight **[NARRATIVE]**
 
@@ -41,7 +41,7 @@ The internet was built in 1983 without any native way to verify who anyone reall
 
 That world ended decades ago. The layer that was never built because it was never needed is still missing. PACT is not fixing something that broke. It is completing something that was never finished, using a mechanism — email authentication — that has quietly existed in parallel for over a decade without anyone using it for this purpose.
 
-This framing matters because it changes what joining the movement *means* to a participant. "Fixing a broken thing" is defensive and remedial. "Completing something unfinished since the beginning" is foundational and historic. The second framing produces willing participants; the first produces, at best, compliant ones.
+This framing matters because it changes what joining the movement *means* to a participant. "Fixing a broken thing" is defensive and remedial. "Completing something unfinished since the beginning" is cornerstone and historic. The second framing produces willing participants; the first produces, at best, compliant ones.
 
 ### 2.2 The Name **[NARRATIVE]**
 
@@ -65,11 +65,11 @@ The narrative must compress correctly at three different lengths, used in three 
 >
 > We're building it now — not fixing something broken, completing something that was never finished.
 >
-> Add your domain. Be part of the foundation the internet was always missing.
+> Add your domain. Be part of the cornerstone the internet was always missing.
 
 **Short form** — for the badge, the email signature line, anywhere space is under a sentence:
 
-> The internet never had a way to know who's real. We're building the foundation. Join us.
+> The internet never had a way to know who's real. We're building the cornerstone. Join us.
 
 The short form is the most important of the three. It is the one that will travel furthest once it starts appearing in outbound email at scale, and it must work standalone, with zero context, for someone who has never heard of PACT before encountering it in someone else's email.
 
@@ -115,7 +115,7 @@ The public PACT site (already specified in the MVP roadmap as `pact.pbm-labs.com
 
 ```
 2,847 domains are building the Trust Layer —
-the foundation the internet was missing since 1983.
+the cornerstone the internet was missing since 1983.
 
 You could be #2,848.
 ```

@@ -6,7 +6,7 @@ import { COMPANY_SITE_URL } from '@/lib/site-urls';
 export const metadata: Metadata = {
   title: 'PACT Protocol',
   description:
-    'A public foundation for knowing who is real on the internet — verifiable domain provenance, one honest day at a time.',
+    'A public cornerstone for knowing who is real on the internet — verifiable domain provenance, one honest day at a time.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

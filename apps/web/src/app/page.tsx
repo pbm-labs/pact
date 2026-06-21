@@ -17,7 +17,7 @@ export default async function HomePage() {
 
       <section className="section narrative-bridge">
         <p className="bridge-lead">
-          PACT lays that foundation one domain at a time — a public, verifiable history built from
+          PACT lays that cornerstone one domain at a time — a public, verifiable history built from
           the authentication signals mail providers already send. No message content. One honest day
           at a time.
         </p>
