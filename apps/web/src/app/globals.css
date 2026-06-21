@@ -325,7 +325,14 @@ code {
   margin: 0;
 }
 
-.bridge-actions .button-primary {
+.bridge-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.bridge-actions-row .button-primary {
   margin-top: 0;
 }
 

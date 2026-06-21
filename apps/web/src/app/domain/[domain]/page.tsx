@@ -53,7 +53,7 @@ function DisconnectedPage({
   disconnectedSince: string;
 }) {
   return (
-    <PageShell backHref="/">
+    <PageShell backHref="/domains">
       <div className="record-header">
         <p className="eyebrow">Domain record</p>
         <h1>{domain}</h1>
@@ -96,7 +96,7 @@ function WaitingPage({
   connectedSince: string | null;
 }) {
   return (
-    <PageShell backHref="/">
+    <PageShell backHref="/domains">
       <div className="record-header">
         <p className="eyebrow">Domain record</p>
         <h1>{domain}</h1>
@@ -146,7 +146,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
     : '—';
 
   return (
-    <PageShell backHref="/">
+    <PageShell backHref="/domains">
       {data.staging && (
         <div className="banner-staging">
           Staging — Merkle roots are published off-chain only. On-chain anchoring ships in Phase 0b.
@@ -322,7 +322,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
 
 function UnknownDomainPage({ domain }: { domain: string }) {
   return (
-    <PageShell backHref="/" centered>
+    <PageShell backHref="/domains" centered>
       <p className="eyebrow">Domain record</p>
       <h1>{domain}</h1>
       <p className="lead">Not connected to PACT</p>
@@ -340,7 +340,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
 
 function UnconfiguredPage({ domain }: { domain: string }) {
   return (
-    <PageShell backHref="/" centered>
+    <PageShell backHref="/domains" centered>
       <p className="eyebrow">Configuration</p>
       <h1>{domain}</h1>
       <p className="lead">Database not configured</p>

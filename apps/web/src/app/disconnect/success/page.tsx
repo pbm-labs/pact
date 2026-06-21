@@ -51,7 +51,7 @@ export default async function DisconnectSuccessPage({ searchParams }: PageProps)
       </section>
 
       <p>
-        <Link href="/" className="button-primary">
+        <Link href="/domains" className="button-primary">
           Back to domains
         </Link>
       </p>
