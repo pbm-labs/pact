@@ -8,13 +8,6 @@ export function SiteHeader() {
           <span className="site-brand-mark">PACT</span>
           <span className="site-brand-sub">Protocol</span>
         </Link>
-        <nav className="site-nav" aria-label="Main">
-          <Link href="/domains">Domains</Link>
-          <Link href="/connect" className="site-nav-cta">
-            Connect
-          </Link>
-          <Link href="/disconnect">Disconnect</Link>
-        </nav>
       </div>
     </header>
   );
