@@ -1,6 +1,8 @@
-import Link from 'next/link';
-import { PACT_RUA_ADDRESS, PACT_RUA_MAILTO } from '@pact/core';
+import { Suspense } from 'react';
+import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
+import { DnsPathFlow, type DnsPath } from '@/components/dns-path-flow';
+import { alertError, eyebrow, inlineCode, pageIntro, pageTitle } from '@/lib/ui';
 
 const ERRORS: Record<string, string> = {
   invalid_domain: 'Enter a valid domain name (e.g. example.com).',
@@ -15,6 +17,10 @@ const ERRORS: Record<string, string> = {
   disconnect: 'Could not unregister this domain.',
 };
 
+function parsePath(value: string | undefined): DnsPath | null {
+  return value === 'cloudflare' || value === 'manual' ? value : null;
+}
+
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
@@ -24,77 +30,30 @@ export default async function DisconnectPage({ searchParams }: PageProps) {
   const errorKey = typeof params.error === 'string' ? params.error : undefined;
   const domainPrefill = typeof params.domain === 'string' ? params.domain : '';
   const detail = typeof params.detail === 'string' ? params.detail : undefined;
+  const initialPath = parsePath(typeof params.path === 'string' ? params.path : undefined);
 
   return (
-    <PageShell backHref="/">
-      <p className="eyebrow">Disconnect</p>
-      <h1>Remove a domain</h1>
-      <p className="hero-lead">
-        Stops new DMARC reports from reaching PACT. Historical provenance data already ingested
-        remains in the public record. Remove <code>{PACT_RUA_ADDRESS}</code> from your{' '}
-        <code>_dmarc</code> record so mail providers stop sending reports.
-      </p>
+    <PageShell backHref="/domains" backLabel="Records" width="narrow">
+      <header className="mb-8">
+        <p className={`${eyebrow} mb-2`}>Disconnect</p>
+        <h1 className={`${pageTitle} mb-2`}>Remove a domain</h1>
+        <p className={pageIntro}>
+          Stops new reports from reaching PACT. Historical data stays public. Remove{' '}
+          <code className={inlineCode}>{PACT_RUA_ADDRESS}</code> from{' '}
+          <code className={inlineCode}>_dmarc</code> so providers stop sending.
+        </p>
+      </header>
 
       {errorKey && (
-        <div className="banner-error">
-          <p>{ERRORS[errorKey] ?? 'Something went wrong.'}</p>
-          {detail && <p className="error-detail">{detail}</p>}
+        <div className={alertError}>
+          <p className="m-0">{ERRORS[errorKey] ?? 'Something went wrong.'}</p>
+          {detail && <p className="m-0 mt-2 font-normal text-rose-400/80 text-xs">{detail}</p>}
         </div>
       )}
 
-      <section className="section card">
-        <h2>Cloudflare OAuth</h2>
-        <p className="section-lead">
-          PACT removes <code>{PACT_RUA_MAILTO}</code> from your <code>_dmarc</code> record and
-          unregisters the domain.
-        </p>
-        <form className="connect-form" action="/api/disconnect/cloudflare" method="GET">
-          <label htmlFor="cf-domain">Domain name</label>
-          <input
-            id="cf-domain"
-            name="domain"
-            type="text"
-            placeholder="example.com"
-            defaultValue={domainPrefill}
-            required
-            autoComplete="off"
-            spellCheck={false}
-          />
-          <button type="submit" className="button-primary">
-            Disconnect with Cloudflare
-          </button>
-        </form>
-      </section>
-
-      <section className="section card">
-        <h2>Manual DNS</h2>
-        <p className="section-lead">
-          Edit <code>_dmarc</code> at your DNS provider and remove{' '}
-          <code>{PACT_RUA_MAILTO}</code> from the <code>rua=</code> list, then unregister below.
-        </p>
-        <form className="connect-form" action="/api/disconnect/manual" method="POST">
-          <label htmlFor="manual-domain">Domain name</label>
-          <input
-            id="manual-domain"
-            name="domain"
-            type="text"
-            placeholder="example.com"
-            defaultValue={domainPrefill}
-            required
-            autoComplete="off"
-            spellCheck={false}
-          />
-          <button type="submit" className="button-secondary">
-            Unregister domain (after DNS update)
-          </button>
-        </form>
-      </section>
-
-      <p className="meta">
-        <Link href="/connect" className="text-link">
-          Connect a domain →
-        </Link>
-      </p>
+      <Suspense fallback={<p className="text-sm text-muted-2">Loading…</p>}>
+        <DnsPathFlow mode="disconnect" domainPrefill={domainPrefill} initialPath={initialPath} />
+      </Suspense>
     </PageShell>
   );
 }

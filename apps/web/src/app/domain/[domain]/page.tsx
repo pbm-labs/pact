@@ -1,13 +1,58 @@
 import Link from 'next/link';
 import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
+import { DomainActions } from '@/components/domain-actions';
 import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
 import type { DomainLiveData } from '@/lib/domain-data';
+import {
+  alertStaging,
+  badgeAmber,
+  badgeMuted,
+  badgeVerified,
+  btnGhost,
+  btnPrimary,
+  eyebrow,
+  inlineCode,
+  pageIntro,
+  pageTitle,
+  panel,
+  panelBody,
+  panelSectionTitle,
+  snippetPre,
+} from '@/lib/ui';
 
 export const dynamic = 'force-dynamic';
 
 interface PageProps {
   params: Promise<{ domain: string }>;
+}
+
+function Stat({
+  value,
+  label,
+  sub,
+  dim = false,
+}: {
+  value: string;
+  label: string;
+  sub?: string;
+  dim?: boolean;
+}) {
+  return (
+    <div>
+      <p
+        className={`text-3xl sm:text-4xl font-bold font-mono leading-none ${
+          dim ? 'text-muted-2' : 'text-txt'
+        }`}
+      >
+        {value}
+      </p>
+      <p className="text-xs sm:text-sm font-semibold text-txt mt-2">{label}</p>
+      {sub && (
+        <p className="text-[0.65rem] sm:text-xs text-muted-2 mt-0.5 leading-tight">{sub}</p>
+      )}
+    </div>
+  );
 }
 
 export default async function DomainPage({ params }: PageProps) {
@@ -53,37 +98,42 @@ function DisconnectedPage({
   disconnectedSince: string;
 }) {
   return (
-    <PageShell backHref="/domains">
-      <div className="record-header">
-        <p className="eyebrow">Domain record</p>
-        <h1>{domain}</h1>
-        <span className="badge badge-waiting">Disconnected</span>
-      </div>
+    <PageShell backHref="/domains" backLabel="Records" width="wide">
+      <header className="mb-8">
+        <span className={`${badgeMuted} mb-3`}>Disconnected</span>
+        <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
+        <p className={pageIntro}>
+          No longer receiving reports. Historical provenance remains public.
+        </p>
+      </header>
 
-      <p className="lead">
-        This domain is no longer connected to PACT. New DMARC reports are not accepted. Any
-        provenance data ingested before disconnect remains part of the public historical record.
-      </p>
-
-      <section className="section card">
-        <h2>Timeline</h2>
-        <dl className="dl-relaxed">
-          {connectedSince && (
-            <>
-              <dt>Connected</dt>
-              <dd>{new Date(connectedSince).toLocaleDateString()}</dd>
-            </>
-          )}
-          <dt>Disconnected</dt>
-          <dd>{new Date(disconnectedSince).toLocaleDateString()}</dd>
-        </dl>
+      <section className={`${panel} mb-8`}>
+        <div className={panelBody}>
+          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm m-0">
+            {connectedSince && (
+              <>
+                <dt className="text-muted-2">Connected</dt>
+                <dd className="m-0 font-mono tabular-nums">
+                  {new Date(connectedSince).toLocaleDateString()}
+                </dd>
+              </>
+            )}
+            <dt className="text-muted-2">Disconnected</dt>
+            <dd className="m-0 font-mono tabular-nums">
+              {new Date(disconnectedSince).toLocaleDateString()}
+            </dd>
+          </dl>
+        </div>
       </section>
 
-      <p>
-        <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className="button-primary">
+      <div className="flex flex-wrap gap-3">
+        <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
           Reconnect {domain}
         </Link>
-      </p>
+        <Link href="/domains" className={btnGhost}>
+          All records
+        </Link>
+      </div>
     </PageShell>
   );
 }
@@ -96,39 +146,37 @@ function WaitingPage({
   connectedSince: string | null;
 }) {
   return (
-    <PageShell backHref="/domains">
-      <div className="record-header">
-        <p className="eyebrow">Domain record</p>
-        <h1>{domain}</h1>
-        <span className="badge badge-waiting">Awaiting first report</span>
-      </div>
+    <PageShell backHref="/domains" backLabel="Records" width="wide">
+      <header className="mb-8">
+        <span className={`${badgeAmber} mb-3`}>Awaiting first report</span>
+        <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
+        <p className={pageIntro}>
+          Registered with PACT. Waiting for the first authenticated DMARC batch from Google,
+          Microsoft, or another provider.
+        </p>
+        {connectedSince && (
+          <p className="text-xs text-muted-2 font-mono mt-3">
+            Connected {new Date(connectedSince).toLocaleDateString()}
+          </p>
+        )}
+      </header>
 
-      <p className="lead">
-        This domain is registered with PACT. We are waiting for the first authenticated DMARC
-        aggregate report from Google, Microsoft, or another mail provider.
-      </p>
-
-      <section className="section card">
-        <h2>What happens next</h2>
-        <ol className="steps steps-compact">
-          <li>Mail providers read your <code>_dmarc</code> record (usually within 24 hours).</li>
-          <li>They send aggregate XML to <code>{PACT_RUA_ADDRESS}</code>.</li>
-          <li>PACT ingests the report and this page shows a provisional trust score.</li>
-        </ol>
+      <section className={`${panel} mb-2`}>
+        <div className={panelBody}>
+          <h2 className={panelSectionTitle}>What happens next</h2>
+          <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
+            <li>
+              Providers read your <code className={inlineCode}>_dmarc</code> record (~24 hours).
+            </li>
+            <li>
+              They send aggregate XML to <code className={inlineCode}>{PACT_RUA_ADDRESS}</code>.
+            </li>
+            <li>This page updates with a provisional trust score.</li>
+          </ol>
+        </div>
       </section>
 
-      {connectedSince && (
-        <p className="meta">Connected {new Date(connectedSince).toLocaleDateString()}</p>
-      )}
-
-      <p className="meta">
-        <Link
-          href={`/disconnect?domain=${encodeURIComponent(domain)}`}
-          className="text-link"
-        >
-          Disconnect this domain →
-        </Link>
-      </p>
+      <DomainActions domain={domain} />
     </PageShell>
   );
 }
@@ -150,93 +198,79 @@ function reporterLabel(org: string): string {
 }
 
 function LivePage({ data }: { data: DomainLiveData }) {
-  const rootPreview = data.latestRoot
-    ? `${data.latestRoot.slice(0, 10)}…${data.latestRoot.slice(-8)}`
-    : '—';
+  const statusBadge =
+    data.trust.status === 'activated' ? badgeVerified : badgeAmber;
+  const statusLabel = data.trust.status === 'activated' ? 'Activated' : 'Provisional';
 
   return (
-    <PageShell backHref="/domains">
+    <PageShell backHref="/domains" backLabel="Records" width="wide">
       {data.staging && (
-        <div className="banner-staging">
-          Staging — Merkle roots are published off-chain only. On-chain anchoring ships in Phase 0b.
+        <div className={alertStaging}>
+          Staging — roots published off-chain only. On-chain anchoring ships in Phase 0b.
         </div>
       )}
 
-      <div className="record-header">
-        <p className="eyebrow">Domain provenance record</p>
-        <h1>{data.domain}</h1>
-        <div className="trust-hero">
-          <span className="trust-hero-score">{data.trust.score.toFixed(2)}</span>
-          <span
-            className={`badge badge-${data.trust.status === 'activated' ? 'activated' : 'provisional'}`}
-          >
-            {data.trust.status}
-          </span>
+      <header className="mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-3">
+          <div className="min-w-0">
+            <p className={`${eyebrow} mb-2`}>Provenance record</p>
+            <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
+          </div>
+          <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
+            <span className="text-4xl sm:text-5xl font-bold font-mono tabular-nums leading-none text-txt">
+              {data.trust.score.toFixed(2)}
+            </span>
+            <span className={statusBadge}>{statusLabel}</span>
+          </div>
         </div>
-        <p className="meta">
+        <p className="text-xs text-muted-2 font-mono">
           {SCORE_ALGORITHM} · connected{' '}
           {data.connectedSince ? new Date(data.connectedSince).toLocaleDateString() : '—'}
         </p>
         {data.trust.status === 'provisional' && (
-          <p className="meta meta-note">
-            Provisional — score rises as verified volume, reporter diversity, and history depth
-            accumulate (~139 days to activate).
+          <p className="text-xs text-muted-2 mt-2 max-w-xl">
+            Provisional — rises with verified volume, reporter diversity, and history (~139 days to
+            activate).
           </p>
         )}
+      </header>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
+        <Stat value={data.totalPassCount.toLocaleString()} label="Verified messages" />
+        <Stat value={`${data.passRate.toFixed(1)}%`} label="DKIM pass rate" />
+        <Stat value={String(data.uniqueReporters)} label="Reporters" />
+        <Stat value={`${Math.floor(data.trust.ageDays)}d`} label="History" />
       </div>
 
-      <div className="stat-grid">
-        <div className="stat-card">
-          <span className="stat-label">Verified messages</span>
-          <span className="stat-value">{data.totalPassCount.toLocaleString()}</span>
+      <section className={`${panel} mb-6`}>
+        <div className={`${panelBody} border-b border-border`}>
+          <h2 className={panelSectionTitle}>Report history</h2>
         </div>
-        <div className="stat-card">
-          <span className="stat-label">DKIM pass rate</span>
-          <span className="stat-value">{data.passRate.toFixed(1)}%</span>
-        </div>
-        <div className="stat-card">
-          <span className="stat-label">Reporting orgs</span>
-          <span className="stat-value">{data.uniqueReporters}</span>
-        </div>
-        <div className="stat-card">
-          <span className="stat-label">History depth</span>
-          <span className="stat-value">{Math.floor(data.trust.ageDays)}d</span>
-        </div>
-      </div>
-
-      <section className="section card">
-        <h2>Report history</h2>
-        <p className="section-lead">
-          Authenticated DMARC aggregate batches ingested for this domain. Each row is one reporter
-          for one reporting period.
-        </p>
-        <div className="report-history-wrap">
-          <table className="report-history">
+        <div className="overflow-x-auto thin-scrollbar">
+          <table className="w-full text-sm">
             <thead>
-              <tr>
-                <th>Reporter</th>
-                <th>Period</th>
-                <th>DKIM pass</th>
-                <th>DKIM fail</th>
-                <th>Selectors</th>
-                <th>Ingested</th>
+              <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
+                <th className="text-left font-medium px-5 py-2.5">Reporter</th>
+                <th className="text-left font-medium px-5 py-2.5">Period</th>
+                <th className="text-right font-medium px-5 py-2.5">Pass</th>
+                <th className="text-right font-medium px-5 py-2.5">Fail</th>
+                <th className="text-right font-medium px-5 py-2.5">Ingested</th>
               </tr>
             </thead>
             <tbody>
               {data.leaves.map((leaf) => (
-                <tr key={`${leaf.reporterOrg}-${leaf.periodStart}`}>
-                  <td>{reporterLabel(leaf.reporterOrg)}</td>
-                  <td>{formatPeriod(leaf.periodStart, leaf.periodEnd)}</td>
-                  <td>{leaf.dkimPassCount.toLocaleString()}</td>
-                  <td>{leaf.dkimFailCount.toLocaleString()}</td>
-                  <td>
-                    {leaf.selectors.length ? (
-                      leaf.selectors.map((s) => <code key={s}>{s}</code>)
-                    ) : (
-                      '—'
-                    )}
+                <tr key={`${leaf.reporterOrg}-${leaf.periodStart}`} className="border-b border-border last:border-0">
+                  <td className="px-5 py-3 text-txt">{reporterLabel(leaf.reporterOrg)}</td>
+                  <td className="px-5 py-3 text-muted font-mono text-xs">
+                    {formatPeriod(leaf.periodStart, leaf.periodEnd)}
                   </td>
-                  <td>
+                  <td className="px-5 py-3 text-right font-mono tabular-nums">
+                    {leaf.dkimPassCount.toLocaleString()}
+                  </td>
+                  <td className="px-5 py-3 text-right font-mono tabular-nums text-muted-2">
+                    {leaf.dkimFailCount.toLocaleString()}
+                  </td>
+                  <td className="px-5 py-3 text-right font-mono text-xs text-muted-2">
                     {leaf.receivedAt
                       ? new Date(leaf.receivedAt).toLocaleDateString(undefined, {
                           month: 'short',
@@ -251,118 +285,90 @@ function LivePage({ data }: { data: DomainLiveData }) {
         </div>
       </section>
 
-      <section className="section card">
-        <h2>Trust components</h2>
-        <dl className="dl-relaxed">
-          <dt>Volume (V)</dt>
-          <dd>{data.trust.volume.toFixed(3)}</dd>
-          <dt>Diversity (D)</dt>
-          <dd>{data.trust.diversity.toFixed(3)}</dd>
-          <dt>Maturity (A)</dt>
-          <dd>{data.trust.maturity.toFixed(4)}</dd>
-          <dt>DKIM failures</dt>
-          <dd>{data.totalFailCount.toLocaleString()}</dd>
-        </dl>
-      </section>
-
-      <section className="section card">
-        <h2>Merkle inclusion proofs</h2>
-        <p className="section-lead">
-          Each ingested report is a leaf in the global sparse Merkle tree (v0.2 §3.3.1). Proofs are
-          recomputed from live data and verified against the latest published staging root.
-        </p>
-        <dl className="dl-relaxed merkle-summary">
-          <dt>Published root</dt>
-          <dd className="hash" title={data.latestRoot ?? undefined}>
-            {data.latestRoot ?? '—'}
-          </dd>
-          <dt>Recomputed root</dt>
-          <dd className="hash" title={data.computedRoot ?? undefined}>
-            {data.computedRoot ?? '—'}
-          </dd>
-          <dt>Roots match</dt>
-          <dd>{data.rootMatchesPublished ? 'Yes' : 'No'}</dd>
-        </dl>
-        <div className="proof-list">
-          {data.leaves.map((leaf) => (
-            <details key={`proof-${leaf.leafIndex}`} className="proof-details">
-              <summary>
-                Leaf #{leaf.leafIndex} · {reporterLabel(leaf.reporterOrg)} ·{' '}
-                {formatPeriod(leaf.periodStart, leaf.periodEnd)} ·{' '}
-                <span className={leaf.merkleProofValid ? 'proof-valid' : 'proof-invalid'}>
-                  {leaf.merkleProofValid ? 'verified' : 'unverified'}
-                </span>
-              </summary>
-              <dl className="dl-relaxed">
-                <dt>Leaf hash</dt>
-                <dd className="hash">{leaf.leafHash}</dd>
-                <dt>Proof ({leaf.merkleProof.length} siblings)</dt>
-                <dd className="proof-siblings">
-                  {leaf.merkleProof.map((sibling, i) => (
-                    <code key={i} title={sibling}>
-                      {sibling.slice(0, 10)}…{sibling.slice(-6)}
-                    </code>
-                  ))}
-                </dd>
-              </dl>
-            </details>
-          ))}
+      <section className={`${panel} mb-6`}>
+        <div className={panelBody}>
+          <h2 className={panelSectionTitle}>Verification</h2>
+          <p className="text-sm text-muted mb-4">
+            Merkle inclusion proofs recomputed from live data against the latest staging root.
+          </p>
+          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm mb-4">
+            <dt className="text-muted-2">Anchor</dt>
+            <dd className="m-0">{data.anchorType === 'base' ? 'On-chain' : 'Staging (off-chain)'}</dd>
+            <dt className="text-muted-2">Roots match</dt>
+            <dd className="m-0">{data.rootMatchesPublished ? 'Yes' : 'No'}</dd>
+            <dt className="text-muted-2">Domain leaves</dt>
+            <dd className="m-0 font-mono tabular-nums">{data.domainLeafCount}</dd>
+            <dt className="text-muted-2">Global tree</dt>
+            <dd className="m-0 font-mono tabular-nums">{data.globalTreeLeafCount ?? '—'}</dd>
+          </dl>
+          <details className="mb-4">
+            <summary className="cursor-pointer text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+              Published root hash
+            </summary>
+            <p className="font-mono text-xs break-all text-muted mt-2">{data.latestRoot ?? '—'}</p>
+          </details>
+          <div className="space-y-2">
+            {data.leaves.map((leaf) => (
+              <details
+                key={`proof-${leaf.leafIndex}`}
+                className="rounded-lg border border-border bg-bg/50 px-4 py-2"
+              >
+                <summary className="cursor-pointer text-sm font-mono">
+                  Leaf #{leaf.leafIndex} · {reporterLabel(leaf.reporterOrg)} ·{' '}
+                  <span className={leaf.merkleProofValid ? 'text-verified' : 'text-danger'}>
+                    {leaf.merkleProofValid ? 'verified' : 'unverified'}
+                  </span>
+                </summary>
+                <dl className="grid grid-cols-[minmax(5rem,auto)_1fr] gap-x-3 gap-y-1 text-xs mt-3 mb-1">
+                  <dt className="text-muted-2">Leaf hash</dt>
+                  <dd className="m-0 font-mono break-all">{leaf.leafHash}</dd>
+                </dl>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="section card">
-        <h2>Merkle tree</h2>
-        <dl className="dl-relaxed">
-          <dt>Anchor</dt>
-          <dd>{data.anchorType === 'base' ? 'Base (on-chain)' : 'Staging (off-chain)'}</dd>
-          <dt>Latest root</dt>
-          <dd className="hash" title={data.latestRoot ?? undefined}>
-            {rootPreview}
-          </dd>
-          <dt>Leaves (this domain)</dt>
-          <dd>{data.domainLeafCount}</dd>
-          <dt>Leaves (global tree)</dt>
-          <dd>{data.globalTreeLeafCount ?? '—'}</dd>
-        </dl>
-      </section>
+      <details className={`${panel} mb-2`}>
+        <summary className="cursor-pointer px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+          Score breakdown
+        </summary>
+        <div className={`${panelBody} pt-0 border-t border-border`}>
+          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
+            <dt className="text-muted-2">Volume (V)</dt>
+            <dd className="m-0 font-mono tabular-nums">{data.trust.volume.toFixed(3)}</dd>
+            <dt className="text-muted-2">Diversity (D)</dt>
+            <dd className="m-0 font-mono tabular-nums">{data.trust.diversity.toFixed(3)}</dd>
+            <dt className="text-muted-2">Maturity (A)</dt>
+            <dd className="m-0 font-mono tabular-nums">{data.trust.maturity.toFixed(4)}</dd>
+            <dt className="text-muted-2">DKIM failures</dt>
+            <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
+          </dl>
+        </div>
+      </details>
 
-      <p className="meta">
-        <Link
-          href={`/disconnect?domain=${encodeURIComponent(data.domain)}`}
-          className="text-link"
-        >
-          Disconnect this domain →
-        </Link>
-      </p>
+      <DomainActions domain={data.domain} />
     </PageShell>
   );
 }
 
 function UnknownDomainPage({ domain }: { domain: string }) {
   return (
-    <PageShell backHref="/domains" centered>
-      <p className="eyebrow">Domain record</p>
-      <h1>{domain}</h1>
-      <p className="lead">Not connected to PACT</p>
-      <p className="muted">
-        This domain is not registered with PACT. Connect via Cloudflare OAuth or manual DNS.
-      </p>
-      <p>
-        <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className="button-primary">
-          Connect {domain}
-        </Link>
-      </p>
+    <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
+      <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
+      <p className={`${pageIntro} mb-6`}>Not registered with PACT.</p>
+      <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
+        Connect {domain}
+      </Link>
     </PageShell>
   );
 }
 
 function UnconfiguredPage({ domain }: { domain: string }) {
   return (
-    <PageShell backHref="/domains" centered>
-      <p className="eyebrow">Configuration</p>
-      <h1>{domain}</h1>
-      <p className="lead">Database not configured</p>
-      <p className="muted">Set SUPABASE_URL and keys in the deployment environment.</p>
+    <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
+      <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
+      <p className="text-sm text-muted">Database not configured</p>
     </PageShell>
   );
 }

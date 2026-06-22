@@ -1,5 +1,16 @@
 import Link from 'next/link';
 import { PageShell } from '@/components/page-shell';
+import {
+  badgeVerified,
+  btnGhost,
+  btnPrimary,
+  inlineCode,
+  pageTitle,
+  panel,
+  panelBody,
+  panelSectionTitle,
+  snippetPre,
+} from '@/lib/ui';
 
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -13,10 +24,12 @@ export default async function ConnectSuccessPage({ searchParams }: PageProps) {
 
   if (!domain) {
     return (
-      <PageShell backHref="/connect" backLabel="Connect" centered>
-        <h1>Connected</h1>
-        <p className="lead">Missing domain in redirect.</p>
-        <Link href="/connect">Try again →</Link>
+      <PageShell backHref="/connect" backLabel="Connect" centered width="narrow">
+        <h1 className={pageTitle}>Connected</h1>
+        <p className="text-sm text-muted mt-2 mb-6">Missing domain in redirect.</p>
+        <Link href="/connect" className={btnPrimary}>
+          Try again
+        </Link>
       </PageShell>
     );
   }
@@ -30,39 +43,48 @@ export default async function ConnectSuccessPage({ searchParams }: PageProps) {
         : dmarc === 'created'
           ? 'Created a new _dmarc record with PACT as report recipient.'
           : dmarc.startsWith('v=DMARC1')
-            ? 'Update _dmarc with the snippet from the connect page, if you have not already.'
+            ? 'Update _dmarc with the snippet from the connect flow, if you have not already.'
             : 'Updated _dmarc to include PACT as report recipient.';
 
   return (
-    <PageShell backHref="/" centered>
-      <span className="badge badge-live">Connected</span>
-      <p className="eyebrow">{providerLabel}</p>
-      <h1>{domain}</h1>
-      <p className="lead">{dmarcMessage}</p>
+    <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
+      <div className="mb-8">
+        <span className={`${badgeVerified} mb-4`}>Connected</span>
+        <h1 className={`${pageTitle} break-all`}>{domain}</h1>
+        <p className="text-sm text-muted-2 font-mono mt-2">{providerLabel}</p>
+        <p className="text-sm text-muted mt-3 max-w-md mx-auto">{dmarcMessage}</p>
+      </div>
+
       {provider === 'manual' && dmarc.startsWith('v=DMARC1') && (
-        <section className="section card left">
-          <h2>Expected _dmarc value</h2>
-          <pre className="snippet-code">{dmarc}</pre>
+        <section className={`${panel} w-full text-left mb-4`}>
+          <div className={panelBody}>
+            <h2 className={panelSectionTitle}>Expected _dmarc value</h2>
+            <pre className={snippetPre}>{dmarc}</pre>
+          </div>
         </section>
       )}
 
-      <section className="section card left">
-        <h2>Next steps</h2>
-        <ol className="steps steps-compact">
-          <li>DMARC reporters pick up the new <code>_dmarc</code> within ~24 hours.</li>
-          <li>First aggregate report arrives at PACT (not your inbox).</li>
-          <li>
-            <Link href={`/domain/${domain}`}>Open your domain page</Link> — it will show a
-            provisional trust score after the first report.
-          </li>
-        </ol>
+      <section className={`${panel} w-full text-left mb-8`}>
+        <div className={panelBody}>
+          <h2 className={panelSectionTitle}>What happens next</h2>
+          <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
+            <li>
+              Mail providers pick up <code className={inlineCode}>_dmarc</code> within ~24 hours.
+            </li>
+            <li>First aggregate report arrives at PACT.</li>
+            <li>Your domain page shows a provisional trust score.</li>
+          </ol>
+        </div>
       </section>
 
-      <p>
-        <Link href={`/domain/${domain}`} className="button-primary">
+      <div className="flex flex-wrap gap-3 justify-center">
+        <Link href={`/domain/${domain}`} className={btnPrimary}>
           View {domain}
         </Link>
-      </p>
+        <Link href="/domains" className={btnGhost}>
+          All records
+        </Link>
+      </div>
     </PageShell>
   );
 }
