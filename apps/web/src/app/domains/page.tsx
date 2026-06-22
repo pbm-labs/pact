@@ -19,7 +19,7 @@ export default async function DomainsPage() {
             Trust scores from real DMARC aggregate reports. No message content, no inbox access.
           </p>
         </div>
-        <Link href="/connect" className={`${btnPrimary} shrink-0 sm:mt-1`}>
+        <Link href="/how-it-works" className={`${btnPrimary} shrink-0 sm:mt-1`}>
           Connect domain
         </Link>
       </header>

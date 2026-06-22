@@ -7,7 +7,6 @@ import { CopyButton } from '@/components/copy-button';
 import {
   btnPrimaryBlock,
   btnSecondaryBlock,
-  eyebrow,
   inlineCode,
   input,
   label,
@@ -19,15 +18,18 @@ import {
 } from '@/lib/ui';
 
 export type DnsPath = 'cloudflare' | 'manual';
+export type ConnectPath = DnsPath | 'dmarc-tool';
 
 interface DnsPathFlowProps {
   mode: 'connect' | 'disconnect';
+  variant?: 'default' | 'movement';
   domainPrefill?: string;
   dmarcSnippet?: string;
-  initialPath?: DnsPath | null;
+  ruaAddress?: string;
+  initialPath?: ConnectPath | DnsPath | null;
 }
 
-const PATH_COPY = {
+const DEFAULT_PATH_COPY = {
   connect: {
     cloudflare: {
       title: 'Cloudflare',
@@ -38,6 +40,11 @@ const PATH_COPY = {
       title: 'Manual DNS',
       description: 'GoDaddy, Namecheap, Route 53 console, or any other host. Copy a snippet, then register.',
       badge: 'Universal',
+    },
+    'dmarc-tool': {
+      title: 'DMARC tool',
+      description: 'Postmark, EasyDMARC, or similar — add PACT as a report destination.',
+      badge: 'Existing tool',
     },
   },
   disconnect: {
@@ -54,46 +61,96 @@ const PATH_COPY = {
   },
 } as const;
 
+const MOVEMENT_PATH_COPY = {
+  connect: {
+    cloudflare: {
+      title: 'I use Cloudflare',
+      description: 'Authorize once — we update your DNS record for you.',
+      badge: 'Fastest',
+    },
+    manual: {
+      title: 'Add it manually',
+      description: 'Copy one DNS line at your registrar, then register your domain.',
+      badge: 'Universal',
+    },
+    'dmarc-tool': {
+      title: 'I use a DMARC tool already',
+      description: 'Postmark, EasyDMARC, and others — add us as a forwarding destination.',
+      badge: 'Existing tool',
+    },
+  },
+  disconnect: DEFAULT_PATH_COPY.disconnect,
+} as const;
+
 export function DnsPathFlow({
   mode,
+  variant = 'default',
   domainPrefill = '',
   dmarcSnippet,
+  ruaAddress = 'rua@pact.pbm-labs.com',
   initialPath = null,
 }: DnsPathFlowProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [path, setPath] = useState<DnsPath | null>(initialPath);
+  const [path, setPath] = useState<ConnectPath | DnsPath | null>(initialPath);
 
   const setPathWithUrl = useCallback(
-    (next: DnsPath | null) => {
+    (next: ConnectPath | DnsPath | null) => {
       setPath(next);
       const params = new URLSearchParams(searchParams.toString());
       if (next) params.set('path', next);
       else params.delete('path');
       const qs = params.toString();
-      router.replace(qs ? `?${qs}` : '?', { scroll: false });
+      router.replace(qs ? `?${qs}` : window.location.pathname, { scroll: false });
     },
     [router, searchParams],
   );
 
   const apiBase = mode === 'connect' ? '/api/connect' : '/api/disconnect';
-  const copy = PATH_COPY[mode];
+  const copy =
+    variant === 'movement' && mode === 'connect'
+      ? MOVEMENT_PATH_COPY.connect
+      : DEFAULT_PATH_COPY[mode];
+
+  const connectPaths: ConnectPath[] =
+    mode === 'connect' && variant === 'movement'
+      ? ['cloudflare', 'manual', 'dmarc-tool']
+      : mode === 'connect'
+        ? ['cloudflare', 'manual']
+        : [];
+
+  const disconnectPaths: DnsPath[] = ['cloudflare', 'manual'];
 
   if (!path) {
+    const paths = mode === 'connect' ? connectPaths : disconnectPaths;
     return (
-      <div className="grid sm:grid-cols-2 gap-3">
-        {(['cloudflare', 'manual'] as const).map((key) => (
-          <button key={key} type="button" className={pathCard} onClick={() => setPathWithUrl(key)}>
-            <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
-              {copy[key].badge}
-            </span>
-            <span className="text-base font-semibold text-txt">{copy[key].title}</span>
-            <span className="text-sm text-muted leading-snug">{copy[key].description}</span>
-          </button>
-        ))}
+      <div
+        className={
+          paths.length === 3 ? 'grid sm:grid-cols-1 gap-3' : 'grid sm:grid-cols-2 gap-3'
+        }
+      >
+        {paths.map((key) => {
+          const item = copy[key as keyof typeof copy];
+          return (
+            <button
+              key={key}
+              type="button"
+              className={pathCard}
+              onClick={() => setPathWithUrl(key)}
+            >
+              <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
+                {item.badge}
+              </span>
+              <span className="text-base font-semibold text-txt">{item.title}</span>
+              <span className="text-sm text-muted leading-snug">{item.description}</span>
+            </button>
+          );
+        })}
       </div>
     );
   }
+
+  const pathCopy = copy[path as keyof typeof copy];
 
   return (
     <div>
@@ -106,10 +163,12 @@ export function DnsPathFlow({
       </button>
 
       <section className={panel}>
-        <div className={`${panelBody} border-b border-border flex items-center justify-between gap-3`}>
-          <h2 className="text-base font-semibold text-txt m-0">{copy[path].title}</h2>
+        <div
+          className={`${panelBody} border-b border-border flex items-center justify-between gap-3`}
+        >
+          <h2 className="text-base font-semibold text-txt m-0">{pathCopy.title}</h2>
           <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
-            {copy[path].badge}
+            {pathCopy.badge}
           </span>
         </div>
 
@@ -135,6 +194,44 @@ export function DnsPathFlow({
                 {mode === 'connect' ? 'Continue with Cloudflare' : 'Disconnect with Cloudflare'}
               </button>
             </form>
+          ) : path === 'dmarc-tool' && mode === 'connect' ? (
+            <>
+              <div className="mb-6 pb-6 border-b border-border">
+                <p className="text-sm text-muted mb-3 leading-relaxed">
+                  In Postmark, EasyDMARC, dmarcian, or a similar tool, add PACT as an aggregate
+                  report destination (<code className={inlineCode}>rua</code>). Use this address:
+                </p>
+                {dmarcSnippet && (
+                  <div className="flex flex-col sm:flex-row gap-3 mb-3">
+                    <pre className={`${snippetPre} flex-1`}>{`rua=mailto:${ruaAddress}`}</pre>
+                    <CopyButton text={`rua=mailto:${ruaAddress}`} label="Copy" />
+                  </div>
+                )}
+                <p className="text-xs text-muted-2 leading-relaxed">
+                  Save the change in your tool, wait for it to publish, then register your domain
+                  below.
+                </p>
+              </div>
+              <form className="flex flex-col gap-2" action={`${apiBase}/manual`} method="POST">
+                <label htmlFor={`${mode}-tool-domain`} className={label}>
+                  Domain name
+                </label>
+                <input
+                  id={`${mode}-tool-domain`}
+                  name="domain"
+                  type="text"
+                  placeholder="example.com"
+                  defaultValue={domainPrefill}
+                  required
+                  autoComplete="off"
+                  spellCheck={false}
+                  className={input}
+                />
+                <button type="submit" className={btnPrimaryBlock}>
+                  Register domain
+                </button>
+              </form>
+            </>
           ) : mode === 'connect' ? (
             <>
               {dmarcSnippet && (
@@ -217,11 +314,8 @@ export function DnsPathFlow({
         ) : (
           <>
             Changed your mind?{' '}
-            <Link
-              href={`/connect${domainPrefill ? `?domain=${encodeURIComponent(domainPrefill)}` : ''}`}
-              className={linkAccent}
-            >
-              Connect a domain
+            <Link href="/how-it-works#add-your-name" className={linkAccent}>
+              Add your name
             </Link>
           </>
         )}
@@ -229,3 +323,9 @@ export function DnsPathFlow({
     </div>
   );
 }
+
+function parseConnectPath(value: string | undefined): ConnectPath | null {
+  return value === 'cloudflare' || value === 'manual' || value === 'dmarc-tool' ? value : null;
+}
+
+export { parseConnectPath };

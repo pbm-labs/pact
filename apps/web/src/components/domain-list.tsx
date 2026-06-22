@@ -14,7 +14,7 @@ export function DomainList({ domains }: DomainListProps) {
         <p className="text-sm text-muted mb-6">
           Connect a domain to start building a public provenance record.
         </p>
-        <Link href="/connect" className={btnPrimary}>
+        <Link href="/how-it-works" className={btnPrimary}>
           Connect your first domain
         </Link>
       </div>

@@ -24,10 +24,10 @@ export default async function ConnectSuccessPage({ searchParams }: PageProps) {
 
   if (!domain) {
     return (
-      <PageShell backHref="/connect" backLabel="Connect" centered width="narrow">
+      <PageShell backHref="/how-it-works" backLabel="Connect" centered width="narrow">
         <h1 className={pageTitle}>Connected</h1>
         <p className="text-sm text-muted mt-2 mb-6">Missing domain in redirect.</p>
-        <Link href="/connect" className={btnPrimary}>
+        <Link href="/how-it-works#add-your-name" className={btnPrimary}>
           Try again
         </Link>
       </PageShell>

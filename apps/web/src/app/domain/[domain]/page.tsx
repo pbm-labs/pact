@@ -127,7 +127,7 @@ function DisconnectedPage({
       </section>
 
       <div className="flex flex-wrap gap-3">
-        <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
+        <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
           Reconnect {domain}
         </Link>
         <Link href="/domains" className={btnGhost}>
@@ -357,7 +357,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
     <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
       <p className={`${pageIntro} mb-6`}>Not registered with PACT.</p>
-      <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
+      <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
         Connect {domain}
       </Link>
     </PageShell>

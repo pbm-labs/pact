@@ -9,23 +9,21 @@ const PARAGRAPHS = [
   'The foundation the internet never had can still be poured. Not as a repair. As something finally finished, forty years late.',
   'We don\'t have to live in the gap.',
   'We build real — starting now.',
-  'Add your name. Be one of the first to stand on solid ground.',
 ] as const;
 
+const PEAK_START = PARAGRAPHS.length - 2;
+
 function paragraphClass(index: number): string {
-  const base = 'text-base sm:text-lg leading-relaxed mb-5';
-  if (index === PARAGRAPHS.length - 1) {
-    return `${base} text-accent font-semibold`;
-  }
-  if (index >= PARAGRAPHS.length - 3) {
-    return `${base} text-txt font-medium`;
+  const base = 'text-[18px] leading-[1.8] mb-5';
+  if (index >= PEAK_START) {
+    return `${base} text-txt font-semibold`;
   }
   return `${base} text-muted`;
 }
 
 export function SiteNarrative() {
   return (
-    <article aria-label="PACT narrative">
+    <article aria-label="Manifesto">
       {PARAGRAPHS.map((text, i) => (
         <p key={i} className={paragraphClass(i)}>
           {text}

@@ -68,6 +68,19 @@ function getSupabase() {
   return createClient(url, key);
 }
 
+export async function fetchJoinedCount(): Promise<number> {
+  const supabase = getSupabase();
+  if (!supabase) return 0;
+
+  const { count, error } = await supabase
+    .from('domains')
+    .select('*', { count: 'exact', head: true })
+    .is('disconnected_at', null);
+
+  if (error) return 0;
+  return count ?? 0;
+}
+
 export async function fetchRegisteredDomains(): Promise<string[]> {
   const summaries = await fetchDomainSummaries();
   return summaries.map((s) => s.domain);

@@ -1,12 +1,12 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { SiteHeader } from '@/components/site-header';
-import { SiteFooter } from '@/components/site-footer';
+import { MovementFooter } from '@/components/movement-footer';
+import { MovementHeader } from '@/components/movement-header';
 
 export const metadata: Metadata = {
-  title: 'PACT Protocol',
+  title: 'We build real',
   description:
-    'A public cornerstone for knowing who is real on the internet — verifiable domain provenance, one honest day at a time.',
+    'The foundation the internet never had can still be poured — one honest day at a time.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -26,9 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="marketing flex flex-col min-h-screen bg-bg text-txt antialiased">
-        <SiteHeader />
+        <MovementHeader />
         {children}
-        <SiteFooter />
+        <MovementFooter />
       </body>
     </html>
   );

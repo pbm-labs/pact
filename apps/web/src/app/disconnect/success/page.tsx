@@ -64,7 +64,7 @@ export default async function DisconnectSuccessPage({ searchParams }: PageProps)
         <Link href="/domains" className={btnPrimary}>
           All records
         </Link>
-        <Link href={`/connect?domain=${encodeURIComponent(domain)}`} className={btnGhost}>
+        <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnGhost}>
           Reconnect {domain}
         </Link>
       </div>
