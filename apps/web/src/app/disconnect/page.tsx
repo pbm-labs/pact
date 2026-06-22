@@ -1,7 +1,8 @@
 import { Suspense } from 'react';
 import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
-import { DnsPathFlow, type DnsPath } from '@/components/dns-path-flow';
+import { DnsPathFlow } from '@/components/dns-path-flow';
+import { parseDisconnectPath } from '@/lib/connect-path';
 import { alertError, eyebrow, inlineCode, pageIntro, pageTitle } from '@/lib/ui';
 
 const ERRORS: Record<string, string> = {
@@ -17,8 +18,8 @@ const ERRORS: Record<string, string> = {
   disconnect: 'Could not unregister this domain.',
 };
 
-function parsePath(value: string | undefined): DnsPath | null {
-  return value === 'cloudflare' || value === 'manual' ? value : null;
+function parsePath(value: string | undefined) {
+  return parseDisconnectPath(value);
 }
 
 interface PageProps {

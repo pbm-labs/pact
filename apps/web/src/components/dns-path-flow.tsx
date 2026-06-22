@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { CopyButton } from '@/components/copy-button';
+import type { ConnectPath, DnsPath } from '@/lib/connect-path';
 import {
   btnPrimaryBlock,
   btnSecondaryBlock,
@@ -17,8 +18,7 @@ import {
   snippetPre,
 } from '@/lib/ui';
 
-export type DnsPath = 'cloudflare' | 'manual';
-export type ConnectPath = DnsPath | 'dmarc-tool';
+export type { ConnectPath, DnsPath } from '@/lib/connect-path';
 
 interface DnsPathFlowProps {
   mode: 'connect' | 'disconnect';
@@ -91,6 +91,7 @@ export function DnsPathFlow({
   initialPath = null,
 }: DnsPathFlowProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [path, setPath] = useState<ConnectPath | DnsPath | null>(initialPath);
 
@@ -101,9 +102,9 @@ export function DnsPathFlow({
       if (next) params.set('path', next);
       else params.delete('path');
       const qs = params.toString();
-      router.replace(qs ? `?${qs}` : window.location.pathname, { scroll: false });
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
     },
-    [router, searchParams],
+    [router, pathname, searchParams],
   );
 
   const apiBase = mode === 'connect' ? '/api/connect' : '/api/disconnect';
@@ -323,9 +324,3 @@ export function DnsPathFlow({
     </div>
   );
 }
-
-function parseConnectPath(value: string | undefined): ConnectPath | null {
-  return value === 'cloudflare' || value === 'manual' || value === 'dmarc-tool' ? value : null;
-}
-
-export { parseConnectPath };

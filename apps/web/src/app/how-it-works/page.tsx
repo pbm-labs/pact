@@ -1,7 +1,8 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { addPactRuaToDmarc, PACT_RUA_ADDRESS } from '@pact/core';
-import { DnsPathFlow, parseConnectPath } from '@/components/dns-path-flow';
+import { DnsPathFlow } from '@/components/dns-path-flow';
+import { parseConnectPath } from '@/lib/connect-path';
 import { alertError, linkAccent, sectionTitle } from '@/lib/ui';
 
 const PROTOCOL_SPEC_URL =
