@@ -9,7 +9,6 @@ export default function HomePage() {
       <section className="relative overflow-hidden border-b border-border">
         <HeroBackdrop />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-12 sm:pb-16">
-          <p className={`${eyebrow} mb-4`}>PACT Protocol</p>
           <SiteNarrative />
         </div>
       </section>
