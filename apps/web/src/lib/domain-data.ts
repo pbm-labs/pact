@@ -108,50 +108,57 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
     leavesByDomain.set(leaf.domain, list);
   }
 
-  return domainRows.map((row) => {
-    const domainLeaves = leavesByDomain.get(row.domain) ?? [];
-    if (!domainLeaves.length) {
+  return domainRows
+    .map((row) => {
+      const domainLeaves = leavesByDomain.get(row.domain) ?? [];
+      if (!domainLeaves.length) {
+        return {
+          domain: row.domain,
+          connectedSince: row.connected_at,
+          status: 'waiting' as const,
+        };
+      }
+
+      const totalPassCount = domainLeaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
+      const totalFailCount = domainLeaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
+      const reporters = new Set(domainLeaves.map((l) => l.reporter_org));
+      const total = totalPassCount + totalFailCount;
+      const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
+
+      const earliest = domainLeaves.reduce((min, l) => {
+        const t = Number(l.period_start) * 1000;
+        return t < min ? t : min;
+      }, Number.POSITIVE_INFINITY);
+
+      const firstReportTime =
+        earliest !== Number.POSITIVE_INFINITY
+          ? new Date(earliest)
+          : row.connected_at
+            ? new Date(row.connected_at)
+            : new Date();
+
+      const trust = computeTrustScore({
+        totalPassCount,
+        uniqueReporterCount: reporters.size,
+        firstReportTime,
+      });
+
       return {
         domain: row.domain,
         connectedSince: row.connected_at,
-        status: 'waiting' as const,
+        status: 'live' as const,
+        trustScore: trust.score,
+        trustStatus: trust.status,
+        leafCount: domainLeaves.length,
+        passRate,
       };
-    }
-
-    const totalPassCount = domainLeaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
-    const totalFailCount = domainLeaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
-    const reporters = new Set(domainLeaves.map((l) => l.reporter_org));
-    const total = totalPassCount + totalFailCount;
-    const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
-
-    const earliest = domainLeaves.reduce((min, l) => {
-      const t = Number(l.period_start) * 1000;
-      return t < min ? t : min;
-    }, Number.POSITIVE_INFINITY);
-
-    const firstReportTime =
-      earliest !== Number.POSITIVE_INFINITY
-        ? new Date(earliest)
-        : row.connected_at
-          ? new Date(row.connected_at)
-          : new Date();
-
-    const trust = computeTrustScore({
-      totalPassCount,
-      uniqueReporterCount: reporters.size,
-      firstReportTime,
+    })
+    .sort((a, b) => {
+      const scoreA = a.trustScore ?? -1;
+      const scoreB = b.trustScore ?? -1;
+      if (scoreB !== scoreA) return scoreB - scoreA;
+      return a.domain.localeCompare(b.domain);
     });
-
-    return {
-      domain: row.domain,
-      connectedSince: row.connected_at,
-      status: 'live' as const,
-      trustScore: trust.score,
-      trustStatus: trust.status,
-      leafCount: domainLeaves.length,
-      passRate,
-    };
-  });
 }
 
 export async function fetchDomainPageState(domain: string): Promise<DomainPageState> {

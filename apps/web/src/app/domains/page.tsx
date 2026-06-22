@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import { DomainRecords } from '@/components/domain-records';
 import { PageShell } from '@/components/page-shell';
-import { DomainList } from '@/components/domain-list';
 import { fetchDomainSummaries } from '@/lib/domain-data';
 import { btnPrimary, eyebrow, pageIntro, pageTitle } from '@/lib/ui';
 
@@ -24,7 +24,7 @@ export default async function DomainsPage() {
         </Link>
       </header>
 
-      <DomainList domains={domains} />
+      <DomainRecords domains={domains} />
     </PageShell>
   );
 }
