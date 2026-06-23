@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 import { DomainActions } from '@/components/domain-actions';
+import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
 import type { DomainLiveData } from '@/lib/domain-data';
+import { formatIngestTimestamp } from '@/lib/format-time';
 import {
   alertStaging,
   badgeAmber,
@@ -181,22 +183,6 @@ function WaitingPage({
   );
 }
 
-function formatPeriod(start: number, end: number): string {
-  const fmt = (ts: number) =>
-    new Date(ts * 1000).toLocaleDateString(undefined, {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  return `${fmt(start)} – ${fmt(end)}`;
-}
-
-function reporterLabel(org: string): string {
-  if (org === 'google.com') return 'Google';
-  if (org === 'outlook.com') return 'Microsoft';
-  return org;
-}
-
 function LivePage({ data }: { data: DomainLiveData }) {
   const statusBadge =
     data.trust.status === 'activated' ? badgeVerified : badgeAmber;
@@ -226,6 +212,13 @@ function LivePage({ data }: { data: DomainLiveData }) {
         <p className="text-xs text-muted-2 font-mono">
           {SCORE_ALGORITHM} · connected{' '}
           {data.connectedSince ? new Date(data.connectedSince).toLocaleDateString() : '—'}
+          {data.lastIngestedAt && (
+            <>
+              {' '}
+              · last ingested{' '}
+              <time dateTime={data.lastIngestedAt}>{formatIngestTimestamp(data.lastIngestedAt)}</time>
+            </>
+          )}
         </p>
         {data.trust.status === 'provisional' && (
           <p className="text-xs text-muted-2 mt-2 max-w-xl">
@@ -238,96 +231,19 @@ function LivePage({ data }: { data: DomainLiveData }) {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
         <Stat value={data.totalPassCount.toLocaleString()} label="Verified messages" />
         <Stat value={`${data.passRate.toFixed(1)}%`} label="DKIM pass rate" />
-        <Stat value={String(data.uniqueReporters)} label="Reporters" />
+        <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />
         <Stat value={`${Math.floor(data.trust.ageDays)}d`} label="History" />
       </div>
 
-      <section className={`${panel} mb-6`}>
-        <div className={`${panelBody} border-b border-border`}>
-          <h2 className={panelSectionTitle}>Report history</h2>
-        </div>
-        <div className="overflow-x-auto thin-scrollbar">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
-                <th className="text-left font-medium px-5 py-2.5">Reporter</th>
-                <th className="text-left font-medium px-5 py-2.5">Period</th>
-                <th className="text-right font-medium px-5 py-2.5">Pass</th>
-                <th className="text-right font-medium px-5 py-2.5">Fail</th>
-                <th className="text-right font-medium px-5 py-2.5">Ingested</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.leaves.map((leaf) => (
-                <tr key={`${leaf.reporterOrg}-${leaf.periodStart}`} className="border-b border-border last:border-0">
-                  <td className="px-5 py-3 text-txt">{reporterLabel(leaf.reporterOrg)}</td>
-                  <td className="px-5 py-3 text-muted font-mono text-xs">
-                    {formatPeriod(leaf.periodStart, leaf.periodEnd)}
-                  </td>
-                  <td className="px-5 py-3 text-right font-mono tabular-nums">
-                    {leaf.dkimPassCount.toLocaleString()}
-                  </td>
-                  <td className="px-5 py-3 text-right font-mono tabular-nums text-muted-2">
-                    {leaf.dkimFailCount.toLocaleString()}
-                  </td>
-                  <td className="px-5 py-3 text-right font-mono text-xs text-muted-2">
-                    {leaf.receivedAt
-                      ? new Date(leaf.receivedAt).toLocaleDateString(undefined, {
-                          month: 'short',
-                          day: 'numeric',
-                        })
-                      : '—'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section className={`${panel} mb-6`}>
-        <div className={panelBody}>
-          <h2 className={panelSectionTitle}>Verification</h2>
-          <p className="text-sm text-muted mb-4">
-            Merkle inclusion proofs recomputed from live data against the latest staging root.
-          </p>
-          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm mb-4">
-            <dt className="text-muted-2">Anchor</dt>
-            <dd className="m-0">{data.anchorType === 'base' ? 'On-chain' : 'Staging (off-chain)'}</dd>
-            <dt className="text-muted-2">Roots match</dt>
-            <dd className="m-0">{data.rootMatchesPublished ? 'Yes' : 'No'}</dd>
-            <dt className="text-muted-2">Domain leaves</dt>
-            <dd className="m-0 font-mono tabular-nums">{data.domainLeafCount}</dd>
-            <dt className="text-muted-2">Global tree</dt>
-            <dd className="m-0 font-mono tabular-nums">{data.globalTreeLeafCount ?? '—'}</dd>
-          </dl>
-          <details className="mb-4">
-            <summary className="cursor-pointer text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
-              Published root hash
-            </summary>
-            <p className="font-mono text-xs break-all text-muted mt-2">{data.latestRoot ?? '—'}</p>
-          </details>
-          <div className="space-y-2">
-            {data.leaves.map((leaf) => (
-              <details
-                key={`proof-${leaf.leafIndex}`}
-                className="rounded-lg border border-border bg-bg/50 px-4 py-2"
-              >
-                <summary className="cursor-pointer text-sm font-mono">
-                  Leaf #{leaf.leafIndex} · {reporterLabel(leaf.reporterOrg)} ·{' '}
-                  <span className={leaf.merkleProofValid ? 'text-verified' : 'text-danger'}>
-                    {leaf.merkleProofValid ? 'verified' : 'unverified'}
-                  </span>
-                </summary>
-                <dl className="grid grid-cols-[minmax(5rem,auto)_1fr] gap-x-3 gap-y-1 text-xs mt-3 mb-1">
-                  <dt className="text-muted-2">Leaf hash</dt>
-                  <dd className="m-0 font-mono break-all">{leaf.leafHash}</dd>
-                </dl>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <DomainLeavesPanel
+        leaves={data.leaves}
+        domainLeafCount={data.domainLeafCount}
+        uniqueReporters={data.uniqueReporters}
+        anchorType={data.anchorType}
+        rootMatchesPublished={data.rootMatchesPublished}
+        latestRoot={data.latestRoot}
+        globalTreeLeafCount={data.globalTreeLeafCount}
+      />
 
       <details className={`${panel} mb-2`}>
         <summary className="cursor-pointer px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">

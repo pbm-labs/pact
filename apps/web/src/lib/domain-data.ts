@@ -8,6 +8,8 @@ import {
   type Hash,
 } from '@pact/core';
 import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
+import { fetchAllRows } from '@/lib/supabase-fetch-all';
+import { latestTimestamp } from '@/lib/format-time';
 
 export interface DomainLeafSummary {
   reporterOrg: string;
@@ -39,6 +41,7 @@ export interface DomainLiveData {
   anchorType: 'staging' | 'base' | null;
   staging: boolean;
   leaves: DomainLeafSummary[];
+  lastIngestedAt: string | null;
 }
 
 export interface DomainWaitingData {
@@ -98,6 +101,8 @@ export interface DomainSummary {
   trustStatus?: 'provisional' | 'activated';
   leafCount?: number;
   passRate?: number;
+  uniqueReporterCount?: number;
+  lastIngestedAt?: string | null;
 }
 
 export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
@@ -112,14 +117,32 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
 
   if (domainError || !domainRows?.length) return [];
 
-  const { data: leaves, error: leavesError } = await supabase
-    .from('leaves')
-    .select('domain, dkim_pass_count, dkim_fail_count, reporter_org, period_start');
-
-  if (leavesError) return [];
+  let leaves: Awaited<
+    ReturnType<
+      typeof fetchAllRows<{
+        domain: string;
+        dkim_pass_count: number;
+        dkim_fail_count: number;
+        reporter_org: string;
+        period_start: number;
+        created_at: string | null;
+      }>
+    >
+  >;
+  try {
+    leaves = await fetchAllRows((from, to) =>
+      supabase
+        .from('leaves')
+        .select('domain, dkim_pass_count, dkim_fail_count, reporter_org, period_start, created_at')
+        .order('leaf_index', { ascending: true })
+        .range(from, to),
+    );
+  } catch {
+    return [];
+  }
 
   const leavesByDomain = new Map<string, typeof leaves>();
-  for (const leaf of leaves ?? []) {
+  for (const leaf of leaves) {
     const list = leavesByDomain.get(leaf.domain) ?? [];
     list.push(leaf);
     leavesByDomain.set(leaf.domain, list);
@@ -168,9 +191,13 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         trustStatus: trust.status,
         leafCount: domainLeaves.length,
         passRate,
+        uniqueReporterCount: reporters.size,
+        lastIngestedAt: latestTimestamp(domainLeaves.map((l) => l.created_at)),
       };
     })
     .sort((a, b) => {
+      if (a.status === 'waiting' && b.status !== 'waiting') return 1;
+      if (b.status === 'waiting' && a.status !== 'waiting') return -1;
       const scoreA = a.trustScore ?? -1;
       const scoreB = b.trustScore ?? -1;
       if (scoreB !== scoreA) return scoreB - scoreA;
@@ -204,17 +231,37 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     };
   }
 
-  const { data: leaves, error: leavesError } = await supabase
-    .from('leaves')
-    .select(
-      'leaf_index, leaf_hash, dkim_pass_count, dkim_fail_count, reporter_org, period_start, period_end, selectors, created_at',
-    )
-    .eq('domain', normalized)
-    .order('period_start', { ascending: false });
+  let leaves: Awaited<
+    ReturnType<
+      typeof fetchAllRows<{
+        leaf_index: number;
+        leaf_hash: unknown;
+        dkim_pass_count: number;
+        dkim_fail_count: number;
+        reporter_org: string;
+        period_start: number;
+        period_end: number;
+        selectors: string[] | null;
+        created_at: string | null;
+      }>
+    >
+  >;
+  try {
+    leaves = await fetchAllRows((from, to) =>
+      supabase
+        .from('leaves')
+        .select(
+          'leaf_index, leaf_hash, dkim_pass_count, dkim_fail_count, reporter_org, period_start, period_end, selectors, created_at',
+        )
+        .eq('domain', normalized)
+        .order('period_start', { ascending: false })
+        .range(from, to),
+    );
+  } catch {
+    return null;
+  }
 
-  if (leavesError) return null;
-
-  if (!leaves?.length) {
+  if (!leaves.length) {
     return {
       status: 'waiting',
       data: {
@@ -224,14 +271,22 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     };
   }
 
-  const { data: globalLeaves, error: globalLeavesError } = await supabase
-    .from('leaves')
-    .select('leaf_index, leaf_hash')
-    .order('leaf_index', { ascending: true });
+  let globalLeaves: Awaited<
+    ReturnType<typeof fetchAllRows<{ leaf_index: number; leaf_hash: unknown }>>
+  >;
+  try {
+    globalLeaves = await fetchAllRows((from, to) =>
+      supabase
+        .from('leaves')
+        .select('leaf_index, leaf_hash')
+        .order('leaf_index', { ascending: true })
+        .range(from, to),
+    );
+  } catch {
+    return null;
+  }
 
-  if (globalLeavesError) return null;
-
-  const merkleContext = rebuildGlobalMerkleTree(globalLeaves ?? []);
+  const merkleContext = rebuildGlobalMerkleTree(globalLeaves);
 
   const totalPassCount = leaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
   const totalFailCount = leaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
@@ -269,6 +324,8 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const rootMatchesPublished =
     latestRoot !== null && computedRoot !== null && latestRoot === computedRoot;
 
+  const lastIngestedAt = latestTimestamp(leaves.map((l) => l.created_at));
+
   return {
     status: 'live',
     data: {
@@ -286,6 +343,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       globalTreeLeafCount: rootRow?.leaf_count ?? merkleContext?.tree.size ?? null,
       anchorType: (rootRow?.anchor_type as 'staging' | 'base') ?? null,
       staging: rootRow?.anchor_type !== 'base',
+      lastIngestedAt,
       leaves: leaves.map((leaf) => {
         const leafHash = byteaToHash(leaf.leaf_hash);
         const leafIndex = Number(leaf.leaf_index);
