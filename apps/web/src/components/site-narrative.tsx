@@ -14,12 +14,11 @@ const PARAGRAPHS = [
 const PEAK_START = PARAGRAPHS.length - 2;
 
 function paragraphClass(index: number): string {
-  const base = 'text-[17px] sm:text-[18px] leading-[1.75] text-[#111111]';
-  const spacing = index === PARAGRAPHS.length - 1 ? 'mb-0' : 'mb-6';
+  const base = 'text-[18px] leading-[1.8] mb-5';
   if (index >= PEAK_START) {
-    return `${base} ${spacing} font-bold`;
+    return `${base} text-txt font-semibold`;
   }
-  return `${base} ${spacing} font-normal`;
+  return `${base} text-muted`;
 }
 
 export function SiteNarrative() {
