@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { SiteNarrative } from '@/components/site-narrative';
-import { btnPrimary, linkAccent } from '@/lib/ui';
+import { btnPrimary } from '@/lib/ui';
 
 export default function HomePage() {
   return (
@@ -17,12 +17,15 @@ export default function HomePage() {
           </p>
         </div>
 
-        <p className="mt-8 text-sm text-muted-2">
+        <div className="mt-16 sm:mt-20 border-y border-border py-7 sm:py-8 text-center text-sm sm:text-[15px] text-muted-2">
           Curious how this actually works?{' '}
-          <Link href="/how-it-works" className={linkAccent}>
+          <Link
+            href="/how-it-works"
+            className="text-txt underline underline-offset-2 decoration-border-h hover:decoration-txt transition-colors"
+          >
             See the mechanism →
           </Link>
-        </p>
+        </div>
       </div>
     </main>
   );
