@@ -57,7 +57,7 @@ export function DomainList({ domains }: DomainListProps) {
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />
-            Provisional / awaiting
+            Provisional
           </span>
         </div>
       </div>
