@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 import { DomainActions } from '@/components/domain-actions';
+import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
 import type { DomainLiveData } from '@/lib/domain-data';
@@ -74,7 +75,13 @@ export default async function DomainPage({ params }: PageProps) {
   }
 
   if (state.status === 'waiting') {
-    return <WaitingPage domain={state.data.domain} connectedSince={state.data.connectedSince} />;
+    return (
+      <WaitingPage
+        domain={state.data.domain}
+        connectedSince={state.data.connectedSince}
+        domainRegisteredAt={state.data.domainRegisteredAt}
+      />
+    );
   }
 
   if (state.status === 'disconnected') {
@@ -83,6 +90,7 @@ export default async function DomainPage({ params }: PageProps) {
         domain={state.data.domain}
         connectedSince={state.data.connectedSince}
         disconnectedSince={state.data.disconnectedSince}
+        domainRegisteredAt={state.data.domainRegisteredAt}
       />
     );
   }
@@ -94,10 +102,12 @@ function DisconnectedPage({
   domain,
   connectedSince,
   disconnectedSince,
+  domainRegisteredAt,
 }: {
   domain: string;
   connectedSince: string | null;
   disconnectedSince: string;
+  domainRegisteredAt: string | null;
 }) {
   return (
     <PageShell backHref="/domains" backLabel="Records" width="wide">
@@ -107,6 +117,7 @@ function DisconnectedPage({
         <p className={pageIntro}>
           No longer receiving reports. Historical provenance remains public.
         </p>
+        <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
       </header>
 
       <section className={`${panel} mb-8`}>
@@ -143,9 +154,11 @@ function DisconnectedPage({
 function WaitingPage({
   domain,
   connectedSince,
+  domainRegisteredAt,
 }: {
   domain: string;
   connectedSince: string | null;
+  domainRegisteredAt: string | null;
 }) {
   return (
     <PageShell backHref="/domains" backLabel="Records" width="wide">
@@ -161,6 +174,7 @@ function WaitingPage({
             Connected {new Date(connectedSince).toLocaleDateString()}
           </p>
         )}
+        <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
       </header>
 
       <section className={`${panel} mb-2`}>
@@ -210,8 +224,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
           </div>
         </div>
         <p className="text-xs text-muted-2 font-mono">
-          {SCORE_ALGORITHM} · connected{' '}
-          {data.connectedSince ? new Date(data.connectedSince).toLocaleDateString() : '—'}
+          {SCORE_ALGORITHM}
           {data.lastIngestedAt && (
             <>
               {' '}
@@ -222,17 +235,25 @@ function LivePage({ data }: { data: DomainLiveData }) {
         </p>
         {data.trust.status === 'provisional' && (
           <p className="text-xs text-muted-2 mt-2 max-w-xl">
-            Provisional — rises with verified volume, reporter diversity, and history (~139 days to
-            activate).
+            Provisional — trust score reflects verified PACT history only. Domain registration age
+            is shown separately and never inflates the score (~139 days of PACT history to activate).
           </p>
         )}
+        <DomainClocks
+          domainRegisteredAt={data.domainRegisteredAt}
+          pactHistoryStart={data.pactHistoryStart}
+        />
       </header>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
         <Stat value={data.totalPassCount.toLocaleString()} label="Verified messages" />
         <Stat value={`${data.passRate.toFixed(1)}%`} label="DKIM pass rate" />
         <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />
-        <Stat value={`${Math.floor(data.trust.ageDays)}d`} label="History" />
+        <Stat
+          value={`${Math.floor(data.trust.pactAgeDays)}d`}
+          label="PACT history"
+          sub="verified time"
+        />
       </div>
 
       <DomainLeavesPanel
@@ -257,6 +278,8 @@ function LivePage({ data }: { data: DomainLiveData }) {
             <dd className="m-0 font-mono tabular-nums">{data.trust.diversity.toFixed(3)}</dd>
             <dt className="text-muted-2">Maturity (A)</dt>
             <dd className="m-0 font-mono tabular-nums">{data.trust.maturity.toFixed(4)}</dd>
+            <dt className="text-muted-2">PACT history</dt>
+            <dd className="m-0 font-mono tabular-nums">{Math.floor(data.trust.pactAgeDays)}d</dd>
             <dt className="text-muted-2">DKIM failures</dt>
             <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
           </dl>

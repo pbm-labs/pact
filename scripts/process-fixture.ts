@@ -51,8 +51,9 @@ console.log('  proof valid:', tree.verifyProof(leafHash, index, proof, root));
 
 const trust = computeTrustScore({
   totalPassCount: Number(agg.dkimPassCount),
-  uniqueReporterCount: 1,
-  firstReportTime: new Date(Number(agg.key.periodStart) * 1000),
+  leafCount: 1,
+  reportingOrgsCount: 1,
+  pactHistoryStart: new Date(Number(agg.key.periodStart) * 1000),
 });
 
 console.log('\nTrust score (pact-score-0.2):');

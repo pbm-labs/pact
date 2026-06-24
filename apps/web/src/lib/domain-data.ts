@@ -10,6 +10,7 @@ import {
 import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
 import { fetchAllRows } from '@/lib/supabase-fetch-all';
 import { latestTimestamp } from '@/lib/format-time';
+import { ensureDomainRegisteredAt } from '@/lib/supabase-admin';
 
 export interface DomainLeafSummary {
   reporterOrg: string;
@@ -28,6 +29,8 @@ export interface DomainLeafSummary {
 export interface DomainLiveData {
   domain: string;
   connectedSince: string | null;
+  domainRegisteredAt: string | null;
+  pactHistoryStart: string | null;
   trust: ReturnType<typeof computeTrustScore>;
   totalPassCount: number;
   totalFailCount: number;
@@ -47,12 +50,14 @@ export interface DomainLiveData {
 export interface DomainWaitingData {
   domain: string;
   connectedSince: string | null;
+  domainRegisteredAt: string | null;
 }
 
 export interface DomainDisconnectedData {
   domain: string;
   connectedSince: string | null;
   disconnectedSince: string;
+  domainRegisteredAt: string | null;
 }
 
 export type DomainPageState =
@@ -69,6 +74,22 @@ function getSupabase() {
     process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_ANON_KEY;
   if (!key) return null;
   return createClient(url, key);
+}
+
+function pactHistoryStartFromLeaves(
+  leaves: { period_start: number }[],
+  connectedAt: string | null,
+): Date {
+  const earliest = leaves.reduce((min, l) => {
+    const t = Number(l.period_start) * 1000;
+    return t < min ? t : min;
+  }, Number.POSITIVE_INFINITY);
+
+  if (earliest !== Number.POSITIVE_INFINITY) {
+    return new Date(earliest);
+  }
+  if (connectedAt) return new Date(connectedAt);
+  return new Date();
 }
 
 export async function fetchJoinedCount(): Promise<number> {
@@ -96,6 +117,8 @@ export async function fetchRegisteredDomains(): Promise<string[]> {
 export interface DomainSummary {
   domain: string;
   connectedSince: string | null;
+  domainRegisteredAt?: string | null;
+  pactHistoryStart?: string | null;
   status: 'waiting' | 'live';
   trustScore?: number;
   trustStatus?: 'provisional' | 'activated';
@@ -111,11 +134,33 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
 
   const { data: domainRows, error: domainError } = await supabase
     .from('domains')
-    .select('domain, connected_at')
+    .select('domain, connected_at, domain_registered_at')
     .is('disconnected_at', null)
     .order('domain', { ascending: true });
 
-  if (domainError || !domainRows?.length) return [];
+  const rowsWithoutReg =
+    domainError?.code === '42703'
+      ? (
+          await supabase
+            .from('domains')
+            .select('domain, connected_at')
+            .is('disconnected_at', null)
+            .order('domain', { ascending: true })
+        ).data
+      : null;
+
+  if ((domainError && !rowsWithoutReg) || (!domainRows?.length && !rowsWithoutReg?.length)) {
+    if (domainError && domainError.code !== '42703') return [];
+    if (!rowsWithoutReg?.length) return [];
+  }
+
+  const effectiveRows = (domainRows ?? rowsWithoutReg ?? []).map((row) => ({
+    ...row,
+    domain_registered_at:
+      'domain_registered_at' in row
+        ? (row as { domain_registered_at?: string | null }).domain_registered_at ?? null
+        : null,
+  }));
 
   let leaves: Awaited<
     ReturnType<
@@ -148,13 +193,16 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
     leavesByDomain.set(leaf.domain, list);
   }
 
-  return domainRows
+  return effectiveRows
     .map((row) => {
       const domainLeaves = leavesByDomain.get(row.domain) ?? [];
+      const domainRegisteredAt = row.domain_registered_at ?? null;
+
       if (!domainLeaves.length) {
         return {
           domain: row.domain,
           connectedSince: row.connected_at,
+          domainRegisteredAt,
           status: 'waiting' as const,
         };
       }
@@ -165,27 +213,21 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
       const total = totalPassCount + totalFailCount;
       const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
 
-      const earliest = domainLeaves.reduce((min, l) => {
-        const t = Number(l.period_start) * 1000;
-        return t < min ? t : min;
-      }, Number.POSITIVE_INFINITY);
-
-      const firstReportTime =
-        earliest !== Number.POSITIVE_INFINITY
-          ? new Date(earliest)
-          : row.connected_at
-            ? new Date(row.connected_at)
-            : new Date();
+      const pactHistoryStart = pactHistoryStartFromLeaves(domainLeaves, row.connected_at);
 
       const trust = computeTrustScore({
         totalPassCount,
-        uniqueReporterCount: reporters.size,
-        firstReportTime,
+        leafCount: domainLeaves.length,
+        reportingOrgsCount: reporters.size,
+        pactHistoryStart,
+        domainRegisteredAt: domainRegisteredAt ? new Date(domainRegisteredAt) : null,
       });
 
       return {
         domain: row.domain,
         connectedSince: row.connected_at,
+        domainRegisteredAt,
+        pactHistoryStart: pactHistoryStart.toISOString(),
         status: 'live' as const,
         trustScore: trust.score,
         trustStatus: trust.status,
@@ -211,14 +253,37 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 
   const normalized = normalizeDomain(domain);
 
-  const { data: domainRow, error: domainError } = await supabase
+  let domainRow:
+    | {
+        connected_at: string;
+        disconnected_at: string | null;
+        domain_registered_at?: string | null;
+      }
+    | null = null;
+
+  const primary = await supabase
     .from('domains')
-    .select('connected_at, disconnected_at')
+    .select('connected_at, disconnected_at, domain_registered_at')
     .eq('domain', normalized)
     .maybeSingle();
 
-  if (domainError) return null;
-  if (!domainRow) return null;
+  if (primary.error?.code === '42703') {
+    const fallback = await supabase
+      .from('domains')
+      .select('connected_at, disconnected_at')
+      .eq('domain', normalized)
+      .maybeSingle();
+    if (fallback.error || !fallback.data) return null;
+    domainRow = { ...fallback.data, domain_registered_at: null };
+  } else {
+    if (primary.error || !primary.data) return null;
+    domainRow = primary.data;
+  }
+
+  const domainRegisteredAt = await ensureDomainRegisteredAt(
+    normalized,
+    domainRow.domain_registered_at,
+  );
 
   if (domainRow.disconnected_at) {
     return {
@@ -227,6 +292,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
         domain: normalized,
         connectedSince: domainRow.connected_at,
         disconnectedSince: domainRow.disconnected_at,
+        domainRegisteredAt,
       },
     };
   }
@@ -267,6 +333,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       data: {
         domain: normalized,
         connectedSince: domainRow.connected_at,
+        domainRegisteredAt,
       },
     };
   }
@@ -294,22 +361,14 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const total = totalPassCount + totalFailCount;
   const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
 
-  const earliest = leaves.reduce((min, l) => {
-    const t = Number(l.period_start) * 1000;
-    return t < min ? t : min;
-  }, Number.POSITIVE_INFINITY);
-
-  const firstReportTime =
-    earliest !== Number.POSITIVE_INFINITY
-      ? new Date(earliest)
-      : domainRow?.connected_at
-        ? new Date(domainRow.connected_at)
-        : new Date();
+  const pactHistoryStart = pactHistoryStartFromLeaves(leaves, domainRow.connected_at);
 
   const trust = computeTrustScore({
     totalPassCount,
-    uniqueReporterCount: reporters.size,
-    firstReportTime,
+    leafCount: leaves.length,
+    reportingOrgsCount: reporters.size,
+    pactHistoryStart,
+    domainRegisteredAt: domainRegisteredAt ? new Date(domainRegisteredAt) : null,
   });
 
   const { data: rootRow } = await supabase
@@ -330,7 +389,9 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     status: 'live',
     data: {
       domain: normalized,
-      connectedSince: domainRow?.connected_at ?? null,
+      connectedSince: domainRow.connected_at ?? null,
+      domainRegisteredAt,
+      pactHistoryStart: pactHistoryStart.toISOString(),
       trust,
       totalPassCount,
       totalFailCount,

@@ -5,7 +5,8 @@
 create table if not exists domains (
   domain text primary key,
   connected_at timestamptz not null default now(),
-  disconnected_at timestamptz
+  disconnected_at timestamptz,
+  domain_registered_at timestamptz
 );
 
 create table if not exists processed_reports (

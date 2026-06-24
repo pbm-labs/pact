@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { DomainSummary } from '@/lib/domain-data';
+import { formatDomainRegisteredAt } from '@/lib/format-time';
 import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
 
 interface DomainListProps {
@@ -96,6 +97,11 @@ export function DomainList({ domains }: DomainListProps) {
                     >
                       {d.domain}
                     </Link>
+                    {d.domainRegisteredAt && (
+                      <p className="text-[0.65rem] font-mono text-muted-2 mt-1 m-0">
+                        registered {formatDomainRegisteredAt(d.domainRegisteredAt)}
+                      </p>
+                    )}
                     <div className="sm:hidden mt-1.5">
                       <StatusBadge domain={d} />
                     </div>

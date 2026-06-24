@@ -9,6 +9,7 @@ import {
   SparseMerkleTree,
   validateReportSource,
   computeTrustScore,
+  computeDiversity,
   canonicalizeSelectors,
   canonicalizeIpRanges,
   mergeLeafAggregation,
@@ -148,15 +149,44 @@ describe('sparse merkle tree', () => {
 });
 
 describe('trust score', () => {
-  it('returns provisional for new domain', () => {
+  it('returns provisional for new PACT history', () => {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const result = computeTrustScore({
       totalPassCount: 1247,
-      uniqueReporterCount: 1,
-      firstReportTime: oneDayAgo,
+      leafCount: 2,
+      reportingOrgsCount: 1,
+      pactHistoryStart: oneDayAgo,
     });
     expect(result.algorithm).toBe('pact-score-0.2');
     expect(result.status).toBe('provisional');
     expect(result.score).toBeGreaterThan(0);
+    expect(result.pactAgeDays).toBeGreaterThan(0);
+    expect(result.pactAgeDays).toBeLessThan(2);
+  });
+
+  it('passes domainRegisteredAt through without affecting maturity', () => {
+    const oldRegistration = new Date('2010-01-01');
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const withoutReg = computeTrustScore({
+      totalPassCount: 10_000,
+      leafCount: 100,
+      reportingOrgsCount: 5,
+      pactHistoryStart: oneDayAgo,
+    });
+    const withReg = computeTrustScore({
+      totalPassCount: 10_000,
+      leafCount: 100,
+      reportingOrgsCount: 5,
+      pactHistoryStart: oneDayAgo,
+      domainRegisteredAt: oldRegistration,
+    });
+    expect(withReg.maturity).toBe(withoutReg.maturity);
+    expect(withReg.score).toBe(withoutReg.score);
+    expect(withReg.domainRegisteredAt).toBe(oldRegistration.getTime());
+  });
+
+  it('computes diversity as reporting orgs per leaf', () => {
+    expect(computeDiversity(2, 4)).toBe(0.5);
+    expect(computeDiversity(1, 0)).toBe(0);
   });
 });
