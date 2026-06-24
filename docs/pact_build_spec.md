@@ -145,8 +145,7 @@ pact-protocol/
 │       └── package.json
 │
 ├── supabase/
-│   ├── migrations/
-│   │   └── 001_initial_schema.sql   # Full schema definition
+│   ├── schema.sql               # Full schema + upgrade block
 │   └── seed.sql                      # Optional seed data for development
 │
 ├── package.json                 # pnpm workspace root
@@ -161,7 +160,7 @@ pact-protocol/
 Create this schema via Supabase migration before writing any application code.
 
 ```sql
--- supabase/migrations/001_initial_schema.sql
+-- supabase/schema.sql
 
 -- Domain statistics — one row per connected domain
 -- Updated atomically on each processed report
@@ -577,7 +576,7 @@ function toIpRange(ip: string): string {
 }
 ```
 
-**Supabase Stored Procedure** — Add to `supabase/migrations/001_initial_schema.sql`:
+**Supabase Stored Procedure** — Add to `supabase/schema.sql`:
 
 ```sql
 -- Atomic leaf insertion + domain stats update
@@ -1728,7 +1727,7 @@ Follow this sequence exactly. Do not start a step until the previous step passes
 
 ```
 STEP 1 — Supabase schema
-  Run the migration: supabase/migrations/001_initial_schema.sql
+  Run the schema: supabase/schema.sql
   Run the stored procedure definition (insert_leaf_and_update_stats)
   Verify: all tables exist in Supabase dashboard
   Verify: calling the stored procedure with test data

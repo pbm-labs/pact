@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * Backfill domains.domain_registered_at via RDAP for connected domains.
- * Requires migration 002_domain_registered_at.sql applied first.
+ * Requires domains.domain_registered_at (see supabase/schema.sql upgrade block).
  *
  * Usage:
  *   export $(grep -v '^#' apps/web/.env.local | xargs)
@@ -50,7 +50,7 @@ async function main() {
     if (error.code === '42703') {
       console.error(
         'Column domains.domain_registered_at does not exist.\n' +
-          'Run supabase/migrations/002_domain_registered_at.sql in the Supabase SQL editor first.',
+          'Run the upgrade block at the bottom of supabase/schema.sql in the Supabase SQL editor first.',
       );
       process.exit(1);
     }
