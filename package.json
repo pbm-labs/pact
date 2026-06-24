@@ -8,6 +8,7 @@
     "deploy:web": "pnpm --filter @pact/core build && env -u CLOUDFLARE_API_TOKEN pnpm --filter @pact/web deploy:cf",
     "dev:fixture": "tsx scripts/process-fixture.ts",
     "dev:ingest-fixture": "tsx scripts/ingest-fixture.ts",
+    "backfill:domain-age": "tsx scripts/backfill-domain-registered-at.ts",
     "typecheck": "pnpm -r run typecheck"
   },
   "devDependencies": {

@@ -1,9 +1,6 @@
 # PACT Protocol — Build Specification v1.1
-
-> **⚠️ Verify against repo before use.** This document is an agent-oriented draft. The live monorepo uses `workers/ingest/` (not `email-worker/`), `apps/web/` on Cloudflare Workers (not Vercel), and onboarding at `/connect` + `/disconnect` (Cloudflare OAuth + manual DNS only). See root [README.md](../README.md) and [docs/README.md](README.md) for current truth.
-
 **For:** Claude Sonnet / Opus  
-**Stack:** Cloudflare Email Workers + Cloudflare Queues + Cloudflare Workers + Supabase + Base (L2)  
+**Stack:** Cloudflare Email Workers + Cloudflare Queues + Cloudflare Workers + Supabase + Vercel + Base (L2)  
 **Language:** TypeScript  
 **Scope:** MVP only — PACT Protocol Layer 1  
 **Date:** June 2026
@@ -170,7 +167,18 @@ Create this schema via Supabase migration before writing any application code.
 -- Updated atomically on each processed report
 CREATE TABLE domain_stats (
   domain              TEXT PRIMARY KEY,
+  domain_registered_at TIMESTAMPTZ,             -- public WHOIS/registry creation
+                                                  -- date of the domain itself.
+                                                  -- NULL until fetched. NEVER used
+                                                  -- in the trust score formula —
+                                                  -- display-only context field.
+                                                  -- See pact_protocol_v01.md Section 4.2.
   first_report_time   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                                                  -- This is PACT history start —
+                                                  -- days since this timestamp is
+                                                  -- pact_age(d,t) in the trust score
+                                                  -- formula. Do NOT confuse with
+                                                  -- domain_registered_at above.
   last_report_time    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   total_pass_count    BIGINT NOT NULL DEFAULT 0,
   total_fail_count    BIGINT NOT NULL DEFAULT 0,
@@ -1153,15 +1161,26 @@ export async function GET(
     totalFailCount: stats.total_fail_count,
     leafCount: stats.leaf_count,
     reportingOrgsCount: stats.reporting_orgs.length,
-    firstReportTime: new Date(stats.first_report_time).getTime(),
+    pactHistoryStart: new Date(stats.first_report_time).getTime(),
+    domainRegisteredAt: stats.domain_registered_at
+      ? new Date(stats.domain_registered_at).getTime()
+      : undefined,
   })
 
   const response: DomainProofResponse = {
     domain,
     connected: true,
+    // `connectedSince` means "PACT history start" — kept under this
+    // name for backward API compatibility, but never to be confused
+    // with `domainRegisteredAt` below. The two are always returned
+    // together so no consumer of this API can accidentally treat
+    // one as the other.
     connectedSince: new Date(stats.first_report_time).getTime(),
+    domainRegisteredAt: stats.domain_registered_at
+      ? new Date(stats.domain_registered_at).getTime()
+      : null,
     lastActivity: new Date(stats.last_report_time).getTime(),
-    trustScore: Number(trustScore.toFixed(2)),
+    trustScore: Number(trustScore.score.toFixed(2)),
     trustScoreComponents: {
       volume: Number(trustScore.volume.toFixed(4)),
       diversity: Number(trustScore.diversity.toFixed(4)),
@@ -1196,11 +1215,14 @@ export async function GET(
 }
 ```
 
+**Front-end display rule:** any component rendering `trustScore` or `connectedSince` from this response must render `domainRegisteredAt` in the same view, with comparable visual weight — never smaller or hidden behind a tooltip. A domain showing `T < 1.0` alongside "domain registered 2017" is a fundamentally different result than `T < 1.0` alongside "domain registered this month," and the UI must make that difference impossible to miss.
+
 ### Cloudflare OAuth Route: `apps/web/src/app/api/connect/cloudflare/route.ts`
 
 ```typescript
 import { isValidDomain } from '@pact/shared/domain'
 import { createClient } from '@supabase/supabase-js'
+import { resolveDomainRegisteredAt } from '../../../lib/domain-age'
 
 const CF_AUTH_URL = 'https://dash.cloudflare.com/oauth2/auth'
 const CF_TOKEN_URL = 'https://dash.cloudflare.com/oauth2/token'
@@ -1271,7 +1293,7 @@ export async function GET(request: Request): Promise<Response> {
   const existingRecord = recordsData.result?.[0]
 
   // Update or create the _dmarc record
-  const PACT_RUA = 'mailto:rua@pact.pbm-labs.com'
+  const PACT_RUA = 'mailto:rua@pact.pbmlabs.com'
   const updatedContent = addPACTToRua(existingRecord?.content ?? '', PACT_RUA)
 
   if (existingRecord) {
@@ -1318,10 +1340,21 @@ export async function GET(request: Request): Promise<Response> {
     connected_at: new Date().toISOString(),
   })
 
+  // Resolve the domain's public registration date once, at connection
+  // time. This is display-only context (pact_protocol_v01.md Section
+  // 4.2) — it is stored so a long-established domain that is only
+  // connecting today doesn't get presented as if it were brand new.
+  // A failed or unavailable lookup is not an error: domainRegisteredAt
+  // simply stays null and the UI omits it rather than guessing.
+  const domainRegisteredAt = await resolveDomainRegisteredAt(domain)
+
   // Initialize domain_stats row as pending
   await supabase.from('domain_stats').upsert({
     domain,
     status: 'pending_first_report',
+    domain_registered_at: domainRegisteredAt
+      ? new Date(domainRegisteredAt).toISOString()
+      : null,
   })
 
   return Response.redirect(
@@ -1332,7 +1365,7 @@ export async function GET(request: Request): Promise<Response> {
 
 function addPACTToRua(existing: string, pactRua: string): string {
   if (!existing) return `v=DMARC1; p=none; rua=${pactRua}`
-  if (existing.includes('pact.pbm-labs.com')) return existing  // Already connected
+  if (existing.includes('pact.pbmlabs.com')) return existing  // Already connected
 
   if (existing.includes('rua=')) {
     return existing.replace(
@@ -1352,33 +1385,57 @@ function addPACTToRua(existing: string, pactRua: string): string {
 **`packages/shared/src/trust-score.ts`**
 
 ```typescript
+// IMPORTANT: domainRegisteredAt and pactHistoryStart are two different
+// clocks and must never be merged into a single number. Only
+// pactHistoryStart feeds the trust score formula. domainRegisteredAt
+// is returned alongside the score for display purposes only — it
+// exists to prevent a long-established domain that connects to PACT
+// today from appearing identical to a brand-new domain on day one.
+// See pact_protocol_v01.md Section 4.2 for the full rationale.
+//
+// Renaming note: this field was previously called `firstReportTime`
+// in earlier versions of this spec. It has been renamed to
+// `pactHistoryStart` everywhere — in this file, in the database
+// schema, and in every API response — specifically so that nobody
+// refactoring this code later mistakes it for the domain's actual
+// registration date. If you are migrating existing code, rename
+// every occurrence of `firstReportTime` to `pactHistoryStart`.
+
 export interface TrustScoreInput {
   totalPassCount: number
   totalFailCount: number
   leafCount: number
   reportingOrgsCount: number
-  firstReportTime: number   // Unix ms
+  pactHistoryStart: number       // Unix ms — was `firstReportTime`
+  domainRegisteredAt?: number    // Unix ms — NEVER used in score math.
+                                  // Optional because it may not be
+                                  // resolved yet (WHOIS lookup pending
+                                  // or unavailable for this TLD).
 }
 
 export interface TrustScoreResult {
   score: number
   volume: number
   diversity: number
-  maturity: number
+  maturity: number                // This is PACT-history maturity only.
+  domainRegisteredAt?: number     // Passed through unchanged, for
+                                  // display next to the score — never
+                                  // folded into `score` or `maturity`.
 }
 
-const LAMBDA = 0.005  // Maturity decay constant
+const LAMBDA = 0.005  // PACT-history maturity decay constant
 
 export function computeTrustScore(input: TrustScoreInput): TrustScoreResult {
   const volume = computeVolume(input.totalPassCount)
   const diversity = computeDiversity(input.reportingOrgsCount, input.leafCount)
-  const maturity = computeMaturity(input.firstReportTime)
+  const maturity = computeMaturity(input.pactHistoryStart)
 
   return {
     score: volume * diversity * maturity,
     volume,
     diversity,
     maturity,
+    domainRegisteredAt: input.domainRegisteredAt,
   }
 }
 
@@ -1397,11 +1454,53 @@ function computeDiversity(
   return Math.min(reportingOrgsCount / leafCount, 1.0)
 }
 
-// 1 - e^(-lambda * age_in_days) — approaches 1 over ~2 years
-function computeMaturity(firstReportTime: number): number {
-  const ageMs = Date.now() - firstReportTime
+// 1 - e^(-lambda * pact_history_days) — approaches 1 over ~2 years
+// of PACT-verified history. Deliberately blind to domain registration
+// age — see module header comment. A domain registered in 2017 that
+// connects today still starts this factor at 0, exactly like a domain
+// registered yesterday. That is correct behavior, not a bug: it is
+// what keeps the domain-hijacking defense in pact_protocol_v01.md
+// Section 5.3 intact. The UI layer is responsible for showing
+// domainRegisteredAt alongside this so the two ages are never
+// confused by whoever is reading the result.
+function computeMaturity(pactHistoryStart: number): number {
+  const ageMs = Date.now() - pactHistoryStart
   const ageInDays = ageMs / (1000 * 60 * 60 * 24)
   return 1 - Math.exp(-LAMBDA * ageInDays)
+}
+```
+
+### Fetching Domain Registration Age
+
+`domainRegisteredAt` is resolved via a public WHOIS/RDAP lookup at the time a domain connects (Section 6 onboarding flow), not derived from anything in the rua= report stream — DMARC reports say nothing about when a domain was registered. Use an RDAP client (RDAP is the modern, structured successor to WHOIS and does not require screen-scraping) and store the result once; it does not need to be re-fetched on every report.
+
+```typescript
+// apps/web/src/lib/domain-age.ts
+
+// Resolves a domain's public registration date via RDAP.
+// Called once at connection time (Section 6 onboarding flow),
+// not on every report. Returns null if the lookup fails or the
+// TLD's registry does not expose RDAP — callers must handle null
+// and simply omit domainRegisteredAt rather than guessing.
+export async function resolveDomainRegisteredAt(
+  domain: string
+): Promise<number | null> {
+  try {
+    const bootstrapRes = await fetch(
+      `https://rdap.org/domain/${domain}`
+    )
+    if (!bootstrapRes.ok) return null
+
+    const data = await bootstrapRes.json()
+    const registrationEvent = data.events?.find(
+      (e: { eventAction: string }) => e.eventAction === 'registration'
+    )
+    if (!registrationEvent?.eventDate) return null
+
+    return new Date(registrationEvent.eventDate).getTime()
+  } catch {
+    return null
+  }
 }
 ```
 
@@ -1449,13 +1548,22 @@ export interface DomainProofResponse {
   domain: string
   connected: boolean
   message?: string
-  connectedSince?: number
+  connectedSince?: number          // PACT history start (was firstReportTime)
+  domainRegisteredAt?: number | null
+                                    // Public domain registration date,
+                                    // via RDAP. NEVER used in trustScore
+                                    // math — display-only context.
+                                    // null if lookup failed/unavailable,
+                                    // distinct from undefined ("not
+                                    // fetched yet"). See
+                                    // pact_protocol_v01.md Section 4.2.
   lastActivity?: number
   trustScore: number
   trustScoreComponents?: {
     volume: number
     diversity: number
-    maturity: number
+    maturity: number                // PACT-history maturity only —
+                                    // does not reflect domainRegisteredAt
   }
   authentication?: {
     totalPassCount: number
@@ -1495,11 +1603,10 @@ PACT_REGISTRY_ADDRESS=0x...           # Set after contract deployment
 # Cloudflare OAuth (for domain onboarding)
 CF_CLIENT_ID=...
 CF_CLIENT_SECRET=...
-CF_REDIRECT_URI=https://pact.pbm-labs.com/api/connect/cloudflare/callback
-# Also register disconnect callback: .../api/disconnect/cloudflare/callback
+CF_REDIRECT_URI=https://pact.pbmlabs.com/api/connect/cloudflare
 
-# Web app (Cloudflare Workers)
-NEXT_PUBLIC_APP_URL=https://pact.pbm-labs.com
+# Vercel
+NEXT_PUBLIC_BASE_URL=https://pact.pbmlabs.com
 ```
 
 **Cloudflare Workers secrets** (set via `wrangler secret put`):
@@ -1657,7 +1764,7 @@ STEP 4 — Email Worker
   Test with a real ZIP-compressed report (generate one with fflate)
   Deploy to Cloudflare
   Send a test email with the sample XML as attachment
-  to rua@pact.pbm-labs.com
+  to rua@pact.pbmlabs.com
   Verify the message appears in the Cloudflare Queue
 
 STEP 5 — Processor Worker
@@ -1682,16 +1789,24 @@ STEP 6 — Publisher Worker
 
 STEP 7 — Web frontend
   Implement API routes (domain stats, OAuth)
-  Implement domain page UI
+  Implement domain-age.ts (RDAP lookup, no new dependency —
+  uses native fetch against rdap.org)
+  Implement domain page UI — verify domainRegisteredAt renders
+  next to trustScore with equal visual weight, including for
+  domains with trustScore < 1.0
   Implement connect page UI
   Deploy to Vercel
-  Test Cloudflare OAuth flow end-to-end with a real domain
+  Test Cloudflare OAuth flow end-to-end with a real domain,
+  including a domain known to be several years old, to confirm
+  domainRegisteredAt resolves correctly and trust score still
+  starts low
 
 STEP 8 — End-to-end production test
-  Connect pbm-labs.com via the onboarding flow
+  Connect pbmlabs.com via the onboarding flow
   Wait 24 hours for first rua= reports
   Verify leaf in Supabase, root on Base mainnet
-  Verify pact.pbm-labs.com/domain/pbm-labs.com shows live trust score
+  Verify pact.pbmlabs.com/domain/pbmlabs.com shows live trust score
+  Verify domainRegisteredAt is displayed alongside the trust score
   Verify the Merkle proof on the page is independently
   verifiable on Basescan
 ```
@@ -1733,6 +1848,21 @@ PRIVACY
   [ ] The raw DMARC XML is not persisted after parsing
   [ ] R2 is not used for any mutable state
 
+TRUST SCORE INTEGRITY
+  [ ] `domainRegisteredAt` never appears as an input to
+      computeTrustScore() or to any of its internal functions
+  [ ] Every variable and column that feeds the maturity factor
+      is named `pactHistoryStart` / `pact_age` / `pact_history_*`
+      — never `age`, `firstSeen`, or anything that could be
+      confused with domain registration age
+  [ ] Every UI surface that displays `trustScore` also displays
+      `domainRegisteredAt` in the same view, with comparable
+      visual weight, even when the trust score is `T < 1.0`
+  [ ] A domain hijacking simulation (swap known_selectors and
+      known_ip_ranges abruptly in test data) does not produce
+      an inflated maturity factor regardless of how old
+      domainRegisteredAt is for that test domain
+
 VERIFIABILITY
   [ ] The domain page shows a live trust score backed by real data
   [ ] The displayed Merkle proof can be verified on Basescan
@@ -1760,7 +1890,7 @@ Use this for parser testing in Step 4.
     </date_range>
   </report_metadata>
   <policy_published>
-    <domain>pbm-labs.com</domain>
+    <domain>pbmlabs.com</domain>
     <adkim>r</adkim>
     <aspf>r</aspf>
     <p>reject</p>
@@ -1777,16 +1907,16 @@ Use this for parser testing in Step 4.
       </policy_evaluated>
     </row>
     <identifiers>
-      <header_from>pbm-labs.com</header_from>
+      <header_from>pbmlabs.com</header_from>
     </identifiers>
     <auth_results>
       <dkim>
-        <domain>pbm-labs.com</domain>
+        <domain>pbmlabs.com</domain>
         <selector>google-2024</selector>
         <result>pass</result>
       </dkim>
       <spf>
-        <domain>pbm-labs.com</domain>
+        <domain>pbmlabs.com</domain>
         <result>pass</result>
       </spf>
     </auth_results>
@@ -1802,16 +1932,16 @@ Use this for parser testing in Step 4.
       </policy_evaluated>
     </row>
     <identifiers>
-      <header_from>pbm-labs.com</header_from>
+      <header_from>pbmlabs.com</header_from>
     </identifiers>
     <auth_results>
       <dkim>
-        <domain>pbm-labs.com</domain>
+        <domain>pbmlabs.com</domain>
         <selector>google-2024</selector>
         <result>pass</result>
       </dkim>
       <spf>
-        <domain>pbm-labs.com</domain>
+        <domain>pbmlabs.com</domain>
         <result>pass</result>
       </spf>
     </auth_results>

@@ -99,7 +99,17 @@ Copy the `_dmarc` snippet on `/connect`, update DNS at any provider, then **Regi
 
 Same two paths in reverse: Cloudflare OAuth removes PACT from `_dmarc` and unregisters the domain; manual DNS path unregisters after you edit DNS yourself. Historical provenance data already ingested stays public.
 
-**Supabase migration** (existing projects): run `alter table domains add column if not exists disconnected_at timestamptz;`
+**Supabase migrations** (existing projects): in the Supabase SQL editor, run in order:
+
+1. `alter table domains add column if not exists disconnected_at timestamptz;` (if not already applied)
+2. `supabase/migrations/002_domain_registered_at.sql` — adds `domain_registered_at` (RDAP display clock; never used in trust score math)
+
+After (2), backfill registration dates for connected domains:
+
+```bash
+export $(grep -v '^#' apps/web/.env.local | xargs)
+pnpm backfill:domain-age
+```
 
 ## Supabase setup
 

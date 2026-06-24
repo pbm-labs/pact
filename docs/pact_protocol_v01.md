@@ -1,13 +1,11 @@
 # PACT — Provenance Attestation and Chain of Trust
 ## Protocol Specification v0.1 — Draft
 
-> **Superseded by [Protocol Specification v0.2](pact_protocol_v02.md).** Retained for history only. Do not implement from this document.
-
 **Authors:** PBM Labs LLC  
 **Status:** Draft  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Contact:** protocol@pbm-labs.com
+**Contact:** protocol@pbmlabs.com
 
 ---
 
@@ -17,7 +15,7 @@ PACT (Provenance Attestation and Chain of Trust) is an open protocol for establi
 
 PACT is signature-primitive agnostic. The v1 implementation is sourced exclusively from DMARC aggregate reporting, the universally deployed email authentication reporting standard. The protocol is designed from the outset to incorporate S/MIME, DKIM2, post-quantum signatures, and any future signing primitive that meets the protocol's attestation interface.
 
-The result is a decentralized domain provenance layer — the trust cornerstone on which applications requiring richer semantics (document verification, compliance certification, KYC, anti-spam) can be built. PACT itself requires no participation from senders beyond a single DNS field addition, no behavioral change from verifiers, no message content access, and no trusted third party to adjudicate authenticity claims. It is the TCP/IP of institutional email trust: narrow, blind to content, and universally applicable.
+The result is a decentralized domain provenance layer — the trust foundation on which applications requiring richer semantics (document verification, compliance certification, KYC, anti-spam) can be built. PACT itself requires no participation from senders beyond a single DNS field addition, no behavioral change from verifiers, no message content access, and no trusted third party to adjudicate authenticity claims. It is the TCP/IP of institutional email trust: narrow, blind to content, and universally applicable.
 
 ---
 
@@ -67,7 +65,7 @@ PACT is a domain provenance protocol. It is not a document authentication protoc
 
 PACT answers the question: "Is this domain a legitimate institutional sender with a verified history of authenticated email activity?" It does not answer: "Is this specific email or attachment authentic and unaltered?"
 
-Applications that require document-level or message-level proof — legal evidence certification, invoice authentication, individual email verification — can be built on top of PACT, using the domain trust score as a cornerstone trust signal. These are separate products that consume the PACT protocol. They are not part of the PACT protocol itself.
+Applications that require document-level or message-level proof — legal evidence certification, invoice authentication, individual email verification — can be built on top of PACT, using the domain trust score as a foundational trust signal. These are separate products that consume the PACT protocol. They are not part of the PACT protocol itself.
 
 This boundary exists for a reason. Domain provenance from aggregate reports is structurally privacy-preserving. Message-level proof requires access to individual message data — a fundamentally different privacy model that requires explicit user consent and is outside the scope of this specification.
 
@@ -112,7 +110,7 @@ LAYER 1 — PACT PROTOCOL (this specification)
   Domain provenance from DMARC aggregate reports.
   No message content. No personal data. Ever.
   Structurally private. Universally applicable.
-  The trust cornerstone everything else builds on.
+  The trust foundation everything else builds on.
 ──────────────────────────────────────────────────
 LAYER 0 — EXISTING INFRASTRUCTURE (unchanged)
   DKIM signing by sending mail servers.
@@ -172,7 +170,7 @@ AFTER:
 _dmarc.wise.com TXT
   "v=DMARC1; p=reject;
    rua=mailto:dmarc@wise.com,
-       mailto:rua@pact.pbm-labs.com"
+       mailto:rua@pact.pbmlabs.com"
 ```
 
 That is the only change required. No software installation. No API integration. No SDK. No behavioral change for any sender or recipient. The receiving mail servers of the world — Gmail, Outlook, Yahoo — continue generating the same aggregate reports they always have. They now send a copy to PACT alongside the domain's existing destination.
@@ -202,7 +200,7 @@ PACT explicitly does not use and does not request access to:
 
 ### 3.1 Data Ingestion
 
-PACT operates a purpose-built SMTP receiver at rua@pact.pbm-labs.com that accepts incoming DMARC aggregate reports. Upon receipt:
+PACT operates a purpose-built SMTP receiver at rua@pact.pbmlabs.com that accepts incoming DMARC aggregate reports. Upon receipt:
 
 1. The report XML is parsed and validated against the DMARC aggregate report schema (RFC 7489 Appendix C).
 2. Per-domain authentication records are extracted.
@@ -286,7 +284,34 @@ Trust scores in PACT are not declared. They are not assigned by a committee. The
 
 A domain with millions of verified DKIM-pass messages from diverse receiving mail servers over years of continuous history cannot be fabricated retroactively. The cost of attacking the trust score is identical to the cost of operating as a legitimate high-volume institutional sender for years.
 
-### 4.2 Trust Score Formula
+### 4.2 Two Independent Clocks, Never Merged
+
+A domain has two distinct ages that PACT must never collapse into one number: how long the domain itself has existed, and how long it has been generating verified PACT history. These are frequently different, and the difference is meaningful rather than noise.
+
+```
+DOMAIN AGE
+  Source: public domain registration record (WHOIS
+  creation date, or equivalent public registry data)
+  Meaning: how long this domain name has existed
+  Verifiable independently of PACT, by anyone
+
+PACT HISTORY
+  Source: days since the domain's first processed
+  aggregate report
+  Meaning: how long PACT has been accumulating
+  verified authentication activity for this domain
+  Only PACT can attest to this
+```
+
+A domain that has existed for eight years but connected to PACT today has a long domain age and a PACT history of zero. This is common and expected — it describes every legitimate, established institution that has not yet connected, which on any given day is the overwhelming majority of the internet. It is not evidence of anything suspicious, and the protocol must not present it as if it were.
+
+Collapsing these two clocks into a single maturity number produces a specific, serious failure mode: an institution with a decade of real operating history scores identically to a domain registered yesterday, on the day each one connects to PACT — because both have a PACT history of zero. This inverts the protocol's purpose. It would make an established acquirer of regulated infrastructure look indistinguishable from a freshly registered shell, for the sole reason that the established institution connected later. PACT must never produce that outcome.
+
+For this reason, domain age and PACT history are reported as two separate, always-visible fields. Neither is hidden behind the other, and neither is averaged into a single opaque number that obscures which one a given domain actually has.
+
+### 4.3 Trust Score Formula
+
+The trust score itself is derived only from verified PACT history — volume, diversity, and the PACT-history maturity factor defined below. Domain age is never an input to the score's arithmetic. It is reported alongside the score, as context, precisely because it cannot be allowed to inflate a number that is supposed to mean "verified by PACT."
 
 For a given domain d at time t:
 
@@ -302,32 +327,38 @@ D(d,t) = unique receiving mail server count for d
          Higher when messages are received by many
          independent mail servers globally
 
-A(d,t) = 1 - e^(-lambda x age(d,t))
-         (maturity factor, range 0 to 1)
-         age(d,t) = days since first aggregate
+A(d,t) = 1 - e^(-lambda x pact_age(d,t))
+         (PACT-history maturity factor, range 0 to 1)
+         pact_age(d,t) = days since first aggregate
                     report received for domain d
          lambda = 0.005 (subject to calibration)
 ```
+
+This is unchanged from the prior specification in its arithmetic — the only change is that `age(d,t)` is renamed `pact_age(d,t)` throughout the implementation, to make explicit in code and in every interface that this is PACT-verified time, not domain age, and the two must never be confused at the variable-naming level either.
 
 **Logarithmic volume:** bulk anchor farming has sub-linear returns.
 
 **Diversity coefficient:** a domain whose messages are received and reported by hundreds of independent mail servers globally has higher trust than one whose messages are concentrated in a single provider. This reflects real institutional reach.
 
-**Maturity factor:** a domain registered yesterday cannot reach a high maturity score regardless of message volume. This is the primary defense against lookalike domain attacks — the attacker cannot fake years of institutional history.
+**PACT-history maturity factor:** a domain that connected to PACT yesterday cannot reach a high maturity score regardless of message volume. This remains the primary defense against lookalike domain attacks and against domain hijacking (Section 5.3 below) — an attacker cannot fake years of PACT-verified history no matter how old the underlying domain registration is. Critically, this factor must not be inflated by domain age, or the hijacking defense in Section 5.3 collapses: a hijacker who seizes a domain with eight years of registration history would otherwise inherit a high maturity score on day one of the hijack, which is exactly the outcome the hijacking defense exists to prevent.
 
-### 4.3 Trust Score Interpretation
+### 4.4 Trust Score Interpretation
 
 ```
-T < 1.0    Unknown or new domain — no verifiable history
-T 1-3      Some activity — early-stage legitimacy signal
-T 3-6      Established domain — moderate institutional confidence
-T 6-9      High-volume institutional domain — high confidence
-T > 9      Major institutional sender — maximum confidence
+T < 1.0    No verified PACT history yet — this includes
+           both brand-new domains and decades-old
+           institutions that simply haven't connected
+T 1-3      Early PACT history — early-stage signal
+T 3-6      Established PACT history — moderate confidence
+T 6-9      Long, high-volume PACT history — high confidence
+T > 9      Extensive PACT history — maximum confidence
            (e.g. wise.com, stripe.com, chase.com after
             years of millions of verified messages)
 ```
 
 Applications using PACT define their own acceptance thresholds. The protocol does not enforce any threshold.
+
+A score in the `T < 1.0` range must always be displayed together with the domain's registration age (Section 4.2), never alone. "No verified PACT history yet — domain registered 2017" and "No verified PACT history yet — domain registered this month" describe the same trust score and two entirely different situations. Any interface presenting a trust score without also presenting domain age is presenting an incomplete and potentially misleading picture.
 
 ---
 
@@ -364,7 +395,7 @@ PACT processes only domain-level authentication metadata that is explicitly desi
 
 ### 6.1 The DNS Change
 
-A domain connects to PACT by adding rua@pact.pbm-labs.com as a co-recipient in its DMARC DNS record. This is a standard DMARC mechanism explicitly defined in RFC 7489 — a domain may specify multiple rua= destinations separated by commas.
+A domain connects to PACT by adding rua@pact.pbmlabs.com as a co-recipient in its DMARC DNS record. This is a standard DMARC mechanism explicitly defined in RFC 7489 — a domain may specify multiple rua= destinations separated by commas.
 
 The domain's existing DMARC policy, reporting destinations, and email operations are entirely unaffected. PACT receives a copy of the same reports that are already being sent to the domain's existing destinations.
 
@@ -373,11 +404,11 @@ The domain's existing DMARC policy, reporting destinations, and email operations
 RFC 7489 requires that third-party report destinations (domains other than the domain being reported on) verify their willingness to receive reports. PACT satisfies this by publishing a verification DNS record:
 
 ```
-_report._dmarc.pact.pbm-labs.com TXT
+_report._dmarc.pact.pbmlabs.com TXT
   "v=DMARC1"
 ```
 
-This record is published once by PBM Labs and authorizes all domains to send their DMARC aggregate reports to rua@pact.pbm-labs.com. No per-domain configuration is required on the PACT side.
+This record is published once by PBM Labs and authorizes all domains to send their DMARC aggregate reports to rua@pact.pbmlabs.com. No per-domain configuration is required on the PACT side.
 
 ### 6.3 Onboarding Paths
 
@@ -390,7 +421,7 @@ Domain operator connects their DNS provider (Cloudflare, Route53) via OAuth. PAC
 Domain operator adds PACT as a forwarding destination in their existing DMARC reporting service (Postmark, Valimail, EasyDMARC, Dmarcian). One click in an existing dashboard. No DNS changes.
 
 **Path C — Manual DNS edit**
-Domain operator adds rua@pact.pbm-labs.com to the rua= field of their existing _dmarc TXT record. One field edit. Applicable to all DNS providers.
+Domain operator adds rua@pact.pbmlabs.com to the rua= field of their existing _dmarc TXT record. One field edit. Applicable to all DNS providers.
 
 ---
 
@@ -635,4 +666,4 @@ PACT does not protect against:
 PACT — Provenance Attestation and Chain of Trust
 Protocol Specification v0.1 — Open standard. Freely implementable.
 Reference implementation: PBM Labs LLC
-Contact: protocol@pbm-labs.com
+Contact: protocol@pbmlabs.com

@@ -189,4 +189,28 @@ describe('trust score', () => {
     expect(computeDiversity(2, 4)).toBe(0.5);
     expect(computeDiversity(1, 0)).toBe(0);
   });
+
+  it('hijacking simulation: old domain registration does not inflate maturity on new PACT history', () => {
+    const hijackedDomainRegistration = new Date('2005-06-01');
+    const firstPactReport = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
+
+    const result = computeTrustScore({
+      totalPassCount: 50_000,
+      leafCount: 200,
+      reportingOrgsCount: 3,
+      pactHistoryStart: firstPactReport,
+      domainRegisteredAt: hijackedDomainRegistration,
+    });
+
+    const withoutRegistration = computeTrustScore({
+      totalPassCount: 50_000,
+      leafCount: 200,
+      reportingOrgsCount: 3,
+      pactHistoryStart: firstPactReport,
+    });
+
+    expect(result.maturity).toBe(withoutRegistration.maturity);
+    expect(result.maturity).toBeLessThan(0.02);
+    expect(result.status).toBe('provisional');
+  });
 });
