@@ -293,7 +293,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
 
 function UnknownDomainPage({ domain }: { domain: string }) {
   return (
-    <PageShell backHref="/check" backLabel="Check" centered width="narrow">
+    <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
       <p className={`${pageIntro} mb-6`}>Not registered with PACT.</p>
       <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
@@ -305,7 +305,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
 
 function UnconfiguredPage({ domain }: { domain: string }) {
   return (
-    <PageShell backHref="/check" backLabel="Check" centered width="narrow">
+    <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
       <p className="text-sm text-muted">Database not configured</p>
     </PageShell>
