@@ -8,7 +8,7 @@
 
 ## Implementation status (June 2026)
 
-Reference deployment: `pact.pbm-labs.com` on Cloudflare Workers. Normative spec: [pact_protocol_v02.md](pact_protocol_v02.md).
+Reference deployment: `pact.pbm-labs.com` on Cloudflare Workers. Normative spec: [pact_protocol_v01.md](pact_protocol_v01.md) (trust score `pact-score-0.1`). Merkle/encoding details: [pact_protocol_v02.md](pact_protocol_v02.md) (historical).
 
 | Item | Status |
 |------|--------|

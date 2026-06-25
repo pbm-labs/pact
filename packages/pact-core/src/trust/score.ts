@@ -1,4 +1,4 @@
-export const SCORE_ALGORITHM = 'pact-score-0.2' as const;
+export const SCORE_ALGORITHM = 'pact-score-0.1' as const;
 export const MATURITY_LAMBDA = 0.005;
 export const ACTIVATION_THRESHOLD = 0.5;
 

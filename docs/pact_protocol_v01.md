@@ -2,7 +2,7 @@
 ## Protocol Specification v0.1 — Draft
 
 **Authors:** PBM Labs LLC  
-**Status:** Draft  
+**Status:** Normative (reference implementation: `pact-score-0.1`)  
 **Date:** June 2026  
 **License:** Open — freely implementable  
 **Contact:** protocol@pbmlabs.com

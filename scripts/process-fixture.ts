@@ -56,7 +56,7 @@ const trust = computeTrustScore({
   pactHistoryStart: new Date(Number(agg.key.periodStart) * 1000),
 });
 
-console.log('\nTrust score (pact-score-0.2):');
+console.log('\nTrust score (pact-score-0.1):');
 console.log('  score:', trust.score.toFixed(4));
 console.log('  status:', trust.status);
 console.log('  maturity:', trust.maturity.toFixed(4));

@@ -1,12 +1,14 @@
 # PACT — Provenance Attestation and Chain of Trust
 ## Protocol Specification v0.2 — Draft
 
+> **Historical — not normative for trust score.** The live reference implementation uses [Protocol Specification v0.1](pact_protocol_v01.md) (`pact-score-0.1`: natural-log volume, `reportingOrgs / leafCount` diversity, two independent clocks in §4.2). Retain this document for Merkle tree parameters (§3.3.1), leaf encoding (Appendix C), reporter allowlist, and provisional/activated score semantics — not for the §4.2 trust score formula (`log(|R|+1)/log(50)` diversity), which was never shipped.
+
 **Authors:** PBM Labs LLC  
-**Status:** Draft  
+**Status:** Historical draft  
 **Date:** June 2026  
 **License:** Open — freely implementable  
 **Contact:** protocol@pbm-labs.com  
-**Supersedes:** [Protocol Specification v0.1](pact_protocol_v01.md)
+**Superseded by:** [Protocol Specification v0.1](pact_protocol_v01.md) for trust score and two-clock display rules
 
 ---
 
@@ -477,7 +479,7 @@ Trust score algorithm versions MUST be identified by a version string (e.g., `pa
 - Historical scores MUST be recomputed under the new algorithm for transparency, OR
 - Score snapshots MAY be anchored on-chain at publication time to preserve historical semantics.
 
-The reference implementation uses algorithm version `pact-score-0.2` for this specification.
+The reference implementation **formerly** used algorithm version `pact-score-0.2` for this specification. **Current implementation:** `pact-score-0.1` per [v0.1 §4.3](pact_protocol_v01.md).
 
 ---
 

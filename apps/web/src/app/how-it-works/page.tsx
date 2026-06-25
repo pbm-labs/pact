@@ -6,7 +6,7 @@ import { parseConnectPath } from '@/lib/connect-path';
 import { alertError, linkAccent, sectionTitle } from '@/lib/ui';
 
 const PROTOCOL_SPEC_URL =
-  'https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol_v02.md';
+  'https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol_v01.md';
 
 const ERRORS: Record<string, string> = {
   invalid_domain: 'Enter a valid domain name (e.g. example.com).',

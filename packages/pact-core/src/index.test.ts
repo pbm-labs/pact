@@ -157,7 +157,7 @@ describe('trust score', () => {
       reportingOrgsCount: 1,
       pactHistoryStart: oneDayAgo,
     });
-    expect(result.algorithm).toBe('pact-score-0.2');
+    expect(result.algorithm).toBe('pact-score-0.1');
     expect(result.status).toBe('provisional');
     expect(result.score).toBeGreaterThan(0);
     expect(result.pactAgeDays).toBeGreaterThan(0);

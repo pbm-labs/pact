@@ -13,10 +13,10 @@ Operational setup (DNS, Supabase, worker deploy) is in the root [README.md](../R
 
 | Document | Description |
 |----------|-------------|
-| [pact_protocol_v02.md](pact_protocol_v02.md) | **Current** — normative spec (leaf encoding, Merkle tree, trust score, onboarding) |
-| [pact_protocol_v01.md](pact_protocol_v01.md) | Superseded by v0.2 — retained for history |
+| [pact_protocol_v01.md](pact_protocol_v01.md) | **Normative** — trust score (`pact-score-0.1`), two-clock model (§4.2), onboarding, privacy |
+| [pact_protocol_v02.md](pact_protocol_v02.md) | **Historical draft** — Merkle tree, leaf encoding, allowlist; trust score formula superseded by v0.1 |
 
-Implementation truth for Phase 0a also lives in `packages/pact-core/` and `supabase/schema.sql`.
+Implementation truth for Phase 0a also lives in `packages/pact-core/` and `supabase/schema.sql`. Trust score algorithm id: **`pact-score-0.1`** (natural log volume, `reportingOrgs / leafCount` diversity).
 
 ---
 

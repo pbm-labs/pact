@@ -1,6 +1,6 @@
 # PACT Protocol — Phase 0a
 
-Domain provenance from DMARC aggregate reports. Protocol spec: [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md). Full doc index: [docs/README.md](docs/README.md).
+Domain provenance from DMARC aggregate reports. Protocol spec: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md). Full doc index: [docs/README.md](docs/README.md).
 
 **Reference domain:** `pbm-labs.com`  
 **PACT app:** `https://pact.pbm-labs.com`  
@@ -286,7 +286,7 @@ delete from processed_reports;
 |--------|----------------|
 | Leaf encoding | v0.2 Appendix C |
 | Sparse Merkle | v0.2 §3.3.1 (32 levels) |
-| Trust score | `pact-score-0.2` §4.2 |
+| Trust score | `pact-score-0.1` — [v0.1 §4.3](docs/pact_protocol_v01.md) |
 | Allowlist | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts` |
 
 ## License
