@@ -14,10 +14,14 @@ export default async function DomainsPage() {
       <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
           <p className={`${eyebrow} mb-2`}>Public records</p>
-          <h1 className={`${pageTitle} mb-2`}>Trust leaderboard</h1>
+          <h1 className={`${pageTitle} mb-2`}>Domains on PACT</h1>
           <p className={pageIntro}>
-            Domains ranked by PACT trust score from real DMARC reports. Updates as new batches
-            arrive — no message content, no inbox access.
+            Every connected domain with a public provenance record — ranked by verified email
+            history. Look up any domain on{' '}
+            <Link href="/check" className="text-txt underline underline-offset-2 decoration-border-h hover:decoration-txt">
+              Check
+            </Link>
+            .
           </p>
         </div>
         <Link href="/how-it-works" className={`${btnPrimary} shrink-0 sm:mt-1`}>

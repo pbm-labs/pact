@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import type { DomainSummary } from '@/lib/domain-data';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
 import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
@@ -24,6 +27,8 @@ function StatusBadge({ domain }: { domain: DomainSummary }) {
 }
 
 export function DomainList({ domains }: DomainListProps) {
+  const [showMath, setShowMath] = useState(false);
+
   if (!domains.length) {
     return (
       <div className={`${panel} p-8 text-center`}>
@@ -48,10 +53,23 @@ export function DomainList({ domains }: DomainListProps) {
             Ranked by trust score
           </p>
           <p className="text-xs text-muted m-0">
-            Volume × diversity × maturity · provisional until ~139 days of history
+            Domains with public PACT records, newest history first within each tier.
           </p>
+          {showMath && (
+            <p className="text-xs text-muted-2 font-mono mt-2 mb-0">
+              Volume × diversity × maturity · provisional until ~139 days of history
+            </p>
+          )}
         </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+        <div className="flex flex-col items-end gap-2">
+          <button
+            type="button"
+            onClick={() => setShowMath((v) => !v)}
+            className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 hover:text-muted transition-colors bg-transparent border-0 cursor-pointer p-0"
+          >
+            {showMath ? 'Hide the math' : 'Show the math'}
+          </button>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-verified" aria-hidden />
             Activated
@@ -60,6 +78,7 @@ export function DomainList({ domains }: DomainListProps) {
             <span className="size-2 rounded-full bg-amber" aria-hidden />
             Provisional
           </span>
+          </div>
         </div>
       </div>
 

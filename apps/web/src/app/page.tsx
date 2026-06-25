@@ -17,14 +17,24 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="mt-16 sm:mt-20 border-y border-border py-7 sm:py-8 text-center text-sm sm:text-[15px] text-muted-2">
-          Curious how this actually works?{' '}
-          <Link
-            href="/how-it-works"
-            className="text-txt underline underline-offset-2 decoration-border-h hover:decoration-txt transition-colors"
-          >
-            See the mechanism →
-          </Link>
+        <div className="mt-16 sm:mt-20 border-y border-border py-7 sm:py-8 text-center text-sm sm:text-[15px] text-muted-2 space-y-3">
+          <p className="m-0">
+            <Link
+              href="/check"
+              className="text-txt underline underline-offset-2 decoration-border-h hover:decoration-txt transition-colors"
+            >
+              Check any domain →
+            </Link>
+          </p>
+          <p className="m-0">
+            Curious how this actually works?{' '}
+            <Link
+              href="/how-it-works"
+              className="text-txt underline underline-offset-2 decoration-border-h hover:decoration-txt transition-colors"
+            >
+              See the mechanism →
+            </Link>
+          </p>
         </div>
       </div>
     </main>

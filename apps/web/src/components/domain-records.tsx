@@ -4,15 +4,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DomainList } from '@/components/domain-list';
 import type { DomainSummary } from '@/lib/domain-data';
-
-function normalizeQuery(raw: string): string {
-  return raw
-    .trim()
-    .toLowerCase()
-    .replace(/^https?:\/\//, '')
-    .replace(/^www\./, '')
-    .replace(/\/$/, '');
-}
+import { normalizeDomainInput } from '@/lib/normalize-domain-input';
 
 interface DomainRecordsProps {
   domains: DomainSummary[];
@@ -23,16 +15,16 @@ export function DomainRecords({ domains }: DomainRecordsProps) {
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
-    const q = normalizeQuery(query);
+    const q = normalizeDomainInput(query);
     if (!q) return domains;
     return domains.filter((d) => d.domain.toLowerCase().includes(q));
   }, [domains, query]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const domain = normalizeQuery(query);
+    const domain = normalizeDomainInput(query);
     if (!domain) return;
-    router.push(`/domain/${encodeURIComponent(domain)}`);
+    router.push(`/check?q=${encodeURIComponent(domain)}`);
   }
 
   if (!domains.length) {
