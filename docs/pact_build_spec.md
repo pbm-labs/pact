@@ -1179,6 +1179,10 @@ export async function GET(
       ? new Date(stats.domain_registered_at).getTime()
       : null,
     lastActivity: new Date(stats.last_report_time).getTime(),
+    trustScoreRaw: Number(trustScore.score.toFixed(4)),
+    trustScoreDisplay: formatScoreForDisplay(trustScore.score).displayScore,
+    trustScoreLabel: formatScoreForDisplay(trustScore.score).label,
+    // Deprecated alias — prefer trustScoreRaw; remove after clients migrate
     trustScore: Number(trustScore.score.toFixed(2)),
     trustScoreComponents: {
       volume: Number(trustScore.volume.toFixed(4)),
@@ -1214,7 +1218,7 @@ export async function GET(
 }
 ```
 
-**Front-end display rule:** any component rendering `trustScore` or `connectedSince` from this response must render `domainRegisteredAt` in the same view, with comparable visual weight — never smaller or hidden behind a tooltip. A domain showing `T < 1.0` alongside "domain registered 2017" is a fundamentally different result than `T < 1.0` alongside "domain registered this month," and the UI must make that difference impossible to miss.
+**Front-end display rule:** any component rendering a trust score must use `formatScoreForDisplay()` (Section 4.5) for the primary number — never raw `0.02`-style values alone. It must also render `domainRegisteredAt` in the same view, with comparable visual weight. A domain showing `3 / 100 — No history yet` alongside "domain registered 2017" is a fundamentally different result than the same display score alongside "domain registered this month," and the UI must make that difference impossible to miss.
 
 ### Cloudflare OAuth Route: `apps/web/src/app/api/connect/cloudflare/route.ts`
 
@@ -1469,6 +1473,88 @@ function computeMaturity(pactHistoryStart: number): number {
 }
 ```
 
+### Display score (presentation layer — do not merge into formula)
+
+Raw `T` from `computeTrustScore()` is correct for storage and sorting but **must not** be shown as the primary public number (e.g. `0.02` reads as broken). See `pact_protocol_v01.md` Section 4.5.
+
+**`packages/pact-core/src/trust/display.ts`** (or `apps/web/src/lib/format-trust-display.ts` in the reference app):
+
+```typescript
+// Presentation only — never feeds back into computeTrustScore().
+
+export type TrustDisplayBand =
+  | 'no_history_yet'
+  | 'early'
+  | 'established'
+  | 'high_confidence'
+  | 'maximum_confidence'
+
+export interface TrustDisplayScore {
+  rawScore: number              // canonical T from computeTrustScore()
+  displayScore: number          // integer 0–100 for humans
+  displayMax: 100
+  band: TrustDisplayBand
+  label: string                 // e.g. "No history yet"
+  displayVersion: 'pact-display-0.1'
+}
+
+const DISPLAY_BANDS: {
+  rawMin: number
+  rawMax: number
+  displayMin: number
+  displayMax: number
+  band: TrustDisplayBand
+  label: string
+}[] = [
+  { rawMin: 0, rawMax: 1, displayMin: 0, displayMax: 10, band: 'no_history_yet', label: 'No history yet' },
+  { rawMin: 1, rawMax: 3, displayMin: 10, displayMax: 35, band: 'early', label: 'Early' },
+  { rawMin: 3, rawMax: 6, displayMin: 35, displayMax: 65, band: 'established', label: 'Established' },
+  { rawMin: 6, rawMax: 9, displayMin: 65, displayMax: 90, band: 'high_confidence', label: 'High confidence' },
+  { rawMin: 9, rawMax: 20, displayMin: 90, displayMax: 100, band: 'maximum_confidence', label: 'Maximum confidence' },
+]
+
+function lerp(x: number, x0: number, x1: number, y0: number, y1: number): number {
+  if (x1 === x0) return y0
+  const t = (x - x0) / (x1 - x0)
+  return y0 + t * (y1 - y0)
+}
+
+export function formatScoreForDisplay(rawScore: number): TrustDisplayScore {
+  const raw = Math.max(0, rawScore)
+  const band =
+    DISPLAY_BANDS.find((b) => raw >= b.rawMin && raw < b.rawMax) ??
+    DISPLAY_BANDS[DISPLAY_BANDS.length - 1]!
+
+  let displayScore: number
+  if (raw >= 20) {
+    displayScore = 100
+  } else {
+    displayScore = lerp(raw, band.rawMin, band.rawMax, band.displayMin, band.displayMax)
+  }
+
+  return {
+    rawScore: raw,
+    displayScore: Math.min(100, Math.max(0, Math.round(displayScore))),
+    displayMax: 100,
+    band: band.band,
+    label: band.label,
+    displayVersion: 'pact-display-0.1',
+  }
+}
+```
+
+**UI rule:** Domain page and leaderboard render `formatScoreForDisplay(trust.score).displayScore` + `label` as the hero number (e.g. `3 / 100 — No history yet`). Show `rawScore` only in an optional technical panel alongside `volume`, `diversity`, and `maturity`. Leaderboard **sort order** continues to use raw `trust.score`.
+
+**API rule (when exposing JSON):** include both fields:
+
+```typescript
+trustScoreRaw: number       // canonical T
+trustScoreDisplay: number   // 0–100 integer
+trustScoreLabel: string     // band label
+```
+
+Do not replace `trustScoreRaw` with the display integer in existing sort keys.
+
 ### Fetching Domain Registration Age
 
 `domainRegisteredAt` is resolved via a public WHOIS/RDAP lookup at the time a domain connects (Section 6 onboarding flow), not derived from anything in the rua= report stream — DMARC reports say nothing about when a domain was registered. Use an RDAP client (RDAP is the modern, structured successor to WHOIS and does not require screen-scraping) and store the result once; it does not need to be re-fetched on every report.
@@ -1557,7 +1643,11 @@ export interface DomainProofResponse {
                                     // fetched yet"). See
                                     // pact_protocol_v01.md Section 4.2.
   lastActivity?: number
-  trustScore: number
+  trustScoreRaw: number              // canonical T — use for sorting
+  trustScoreDisplay: number          // 0–100 human-facing integer
+  trustScoreLabel: string           // band label from Section 4.5
+  /** @deprecated Use trustScoreRaw. Kept for backward compatibility. */
+  trustScore?: number
   trustScoreComponents?: {
     volume: number
     diversity: number
@@ -1850,13 +1940,18 @@ PRIVACY
 TRUST SCORE INTEGRITY
   [ ] `domainRegisteredAt` never appears as an input to
       computeTrustScore() or to any of its internal functions
+  [ ] `formatScoreForDisplay()` never appears as an input to
+      computeTrustScore() — presentation layer only (Section 4.5)
   [ ] Every variable and column that feeds the maturity factor
       is named `pactHistoryStart` / `pact_age` / `pact_history_*`
       — never `age`, `firstSeen`, or anything that could be
       confused with domain registration age
-  [ ] Every UI surface that displays `trustScore` also displays
+  [ ] Public UI primary score is 0–100 display integer + band label,
+      not raw T (raw T available in technical view / trustScoreRaw)
+  [ ] Leaderboard sort order uses raw T, not display integer
+  [ ] Every UI surface that displays a trust score also displays
       `domainRegisteredAt` in the same view, with comparable
-      visual weight, even when the trust score is `T < 1.0`
+      visual weight, even when raw T < 1.0
   [ ] A domain hijacking simulation (swap known_selectors and
       known_ip_ranges abruptly in test data) does not produce
       an inflated maturity factor regardless of how old

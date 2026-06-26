@@ -286,7 +286,8 @@ delete from processed_reports;
 |--------|----------------|
 | Leaf encoding | v0.2 Appendix C |
 | Sparse Merkle | v0.2 §3.3.1 (32 levels) |
-| Trust score | `pact-score-0.1` — [v0.1 §4.3](docs/pact_protocol_v01.md) |
+| Trust score (raw) | `pact-score-0.1` — [v0.1 §4.3](docs/pact_protocol_v01.md) |
+| Trust score (display) | `pact-display-0.1` — [v0.1 §4.5](docs/pact_protocol_v01.md) |
 | Allowlist | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts` |
 
 ## License
