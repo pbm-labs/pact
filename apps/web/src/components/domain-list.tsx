@@ -69,7 +69,7 @@ export function DomainList({ domains }: DomainListProps) {
             <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5">Domain</th>
-              <th className="text-right font-medium px-4 sm:px-5 py-2.5">Score</th>
+              <th className="text-right font-medium px-4 sm:px-5 py-2.5">Score / 100</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 hidden sm:table-cell">
                 Status
               </th>
@@ -110,9 +110,18 @@ export function DomainList({ domains }: DomainListProps) {
                     {d.status === 'live' ? (
                       <Link
                         href={`/domain/${d.domain}`}
-                        className="font-mono text-lg sm:text-xl font-bold tabular-nums text-txt no-underline group-hover:text-accent transition-colors"
+                        className="block text-right no-underline group-hover:text-accent transition-colors"
+                        title={d.trustScoreLabel}
                       >
-                        {d.trustScore?.toFixed(2)}
+                        <span className="font-mono text-lg sm:text-xl font-bold tabular-nums text-txt">
+                          {d.trustScoreDisplay ?? 0}
+                          <span className="text-sm font-semibold text-muted-2"> / 100</span>
+                        </span>
+                        {d.trustScoreLabel && (
+                          <span className="block text-[0.65rem] text-muted-2 mt-0.5 normal-case tracking-normal font-sans">
+                            {d.trustScoreLabel}
+                          </span>
+                        )}
                       </Link>
                     ) : (
                       <span className="font-mono text-lg font-bold text-muted-2">—</span>

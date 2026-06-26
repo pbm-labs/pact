@@ -9,10 +9,11 @@ import { fileURLToPath } from 'node:url';
 import {
   aggregateReportToLeaves,
   computeLeafHash,
+  computeTrustScore,
+  formatScoreForDisplay,
   leafInputFromAggregation,
   parseDmarcAggregateReport,
   SparseMerkleTree,
-  computeTrustScore,
   validateReportSource,
 } from '@pact/core';
 
@@ -57,6 +58,8 @@ const trust = computeTrustScore({
 });
 
 console.log('\nTrust score (pact-score-0.1):');
-console.log('  score:', trust.score.toFixed(4));
+console.log('  raw T:', trust.score.toFixed(4));
+const display = formatScoreForDisplay(trust.score);
+console.log('  display:', `${display.displayScore} / 100 — ${display.label}`);
 console.log('  status:', trust.status);
 console.log('  maturity:', trust.maturity.toFixed(4));

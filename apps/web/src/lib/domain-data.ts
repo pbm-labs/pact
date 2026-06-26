@@ -3,6 +3,7 @@ import {
   computeTrustScore,
   normalizeDomain,
   SCORE_ALGORITHM,
+  formatScoreForDisplay,
   byteaToHex,
   byteaToHash,
   type Hash,
@@ -120,7 +121,10 @@ export interface DomainSummary {
   domainRegisteredAt?: string | null;
   pactHistoryStart?: string | null;
   status: 'waiting' | 'live';
+  /** Raw canonical T — use for sorting only. */
   trustScore?: number;
+  trustScoreDisplay?: number;
+  trustScoreLabel?: string;
   trustStatus?: 'provisional' | 'activated';
   leafCount?: number;
   passRate?: number;
@@ -222,6 +226,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         pactHistoryStart,
         domainRegisteredAt: domainRegisteredAt ? new Date(domainRegisteredAt) : null,
       });
+      const display = formatScoreForDisplay(trust.score);
 
       return {
         domain: row.domain,
@@ -230,6 +235,8 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         pactHistoryStart: pactHistoryStart.toISOString(),
         status: 'live' as const,
         trustScore: trust.score,
+        trustScoreDisplay: display.displayScore,
+        trustScoreLabel: display.label,
         trustStatus: trust.status,
         leafCount: domainLeaves.length,
         passRate,

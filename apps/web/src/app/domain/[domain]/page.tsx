@@ -5,6 +5,7 @@ import { DomainActions } from '@/components/domain-actions';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
+import { DISPLAY_VERSION, formatScoreForDisplay } from '@pact/core';
 import type { DomainLiveData } from '@/lib/domain-data';
 import { formatIngestTimestamp } from '@/lib/format-time';
 import {
@@ -201,6 +202,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
   const statusBadge =
     data.trust.status === 'activated' ? badgeVerified : badgeAmber;
   const statusLabel = data.trust.status === 'activated' ? 'Activated' : 'Provisional';
+  const display = formatScoreForDisplay(data.trust.score);
 
   return (
     <PageShell backHref="/domains" backLabel="Records" width="wide">
@@ -217,14 +219,18 @@ function LivePage({ data }: { data: DomainLiveData }) {
             <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
-            <span className="text-4xl sm:text-5xl font-bold font-mono tabular-nums leading-none text-txt">
-              {data.trust.score.toFixed(2)}
-            </span>
+            <div className="flex items-baseline gap-1.5 font-mono tabular-nums leading-none">
+              <span className="text-4xl sm:text-5xl font-bold text-txt">
+                {display.displayScore}
+              </span>
+              <span className="text-xl sm:text-2xl font-semibold text-muted-2">/ 100</span>
+            </div>
+            <p className="text-sm text-muted m-0">{display.label}</p>
             <span className={statusBadge}>{statusLabel}</span>
           </div>
         </div>
         <p className="text-xs text-muted-2 font-mono">
-          {SCORE_ALGORITHM}
+          {SCORE_ALGORITHM} · {DISPLAY_VERSION}
           {data.lastIngestedAt && (
             <>
               {' '}
@@ -268,10 +274,12 @@ function LivePage({ data }: { data: DomainLiveData }) {
 
       <details className={`${panel} mb-2`}>
         <summary className="cursor-pointer px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
-          Score breakdown
+          Show the math
         </summary>
         <div className={`${panelBody} pt-0 border-t border-border`}>
           <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
+            <dt className="text-muted-2">Raw score (T)</dt>
+            <dd className="m-0 font-mono tabular-nums">{display.rawScore.toFixed(4)}</dd>
             <dt className="text-muted-2">Volume (V)</dt>
             <dd className="m-0 font-mono tabular-nums">{data.trust.volume.toFixed(3)}</dd>
             <dt className="text-muted-2">Diversity (D)</dt>

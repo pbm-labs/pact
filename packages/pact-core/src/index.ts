@@ -22,6 +22,12 @@ export {
   type ScoreStatus,
 } from './trust/score.js';
 export {
+  formatScoreForDisplay,
+  DISPLAY_VERSION,
+  type TrustDisplayScore,
+  type TrustDisplayBand,
+} from './trust/display.js';
+export {
   parseDmarcAggregateReport,
   aggregateReportToLeaves,
   type ParsedDmarcReport,

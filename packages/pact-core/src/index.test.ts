@@ -10,6 +10,8 @@ import {
   validateReportSource,
   computeTrustScore,
   computeDiversity,
+  formatScoreForDisplay,
+  DISPLAY_VERSION,
   canonicalizeSelectors,
   canonicalizeIpRanges,
   mergeLeafAggregation,
@@ -212,5 +214,34 @@ describe('trust score', () => {
     expect(result.maturity).toBe(withoutRegistration.maturity);
     expect(result.maturity).toBeLessThan(0.02);
     expect(result.status).toBe('provisional');
+  });
+});
+
+describe('formatScoreForDisplay', () => {
+  it('maps low raw T to 0–10 band with human label', () => {
+    const display = formatScoreForDisplay(0.019);
+    expect(display.displayVersion).toBe(DISPLAY_VERSION);
+    expect(display.band).toBe('no_history_yet');
+    expect(display.label).toBe('No history yet');
+    expect(display.displayScore).toBeGreaterThanOrEqual(0);
+    expect(display.displayScore).toBeLessThan(10);
+    expect(display.rawScore).toBeCloseTo(0.019);
+  });
+
+  it('maps raw T = 5 to established band', () => {
+    const display = formatScoreForDisplay(5);
+    expect(display.band).toBe('established');
+    expect(display.displayScore).toBeGreaterThanOrEqual(35);
+    expect(display.displayScore).toBeLessThan(65);
+  });
+
+  it('clamps raw T >= 20 to display 100', () => {
+    expect(formatScoreForDisplay(20).displayScore).toBe(100);
+    expect(formatScoreForDisplay(50).displayScore).toBe(100);
+  });
+
+  it('does not alter raw score in result', () => {
+    const raw = 2.718;
+    expect(formatScoreForDisplay(raw).rawScore).toBe(raw);
   });
 });
