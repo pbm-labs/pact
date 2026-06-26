@@ -218,14 +218,26 @@ describe('trust score', () => {
 });
 
 describe('formatScoreForDisplay', () => {
-  it('maps low raw T to 0–10 band with human label', () => {
+  it('maps raw T = 0 to zero display with no-history label', () => {
+    const display = formatScoreForDisplay(0);
+    expect(display.displayScore).toBe(0);
+    expect(display.label).toBe('No history yet');
+  });
+
+  it('maps small non-zero raw T to at least 1/100 with provisional label', () => {
     const display = formatScoreForDisplay(0.019);
     expect(display.displayVersion).toBe(DISPLAY_VERSION);
     expect(display.band).toBe('no_history_yet');
-    expect(display.label).toBe('No history yet');
-    expect(display.displayScore).toBeGreaterThanOrEqual(0);
+    expect(display.label).toBe('Provisional');
+    expect(display.displayScore).toBeGreaterThanOrEqual(1);
     expect(display.displayScore).toBeLessThan(10);
     expect(display.rawScore).toBeCloseTo(0.019);
+  });
+
+  it('maps pbm-labs-like early score (~0.02) to 1/100 provisional', () => {
+    const display = formatScoreForDisplay(0.023);
+    expect(display.displayScore).toBe(1);
+    expect(display.label).toBe('Provisional');
   });
 
   it('maps raw T = 5 to established band', () => {

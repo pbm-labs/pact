@@ -88,14 +88,26 @@ export function formatScoreForDisplay(rawScore: number): TrustDisplayScore {
     DISPLAY_BANDS.find((b) => raw >= b.rawMin && raw < b.rawMax) ??
     DISPLAY_BANDS[DISPLAY_BANDS.length - 1]!;
 
-  const displayScore = lerp(raw, band.rawMin, band.rawMax, band.displayMin, band.displayMax);
+  const interpolated = lerp(raw, band.rawMin, band.rawMax, band.displayMin, band.displayMax);
+  let displayScore = Math.min(100, Math.max(0, Math.round(interpolated)));
+
+  // Connected domains with any verified signal should not read as literally zero.
+  // See pact_protocol_v01.md §4.5 example footnote.
+  let label = band.label;
+  if (raw === 0) {
+    displayScore = 0;
+    label = 'No history yet';
+  } else if (raw < 1) {
+    displayScore = Math.max(1, displayScore);
+    label = 'Provisional';
+  }
 
   return {
     rawScore: raw,
-    displayScore: Math.min(100, Math.max(0, Math.round(displayScore))),
+    displayScore,
     displayMax: 100,
     band: band.band,
-    label: band.label,
+    label,
     displayVersion: DISPLAY_VERSION,
   };
 }
