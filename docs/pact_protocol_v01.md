@@ -360,48 +360,55 @@ Applications using PACT define their own acceptance thresholds. The protocol doe
 
 A score in the `T < 1.0` range must always be displayed together with the domain's registration age (Section 4.2), never alone. "No verified PACT history yet — domain registered 2017" and "No verified PACT history yet — domain registered this month" describe the same trust score and two entirely different situations. Any interface presenting a trust score without also presenting domain age is presenting an incomplete and potentially misleading picture.
 
-### 4.5 Display Score (Presentation Layer Only)
+### 4.5 Presenting the Score to Humans
 
-Raw `T(d,t)` is the canonical trust metric for storage, APIs, sorting, and protocol math. It is **not** suitable as the primary number shown to humans: values such as `0.02` have no intuitive ceiling (is the maximum 1? 10? 100?) and are easily mistaken for errors or broken data.
+The raw value of `T` is mathematically correct but not legible on its own. `T = 0.023` carries no information for a person with no reference point for what the maximum realistic value looks like — unlike a consumer credit score, which is deliberately scaled (e.g. 300–850) so that any value in the range is immediately interpretable. PACT must apply the same discipline: the underlying formula in Section 4.3 is never altered for presentation purposes, but a separate display layer maps the raw score onto a bounded, human-legible scale before it is ever shown to a person.
 
-Implementations MUST therefore separate **computation** from **presentation**, exactly as credit bureaus expose FICO scores on a designed 300–850 scale while keeping the underlying risk model internal.
-
-**Rules:**
-
-1. **`computeTrustScore()` (or equivalent) returns raw `T` unchanged.** Never multiply raw `T` by 100 or alter `V`, `D`, or `A` constants solely to make UI numbers look larger — that breaks auditability of the formula in Section 4.3.
-2. **`formatScoreForDisplay(rawT)` (or equivalent) maps raw `T` to a human-facing integer 0–100** plus a short band label derived from Section 4.4. This function is pure presentation; it is not an input to trust decisions inside the protocol.
-3. **Primary UI shows display score + label**, e.g. `3 / 100 — No history yet`. Raw `T` MAY appear in a secondary "technical details" or API field (`rawTrustScore`), never as the only number on a public page.
-4. **Sorting and leaderboard order use raw `T`**, not the display integer — two domains in the same display band can still rank correctly by fine-grained raw score.
-
-**Band mapping (normative for reference UI):**
-
-Map raw `T` into the interpretation bands from Section 4.4 using piecewise linear interpolation within each band:
+**The raw formula and the display scale are two different things and must never be conflated.** The formula stays exactly as specified in Section 4.3 — logarithmic volume, a 0–1 diversity ratio, an exponential maturity factor. The display scale is a presentation-only transform applied on top, using the band thresholds already defined in Section 4.4:
 
 ```
-Raw T range     Display range   Label (reference copy)
-─────────────────────────────────────────────────────
-[0, 1)          [0, 10)         No history yet
-[1, 3)          [10, 35)        Early
-[3, 6)          [35, 65)        Established
-[6, 9)          [65, 90)        High confidence
-[9, ∞)          [90, 100]       Maximum confidence
+DISPLAY MAPPING (raw T → 0-100 shown to humans)
+
+  T = 0          →  0 / 100   "No history yet"
+                                (genuinely zero signal —
+                                 e.g. connected, zero DKIM
+                                 passes recorded so far)
+
+  0 < T < 1.0    →  1-10 / 100  "Provisional"
+                                (any nonzero signal, however
+                                 small, must never display
+                                 as 0 — a domain with real,
+                                 verified reports is not in
+                                 the same state as a domain
+                                 with none)
+
+  T 1-3          →  10-35 / 100  "Early"
+  T 3-6          →  35-65 / 100  "Established"
+  T 6-9          →  65-90 / 100  "High confidence"
+  T > 9          →  90-100 / 100 "Maximum confidence"
 ```
 
-For `T ≥ 9`, map linearly from raw `T = 9` → display `90` to raw `T = 20` → display `100`, then clamp at `100` for all higher raw values. The upper anchor `T = 20` is a presentation constant only; it does not change the underlying formula.
-
-**Example (same domain as Section 4.3 discussion):**
-
-```
-V = log(51) ≈ 3.93,  D = 0.25,  A ≈ 0.02  →  raw T ≈ 0.02
-
-Display:  0 / 100  (or 1 / 100 if rounding up non-zero connected domains)
-Label:    No history yet
-Raw T:    0.02     (technical view / API only)
-```
-
-A reader immediately understands "just started" instead of wondering whether `0.02` is a bug.
+The distinction between `T = 0` and `0 < T < 1.0` is not cosmetic. A domain that has connected and is already accumulating genuine, verified reports is in a fundamentally different state from one that has not produced a single verified event — even though both currently fall under the same "no meaningful confidence yet" interpretation band in Section 4.4. The display layer must never round a nonzero raw score down to a 0/100 display value, and the label shown for any nonzero score must be **"Provisional,"** never **"No history yet"** — the latter label is reserved exclusively for `T = 0`.
 
 **Algorithm versioning:** Raw score continues to use algorithm id `pact-score-0.1`. Display mapping version MAY be tracked separately (e.g. `pact-display-0.1`) if band boundaries change in a future spec revision — without recomputing stored raw scores.
+
+### 4.6 Communicating Progress, Not Just Position
+
+The maturity factor's slow growth (Section 4.3, λ = 0.005, reaching its ceiling over roughly two years) is a deliberate security property, not a UX defect — see Section 5 (Proof of Operational Work) for why this specific slowness is what makes the score resistant to fabrication. A domain cannot be shown a meaningfully higher score sooner without weakening the same defense that makes the score worth trusting in the first place. This tradeoff is not negotiable, and no display change should attempt to compensate for it by adjusting λ or any other term in the formula itself.
+
+What can and should be communicated is *progress toward the next interpretation band*, since a static low number observed repeatedly over weeks reads, to a human, as a broken or stalled system rather than as a slowly and correctly accumulating one. Any interface displaying a trust score in the `T < 3` range should also display:
+
+```
+- How long the domain has been accumulating PACT
+  history (pact_age in days, distinct from domain
+  registration age per Section 4.2)
+- An estimate of the time remaining until the domain's
+  current trajectory crosses into the next interpretation
+  band, computed from the domain's current volume and
+  diversity trend, not a fixed constant
+```
+
+This does not change what is true about the domain. It changes whether a person looking at the page understands that a low score today is the system working as intended on day nine, rather than evidence that something has failed.
 
 ---
 

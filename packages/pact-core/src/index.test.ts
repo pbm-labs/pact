@@ -11,6 +11,7 @@ import {
   computeTrustScore,
   computeDiversity,
   formatScoreForDisplay,
+  estimateScoreProgress,
   DISPLAY_VERSION,
   canonicalizeSelectors,
   canonicalizeIpRanges,
@@ -255,5 +256,43 @@ describe('formatScoreForDisplay', () => {
   it('does not alter raw score in result', () => {
     const raw = 2.718;
     expect(formatScoreForDisplay(raw).rawScore).toBe(raw);
+  });
+});
+
+describe('estimateScoreProgress', () => {
+  it('estimates days to Early when volume × diversity can reach T = 1', () => {
+    const progress = estimateScoreProgress({
+      rawScore: 0.5,
+      volume: 5,
+      diversity: 0.5,
+      pactAgeDays: 100,
+    });
+    expect(progress.nextBandLabel).toBe('Early');
+    expect(progress.daysToNextBand).not.toBeNull();
+    expect(progress.daysToNextBand!).toBeGreaterThan(0);
+    expect(progress.daysToNextBand!).toBeLessThan(30);
+  });
+
+  it('returns null days when time alone cannot reach the next band', () => {
+    const progress = estimateScoreProgress({
+      rawScore: 0.023,
+      volume: 2.079,
+      diversity: 0.25,
+      pactAgeDays: 9,
+    });
+    expect(progress.pactAgeDays).toBe(9);
+    expect(progress.daysToNextBand).toBeNull();
+    expect(progress.nextBandLabel).toBeNull();
+  });
+
+  it('returns null when already at maximum interpretation band', () => {
+    const progress = estimateScoreProgress({
+      rawScore: 12,
+      volume: 10,
+      diversity: 0.8,
+      pactAgeDays: 800,
+    });
+    expect(progress.daysToNextBand).toBeNull();
+    expect(progress.nextBandLabel).toBeNull();
   });
 });

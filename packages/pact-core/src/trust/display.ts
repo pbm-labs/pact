@@ -1,7 +1,9 @@
 /**
  * Human-facing trust score presentation — never an input to computeTrustScore().
- * See pact_protocol_v01.md Section 4.5.
+ * See pact_protocol_v01.md Sections 4.5 and 4.6.
  */
+
+import { MATURITY_LAMBDA } from './score.js';
 
 export const DISPLAY_VERSION = 'pact-display-0.1' as const;
 
@@ -20,6 +22,19 @@ export interface TrustDisplayScore {
   label: string;
   displayVersion: typeof DISPLAY_VERSION;
 }
+
+export interface TrustScoreProgress {
+  pactAgeDays: number;
+  daysToNextBand: number | null;
+  nextBandLabel: string | null;
+}
+
+const RAW_BAND_THRESHOLDS: { max: number; label: string }[] = [
+  { max: 1, label: 'Early' },
+  { max: 3, label: 'Established' },
+  { max: 6, label: 'High confidence' },
+  { max: 9, label: 'Maximum confidence' },
+];
 
 const DISPLAY_BANDS: {
   rawMin: number;
@@ -91,8 +106,6 @@ export function formatScoreForDisplay(rawScore: number): TrustDisplayScore {
   const interpolated = lerp(raw, band.rawMin, band.rawMax, band.displayMin, band.displayMax);
   let displayScore = Math.min(100, Math.max(0, Math.round(interpolated)));
 
-  // Connected domains with any verified signal should not read as literally zero.
-  // See pact_protocol_v01.md §4.5 example footnote.
   let label = band.label;
   if (raw === 0) {
     displayScore = 0;
@@ -109,5 +122,38 @@ export function formatScoreForDisplay(rawScore: number): TrustDisplayScore {
     band: band.band,
     label,
     displayVersion: DISPLAY_VERSION,
+  };
+}
+
+/**
+ * Projects days until the next raw-T interpretation band, holding volume and
+ * diversity fixed. Pure presentation — never feeds computeTrustScore().
+ */
+export function estimateScoreProgress(input: {
+  rawScore: number;
+  volume: number;
+  diversity: number;
+  pactAgeDays: number;
+}): TrustScoreProgress {
+  const pactAgeDays = Math.max(0, Math.floor(input.pactAgeDays));
+  const volumeDiversity = input.volume * input.diversity;
+
+  const nextBand = RAW_BAND_THRESHOLDS.find((b) => input.rawScore < b.max);
+  if (!nextBand || volumeDiversity <= 0) {
+    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null };
+  }
+
+  const targetMaturity = nextBand.max / volumeDiversity;
+  if (targetMaturity >= 1) {
+    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null };
+  }
+
+  const daysNeeded = -Math.log(1 - targetMaturity) / MATURITY_LAMBDA;
+  const daysToNextBand = Math.max(0, Math.ceil(daysNeeded - pactAgeDays));
+
+  return {
+    pactAgeDays,
+    daysToNextBand,
+    nextBandLabel: nextBand.label,
   };
 }

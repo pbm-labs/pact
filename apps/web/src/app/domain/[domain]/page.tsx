@@ -5,9 +5,10 @@ import { DomainActions } from '@/components/domain-actions';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
-import { DISPLAY_VERSION, formatScoreForDisplay } from '@pact/core';
+import { DISPLAY_VERSION, estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
 import type { DomainLiveData } from '@/lib/domain-data';
 import { formatIngestTimestamp } from '@/lib/format-time';
+import { formatScoreProgressHint } from '@/lib/trust-display';
 import {
   alertStaging,
   badgeAmber,
@@ -203,6 +204,13 @@ function LivePage({ data }: { data: DomainLiveData }) {
     data.trust.status === 'activated' ? badgeVerified : badgeAmber;
   const statusLabel = data.trust.status === 'activated' ? 'Activated' : 'Provisional';
   const display = formatScoreForDisplay(data.trust.score);
+  const progress = estimateScoreProgress({
+    rawScore: data.trust.score,
+    volume: data.trust.volume,
+    diversity: data.trust.diversity,
+    pactAgeDays: data.trust.pactAgeDays,
+  });
+  const progressHint = formatScoreProgressHint(progress, data.trust.score);
 
   return (
     <PageShell backHref="/domains" backLabel="Records" width="wide">
@@ -226,6 +234,11 @@ function LivePage({ data }: { data: DomainLiveData }) {
               <span className="text-xl sm:text-2xl font-semibold text-muted-2">/ 100</span>
             </div>
             <p className="text-sm text-muted m-0">{display.label}</p>
+            {progressHint && (
+              <p className="text-xs text-muted-2 m-0 max-w-[16rem] sm:text-right leading-snug">
+                {progressHint}
+              </p>
+            )}
             <span className={statusBadge}>{statusLabel}</span>
           </div>
         </div>
@@ -241,8 +254,9 @@ function LivePage({ data }: { data: DomainLiveData }) {
         </p>
         {data.trust.status === 'provisional' && (
           <p className="text-xs text-muted-2 mt-2 max-w-xl">
-            Provisional — trust score reflects verified PACT history only. Domain registration age
-            is shown separately and never inflates the score (~139 days of PACT history to activate).
+            Provisional — the score reflects verified PACT history only. Domain registration age is
+            shown separately and never inflates the score. Low numbers early on are expected; maturity
+            accumulates over roughly two years by design.
           </p>
         )}
         <DomainClocks

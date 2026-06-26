@@ -1521,29 +1521,46 @@ function lerp(x: number, x0: number, x1: number, y0: number, y1: number): number
 
 export function formatScoreForDisplay(rawScore: number): TrustDisplayScore {
   const raw = Math.max(0, rawScore)
-  const band =
-    DISPLAY_BANDS.find((b) => raw >= b.rawMin && raw < b.rawMax) ??
-    DISPLAY_BANDS[DISPLAY_BANDS.length - 1]!
+  // ... piecewise lerp into DISPLAY_BANDS (see repo implementation)
 
-  let displayScore: number
-  if (raw >= 20) {
-    displayScore = 100
-  } else {
-    displayScore = lerp(raw, band.rawMin, band.rawMax, band.displayMin, band.displayMax)
-  }
-
-  return {
-    rawScore: raw,
-    displayScore: Math.min(100, Math.max(0, Math.round(displayScore))),
-    displayMax: 100,
-    band: band.band,
-    label: band.label,
-    displayVersion: 'pact-display-0.1',
-  }
+  // T = 0 exactly → 0/100 "No history yet"
+  // 0 < T < 1 → at least 1/100 "Provisional" (never round nonzero to 0)
+  // T ≥ 1 → band labels from Section 4.4
 }
 ```
 
-**UI rule:** Domain page and leaderboard render `formatScoreForDisplay(trust.score).displayScore` + `label` as the hero number (e.g. `3 / 100 — No history yet`). Show `rawScore` only in an optional technical panel alongside `volume`, `diversity`, and `maturity`. Leaderboard **sort order** continues to use raw `trust.score`.
+**UI rule:** Domain page and leaderboard render `formatScoreForDisplay(trust.score).displayScore` + `label` as the hero number (e.g. `1 / 100 — Provisional`). Show `rawScore` only in an optional technical panel alongside `volume`, `diversity`, and `maturity`. Leaderboard **sort order** continues to use raw `trust.score`.
+
+### Progress toward next band (Section 4.6)
+
+Per `pact_protocol_v01.md` Section 4.6, domains with raw `T < 3` must show progress context — not by changing `LAMBDA` or any formula term. Implement in the same module as display mapping:
+
+```typescript
+export interface TrustScoreProgress {
+  pactAgeDays: number
+  daysToNextBand: number | null   // null when at maximum band or time alone cannot reach next threshold
+  nextBandLabel: string | null
+}
+
+export function estimateScoreProgress(input: {
+  rawScore: number
+  volume: number
+  diversity: number
+  pactAgeDays: number
+}): TrustScoreProgress
+```
+
+Algebra: solve for days where `volume × diversity × (1 - e^(-λ × days))` crosses the next raw-T threshold, holding current V and D fixed. If even `A → 1` cannot reach the next threshold, return `daysToNextBand: null`.
+
+**UI example (provisional band):**
+
+```
+1 / 100 — Provisional
+Building PACT history since June 16, 2026 (9 days)
+~130 days until "Early" range, at current activity levels
+```
+
+Never render a bare score for `T < 3` without pact history duration and, when computable, time-to-next-band.
 
 **API rule (when exposing JSON):** include both fields:
 
@@ -1948,6 +1965,14 @@ TRUST SCORE INTEGRITY
       confused with domain registration age
   [ ] Public UI primary score is 0–100 display integer + band label,
       not raw T (raw T available in technical view / trustScoreRaw)
+  [ ] A domain with any nonzero raw score (e.g. T = 0.023) never
+      displays as 0/100 — at least 1/100 with "Provisional" label
+  [ ] "No history yet" is reserved exclusively for T = 0 exactly
+  [ ] Any domain with raw T < 3 shows pact history duration and,
+      when computable, estimated days to the next interpretation band
+      (Section 4.6) — never a bare score with no context
+  [ ] LAMBDA is never modified to make scores climb faster for
+      display purposes — progress indicators only, never formula changes
   [ ] Leaderboard sort order uses raw T, not display integer
   [ ] Every UI surface that displays a trust score also displays
       `domainRegisteredAt` in the same view, with comparable
