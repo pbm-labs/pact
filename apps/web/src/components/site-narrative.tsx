@@ -17,7 +17,8 @@ const PARAGRAPHS = [
 ] as const;
 
 const PEAK_START = PARAGRAPHS.length - 2;
-const PREVIEW_COUNT = 2;
+const COLLAPSED_HEIGHT = 190;
+const EXPANDED_HEIGHT = 3000;
 
 function paragraphClass(index: number): string {
   const base = 'text-[18px] leading-[1.8] mb-5';
@@ -29,20 +30,28 @@ function paragraphClass(index: number): string {
 
 export function SiteNarrative() {
   const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? PARAGRAPHS : PARAGRAPHS.slice(0, PREVIEW_COUNT);
 
   return (
     <article aria-label="Manifesto">
-      {visible.map((text, i) => (
-        <Reveal key={i} delay={Math.min(i, 4) * 60}>
-          <p className={paragraphClass(i)}>{text}</p>
-        </Reveal>
-      ))}
+      <div
+        className="fog-collapse relative overflow-hidden"
+        style={{ maxHeight: expanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT }}
+      >
+        {PARAGRAPHS.map((text, i) => (
+          <Reveal key={i} delay={Math.min(i, 4) * 60}>
+            <p className={paragraphClass(i)}>{text}</p>
+          </Reveal>
+        ))}
+
+        {!expanded && (
+          <div className="fog-veil pointer-events-none absolute inset-x-0 bottom-0 h-24" aria-hidden />
+        )}
+      </div>
 
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className="bg-transparent border-none p-0 cursor-pointer text-sm font-semibold text-txt underline underline-offset-4 decoration-border-h hover:decoration-txt transition-colors"
+        className="relative bg-transparent border-none p-0 cursor-pointer text-sm font-semibold text-txt underline underline-offset-4 decoration-border-h hover:decoration-txt transition-colors mt-3"
       >
         {expanded ? 'Show less' : 'Read the full manifesto'}
       </button>

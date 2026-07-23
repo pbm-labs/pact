@@ -164,6 +164,18 @@ html {
   html {
     scroll-behavior: auto;
   }
+  .fog-collapse {
+    transition: none;
+  }
+}
+
+/* Fog effect: fades truncated text into the background instead of hard-cutting it. */
+.fog-collapse {
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fog-veil {
+  background: linear-gradient(to bottom, transparent, var(--bg) 75%);
 }
 
 /* Soft radial glow used behind hero sections on the marketing pages. */
