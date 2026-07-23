@@ -1,14 +1,12 @@
 import Link from 'next/link';
-import { PACT_RUA_ADDRESS } from '@pact/core';
 import { PageShell } from '@/components/page-shell';
 import { DomainActions } from '@/components/domain-actions';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { ScoreGauge } from '@/components/score-gauge';
-import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
-import { DISPLAY_VERSION, estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
+import { fetchDomainPageState } from '@/lib/domain-data';
+import { estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
 import type { DomainLiveData } from '@/lib/domain-data';
-import { formatIngestTimestamp } from '@/lib/format-time';
 import { formatScoreProgressHint } from '@/lib/trust-display';
 import {
   alertStaging,
@@ -18,13 +16,11 @@ import {
   btnGhost,
   btnPrimary,
   eyebrow,
-  inlineCode,
   pageIntro,
   pageTitle,
   panel,
   panelBody,
   panelSectionTitle,
-  snippetPre,
 } from '@/lib/ui';
 
 export const dynamic = 'force-dynamic';
@@ -118,7 +114,7 @@ function DisconnectedPage({
         <span className={`${badgeMuted} mb-3`}>Disconnected</span>
         <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
         <p className={pageIntro}>
-          No longer receiving reports. Historical provenance remains public.
+          No longer being verified. Its history stays public.
         </p>
         <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
       </header>
@@ -169,8 +165,8 @@ function WaitingPage({
         <span className={`${badgeAmber} mb-3`}>Awaiting first report</span>
         <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
         <p className={pageIntro}>
-          Registered with PACT. Waiting for the first authenticated DMARC batch from Google,
-          Microsoft, or another provider.
+          Registered. Waiting for the first confirmation from a mail provider like Gmail or
+          Outlook — usually within a day.
         </p>
         {connectedSince && (
           <p className="text-xs text-muted-2 font-mono mt-3">
@@ -184,13 +180,9 @@ function WaitingPage({
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>What happens next</h2>
           <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
-            <li>
-              Providers read your <code className={inlineCode}>_dmarc</code> record (~24 hours).
-            </li>
-            <li>
-              They send aggregate XML to <code className={inlineCode}>{PACT_RUA_ADDRESS}</code>.
-            </li>
-            <li>This page updates with a provisional trust score.</li>
+            <li>A mail provider notices your name, usually within a day.</li>
+            <li>It quietly confirms your mail checks out.</li>
+            <li>This page updates on its own — nothing to click.</li>
           </ol>
         </div>
       </section>
@@ -217,14 +209,14 @@ function LivePage({ data }: { data: DomainLiveData }) {
     <PageShell backHref="/domains" backLabel="Records" width="wide">
       {data.staging && (
         <div className={alertStaging}>
-          Staging — roots published off-chain only. On-chain anchoring ships in Phase 0b.
+          Early preview — verification is live, permanent public anchoring is coming soon.
         </div>
       )}
 
       <header className="mb-8">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-3">
           <div className="min-w-0">
-            <p className={`${eyebrow} mb-2`}>Provenance record</p>
+            <p className={`${eyebrow} mb-2`}>Public record</p>
             <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
@@ -246,21 +238,10 @@ function LivePage({ data }: { data: DomainLiveData }) {
             <span className={statusBadge}>{statusLabel}</span>
           </div>
         </div>
-        <p className="text-xs text-muted-2 font-mono">
-          {SCORE_ALGORITHM} · {DISPLAY_VERSION}
-          {data.lastIngestedAt && (
-            <>
-              {' '}
-              · last ingested{' '}
-              <time dateTime={data.lastIngestedAt}>{formatIngestTimestamp(data.lastIngestedAt)}</time>
-            </>
-          )}
-        </p>
         {data.trust.status === 'provisional' && (
           <p className="text-xs text-muted-2 mt-2 max-w-xl">
-            Provisional — the score reflects verified PACT history only. Domain registration age is
-            shown separately and never inflates the score. Low numbers early on are expected; maturity
-            accumulates over roughly two years by design.
+            Provisional — trust builds up over time, so a low number early on is normal and
+            expected.
           </p>
         )}
         <DomainClocks
@@ -270,46 +251,49 @@ function LivePage({ data }: { data: DomainLiveData }) {
       </header>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-10">
-        <Stat value={data.totalPassCount.toLocaleString()} label="Verified messages" />
-        <Stat value={`${data.passRate.toFixed(1)}%`} label="DKIM pass rate" />
+        <Stat value={data.totalPassCount.toLocaleString()} label="Verified emails" />
+        <Stat value={`${data.passRate.toFixed(1)}%`} label="Pass rate" />
         <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />
-        <Stat
-          value={`${Math.floor(data.trust.pactAgeDays)}d`}
-          label="PACT history"
-          sub="verified time"
-        />
+        <Stat value={`${Math.floor(data.trust.pactAgeDays)}d`} label="Time verified" />
       </div>
 
-      <DomainLeavesPanel
-        leaves={data.leaves}
-        domainLeafCount={data.domainLeafCount}
-        uniqueReporters={data.uniqueReporters}
-        anchorType={data.anchorType}
-        rootMatchesPublished={data.rootMatchesPublished}
-        latestRoot={data.latestRoot}
-        globalTreeLeafCount={data.globalTreeLeafCount}
-      />
-
-      <details className={`${panel} mb-2`}>
-        <summary className="cursor-pointer px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
-          Show the math
+      <details className="group mb-2">
+        <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 hover:text-muted transition-colors">
+          <span className="inline-block transition-transform group-open:rotate-90">›</span>
+          Technical verification — reports &amp; cryptographic proof
         </summary>
-        <div className={`${panelBody} pt-0 border-t border-border`}>
-          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
-            <dt className="text-muted-2">Raw score (T)</dt>
-            <dd className="m-0 font-mono tabular-nums">{display.rawScore.toFixed(4)}</dd>
-            <dt className="text-muted-2">Volume (V)</dt>
-            <dd className="m-0 font-mono tabular-nums">{data.trust.volume.toFixed(3)}</dd>
-            <dt className="text-muted-2">Diversity (D)</dt>
-            <dd className="m-0 font-mono tabular-nums">{data.trust.diversity.toFixed(3)}</dd>
-            <dt className="text-muted-2">Maturity (A)</dt>
-            <dd className="m-0 font-mono tabular-nums">{data.trust.maturity.toFixed(4)}</dd>
-            <dt className="text-muted-2">PACT history</dt>
-            <dd className="m-0 font-mono tabular-nums">{Math.floor(data.trust.pactAgeDays)}d</dd>
-            <dt className="text-muted-2">DKIM failures</dt>
-            <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
-          </dl>
-        </div>
+
+        <DomainLeavesPanel
+          leaves={data.leaves}
+          domainLeafCount={data.domainLeafCount}
+          uniqueReporters={data.uniqueReporters}
+          anchorType={data.anchorType}
+          rootMatchesPublished={data.rootMatchesPublished}
+          latestRoot={data.latestRoot}
+          globalTreeLeafCount={data.globalTreeLeafCount}
+        />
+
+        <details className={`${panel} mb-2`}>
+          <summary className="cursor-pointer px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+            Show the math
+          </summary>
+          <div className={`${panelBody} pt-0 border-t border-border`}>
+            <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
+              <dt className="text-muted-2">Raw score (T)</dt>
+              <dd className="m-0 font-mono tabular-nums">{display.rawScore.toFixed(4)}</dd>
+              <dt className="text-muted-2">Volume (V)</dt>
+              <dd className="m-0 font-mono tabular-nums">{data.trust.volume.toFixed(3)}</dd>
+              <dt className="text-muted-2">Diversity (D)</dt>
+              <dd className="m-0 font-mono tabular-nums">{data.trust.diversity.toFixed(3)}</dd>
+              <dt className="text-muted-2">Maturity (A)</dt>
+              <dd className="m-0 font-mono tabular-nums">{data.trust.maturity.toFixed(4)}</dd>
+              <dt className="text-muted-2">Time verified</dt>
+              <dd className="m-0 font-mono tabular-nums">{Math.floor(data.trust.pactAgeDays)}d</dd>
+              <dt className="text-muted-2">Failed checks</dt>
+              <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
+            </dl>
+          </div>
+        </details>
       </details>
 
       <DomainActions domain={data.domain} />

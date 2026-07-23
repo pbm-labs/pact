@@ -8,12 +8,12 @@ export function formatScoreProgressHint(
   if (rawScore >= 3) return null;
 
   if (progress.daysToNextBand != null && progress.nextBandLabel) {
-    return `~${progress.daysToNextBand} days until "${progress.nextBandLabel}" range, at current activity levels`;
+    return `About ${progress.daysToNextBand} more days to reach "${progress.nextBandLabel}", at this pace.`;
   }
 
   if (rawScore > 0) {
-    return 'More verified volume or reporter diversity is needed before time alone can reach the next range.';
+    return 'A bit more time and activity will move this forward.';
   }
 
-  return 'Verified PACT history begins with the first DKIM-pass reports.';
+  return 'This starts moving the moment your first email is confirmed.';
 }

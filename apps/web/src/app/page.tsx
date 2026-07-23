@@ -27,8 +27,7 @@ export default async function HomePage() {
           <div className="mt-12 sm:mt-14 rounded-2xl border border-border bg-surface/60 p-6 sm:p-8">
             <p className="text-lg font-semibold text-txt mb-1">Add your name</p>
             <p className="text-sm text-muted mb-6 max-w-md leading-relaxed">
-              In practice, that means connecting a domain — yours or your business&apos;s. Two
-              minutes, and most of it happens automatically.
+              Takes about two minutes, and most of it happens on its own.
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <Link href="/how-it-works#add-your-name" className={btnPrimary}>
@@ -43,7 +42,7 @@ export default async function HomePage() {
                 <span className="absolute inline-flex h-full w-full rounded-full bg-verified animate-soft-pulse" />
               </span>
               {joined > 0
-                ? `${joined.toLocaleString()} ${joined === 1 ? 'domain has' : 'domains have'} already joined. `
+                ? `${joined.toLocaleString()} ${joined === 1 ? 'name has' : 'names have'} already joined. `
                 : ''}
               Be one of the first to stand on solid ground.
             </p>

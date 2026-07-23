@@ -28,12 +28,12 @@ export function DomainList({ domains }: DomainListProps) {
   if (!domains.length) {
     return (
       <div className={`${panel} p-8 text-center`}>
-        <p className="text-base font-semibold text-txt mb-2">No domains yet</p>
+        <p className="text-base font-semibold text-txt mb-2">No names yet</p>
         <p className="text-sm text-muted mb-6">
-          Connect a domain to start building a public provenance record.
+          Add a name to start building a public record.
         </p>
         <Link href="/how-it-works" className={btnPrimary}>
-          Connect your first domain
+          Add the first name
         </Link>
       </div>
     );
@@ -49,7 +49,7 @@ export function DomainList({ domains }: DomainListProps) {
             Ranked by trust score
           </p>
           <p className="text-xs text-muted m-0">
-            Volume × diversity × maturity · provisional until ~139 days of history
+            Grows the longer a name is verified and the more mail providers confirm it.
           </p>
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
@@ -69,7 +69,7 @@ export function DomainList({ domains }: DomainListProps) {
           <thead>
             <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
-              <th className="text-left font-medium px-4 sm:px-5 py-2.5">Domain</th>
+              <th className="text-left font-medium px-4 sm:px-5 py-2.5">Name</th>
               <th className="text-right font-medium px-4 sm:px-5 py-2.5">Score / 100</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 hidden sm:table-cell">
                 Status

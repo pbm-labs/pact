@@ -12,6 +12,14 @@ export function MovementFooter() {
           <Link href="/domains" className="hover:text-muted transition-colors no-underline">
             Public records
           </Link>
+          <a
+            href="https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol_v01.md"
+            className="hover:text-muted transition-colors no-underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            For developers
+          </a>
         </nav>
         <p className="lowercase m-0">we build real</p>
       </div>

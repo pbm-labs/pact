@@ -8,7 +8,6 @@ import type { ConnectPath, DnsPath } from '@/lib/connect-path';
 import {
   btnPrimaryBlock,
   btnSecondaryBlock,
-  inlineCode,
   input,
   label,
   linkAccent,
@@ -67,53 +66,37 @@ interface DnsPathFlowProps {
 const DEFAULT_PATH_COPY = {
   connect: {
     cloudflare: {
-      title: 'Cloudflare',
-      description: 'DNS on Cloudflare. Authorize once — PACT updates your _dmarc record.',
+      title: 'I use Cloudflare',
+      description: 'One click — we handle the rest.',
       badge: 'Fastest',
     },
     manual: {
-      title: 'Manual DNS',
-      description: 'GoDaddy, Namecheap, Route 53 console, or any other host. Copy a snippet, then register.',
+      title: 'Add it manually',
+      description: 'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
       badge: 'Universal',
     },
     'dmarc-tool': {
-      title: 'DMARC tool',
-      description: 'Postmark, EasyDMARC, or similar — add PACT as a report destination.',
+      title: 'I use an email security tool',
+      description: 'Postmark, EasyDMARC, or similar — point it to us.',
       badge: 'Existing tool',
     },
   },
   disconnect: {
     cloudflare: {
-      title: 'Cloudflare',
-      description: 'Authorize once — PACT removes itself from _dmarc and unregisters the domain.',
+      title: 'I use Cloudflare',
+      description: 'One click and we remove ourselves, no trace left behind.',
       badge: 'Fastest',
     },
     manual: {
-      title: 'Manual DNS',
-      description: 'Remove PACT from _dmarc at your DNS provider, then unregister here.',
+      title: 'Remove it manually',
+      description: 'Remove one line from wherever you manage your website, then confirm here.',
       badge: 'Universal',
     },
   },
 } as const;
 
 const MOVEMENT_PATH_COPY = {
-  connect: {
-    cloudflare: {
-      title: 'I use Cloudflare',
-      description: 'Authorize once — we update your DNS record for you.',
-      badge: 'Fastest',
-    },
-    manual: {
-      title: 'Add it manually',
-      description: 'Copy one DNS line at your registrar, then register your domain.',
-      badge: 'Universal',
-    },
-    'dmarc-tool': {
-      title: 'I use a DMARC tool already',
-      description: 'Postmark, EasyDMARC, and others — add us as a forwarding destination.',
-      badge: 'Existing tool',
-    },
-  },
+  connect: DEFAULT_PATH_COPY.connect,
   disconnect: DEFAULT_PATH_COPY.disconnect,
 } as const;
 
@@ -200,7 +183,7 @@ export function DnsPathFlow({
         className="mb-6 text-sm text-muted-2 hover:text-txt transition-colors bg-transparent border-none p-0 cursor-pointer font-mono"
         onClick={() => setPathWithUrl(null)}
       >
-        ← Choose a different method
+        ← Choose a different way
       </button>
 
       <section className={panel}>
@@ -217,7 +200,7 @@ export function DnsPathFlow({
           {path === 'cloudflare' ? (
             <form className="flex flex-col gap-2" action={`${apiBase}/cloudflare`} method="GET">
               <label htmlFor={`${mode}-cf-domain`} className={label}>
-                Domain name
+                Your name
               </label>
               <input
                 id={`${mode}-cf-domain`}
@@ -239,23 +222,21 @@ export function DnsPathFlow({
             <>
               <div className="mb-6 pb-6 border-b border-border">
                 <p className="text-sm text-muted mb-3 leading-relaxed">
-                  In Postmark, EasyDMARC, dmarcian, or a similar tool, add PACT as an aggregate
-                  report destination (<code className={inlineCode}>rua</code>). Use this address:
+                  In your tool&apos;s settings, add this as a report destination:
                 </p>
                 {dmarcSnippet && (
                   <div className="flex flex-col sm:flex-row gap-3 mb-3">
-                    <pre className={`${snippetPre} flex-1`}>{`rua=mailto:${ruaAddress}`}</pre>
-                    <CopyButton text={`rua=mailto:${ruaAddress}`} label="Copy" />
+                    <pre className={`${snippetPre} flex-1`}>{ruaAddress}</pre>
+                    <CopyButton text={ruaAddress} label="Copy" />
                   </div>
                 )}
                 <p className="text-xs text-muted-2 leading-relaxed">
-                  Save the change in your tool, wait for it to publish, then register your domain
-                  below.
+                  Save it, wait a moment for it to take effect, then enter your name below.
                 </p>
               </div>
               <form className="flex flex-col gap-2" action={`${apiBase}/manual`} method="POST">
                 <label htmlFor={`${mode}-tool-domain`} className={label}>
-                  Domain name
+                  Your name
                 </label>
                 <input
                   id={`${mode}-tool-domain`}
@@ -269,7 +250,7 @@ export function DnsPathFlow({
                   className={input}
                 />
                 <button type="submit" className={btnPrimaryBlock}>
-                  Register domain
+                  Add my name
                 </button>
               </form>
             </>
@@ -278,21 +259,29 @@ export function DnsPathFlow({
               {dmarcSnippet && (
                 <div className="mb-6 pb-6 border-b border-border">
                   <p className="text-sm text-muted mb-3">
-                    Add to <code className={inlineCode}>_dmarc.yourdomain.com</code> (TXT)
+                    Paste this wherever you manage your website&apos;s settings (ask your host if
+                    you&apos;re not sure where):
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3">
                     <pre className={`${snippetPre} flex-1`}>{dmarcSnippet}</pre>
-                    <CopyButton text={dmarcSnippet} label="Copy record" />
+                    <CopyButton text={dmarcSnippet} label="Copy" />
                   </div>
-                  <p className="text-xs text-muted-2 mt-3">
-                    Already have <code className={inlineCode}>_dmarc</code>? Append the{' '}
-                    <code className={inlineCode}>rua=</code> address to your existing record.
-                  </p>
+                  <details className="mt-3">
+                    <summary className="text-xs text-muted-2 cursor-pointer hover:text-muted transition-colors">
+                      What does this do?
+                    </summary>
+                    <p className="text-xs text-muted-2 mt-2 leading-relaxed">
+                      This is a DMARC record — an email security standard mail providers already
+                      use. Adding it doesn&apos;t change how you send email; it just tells
+                      providers to also send us a copy of the verification result. If you already
+                      have one of these, just add our address to it instead of replacing it.
+                    </p>
+                  </details>
                 </div>
               )}
               <form className="flex flex-col gap-2" action={`${apiBase}/manual`} method="POST">
                 <label htmlFor={`${mode}-manual-domain`} className={label}>
-                  Domain name
+                  Your name
                 </label>
                 <input
                   id={`${mode}-manual-domain`}
@@ -306,21 +295,18 @@ export function DnsPathFlow({
                   className={input}
                 />
                 <button type="submit" className={btnPrimaryBlock}>
-                  Register domain
+                  Add my name
                 </button>
-                <p className="text-xs text-muted-2 mt-1">
-                  Only click after your DNS record is updated.
-                </p>
+                <p className="text-xs text-muted-2 mt-1">Only click after you&apos;ve pasted it.</p>
               </form>
             </>
           ) : (
             <form className="flex flex-col gap-2" action={`${apiBase}/manual`} method="POST">
               <p className="text-sm text-muted mb-2">
-                Remove PACT from your <code className={inlineCode}>_dmarc</code> record at your DNS
-                provider first.
+                First remove the line we gave you from wherever you manage your website.
               </p>
               <label htmlFor={`${mode}-manual-domain`} className={label}>
-                Domain name
+                Your name
               </label>
               <input
                 id={`${mode}-manual-domain`}
@@ -334,7 +320,7 @@ export function DnsPathFlow({
                 className={input}
               />
               <button type="submit" className={btnSecondaryBlock}>
-                Unregister domain
+                Remove my name
               </button>
             </form>
           )}
@@ -349,7 +335,7 @@ export function DnsPathFlow({
               href={`/disconnect${domainPrefill ? `?domain=${encodeURIComponent(domainPrefill)}` : ''}`}
               className={linkAccent}
             >
-              Disconnect a domain
+              Disconnect
             </Link>
           </>
         ) : (
