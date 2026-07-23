@@ -21,7 +21,7 @@ export default function HomePage() {
         </Reveal>
 
         <div className="max-w-2xl mx-auto">
-          <p className={`${eyebrow} mt-10 sm:mt-12 mb-4`}>Prefer to read?</p>
+          <p className={`${eyebrow} mt-10 sm:mt-12 mb-4`}>The Manifesto</p>
 
           <SiteNarrative />
 
