@@ -2,12 +2,9 @@ import Link from 'next/link';
 import { Reveal } from '@/components/reveal';
 import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
-import { fetchJoinedCount } from '@/lib/domain-data';
 import { btnPrimary, btnSecondary, eyebrow } from '@/lib/ui';
 
-export default async function HomePage() {
-  const joined = await fetchJoinedCount();
-
+export default function HomePage() {
   return (
     <main className="flex-1">
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-16 sm:pb-20">
@@ -46,9 +43,6 @@ export default async function HomePage() {
                 <span className="relative flex h-2 w-2 shrink-0">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-verified animate-soft-pulse" />
                 </span>
-                {joined > 0
-                  ? `${joined.toLocaleString()} ${joined === 1 ? 'name has' : 'names have'} already joined. `
-                  : ''}
                 Be one of the first to stand on solid ground.
               </p>
             </div>
