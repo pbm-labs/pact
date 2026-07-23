@@ -4,10 +4,7 @@ import { addPactRuaToDmarc, PACT_RUA_ADDRESS } from '@pact/core';
 import { DnsPathFlow } from '@/components/dns-path-flow';
 import { Reveal } from '@/components/reveal';
 import { parseConnectPath } from '@/lib/connect-path';
-import { alertError, eyebrow, linkMuted, pageTitle } from '@/lib/ui';
-
-const PROTOCOL_SPEC_URL =
-  'https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol_v01.md';
+import { alertError, eyebrow, pageTitle } from '@/lib/ui';
 
 const ERRORS: Record<string, string> = {
   invalid_domain: 'Enter a valid name (e.g. example.com).',
@@ -90,17 +87,6 @@ export default async function HowItWorksPage({ searchParams }: PageProps) {
               public record
             </Link>
             .
-          </p>
-          <p className="text-xs text-muted-2 mt-6">
-            Built on open standards, verifiable by anyone.{' '}
-            <a
-              href={PROTOCOL_SPEC_URL}
-              className={linkMuted}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Read the technical spec →
-            </a>
           </p>
         </Reveal>
       </div>
