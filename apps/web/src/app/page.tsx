@@ -10,12 +10,6 @@ export default function HomePage() {
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-16 sm:pb-20">
         <div className="mesh-glow" aria-hidden />
 
-        <div className="max-w-2xl mx-auto">
-          <Reveal>
-            <p className={`${eyebrow} mb-4`}>The manifesto</p>
-          </Reveal>
-        </div>
-
         <Reveal delay={40}>
           <VideoManifesto />
         </Reveal>
