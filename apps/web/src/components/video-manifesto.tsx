@@ -34,7 +34,7 @@ export function VideoManifesto() {
           <span className="px-4 text-center text-lg sm:text-2xl font-semibold text-txt">
             {VIDEO_TITLE}
           </span>
-          <span className="text-xs sm:text-sm text-muted-2">Watch the manifesto</span>
+          <span className="text-xs sm:text-sm text-muted-2">Watch The Manifesto</span>
         </button>
       )}
     </div>
