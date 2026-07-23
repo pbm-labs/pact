@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Reveal } from '@/components/reveal';
 
 const PARAGRAPHS = [
   'In 1969, four computers connected for the first time. Nobody in that room thought about identity. They didn\'t need to. Everyone online already knew everyone else.',
@@ -17,8 +16,6 @@ const PARAGRAPHS = [
 ] as const;
 
 const PEAK_START = PARAGRAPHS.length - 2;
-const COLLAPSED_HEIGHT = 340;
-const EXPANDED_HEIGHT = 3000;
 
 function paragraphClass(index: number): string {
   const base = 'text-[18px] leading-[1.8] mb-5';
@@ -33,18 +30,20 @@ export function SiteNarrative() {
 
   return (
     <article aria-label="Manifesto">
-      <div
-        className="fog-collapse relative overflow-hidden"
-        style={{ maxHeight: expanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT }}
-      >
-        {PARAGRAPHS.map((text, i) => (
-          <Reveal key={i} delay={Math.min(i, 4) * 60}>
-            <p className={paragraphClass(i)}>{text}</p>
-          </Reveal>
-        ))}
+      <div className="relative">
+        <div className={expanded ? '' : 'max-h-48 overflow-hidden'}>
+          {PARAGRAPHS.map((text, i) => (
+            <p key={i} className={paragraphClass(i)}>
+              {text}
+            </p>
+          ))}
+        </div>
 
         {!expanded && (
-          <div className="fog-veil pointer-events-none absolute inset-x-0 bottom-0 h-44" aria-hidden />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg via-bg to-transparent"
+            aria-hidden
+          />
         )}
       </div>
 
@@ -53,9 +52,7 @@ export function SiteNarrative() {
         onClick={() => setExpanded((v) => !v)}
         className="relative inline-flex items-center gap-1.5 bg-transparent border-none p-0 cursor-pointer text-xs font-mono uppercase tracking-widest text-muted-2 hover:text-muted transition-colors mt-3"
       >
-        <span className={`inline-block transition-transform ${expanded ? 'rotate-90' : ''}`}>
-          ›
-        </span>
+        <span className={`inline-block transition-transform ${expanded ? 'rotate-90' : ''}`}>›</span>
         {expanded ? 'Show less' : 'Read more'}
       </button>
     </article>
