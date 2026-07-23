@@ -17,7 +17,7 @@ const PARAGRAPHS = [
 ] as const;
 
 const PEAK_START = PARAGRAPHS.length - 2;
-const COLLAPSED_HEIGHT = 190;
+const COLLAPSED_HEIGHT = 340;
 const EXPANDED_HEIGHT = 3000;
 
 function paragraphClass(index: number): string {
@@ -44,7 +44,7 @@ export function SiteNarrative() {
         ))}
 
         {!expanded && (
-          <div className="fog-veil pointer-events-none absolute inset-x-0 bottom-0 h-24" aria-hidden />
+          <div className="fog-veil pointer-events-none absolute inset-x-0 bottom-0 h-44" aria-hidden />
         )}
       </div>
 
