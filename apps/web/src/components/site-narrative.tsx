@@ -31,7 +31,7 @@ export function SiteNarrative() {
   return (
     <article aria-label="Manifesto">
       <div className="relative">
-        <div className={expanded ? '' : 'max-h-48 overflow-hidden'}>
+        <div className={expanded ? '' : 'max-h-40 overflow-hidden'}>
           {PARAGRAPHS.map((text, i) => (
             <p key={i} className={paragraphClass(i)}>
               {text}
@@ -41,7 +41,7 @@ export function SiteNarrative() {
 
         {!expanded && (
           <div
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg via-bg to-transparent"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-bg to-transparent"
             aria-hidden
           />
         )}
