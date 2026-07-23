@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Reveal } from '@/components/reveal';
 
 const PARAGRAPHS = [
@@ -14,6 +17,7 @@ const PARAGRAPHS = [
 ] as const;
 
 const PEAK_START = PARAGRAPHS.length - 2;
+const PREVIEW_COUNT = 2;
 
 function paragraphClass(index: number): string {
   const base = 'text-[18px] leading-[1.8] mb-5';
@@ -24,13 +28,24 @@ function paragraphClass(index: number): string {
 }
 
 export function SiteNarrative() {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? PARAGRAPHS : PARAGRAPHS.slice(0, PREVIEW_COUNT);
+
   return (
     <article aria-label="Manifesto">
-      {PARAGRAPHS.map((text, i) => (
+      {visible.map((text, i) => (
         <Reveal key={i} delay={Math.min(i, 4) * 60}>
           <p className={paragraphClass(i)}>{text}</p>
         </Reveal>
       ))}
+
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="bg-transparent border-none p-0 cursor-pointer text-sm font-semibold text-txt underline underline-offset-4 decoration-border-h hover:decoration-txt transition-colors"
+      >
+        {expanded ? 'Show less' : 'Read the full manifesto'}
+      </button>
     </article>
   );
 }

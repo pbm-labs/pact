@@ -86,6 +86,7 @@ html.light {
 
 html {
   background-color: var(--bg);
+  overflow-x: hidden;
 }
 
 .thin-scrollbar {

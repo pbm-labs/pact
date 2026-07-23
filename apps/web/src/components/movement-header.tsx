@@ -1,10 +1,7 @@
 import Link from 'next/link';
-import { fetchJoinedCount } from '@/lib/domain-data';
 import { ThemeToggle } from '@/components/theme-toggle';
 
-export async function MovementHeader() {
-  const joined = await fetchJoinedCount();
-
+export function MovementHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/75 backdrop-blur-md">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
@@ -22,17 +19,11 @@ export async function MovementHeader() {
             How it works
           </Link>
           <Link href="/domains" className="hover:text-txt transition-colors no-underline">
-            Records
+            Public records
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-4">
-          <p className="text-[13px] text-unclaimed lowercase m-0 tabular-nums">
-            <span className="hidden sm:inline">{joined.toLocaleString()} joined</span>
-            <span className="sm:hidden font-mono">{joined.toLocaleString()}</span>
-          </p>
-          <ThemeToggle />
-        </div>
+        <ThemeToggle />
       </div>
     </header>
   );
