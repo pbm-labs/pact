@@ -1,3 +1,5 @@
+import { Reveal } from '@/components/reveal';
+
 const PARAGRAPHS = [
   'In 1969, four computers connected for the first time. Nobody in that room thought about identity. They didn\'t need to. Everyone online already knew everyone else.',
   'So the internet was born without a way to know who anyone really is. Not a flaw. Just a question nobody had to ask yet.',
@@ -25,9 +27,9 @@ export function SiteNarrative() {
   return (
     <article aria-label="Manifesto">
       {PARAGRAPHS.map((text, i) => (
-        <p key={i} className={paragraphClass(i)}>
-          {text}
-        </p>
+        <Reveal key={i} delay={Math.min(i, 4) * 60}>
+          <p className={paragraphClass(i)}>{text}</p>
+        </Reveal>
       ))}
     </article>
   );

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ScoreBar } from '@/components/score-bar';
 import type { DomainSummary } from '@/lib/domain-data';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
 import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
@@ -117,8 +118,9 @@ export function DomainList({ domains }: DomainListProps) {
                           {d.trustScoreDisplay ?? 0}
                           <span className="text-sm font-semibold text-muted-2"> / 100</span>
                         </span>
+                        <ScoreBar score={d.trustScoreDisplay ?? 0} className="mt-1.5 ml-auto max-w-24" />
                         {d.trustScoreLabel && (
-                          <span className="block text-[0.65rem] text-muted-2 mt-0.5 normal-case tracking-normal font-sans">
+                          <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
                             {d.trustScoreLabel}
                           </span>
                         )}

@@ -4,6 +4,7 @@ import { PageShell } from '@/components/page-shell';
 import { DomainActions } from '@/components/domain-actions';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
+import { ScoreGauge } from '@/components/score-gauge';
 import { fetchDomainPageState, SCORE_ALGORITHM } from '@/lib/domain-data';
 import { DISPLAY_VERSION, estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
 import type { DomainLiveData } from '@/lib/domain-data';
@@ -44,9 +45,9 @@ function Stat({
   dim?: boolean;
 }) {
   return (
-    <div>
+    <div className="rounded-xl border border-border bg-surface px-4 py-4 transition-colors hover:border-muted-2">
       <p
-        className={`text-3xl sm:text-4xl font-bold font-mono leading-none ${
+        className={`text-2xl sm:text-3xl font-bold font-mono leading-none ${
           dim ? 'text-muted-2' : 'text-txt'
         }`}
       >
@@ -227,11 +228,14 @@ function LivePage({ data }: { data: DomainLiveData }) {
             <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
-            <div className="flex items-baseline gap-1.5 font-mono tabular-nums leading-none">
-              <span className="text-4xl sm:text-5xl font-bold text-txt">
-                {display.displayScore}
-              </span>
-              <span className="text-xl sm:text-2xl font-semibold text-muted-2">/ 100</span>
+            <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
+              <ScoreGauge score={display.displayScore} size={108} strokeWidth={8} />
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-txt leading-none">
+                  {display.displayScore}
+                </span>
+                <span className="text-[0.6rem] font-mono text-muted-2 mt-0.5">/ 100</span>
+              </div>
             </div>
             <p className="text-sm text-muted m-0">{display.label}</p>
             {progressHint && (
@@ -265,7 +269,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
         />
       </header>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-10">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-10">
         <Stat value={data.totalPassCount.toLocaleString()} label="Verified messages" />
         <Stat value={`${data.passRate.toFixed(1)}%`} label="DKIM pass rate" />
         <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />

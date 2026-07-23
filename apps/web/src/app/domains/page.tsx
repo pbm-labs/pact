@@ -2,12 +2,14 @@ import Link from 'next/link';
 import { DomainRecords } from '@/components/domain-records';
 import { PageShell } from '@/components/page-shell';
 import { fetchDomainSummaries } from '@/lib/domain-data';
-import { btnPrimary, eyebrow, pageIntro, pageTitle } from '@/lib/ui';
+import { btnPrimary, eyebrow, pageIntro, pageTitle, statCard, statLabel, statValue } from '@/lib/ui';
 
 export const dynamic = 'force-dynamic';
 
 export default async function DomainsPage() {
   const domains = await fetchDomainSummaries();
+  const activated = domains.filter((d) => d.trustStatus === 'activated').length;
+  const awaiting = domains.filter((d) => d.status === 'waiting').length;
 
   return (
     <PageShell backHref="/" backLabel="Home" width="wide">
@@ -24,6 +26,21 @@ export default async function DomainsPage() {
           Connect domain
         </Link>
       </header>
+
+      <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
+        <div className={statCard}>
+          <p className={statValue}>{domains.length}</p>
+          <p className={statLabel}>Connected</p>
+        </div>
+        <div className={statCard}>
+          <p className={`${statValue} text-verified`}>{activated}</p>
+          <p className={statLabel}>Activated</p>
+        </div>
+        <div className={statCard}>
+          <p className={`${statValue} text-amber`}>{awaiting}</p>
+          <p className={statLabel}>Awaiting</p>
+        </div>
+      </div>
 
       <DomainRecords domains={domains} />
     </PageShell>
