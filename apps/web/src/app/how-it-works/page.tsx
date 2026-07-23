@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { addPactRuaToDmarc, PACT_RUA_ADDRESS } from '@pact/core';
 import { DnsPathFlow } from '@/components/dns-path-flow';
 import { parseConnectPath } from '@/lib/connect-path';
-import { alertError, linkAccent, sectionTitle } from '@/lib/ui';
+import { alertError, eyebrow, linkAccent, sectionTitle } from '@/lib/ui';
 
 const PROTOCOL_SPEC_URL =
   'https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol_v01.md';
@@ -105,7 +105,11 @@ export default async function HowItWorksPage({ searchParams }: PageProps) {
           </p>
         </section>
 
-        <section id="add-your-name" className="mb-14 sm:mb-16 pt-10 border-t border-border scroll-mt-8">
+        <section
+          id="add-your-name"
+          className="mb-14 sm:mb-16 pt-10 border-t-2 border-border scroll-mt-8"
+        >
+          <p className={`${eyebrow} mb-3`}>The mechanism — starts here</p>
           <h2 className={`${sectionTitle} text-xl text-txt mb-2`}>Add your name</h2>
           <p className="text-sm text-muted mb-6">Most businesses connect in under two minutes.</p>
 
@@ -116,16 +120,18 @@ export default async function HowItWorksPage({ searchParams }: PageProps) {
             </div>
           )}
 
-          <Suspense fallback={<p className="text-sm text-muted-2">Loading…</p>}>
-            <DnsPathFlow
-              mode="connect"
-              variant="movement"
-              domainPrefill={domainPrefill}
-              dmarcSnippet={dmarcSnippet}
-              ruaAddress={PACT_RUA_ADDRESS}
-              initialPath={initialPath}
-            />
-          </Suspense>
+          <div className="rounded-2xl border border-border bg-surface/60 p-4 sm:p-6">
+            <Suspense fallback={<p className="text-sm text-muted-2">Loading…</p>}>
+              <DnsPathFlow
+                mode="connect"
+                variant="movement"
+                domainPrefill={domainPrefill}
+                dmarcSnippet={dmarcSnippet}
+                ruaAddress={PACT_RUA_ADDRESS}
+                initialPath={initialPath}
+              />
+            </Suspense>
+          </div>
         </section>
 
         <section className="pt-10 border-t border-border">
