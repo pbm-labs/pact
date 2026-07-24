@@ -44,10 +44,8 @@ export default async function HowItWorksPage({ searchParams }: PageProps) {
             <p className={`${eyebrow} mb-3`}>Two minutes, mostly automatic</p>
             <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>Add your name</h1>
             <p className="text-base text-muted leading-relaxed">
-              Every business already sends email. Mail providers like Gmail and Outlook already
-              check, quietly, that it&apos;s really you. We just keep that proof — permanently and
-              publicly — so anyone can see your name has been showing up honestly. Nothing about
-              how you send email changes, and no message is ever read.
+              No paperwork, no waiting on anyone. Just the first day of a history that&apos;s
+              genuinely yours.
             </p>
           </header>
         </Reveal>
