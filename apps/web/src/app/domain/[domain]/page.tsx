@@ -207,10 +207,10 @@ function LivePage({ data }: { data: DomainLiveData }) {
           globalTreeLeafCount={data.globalTreeLeafCount}
         />
 
-        <details className={`${panel} mb-2`}>
-          <summary className="cursor-pointer px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+        <div className={`${panel} mb-2`}>
+          <div className="px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
             Show the math
-          </summary>
+          </div>
           <div className={`${panelBody} pt-0 border-t border-border`}>
             <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
               <dt className="text-muted-2">Raw score (T)</dt>
@@ -227,7 +227,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
               <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
             </dl>
           </div>
-        </details>
+        </div>
       </details>
 
       <DomainActions />
