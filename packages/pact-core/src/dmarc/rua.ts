@@ -58,29 +58,3 @@ export function addPactRuaToDmarc(record: string | null | undefined): {
   tags.set('rua', rua ? `${rua},${PACT_RUA_MAILTO}` : PACT_RUA_MAILTO);
   return { content: serializeDmarcTags(tags), changed: true };
 }
-
-/** Remove PACT rua= from an existing _dmarc TXT value. */
-export function removePactRuaFromDmarc(record: string | null | undefined): {
-  content: string;
-  changed: boolean;
-} {
-  const base = record?.trim().replace(/^"|"$/g, '') ?? '';
-  if (!base || !dmarcIncludesPactRua(base)) {
-    return { content: base, changed: false };
-  }
-
-  const tags = parseDmarcTags(base);
-  const rua = tags.get('rua') ?? '';
-  const remaining = rua
-    .split(',')
-    .map((part) => part.trim())
-    .filter((part) => part && !part.includes(PACT_RUA_ADDRESS) && part !== PACT_RUA_MAILTO);
-
-  if (remaining.length === 0) {
-    tags.delete('rua');
-  } else {
-    tags.set('rua', remaining.join(','));
-  }
-
-  return { content: serializeDmarcTags(tags), changed: true };
-}

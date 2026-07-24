@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL('/connect?error=invalid_domain', request.url));
   }
 
-  const state = encodeConnectState({ domain, action: 'connect' });
+  const state = encodeConnectState(domain);
   if (!state) {
     return NextResponse.redirect(new URL('/connect?error=server_config', request.url));
   }

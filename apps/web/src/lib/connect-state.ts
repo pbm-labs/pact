@@ -4,13 +4,7 @@ export interface ConnectState {
   domain: string;
   nonce: string;
   ts: number;
-  action: 'connect' | 'disconnect';
 }
-
-export type ConnectStateInput = {
-  domain: string;
-  action?: 'connect' | 'disconnect';
-};
 
 function getSecret(): string | null {
   return (
@@ -20,16 +14,14 @@ function getSecret(): string | null {
   );
 }
 
-export function encodeConnectState(input: string | ConnectStateInput): string | null {
+export function encodeConnectState(domain: string): string | null {
   const secret = getSecret();
   if (!secret) return null;
 
-  const fields = typeof input === 'string' ? { domain: input } : input;
   const payload: ConnectState = {
-    domain: fields.domain,
+    domain,
     nonce: randomBytes(16).toString('hex'),
     ts: Date.now(),
-    action: fields.action ?? 'connect',
   };
   const data = Buffer.from(JSON.stringify(payload)).toString('base64url');
   const sig = createHmac('sha256', secret).update(data).digest('base64url');
@@ -61,7 +53,7 @@ export function decodeConnectState(state: string): ConnectState | null {
     return null;
   }
 
-  if (!payload.domain || !payload.nonce || !payload.ts || !payload.action) return null;
+  if (!payload.domain || !payload.nonce || !payload.ts) return null;
   if (Date.now() - payload.ts > 15 * 60 * 1000) return null;
   return payload;
 }

@@ -28,7 +28,7 @@ export async function GET(request: Request) {
   }
 
   const payload = decodeConnectState(state);
-  if (!payload || payload.action !== 'connect') {
+  if (!payload) {
     return redirectWith('/connect', { error: 'invalid_state' });
   }
 

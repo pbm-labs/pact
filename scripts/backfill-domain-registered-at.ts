@@ -43,8 +43,7 @@ const supabase = createClient(url, key);
 async function main() {
   const { data: domains, error } = await supabase
     .from('domains')
-    .select('domain, domain_registered_at')
-    .is('disconnected_at', null);
+    .select('domain, domain_registered_at');
 
   if (error) {
     if (error.code === '42703') {

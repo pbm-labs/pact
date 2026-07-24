@@ -58,7 +58,7 @@ fixtures/              DMARC XML test fixtures
 
 Full split-mail setup: root [README.md](../README.md#email-split-proton-apex--pact-subdomain).
 
-Cloudflare OAuth redirect URLs (connect + disconnect): root [README.md](../README.md#cloudflare-oauth-connect-and-disconnect).
+Cloudflare OAuth redirect URL (connect): root [README.md](../README.md#cloudflare-oauth-connect).
 
 ---
 
@@ -66,7 +66,7 @@ Cloudflare OAuth redirect URLs (connect + disconnect): root [README.md](../READM
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **0a** | Real DMARC → leaves → staging page (no chain) | **Live** — `pbm-labs.com` receiving Google + Microsoft reports; Merkle proofs on domain page; connect/disconnect (Cloudflare + manual) |
+| **0a** | Real DMARC → leaves → staging page (no chain) | **Live** — `pbm-labs.com` receiving Google + Microsoft reports; Merkle proofs on domain page; connect (Cloudflare + manual) |
 | **0b** | Anchor Merkle roots on Base | Not started |
 | **Movement** | Counter, ordinal #, signature line | Specified in movement strategy; not built |
 
@@ -79,4 +79,4 @@ Cloudflare OAuth redirect URLs (connect + disconnect): root [README.md](../READM
 | Cloudflare OAuth | Lowest | Domains on Cloudflare DNS |
 | Manual DNS | Low | Everyone else (GoDaddy, Namecheap, Route 53 console, etc.) |
 
-Disconnect mirrors both paths at `/disconnect`. Route 53 automation and DMARC-service forwarding are **not** in MVP — see roadmap “What does not get built.”
+Route 53 automation and DMARC-service forwarding are **not** in MVP — see roadmap “What does not get built.”

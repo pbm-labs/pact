@@ -187,8 +187,6 @@ The reference MVP implementation (`pact.pbm-labs.com`) supports two onboarding p
 - **Cloudflare OAuth** — one confirmation click; PACT adds the rua= field to `_dmarc` via API. Minimum scope: zone-scoped DNS edit for the target domain only.
 - **Manual DNS** — one `_dmarc` field edit at any provider (GoDaddy, Namecheap, Route 53 console, etc.), then domain registration.
 
-**Disconnect** mirrors both paths: OAuth removes PACT from `_dmarc` and unregisters the domain; manual path unregisters after the operator edits DNS.
-
 OAuth integrations MUST NOT read unrelated DNS records or modify fields other than `_dmarc`.
 
 **Deferred post-MVP** (specified for future versions, not required for protocol compliance in v0.2 reference deployment):
@@ -555,8 +553,6 @@ Domain operator authorizes zone-scoped DNS edit. PACT reads the existing `_dmarc
 
 **Path B — Manual DNS edit**
 Domain operator adds the PACT rua= address to the `rua=` field of their existing `_dmarc` TXT record at any DNS provider, then registers the domain with PACT.
-
-**Disconnect** — symmetric to connect: OAuth removes PACT from `_dmarc` and marks the domain disconnected; manual path marks disconnected after the operator removes PACT from DNS. Leaves already anchored remain immutable in the public record.
 
 **Future paths (not in reference MVP):**
 

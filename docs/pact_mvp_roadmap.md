@@ -17,7 +17,6 @@ Reference deployment: `pact.pbm-labs.com` on Cloudflare Workers. Normative spec:
 | Public domain page + Merkle inclusion proofs | Live |
 | Homepage narrative (`pact_site_narrative.md`) | Live |
 | Connect: Cloudflare OAuth + manual DNS | Live |
-| Disconnect: Cloudflare OAuth + manual DNS | Live |
 | Real reports for `pbm-labs.com` | Live (Google, Microsoft) |
 | On-chain Base anchoring (Phase 0b) | Not started |
 | Movement counter + ordinal # + signature line | Not started |
@@ -164,8 +163,6 @@ Step 1: Enter your domain.
 Step 2: **Cloudflare OAuth** — authorize DNS edit; PACT adds `rua@pact.pbm-labs.com` to `_dmarc` via API. One confirmation click.
 Step 2 (alternate): **Manual DNS** — copy the `_dmarc` snippet, update DNS at any provider, click **Register domain**.
 Step 3: First aggregate reports arrive within 24 hours. Trust score visible within 48 hours.
-
-**Disconnect** — `pact.pbm-labs.com/disconnect` mirrors both paths. Cloudflare removes PACT from `_dmarc` and unregisters the domain; manual path unregisters after the operator edits DNS. Historical provenance already ingested remains public.
 
 ### What Does Not Get Built in the MVP
 

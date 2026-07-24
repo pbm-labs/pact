@@ -5,7 +5,6 @@
 create table if not exists domains (
   domain text primary key,
   connected_at timestamptz not null default now(),
-  disconnected_at timestamptz,
   -- Public registry creation date via RDAP at connect time. Display-only — never an input to trust score.
   -- See pact_protocol_v01.md Section 4.2.
   domain_registered_at timestamptz
@@ -151,9 +150,10 @@ create policy "public_read_merkle_roots"
 
 -- Upgrades for existing projects (safe to re-run)
 
-alter table domains add column if not exists disconnected_at timestamptz;
-
 alter table domains add column if not exists domain_registered_at timestamptz;
+
+-- The disconnect feature was removed; drop the now-unused column if present.
+alter table domains drop column if exists disconnected_at;
 
 comment on column domains.domain_registered_at is
   'Public registry creation date via RDAP at connect time. Display-only — never an input to trust score.';

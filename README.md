@@ -67,12 +67,10 @@ cd apps/web && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_SECRET
 
 Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 
-### Cloudflare OAuth (`/connect` and `/disconnect`)
+### Cloudflare OAuth (`/connect`)
 
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
-2. Redirect URLs (both required):
-   - `https://pact.pbm-labs.com/api/connect/cloudflare/callback`
-   - `https://pact.pbm-labs.com/api/disconnect/cloudflare/callback`
+2. Redirect URL: `https://pact.pbm-labs.com/api/connect/cloudflare/callback`
 3. Client URL: `https://pact.pbm-labs.com` (HTTPS required; verify with TXT on `pact` subdomain)
 4. Promote to **public** after domain verification on `client_uri` (required for external users)
    - **Logo URL:** `https://pact.pbm-labs.com/pact-logo.svg` (hosted in `apps/web/public/`)
@@ -84,7 +82,7 @@ After moving the app to `pact.pbm-labs.com`, update the OAuth client in the dash
 | Field | Value |
 |-------|--------|
 | Client URL | `https://pact.pbm-labs.com` |
-| Redirect URLs | `/api/connect/cloudflare/callback` and `/api/disconnect/cloudflare/callback` |
+| Redirect URL | `/api/connect/cloudflare/callback` |
 | Logo URL | `https://pact.pbm-labs.com/pact-logo.svg` |
 
 Copy the new **publisher TXT** from the client page → `CLOUDFLARE_OAUTH_PUBLISHER` in `.env.local` → run `scripts/sync-cloudflare-dns.py`.
@@ -95,11 +93,7 @@ Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.exampl
 
 Copy the `_dmarc` snippet on `/connect`, update DNS at any provider, then **Register domain**. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc.
 
-### Disconnect (`/disconnect`)
-
-Same two paths in reverse: Cloudflare OAuth removes PACT from `_dmarc` and unregisters the domain; manual DNS path unregisters after you edit DNS yourself. Historical provenance data already ingested stays public.
-
-**Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `disconnected_at` and `domain_registered_at` if missing). Then backfill registration dates:
+**Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `domain_registered_at` if missing). Then backfill registration dates:
 
 ```bash
 export $(grep -v '^#' apps/web/.env.local | xargs)
@@ -268,7 +262,6 @@ delete from processed_reports;
 - [x] Parser, dedup, leaves, staging roots
 - [x] Public page at `/domain/{domain}`
 - [x] Cloudflare OAuth at `/connect` + manual DNS
-- [x] Disconnect at `/disconnect` (Cloudflare + manual)
 - [x] Merkle inclusion proofs on `/domain/{domain}`
 - [ ] End-to-end with live reporter data (`pbm-labs.com`)
 

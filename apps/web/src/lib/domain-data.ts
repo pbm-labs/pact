@@ -54,17 +54,9 @@ export interface DomainWaitingData {
   domainRegisteredAt: string | null;
 }
 
-export interface DomainDisconnectedData {
-  domain: string;
-  connectedSince: string | null;
-  disconnectedSince: string;
-  domainRegisteredAt: string | null;
-}
-
 export type DomainPageState =
   | { status: 'live'; data: DomainLiveData }
   | { status: 'waiting'; data: DomainWaitingData }
-  | { status: 'disconnected'; data: DomainDisconnectedData }
   | null;
 
 function getSupabase() {
@@ -100,8 +92,7 @@ export async function fetchJoinedCount(): Promise<number> {
 
     const { count, error } = await supabase
       .from('domains')
-      .select('*', { count: 'exact', head: true })
-      .is('disconnected_at', null);
+      .select('*', { count: 'exact', head: true });
 
     if (error) return 0;
     return count ?? 0;
@@ -139,7 +130,6 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
   const { data: domainRows, error: domainError } = await supabase
     .from('domains')
     .select('domain, connected_at, domain_registered_at')
-    .is('disconnected_at', null)
     .order('domain', { ascending: true });
 
   const rowsWithoutReg =
@@ -148,7 +138,6 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
           await supabase
             .from('domains')
             .select('domain, connected_at')
-            .is('disconnected_at', null)
             .order('domain', { ascending: true })
         ).data
       : null;
@@ -263,21 +252,20 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   let domainRow:
     | {
         connected_at: string;
-        disconnected_at: string | null;
         domain_registered_at?: string | null;
       }
     | null = null;
 
   const primary = await supabase
     .from('domains')
-    .select('connected_at, disconnected_at, domain_registered_at')
+    .select('connected_at, domain_registered_at')
     .eq('domain', normalized)
     .maybeSingle();
 
   if (primary.error?.code === '42703') {
     const fallback = await supabase
       .from('domains')
-      .select('connected_at, disconnected_at')
+      .select('connected_at')
       .eq('domain', normalized)
       .maybeSingle();
     if (fallback.error || !fallback.data) return null;
@@ -291,18 +279,6 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     normalized,
     domainRow.domain_registered_at,
   );
-
-  if (domainRow.disconnected_at) {
-    return {
-      status: 'disconnected',
-      data: {
-        domain: normalized,
-        connectedSince: domainRow.connected_at,
-        disconnectedSince: domainRow.disconnected_at,
-        domainRegisteredAt,
-      },
-    };
-  }
 
   let leaves: Awaited<
     ReturnType<

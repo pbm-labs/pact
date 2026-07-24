@@ -11,9 +11,7 @@ import { formatScoreProgressHint } from '@/lib/trust-display';
 import {
   alertStaging,
   badgeAmber,
-  badgeMuted,
   badgeVerified,
-  btnGhost,
   btnPrimary,
   eyebrow,
   pageIntro,
@@ -83,71 +81,7 @@ export default async function DomainPage({ params }: PageProps) {
     );
   }
 
-  if (state.status === 'disconnected') {
-    return (
-      <DisconnectedPage
-        domain={state.data.domain}
-        connectedSince={state.data.connectedSince}
-        disconnectedSince={state.data.disconnectedSince}
-        domainRegisteredAt={state.data.domainRegisteredAt}
-      />
-    );
-  }
-
   return <LivePage data={state.data} />;
-}
-
-function DisconnectedPage({
-  domain,
-  connectedSince,
-  disconnectedSince,
-  domainRegisteredAt,
-}: {
-  domain: string;
-  connectedSince: string | null;
-  disconnectedSince: string;
-  domainRegisteredAt: string | null;
-}) {
-  return (
-    <PageShell backHref="/domains" backLabel="Records" width="wide">
-      <header className="mb-8">
-        <span className={`${badgeMuted} mb-3`}>Disconnected</span>
-        <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
-        <p className={pageIntro}>
-          No longer being verified. Its history stays public.
-        </p>
-        <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
-      </header>
-
-      <section className={`${panel} mb-8`}>
-        <div className={panelBody}>
-          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm m-0">
-            {connectedSince && (
-              <>
-                <dt className="text-muted-2">Connected</dt>
-                <dd className="m-0 font-mono tabular-nums">
-                  {new Date(connectedSince).toLocaleDateString()}
-                </dd>
-              </>
-            )}
-            <dt className="text-muted-2">Disconnected</dt>
-            <dd className="m-0 font-mono tabular-nums">
-              {new Date(disconnectedSince).toLocaleDateString()}
-            </dd>
-          </dl>
-        </div>
-      </section>
-
-      <div className="flex flex-wrap gap-3">
-        <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
-          Reconnect {domain}
-        </Link>
-        <Link href="/domains" className={btnGhost}>
-          All records
-        </Link>
-      </div>
-    </PageShell>
-  );
 }
 
 function WaitingPage({
@@ -187,7 +121,7 @@ function WaitingPage({
         </div>
       </section>
 
-      <DomainActions domain={domain} />
+      <DomainActions />
     </PageShell>
   );
 }
@@ -296,7 +230,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
         </details>
       </details>
 
-      <DomainActions domain={data.domain} />
+      <DomainActions />
     </PageShell>
   );
 }

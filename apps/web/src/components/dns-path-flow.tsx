@@ -1,16 +1,13 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { CopyButton } from '@/components/copy-button';
-import type { ConnectPath, DnsPath } from '@/lib/connect-path';
+import type { ConnectPath } from '@/lib/connect-path';
 import {
   btnPrimaryBlock,
-  btnSecondaryBlock,
   input,
   label,
-  linkAccent,
   panel,
   panelBody,
   pathCard,
@@ -55,53 +52,32 @@ function PathIcon({ kind }: { kind: ConnectPath }) {
 }
 
 interface DnsPathFlowProps {
-  mode: 'connect' | 'disconnect';
   variant?: 'default' | 'movement';
   domainPrefill?: string;
   dmarcSnippet?: string;
   ruaAddress?: string;
-  initialPath?: ConnectPath | DnsPath | null;
+  initialPath?: ConnectPath | null;
 }
 
-const DEFAULT_PATH_COPY = {
-  connect: {
-    cloudflare: {
-      title: 'I use Cloudflare',
-      description: 'One click — we handle the rest.',
-      badge: 'Fastest',
-    },
-    manual: {
-      title: 'Add it manually',
-      description: 'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
-      badge: 'Universal',
-    },
-    'dmarc-tool': {
-      title: 'I use an email security tool',
-      description: 'Postmark, EasyDMARC, or similar — point it to us.',
-      badge: 'Existing tool',
-    },
+const PATH_COPY = {
+  cloudflare: {
+    title: 'I use Cloudflare',
+    description: 'One click — we handle the rest.',
+    badge: 'Fastest',
   },
-  disconnect: {
-    cloudflare: {
-      title: 'I use Cloudflare',
-      description: 'One click and we remove ourselves, no trace left behind.',
-      badge: 'Fastest',
-    },
-    manual: {
-      title: 'Remove it manually',
-      description: 'Remove one line from wherever you manage your website, then confirm here.',
-      badge: 'Universal',
-    },
+  manual: {
+    title: 'Add it manually',
+    description: 'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
+    badge: 'Universal',
   },
-} as const;
-
-const MOVEMENT_PATH_COPY = {
-  connect: DEFAULT_PATH_COPY.connect,
-  disconnect: DEFAULT_PATH_COPY.disconnect,
+  'dmarc-tool': {
+    title: 'I use an email security tool',
+    description: 'Postmark, EasyDMARC, or similar — point it to us.',
+    badge: 'Existing tool',
+  },
 } as const;
 
 export function DnsPathFlow({
-  mode,
   variant = 'default',
   domainPrefill = '',
   dmarcSnippet,
@@ -111,10 +87,10 @@ export function DnsPathFlow({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [path, setPath] = useState<ConnectPath | DnsPath | null>(initialPath);
+  const [path, setPath] = useState<ConnectPath | null>(initialPath);
 
   const setPathWithUrl = useCallback(
-    (next: ConnectPath | DnsPath | null) => {
+    (next: ConnectPath | null) => {
       setPath(next);
       const params = new URLSearchParams(searchParams.toString());
       if (next) params.set('path', next);
@@ -125,23 +101,10 @@ export function DnsPathFlow({
     [router, pathname, searchParams],
   );
 
-  const apiBase = mode === 'connect' ? '/api/connect' : '/api/disconnect';
-  const copy =
-    variant === 'movement' && mode === 'connect'
-      ? MOVEMENT_PATH_COPY.connect
-      : DEFAULT_PATH_COPY[mode];
-
-  const connectPaths: ConnectPath[] =
-    mode === 'connect' && variant === 'movement'
-      ? ['cloudflare', 'manual', 'dmarc-tool']
-      : mode === 'connect'
-        ? ['cloudflare', 'manual']
-        : [];
-
-  const disconnectPaths: DnsPath[] = ['cloudflare', 'manual'];
+  const paths: ConnectPath[] =
+    variant === 'movement' ? ['cloudflare', 'manual', 'dmarc-tool'] : ['cloudflare', 'manual'];
 
   if (!path) {
-    const paths = mode === 'connect' ? connectPaths : disconnectPaths;
     return (
       <div
         className={
@@ -149,7 +112,7 @@ export function DnsPathFlow({
         }
       >
         {paths.map((key) => {
-          const item = copy[key as keyof typeof copy];
+          const item = PATH_COPY[key];
           return (
             <button
               key={key}
@@ -159,7 +122,7 @@ export function DnsPathFlow({
             >
               <span className="flex w-full items-center justify-between">
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg/80 text-muted group-hover:text-accent">
-                  <PathIcon kind={key as ConnectPath} />
+                  <PathIcon kind={key} />
                 </span>
                 <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
                   {item.badge}
@@ -174,7 +137,7 @@ export function DnsPathFlow({
     );
   }
 
-  const pathCopy = copy[path as keyof typeof copy];
+  const pathCopy = PATH_COPY[path];
 
   return (
     <div>
@@ -198,12 +161,12 @@ export function DnsPathFlow({
 
         <div className={panelBody}>
           {path === 'cloudflare' ? (
-            <form className="flex flex-col gap-2" action={`${apiBase}/cloudflare`} method="GET">
-              <label htmlFor={`${mode}-cf-domain`} className={label}>
+            <form className="flex flex-col gap-2" action="/api/connect/cloudflare" method="GET">
+              <label htmlFor="connect-cf-domain" className={label}>
                 Your name
               </label>
               <input
-                id={`${mode}-cf-domain`}
+                id="connect-cf-domain"
                 name="domain"
                 type="text"
                 placeholder="example.com"
@@ -215,10 +178,10 @@ export function DnsPathFlow({
                 className={input}
               />
               <button type="submit" className={btnPrimaryBlock}>
-                {mode === 'connect' ? 'Continue with Cloudflare' : 'Disconnect with Cloudflare'}
+                Continue with Cloudflare
               </button>
             </form>
-          ) : path === 'dmarc-tool' && mode === 'connect' ? (
+          ) : path === 'dmarc-tool' ? (
             <>
               <div className="mb-6 pb-6 border-b border-border">
                 <p className="text-sm text-muted mb-3 leading-relaxed">
@@ -234,12 +197,12 @@ export function DnsPathFlow({
                   Save it, wait a moment for it to take effect, then enter your name below.
                 </p>
               </div>
-              <form className="flex flex-col gap-2" action={`${apiBase}/manual`} method="POST">
-                <label htmlFor={`${mode}-tool-domain`} className={label}>
+              <form className="flex flex-col gap-2" action="/api/connect/manual" method="POST">
+                <label htmlFor="connect-tool-domain" className={label}>
                   Your name
                 </label>
                 <input
-                  id={`${mode}-tool-domain`}
+                  id="connect-tool-domain"
                   name="domain"
                   type="text"
                   placeholder="example.com"
@@ -254,7 +217,7 @@ export function DnsPathFlow({
                 </button>
               </form>
             </>
-          ) : mode === 'connect' ? (
+          ) : (
             <>
               {dmarcSnippet && (
                 <div className="mb-6 pb-6 border-b border-border">
@@ -279,12 +242,12 @@ export function DnsPathFlow({
                   </details>
                 </div>
               )}
-              <form className="flex flex-col gap-2" action={`${apiBase}/manual`} method="POST">
-                <label htmlFor={`${mode}-manual-domain`} className={label}>
+              <form className="flex flex-col gap-2" action="/api/connect/manual" method="POST">
+                <label htmlFor="connect-manual-domain" className={label}>
                   Your name
                 </label>
                 <input
-                  id={`${mode}-manual-domain`}
+                  id="connect-manual-domain"
                   name="domain"
                   type="text"
                   placeholder="example.com"
@@ -300,53 +263,9 @@ export function DnsPathFlow({
                 <p className="text-xs text-muted-2 mt-1">Only click after you&apos;ve pasted it.</p>
               </form>
             </>
-          ) : (
-            <form className="flex flex-col gap-2" action={`${apiBase}/manual`} method="POST">
-              <p className="text-sm text-muted mb-2">
-                First remove the line we gave you from wherever you manage your website.
-              </p>
-              <label htmlFor={`${mode}-manual-domain`} className={label}>
-                Your name
-              </label>
-              <input
-                id={`${mode}-manual-domain`}
-                name="domain"
-                type="text"
-                placeholder="example.com"
-                defaultValue={domainPrefill}
-                required
-                autoComplete="off"
-                spellCheck={false}
-                className={input}
-              />
-              <button type="submit" className={btnSecondaryBlock}>
-                Remove my name
-              </button>
-            </form>
           )}
         </div>
       </section>
-
-      <p className="mt-6 text-center text-sm text-muted-2">
-        {mode === 'connect' ? (
-          <>
-            Need to leave?{' '}
-            <Link
-              href={`/disconnect${domainPrefill ? `?domain=${encodeURIComponent(domainPrefill)}` : ''}`}
-              className={linkAccent}
-            >
-              Disconnect
-            </Link>
-          </>
-        ) : (
-          <>
-            Changed your mind?{' '}
-            <Link href="/how-it-works#add-your-name" className={linkAccent}>
-              Add your name
-            </Link>
-          </>
-        )}
-      </p>
     </div>
   );
 }

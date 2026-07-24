@@ -30,9 +30,8 @@ export async function registerDomain(domain: string): Promise<{ ok: true } | { o
 
   const row: {
     domain: string;
-    disconnected_at: null;
     domain_registered_at?: string;
-  } = { domain, disconnected_at: null };
+  } = { domain };
 
   if (domainRegisteredAt) {
     row.domain_registered_at = domainRegisteredAt;
@@ -42,7 +41,7 @@ export async function registerDomain(domain: string): Promise<{ ok: true } | { o
   if (error?.code === '42703') {
     const { error: fallbackError } = await supabase
       .from('domains')
-      .upsert({ domain, disconnected_at: null }, { onConflict: 'domain' });
+      .upsert({ domain }, { onConflict: 'domain' });
     if (fallbackError) return { ok: false, error: fallbackError.message };
     return { ok: true };
   }
@@ -69,30 +68,4 @@ export async function ensureDomainRegisteredAt(
     .eq('domain', domain);
   if (error?.code === '42703') return null;
   return iso;
-}
-
-export async function disconnectDomain(
-  domain: string,
-): Promise<{ ok: true } | { ok: false; error: string }> {
-  const supabase = getSupabaseAdmin();
-  if (!supabase) {
-    return { ok: false, error: 'Server not configured (missing Supabase credentials)' };
-  }
-
-  const { data: row, error: fetchError } = await supabase
-    .from('domains')
-    .select('domain')
-    .eq('domain', domain)
-    .maybeSingle();
-
-  if (fetchError) return { ok: false, error: fetchError.message };
-  if (!row) return { ok: false, error: 'Domain is not registered with PACT' };
-
-  const { error } = await supabase
-    .from('domains')
-    .update({ disconnected_at: new Date().toISOString() })
-    .eq('domain', domain);
-
-  if (error) return { ok: false, error: error.message };
-  return { ok: true };
 }

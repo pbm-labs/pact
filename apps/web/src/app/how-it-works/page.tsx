@@ -63,7 +63,6 @@ export default async function HowItWorksPage({ searchParams }: PageProps) {
 
             <Suspense fallback={<p className="text-sm text-muted-2">Loading…</p>}>
               <DnsPathFlow
-                mode="connect"
                 variant="movement"
                 domainPrefill={domainPrefill}
                 dmarcSnippet={dmarcSnippet}
