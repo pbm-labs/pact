@@ -21,9 +21,6 @@ export default function HomePage() {
 
           <Reveal delay={80}>
             <div className="mt-14 sm:mt-16 pt-10 border-t border-border">
-              <p className="text-base text-muted mb-6 max-w-md leading-relaxed">
-                Takes about two minutes, and most of it happens on its own.
-              </p>
               <Link href="/how-it-works#add-your-name" className={btnPrimary}>
                 Add your name
               </Link>
