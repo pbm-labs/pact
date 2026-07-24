@@ -15,5 +15,5 @@ export function formatScoreProgressHint(
     return 'A bit more time and activity will move this forward.';
   }
 
-  return 'This starts moving the moment your first email is confirmed.';
+  return 'This starts moving the moment you\u2019re first confirmed.';
 }

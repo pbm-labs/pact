@@ -49,7 +49,7 @@ export function DomainList({ domains }: DomainListProps) {
             Ranked by trust score
           </p>
           <p className="text-xs text-muted m-0">
-            Grows the longer a name is verified and the more mail providers confirm it.
+            Grows the longer a name stays verified and the more it&apos;s independently confirmed.
           </p>
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">

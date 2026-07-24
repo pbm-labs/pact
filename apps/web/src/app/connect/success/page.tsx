@@ -61,8 +61,8 @@ export default async function ConnectSuccessPage({ searchParams }: PageProps) {
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>What happens next</h2>
           <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
-            <li>A mail provider notices your name, usually within a day.</li>
-            <li>It quietly confirms your mail checks out.</li>
+            <li>Your name gets independently noticed, usually within a day.</li>
+            <li>It quietly confirms everything checks out.</li>
             <li>Your page shows a trust score that grows from there.</li>
           </ol>
         </div>

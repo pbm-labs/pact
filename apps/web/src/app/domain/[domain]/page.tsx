@@ -99,8 +99,7 @@ function WaitingPage({
         <span className={`${badgeAmber} mb-3`}>Awaiting first report</span>
         <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
         <p className={pageIntro}>
-          Registered. Waiting for the first confirmation from a mail provider like Gmail or
-          Outlook — usually within a day.
+          Registered. Waiting for the first independent confirmation — usually within a day.
         </p>
         {connectedSince && (
           <p className="text-xs text-muted-2 font-mono mt-3">
@@ -114,8 +113,8 @@ function WaitingPage({
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>What happens next</h2>
           <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
-            <li>A mail provider notices your name, usually within a day.</li>
-            <li>It quietly confirms your mail checks out.</li>
+            <li>Your name gets independently noticed, usually within a day.</li>
+            <li>It quietly confirms everything checks out.</li>
             <li>This page updates on its own — nothing to click.</li>
           </ol>
         </div>
@@ -185,7 +184,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
       </header>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-10">
-        <Stat value={data.totalPassCount.toLocaleString()} label="Verified emails" />
+        <Stat value={data.totalPassCount.toLocaleString()} label="Confirmations" />
         <Stat value={`${data.passRate.toFixed(1)}%`} label="Pass rate" />
         <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />
         <Stat value={`${Math.floor(data.trust.pactAgeDays)}d`} label="Time verified" />
