@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Reveal } from '@/components/reveal';
 import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
-import { btnPrimary, btnSecondary, eyebrow } from '@/lib/ui';
+import { btnPrimary, eyebrow } from '@/lib/ui';
 
 export default function HomePage() {
   return (
@@ -28,9 +28,6 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center gap-3">
                 <Link href="/how-it-works#add-your-name" className={btnPrimary}>
                   Add your name
-                </Link>
-                <Link href="/how-it-works" className={btnSecondary}>
-                  See the mechanism
                 </Link>
               </div>
               <p className="text-xs text-muted-2 mt-5 inline-flex items-center gap-2">
