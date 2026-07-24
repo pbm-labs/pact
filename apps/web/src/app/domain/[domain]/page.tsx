@@ -183,11 +183,10 @@ function LivePage({ data }: { data: DomainLiveData }) {
         />
       </header>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-10">
-        <Stat value={data.totalPassCount.toLocaleString()} label="Confirmations" />
-        <Stat value={`${data.passRate.toFixed(1)}%`} label="Pass rate" />
-        <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />
+      <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-10">
         <Stat value={`${Math.floor(data.trust.pactAgeDays)}d`} label="Time verified" />
+        <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />
+        <Stat value={`${data.passRate.toFixed(1)}%`} label="Pass rate" />
       </div>
 
       <details className="group mb-2">
