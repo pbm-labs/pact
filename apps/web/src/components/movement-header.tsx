@@ -5,11 +5,8 @@ export function MovementHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/75 backdrop-blur-md">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2.5 no-underline group shrink-0">
-          <span className="font-brand text-[11px] text-txt group-hover:text-brand transition-colors">
-            PACT
-          </span>
-          <span className="hidden sm:inline text-[13px] text-muted-2 lowercase tracking-normal group-hover:text-muted transition-colors">
+        <Link href="/" className="flex items-center no-underline group shrink-0">
+          <span className="font-brand text-[13px] sm:text-sm text-txt group-hover:text-brand transition-colors">
             we build real
           </span>
         </Link>

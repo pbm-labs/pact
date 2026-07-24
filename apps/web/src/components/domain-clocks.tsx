@@ -20,7 +20,7 @@ export function DomainClocks({ domainRegisteredAt, pactHistoryStart }: DomainClo
       </div>
       <div>
         <dt className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 mb-1.5">
-          PACT verified since
+          Verified since
         </dt>
         <dd className="m-0 text-base sm:text-lg font-semibold font-mono text-txt tabular-nums">
           {pactHistoryStart ? formatPactHistoryStart(pactHistoryStart) : 'Awaiting first report'}

@@ -239,7 +239,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
   return (
     <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
-      <p className={`${pageIntro} mb-6`}>Not registered with PACT.</p>
+      <p className={`${pageIntro} mb-6`}>Not registered yet.</p>
       <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
         Connect {domain}
       </Link>
