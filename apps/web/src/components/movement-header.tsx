@@ -14,16 +14,15 @@ export function MovementHeader() {
           </span>
         </Link>
 
-        <nav className="hidden sm:flex items-center gap-5 text-[13px] text-muted-2">
-          <Link href="/how-it-works" className="hover:text-txt transition-colors no-underline">
-            How it works
-          </Link>
-          <Link href="/domains" className="hover:text-txt transition-colors no-underline">
+        <div className="flex items-center gap-4 sm:gap-5">
+          <Link
+            href="/domains"
+            className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt transition-colors no-underline"
+          >
             Public records
           </Link>
-        </nav>
-
-        <ThemeToggle />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
