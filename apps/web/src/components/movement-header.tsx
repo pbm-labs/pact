@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 const WHITEPAPER_URL = 'https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md';
@@ -29,6 +30,7 @@ export function MovementHeader() {
             Public records
           </Link>
           <ThemeToggle />
+          <MobileMenu />
         </div>
       </div>
     </header>
