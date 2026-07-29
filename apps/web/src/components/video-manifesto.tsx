@@ -1,104 +1,56 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const VIDEO_SRC = encodeURI("/The-Internet's-Identity-Problem.mp4");
 const VIDEO_TITLE = "The Internet's Identity Problem";
 
+function CloseIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
 export function VideoManifesto() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [dismissed, setDismissed] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const [open, setOpen] = useState(false);
 
-  function handleReplay() {
-    setDismissed(false);
-    setMuted(true);
-  }
+  useEffect(() => {
+    if (!open) return;
 
-  function handleDismiss() {
-    videoRef.current?.pause();
-    setDismissed(true);
-  }
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
-  function handleUnmute() {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = false;
-    setMuted(false);
-    video.play().catch(() => {});
-  }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface shadow-2xl shadow-black/20">
-      {!dismissed && (
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full"
-          src={VIDEO_SRC}
-          autoPlay
-          muted={muted}
-          controls
-          playsInline
-          title={VIDEO_TITLE}
-          onVolumeChange={() => {
-            if (videoRef.current) setMuted(videoRef.current.muted);
-          }}
-        />
-      )}
-
-      {!dismissed && (
+    <>
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface shadow-2xl shadow-black/20">
         <button
           type="button"
-          onClick={handleDismiss}
-          aria-label="Close video and read the manifesto instead"
-          className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
-        >
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-      )}
-
-      {!dismissed && muted && (
-        <button
-          type="button"
-          onClick={handleUnmute}
-          className="absolute top-3 left-3 z-10 flex items-center gap-2 rounded-full bg-black/55 text-white text-xs font-medium px-3.5 py-2 backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-            <line x1="23" y1="9" x2="17" y2="15" />
-            <line x1="17" y1="9" x2="23" y2="15" />
-          </svg>
-          Tap for sound
-        </button>
-      )}
-
-      {dismissed && (
-        <button
-          type="button"
-          onClick={handleReplay}
+          onClick={() => setOpen(true)}
           aria-label={`Play: ${VIDEO_TITLE}`}
           className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-5 bg-[radial-gradient(circle_at_30%_25%,rgba(124,106,247,0.22),transparent_60%)] cursor-pointer"
         >
@@ -112,7 +64,42 @@ export function VideoManifesto() {
           </span>
           <span className="text-xs sm:text-sm text-muted-2">Watch The Manifesto</span>
         </button>
-      )}
-    </div>
+      </div>
+
+      {open &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/92 backdrop-blur-sm p-2 sm:p-6"
+            onClick={() => setOpen(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={VIDEO_TITLE}
+          >
+            <div
+              className="relative w-full max-w-[98vw] sm:max-w-[94vw] max-h-[92vh] sm:max-h-[90vh] aspect-video"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <video
+                className="h-full w-full rounded-lg sm:rounded-2xl bg-black shadow-2xl"
+                src={VIDEO_SRC}
+                autoPlay
+                controls
+                playsInline
+                title={VIDEO_TITLE}
+              />
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close video"
+                className="absolute top-2 right-2 sm:-top-4 sm:-right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
+              >
+                <CloseIcon />
+              </button>
+            </div>
+          </div>,
+          document.body,
+        )}
+    </>
   );
 }
