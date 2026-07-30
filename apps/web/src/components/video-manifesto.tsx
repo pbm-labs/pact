@@ -25,8 +25,52 @@ function CloseIcon() {
   );
 }
 
+function PlayPoster({
+  onPlay,
+  size = 'default',
+}: {
+  onPlay: () => void;
+  size?: 'default' | 'compact';
+}) {
+  const compact = size === 'compact';
+  return (
+    <button
+      type="button"
+      onClick={onPlay}
+      aria-label={`Play: ${VIDEO_TITLE}`}
+      className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-5 bg-[radial-gradient(circle_at_30%_25%,rgba(124,106,247,0.22),transparent_60%)] cursor-pointer"
+    >
+      <span
+        className={`flex items-center justify-center rounded-full bg-txt text-bg shadow-xl transition-transform group-hover:scale-105 ${
+          compact ? 'h-16 w-16 sm:h-20 sm:w-20' : 'h-20 w-20 sm:h-28 sm:w-28'
+        }`}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className={compact ? 'h-7 w-7 sm:h-8 sm:w-8 ml-1' : 'h-8 w-8 sm:h-10 sm:w-10 ml-1'}
+        >
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </span>
+      <span
+        className={`px-4 text-center font-semibold text-txt ${compact ? 'text-base sm:text-lg' : 'text-lg sm:text-2xl'}`}
+      >
+        {VIDEO_TITLE}
+      </span>
+      <span className="text-xs sm:text-sm text-muted-2">Watch The Manifesto</span>
+    </button>
+  );
+}
+
 export function VideoManifesto() {
   const [open, setOpen] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+    setPlaying(false);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -35,7 +79,7 @@ export function VideoManifesto() {
     document.body.style.overflow = 'hidden';
 
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') closeModal();
     }
     window.addEventListener('keydown', onKeyDown);
 
@@ -48,51 +92,41 @@ export function VideoManifesto() {
   return (
     <>
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface shadow-2xl shadow-black/20">
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label={`Play: ${VIDEO_TITLE}`}
-          className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-5 bg-[radial-gradient(circle_at_30%_25%,rgba(124,106,247,0.22),transparent_60%)] cursor-pointer"
-        >
-          <span className="flex h-20 w-20 sm:h-28 sm:w-28 items-center justify-center rounded-full bg-txt text-bg shadow-xl transition-transform group-hover:scale-105">
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-8 w-8 sm:h-10 sm:w-10 ml-1">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </span>
-          <span className="px-4 text-center text-lg sm:text-2xl font-semibold text-txt">
-            {VIDEO_TITLE}
-          </span>
-          <span className="text-xs sm:text-sm text-muted-2">Watch The Manifesto</span>
-        </button>
+        <PlayPoster onPlay={() => setOpen(true)} />
       </div>
 
       {open &&
         typeof document !== 'undefined' &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/92 backdrop-blur-sm p-2 sm:p-6"
-            onClick={() => setOpen(false)}
+            className="modal-backdrop-in fixed inset-0 z-50 flex items-center justify-center bg-bg/75 backdrop-blur-[3px] p-4 sm:p-8"
+            onClick={closeModal}
             role="dialog"
             aria-modal="true"
             aria-label={VIDEO_TITLE}
           >
             <div
-              className="relative w-full max-w-[98vw] sm:max-w-[94vw] max-h-[92vh] sm:max-h-[90vh] aspect-video"
+              className="modal-card-in relative w-full max-w-2xl sm:max-w-3xl aspect-video rounded-2xl overflow-hidden border border-border-h bg-surface shadow-2xl shadow-black/40"
               onClick={(e) => e.stopPropagation()}
             >
-              <video
-                className="h-full w-full rounded-lg sm:rounded-2xl bg-black shadow-2xl"
-                src={VIDEO_SRC}
-                autoPlay
-                controls
-                playsInline
-                title={VIDEO_TITLE}
-              />
+              {playing ? (
+                <video
+                  className="h-full w-full"
+                  src={VIDEO_SRC}
+                  autoPlay
+                  controls
+                  playsInline
+                  title={VIDEO_TITLE}
+                />
+              ) : (
+                <PlayPoster onPlay={() => setPlaying(true)} size="compact" />
+              )}
+
               <button
                 type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Close video"
-                className="absolute top-2 right-2 sm:-top-4 sm:-right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/70 text-white backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
+                onClick={closeModal}
+                aria-label="Close and read instead"
+                className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
               >
                 <CloseIcon />
               </button>
