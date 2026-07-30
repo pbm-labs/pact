@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 
 const VIDEO_SRC = encodeURI("/The-Internet's-Identity-Problem.mp4");
 const VIDEO_TITLE = "The Internet's Identity Problem";
+const SEEN_STORAGE_KEY = 'manifesto-seen';
 
 function CloseIcon() {
   return (
@@ -65,11 +66,19 @@ function PlayPoster({
 
 export function VideoManifesto() {
   const [mounted, setMounted] = useState(false);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    try {
+      if (!window.localStorage.getItem(SEEN_STORAGE_KEY)) {
+        window.localStorage.setItem(SEEN_STORAGE_KEY, '1');
+        setOpen(true);
+      }
+    } catch {
+      // localStorage unavailable (private browsing, etc.) — just skip auto-open.
+    }
   }, []);
 
   function closeModal() {
