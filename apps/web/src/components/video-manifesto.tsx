@@ -106,7 +106,12 @@ export function VideoManifesto() {
   return (
     <>
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface shadow-2xl shadow-black/20">
-        <PlayPoster onPlay={() => setOpen(true)} />
+        <PlayPoster
+          onPlay={() => {
+            setOpen(true);
+            setPlaying(true);
+          }}
+        />
       </div>
 
       {mounted &&
