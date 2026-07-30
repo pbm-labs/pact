@@ -64,8 +64,13 @@ function PlayPoster({
 }
 
 export function VideoManifesto() {
-  const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(true);
   const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   function closeModal() {
     setOpen(false);
@@ -95,8 +100,8 @@ export function VideoManifesto() {
         <PlayPoster onPlay={() => setOpen(true)} />
       </div>
 
-      {open &&
-        typeof document !== 'undefined' &&
+      {mounted &&
+        open &&
         createPortal(
           <div
             className="modal-backdrop-in fixed inset-0 z-50 flex items-center justify-center bg-bg/75 backdrop-blur-[3px] p-4 sm:p-8"
@@ -106,7 +111,7 @@ export function VideoManifesto() {
             aria-label={VIDEO_TITLE}
           >
             <div
-              className="modal-card-in relative w-full max-w-2xl sm:max-w-3xl aspect-video rounded-2xl overflow-hidden border border-border-h bg-surface shadow-2xl shadow-black/40"
+              className="modal-card-in relative w-full max-w-[94vw] sm:max-w-4xl lg:max-w-6xl max-h-[88vh] sm:max-h-[85vh] aspect-video rounded-2xl overflow-hidden border border-border-h bg-surface shadow-2xl shadow-black/40"
               onClick={(e) => e.stopPropagation()}
             >
               {playing ? (
@@ -119,7 +124,7 @@ export function VideoManifesto() {
                   title={VIDEO_TITLE}
                 />
               ) : (
-                <PlayPoster onPlay={() => setPlaying(true)} size="compact" />
+                <PlayPoster onPlay={() => setPlaying(true)} />
               )}
 
               <button
