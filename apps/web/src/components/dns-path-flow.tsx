@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { CopyButton } from '@/components/copy-button';
@@ -77,18 +76,6 @@ const PATH_COPY = {
     badge: 'Existing tool',
   },
 } as const;
-
-function DoneNote() {
-  return (
-    <p className="text-sm text-muted-2 leading-relaxed">
-      That&apos;s it, nothing else to do. It&apos;ll show up on the{' '}
-      <Link href="/domains" className="underline hover:text-txt transition-colors">
-        public record
-      </Link>{' '}
-      on its own once the first check comes back.
-    </p>
-  );
-}
 
 export function DnsPathFlow({
   variant = 'default',
@@ -195,48 +182,42 @@ export function DnsPathFlow({
               </button>
             </form>
           ) : path === 'dmarc-tool' ? (
-            <>
-              <div className="mb-6 pb-6 border-b border-border">
-                <p className="text-sm text-muted mb-3 leading-relaxed">
-                  In your tool&apos;s settings, add this as a report destination:
-                </p>
-                {dmarcSnippet && (
-                  <div className="flex flex-col sm:flex-row gap-3 mb-3">
-                    <pre className={`${snippetPre} flex-1`}>{ruaAddress}</pre>
-                    <CopyButton text={ruaAddress} label="Copy" />
-                  </div>
-                )}
-                <p className="text-xs text-muted-2 leading-relaxed">Save it, and you&apos;re set.</p>
-              </div>
-              <DoneNote />
-            </>
-          ) : (
-            <>
+            <div>
+              <p className="text-sm text-muted mb-3 leading-relaxed">
+                In your tool&apos;s settings, add this as a report destination:
+              </p>
               {dmarcSnippet && (
-                <div className="mb-6 pb-6 border-b border-border">
-                  <p className="text-sm text-muted mb-3">
-                    Paste this wherever you manage your website&apos;s settings (ask your host if
-                    you&apos;re not sure where):
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <pre className={`${snippetPre} flex-1`}>{dmarcSnippet}</pre>
-                    <CopyButton text={dmarcSnippet} label="Copy" />
-                  </div>
-                  <details className="mt-3">
-                    <summary className="text-xs text-muted-2 cursor-pointer hover:text-muted transition-colors">
-                      What does this do?
-                    </summary>
-                    <p className="text-xs text-muted-2 mt-2 leading-relaxed">
-                      This is a DMARC record — an email security standard mail providers already
-                      use. Adding it doesn&apos;t change how you send email; it just tells
-                      providers to also send us a copy of the verification result. If you already
-                      have one of these, just add our address to it instead of replacing it.
-                    </p>
-                  </details>
+                <div className="flex flex-col sm:flex-row gap-3 mb-3">
+                  <pre className={`${snippetPre} flex-1`}>{ruaAddress}</pre>
+                  <CopyButton text={ruaAddress} label="Copy" />
                 </div>
               )}
-              <DoneNote />
-            </>
+              <p className="text-xs text-muted-2 leading-relaxed">Save it, and you&apos;re set.</p>
+            </div>
+          ) : (
+            dmarcSnippet && (
+              <div>
+                <p className="text-sm text-muted mb-3">
+                  Paste this wherever you manage your website&apos;s settings (ask your host if
+                  you&apos;re not sure where):
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <pre className={`${snippetPre} flex-1`}>{dmarcSnippet}</pre>
+                  <CopyButton text={dmarcSnippet} label="Copy" />
+                </div>
+                <details className="mt-3">
+                  <summary className="text-xs text-muted-2 cursor-pointer hover:text-muted transition-colors">
+                    What does this do?
+                  </summary>
+                  <p className="text-xs text-muted-2 mt-2 leading-relaxed">
+                    This is a DMARC record — an email security standard mail providers already
+                    use. Adding it doesn&apos;t change how you send email; it just tells
+                    providers to also send us a copy of the verification result. If you already
+                    have one of these, just add our address to it instead of replacing it.
+                  </p>
+                </details>
+              </div>
+            )
           )}
         </div>
       </section>
