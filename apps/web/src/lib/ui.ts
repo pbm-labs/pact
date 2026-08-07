@@ -20,7 +20,7 @@ export const btnGhost =
 
 export const input =
   'w-full min-w-0 h-11 bg-bg border border-border rounded-lg px-3.5 text-base sm:text-sm font-mono text-txt placeholder:text-muted-2 outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15 transition-all';
-export const label = 'block text-xs font-mono uppercase tracking-widest text-muted-2 mb-2';
+export const label = 'block text-xs font-mono uppercase tracking-widest text-muted-2';
 
 export const panel = 'rounded-xl border border-border bg-surface shadow-sm overflow-hidden';
 export const panelBody = 'p-5';

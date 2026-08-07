@@ -160,11 +160,11 @@ export function DnsPathFlow({
         <div className={`${panelBody} space-y-5`}>
           {path === 'cloudflare' ? (
             <form className="space-y-5" action="/api/connect/cloudflare" method="GET">
-              <div className="space-y-3">
+              <div>
                 <label htmlFor="connect-cf-domain" className={label}>
                   Your domain
                 </label>
-                <div className="flex items-stretch gap-2">
+                <div className="flex items-stretch gap-2 mt-3">
                   <input
                     id="connect-cf-domain"
                     name="domain"
@@ -194,12 +194,12 @@ export function DnsPathFlow({
             </form>
           ) : path === 'dmarc-tool' ? (
             <div className="space-y-5">
-              <div className="space-y-3">
-                <p className="text-sm text-muted leading-relaxed m-0">
+              <div>
+                <p className="text-sm text-muted leading-relaxed mb-4">
                   In your tool&apos;s settings, add this as a report destination:
                 </p>
                 <CopyableValue text={ruaAddress} />
-                <p className="text-xs text-muted-2 leading-relaxed m-0">
+                <p className="text-xs text-muted-2 leading-relaxed mt-4">
                   Save it, and you&apos;re set.
                 </p>
               </div>
@@ -217,8 +217,8 @@ export function DnsPathFlow({
           ) : (
             dmarcSnippet && (
               <div className="space-y-5">
-                <div className="space-y-3">
-                  <p className="text-sm text-muted leading-relaxed m-0">
+                <div>
+                  <p className="text-sm text-muted leading-relaxed mb-4">
                     Paste this wherever you manage your website&apos;s settings (ask your host if
                     you&apos;re not sure where):
                   </p>
