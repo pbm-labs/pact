@@ -21,8 +21,8 @@ export default function HomePage() {
 
           <Reveal delay={80}>
             <div className="mt-10 sm:mt-12 pt-8 border-t border-border flex flex-col items-start gap-4">
-              <Link href="/how-it-works#add-your-name" className={btnPrimary}>
-                Add your name
+              <Link href="/how-it-works#add-your-domain" className={btnPrimary}>
+                Add your domain
               </Link>
               <p className="text-[13px] text-muted-2 flex items-center gap-2">
                 <span className="relative flex h-2 w-2 shrink-0">

@@ -54,18 +54,10 @@ export async function processReportJob(
       continue;
     }
 
-    const { data: domainRow } = await supabase
-      .from('domains')
-      .select('domain')
-      .eq('domain', report.domain)
-      .maybeSingle();
-
-    if (!domainRow) {
-      result.skipped += 1;
-      result.errors.push(`domain not registered: ${report.domain}`);
-      continue;
-    }
-
+    // No pre-check against `domains` here: receiving a valid, source-verified RUA
+    // report for a domain is itself the proof that its DMARC record points at us,
+    // so `insert_leaf` below auto-creates the domain row on first sight
+    // (see the `on conflict (domain) do nothing` insert in the SQL function).
     const { data: existingDedup } = await supabase
       .from('processed_reports')
       .select('id')

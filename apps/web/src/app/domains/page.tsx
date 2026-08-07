@@ -16,14 +16,14 @@ export default async function DomainsPage() {
       <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
           <p className={`${eyebrow} mb-2`}>Public records</p>
-          <h1 className={`${pageTitle} mb-2`}>Names building trust</h1>
+          <h1 className={`${pageTitle} mb-2`}>Domains building trust</h1>
           <p className={pageIntro}>
-            Ranked by how long and how consistently each name has proven it&apos;s real. Updates
+            Ranked by how long and how consistently each domain has proven it&apos;s real. Updates
             on its own — no message content, ever.
           </p>
         </div>
         <Link href="/how-it-works" className={`${btnPrimary} shrink-0 sm:mt-1`}>
-          Add your name
+          Add your domain
         </Link>
       </header>
 

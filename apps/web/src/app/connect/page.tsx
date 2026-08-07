@@ -14,5 +14,5 @@ export default async function ConnectPage({ searchParams }: PageProps) {
   }
 
   const query = qs.toString();
-  redirect(`/how-it-works${query ? `?${query}` : ''}#add-your-name`);
+  redirect(`/how-it-works${query ? `?${query}` : ''}#add-your-domain`);
 }

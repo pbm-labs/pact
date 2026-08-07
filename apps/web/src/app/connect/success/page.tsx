@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { PageShell } from '@/components/page-shell';
 import {
+  badgeAmber,
   badgeVerified,
   btnGhost,
   btnPrimary,
@@ -26,23 +27,25 @@ export default async function ConnectSuccessPage({ searchParams }: PageProps) {
       <PageShell backHref="/how-it-works" backLabel="Connect" centered width="narrow">
         <h1 className={pageTitle}>Connected</h1>
         <p className="text-sm text-muted mt-2 mb-6">Something went missing from that link — let&apos;s try again.</p>
-        <Link href="/how-it-works#add-your-name" className={btnPrimary}>
+        <Link href="/how-it-works#add-your-domain" className={btnPrimary}>
           Try again
         </Link>
       </PageShell>
     );
   }
 
-  const providerLabel = provider === 'manual' ? 'Added manually' : 'Cloudflare';
   const needsManualCheck = provider === 'manual' && dmarc.startsWith('v=DMARC1');
+  const providerLabel = needsManualCheck ? 'Pending verification' : 'Cloudflare';
   const message = needsManualCheck
-    ? 'Added. Double check you pasted the line from the last step wherever you manage that.'
+    ? 'Double-check you pasted the line below. This domain shows up on the public record automatically once the first independent check comes back, usually within a day.'
     : 'Added — nothing else to do. It just started building your record.';
 
   return (
     <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
       <div className="mb-8">
-        <span className={`${badgeVerified} mb-4`}>Added</span>
+        <span className={`${needsManualCheck ? badgeAmber : badgeVerified} mb-4`}>
+          {needsManualCheck ? 'Pending' : 'Added'}
+        </span>
         <h1 className={`${pageTitle} break-all`}>{domain}</h1>
         <p className="text-sm text-muted-2 font-mono mt-2">{providerLabel}</p>
         <p className="text-sm text-muted mt-3 max-w-md mx-auto">{message}</p>
@@ -61,9 +64,12 @@ export default async function ConnectSuccessPage({ searchParams }: PageProps) {
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>What happens next</h2>
           <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
-            <li>Your name gets independently noticed, usually within a day.</li>
-            <li>It quietly confirms everything checks out.</li>
-            <li>Your page shows a trust score that grows from there.</li>
+            <li>An independent check usually arrives within a day.</li>
+            <li>
+              That&apos;s what confirms everything and adds this domain to the public record.
+              Nothing else to click.
+            </li>
+            <li>From there, your trust score builds and updates on its own.</li>
           </ol>
         </div>
       </section>

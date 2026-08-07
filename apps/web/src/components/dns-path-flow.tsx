@@ -163,7 +163,7 @@ export function DnsPathFlow({
           {path === 'cloudflare' ? (
             <form className="flex flex-col gap-2" action="/api/connect/cloudflare" method="GET">
               <label htmlFor="connect-cf-domain" className={label}>
-                Your name
+                Your domain
               </label>
               <input
                 id="connect-cf-domain"
@@ -194,12 +194,12 @@ export function DnsPathFlow({
                   </div>
                 )}
                 <p className="text-xs text-muted-2 leading-relaxed">
-                  Save it, wait a moment for it to take effect, then enter your name below.
+                  Save it, wait a moment for it to take effect, then enter your domain below.
                 </p>
               </div>
               <form className="flex flex-col gap-2" action="/api/connect/manual" method="POST">
                 <label htmlFor="connect-tool-domain" className={label}>
-                  Your name
+                  Your domain
                 </label>
                 <input
                   id="connect-tool-domain"
@@ -213,7 +213,7 @@ export function DnsPathFlow({
                   className={input}
                 />
                 <button type="submit" className={btnPrimaryBlock}>
-                  Add my name
+                  I&apos;ve set this up
                 </button>
               </form>
             </>
@@ -244,7 +244,7 @@ export function DnsPathFlow({
               )}
               <form className="flex flex-col gap-2" action="/api/connect/manual" method="POST">
                 <label htmlFor="connect-manual-domain" className={label}>
-                  Your name
+                  Your domain
                 </label>
                 <input
                   id="connect-manual-domain"
@@ -258,9 +258,11 @@ export function DnsPathFlow({
                   className={input}
                 />
                 <button type="submit" className={btnPrimaryBlock}>
-                  Add my name
+                  I&apos;ve added this
                 </button>
-                <p className="text-xs text-muted-2 mt-1">Only click after you&apos;ve pasted it.</p>
+                <p className="text-xs text-muted-2 mt-1">
+                  We&apos;ll pick it up automatically once it&apos;s live — no need to come back.
+                </p>
               </form>
             </>
           )}
