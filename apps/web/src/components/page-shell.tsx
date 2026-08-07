@@ -23,7 +23,7 @@ export function PageShell({
   return (
     <main className="flex-1">
       <div
-        className={`${container} py-10 sm:py-14 ${centered ? 'text-center flex flex-col items-center' : ''}`}
+        className={`${container} py-12 sm:py-16 ${centered ? 'text-center flex flex-col items-center' : ''}`}
       >
         {backHref && (
           <p className="mb-6">

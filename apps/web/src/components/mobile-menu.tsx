@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-
-const WHITEPAPER_URL = 'https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md';
+import { WHITEPAPER_URL } from '@/lib/links';
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -45,7 +44,7 @@ export function MobileMenu() {
 
       {open && (
         <div className="fixed inset-x-0 top-14 z-30 border-b border-border/60 bg-bg/95 backdrop-blur-md">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-1">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-1">
             <Link
               href="/domains"
               onClick={() => setOpen(false)}
