@@ -26,19 +26,17 @@ export default function HomePage() {
       <section className="border-t border-border bg-surface">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-16">
           <div className="max-w-2xl mx-auto">
-            <Reveal delay={80}>
-              <div className="flex flex-col items-start gap-4">
-                <Link href="/how-it-works#add-your-domain" className={btnPrimary}>
-                  Add your domain
-                </Link>
-                <p className="text-[13px] text-muted-2 flex items-center gap-2">
-                  <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="absolute inline-flex h-full w-full rounded-full bg-verified animate-soft-pulse" />
-                  </span>
-                  Be one of the first to stand on solid ground.
-                </p>
-              </div>
-            </Reveal>
+            <div className="flex flex-col items-start gap-4">
+              <Link href="/how-it-works#add-your-domain" className={btnPrimary}>
+                Add your domain
+              </Link>
+              <p className="text-[13px] text-muted-2 flex items-center gap-2">
+                <span className="relative flex h-2 w-2 shrink-0">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-verified animate-soft-pulse" />
+                </span>
+                Be one of the first to stand on solid ground.
+              </p>
+            </div>
           </div>
         </div>
       </section>

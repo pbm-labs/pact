@@ -157,59 +157,84 @@ export function DnsPathFlow({
           </span>
         </div>
 
-        <div className={`${panelBody} space-y-4`}>
+        <div className={`${panelBody} space-y-5`}>
           {path === 'cloudflare' ? (
-            <form className="space-y-3" action="/api/connect/cloudflare" method="GET">
-              <label htmlFor="connect-cf-domain" className={label}>
-                Your domain
-              </label>
-              <div className="flex items-stretch gap-2">
-                <input
-                  id="connect-cf-domain"
-                  name="domain"
-                  type="text"
-                  placeholder="example.com"
-                  defaultValue={domainPrefill}
-                  required
-                  autoComplete="off"
-                  spellCheck={false}
-                  autoFocus
-                  className={`${input} flex-1`}
-                />
-                <button type="submit" className={`${btnPrimary} shrink-0 px-4 sm:px-5`}>
-                  Continue
-                </button>
+            <form className="space-y-5" action="/api/connect/cloudflare" method="GET">
+              <div className="space-y-3">
+                <label htmlFor="connect-cf-domain" className={label}>
+                  Your domain
+                </label>
+                <div className="flex items-stretch gap-2">
+                  <input
+                    id="connect-cf-domain"
+                    name="domain"
+                    type="text"
+                    placeholder="example.com"
+                    defaultValue={domainPrefill}
+                    required
+                    autoComplete="off"
+                    spellCheck={false}
+                    autoFocus
+                    className={`${input} flex-1`}
+                  />
+                  <button type="submit" className={`${btnPrimary} shrink-0 px-4 sm:px-5`}>
+                    Continue
+                  </button>
+                </div>
+              </div>
+              <div>
+                <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
+                  What does this do?
+                </p>
+                <p className="text-xs text-muted-2 leading-relaxed m-0">
+                  You&apos;ll sign in to Cloudflare and we&apos;ll add the verification record for
+                  you. Nothing about how you send email changes.
+                </p>
               </div>
             </form>
           ) : path === 'dmarc-tool' ? (
-            <div className="space-y-3">
-              <p className="text-sm text-muted leading-relaxed m-0">
-                In your tool&apos;s settings, add this as a report destination:
-              </p>
-              <CopyableValue text={ruaAddress} />
-              <p className="text-xs text-muted-2 leading-relaxed m-0">
-                Save it, and you&apos;re set.
-              </p>
+            <div className="space-y-5">
+              <div className="space-y-3">
+                <p className="text-sm text-muted leading-relaxed m-0">
+                  In your tool&apos;s settings, add this as a report destination:
+                </p>
+                <CopyableValue text={ruaAddress} />
+                <p className="text-xs text-muted-2 leading-relaxed m-0">
+                  Save it, and you&apos;re set.
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
+                  What does this do?
+                </p>
+                <p className="text-xs text-muted-2 leading-relaxed m-0">
+                  Your tool already handles email authentication. Pointing it here just tells it
+                  to also send us a copy of the verification result. Nothing about how you send
+                  email changes.
+                </p>
+              </div>
             </div>
           ) : (
             dmarcSnippet && (
-              <div className="space-y-3">
-                <p className="text-sm text-muted leading-relaxed m-0">
-                  Paste this wherever you manage your website&apos;s settings (ask your host if
-                  you&apos;re not sure where):
-                </p>
-                <CopyableValue text={dmarcSnippet} />
-                <details>
-                  <summary className="text-xs text-muted-2 cursor-pointer hover:text-muted transition-colors">
+              <div className="space-y-5">
+                <div className="space-y-3">
+                  <p className="text-sm text-muted leading-relaxed m-0">
+                    Paste this wherever you manage your website&apos;s settings (ask your host if
+                    you&apos;re not sure where):
+                  </p>
+                  <CopyableValue text={dmarcSnippet} />
+                </div>
+                <div>
+                  <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
                     What does this do?
-                  </summary>
-                  <p className="text-xs text-muted-2 mt-2 leading-relaxed">
+                  </p>
+                  <p className="text-xs text-muted-2 leading-relaxed m-0">
                     This is a DMARC record — an email security standard mail providers already
                     use. Adding it doesn&apos;t change how you send email; it just tells
                     providers to also send us a copy of the verification result. If you already
                     have one of these, just add our address to it instead of replacing it.
                   </p>
-                </details>
+                </div>
               </div>
             )
           )}
