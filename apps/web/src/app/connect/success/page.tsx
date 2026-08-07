@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { PageShell } from '@/components/page-shell';
 import {
-  badgeAmber,
   badgeVerified,
   btnGhost,
   btnPrimary,
@@ -9,18 +8,19 @@ import {
   panel,
   panelBody,
   panelSectionTitle,
-  snippetPre,
 } from '@/lib/ui';
 
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
+// Reached only after a real Cloudflare connection: OAuth proved DNS control,
+// so this domain was actually registered. The manual / email-tool paths skip
+// this page entirely — they go straight to the domain's own page, since
+// there's nothing to confirm until a real report arrives.
 export default async function ConnectSuccessPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const domain = typeof params.domain === 'string' ? params.domain : '';
-  const provider = typeof params.provider === 'string' ? params.provider : 'cloudflare';
-  const dmarc = typeof params.dmarc === 'string' ? params.dmarc : 'updated';
 
   if (!domain) {
     return (
@@ -34,31 +34,16 @@ export default async function ConnectSuccessPage({ searchParams }: PageProps) {
     );
   }
 
-  const needsManualCheck = provider === 'manual' && dmarc.startsWith('v=DMARC1');
-  const providerLabel = needsManualCheck ? 'Pending verification' : 'Cloudflare';
-  const message = needsManualCheck
-    ? 'Double-check you pasted the line below. This domain shows up on the public record automatically once the first independent check comes back, usually within a day.'
-    : 'Added — nothing else to do. It just started building your record.';
-
   return (
     <PageShell backHref="/domains" backLabel="Records" centered width="narrow">
       <div className="mb-8">
-        <span className={`${needsManualCheck ? badgeAmber : badgeVerified} mb-4`}>
-          {needsManualCheck ? 'Pending' : 'Added'}
-        </span>
+        <span className={`${badgeVerified} mb-4`}>Added</span>
         <h1 className={`${pageTitle} break-all`}>{domain}</h1>
-        <p className="text-sm text-muted-2 font-mono mt-2">{providerLabel}</p>
-        <p className="text-sm text-muted mt-3 max-w-md mx-auto">{message}</p>
+        <p className="text-sm text-muted-2 font-mono mt-2">Cloudflare</p>
+        <p className="text-sm text-muted mt-3 max-w-md mx-auto">
+          Added, nothing else to do. It just started building your record.
+        </p>
       </div>
-
-      {needsManualCheck && (
-        <section className={`${panel} w-full text-left mb-4`}>
-          <div className={panelBody}>
-            <h2 className={panelSectionTitle}>What to paste</h2>
-            <pre className={snippetPre}>{dmarc}</pre>
-          </div>
-        </section>
-      )}
 
       <section className={`${panel} w-full text-left mb-8`}>
         <div className={panelBody}>

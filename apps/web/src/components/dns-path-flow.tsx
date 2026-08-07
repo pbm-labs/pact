@@ -77,6 +77,67 @@ const PATH_COPY = {
   },
 } as const;
 
+function normalizeDomainInput(raw: string): string {
+  return raw
+    .trim()
+    .toLowerCase()
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '')
+    .replace(/\/.*$/, '');
+}
+
+/**
+ * Shared ending for every non-Cloudflare path: there's nothing to submit or
+ * confirm anymore (a domain only ever gets added by receiving a real report),
+ * so this just takes the visitor straight to their domain's own page — the
+ * same page that will update itself once the first report lands.
+ */
+function GoToDomainStep({ idPrefix, domainPrefill }: { idPrefix: string; domainPrefill: string }) {
+  const router = useRouter();
+
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const field = event.currentTarget.elements.namedItem('domain') as HTMLInputElement | null;
+      if (!field) return;
+      const domain = normalizeDomainInput(field.value);
+      if (!domain || !domain.includes('.')) {
+        field.setCustomValidity('Enter a valid domain, e.g. example.com');
+        field.reportValidity();
+        return;
+      }
+      field.setCustomValidity('');
+      router.push(`/domain/${encodeURIComponent(domain)}`);
+    },
+    [router],
+  );
+
+  return (
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+      <label htmlFor={`${idPrefix}-domain`} className={label}>
+        Your domain
+      </label>
+      <input
+        id={`${idPrefix}-domain`}
+        name="domain"
+        type="text"
+        placeholder="example.com"
+        defaultValue={domainPrefill}
+        required
+        autoComplete="off"
+        spellCheck={false}
+        className={input}
+      />
+      <button type="submit" className={btnPrimaryBlock}>
+        View my domain&apos;s page
+      </button>
+      <p className="text-xs text-muted-2 mt-1">
+        It updates on its own once the record is live, nothing else to do.
+      </p>
+    </form>
+  );
+}
+
 export function DnsPathFlow({
   variant = 'default',
   domainPrefill = '',
@@ -197,25 +258,7 @@ export function DnsPathFlow({
                   Save it, wait a moment for it to take effect, then enter your domain below.
                 </p>
               </div>
-              <form className="flex flex-col gap-2" action="/api/connect/manual" method="POST">
-                <label htmlFor="connect-tool-domain" className={label}>
-                  Your domain
-                </label>
-                <input
-                  id="connect-tool-domain"
-                  name="domain"
-                  type="text"
-                  placeholder="example.com"
-                  defaultValue={domainPrefill}
-                  required
-                  autoComplete="off"
-                  spellCheck={false}
-                  className={input}
-                />
-                <button type="submit" className={btnPrimaryBlock}>
-                  I&apos;ve set this up
-                </button>
-              </form>
+              <GoToDomainStep idPrefix="connect-tool" domainPrefill={domainPrefill} />
             </>
           ) : (
             <>
@@ -242,28 +285,7 @@ export function DnsPathFlow({
                   </details>
                 </div>
               )}
-              <form className="flex flex-col gap-2" action="/api/connect/manual" method="POST">
-                <label htmlFor="connect-manual-domain" className={label}>
-                  Your domain
-                </label>
-                <input
-                  id="connect-manual-domain"
-                  name="domain"
-                  type="text"
-                  placeholder="example.com"
-                  defaultValue={domainPrefill}
-                  required
-                  autoComplete="off"
-                  spellCheck={false}
-                  className={input}
-                />
-                <button type="submit" className={btnPrimaryBlock}>
-                  I&apos;ve added this
-                </button>
-                <p className="text-xs text-muted-2 mt-1">
-                  We&apos;ll pick it up automatically once it&apos;s live — no need to come back.
-                </p>
-              </form>
+              <GoToDomainStep idPrefix="connect-manual" domainPrefill={domainPrefill} />
             </>
           )}
         </div>

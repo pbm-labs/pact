@@ -239,9 +239,21 @@ function UnknownDomainPage({ domain }: { domain: string }) {
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
       <p className={`${pageIntro} mb-2`}>No public record yet.</p>
       <p className="text-sm text-muted-2 mb-6 max-w-sm mx-auto leading-relaxed">
-        If you already added the verification record, this page updates on its own once the
-        first independent check comes back, usually within a day.
+        If you already added the verification record, bookmark this page. It updates on its own
+        once the first independent check comes back, usually within a day.
       </p>
+
+      <section className={`${panel} w-full text-left mb-8`}>
+        <div className={panelBody}>
+          <h2 className={panelSectionTitle}>What happens next</h2>
+          <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
+            <li>This domain gets independently noticed, usually within a day.</li>
+            <li>It quietly confirms everything checks out.</li>
+            <li>This page updates on its own, and the domain joins the public record.</li>
+          </ol>
+        </div>
+      </section>
+
       <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
         Connect {domain}
       </Link>
