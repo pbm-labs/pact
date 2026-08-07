@@ -6,7 +6,7 @@ import { btnPrimary, eyebrow } from '@/lib/ui';
 export default function HomePage() {
   return (
     <main className="flex-1">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden bg-surface">
         <div className="mesh-glow" aria-hidden />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-16 sm:pb-20">
@@ -20,7 +20,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-bg">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-base sm:text-lg text-txt font-semibold leading-relaxed mb-3">

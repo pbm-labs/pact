@@ -171,5 +171,5 @@ html {
   position: absolute;
   inset: auto 0 0 0;
   height: 6rem;
-  background: linear-gradient(to bottom, transparent, var(--bg));
+  background: linear-gradient(to bottom, transparent, var(--surface));
 }
