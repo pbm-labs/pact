@@ -14,7 +14,7 @@ export function ScoreBar({ score, className = '' }: ScoreBarProps) {
       aria-label={`Trust score ${pct} out of 100`}
     >
       <div
-        className={`h-full rounded-full ${color} transition-[width] duration-700 ease-out`}
+        className={`h-full rounded-full ${color}`}
         style={{ width: `${pct}%` }}
       />
     </div>

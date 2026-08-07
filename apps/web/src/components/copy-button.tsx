@@ -33,14 +33,14 @@ export function CopyableValue({ text, label = 'Copy', caption }: CopyableValuePr
       <button
         type="button"
         onClick={handleCopy}
-        className="group w-full flex items-center justify-between gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-xl border border-accent/30 bg-accent/5 hover:border-accent/60 hover:bg-accent/10 transition-all text-left"
+        className="group w-full flex items-center justify-between gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-xl border border-accent/30 bg-accent/5 hover:border-accent/60 hover:bg-accent/10 text-left"
         aria-label={`${label} ${text}`}
       >
         <code className="text-sm sm:text-base font-mono font-semibold text-accent truncate min-w-0">
           {text}
         </code>
         <span
-          className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors ${
+          className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide ${
             copied
               ? 'bg-verified/15 text-verified'
               : 'bg-accent text-white group-hover:opacity-90'

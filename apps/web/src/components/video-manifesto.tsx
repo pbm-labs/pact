@@ -42,7 +42,7 @@ function PlayPoster({
       className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-5 bg-[radial-gradient(circle_at_30%_25%,rgba(124,106,247,0.22),transparent_60%)] cursor-pointer"
     >
       <span
-        className={`flex items-center justify-center rounded-full bg-txt text-bg shadow-xl transition-transform group-hover:scale-105 ${
+        className={`flex items-center justify-center rounded-full bg-txt text-bg shadow-xl ${
           compact ? 'h-16 w-16 sm:h-20 sm:w-20' : 'h-20 w-20 sm:h-28 sm:w-28'
         }`}
       >
@@ -118,14 +118,14 @@ export function VideoManifesto() {
         open &&
         createPortal(
           <div
-            className="modal-backdrop-in fixed inset-0 z-50 flex items-center justify-center bg-bg/75 backdrop-blur-[3px] p-4 sm:p-8"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-bg/75 backdrop-blur-[3px] p-4 sm:p-8"
             onClick={closeModal}
             role="dialog"
             aria-modal="true"
             aria-label={VIDEO_TITLE}
           >
             <div
-              className="modal-card-in relative w-full max-w-[94vw] sm:max-w-4xl lg:max-w-6xl max-h-[88vh] sm:max-h-[85vh] aspect-video rounded-2xl overflow-hidden border border-border-h bg-surface shadow-2xl shadow-black/40"
+              className="relative w-full max-w-[94vw] sm:max-w-4xl lg:max-w-6xl max-h-[88vh] sm:max-h-[85vh] aspect-video rounded-2xl overflow-hidden border border-border-h bg-surface shadow-2xl shadow-black/40"
               onClick={(e) => e.stopPropagation()}
             >
               {playing ? (
@@ -145,7 +145,7 @@ export function VideoManifesto() {
                 type="button"
                 onClick={closeModal}
                 aria-label="Close and read instead"
-                className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
+                className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm hover:bg-black/70"
               >
                 <CloseIcon />
               </button>

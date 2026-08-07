@@ -191,7 +191,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
 
       <details className="group mb-2">
         <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 hover:text-muted transition-colors">
-          <span className="inline-block transition-transform group-open:rotate-90">›</span>
+          <span className={`inline-block group-open:rotate-90`}>›</span>
           Technical verification — reports &amp; cryptographic proof
         </summary>
 

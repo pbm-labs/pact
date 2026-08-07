@@ -49,9 +49,9 @@ export function SiteNarrative() {
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className="relative inline-flex items-center gap-1.5 bg-transparent border-none p-0 cursor-pointer text-xs font-mono uppercase tracking-widest text-muted-2 hover:text-muted transition-colors mt-3"
+        className="relative inline-flex items-center gap-1.5 bg-transparent border-none p-0 cursor-pointer text-xs font-mono uppercase tracking-widest text-muted-2 hover:text-muted mt-3"
       >
-        <span className={`inline-block transition-transform ${expanded ? 'rotate-90' : ''}`}>›</span>
+        <span className={`inline-block ${expanded ? 'rotate-90' : ''}`}>›</span>
         {expanded ? 'Show less' : 'Read more'}
       </button>
     </article>
