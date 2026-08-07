@@ -199,9 +199,6 @@ export function DnsPathFlow({
                   In your tool&apos;s settings, add this as a report destination:
                 </p>
                 <CopyableValue text={ruaAddress} />
-                <p className="text-xs text-muted-2 leading-relaxed mt-4">
-                  Save it, and you&apos;re set.
-                </p>
               </div>
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
