@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { CopyButton } from '@/components/copy-button';
@@ -77,64 +78,15 @@ const PATH_COPY = {
   },
 } as const;
 
-function normalizeDomainInput(raw: string): string {
-  return raw
-    .trim()
-    .toLowerCase()
-    .replace(/^https?:\/\//, '')
-    .replace(/^www\./, '')
-    .replace(/\/.*$/, '');
-}
-
-/**
- * Shared ending for every non-Cloudflare path: there's nothing to submit or
- * confirm anymore (a domain only ever gets added by receiving a real report),
- * so this just takes the visitor straight to their domain's own page — the
- * same page that will update itself once the first report lands.
- */
-function GoToDomainStep({ idPrefix, domainPrefill }: { idPrefix: string; domainPrefill: string }) {
-  const router = useRouter();
-
-  const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const field = event.currentTarget.elements.namedItem('domain') as HTMLInputElement | null;
-      if (!field) return;
-      const domain = normalizeDomainInput(field.value);
-      if (!domain || !domain.includes('.')) {
-        field.setCustomValidity('Enter a valid domain, e.g. example.com');
-        field.reportValidity();
-        return;
-      }
-      field.setCustomValidity('');
-      router.push(`/domain/${encodeURIComponent(domain)}`);
-    },
-    [router],
-  );
-
+function DoneNote() {
   return (
-    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-      <label htmlFor={`${idPrefix}-domain`} className={label}>
-        Your domain
-      </label>
-      <input
-        id={`${idPrefix}-domain`}
-        name="domain"
-        type="text"
-        placeholder="example.com"
-        defaultValue={domainPrefill}
-        required
-        autoComplete="off"
-        spellCheck={false}
-        className={input}
-      />
-      <button type="submit" className={btnPrimaryBlock}>
-        View my domain&apos;s page
-      </button>
-      <p className="text-xs text-muted-2 mt-1">
-        It updates on its own once the record is live, nothing else to do.
-      </p>
-    </form>
+    <p className="text-sm text-muted-2 leading-relaxed">
+      That&apos;s it, nothing else to do. It&apos;ll show up on the{' '}
+      <Link href="/domains" className="underline hover:text-txt transition-colors">
+        public record
+      </Link>{' '}
+      on its own once the first check comes back.
+    </p>
   );
 }
 
@@ -254,11 +206,9 @@ export function DnsPathFlow({
                     <CopyButton text={ruaAddress} label="Copy" />
                   </div>
                 )}
-                <p className="text-xs text-muted-2 leading-relaxed">
-                  Save it, wait a moment for it to take effect, then enter your domain below.
-                </p>
+                <p className="text-xs text-muted-2 leading-relaxed">Save it, and you&apos;re set.</p>
               </div>
-              <GoToDomainStep idPrefix="connect-tool" domainPrefill={domainPrefill} />
+              <DoneNote />
             </>
           ) : (
             <>
@@ -285,7 +235,7 @@ export function DnsPathFlow({
                   </details>
                 </div>
               )}
-              <GoToDomainStep idPrefix="connect-manual" domainPrefill={domainPrefill} />
+              <DoneNote />
             </>
           )}
         </div>
