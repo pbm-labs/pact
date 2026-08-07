@@ -19,11 +19,13 @@ export const btnGhost =
   'inline-flex items-center justify-center h-9 px-4 rounded-lg border border-border bg-bg text-[0.7rem] font-semibold text-muted hover:text-txt hover:border-muted-2 transition-colors no-underline';
 
 export const input =
-  'w-full h-11 bg-bg border border-border rounded-lg px-3.5 text-base sm:text-sm font-mono text-txt placeholder:text-muted-2 outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15 transition-all';
-export const label = 'block text-xs text-muted-2 font-medium mt-1';
+  'w-full min-w-0 h-11 bg-bg border border-border rounded-lg px-3.5 text-base sm:text-sm font-mono text-txt placeholder:text-muted-2 outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15 transition-all';
+export const label = 'block text-xs font-mono uppercase tracking-widest text-muted-2 mb-2';
 
 export const panel = 'rounded-xl border border-border bg-surface shadow-sm overflow-hidden';
 export const panelBody = 'p-5';
+export const panelHeader =
+  'px-5 py-3.5 border-b border-border flex items-center justify-between gap-3';
 export const panelSectionTitle = `${sectionTitle} mb-4`;
 
 export const alertError =

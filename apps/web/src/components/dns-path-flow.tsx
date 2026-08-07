@@ -2,16 +2,16 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import { CopyButton } from '@/components/copy-button';
+import { CopyableValue } from '@/components/copy-button';
 import type { ConnectPath } from '@/lib/connect-path';
 import {
-  btnPrimaryBlock,
+  btnPrimary,
   input,
   label,
   panel,
   panelBody,
+  panelHeader,
   pathCard,
-  snippetPre,
 } from '@/lib/ui';
 
 export type { ConnectPath, DnsPath } from '@/lib/connect-path';
@@ -150,62 +150,56 @@ export function DnsPathFlow({
       </button>
 
       <section className={panel}>
-        <div
-          className={`${panelBody} border-b border-border flex items-center justify-between gap-3`}
-        >
+        <div className={panelHeader}>
           <h2 className="text-base font-semibold text-txt m-0">{pathCopy.title}</h2>
           <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
             {pathCopy.badge}
           </span>
         </div>
 
-        <div className={panelBody}>
+        <div className={`${panelBody} space-y-4`}>
           {path === 'cloudflare' ? (
-            <form className="flex flex-col gap-2" action="/api/connect/cloudflare" method="GET">
+            <form className="space-y-3" action="/api/connect/cloudflare" method="GET">
               <label htmlFor="connect-cf-domain" className={label}>
                 Your domain
               </label>
-              <input
-                id="connect-cf-domain"
-                name="domain"
-                type="text"
-                placeholder="example.com"
-                defaultValue={domainPrefill}
-                required
-                autoComplete="off"
-                spellCheck={false}
-                autoFocus
-                className={input}
-              />
-              <button type="submit" className={btnPrimaryBlock}>
-                Continue with Cloudflare
-              </button>
+              <div className="flex items-stretch gap-2">
+                <input
+                  id="connect-cf-domain"
+                  name="domain"
+                  type="text"
+                  placeholder="example.com"
+                  defaultValue={domainPrefill}
+                  required
+                  autoComplete="off"
+                  spellCheck={false}
+                  autoFocus
+                  className={`${input} flex-1`}
+                />
+                <button type="submit" className={`${btnPrimary} shrink-0 px-4 sm:px-5`}>
+                  Continue
+                </button>
+              </div>
             </form>
           ) : path === 'dmarc-tool' ? (
-            <div>
-              <p className="text-sm text-muted mb-3 leading-relaxed">
+            <div className="space-y-3">
+              <p className="text-sm text-muted leading-relaxed m-0">
                 In your tool&apos;s settings, add this as a report destination:
               </p>
-              {dmarcSnippet && (
-                <div className="flex flex-col sm:flex-row gap-3 mb-3">
-                  <pre className={`${snippetPre} flex-1`}>{ruaAddress}</pre>
-                  <CopyButton text={ruaAddress} label="Copy" />
-                </div>
-              )}
-              <p className="text-xs text-muted-2 leading-relaxed">Save it, and you&apos;re set.</p>
+              <CopyableValue text={ruaAddress} />
+              <p className="text-xs text-muted-2 leading-relaxed m-0">
+                Save it, and you&apos;re set.
+              </p>
             </div>
           ) : (
             dmarcSnippet && (
-              <div>
-                <p className="text-sm text-muted mb-3">
+              <div className="space-y-3">
+                <p className="text-sm text-muted leading-relaxed m-0">
                   Paste this wherever you manage your website&apos;s settings (ask your host if
                   you&apos;re not sure where):
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <pre className={`${snippetPre} flex-1`}>{dmarcSnippet}</pre>
-                  <CopyButton text={dmarcSnippet} label="Copy" />
-                </div>
-                <details className="mt-3">
+                <CopyableValue text={dmarcSnippet} />
+                <details>
                   <summary className="text-xs text-muted-2 cursor-pointer hover:text-muted transition-colors">
                     What does this do?
                   </summary>
