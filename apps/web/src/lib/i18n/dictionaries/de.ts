@@ -55,19 +55,19 @@ export const de: Dictionary = {
     pathManualDesc:
       'Eine Zeile zum Einfügen, wo du deine Website verwaltest — GoDaddy, Namecheap oder ein anderer Anbieter.',
     pathManualBadge: 'Universell',
-    pathToolTitle: 'Ich nutze ein E-Mail-Sicherheitstool',
-    pathToolDesc: 'Postmark, EasyDMARC oder ähnlich — auf uns zeigen.',
+    pathToolTitle: 'Ich nutze bereits ein Tool',
+    pathToolDesc: 'Postmark, EasyDMARC oder ähnlich — hierher zeigen.',
     pathToolBadge: 'Vorhandenes Tool',
     whatDoesThisDo: 'Was bewirkt das?',
     cloudflareExplain:
-      'Du meldest dich bei Cloudflare an, und wir fügen den Verifizierungs-Eintrag für dich hinzu. An deinem E-Mail-Versand ändert sich nichts.',
-    toolIntro: 'Füge in den Einstellungen deines Tools dies als Berichtsziel hinzu:',
+      'Du meldest dich bei Cloudflare an, und wir fügen den Verifizierungs-Eintrag für dich hinzu.',
+    toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
-      'Dein Tool übernimmt bereits die E-Mail-Authentifizierung. Wenn du es hierher zeigst, sendet es uns zusätzlich eine Kopie des Verifizierungsergebnisses. An deinem E-Mail-Versand ändert sich nichts.',
+      'Dein Tool prüft diese Domain bereits. Wenn du es hierher zeigst, sind wir Teil dieser Prüfung.',
     manualIntro:
       'Füge dies dort ein, wo du die Einstellungen deiner Website verwaltest (frage deinen Anbieter, wenn du unsicher bist):',
     manualExplain:
-      'Dies ist ein DMARC-Eintrag — ein E-Mail-Sicherheitsstandard, den Mail-Anbieter bereits nutzen. Das Hinzufügen ändert nicht, wie du E-Mails sendest; es teilt Anbietern nur mit, uns auch eine Kopie des Verifizierungsergebnisses zu senden. Wenn du bereits einen hast, füge unsere Adresse hinzu, statt ihn zu ersetzen.',
+      'Eine Zeile, mit der unabhängige Systeme bestätigen können, dass deine Domain echt ist. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen.',
     errors: {
       invalid_domain: 'Gib eine gültige Domain ein (z. B. example.com).',
       server_config: 'Dem Server fehlen CONNECT_STATE_SECRET oder Supabase-Zugangsdaten.',

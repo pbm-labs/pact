@@ -55,19 +55,19 @@ export const en: Dictionary = {
     pathManualDesc:
       'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
     pathManualBadge: 'Universal',
-    pathToolTitle: 'I use an email security tool',
-    pathToolDesc: 'Postmark, EasyDMARC, or similar — point it to us.',
+    pathToolTitle: 'I already use a tool',
+    pathToolDesc: 'Postmark, EasyDMARC, or similar — point it here.',
     pathToolBadge: 'Existing tool',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add the verification record for you. Nothing about how you send email changes.",
-    toolIntro: "In your tool's settings, add this as a report destination:",
+      "You'll sign in to Cloudflare and we'll add the verification record for you.",
+    toolIntro: "In your tool's settings, add this:",
     toolExplain:
-      'Your tool already handles email authentication. Pointing it here just tells it to also send us a copy of the verification result. Nothing about how you send email changes.',
+      'Your tool already checks this domain. Pointing it here includes us in that check.',
     manualIntro:
       "Paste this wherever you manage your website's settings (ask your host if you're not sure where):",
     manualExplain:
-      "This is a DMARC record — an email security standard mail providers already use. Adding it doesn't change how you send email; it just tells providers to also send us a copy of the verification result. If you already have one of these, just add our address to it instead of replacing it.",
+      'One line that lets independent systems confirm your domain is real. If you already have a similar line, add our address to it instead of replacing it.',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or Supabase credentials.',

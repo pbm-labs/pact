@@ -55,19 +55,19 @@ export const es: Dictionary = {
     pathManualDesc:
       'Una línea para pegar donde gestiones tu sitio — GoDaddy, Namecheap u otro proveedor.',
     pathManualBadge: 'Universal',
-    pathToolTitle: 'Uso una herramienta de seguridad de email',
-    pathToolDesc: 'Postmark, EasyDMARC o similar — apunta hacia nosotros.',
+    pathToolTitle: 'Ya uso una herramienta',
+    pathToolDesc: 'Postmark, EasyDMARC o similar — apúntala aquí.',
     pathToolBadge: 'Herramienta existente',
     whatDoesThisDo: '¿Qué hace esto?',
     cloudflareExplain:
-      'Iniciarás sesión en Cloudflare y añadiremos el registro de verificación por ti. Nada cambia en cómo envías email.',
-    toolIntro: 'En la configuración de tu herramienta, añade esto como destino de informes:',
+      'Iniciarás sesión en Cloudflare y añadiremos el registro de verificación por ti.',
+    toolIntro: 'En la configuración de tu herramienta, añade esto:',
     toolExplain:
-      'Tu herramienta ya gestiona la autenticación de email. Apuntarla aquí solo le indica que también nos envíe una copia del resultado de verificación. Nada cambia en cómo envías email.',
+      'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación.',
     manualIntro:
       'Pega esto donde gestiones la configuración de tu sitio (pregunta a tu proveedor si no estás seguro):',
     manualExplain:
-      'Esto es un registro DMARC — un estándar de seguridad de email que los proveedores de correo ya usan. Añadirlo no cambia cómo envías email; solo indica a los proveedores que también nos envíen una copia del resultado de verificación. Si ya tienes uno, añade nuestra dirección en lugar de reemplazarlo.',
+      'Una línea que permite a sistemas independientes confirmar que tu dominio es real. Si ya tienes una línea parecida, añade nuestra dirección en lugar de reemplazarla.',
     errors: {
       invalid_domain: 'Introduce un dominio válido (p. ej. example.com).',
       server_config: 'Falta CONNECT_STATE_SECRET o las credenciales de Supabase en el servidor.',

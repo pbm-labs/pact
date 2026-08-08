@@ -55,19 +55,19 @@ export const fr: Dictionary = {
     pathManualDesc:
       'Une ligne à coller là où vous gérez votre site — GoDaddy, Namecheap ou tout autre hébergeur.',
     pathManualBadge: 'Universel',
-    pathToolTitle: "J'utilise un outil de sécurité e-mail",
-    pathToolDesc: 'Postmark, EasyDMARC ou similaire — pointez-le vers nous.',
+    pathToolTitle: "J'utilise déjà un outil",
+    pathToolDesc: 'Postmark, EasyDMARC ou similaire — pointez-le ici.',
     pathToolBadge: 'Outil existant',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
-      "Vous vous connecterez à Cloudflare et nous ajouterons l'enregistrement de vérification pour vous. Rien ne change dans la façon dont vous envoyez des e-mails.",
-    toolIntro: "Dans les paramètres de votre outil, ajoutez ceci comme destination de rapports :",
+      "Vous vous connecterez à Cloudflare et nous ajouterons l'enregistrement de vérification pour vous.",
+    toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
-      "Votre outil gère déjà l'authentification e-mail. Le pointer ici lui indique simplement de nous envoyer aussi une copie du résultat de vérification. Rien ne change dans la façon dont vous envoyez des e-mails.",
+      'Votre outil vérifie déjà ce domaine. Le pointer ici nous inclut dans cette vérification.',
     manualIntro:
       "Collez ceci là où vous gérez les paramètres de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
     manualExplain:
-      "C'est un enregistrement DMARC — une norme de sécurité e-mail déjà utilisée par les fournisseurs de messagerie. L'ajouter ne change pas la façon dont vous envoyez des e-mails ; cela indique simplement aux fournisseurs de nous envoyer aussi une copie du résultat de vérification. Si vous en avez déjà un, ajoutez notre adresse au lieu de le remplacer.",
+      "Une ligne qui permet à des systèmes indépendants de confirmer que votre domaine est réel. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer.",
     errors: {
       invalid_domain: 'Saisissez un domaine valide (ex. example.com).',
       server_config:
