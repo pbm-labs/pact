@@ -112,11 +112,13 @@ export interface DomainSummary {
   domainRegisteredAt?: string | null;
   pactHistoryStart?: string | null;
   status: 'waiting' | 'live';
-  /** Raw canonical T — use for sorting only. */
+  /** Raw canonical T — use for sorting only when history days tie. */
   trustScore?: number;
   trustScoreDisplay?: number;
   trustScoreLabel?: string;
   trustStatus?: 'provisional' | 'activated';
+  /** Days of verified PACT history — primary ranking key. */
+  pactAgeDays?: number;
   leafCount?: number;
   passRate?: number;
   uniqueReporterCount?: number;
@@ -227,6 +229,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         trustScoreDisplay: display.displayScore,
         trustScoreLabel: display.label,
         trustStatus: trust.status,
+        pactAgeDays: trust.pactAgeDays,
         leafCount: domainLeaves.length,
         passRate,
         uniqueReporterCount: reporters.size,
@@ -236,6 +239,12 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
     .sort((a, b) => {
       if (a.status === 'waiting' && b.status !== 'waiting') return 1;
       if (b.status === 'waiting' && a.status !== 'waiting') return -1;
+      const daysA = a.pactAgeDays ?? -1;
+      const daysB = b.pactAgeDays ?? -1;
+      if (daysB !== daysA) return daysB - daysA;
+      const leavesA = a.leafCount ?? 0;
+      const leavesB = b.leafCount ?? 0;
+      if (leavesB !== leavesA) return leavesB - leavesA;
       const scoreA = a.trustScore ?? -1;
       const scoreB = b.trustScore ?? -1;
       if (scoreB !== scoreA) return scoreB - scoreA;

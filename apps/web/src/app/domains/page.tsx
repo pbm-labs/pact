@@ -18,8 +18,8 @@ export default async function DomainsPage() {
           <p className={`${eyebrow} mb-2`}>Public records</p>
           <h1 className={`${pageTitle} mb-2`}>Domains building trust</h1>
           <p className={pageIntro}>
-            Ranked by how long and how consistently each domain has proven it&apos;s real. Updates
-            on its own — no message content, ever.
+            Ranked by verified history — how long each domain has been independently confirmed.
+            Trust scores appear once that history is meaningful.
           </p>
         </div>
         <Link href="/how-it-works" className={`${btnPrimary} shrink-0 sm:mt-1`}>

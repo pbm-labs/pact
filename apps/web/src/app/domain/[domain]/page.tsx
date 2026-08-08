@@ -7,7 +7,11 @@ import { ScoreGauge } from '@/components/score-gauge';
 import { fetchDomainPageState } from '@/lib/domain-data';
 import { estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
 import type { DomainLiveData } from '@/lib/domain-data';
-import { formatScoreProgressHint } from '@/lib/trust-display';
+import {
+  formatScoreProgressHint,
+  formatVerifiedDays,
+  shouldShowTrustScore,
+} from '@/lib/trust-display';
 import {
   alertStaging,
   badgeAmber,
@@ -39,7 +43,7 @@ function Stat({
   dim?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-surface px-4 py-4 transition-colors hover:border-muted-2">
+    <div className="rounded-xl border border-border bg-surface px-4 py-4 hover:border-muted-2">
       <p
         className={`text-2xl sm:text-3xl font-bold font-mono leading-none ${
           dim ? 'text-muted-2' : 'text-txt'
@@ -128,8 +132,9 @@ function WaitingPage({
 function LivePage({ data }: { data: DomainLiveData }) {
   const statusBadge =
     data.trust.status === 'activated' ? badgeVerified : badgeAmber;
-  const statusLabel = data.trust.status === 'activated' ? 'Activated' : 'Provisional';
+  const statusLabel = data.trust.status === 'activated' ? 'Activated' : 'Building';
   const display = formatScoreForDisplay(data.trust.score);
+  const showScore = shouldShowTrustScore(data.trust);
   const progress = estimateScoreProgress({
     rawScore: data.trust.score,
     volume: data.trust.volume,
@@ -137,6 +142,8 @@ function LivePage({ data }: { data: DomainLiveData }) {
     pactAgeDays: data.trust.pactAgeDays,
   });
   const progressHint = formatScoreProgressHint(progress, data.trust.score);
+  const verifiedDays = Math.floor(data.trust.pactAgeDays);
+  const verifiedLabel = formatVerifiedDays(data.trust.pactAgeDays);
 
   return (
     <PageShell backHref="/domains" backLabel="Records" width="wide">
@@ -151,18 +158,34 @@ function LivePage({ data }: { data: DomainLiveData }) {
           <div className="min-w-0">
             <p className={`${eyebrow} mb-2`}>Public record</p>
             <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
+            <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">
+              {showScore
+                ? 'Independently confirmed history, with a trust score that reflects how long and how widely it has been verified.'
+                : 'Independently confirmed history, building one honest day at a time. A trust score appears once enough history has accrued.'}
+            </p>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
-            <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
-              <ScoreGauge score={display.displayScore} size={108} strokeWidth={8} />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-txt leading-none">
-                  {display.displayScore}
-                </span>
-                <span className="text-[0.6rem] font-mono text-muted-2 mt-0.5">/ 100</span>
+            {showScore ? (
+              <>
+                <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
+                  <ScoreGauge score={display.displayScore} size={108} strokeWidth={8} />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-txt leading-none">
+                      {display.displayScore}
+                    </span>
+                    <span className="text-[0.6rem] font-mono text-muted-2 mt-0.5">/ 100</span>
+                  </div>
+                </div>
+                <p className="text-sm text-muted m-0">{display.label}</p>
+              </>
+            ) : (
+              <div className="text-left sm:text-right">
+                <p className="text-3xl sm:text-4xl font-bold font-mono tabular-nums text-txt leading-none m-0">
+                  {verifiedLabel}
+                </p>
+                <p className="text-sm text-muted mt-2 m-0">of verified history</p>
               </div>
-            </div>
-            <p className="text-sm text-muted m-0">{display.label}</p>
+            )}
             {progressHint && (
               <p className="text-xs text-muted-2 m-0 max-w-[16rem] sm:text-right leading-snug">
                 {progressHint}
@@ -171,12 +194,6 @@ function LivePage({ data }: { data: DomainLiveData }) {
             <span className={statusBadge}>{statusLabel}</span>
           </div>
         </div>
-        {data.trust.status === 'provisional' && (
-          <p className="text-xs text-muted-2 mt-2 max-w-xl">
-            Provisional — trust builds up over time, so a low number early on is normal and
-            expected.
-          </p>
-        )}
         <DomainClocks
           domainRegisteredAt={data.domainRegisteredAt}
           pactHistoryStart={data.pactHistoryStart}
@@ -184,13 +201,13 @@ function LivePage({ data }: { data: DomainLiveData }) {
       </header>
 
       <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-10">
-        <Stat value={`${Math.floor(data.trust.pactAgeDays)}d`} label="Time verified" />
+        <Stat value={`${verifiedDays}d`} label="Time verified" />
         <Stat value={String(data.domainLeafCount)} label="Reports" sub="all time" />
         <Stat value={`${data.passRate.toFixed(1)}%`} label="Pass rate" />
       </div>
 
       <details className="group mb-2">
-        <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 hover:text-muted transition-colors">
+        <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 hover:text-muted">
           <span className={`inline-block group-open:rotate-90`}>›</span>
           Technical verification — reports &amp; cryptographic proof
         </summary>
@@ -213,6 +230,14 @@ function LivePage({ data }: { data: DomainLiveData }) {
             <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
               <dt className="text-muted-2">Raw score (T)</dt>
               <dd className="m-0 font-mono tabular-nums">{display.rawScore.toFixed(4)}</dd>
+              {showScore && (
+                <>
+                  <dt className="text-muted-2">Display</dt>
+                  <dd className="m-0 font-mono tabular-nums">
+                    {display.displayScore} / 100 · {display.label}
+                  </dd>
+                </>
+              )}
               <dt className="text-muted-2">Volume (V)</dt>
               <dd className="m-0 font-mono tabular-nums">{data.trust.volume.toFixed(3)}</dd>
               <dt className="text-muted-2">Diversity (D)</dt>
@@ -220,7 +245,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
               <dt className="text-muted-2">Maturity (A)</dt>
               <dd className="m-0 font-mono tabular-nums">{data.trust.maturity.toFixed(4)}</dd>
               <dt className="text-muted-2">Time verified</dt>
-              <dd className="m-0 font-mono tabular-nums">{Math.floor(data.trust.pactAgeDays)}d</dd>
+              <dd className="m-0 font-mono tabular-nums">{verifiedDays}d</dd>
               <dt className="text-muted-2">Failed checks</dt>
               <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
             </dl>

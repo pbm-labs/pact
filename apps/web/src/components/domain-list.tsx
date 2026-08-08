@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ScoreBar } from '@/components/score-bar';
 import type { DomainSummary } from '@/lib/domain-data';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
+import { formatVerifiedDays, shouldShowTrustScore } from '@/lib/trust-display';
 import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
 
 interface DomainListProps {
@@ -21,7 +22,50 @@ function StatusBadge({ domain }: { domain: DomainSummary }) {
   if (domain.trustStatus === 'activated') {
     return <span className={badgeVerified}>Activated</span>;
   }
-  return <span className={badgeAmber}>Provisional</span>;
+  return <span className={badgeAmber}>Building</span>;
+}
+
+function HistoryCell({ domain }: { domain: DomainSummary }) {
+  const days = domain.pactAgeDays ?? 0;
+  const reports = domain.leafCount ?? 0;
+  const orgs = domain.uniqueReporterCount ?? 0;
+  const showScore =
+    domain.trustScore != null &&
+    domain.trustStatus != null &&
+    shouldShowTrustScore({ score: domain.trustScore, status: domain.trustStatus });
+
+  return (
+    <Link
+      href={`/domain/${domain.domain}`}
+      className="block text-right no-underline group-hover:text-accent"
+      title={domain.trustScoreLabel}
+    >
+      <span className="font-mono text-lg sm:text-xl font-bold tabular-nums text-txt">
+        {formatVerifiedDays(days)}
+      </span>
+      <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
+        verified
+      </span>
+      <span className="block text-[0.65rem] font-mono text-muted-2 mt-1.5">
+        {reports} report{reports === 1 ? '' : 's'}
+        {orgs > 0 ? ` · ${orgs} org${orgs === 1 ? '' : 's'}` : ''}
+      </span>
+      {showScore && domain.trustScoreDisplay != null && (
+        <span className="mt-2 block">
+          <span className="font-mono text-sm font-semibold tabular-nums text-txt">
+            {domain.trustScoreDisplay}
+            <span className="text-muted-2"> / 100</span>
+          </span>
+          <ScoreBar score={domain.trustScoreDisplay} className="mt-1 ml-auto max-w-24" />
+          {domain.trustScoreLabel && (
+            <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
+              {domain.trustScoreLabel}
+            </span>
+          )}
+        </span>
+      )}
+    </Link>
+  );
 }
 
 export function DomainList({ domains }: DomainListProps) {
@@ -46,10 +90,11 @@ export function DomainList({ domains }: DomainListProps) {
       <div className={`${panelBody} border-b border-border flex flex-wrap items-end justify-between gap-3`}>
         <div>
           <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 mb-1">
-            Ranked by trust score
+            Ranked by verified history
           </p>
           <p className="text-xs text-muted m-0">
-            Grows the longer a domain stays verified and the more it&apos;s independently confirmed.
+            Longer independently confirmed history ranks higher. A trust score appears once
+            history is meaningful.
           </p>
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
@@ -59,7 +104,7 @@ export function DomainList({ domains }: DomainListProps) {
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />
-            Provisional
+            Building
           </span>
         </div>
       </div>
@@ -70,7 +115,7 @@ export function DomainList({ domains }: DomainListProps) {
             <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5">Domain</th>
-              <th className="text-right font-medium px-4 sm:px-5 py-2.5">Score / 100</th>
+              <th className="text-right font-medium px-4 sm:px-5 py-2.5">History</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 hidden sm:table-cell">
                 Status
               </th>
@@ -83,7 +128,7 @@ export function DomainList({ domains }: DomainListProps) {
               return (
                 <tr
                   key={d.domain}
-                  className="border-b border-border last:border-0 group hover:bg-surface-2/40 transition-colors"
+                  className="border-b border-border last:border-0 group hover:bg-surface-2/40"
                 >
                   <td className="px-4 sm:px-5 py-3.5">
                     <span className={`font-mono tabular-nums text-xs ${rankClass(rank)}`}>
@@ -93,7 +138,7 @@ export function DomainList({ domains }: DomainListProps) {
                   <td className="px-4 sm:px-5 py-3.5 min-w-[8rem] max-w-[14rem] sm:max-w-none">
                     <Link
                       href={`/domain/${d.domain}`}
-                      className="font-mono text-sm text-txt no-underline group-hover:text-accent transition-colors break-all sm:truncate sm:block"
+                      className="font-mono text-sm text-txt no-underline group-hover:text-accent break-all sm:truncate sm:block"
                       title={d.domain}
                     >
                       {d.domain}
@@ -109,24 +154,9 @@ export function DomainList({ domains }: DomainListProps) {
                   </td>
                   <td className="px-4 sm:px-5 py-3.5 text-right">
                     {d.status === 'live' ? (
-                      <Link
-                        href={`/domain/${d.domain}`}
-                        className="block text-right no-underline group-hover:text-accent transition-colors"
-                        title={d.trustScoreLabel}
-                      >
-                        <span className="font-mono text-lg sm:text-xl font-bold tabular-nums text-txt">
-                          {d.trustScoreDisplay ?? 0}
-                          <span className="text-sm font-semibold text-muted-2"> / 100</span>
-                        </span>
-                        <ScoreBar score={d.trustScoreDisplay ?? 0} className="mt-1.5 ml-auto max-w-24" />
-                        {d.trustScoreLabel && (
-                          <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
-                            {d.trustScoreLabel}
-                          </span>
-                        )}
-                      </Link>
+                      <HistoryCell domain={d} />
                     ) : (
-                      <span className="font-mono text-lg font-bold text-muted-2">—</span>
+                      <span className="font-mono text-sm font-semibold text-muted-2">—</span>
                     )}
                   </td>
                   <td className="px-4 sm:px-5 py-3.5 hidden sm:table-cell">
