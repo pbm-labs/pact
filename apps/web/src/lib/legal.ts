@@ -79,7 +79,7 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   },
   {
     title: '2. Information We Process',
-    body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme choice and whether the manifesto video modal has been shown, stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
+    body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme choice stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
   },
   {
     title: '3. What We Do Not Collect',
@@ -99,7 +99,7 @@ export const PRIVACY_SECTIONS: LegalSection[] = [
   },
   {
     title: '7. Cookies and Local Storage',
-    body: 'We do not use advertising or analytics tracking pixels on this site. We store essential preferences (such as theme and a one-time video modal flag) in your browser’s local storage. You can clear these in your browser settings.',
+    body: 'We do not use advertising or analytics tracking pixels on this site. We store essential preferences (such as theme) in your browser’s local storage. You can clear these in your browser settings.',
   },
   {
     title: '8. Retention',
