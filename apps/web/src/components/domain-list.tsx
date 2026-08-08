@@ -99,12 +99,12 @@ export function DomainList({ domains }: DomainListProps) {
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
           <span className="inline-flex items-center gap-1.5">
-            <span className="size-2 rounded-full bg-verified" aria-hidden />
-            Proven
-          </span>
-          <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />
             Building
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="size-2 rounded-full bg-verified" aria-hidden />
+            Proven
           </span>
         </div>
       </div>

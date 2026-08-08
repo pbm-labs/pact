@@ -8,7 +8,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function DomainsPage() {
   const domains = await fetchDomainSummaries();
-  const activated = domains.filter((d) => d.trustStatus === 'activated').length;
+  const proven = domains.filter((d) => d.trustStatus === 'activated').length;
+  const building = domains.filter(
+    (d) => d.status === 'live' && d.trustStatus !== 'activated',
+  ).length;
   const awaiting = domains.filter((d) => d.status === 'waiting').length;
 
   return (
@@ -29,11 +32,11 @@ export default async function DomainsPage() {
 
       <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
         <div className={statCard}>
-          <p className={statValue}>{domains.length}</p>
-          <p className={statLabel}>Domains</p>
+          <p className={`${statValue} text-amber`}>{building}</p>
+          <p className={statLabel}>Building</p>
         </div>
         <div className={statCard}>
-          <p className={`${statValue} text-verified`}>{activated}</p>
+          <p className={`${statValue} text-verified`}>{proven}</p>
           <p className={statLabel}>Proven</p>
         </div>
         <div className={statCard}>
