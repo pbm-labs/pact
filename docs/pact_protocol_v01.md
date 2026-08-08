@@ -5,7 +5,7 @@
 **Status:** Normative (reference implementation: `pact-score-0.1`)  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Contact:** protocol@pbm-labs.com
+**Contact:** pact@pbm-labs.com
 
 ---
 
@@ -720,4 +720,4 @@ PACT does not protect against:
 PACT — Provenance Attestation and Chain of Trust
 Protocol Specification v0.1 — Open standard. Freely implementable.
 Reference implementation: PBM Labs LLC
-Contact: protocol@pbm-labs.com
+Contact: pact@pbm-labs.com

@@ -7,7 +7,7 @@
 **Status:** Historical draft  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Contact:** protocol@pbm-labs.com  
+**Contact:** pact@pbm-labs.com  
 **Superseded by:** [Protocol Specification v0.1](pact_protocol_v01.md) for trust score and two-clock display rules
 
 ---
@@ -908,4 +908,4 @@ leaf = keccak256(preimage)
 PACT — Provenance Attestation and Chain of Trust  
 Protocol Specification v0.2 — Open standard. Freely implementable.  
 Reference implementation: PBM Labs LLC  
-Contact: protocol@pbm-labs.com
+Contact: pact@pbm-labs.com
