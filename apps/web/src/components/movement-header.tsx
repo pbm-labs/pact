@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { useLocale } from '@/components/locale-provider';
-import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
 
 export function MovementHeader() {
@@ -18,16 +17,15 @@ export function MovementHeader() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-4 sm:gap-5">
+        <div className="flex items-center gap-3 sm:gap-5">
           <Link
             href="/domains"
-            className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt no-underline"
+            className="text-[13px] text-muted-2 hover:text-txt no-underline"
           >
             {t.nav.publicRecords}
           </Link>
           <LanguageSwitcher />
           <ThemeToggle />
-          <MobileMenu />
         </div>
       </div>
     </header>
