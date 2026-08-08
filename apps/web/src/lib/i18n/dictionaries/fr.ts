@@ -220,9 +220,6 @@ export const fr: Dictionary = {
     intro:
       "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
     source: 'Source sur GitHub →',
-    ready: 'Prêt à commencer ?',
-    addDomain: 'Ajoutez votre domaine',
-    publicRecords: 'Registres publics',
   },
   legal: {
     eyebrow: 'Mentions légales',

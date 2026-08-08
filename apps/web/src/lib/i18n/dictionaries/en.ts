@@ -217,9 +217,6 @@ export const en: Dictionary = {
     intro:
       'The open protocol behind the public record — how verified history is captured, published, and measured.',
     source: 'Source on GitHub →',
-    ready: 'Ready to start?',
-    addDomain: 'Add your domain',
-    publicRecords: 'Public records',
   },
   legal: {
     eyebrow: 'Legal',

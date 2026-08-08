@@ -218,9 +218,6 @@ export const de: Dictionary = {
     intro:
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
     source: 'Quellcode auf GitHub →',
-    ready: 'Bereit zu starten?',
-    addDomain: 'Domain hinzufügen',
-    publicRecords: 'Öffentliche Einträge',
   },
   legal: {
     eyebrow: 'Rechtliches',

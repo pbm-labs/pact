@@ -218,9 +218,6 @@ export const es: Dictionary = {
     intro:
       'El protocolo abierto detrás del registro público — cómo se captura, publica y mide el historial verificado.',
     source: 'Código en GitHub →',
-    ready: '¿Listo para empezar?',
-    addDomain: 'Añade tu dominio',
-    publicRecords: 'Registros públicos',
   },
   legal: {
     eyebrow: 'Legal',

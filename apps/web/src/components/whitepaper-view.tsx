@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
@@ -33,20 +32,6 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
       </header>
 
       <WhitepaperBody markdown={markdown} />
-
-      <p className="mt-12 pt-8 border-t border-border text-sm text-muted">
-        {t.whitepaper.ready}{' '}
-        <Link
-          href="/how-it-works#add-your-domain"
-          className="text-accent font-semibold no-underline hover:opacity-90"
-        >
-          {t.whitepaper.addDomain}
-        </Link>
-        {' · '}
-        <Link href="/domains" className="text-accent font-semibold no-underline hover:opacity-90">
-          {t.whitepaper.publicRecords}
-        </Link>
-      </p>
     </PageShell>
   );
 }

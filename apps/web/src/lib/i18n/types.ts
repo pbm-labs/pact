@@ -186,9 +186,6 @@ export type Dictionary = {
     title: string;
     intro: string;
     source: string;
-    ready: string;
-    addDomain: string;
-    publicRecords: string;
   };
   legal: {
     eyebrow: string;
