@@ -8,12 +8,6 @@ import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { ScoreGauge } from '@/components/score-gauge';
 import type { DomainLiveData, DomainPageState } from '@/lib/domain-data';
-import { estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
-import {
-  formatScoreProgressHint,
-  formatVerifiedDays,
-  shouldShowTrustScore,
-} from '@/lib/trust-display';
 import {
   alertStaging,
   badgeAmber,
@@ -27,9 +21,22 @@ import {
   panelSectionTitle,
 } from '@/lib/ui';
 
+export type DomainLiveScoreView = {
+  display: {
+    rawScore: number;
+    displayScore: number;
+    label: string;
+  };
+  showScore: boolean;
+  progressHint: string | null;
+  verifiedLabel: string;
+  verifiedDays: number;
+};
+
 interface DomainPageViewProps {
   domain: string;
   state: DomainPageState | null;
+  liveScore: DomainLiveScoreView | null;
   unconfigured: boolean;
 }
 
@@ -61,7 +68,12 @@ function Stat({
   );
 }
 
-export function DomainPageView({ domain, state, unconfigured }: DomainPageViewProps) {
+export function DomainPageView({
+  domain,
+  state,
+  liveScore,
+  unconfigured,
+}: DomainPageViewProps) {
   if (unconfigured) {
     return <UnconfiguredPage domain={domain} />;
   }
@@ -80,7 +92,11 @@ export function DomainPageView({ domain, state, unconfigured }: DomainPageViewPr
     );
   }
 
-  return <LivePage data={state.data} />;
+  if (!liveScore) {
+    return <UnknownDomainPage domain={domain} />;
+  }
+
+  return <LivePage data={state.data} liveScore={liveScore} />;
 }
 
 function WaitingPage({
@@ -124,22 +140,18 @@ function WaitingPage({
   );
 }
 
-function LivePage({ data }: { data: DomainLiveData }) {
+function LivePage({
+  data,
+  liveScore,
+}: {
+  data: DomainLiveData;
+  liveScore: DomainLiveScoreView;
+}) {
   const { t } = useLocale();
   const statusBadge = data.trust.status === 'activated' ? badgeVerified : badgeAmber;
   const statusLabel =
     data.trust.status === 'activated' ? t.domain.proven : t.domain.building;
-  const display = formatScoreForDisplay(data.trust.score);
-  const showScore = shouldShowTrustScore(data.trust);
-  const progress = estimateScoreProgress({
-    rawScore: data.trust.score,
-    volume: data.trust.volume,
-    diversity: data.trust.diversity,
-    pactAgeDays: data.trust.pactAgeDays,
-  });
-  const progressHint = formatScoreProgressHint(progress, data.trust.score);
-  const verifiedDays = Math.floor(data.trust.pactAgeDays);
-  const verifiedLabel = formatVerifiedDays(data.trust.pactAgeDays);
+  const { display, showScore, progressHint, verifiedLabel, verifiedDays } = liveScore;
 
   return (
     <PageShell backHref="/domains" backLabel={t.domain.backRecords} width="wide">
