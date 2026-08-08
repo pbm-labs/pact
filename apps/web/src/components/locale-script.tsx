@@ -5,7 +5,7 @@ export function LocaleScript() {
 (function () {
   try {
     var locale = localStorage.getItem("${STORAGE_KEYS.locale}");
-    if (locale === "en" || locale === "es" || locale === "de") {
+    if (locale === "en" || locale === "es" || locale === "de" || locale === "fr") {
       document.documentElement.lang = locale;
     }
   } catch (e) {}
