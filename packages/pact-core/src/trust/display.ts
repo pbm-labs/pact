@@ -27,13 +27,20 @@ export interface TrustScoreProgress {
   pactAgeDays: number;
   daysToNextBand: number | null;
   nextBandLabel: string | null;
+  nextBandKey: TrustProgressBandKey | null;
 }
 
-const RAW_BAND_THRESHOLDS: { max: number; label: string }[] = [
-  { max: 1, label: 'Early' },
-  { max: 3, label: 'Established' },
-  { max: 6, label: 'High confidence' },
-  { max: 9, label: 'Maximum confidence' },
+export type TrustProgressBandKey =
+  | 'early'
+  | 'established'
+  | 'high_confidence'
+  | 'maximum_confidence';
+
+const RAW_BAND_THRESHOLDS: { max: number; label: string; key: TrustProgressBandKey }[] = [
+  { max: 1, label: 'Early', key: 'early' },
+  { max: 3, label: 'Established', key: 'established' },
+  { max: 6, label: 'High confidence', key: 'high_confidence' },
+  { max: 9, label: 'Maximum confidence', key: 'maximum_confidence' },
 ];
 
 const DISPLAY_BANDS: {
@@ -140,12 +147,12 @@ export function estimateScoreProgress(input: {
 
   const nextBand = RAW_BAND_THRESHOLDS.find((b) => input.rawScore < b.max);
   if (!nextBand || volumeDiversity <= 0) {
-    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null };
+    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null, nextBandKey: null };
   }
 
   const targetMaturity = nextBand.max / volumeDiversity;
   if (targetMaturity >= 1) {
-    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null };
+    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null, nextBandKey: null };
   }
 
   const daysNeeded = -Math.log(1 - targetMaturity) / MATURITY_LAMBDA;
@@ -155,5 +162,6 @@ export function estimateScoreProgress(input: {
     pactAgeDays,
     daysToNextBand,
     nextBandLabel: nextBand.label,
+    nextBandKey: nextBand.key,
   };
 }

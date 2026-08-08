@@ -3,7 +3,6 @@ import type { Dictionary } from '../types';
 export const fr: Dictionary = {
   nav: {
     language: 'Langue',
-    whitepaper: 'Whitepaper',
     publicRecords: 'Registres publics',
   },
   footer: {
@@ -12,7 +11,6 @@ export const fr: Dictionary = {
   },
   common: {
     home: 'Accueil',
-    back: 'Retour',
     continue: 'Continuer',
     copy: 'Copier',
     copied: 'Copié',
@@ -56,7 +54,7 @@ export const fr: Dictionary = {
       'Une ligne à coller là où vous gérez votre site — GoDaddy, Namecheap ou tout autre hébergeur.',
     pathManualBadge: 'Universel',
     pathToolTitle: "J'utilise déjà un outil",
-    pathToolDesc: 'Postmark, EasyDMARC ou similaire — pointez-le ici.',
+    pathToolDesc: 'Postmark ou similaire — pointez-le ici.',
     pathToolBadge: 'Outil existant',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
@@ -145,6 +143,61 @@ export const fr: Dictionary = {
     connectDomain: 'Connecter',
     staging:
       'Aperçu anticipé — la vérification est active, l\'ancrage public permanent arrive bientôt.',
+    firstDay: 'Premier jour',
+    dayOne: '1 jour',
+    days: '{n} jours',
+    progressDaysToBand: 'Environ {days} jours de plus pour atteindre « {band} », à ce rythme.',
+    progressBuilding: 'L\'historique continue de se construire à chaque confirmation indépendante.',
+    progressStarts: 'Cela commence à bouger dès votre première confirmation.',
+    bands: {
+      no_history_yet: 'Pas encore d\'historique',
+      provisional: 'Provisoire',
+      early: 'Précoce',
+      established: 'Établi',
+      high_confidence: 'Confiance élevée',
+      maximum_confidence: 'Confiance maximale',
+    },
+    mathRawScore: 'Score brut (T)',
+    mathDisplay: 'Affiché',
+    mathVolume: 'Volume (V)',
+    mathDiversity: 'Diversité (D)',
+    mathMaturity: 'Maturité (A)',
+    mathFailedChecks: 'Contrôles échoués',
+    dbNotConfigured: 'Base de données non configurée',
+    reportHistory: 'Historique des rapports',
+    reportHistoryIntro:
+      'Les contrôles indépendants arrivent en continu depuis les reporters connectés (généralement chaque jour).',
+    reportHistoryCounts:
+      '{periods} périodes de rapport de {reporters} organisations reporteuses — les plus récentes en premier.',
+    colReporter: 'Reporter',
+    colPeriod: 'Période',
+    colPass: 'Réussi',
+    colFail: 'Échoué',
+    colIngested: 'Ingesté',
+    showOlderReports: 'Afficher les rapports plus anciens ({shown} sur {total})',
+    verification: 'Vérification',
+    verificationIntro:
+      'Preuves d\'inclusion recalculées à partir des données en direct contre la dernière racine de staging.',
+    anchor: 'Ancre',
+    onChain: 'On-chain',
+    stagingOffChain: 'Staging (hors chaîne)',
+    rootsMatch: 'Racines concordantes',
+    yes: 'Oui',
+    no: 'Non',
+    domainLeaves: 'Feuilles du domaine',
+    globalTree: 'Arbre global',
+    publishedRoot: 'Racine publiée',
+    proofsShown:
+      'Preuves affichées pour les {n} feuilles les plus récentes. Chargez les rapports plus anciens ci-dessus pour inspecter les périodes antérieures.',
+    leafHash: 'Hash de la feuille',
+    proofVerified: 'Vérifiée',
+    proofUnverified: 'Non vérifiée',
+    clockUnknown: '—',
+    clockDay1: '(Jour 1)',
+    clockYears: '({n} ans)',
+    clockYear: '({n} an)',
+    clockMonths: '({n} mo)',
+    clockDaysShort: '({n}j)',
   },
   connectSuccess: {
     added: 'Ajouté',
@@ -175,6 +228,7 @@ export const fr: Dictionary = {
     lastUpdated: 'Dernière mise à jour le 8 août 2026',
     termsTitle: "Conditions d'utilisation",
     privacyTitle: 'Politique de confidentialité',
+    emailLabel: 'E-mail',
     terms: [
       {
         title: '1. Acceptation des conditions',

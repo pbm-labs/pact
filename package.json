@@ -4,6 +4,7 @@
   "scripts": {
     "build": "pnpm -r run build",
     "test": "pnpm --filter @pact/core test",
+    "test:ingest-smoke": "tsx workers/ingest/scripts/smoke-extract.ts",
     "dev:web": "pnpm --filter @pact/web dev",
     "deploy:web": "pnpm --filter @pact/core build && env -u CLOUDFLARE_API_TOKEN pnpm --filter @pact/web deploy:cf",
     "dev:fixture": "tsx scripts/process-fixture.ts",

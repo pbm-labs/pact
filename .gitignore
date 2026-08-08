@@ -21,3 +21,11 @@ apps/web/.dev.vars
 
 # Editor / local
 .cursor/
+
+# Secrets / keys (never commit)
+*.pem
+*.key
+
+# Media
+# Prefer R2/CDN for new large assets. The existing manifesto MP4 under
+# apps/web/public/ is tracked in git (~11MB); do not blanket-ignore *.mp4.

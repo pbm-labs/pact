@@ -253,6 +253,7 @@ describe('estimateScoreProgress', () => {
       pactAgeDays: 100,
     });
     expect(progress.nextBandLabel).toBe('Early');
+    expect(progress.nextBandKey).toBe('early');
     expect(progress.daysToNextBand).not.toBeNull();
     expect(progress.daysToNextBand!).toBeGreaterThan(0);
     expect(progress.daysToNextBand!).toBeLessThan(30);
@@ -268,6 +269,7 @@ describe('estimateScoreProgress', () => {
     expect(progress.pactAgeDays).toBe(9);
     expect(progress.daysToNextBand).toBeNull();
     expect(progress.nextBandLabel).toBeNull();
+    expect(progress.nextBandKey).toBeNull();
   });
 
   it('returns null when already at maximum interpretation band', () => {
@@ -279,5 +281,6 @@ describe('estimateScoreProgress', () => {
     });
     expect(progress.daysToNextBand).toBeNull();
     expect(progress.nextBandLabel).toBeNull();
+    expect(progress.nextBandKey).toBeNull();
   });
 });

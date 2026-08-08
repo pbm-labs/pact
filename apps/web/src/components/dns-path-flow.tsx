@@ -53,15 +53,15 @@ function PathIcon({ kind }: { kind: ConnectPath }) {
 }
 
 interface DnsPathFlowProps {
-  variant?: 'default' | 'movement';
   domainPrefill?: string;
   dmarcSnippet?: string;
   ruaAddress?: string;
   initialPath?: ConnectPath | null;
 }
 
+const PATHS: ConnectPath[] = ['cloudflare', 'manual', 'dmarc-tool'];
+
 export function DnsPathFlow({
-  variant = 'default',
   domainPrefill = '',
   dmarcSnippet,
   ruaAddress = 'rua@pact.pbm-labs.com',
@@ -103,17 +103,10 @@ export function DnsPathFlow({
     [router, pathname, searchParams],
   );
 
-  const paths: ConnectPath[] =
-    variant === 'movement' ? ['cloudflare', 'manual', 'dmarc-tool'] : ['cloudflare', 'manual'];
-
   if (!path) {
     return (
-      <div
-        className={
-          paths.length === 3 ? 'grid sm:grid-cols-1 gap-3' : 'grid sm:grid-cols-2 gap-3'
-        }
-      >
-        {paths.map((key) => {
+      <div className="grid sm:grid-cols-1 gap-3">
+        {PATHS.map((key) => {
           const item = pathCopy[key];
           return (
             <button

@@ -1,11 +1,7 @@
 import { estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
 import { DomainPageView, type DomainLiveScoreView } from '@/components/domain-page-view';
 import { fetchDomainPageState } from '@/lib/domain-data';
-import {
-  formatScoreProgressHint,
-  formatVerifiedDays,
-  shouldShowTrustScore,
-} from '@/lib/trust-display';
+import { scoreBandKey, shouldShowTrustScore } from '@/lib/trust-display';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,10 +28,11 @@ export default async function DomainPage({ params }: PageProps) {
       pactAgeDays: trust.pactAgeDays,
     });
     liveScore = {
-      display,
+      rawScore: display.rawScore,
+      displayScore: display.displayScore,
+      bandKey: scoreBandKey(trust.score, display.band),
       showScore: shouldShowTrustScore(trust),
-      progressHint: formatScoreProgressHint(progress, trust.score),
-      verifiedLabel: formatVerifiedDays(trust.pactAgeDays),
+      progress,
       verifiedDays: Math.floor(trust.pactAgeDays),
     };
   }

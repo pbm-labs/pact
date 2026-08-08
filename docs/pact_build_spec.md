@@ -1,3 +1,9 @@
+> **OBSOLETE — DO NOT EXECUTE.**  
+> This greenfield agent dump is historical and incorrect for the live repo.  
+> Wrong hostnames (`pbmlabs.com`), wrong deploy target (Vercel), wrong tree layout.  
+> **Source of truth:** root `README.md`, `apps/web`, `packages/pact-core`, `workers/ingest`.  
+> Kept only for archaeology. Verify every claim against the codebase before using any snippet.
+
 # PACT Protocol — Build Specification v1.1
 **For:** Claude Sonnet / Opus  
 **Stack:** Cloudflare Email Workers + Cloudflare Queues + Cloudflare Workers + Supabase + Vercel + Base (L2)  
@@ -1296,7 +1302,7 @@ export async function GET(request: Request): Promise<Response> {
   const existingRecord = recordsData.result?.[0]
 
   // Update or create the _dmarc record
-  const PACT_RUA = 'mailto:rua@pact.pbmlabs.com'
+  const PACT_RUA = 'mailto:rua@pact.pbm-labs.com'
   const updatedContent = addPACTToRua(existingRecord?.content ?? '', PACT_RUA)
 
   if (existingRecord) {
@@ -1368,7 +1374,7 @@ export async function GET(request: Request): Promise<Response> {
 
 function addPACTToRua(existing: string, pactRua: string): string {
   if (!existing) return `v=DMARC1; p=none; rua=${pactRua}`
-  if (existing.includes('pact.pbmlabs.com')) return existing  // Already connected
+  if (existing.includes('pact.pbm-labs.com')) return existing  // Already connected
 
   if (existing.includes('rua=')) {
     return existing.replace(
@@ -1709,10 +1715,10 @@ PACT_REGISTRY_ADDRESS=0x...           # Set after contract deployment
 # Cloudflare OAuth (for domain onboarding)
 CF_CLIENT_ID=...
 CF_CLIENT_SECRET=...
-CF_REDIRECT_URI=https://pact.pbmlabs.com/api/connect/cloudflare
+CF_REDIRECT_URI=https://pact.pbm-labs.com/api/connect/cloudflare
 
 # Vercel
-NEXT_PUBLIC_BASE_URL=https://pact.pbmlabs.com
+NEXT_PUBLIC_BASE_URL=https://pact.pbm-labs.com
 ```
 
 **Cloudflare Workers secrets** (set via `wrangler secret put`):
@@ -1870,7 +1876,7 @@ STEP 4 — Email Worker
   Test with a real ZIP-compressed report (generate one with fflate)
   Deploy to Cloudflare
   Send a test email with the sample XML as attachment
-  to rua@pact.pbmlabs.com
+  to rua@pact.pbm-labs.com
   Verify the message appears in the Cloudflare Queue
 
 STEP 5 — Processor Worker
@@ -1908,10 +1914,10 @@ STEP 7 — Web frontend
   starts low
 
 STEP 8 — End-to-end production test
-  Connect pbmlabs.com via the onboarding flow
+  Connect pbm-labs.com via the onboarding flow
   Wait 24 hours for first rua= reports
   Verify leaf in Supabase, root on Base mainnet
-  Verify pact.pbmlabs.com/domain/pbmlabs.com shows live trust score
+  Verify pact.pbm-labs.com/domain/pbm-labs.com shows live trust score
   Verify domainRegisteredAt is displayed alongside the trust score
   Verify the Merkle proof on the page is independently
   verifiable on Basescan
@@ -2009,7 +2015,7 @@ Use this for parser testing in Step 4.
     </date_range>
   </report_metadata>
   <policy_published>
-    <domain>pbmlabs.com</domain>
+    <domain>pbm-labs.com</domain>
     <adkim>r</adkim>
     <aspf>r</aspf>
     <p>reject</p>
@@ -2026,16 +2032,16 @@ Use this for parser testing in Step 4.
       </policy_evaluated>
     </row>
     <identifiers>
-      <header_from>pbmlabs.com</header_from>
+      <header_from>pbm-labs.com</header_from>
     </identifiers>
     <auth_results>
       <dkim>
-        <domain>pbmlabs.com</domain>
+        <domain>pbm-labs.com</domain>
         <selector>google-2024</selector>
         <result>pass</result>
       </dkim>
       <spf>
-        <domain>pbmlabs.com</domain>
+        <domain>pbm-labs.com</domain>
         <result>pass</result>
       </spf>
     </auth_results>
@@ -2051,16 +2057,16 @@ Use this for parser testing in Step 4.
       </policy_evaluated>
     </row>
     <identifiers>
-      <header_from>pbmlabs.com</header_from>
+      <header_from>pbm-labs.com</header_from>
     </identifiers>
     <auth_results>
       <dkim>
-        <domain>pbmlabs.com</domain>
+        <domain>pbm-labs.com</domain>
         <selector>google-2024</selector>
         <result>pass</result>
       </dkim>
       <spf>
-        <domain>pbmlabs.com</domain>
+        <domain>pbm-labs.com</domain>
         <result>pass</result>
       </spf>
     </auth_results>

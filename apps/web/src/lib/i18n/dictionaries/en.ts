@@ -3,7 +3,6 @@ import type { Dictionary } from '../types';
 export const en: Dictionary = {
   nav: {
     language: 'Language',
-    whitepaper: 'Whitepaper',
     publicRecords: 'Public records',
   },
   footer: {
@@ -12,7 +11,6 @@ export const en: Dictionary = {
   },
   common: {
     home: 'Home',
-    back: 'Back',
     continue: 'Continue',
     copy: 'Copy',
     copied: 'Copied',
@@ -56,7 +54,7 @@ export const en: Dictionary = {
       'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
     pathManualBadge: 'Universal',
     pathToolTitle: 'I already use a tool',
-    pathToolDesc: 'Postmark, EasyDMARC, or similar — point it here.',
+    pathToolDesc: 'Postmark or similar — point it here.',
     pathToolBadge: 'Existing tool',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
@@ -142,6 +140,61 @@ export const en: Dictionary = {
       'If you already added the verification record, bookmark this page. It updates on its own once the first independent check comes back, usually within a day.',
     connectDomain: 'Connect',
     staging: 'Early preview — verification is live, permanent public anchoring is coming soon.',
+    firstDay: 'First day',
+    dayOne: '1 day',
+    days: '{n} days',
+    progressDaysToBand: 'About {days} more days to reach "{band}", at this pace.',
+    progressBuilding: 'History keeps building with every independent confirmation.',
+    progressStarts: 'This starts moving the moment you’re first confirmed.',
+    bands: {
+      no_history_yet: 'No history yet',
+      provisional: 'Provisional',
+      early: 'Early',
+      established: 'Established',
+      high_confidence: 'High confidence',
+      maximum_confidence: 'Maximum confidence',
+    },
+    mathRawScore: 'Raw score (T)',
+    mathDisplay: 'Display',
+    mathVolume: 'Volume (V)',
+    mathDiversity: 'Diversity (D)',
+    mathMaturity: 'Maturity (A)',
+    mathFailedChecks: 'Failed checks',
+    dbNotConfigured: 'Database not configured',
+    reportHistory: 'Report history',
+    reportHistoryIntro:
+      'Independent checks arrive continuously from connected reporters (typically daily).',
+    reportHistoryCounts:
+      '{periods} report periods from {reporters} reporter orgs — newest first.',
+    colReporter: 'Reporter',
+    colPeriod: 'Period',
+    colPass: 'Pass',
+    colFail: 'Fail',
+    colIngested: 'Ingested',
+    showOlderReports: 'Show older reports ({shown} of {total})',
+    verification: 'Verification',
+    verificationIntro:
+      'Inclusion proofs recomputed from live data against the latest staging root.',
+    anchor: 'Anchor',
+    onChain: 'On-chain',
+    stagingOffChain: 'Staging (off-chain)',
+    rootsMatch: 'Roots match',
+    yes: 'Yes',
+    no: 'No',
+    domainLeaves: 'Domain leaves',
+    globalTree: 'Global tree',
+    publishedRoot: 'Published root',
+    proofsShown:
+      'Proofs shown for the {n} most recent leaves. Load older reports above to inspect earlier periods.',
+    leafHash: 'Leaf hash',
+    proofVerified: 'Verified',
+    proofUnverified: 'Unverified',
+    clockUnknown: '—',
+    clockDay1: '(Day 1)',
+    clockYears: '({n} yrs)',
+    clockYear: '({n} yr)',
+    clockMonths: '({n} mo)',
+    clockDaysShort: '({n}d)',
   },
   connectSuccess: {
     added: 'Added',
@@ -172,6 +225,7 @@ export const en: Dictionary = {
     lastUpdated: 'Last updated August 8, 2026',
     termsTitle: 'Terms of Service',
     privacyTitle: 'Privacy Policy',
+    emailLabel: 'Email',
     terms: [
       {
         title: '1. Acceptance of Terms',
@@ -237,7 +291,7 @@ export const en: Dictionary = {
       },
       {
         title: '2. Information We Process',
-        body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme choice stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
+        body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
       },
       {
         title: '3. What We Do Not Collect',

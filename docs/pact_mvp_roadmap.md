@@ -2,6 +2,8 @@
 **PBM Labs LLC**
 **June 2026 — Internal Working Document**
 
+> **Strategy doc** — not implementation truth. Connect path is **`/how-it-works`** (`/connect` redirects). Public UI is history-first with **Building** / **Proven** statuses. **Phase 0a is live** with staging Merkle roots (not on-chain yet). Verify against root `README.md` and the codebase before building from this plan.
+
 > **Companion document:** `pact_movement_strategy.md` specifies the adoption mechanism — narrative, signature-line distribution, and the public ordinal counter — that should be built in parallel with the phases below, starting at MVP launch. See that document before implementing the public-facing site described in this roadmap.
 
 ---

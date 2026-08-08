@@ -5,7 +5,7 @@ import { ScoreBar } from '@/components/score-bar';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
-import { formatVerifiedDays, shouldShowTrustScore } from '@/lib/trust-display';
+import { formatVerifiedDays, localizeBandLabel, shouldShowTrustScore, type ScoreBandKey } from '@/lib/trust-display';
 import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
 
 interface DomainListProps {
@@ -45,15 +45,18 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
     domain.trustScore != null &&
     domain.trustStatus != null &&
     shouldShowTrustScore({ score: domain.trustScore, status: domain.trustStatus });
+  const bandLabel = domain.trustScoreBand
+    ? localizeBandLabel(domain.trustScoreBand as ScoreBandKey, t.domain)
+    : null;
 
   return (
     <Link
       href={`/domain/${domain.domain}`}
       className="block text-right no-underline group-hover:text-accent"
-      title={domain.trustScoreLabel}
+      title={bandLabel ?? undefined}
     >
       <span className="font-mono text-lg sm:text-xl font-bold tabular-nums text-txt">
-        {formatVerifiedDays(days)}
+        {formatVerifiedDays(days, t.domain)}
       </span>
       <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
         {t.domains.verified}
@@ -71,9 +74,9 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
             <span className="text-muted-2"> / 100</span>
           </span>
           <ScoreBar score={domain.trustScoreDisplay} className="mt-1 ml-auto max-w-24" />
-          {domain.trustScoreLabel && (
+          {bandLabel && (
             <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
-              {domain.trustScoreLabel}
+              {bandLabel}
             </span>
           )}
         </span>
@@ -83,7 +86,15 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
 }
 
 export function DomainList({ domains }: DomainListProps) {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const clockLabels = {
+    clockUnknown: t.domain.clockUnknown,
+    clockDay1: t.domain.clockDay1,
+    clockYear: t.domain.clockYear,
+    clockYears: t.domain.clockYears,
+    clockMonths: t.domain.clockMonths,
+    clockDaysShort: t.domain.clockDaysShort,
+  };
 
   if (!domains.length) {
     return (
@@ -156,7 +167,8 @@ export function DomainList({ domains }: DomainListProps) {
                     </Link>
                     {d.domainRegisteredAt && (
                       <p className="text-[0.65rem] font-mono text-muted-2 mt-1 m-0">
-                        {t.domains.registered} {formatDomainRegisteredAt(d.domainRegisteredAt)}
+                        {t.domains.registered}{' '}
+                        {formatDomainRegisteredAt(d.domainRegisteredAt, locale, clockLabels)}
                       </p>
                     )}
                     <div className="sm:hidden mt-1.5">

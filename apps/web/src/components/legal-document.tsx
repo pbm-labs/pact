@@ -36,7 +36,7 @@ export function LegalDocument({
             {LEGAL_ENTITY.address.country}
           </p>
           <p className="mt-3 m-0">
-            Email:{' '}
+            {t.legal.emailLabel}:{' '}
             <a
               href={`mailto:${LEGAL_ENTITY.email}`}
               className="text-accent font-semibold no-underline"

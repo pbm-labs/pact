@@ -3,7 +3,6 @@ export type LegalSectionCopy = { title: string; body: string };
 export type Dictionary = {
   nav: {
     language: string;
-    whitepaper: string;
     publicRecords: string;
   };
   footer: {
@@ -12,7 +11,6 @@ export type Dictionary = {
   };
   common: {
     home: string;
-    back: string;
     continue: string;
     copy: string;
     copied: string;
@@ -117,6 +115,57 @@ export type Dictionary = {
     noRecordHint: string;
     connectDomain: string;
     staging: string;
+    firstDay: string;
+    dayOne: string;
+    days: string;
+    progressDaysToBand: string;
+    progressBuilding: string;
+    progressStarts: string;
+    bands: {
+      no_history_yet: string;
+      provisional: string;
+      early: string;
+      established: string;
+      high_confidence: string;
+      maximum_confidence: string;
+    };
+    mathRawScore: string;
+    mathDisplay: string;
+    mathVolume: string;
+    mathDiversity: string;
+    mathMaturity: string;
+    mathFailedChecks: string;
+    dbNotConfigured: string;
+    reportHistory: string;
+    reportHistoryIntro: string;
+    reportHistoryCounts: string;
+    colReporter: string;
+    colPeriod: string;
+    colPass: string;
+    colFail: string;
+    colIngested: string;
+    showOlderReports: string;
+    verification: string;
+    verificationIntro: string;
+    anchor: string;
+    onChain: string;
+    stagingOffChain: string;
+    rootsMatch: string;
+    yes: string;
+    no: string;
+    domainLeaves: string;
+    globalTree: string;
+    publishedRoot: string;
+    proofsShown: string;
+    leafHash: string;
+    proofVerified: string;
+    proofUnverified: string;
+    clockUnknown: string;
+    clockDay1: string;
+    clockYears: string;
+    clockYear: string;
+    clockMonths: string;
+    clockDaysShort: string;
   };
   connectSuccess: {
     added: string;
@@ -145,6 +194,7 @@ export type Dictionary = {
     lastUpdated: string;
     termsTitle: string;
     privacyTitle: string;
+    emailLabel: string;
     terms: LegalSectionCopy[];
     privacy: LegalSectionCopy[];
   };

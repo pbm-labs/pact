@@ -5,6 +5,11 @@
 **Intake address:** `rua@pact.pbm-labs.com`  
 **Live staging page:** `https://pact.pbm-labs.com/domain/pbm-labs.com`
 
+**Brand:** public site **“we build real”**; protocol name **PACT**.  
+**Connect:** primary `/how-it-works` (`/connect` redirects). Paths: Cloudflare OAuth, manual DNS, existing-tool forwarding.  
+**Statuses:** history-first UI — **Building** / **Proven**.  
+**Legal:** Terms and Privacy on the live site.
+
 Operational setup (DNS, Supabase, worker deploy) is in the root [README.md](../README.md).
 
 ---
@@ -20,15 +25,25 @@ Implementation truth for Phase 0a also lives in `packages/pact-core/` and `supab
 
 ---
 
-## Strategy, narrative & external positioning
+## Narrative, whitepaper & brand
+
+| Document / location | Role |
+|---------------------|------|
+| `apps/web/src/lib/i18n/dictionaries/` (EN/ES/DE/FR) + homepage video | **Manifesto SSOT** — live site copy |
+| [pact_site_narrative_final.md](pact_site_narrative_final.md) | **Archival snapshot** — not canonical; do not edit expecting the site to update |
+| [pact_site_narrative.md](pact_site_narrative.md) | Stub (superseded pointer) |
+| GitHub [`pbm-labs/pact-protocol`](https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md) + on-site [`/whitepaper`](https://pact.pbm-labs.com/whitepaper) | **Live whitepaper** (v1.2) |
+| [pact_whitepaper.md](pact_whitepaper.md) | Historical v1.0 only |
+
+---
+
+## Strategy & archaeology
 
 | Document | Audience |
 |----------|----------|
-| [pact_mvp_roadmap.md](pact_mvp_roadmap.md) | Internal — MVP phases, infrastructure, success criteria |
-| [pact_movement_strategy.md](pact_movement_strategy.md) | Internal — adoption mechanism, signature line, ordinal counter |
-| [pact_site_narrative.md](pact_site_narrative.md) | Public — canonical homepage manifesto (long form) |
-| [pact_whitepaper.md](pact_whitepaper.md) | External — non-technical overview for compliance / counterparty audiences |
-| [pact_build_spec.md](pact_build_spec.md) | Agents — detailed build notes; **verify against repo before use** |
+| [pact_mvp_roadmap.md](pact_mvp_roadmap.md) | Internal — MVP phases, infrastructure, success criteria (strategy; verify against repo) |
+| [pact_movement_strategy.md](pact_movement_strategy.md) | Internal — adoption mechanism, signature line, ordinal counter (**not shipped**) |
+| [pact_build_spec.md](pact_build_spec.md) | **OBSOLETE** — greenfield agent dump; wrong hostnames/deploy/tree; archaeology only |
 
 ---
 
@@ -38,7 +53,7 @@ Implementation truth for Phase 0a also lives in `packages/pact-core/` and `supab
 docs/                  ← you are here
 packages/pact-core/    Protocol logic (spec Appendix C, §3, §4)
 workers/ingest/        Cloudflare Email Worker + queue → Supabase
-apps/web/              Public site (narrative, connect, domain pages) on Cloudflare Workers
+apps/web/              Public site (narrative, how-it-works, domain pages) on Cloudflare Workers
 supabase/schema.sql    PostgreSQL schema (single file)
 fixtures/              DMARC XML test fixtures
 ```
@@ -66,9 +81,9 @@ Cloudflare OAuth redirect URL (connect): root [README.md](../README.md#cloudflar
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| **0a** | Real DMARC → leaves → staging page (no chain) | **Live** — `pbm-labs.com` receiving Google + Microsoft reports; Merkle proofs on domain page; connect (Cloudflare + manual) |
+| **0a** | Real DMARC → leaves → staging page (no chain) | **Live** — `pbm-labs.com` receiving Google + Microsoft reports; Merkle proofs on domain page; connect via `/how-it-works` (Cloudflare + manual + existing tool) |
 | **0b** | Anchor Merkle roots on Base | Not started |
-| **Movement** | Counter, ordinal #, signature line | Specified in movement strategy; not built |
+| **Movement** | Counter, ordinal #, signature line | Specified in movement strategy; **not built** |
 
 ---
 
@@ -78,5 +93,6 @@ Cloudflare OAuth redirect URL (connect): root [README.md](../README.md#cloudflar
 |------|----------|--------------|
 | Cloudflare OAuth | Lowest | Domains on Cloudflare DNS |
 | Manual DNS | Low | Everyone else (GoDaddy, Namecheap, Route 53 console, etc.) |
+| Existing tool forwarding | Low | Postmark, EasyDMARC, or similar — point reports here |
 
-Route 53 automation and DMARC-service forwarding are **not** in MVP — see roadmap “What does not get built.”
+Primary UI: `/how-it-works` (`/connect` redirects). Route 53 / AWS DNS automation is **deferred**.

@@ -3,6 +3,8 @@
 **June 2026 — Internal Working Document**
 **Companion to: `pact_mvp_roadmap.md`**
 
+> **NOT SHIPPED.** Ordinal counter and signature-line distribution are specified here but not built. Manifesto SSOT is `apps/web/src/lib/i18n/dictionaries/` (not narrative markdown in this folder). Public brand on the site is **“we build real”**; protocol name remains PACT.
+
 ---
 
 ## Purpose of This Document

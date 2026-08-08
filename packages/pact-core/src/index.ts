@@ -27,6 +27,7 @@ export {
   DISPLAY_VERSION,
   type TrustDisplayScore,
   type TrustDisplayBand,
+  type TrustProgressBandKey,
   type TrustScoreProgress,
 } from './trust/display.js';
 export {

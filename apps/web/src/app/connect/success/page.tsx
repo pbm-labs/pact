@@ -5,7 +5,7 @@ interface PageProps {
 }
 
 // Reached only after a real Cloudflare connection: OAuth proved DNS control,
-// so this domain was actually registered. The manual / email-tool paths skip
+// so this domain was actually registered. The manual / tool paths skip
 // this page entirely — they go straight to the domain's own page, since
 // there's nothing to confirm until a real report arrives.
 export default async function ConnectSuccessPage({ searchParams }: PageProps) {

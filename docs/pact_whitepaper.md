@@ -1,3 +1,7 @@
+> **Historical v1.0.**  
+> The live whitepaper is **v1.2** at [GitHub `pbm-labs/pact-protocol`](https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md) and on-site at [`/whitepaper`](https://pact.pbm-labs.com/whitepaper).  
+> Do not treat this file as current.
+
 # PACT Protocol
 ## Provenance Attestation and Chain of Trust
 

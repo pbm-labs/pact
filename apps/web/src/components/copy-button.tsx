@@ -55,8 +55,3 @@ export function CopyableValue({ text, label, caption }: CopyableValueProps) {
     </div>
   );
 }
-
-/** @deprecated Prefer CopyableValue; kept for any remaining call sites. */
-export function CopyButton({ text, label }: { text: string; label?: string }) {
-  return <CopyableValue text={text} label={label} />;
-}

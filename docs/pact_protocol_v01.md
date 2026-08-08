@@ -5,7 +5,7 @@
 **Status:** Normative (reference implementation: `pact-score-0.1`)  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Contact:** protocol@pbmlabs.com
+**Contact:** protocol@pbm-labs.com
 
 ---
 
@@ -170,7 +170,7 @@ AFTER:
 _dmarc.wise.com TXT
   "v=DMARC1; p=reject;
    rua=mailto:dmarc@wise.com,
-       mailto:rua@pact.pbmlabs.com"
+       mailto:rua@pact.pbm-labs.com"
 ```
 
 That is the only change required. No software installation. No API integration. No SDK. No behavioral change for any sender or recipient. The receiving mail servers of the world — Gmail, Outlook, Yahoo — continue generating the same aggregate reports they always have. They now send a copy to PACT alongside the domain's existing destination.
@@ -184,6 +184,8 @@ For domain operators who manage their DNS through supported providers, PACT offe
 - Manual: one DNS field addition for all other providers
 
 For domain operators already using a DMARC reporting service (Postmark, Valimail, EasyDMARC, Dmarcian), PACT can be added as a forwarding destination in those services' dashboards — zero DNS changes required.
+
+> **Live MVP note:** Reference deployment onboarding is **Cloudflare OAuth**, **manual DNS**, and **existing-tool forwarding**. Route 53 / AWS DNS automation is deferred — see [pact_protocol_v02.md](pact_protocol_v02.md) §2.3 and root `README.md`.
 
 ### 2.4 What PACT Does Not Use
 
@@ -200,7 +202,7 @@ PACT explicitly does not use and does not request access to:
 
 ### 3.1 Data Ingestion
 
-PACT operates a purpose-built SMTP receiver at rua@pact.pbmlabs.com that accepts incoming DMARC aggregate reports. Upon receipt:
+PACT operates a purpose-built SMTP receiver at rua@pact.pbm-labs.com that accepts incoming DMARC aggregate reports. Upon receipt:
 
 1. The report XML is parsed and validated against the DMARC aggregate report schema (RFC 7489 Appendix C).
 2. Per-domain authentication records are extracted.
@@ -445,7 +447,7 @@ PACT processes only domain-level authentication metadata that is explicitly desi
 
 ### 6.1 The DNS Change
 
-A domain connects to PACT by adding rua@pact.pbmlabs.com as a co-recipient in its DMARC DNS record. This is a standard DMARC mechanism explicitly defined in RFC 7489 — a domain may specify multiple rua= destinations separated by commas.
+A domain connects to PACT by adding rua@pact.pbm-labs.com as a co-recipient in its DMARC DNS record. This is a standard DMARC mechanism explicitly defined in RFC 7489 — a domain may specify multiple rua= destinations separated by commas.
 
 The domain's existing DMARC policy, reporting destinations, and email operations are entirely unaffected. PACT receives a copy of the same reports that are already being sent to the domain's existing destinations.
 
@@ -454,11 +456,11 @@ The domain's existing DMARC policy, reporting destinations, and email operations
 RFC 7489 requires that third-party report destinations (domains other than the domain being reported on) verify their willingness to receive reports. PACT satisfies this by publishing a verification DNS record:
 
 ```
-_report._dmarc.pact.pbmlabs.com TXT
+_report._dmarc.pact.pbm-labs.com TXT
   "v=DMARC1"
 ```
 
-This record is published once by PBM Labs and authorizes all domains to send their DMARC aggregate reports to rua@pact.pbmlabs.com. No per-domain configuration is required on the PACT side.
+This record is published once by PBM Labs and authorizes all domains to send their DMARC aggregate reports to rua@pact.pbm-labs.com. No per-domain configuration is required on the PACT side.
 
 ### 6.3 Onboarding Paths
 
@@ -471,7 +473,9 @@ Domain operator connects their DNS provider (Cloudflare, Route53) via OAuth. PAC
 Domain operator adds PACT as a forwarding destination in their existing DMARC reporting service (Postmark, Valimail, EasyDMARC, Dmarcian). One click in an existing dashboard. No DNS changes.
 
 **Path C — Manual DNS edit**
-Domain operator adds rua@pact.pbmlabs.com to the rua= field of their existing _dmarc TXT record. One field edit. Applicable to all DNS providers.
+Domain operator adds rua@pact.pbm-labs.com to the rua= field of their existing _dmarc TXT record. One field edit. Applicable to all DNS providers.
+
+> **Live MVP note:** Shipped paths are Cloudflare OAuth, manual DNS, and existing-tool forwarding. Route 53 automation remains deferred (match v0.2 / root README).
 
 ---
 
@@ -716,4 +720,4 @@ PACT does not protect against:
 PACT — Provenance Attestation and Chain of Trust
 Protocol Specification v0.1 — Open standard. Freely implementable.
 Reference implementation: PBM Labs LLC
-Contact: protocol@pbmlabs.com
+Contact: protocol@pbm-labs.com

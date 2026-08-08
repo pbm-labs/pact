@@ -61,7 +61,6 @@ export function HowItWorksView({
 
             <Suspense fallback={<p className="text-sm text-muted-2">{t.common.loading}</p>}>
               <DnsPathFlow
-                variant="movement"
                 domainPrefill={domainPrefill}
                 dmarcSnippet={dmarcSnippet}
                 ruaAddress={ruaAddress}

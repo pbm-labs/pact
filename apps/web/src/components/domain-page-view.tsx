@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import type { TrustScoreProgress } from '@pact/core';
 import { DomainActions } from '@/components/domain-actions';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
@@ -8,6 +9,12 @@ import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { ScoreGauge } from '@/components/score-gauge';
 import type { DomainLiveData, DomainPageState } from '@/lib/domain-data';
+import {
+  formatScoreProgressHint,
+  formatVerifiedDays,
+  localizeBandLabel,
+  type ScoreBandKey,
+} from '@/lib/trust-display';
 import {
   alertStaging,
   badgeAmber,
@@ -22,14 +29,11 @@ import {
 } from '@/lib/ui';
 
 export type DomainLiveScoreView = {
-  display: {
-    rawScore: number;
-    displayScore: number;
-    label: string;
-  };
+  rawScore: number;
+  displayScore: number;
+  bandKey: ScoreBandKey;
   showScore: boolean;
-  progressHint: string | null;
-  verifiedLabel: string;
+  progress: TrustScoreProgress;
   verifiedDays: number;
 };
 
@@ -151,7 +155,10 @@ function LivePage({
   const statusBadge = data.trust.status === 'activated' ? badgeVerified : badgeAmber;
   const statusLabel =
     data.trust.status === 'activated' ? t.domain.proven : t.domain.building;
-  const { display, showScore, progressHint, verifiedLabel, verifiedDays } = liveScore;
+  const { rawScore, displayScore, bandKey, showScore, progress, verifiedDays } = liveScore;
+  const bandLabel = localizeBandLabel(bandKey, t.domain);
+  const verifiedLabel = formatVerifiedDays(verifiedDays, t.domain);
+  const progressHint = formatScoreProgressHint(progress, rawScore, t.domain);
 
   return (
     <PageShell backHref="/domains" backLabel={t.domain.backRecords} width="wide">
@@ -170,15 +177,15 @@ function LivePage({
             {showScore ? (
               <>
                 <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
-                  <ScoreGauge score={display.displayScore} size={108} strokeWidth={8} />
+                  <ScoreGauge score={displayScore} size={108} strokeWidth={8} />
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-txt leading-none">
-                      {display.displayScore}
+                      {displayScore}
                     </span>
                     <span className="text-[0.6rem] font-mono text-muted-2 mt-0.5">/ 100</span>
                   </div>
                 </div>
-                <p className="text-sm text-muted m-0">{display.label}</p>
+                <p className="text-sm text-muted m-0">{bandLabel}</p>
               </>
             ) : (
               <div className="text-left sm:text-right">
@@ -230,25 +237,25 @@ function LivePage({
           </div>
           <div className={`${panelBody} pt-0 border-t border-border`}>
             <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-2">Raw score (T)</dt>
-              <dd className="m-0 font-mono tabular-nums">{display.rawScore.toFixed(4)}</dd>
+              <dt className="text-muted-2">{t.domain.mathRawScore}</dt>
+              <dd className="m-0 font-mono tabular-nums">{rawScore.toFixed(4)}</dd>
               {showScore && (
                 <>
-                  <dt className="text-muted-2">Display</dt>
+                  <dt className="text-muted-2">{t.domain.mathDisplay}</dt>
                   <dd className="m-0 font-mono tabular-nums">
-                    {display.displayScore} / 100 · {display.label}
+                    {displayScore} / 100 · {bandLabel}
                   </dd>
                 </>
               )}
-              <dt className="text-muted-2">Volume (V)</dt>
+              <dt className="text-muted-2">{t.domain.mathVolume}</dt>
               <dd className="m-0 font-mono tabular-nums">{data.trust.volume.toFixed(3)}</dd>
-              <dt className="text-muted-2">Diversity (D)</dt>
+              <dt className="text-muted-2">{t.domain.mathDiversity}</dt>
               <dd className="m-0 font-mono tabular-nums">{data.trust.diversity.toFixed(3)}</dd>
-              <dt className="text-muted-2">Maturity (A)</dt>
+              <dt className="text-muted-2">{t.domain.mathMaturity}</dt>
               <dd className="m-0 font-mono tabular-nums">{data.trust.maturity.toFixed(4)}</dd>
               <dt className="text-muted-2">{t.domain.timeVerified}</dt>
               <dd className="m-0 font-mono tabular-nums">{verifiedDays}d</dd>
-              <dt className="text-muted-2">Failed checks</dt>
+              <dt className="text-muted-2">{t.domain.mathFailedChecks}</dt>
               <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
             </dl>
           </div>
@@ -295,7 +302,7 @@ function UnconfiguredPage({ domain }: { domain: string }) {
   return (
     <PageShell backHref="/domains" backLabel={t.domain.backRecords} centered width="narrow">
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
-      <p className="text-sm text-muted">Database not configured</p>
+      <p className="text-sm text-muted">{t.domain.dbNotConfigured}</p>
     </PageShell>
   );
 }

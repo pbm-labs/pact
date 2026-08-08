@@ -1,3 +1,3 @@
 # PACT — Site narrative
 
-**Superseded by** [`pact_site_narrative_final.md`](pact_site_narrative_final.md) for the public landing page (`/`). That file is the canonical manifesto text per the We Build Real site refactor spec.
+**Stub.** Live manifesto copy is in `apps/web/src/lib/i18n/dictionaries/` (EN/ES/DE/FR) plus the homepage video. [`pact_site_narrative_final.md`](pact_site_narrative_final.md) is an archival snapshot only.

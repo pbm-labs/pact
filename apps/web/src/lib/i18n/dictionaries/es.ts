@@ -3,7 +3,6 @@ import type { Dictionary } from '../types';
 export const es: Dictionary = {
   nav: {
     language: 'Idioma',
-    whitepaper: 'Whitepaper',
     publicRecords: 'Registros públicos',
   },
   footer: {
@@ -12,7 +11,6 @@ export const es: Dictionary = {
   },
   common: {
     home: 'Inicio',
-    back: 'Volver',
     continue: 'Continuar',
     copy: 'Copiar',
     copied: 'Copiado',
@@ -56,7 +54,7 @@ export const es: Dictionary = {
       'Una línea para pegar donde gestiones tu sitio — GoDaddy, Namecheap u otro proveedor.',
     pathManualBadge: 'Universal',
     pathToolTitle: 'Ya uso una herramienta',
-    pathToolDesc: 'Postmark, EasyDMARC o similar — apúntala aquí.',
+    pathToolDesc: 'Postmark o similar — apúntala aquí.',
     pathToolBadge: 'Herramienta existente',
     whatDoesThisDo: '¿Qué hace esto?',
     cloudflareExplain:
@@ -143,6 +141,61 @@ export const es: Dictionary = {
     connectDomain: 'Conectar',
     staging:
       'Vista previa temprana — la verificación está activa; el anclaje público permanente llegará pronto.',
+    firstDay: 'Primer día',
+    dayOne: '1 día',
+    days: '{n} días',
+    progressDaysToBand: 'Unos {days} días más para alcanzar «{band}», a este ritmo.',
+    progressBuilding: 'El historial sigue creciendo con cada confirmación independiente.',
+    progressStarts: 'Empieza a moverse en el momento en que te confirman por primera vez.',
+    bands: {
+      no_history_yet: 'Sin historial aún',
+      provisional: 'Provisional',
+      early: 'Temprano',
+      established: 'Establecido',
+      high_confidence: 'Alta confianza',
+      maximum_confidence: 'Confianza máxima',
+    },
+    mathRawScore: 'Puntuación bruta (T)',
+    mathDisplay: 'Mostrada',
+    mathVolume: 'Volumen (V)',
+    mathDiversity: 'Diversidad (D)',
+    mathMaturity: 'Madurez (A)',
+    mathFailedChecks: 'Comprobaciones fallidas',
+    dbNotConfigured: 'Base de datos no configurada',
+    reportHistory: 'Historial de informes',
+    reportHistoryIntro:
+      'Las comprobaciones independientes llegan de forma continua desde los reporters conectados (normalmente a diario).',
+    reportHistoryCounts:
+      '{periods} periodos de informe de {reporters} organizaciones reporteras — más recientes primero.',
+    colReporter: 'Reporter',
+    colPeriod: 'Periodo',
+    colPass: 'Acierto',
+    colFail: 'Fallo',
+    colIngested: 'Ingerido',
+    showOlderReports: 'Mostrar informes anteriores ({shown} de {total})',
+    verification: 'Verificación',
+    verificationIntro:
+      'Pruebas de inclusión recalculadas a partir de datos en vivo frente a la raíz de staging más reciente.',
+    anchor: 'Ancla',
+    onChain: 'En cadena',
+    stagingOffChain: 'Staging (fuera de cadena)',
+    rootsMatch: 'Las raíces coinciden',
+    yes: 'Sí',
+    no: 'No',
+    domainLeaves: 'Hojas del dominio',
+    globalTree: 'Árbol global',
+    publishedRoot: 'Raíz publicada',
+    proofsShown:
+      'Se muestran las pruebas de las {n} hojas más recientes. Carga informes anteriores arriba para inspeccionar periodos previos.',
+    leafHash: 'Hash de la hoja',
+    proofVerified: 'Verificada',
+    proofUnverified: 'No verificada',
+    clockUnknown: '—',
+    clockDay1: '(Día 1)',
+    clockYears: '({n} a)',
+    clockYear: '({n} a)',
+    clockMonths: '({n} mes)',
+    clockDaysShort: '({n}d)',
   },
   connectSuccess: {
     added: 'Añadido',
@@ -173,6 +226,7 @@ export const es: Dictionary = {
     lastUpdated: 'Última actualización: 8 de agosto de 2026',
     termsTitle: 'Términos del servicio',
     privacyTitle: 'Política de privacidad',
+    emailLabel: 'Email',
     terms: [
       {
         title: '1. Aceptación de los términos',
@@ -238,7 +292,7 @@ export const es: Dictionary = {
       },
       {
         title: '2. Información que procesamos',
-        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: elección de tema almacenada en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
+        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: tema e idioma almacenados en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
       },
       {
         title: '3. Qué no recopilamos',

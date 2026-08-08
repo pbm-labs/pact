@@ -12,6 +12,7 @@ import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
 import { fetchAllRows } from '@/lib/supabase-fetch-all';
 import { latestTimestamp } from '@/lib/format-time';
 import { ensureDomainRegisteredAt } from '@/lib/supabase-admin';
+import { scoreBandKey } from '@/lib/trust-display';
 
 export interface DomainLeafSummary {
   reporterOrg: string;
@@ -85,27 +86,6 @@ function pactHistoryStartFromLeaves(
   return new Date();
 }
 
-export async function fetchJoinedCount(): Promise<number> {
-  try {
-    const supabase = getSupabase();
-    if (!supabase) return 0;
-
-    const { count, error } = await supabase
-      .from('domains')
-      .select('*', { count: 'exact', head: true });
-
-    if (error) return 0;
-    return count ?? 0;
-  } catch {
-    return 0;
-  }
-}
-
-export async function fetchRegisteredDomains(): Promise<string[]> {
-  const summaries = await fetchDomainSummaries();
-  return summaries.map((s) => s.domain);
-}
-
 export interface DomainSummary {
   domain: string;
   connectedSince: string | null;
@@ -115,7 +95,7 @@ export interface DomainSummary {
   /** Raw canonical T — use for sorting only when history days tie. */
   trustScore?: number;
   trustScoreDisplay?: number;
-  trustScoreLabel?: string;
+  trustScoreBand?: string;
   trustStatus?: 'provisional' | 'activated';
   /** Days of verified PACT history — primary ranking key. */
   pactAgeDays?: number;
@@ -227,7 +207,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         status: 'live' as const,
         trustScore: trust.score,
         trustScoreDisplay: display.displayScore,
-        trustScoreLabel: display.label,
+        trustScoreBand: scoreBandKey(trust.score, display.band),
         trustStatus: trust.status,
         pactAgeDays: trust.pactAgeDays,
         leafCount: domainLeaves.length,
