@@ -17,7 +17,7 @@ function rankClass(rank: number | null): string {
 
 function StatusBadge({ domain }: { domain: DomainSummary }) {
   if (domain.status === 'waiting') {
-    return <span className={badgeAmber}>Awaiting</span>;
+    return null;
   }
   if (domain.trustStatus === 'activated') {
     return <span className={badgeVerified}>Proven</span>;

@@ -12,7 +12,6 @@ export default async function DomainsPage() {
   const building = domains.filter(
     (d) => d.status === 'live' && d.trustStatus !== 'activated',
   ).length;
-  const awaiting = domains.filter((d) => d.status === 'waiting').length;
 
   return (
     <PageShell backHref="/" backLabel="Home" width="wide">
@@ -30,7 +29,7 @@ export default async function DomainsPage() {
         </Link>
       </header>
 
-      <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-8">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
         <div className={statCard}>
           <p className={`${statValue} text-amber`}>{building}</p>
           <p className={statLabel}>Building</p>
@@ -38,10 +37,6 @@ export default async function DomainsPage() {
         <div className={statCard}>
           <p className={`${statValue} text-verified`}>{proven}</p>
           <p className={statLabel}>Proven</p>
-        </div>
-        <div className={statCard}>
-          <p className={`${statValue} text-amber`}>{awaiting}</p>
-          <p className={statLabel}>Awaiting</p>
         </div>
       </div>
 
