@@ -6,6 +6,7 @@ export type Dictionary = {
     publicRecords: string;
   };
   footer: {
+    whitepaper: string;
     terms: string;
     privacy: string;
   };

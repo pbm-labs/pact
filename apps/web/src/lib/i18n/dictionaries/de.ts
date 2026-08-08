@@ -6,6 +6,7 @@ export const de: Dictionary = {
     publicRecords: 'Öffentliche Einträge',
   },
   footer: {
+    whitepaper: 'Whitepaper',
     terms: 'Nutzungsbedingungen',
     privacy: 'Datenschutz',
   },

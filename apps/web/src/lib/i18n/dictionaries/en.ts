@@ -6,6 +6,7 @@ export const en: Dictionary = {
     publicRecords: 'Public records',
   },
   footer: {
+    whitepaper: 'Whitepaper',
     terms: 'Terms',
     privacy: 'Privacy',
   },
