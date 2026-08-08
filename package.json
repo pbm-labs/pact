@@ -6,12 +6,10 @@
     "test": "pnpm --filter @pact/core test",
     "dev:web": "pnpm --filter @pact/web dev",
     "deploy:web": "pnpm --filter @pact/core build && env -u CLOUDFLARE_API_TOKEN pnpm --filter @pact/web deploy:cf",
-    "backfill:domain-age": "tsx scripts/backfill-domain-registered-at.ts",
     "typecheck": "pnpm -r run typecheck"
   },
   "devDependencies": {
     "@pact/core": "workspace:*",
-    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@9.15.0"

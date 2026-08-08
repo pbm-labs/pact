@@ -18,7 +18,6 @@ packages/pact-core   Protocol logic (leaf, merkle, trust, dmarc parser)
 apps/web             Next.js public domain page (staging banner)
 workers/ingest       Cloudflare Email Worker + queue → Supabase
 supabase/schema.sql  PostgreSQL schema (single file)
-scripts/             Local ops tools
 docs/                Protocol specs (v0.1 score, v0.2 Merkle/encoding)
 ```
 
@@ -38,22 +37,18 @@ All secrets stay in **repo-root `.env.local`** (gitignored). Never commit it.
 
 ```bash
 cp .env.example .env.local
-# fill in Supabase, Cloudflare OAuth, API token, etc.
+# fill in Supabase, Cloudflare OAuth, etc.
 ```
 
-Used by `pnpm dev:web`, the ingest Worker, and DNS sync scripts.
+Used by `pnpm dev:web` and (via wrangler secrets) the Workers.
 
 | Variable | Used by |
 |----------|---------|
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, worker (via wrangler secrets) |
-| `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/connect` OAuth flow |
+| `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/how-it-works` Cloudflare connect |
 | `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://pact.pbm-labs.com` in prod) |
 | `NEXT_PUBLIC_COMPANY_SITE_URL` | Company site (`https://pbm-labs.com`) |
-| `CLOUDFLARE_API_TOKEN` | `scripts/sync-cloudflare-dns*.py` |
-| `PROTON_VERIFICATION` | DNS sync scripts (Proton domain verify TXT) |
-| `COMPANY_SITE_CNAME` | Apex/www CNAME target (default `cname.vercel-dns.com`) |
-| `VERCEL_DOMAIN_VERIFY` | `_vercel` TXT from Vercel when connecting apex |
-| `CLOUDFLARE_OAUTH_PUBLISHER` | OAuth publisher TXT on `pact` subdomain |
+| `CONNECT_STATE_SECRET` | Optional HMAC for OAuth state |
 
 Cloudflare Worker production secrets:
 
@@ -68,14 +63,14 @@ cd apps/web && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_SECRET
 
 Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 
-### Cloudflare OAuth (`/connect`)
+### Cloudflare OAuth (`/how-it-works`)
 
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
 2. Redirect URL: `https://pact.pbm-labs.com/api/connect/cloudflare/callback`
 3. Client URL: `https://pact.pbm-labs.com` (HTTPS required; verify with TXT on `pact` subdomain)
 4. Promote to **public** after domain verification on `client_uri` (required for external users)
    - **Logo URL:** `https://pact.pbm-labs.com/pact-logo.svg` (hosted in `apps/web/public/`)
-   - Add `CLOUDFLARE_OAUTH_PUBLISHER=cloudflare_oauth_client_publisher=…` to `.env.local`, then run `scripts/sync-cloudflare-dns.py`
+   - Add the publisher TXT from the OAuth client page on the `pact` subdomain in Cloudflare DNS
 5. Add client ID and secret to `.env.local` (see `.env.example`)
 
 After moving the app to `pact.pbm-labs.com`, update the OAuth client in the dashboard (API token needs **OAuth Clients Write**):
@@ -86,20 +81,13 @@ After moving the app to `pact.pbm-labs.com`, update the OAuth client in the dash
 | Redirect URL | `/api/connect/cloudflare/callback` |
 | Logo URL | `https://pact.pbm-labs.com/pact-logo.svg` |
 
-Copy the new **publisher TXT** from the client page → `CLOUDFLARE_OAUTH_PUBLISHER` in `.env.local` → run `scripts/sync-cloudflare-dns.py`.
-
 Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.example`.
 
 ### Manual DNS connect
 
-Copy the `_dmarc` snippet on `/connect`, update DNS at any provider, then **Register domain**. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc.
+Copy the `_dmarc` snippet on `/how-it-works`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths register on first report.
 
-**Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `domain_registered_at` if missing). Then backfill registration dates:
-
-```bash
-export $(grep -v '^#' apps/web/.env.local | xargs)
-pnpm backfill:domain-age
-```
+**Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `domain_registered_at` if missing). New domains resolve registration age at connect/ingest time.
 
 ## Supabase setup
 
@@ -121,7 +109,7 @@ insert into domains (domain) values ('witnessed.cc');
 | `rua@pact.pbm-labs.com` | DMARC intake (`pact-ingest` Worker) |
 | `hello@pbm-labs.com` | Proton mail (apex MX) |
 
-Apply DNS with `python3 scripts/sync-cloudflare-dns.py` (see `.env.example` for optional vars).
+Apply DNS in the Cloudflare dashboard (zone for `pbm-labs.com`).
 
 ## DNS (pbm-labs.com)
 
