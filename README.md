@@ -18,8 +18,7 @@ packages/pact-core   Protocol logic (leaf, merkle, trust, dmarc parser)
 apps/web             Next.js public domain page (staging banner)
 workers/ingest       Cloudflare Email Worker + queue → Supabase
 supabase/schema.sql  PostgreSQL schema (single file)
-fixtures/            DMARC XML test fixtures
-scripts/             Local dev tools
+scripts/             Local ops tools
 docs/                Protocol specs (v0.1 score, v0.2 Merkle/encoding)
 ```
 
@@ -29,8 +28,6 @@ docs/                Protocol specs (v0.1 score, v0.2 Merkle/encoding)
 pnpm install
 pnpm test                         # pact-core unit tests
 pnpm --filter @pact/core build
-pnpm dev:fixture                  # parse sample XML locally (no DB)
-pnpm dev:ingest-fixture           # simulate rua report → Supabase
 pnpm dev:web                      # http://localhost:3000
 pnpm deploy:web                   # Cloudflare Workers (pact.pbm-labs.com)
 ```
@@ -44,11 +41,11 @@ cp .env.example .env.local
 # fill in Supabase, Cloudflare OAuth, API token, etc.
 ```
 
-Used by `pnpm dev:web`, `pnpm dev:ingest-fixture`, and DNS sync scripts.
+Used by `pnpm dev:web`, the ingest Worker, and DNS sync scripts.
 
 | Variable | Used by |
 |----------|---------|
-| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, ingest fixture, worker (via wrangler secrets) |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, worker (via wrangler secrets) |
 | `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/connect` OAuth flow |
 | `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://pact.pbm-labs.com` in prod) |
 | `NEXT_PUBLIC_COMPANY_SITE_URL` | Company site (`https://pbm-labs.com`) |
@@ -127,8 +124,6 @@ insert into domains (domain) values ('witnessed.cc');
 Apply DNS with `python3 scripts/sync-cloudflare-dns.py` (see `.env.example` for optional vars).
 
 ## DNS (pbm-labs.com)
-
-See `fixtures/dmarc-google-pbm-labs.xml` for sample report shape.
 
 | Record | Purpose |
 |--------|---------|
@@ -239,14 +234,13 @@ Google DMARC reports arrive as **ZIP** attachments (`application/zip`); the inge
 
 | Method | What it tests |
 |--------|----------------|
-| `pnpm dev:fixture` | Parser + Merkle + trust score (stdout only) |
-| `pnpm dev:ingest-fixture` | Full pipeline → Supabase (simulated Google report) |
+| `pnpm test` | pact-core unit tests (parser, Merkle, trust score) |
 | Send mail to `hello@pbm-labs.com` | Proton inbox (apex MX) |
 | Wait ~24–48h | **Real** Google/Microsoft DMARC reports |
 
 Real reports arrive from allowlisted senders (e.g. `noreply-dmarc-support@google.com`). Resend/test mail is rejected by the reporter allowlist — that is intentional.
 
-To clear simulated data:
+To clear simulated / old leaf data:
 
 ```sql
 delete from merkle_roots;

@@ -1,6 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
   aggregateReportToLeaves,
@@ -21,8 +18,62 @@ import {
   PACT_RUA_MAILTO,
 } from './index.js';
 
-const fixtureDir = join(dirname(fileURLToPath(import.meta.url)), '../../../fixtures');
-const sampleXml = readFileSync(join(fixtureDir, 'dmarc-google-pbm-labs.xml'), 'utf8');
+/** Minimal aggregate report used by parser / leaf / Merkle tests. */
+const sampleXml = `<?xml version="1.0" encoding="UTF-8" ?>
+<feedback>
+  <report_metadata>
+    <org_name>google.com</org_name>
+    <email>noreply-dmarc-support@google.com</email>
+    <report_id>2026061401</report_id>
+    <date_range>
+      <begin>1718323200</begin>
+      <end>1718409599</end>
+    </date_range>
+  </report_metadata>
+  <policy_published>
+    <domain>pbm-labs.com</domain>
+    <adkim>r</adkim>
+    <aspf>r</aspf>
+    <p>none</p>
+    <sp>none</sp>
+    <pct>100</pct>
+  </policy_published>
+  <record>
+    <row>
+      <source_ip>209.85.220.41</source_ip>
+      <count>1247</count>
+      <policy_evaluated>
+        <disposition>none</disposition>
+        <dkim>pass</dkim>
+        <spf>pass</spf>
+      </policy_evaluated>
+    </row>
+    <row>
+      <source_ip>209.85.220.55</source_ip>
+      <count>3</count>
+      <policy_evaluated>
+        <disposition>none</disposition>
+        <dkim>fail</dkim>
+        <spf>pass</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>pbm-labs.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>pbm-labs.com</domain>
+        <selector>google-2024</selector>
+        <result>pass</result>
+      </dkim>
+      <dkim>
+        <domain>pbm-labs.com</domain>
+        <selector>google-2023</selector>
+        <result>pass</result>
+      </dkim>
+    </auth_results>
+  </record>
+</feedback>`;
 
 describe('allowlist', () => {
   it('accepts google reporter with google envelope', () => {
@@ -62,7 +113,7 @@ describe('dmarc rua', () => {
 });
 
 describe('dmarc parser', () => {
-  it('parses fixture report', () => {
+  it('parses sample report', () => {
     const reports = parseDmarcAggregateReport(sampleXml);
     expect(reports).toHaveLength(1);
     expect(reports[0]!.domain).toBe('pbm-labs.com');
@@ -109,7 +160,7 @@ describe('leaf merge', () => {
 });
 
 describe('leaf hash', () => {
-  it('is deterministic for fixture data', () => {
+  it('is deterministic for sample data', () => {
     const reports = parseDmarcAggregateReport(sampleXml);
     const agg = aggregateReportToLeaves(reports[0]!)[0]!;
     const input = leafInputFromAggregation(agg);
