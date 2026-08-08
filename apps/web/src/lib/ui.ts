@@ -57,5 +57,5 @@ export const actionCardPrimary = 'border-accent/40 bg-accent/5 hover:border-acce
 
 export const statCard =
   'rounded-xl border border-border bg-surface px-4 sm:px-5 py-4';
-export const statValue = 'text-2xl sm:text-3xl font-bold font-mono tabular-nums text-txt leading-none';
+export const statValue = 'text-2xl sm:text-3xl font-bold font-mono tabular-nums leading-none';
 export const statLabel = 'text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 mt-1.5';
