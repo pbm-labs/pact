@@ -31,11 +31,11 @@ export default async function DomainsPage() {
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
         <div className={statCard}>
-          <p className={`${statValue} text-amber`}>{building}</p>
+          <p className={`${statValue}${building > 0 ? ' text-amber' : ''}`}>{building}</p>
           <p className={statLabel}>Building</p>
         </div>
         <div className={statCard}>
-          <p className={`${statValue} text-verified`}>{proven}</p>
+          <p className={`${statValue}${proven > 0 ? ' text-verified' : ''}`}>{proven}</p>
           <p className={statLabel}>Proven</p>
         </div>
       </div>
