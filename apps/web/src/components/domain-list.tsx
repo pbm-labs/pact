@@ -20,7 +20,7 @@ function StatusBadge({ domain }: { domain: DomainSummary }) {
     return <span className={badgeAmber}>Awaiting</span>;
   }
   if (domain.trustStatus === 'activated') {
-    return <span className={badgeVerified}>Activated</span>;
+    return <span className={badgeVerified}>Proven</span>;
   }
   return <span className={badgeAmber}>Building</span>;
 }
@@ -100,7 +100,7 @@ export function DomainList({ domains }: DomainListProps) {
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-verified" aria-hidden />
-            Activated
+            Proven
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />

@@ -132,7 +132,7 @@ function WaitingPage({
 function LivePage({ data }: { data: DomainLiveData }) {
   const statusBadge =
     data.trust.status === 'activated' ? badgeVerified : badgeAmber;
-  const statusLabel = data.trust.status === 'activated' ? 'Activated' : 'Building';
+  const statusLabel = data.trust.status === 'activated' ? 'Proven' : 'Building';
   const display = formatScoreForDisplay(data.trust.score);
   const showScore = shouldShowTrustScore(data.trust);
   const progress = estimateScoreProgress({

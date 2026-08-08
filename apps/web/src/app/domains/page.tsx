@@ -34,7 +34,7 @@ export default async function DomainsPage() {
         </div>
         <div className={statCard}>
           <p className={`${statValue} text-verified`}>{activated}</p>
-          <p className={statLabel}>Activated</p>
+          <p className={statLabel}>Proven</p>
         </div>
         <div className={statCard}>
           <p className={`${statValue} text-amber`}>{awaiting}</p>
