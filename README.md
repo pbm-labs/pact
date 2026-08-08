@@ -2,7 +2,7 @@
 
 Public brand is **we build real**; the protocol is **PACT**. Domain provenance from DMARC aggregate reports. Connect UX lives at [`/how-it-works`](https://pact.pbm-labs.com/how-it-works).
 
-Protocol spec: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md). Full doc index: [docs/README.md](docs/README.md) — treat [docs/pact_build_spec.md](docs/pact_build_spec.md) as historical/obsolete unless verified against the live repo.
+Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding). Index: [docs/README.md](docs/README.md).
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 
@@ -20,7 +20,7 @@ workers/ingest       Cloudflare Email Worker + queue → Supabase
 supabase/schema.sql  PostgreSQL schema (single file)
 fixtures/            DMARC XML test fixtures
 scripts/             Local dev tools
-docs/                Protocol & roadmap specs
+docs/                Protocol specs (v0.1 score, v0.2 Merkle/encoding)
 ```
 
 ## Quick start

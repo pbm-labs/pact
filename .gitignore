@@ -17,6 +17,7 @@ apps/web/.dev.vars
 
 # OS & tooling
 .DS_Store
+**/.DS_Store
 .vercel
 
 # Editor / local
