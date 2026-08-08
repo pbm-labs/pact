@@ -15,8 +15,6 @@ import {
   pathCard,
 } from '@/lib/ui';
 
-export type { ConnectPath, DnsPath } from '@/lib/connect-path';
-
 function PathIcon({ kind }: { kind: ConnectPath }) {
   const common = {
     width: 18,

@@ -17,7 +17,7 @@ export function DomainsView({ domains, building, proven }: DomainsViewProps) {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/" backLabel={t.domains.backHome} width="wide">
+    <PageShell backHref="/" backLabel={t.domains.backHome}>
       <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
           <p className={`${eyebrow} mb-2`}>{t.domains.eyebrow}</p>

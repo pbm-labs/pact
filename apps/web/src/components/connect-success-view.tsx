@@ -22,7 +22,7 @@ export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
 
   if (!domain) {
     return (
-      <PageShell backHref="/how-it-works" backLabel={t.domain.connectDomain} centered width="narrow">
+      <PageShell backHref="/how-it-works" backLabel={t.domain.connectDomain} centered>
         <h1 className={pageTitle}>{t.domain.connected}</h1>
         <p className="text-sm text-muted mt-2 mb-6">{t.connectSuccess.missing}</p>
         <Link href="/how-it-works#add-your-domain" className={btnPrimary}>
@@ -33,7 +33,7 @@ export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
   }
 
   return (
-    <PageShell backHref="/domains" backLabel={t.domain.backRecords} centered width="narrow">
+    <PageShell backHref="/domains" backLabel={t.domain.backRecords} centered>
       <div className="mb-8">
         <span className={`${badgeVerified} mb-4`}>{t.connectSuccess.added}</span>
         <h1 className={`${pageTitle} break-all`}>{domain}</h1>

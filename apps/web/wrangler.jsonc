@@ -25,7 +25,6 @@
   //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
   //   CLOUDFLARE_OAUTH_CLIENT_ID, CLOUDFLARE_OAUTH_CLIENT_SECRET
   "vars": {
-    "NEXT_PUBLIC_APP_URL": "https://pact.pbm-labs.com",
-    "NEXT_PUBLIC_COMPANY_SITE_URL": "https://pbm-labs.com"
+    "NEXT_PUBLIC_APP_URL": "https://pact.pbm-labs.com"
   }
 }

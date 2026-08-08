@@ -2,7 +2,7 @@
 
 Public brand is **we build real**; the protocol is **PACT**. Domain provenance from DMARC aggregate reports. Connect UX lives at [`/how-it-works`](https://pact.pbm-labs.com/how-it-works).
 
-Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding). Index: [docs/README.md](docs/README.md).
+Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding).
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 
@@ -47,7 +47,6 @@ Used by `pnpm dev:web` and (via wrangler secrets) the Workers.
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, worker (via wrangler secrets) |
 | `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/how-it-works` Cloudflare connect |
 | `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://pact.pbm-labs.com` in prod) |
-| `NEXT_PUBLIC_COMPANY_SITE_URL` | Company site (`https://pbm-labs.com`) |
 | `CONNECT_STATE_SECRET` | Optional HMAC for OAuth state |
 
 Cloudflare Worker production secrets:
@@ -97,7 +96,6 @@ Copy the `_dmarc` snippet on `/how-it-works`, update DNS at any provider. Works 
 
 ```sql
 insert into domains (domain) values ('pbm-labs.com');
-insert into domains (domain) values ('witnessed.cc');
 ```
 
 ## Hostnames
@@ -247,7 +245,7 @@ delete from processed_reports;
 **Phase 0a**
 - [x] Parser, dedup, leaves, staging roots
 - [x] Public page at `/domain/{domain}`
-- [x] Cloudflare OAuth at `/connect` + manual DNS
+- [x] Cloudflare OAuth + manual DNS + existing-tool path (`/how-it-works`)
 - [x] Merkle inclusion proofs on `/domain/{domain}`
 - [ ] End-to-end with live reporter data (`pbm-labs.com`)
 

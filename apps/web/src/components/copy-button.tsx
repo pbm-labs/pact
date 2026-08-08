@@ -10,7 +10,6 @@ interface CopyableValueProps {
   caption?: string;
 }
 
-/** Inline accent copy bar — same shape as signet-witness CopyableEmail. */
 export function CopyableValue({ text, label, caption }: CopyableValueProps) {
   const { t } = useLocale();
   const [copied, setCopied] = useState(false);

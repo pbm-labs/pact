@@ -1,9 +1,4 @@
-// Standardized on a single content width (max-w-3xl) across every page, the
-// same measure signet-witness uses everywhere on its marketing surfaces.
 export const container = 'max-w-3xl mx-auto px-4 sm:px-6';
-export const containerNarrow = container;
-export const containerDefault = container;
-export const containerWide = container;
 
 export const eyebrow = 'text-[0.65rem] font-mono uppercase tracking-widest text-muted-2';
 export const pageTitle = 'text-3xl sm:text-4xl font-bold tracking-tight text-txt leading-[1.05]';

@@ -18,7 +18,7 @@ export function LegalDocument({
   const sections = kind === 'terms' ? t.legal.terms : t.legal.privacy;
 
   return (
-    <PageShell backHref="/" backLabel={t.common.home} width="narrow">
+    <PageShell backHref="/" backLabel={t.common.home}>
       <div className="max-w-2xl">
         <header className="mb-10">
           <p className={`${eyebrow} mb-3`}>{t.legal.eyebrow}</p>

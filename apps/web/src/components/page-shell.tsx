@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { containerDefault, containerNarrow, containerWide, linkMuted } from '@/lib/ui';
+import { container, linkMuted } from '@/lib/ui';
 
 interface PageShellProps {
   children: ReactNode;
   backHref?: string;
   backLabel?: string;
   centered?: boolean;
-  width?: 'narrow' | 'default' | 'wide';
 }
 
 export function PageShell({
@@ -15,11 +14,7 @@ export function PageShell({
   backHref,
   backLabel = 'Back',
   centered = false,
-  width = 'default',
 }: PageShellProps) {
-  const container =
-    width === 'narrow' ? containerNarrow : width === 'wide' ? containerWide : containerDefault;
-
   return (
     <main className="flex-1">
       <div

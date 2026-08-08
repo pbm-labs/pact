@@ -2,7 +2,6 @@ import { createClient } from '@supabase/supabase-js';
 import {
   computeTrustScore,
   normalizeDomain,
-  SCORE_ALGORITHM,
   formatScoreForDisplay,
   byteaToHex,
   byteaToHash,
@@ -10,7 +9,6 @@ import {
 } from '@pact/core';
 import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
 import { fetchAllRows } from '@/lib/supabase-fetch-all';
-import { latestTimestamp } from '@/lib/format-time';
 import { ensureDomainRegisteredAt } from '@/lib/supabase-admin';
 import { scoreBandKey } from '@/lib/trust-display';
 
@@ -34,19 +32,16 @@ export interface DomainLiveData {
   domainRegisteredAt: string | null;
   pactHistoryStart: string | null;
   trust: ReturnType<typeof computeTrustScore>;
-  totalPassCount: number;
   totalFailCount: number;
   uniqueReporters: number;
   passRate: number;
   latestRoot: string | null;
-  computedRoot: string | null;
   rootMatchesPublished: boolean;
   domainLeafCount: number;
   globalTreeLeafCount: number | null;
   anchorType: 'staging' | 'base' | null;
   staging: boolean;
   leaves: DomainLeafSummary[];
-  lastIngestedAt: string | null;
 }
 
 export interface DomainWaitingData {
@@ -88,9 +83,7 @@ function pactHistoryStartFromLeaves(
 
 export interface DomainSummary {
   domain: string;
-  connectedSince: string | null;
   domainRegisteredAt?: string | null;
-  pactHistoryStart?: string | null;
   status: 'waiting' | 'live';
   /** Raw canonical T — use for sorting only when history days tie. */
   trustScore?: number;
@@ -100,9 +93,7 @@ export interface DomainSummary {
   /** Days of verified PACT history — primary ranking key. */
   pactAgeDays?: number;
   leafCount?: number;
-  passRate?: number;
   uniqueReporterCount?: number;
-  lastIngestedAt?: string | null;
 }
 
 export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
@@ -142,10 +133,8 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
       typeof fetchAllRows<{
         domain: string;
         dkim_pass_count: number;
-        dkim_fail_count: number;
         reporter_org: string;
         period_start: number;
-        created_at: string | null;
       }>
     >
   >;
@@ -153,7 +142,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
     leaves = await fetchAllRows((from, to) =>
       supabase
         .from('leaves')
-        .select('domain, dkim_pass_count, dkim_fail_count, reporter_org, period_start, created_at')
+        .select('domain, dkim_pass_count, reporter_org, period_start')
         .order('leaf_index', { ascending: true })
         .range(from, to),
     );
@@ -176,18 +165,13 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
       if (!domainLeaves.length) {
         return {
           domain: row.domain,
-          connectedSince: row.connected_at,
           domainRegisteredAt,
           status: 'waiting' as const,
         };
       }
 
       const totalPassCount = domainLeaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
-      const totalFailCount = domainLeaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
       const reporters = new Set(domainLeaves.map((l) => l.reporter_org));
-      const total = totalPassCount + totalFailCount;
-      const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
-
       const pactHistoryStart = pactHistoryStartFromLeaves(domainLeaves, row.connected_at);
 
       const trust = computeTrustScore({
@@ -201,9 +185,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
 
       return {
         domain: row.domain,
-        connectedSince: row.connected_at,
         domainRegisteredAt,
-        pactHistoryStart: pactHistoryStart.toISOString(),
         status: 'live' as const,
         trustScore: trust.score,
         trustScoreDisplay: display.displayScore,
@@ -211,9 +193,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         trustStatus: trust.status,
         pactAgeDays: trust.pactAgeDays,
         leafCount: domainLeaves.length,
-        passRate,
         uniqueReporterCount: reporters.size,
-        lastIngestedAt: latestTimestamp(domainLeaves.map((l) => l.created_at)),
       };
     })
     .sort((a, b) => {
@@ -355,8 +335,6 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const rootMatchesPublished =
     latestRoot !== null && computedRoot !== null && latestRoot === computedRoot;
 
-  const lastIngestedAt = latestTimestamp(leaves.map((l) => l.created_at));
-
   return {
     status: 'live',
     data: {
@@ -365,18 +343,15 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       domainRegisteredAt,
       pactHistoryStart: pactHistoryStart.toISOString(),
       trust,
-      totalPassCount,
       totalFailCount,
       uniqueReporters: reporters.size,
       passRate,
       latestRoot,
-      computedRoot,
       rootMatchesPublished,
       domainLeafCount: leaves.length,
       globalTreeLeafCount: rootRow?.leaf_count ?? merkleContext?.tree.size ?? null,
       anchorType: (rootRow?.anchor_type as 'staging' | 'base') ?? null,
       staging: rootRow?.anchor_type !== 'base',
-      lastIngestedAt,
       leaves: leaves.map((leaf) => {
         const leafHash = byteaToHash(leaf.leaf_hash);
         const leafIndex = Number(leaf.leaf_index);
@@ -407,5 +382,3 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     },
   };
 }
-
-export { SCORE_ALGORITHM };
