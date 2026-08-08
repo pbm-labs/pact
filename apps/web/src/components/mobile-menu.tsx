@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useLocale } from '@/components/locale-provider';
-import { WHITEOBER_URL } from '@/lib/links';
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -53,13 +52,6 @@ export function MobileMenu() {
               className="py-2.5 text-sm text-muted hover:text-txt no-underline"
             >
               {t.nav.publicRecords}
-            </Link>
-            <Link
-              href={WHITEOBER_URL}
-              onClick={() => setOpen(false)}
-              className="py-2.5 text-sm text-muted hover:text-txt no-underline"
-            >
-              {t.nav.whitepaper}
             </Link>
           </div>
         </div>

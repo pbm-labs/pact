@@ -5,7 +5,6 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 import { useLocale } from '@/components/locale-provider';
 import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { WHITEOBER_URL } from '@/lib/links';
 
 export function MovementHeader() {
   const { t } = useLocale();
@@ -20,12 +19,6 @@ export function MovementHeader() {
         </Link>
 
         <div className="flex items-center gap-4 sm:gap-5">
-          <Link
-            href={WHITEOBER_URL}
-            className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt no-underline"
-          >
-            {t.nav.whitepaper}
-          </Link>
           <Link
             href="/domains"
             className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt no-underline"
