@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { WHITEPAPER_URL } from '@/lib/links';
+import { WHITEOBER_URL } from '@/lib/links';
 
 export function MovementHeader() {
   return (
@@ -14,17 +14,15 @@ export function MovementHeader() {
         </Link>
 
         <div className="flex items-center gap-4 sm:gap-5">
-          <a
-            href={WHITEPAPER_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt transition-colors no-underline"
+          <Link
+            href={WHITEOBER_URL}
+            className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt no-underline"
           >
             Whitepaper
-          </a>
+          </Link>
           <Link
             href="/domains"
-            className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt transition-colors no-underline"
+            className="hidden sm:inline text-[13px] text-muted-2 hover:text-txt no-underline"
           >
             Public records
           </Link>

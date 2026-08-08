@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { WHITEPAPER_URL } from '@/lib/links';
+import { WHITEOBER_URL } from '@/lib/links';
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -14,7 +14,7 @@ export function MobileMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
-        className="w-8 h-8 -mr-1 flex items-center justify-center rounded-md border border-border text-muted hover:text-txt hover:border-border-h transition-colors"
+        className="w-8 h-8 -mr-1 flex items-center justify-center rounded-md border border-border text-muted hover:text-txt hover:border-border-h"
       >
         <svg
           width="15"
@@ -48,19 +48,17 @@ export function MobileMenu() {
             <Link
               href="/domains"
               onClick={() => setOpen(false)}
-              className="py-2.5 text-sm text-muted hover:text-txt transition-colors no-underline"
+              className="py-2.5 text-sm text-muted hover:text-txt no-underline"
             >
               Public records
             </Link>
-            <a
-              href={WHITEPAPER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={WHITEOBER_URL}
               onClick={() => setOpen(false)}
-              className="py-2.5 text-sm text-muted hover:text-txt transition-colors no-underline"
+              className="py-2.5 text-sm text-muted hover:text-txt no-underline"
             >
               Whitepaper
-            </a>
+            </Link>
           </div>
         </div>
       )}

@@ -1,0 +1,218 @@
+# PACT Protocol
+## Provenance Attestation and Chain of Trust
+
+**Version 1.2 — August 2026**  
+**protocol@pbm-labs.com**
+
+---
+
+## Abstract
+
+The internet was built without a durable way to tell who is real. Names on screens can be fabricated in minutes. History cannot.
+
+Every domain that sends mail already participates in a quiet, global verification loop: outbound messages are cryptographically signed; receiving mail systems check those signatures and emit structured aggregate reports. Those reports have been produced continuously since 2011. They contain no message content and no personal identities — only whether a domain showed up honestly, how often, and through which infrastructure.
+
+PACT is an open protocol that captures those reports, commits them to an append-only Merkle tree anyone can recompute, and derives an organic trust signal from verified history. Domains join by pointing an existing DNS field at PACT. Nothing about how they send mail changes. No message is ever read.
+
+The public record leads with verified history — days independently confirmed — because early scores are still forming. A scaled trust score appears once that history is meaningful. On-chain publication of the Merkle root, so verification no longer depends on trusting PACT's operators, is the next milestone.
+
+---
+
+## 1. The Problem
+
+### 1.1 A Foundation Missing in Plain Sight
+
+The internet grew into a civilization of strangers without a shared way to tell who is real. We got used to it. Almost everything that looks like proof on a screen can now be manufactured cheaply: aged domains, polished profiles, perfect paperwork, synthetic documents.
+
+What cannot be manufactured is yesterday. Real history only accumulates while independent parties are watching. That is the gap PACT exists to close — not as an alarm, and not as another authority's claim, but as a public record of what actually happened.
+
+### 1.2 The Hidden Audit Trail
+
+Since 2011, institutional senders have been signing outbound mail with DKIM (DomainKeys Identified Mail, RFC 6376). Receiving mail systems validate those signatures and already generate DMARC aggregate reports for domain owners — typically daily.
+
+Those reports include the sending domain, validation results, sending infrastructure identifiers, message counts, and the reporting period. They do not include message bodies, subjects, recipients, or any personal identity.
+
+They are produced today for every domain that publishes a DMARC record. They have never been systematically captured into a public, independently verifiable provenance layer.
+
+PACT captures them.
+
+---
+
+## 2. The Protocol
+
+### 2.1 Connecting a Domain
+
+A domain joins PACT by adding PACT as a report destination in DNS — one field, usually on an existing DMARC record. No software to install. No API to integrate. No change to how mail is sent or received.
+
+Paths that work today:
+
+- **Cloudflare** — OAuth connection; PACT updates the DNS record after the operator confirms the zone.
+- **Manual** — paste one DNS line wherever the domain's DNS is managed.
+- **Existing email-security tools** — point an additional report destination at PACT.
+
+Manual and tool-based paths do not require returning to the site to "confirm" the domain. The domain appears in the public record automatically when the first valid aggregate report arrives. That keeps friction low and ensures domains enter the ledger only after real independent verification.
+
+### 2.2 From Report to Proof
+
+When a report arrives, authentication metadata is extracted and committed as a leaf in an append-only Merkle tree. The raw report is discarded after extraction. What remains is hashed signal: domain, period, pass and fail counts, selector and infrastructure identifiers, and the reporting organization.
+
+The tree root is published regularly to a public, append-only ledger. Roots supersede one another; none can be edited, backdated, or withdrawn once issued. Publishing that root to a public blockchain — so verification does not require trusting PACT's infrastructure — is the next protocol milestone (Section 8).
+
+### 2.3 Independent Verification
+
+Anyone can recompute a domain's inclusion proof from the published leaves and check it against the published root, without permission, API keys, or operator involvement.
+
+A trust record that requires trusting its operator is not a trust record. PACT is built in that order: real data and public proofs first; trustless root anchoring next.
+
+---
+
+## 3. History First, Then Score
+
+### 3.1 Organic, Not Assigned
+
+PACT does not declare legitimacy. It measures verified history.
+
+A domain that has been independently confirmed over time, across many reporting organizations, cannot fabricate that past after the fact. The cost of faking it equals the cost of operating honestly for the same period.
+
+No committee assigns the score. No application process gates it. No registry can be captured. The signal is a mathematical consequence of observable activity.
+
+### 3.2 Two Clocks
+
+Domain registration age and PACT-verified history are different clocks. They must never be collapsed into one number.
+
+- **Domain registered** answers: how long has this name existed on the internet?
+- **Verified since** answers: how long has independent infrastructure been confirming this domain inside PACT?
+
+An institution that connects late still has a long registration history — and a short verified history. PACT reports both. Only verified history enters the score. Inflating maturity with domain age would let a hijacker inherit reputation the moment they seize DNS.
+
+### 3.3 The Trust Score
+
+The live score (`pact-score-0.1`) is the product of three factors:
+
+**Volume** — logarithm of authenticated pass count. Bulk inflation yields diminishing returns.
+
+**Diversity** — unique reporting organizations relative to verified events, capped at 1. Broad, independent confirmation scores higher than activity concentrated in a single reporter.
+
+**Maturity** — an asymptotic function of days since the domain's first verified PACT event (λ = 0.005). Roughly two years of continuous presence approaches the ceiling. Time cannot be bought.
+
+Status thresholds:
+
+- **Building** — verified history is accumulating; maturity has not yet crossed the activation threshold (~139 days).
+- **Proven** — maturity has crossed that threshold; the history is long enough to support third-party reliance more seriously.
+
+### 3.4 How Humans Should See It
+
+Raw `T` is correct and not legible on its own. Early domains with different histories can collapse to the same tiny display number if forced onto a 0–100 gauge too soon.
+
+The public interface therefore leads with **verified history** — days independently confirmed, reports, and reporting organizations — and introduces a scaled 0–100 display only once the raw signal leaves the compressed early band (or reaches Proven). Progress toward the next interpretation band can be estimated without changing the formula.
+
+The formula and the display layer are separate (`pact-score-0.1` vs `pact-display-0.1`). Changing how people see the score must never rewrite what was measured.
+
+### 3.5 Thresholds Are Policy, Not Protocol
+
+PACT produces a measurement. Applications define their own acceptance policy. The same history can inform onboarding, vendor screening, underwriting, or automated counterpart checks — each with its own calibration.
+
+---
+
+## 4. Privacy by Architecture
+
+### 4.1 A Structural Guarantee
+
+PACT's privacy guarantee is architectural. DMARC aggregate reports — the sole data source — contain no personal data by design.
+
+PACT never accesses, processes, transmits, or stores message content, subject lines, recipient identities, mailbox addresses, or any personally identifiable information. That cannot be changed by policy or breach, because the data never enters the system.
+
+### 4.2 What Is Public
+
+Each leaf commits to the sending domain, reporting period, aggregate authentication counts, and hashed infrastructure identifiers. Domain names are already public. Hashes reveal nothing useful about their preimages to casual observers.
+
+The record proves that a domain was confirmed at a certain volume in a certain period. It reveals nothing about any message or any person.
+
+### 4.3 Regulatory Posture
+
+Domain names are not personal data under GDPR. Core protocol processing falls outside ordinary data-subject regimes in the EU, UK, and US for this data source. Organizations with specific compliance requirements should obtain their own legal guidance.
+
+---
+
+## 5. Proof of Operational Work
+
+### 5.1 Consensus Hidden in Plain Sight
+
+Authenticated institutional mail requires a domain, DNS, signing keys, delivery infrastructure, and continuous receipt by real systems that then certify the result. Those costs compound over time and cannot be trivially manufactured.
+
+Receiving mail systems act as independent validators. They have no relationship with PACT, no incentive to coordinate, and no awareness their reports are being used as provenance. Their uncoordinated agreement over time is the evidence.
+
+### 5.2 Why Fabrication Fails
+
+To forge a strong history, an attacker would need to send authenticated mail at real volume, over a long time, through infrastructure that survives major providers' abuse filters, to recipients spanning many independent reporting organizations — without interruption long enough for maturity to accumulate.
+
+That is not an exploit. That is legitimate operation. Sybil resistance is economic, not bureaucratic.
+
+### 5.3 Inherited Trust Is Not Permanent Trust
+
+Proof of Operational Work stops attackers building fake history from zero. It does not, by itself, stop an attacker who seizes a domain that already has history.
+
+PACT treats scores as continuously re-evaluated. Leaf data already records infrastructure identifiers (selectors, IP ranges) so discontinuity monitoring can be added without migrating the past. When shipping, abrupt infrastructure breaks should discount inherited reputation until the new pattern stabilizes or is confirmed as intentional. That monitoring layer is on the roadmap (Section 8); the data it needs is already being collected.
+
+---
+
+## 6. What This Is For
+
+### 6.1 A Primitive, Not a Product Pitch
+
+PACT answers a question most systems only approximate: *what independently verified history does this domain have?*
+
+It is not a replacement for KYC paperwork, credit bureaus, or government registries. Those are authorities' claims. PACT is evidence anyone can recheck.
+
+Useful wherever "is this domain real and operationally continuous?" matters — counterpart checks, vendor diligence, underwriting inputs, agent and automation decisions that need a signal resistant to synthetic documents and purchased aging.
+
+### 6.2 The Deeper Architecture
+
+Cryptographic identity solved ownership of identifiers. It did not solve empty containers: a fraudulent entity and a real institution can look identical on day one.
+
+PACT binds real-world operational history to a domain identity without appointing a trusted intermediary as judge. Merkle roots and scores are meant to be consumable by any downstream system. The base layer is the public record. What is built on top stays open.
+
+---
+
+## 7. Ecosystem Boundary
+
+**PACT Protocol** is the base layer: ingest, Merkle tree, public verification, organic score. Open to implement. Verifiable without contacting the authors.
+
+Applications that may sit on top — without expanding the protocol's data boundary — include:
+
+- **Portable credentials** packaging a domain's provenance for diligence workflows.
+- **Signal / monitoring** watching connected domains for authentication anomalies and infrastructure discontinuities.
+- **Message-level proof** only with explicit user action on a specific message the user already possesses — never by reading mailboxes through the protocol.
+
+The protocol boundary is absolute: PACT Protocol never crosses into message-level content. Applications that do operate under their own consent models.
+
+---
+
+## 8. Status and Availability
+
+**Live today**
+
+- Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools
+- Automatic public-record creation on first valid aggregate report (manual / tool paths)
+- Continuous ingestion of real DMARC aggregate reports
+- Append-only Merkle tree with publicly recomputable inclusion proofs
+- Regular publication of staging roots to a public ledger
+- Public records ranked by verified history; scaled score when meaningful
+- Per-domain pages with clocks, activity, and technical verification
+
+**In active development**
+
+- On-chain anchoring of Merkle roots
+- Velocity as a companion signal to maturity
+- Infrastructure-discontinuity monitoring (Signal)
+- Broader multi-node / permissionless operation
+
+None of the roadmap items are required for today's public verification to function. They extend what is already live.
+
+The reference implementation is operated by [we build real](https://pact.pbm-labs.com) / PBM Labs. The protocol specification and this whitepaper are public. Third-party implementations are encouraged.
+
+---
+
+*PACT — Provenance Attestation and Chain of Trust*  
+*Whitepaper v1.2 — August 2026*  
+*protocol@pbm-labs.com*
