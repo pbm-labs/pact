@@ -270,7 +270,7 @@ delete from processed_reports;
 - [ ] End-to-end with live reporter data (`pbm-labs.com`)
 
 **Before Phase 0b (on-chain)**
-- [ ] First external domain via `/connect`
+- [ ] First external domain via `/how-it-works`
 - [ ] OAuth client public + production redirect URLs
 
 **Phase 0b**
@@ -281,8 +281,8 @@ delete from processed_reports;
 
 | Module | Spec reference |
 |--------|----------------|
-| Leaf encoding | v0.2 Appendix C |
-| Sparse Merkle | v0.2 §3.3.1 (32 levels) |
+| Leaf encoding | [v0.2 Appendix C](docs/pact_protocol_v02.md) |
+| Sparse Merkle | [v0.2 §3.3.1](docs/pact_protocol_v02.md) (32 levels) |
 | Trust score (raw) | `pact-score-0.1` — [v0.1 §4.3](docs/pact_protocol_v01.md) |
 | Trust score (display) | `pact-display-0.1` — [v0.1 §4.5](docs/pact_protocol_v01.md) |
 | Allowlist | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts` |
