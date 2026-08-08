@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DomainList } from '@/components/domain-list';
+import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
 
 function normalizeQuery(raw: string): string {
@@ -19,6 +20,7 @@ interface DomainRecordsProps {
 }
 
 export function DomainRecords({ domains }: DomainRecordsProps) {
+  const { t } = useLocale();
   const router = useRouter();
   const [query, setQuery] = useState('');
 
@@ -62,12 +64,12 @@ export function DomainRecords({ domains }: DomainRecordsProps) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by domain…"
+            placeholder={t.domains.searchPlaceholder}
             spellCheck={false}
             autoCapitalize="none"
             autoCorrect="off"
             inputMode="url"
-            aria-label="Search by domain"
+            aria-label={t.domains.searchPlaceholder}
             className="bg-transparent outline-none text-base sm:text-sm font-mono text-txt placeholder:text-muted-2 flex-1 min-w-0"
           />
         </label>
@@ -75,7 +77,7 @@ export function DomainRecords({ domains }: DomainRecordsProps) {
 
       {filtered.length === 0 ? (
         <p className="text-sm text-muted-2 font-mono text-center py-8">
-          No domains match &ldquo;{query.trim()}&rdquo;.
+          {t.domains.noMatch.replace('{query}', query.trim())}
         </p>
       ) : (
         <DomainList domains={filtered} />

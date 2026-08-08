@@ -1,6 +1,4 @@
-import { PageShell } from '@/components/page-shell';
 import { LegalDocument } from '@/components/legal-document';
-import { TERMS_SECTIONS } from '@/lib/legal';
 
 export const metadata = {
   title: 'Terms of Service — We build real',
@@ -8,9 +6,5 @@ export const metadata = {
 };
 
 export default function TermsPage() {
-  return (
-    <PageShell backHref="/" backLabel="Home" width="narrow">
-      <LegalDocument title="Terms of Service" sections={TERMS_SECTIONS} />
-    </PageShell>
-  );
+  return <LegalDocument kind="terms" />;
 }

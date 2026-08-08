@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useLocale } from '@/components/locale-provider';
 
 const VIDEO_SRC = encodeURI("/The-Internet's-Identity-Problem.mp4");
 const VIDEO_TITLE = "The Internet's Identity Problem";
@@ -27,9 +28,11 @@ function CloseIcon() {
 
 function PlayPoster({
   onPlay,
+  watchLabel,
   size = 'default',
 }: {
   onPlay: () => void;
+  watchLabel: string;
   size?: 'default' | 'compact';
 }) {
   const compact = size === 'compact';
@@ -58,12 +61,13 @@ function PlayPoster({
       >
         {VIDEO_TITLE}
       </span>
-      <span className="text-xs sm:text-sm text-muted-2">Watch The Manifesto</span>
+      <span className="text-xs sm:text-sm text-muted-2">{watchLabel}</span>
     </button>
   );
 }
 
 export function VideoManifesto() {
+  const { t } = useLocale();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -98,6 +102,7 @@ export function VideoManifesto() {
     <>
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface shadow-2xl shadow-black/20">
         <PlayPoster
+          watchLabel={t.home.watchManifesto}
           onPlay={() => {
             setOpen(true);
             setPlaying(true);
@@ -129,7 +134,7 @@ export function VideoManifesto() {
                   title={VIDEO_TITLE}
                 />
               ) : (
-                <PlayPoster onPlay={() => setPlaying(true)} />
+                <PlayPoster watchLabel={t.home.watchManifesto} onPlay={() => setPlaying(true)} />
               )}
 
               <button

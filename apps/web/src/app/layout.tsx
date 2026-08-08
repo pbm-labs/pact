@@ -1,5 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import { LocaleProvider } from '@/components/locale-provider';
+import { LocaleScript } from '@/components/locale-script';
 import { MovementFooter } from '@/components/movement-footer';
 import { MovementHeader } from '@/components/movement-header';
 
@@ -18,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `try{var t=localStorage.getItem("theme");if(t==="light")document.documentElement.classList.add("light")}catch(e){}`,
           }}
         />
+        <LocaleScript />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -26,9 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="marketing flex flex-col min-h-screen bg-bg text-txt antialiased">
-        <MovementHeader />
-        {children}
-        <MovementFooter />
+        <LocaleProvider>
+          <MovementHeader />
+          {children}
+          <MovementFooter />
+        </LocaleProvider>
       </body>
     </html>
   );

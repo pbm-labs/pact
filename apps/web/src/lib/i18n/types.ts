@@ -1,0 +1,153 @@
+export type LegalSectionCopy = { title: string; body: string };
+
+export type Dictionary = {
+  nav: {
+    language: string;
+    whitepaper: string;
+    publicRecords: string;
+  };
+  footer: {
+    terms: string;
+    privacy: string;
+  };
+  common: {
+    home: string;
+    back: string;
+    continue: string;
+    copy: string;
+    copied: string;
+    loading: string;
+  };
+  home: {
+    manifestoEyebrow: string;
+    manifestoParagraphs: readonly string[];
+    readMore: string;
+    showLess: string;
+    ctaTitle: string;
+    ctaBody: string;
+    ctaButton: string;
+    ctaSub: string;
+    watchManifesto: string;
+  };
+  howItWorks: {
+    backHome: string;
+    eyebrow: string;
+    title: string;
+    intro: string;
+    chooseDifferent: string;
+    yourDomain: string;
+    pathCloudflareTitle: string;
+    pathCloudflareDesc: string;
+    pathCloudflareBadge: string;
+    pathManualTitle: string;
+    pathManualDesc: string;
+    pathManualBadge: string;
+    pathToolTitle: string;
+    pathToolDesc: string;
+    pathToolBadge: string;
+    whatDoesThisDo: string;
+    cloudflareExplain: string;
+    toolIntro: string;
+    toolExplain: string;
+    manualIntro: string;
+    manualExplain: string;
+    errors: {
+      invalid_domain: string;
+      server_config: string;
+      oauth_not_configured: string;
+      missing_code: string;
+      invalid_state: string;
+      token_exchange: string;
+      zone_not_found: string;
+      dmarc_update: string;
+      register: string;
+      somethingWrong: string;
+    };
+  };
+  domains: {
+    backHome: string;
+    eyebrow: string;
+    title: string;
+    intro: string;
+    addDomain: string;
+    building: string;
+    proven: string;
+    rankedBy: string;
+    rankedHint: string;
+    colDomain: string;
+    colHistory: string;
+    colStatus: string;
+    verified: string;
+    report: string;
+    reports: string;
+    org: string;
+    orgs: string;
+    emptyTitle: string;
+    emptyBody: string;
+    emptyCta: string;
+    searchPlaceholder: string;
+    noMatch: string;
+    registered: string;
+  };
+  domain: {
+    backRecords: string;
+    publicRecord: string;
+    building: string;
+    proven: string;
+    awaitingFirst: string;
+    awaitingIntro: string;
+    connected: string;
+    whatNext: string;
+    next1: string;
+    next2: string;
+    next3: string;
+    historyHero: string;
+    historyIntro: string;
+    scoreIntro: string;
+    timeVerified: string;
+    reports: string;
+    allTime: string;
+    passRate: string;
+    techSummary: string;
+    showMath: string;
+    domainRegistered: string;
+    verifiedSince: string;
+    awaitingReport: string;
+    noRecordYet: string;
+    noRecordHint: string;
+    connectDomain: string;
+    staging: string;
+  };
+  connectSuccess: {
+    added: string;
+    cloudflare: string;
+    body: string;
+    whatNext: string;
+    next1: string;
+    next2: string;
+    next3: string;
+    viewDomain: string;
+    allRecords: string;
+    missing: string;
+    tryAgain: string;
+  };
+  whitepaper: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    source: string;
+    ready: string;
+    addDomain: string;
+    publicRecords: string;
+  };
+  legal: {
+    eyebrow: string;
+    lastUpdated: string;
+    termsTitle: string;
+    privacyTitle: string;
+    terms: LegalSectionCopy[];
+    privacy: LegalSectionCopy[];
+  };
+};
+
+export type { Dictionary as default };

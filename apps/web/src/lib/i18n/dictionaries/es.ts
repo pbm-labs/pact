@@ -1,0 +1,285 @@
+import type { Dictionary } from '../types';
+
+export const es: Dictionary = {
+  nav: {
+    language: 'Idioma',
+    whitepaper: 'Whitepaper',
+    publicRecords: 'Registros públicos',
+  },
+  footer: {
+    terms: 'Términos',
+    privacy: 'Privacidad',
+  },
+  common: {
+    home: 'Inicio',
+    back: 'Volver',
+    continue: 'Continuar',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    loading: 'Cargando…',
+  },
+  home: {
+    manifestoEyebrow: 'El manifiesto',
+    manifestoParagraphs: [
+      'En 1969, cuatro computadoras se conectaron por primera vez. Nadie en esa habitación pensó en la identidad. No hacía falta. Todos los que estaban en línea ya se conocían.',
+      'Así nació internet sin una forma de saber quién es realmente cualquiera. No fue un fallo. Solo una pregunta que todavía no había que hacerse.',
+      'Luego el mundo se hizo más pequeño, y se llenó de desconocidos.',
+      'Un nombre en una pantalla podía ser cualquiera. O nadie. Construimos una civilización entera sobre una red a la que nunca se le dio lo único que toda comunidad necesita para sobrevivir: una forma de saber quién es real.',
+      'Y nos acostumbramos. Un cimiento del tamaño de internet, ausente a plena vista durante medio siglo.',
+      'Esto es lo que sigue siendo verdad en silencio: no es demasiado tarde. Casi todo lo que eres en línea se puede falsificar en minutos. La historia es lo único que no. Se gana un día honesto a la vez, y cada día que esperamos es un día que no recuperamos.',
+      'El cimiento que internet nunca tuvo todavía se puede echar. No como un arreglo. Como algo finalmente terminado, medio siglo tarde.',
+      'No tenemos que vivir en el hueco.',
+      'Construimos lo real. Empezando ahora.',
+    ],
+    readMore: 'Leer más',
+    showLess: 'Mostrar menos',
+    ctaTitle: 'Empieza a echar los cimientos.',
+    ctaBody:
+      'La historia se gana un día honesto a la vez, y cada día que esperamos es un día que no recuperamos.',
+    ctaButton: 'Añade tu dominio',
+    ctaSub: 'Sé de los primeros en pisar terreno firme.',
+    watchManifesto: 'Ver el manifiesto',
+  },
+  howItWorks: {
+    backHome: '← Inicio',
+    eyebrow: 'Dos minutos, casi automático',
+    title: 'Añade tu dominio',
+    intro:
+      'Sin papeleo ni esperas. Solo el primer día de una historia que es realmente tuya.',
+    chooseDifferent: '← Elige otra forma',
+    yourDomain: 'Tu dominio',
+    pathCloudflareTitle: 'Uso Cloudflare',
+    pathCloudflareDesc: 'Un clic — nosotros nos ocupamos del resto.',
+    pathCloudflareBadge: 'Más rápido',
+    pathManualTitle: 'Añadirlo manualmente',
+    pathManualDesc:
+      'Una línea para pegar donde gestiones tu sitio — GoDaddy, Namecheap u otro proveedor.',
+    pathManualBadge: 'Universal',
+    pathToolTitle: 'Uso una herramienta de seguridad de email',
+    pathToolDesc: 'Postmark, EasyDMARC o similar — apunta hacia nosotros.',
+    pathToolBadge: 'Herramienta existente',
+    whatDoesThisDo: '¿Qué hace esto?',
+    cloudflareExplain:
+      'Iniciarás sesión en Cloudflare y añadiremos el registro de verificación por ti. Nada cambia en cómo envías email.',
+    toolIntro: 'En la configuración de tu herramienta, añade esto como destino de informes:',
+    toolExplain:
+      'Tu herramienta ya gestiona la autenticación de email. Apuntarla aquí solo le indica que también nos envíe una copia del resultado de verificación. Nada cambia en cómo envías email.',
+    manualIntro:
+      'Pega esto donde gestiones la configuración de tu sitio (pregunta a tu proveedor si no estás seguro):',
+    manualExplain:
+      'Esto es un registro DMARC — un estándar de seguridad de email que los proveedores de correo ya usan. Añadirlo no cambia cómo envías email; solo indica a los proveedores que también nos envíen una copia del resultado de verificación. Si ya tienes uno, añade nuestra dirección en lugar de reemplazarlo.',
+    errors: {
+      invalid_domain: 'Introduce un dominio válido (p. ej. example.com).',
+      server_config: 'Falta CONNECT_STATE_SECRET o las credenciales de Supabase en el servidor.',
+      oauth_not_configured: 'El inicio de sesión con Cloudflare no está configurado en este servidor.',
+      missing_code: 'El inicio de sesión se canceló o quedó incompleto.',
+      invalid_state: 'La sesión caducó — intenta conectar de nuevo.',
+      token_exchange: 'No se pudo terminar la conexión con Cloudflare.',
+      zone_not_found:
+        'Este dominio no se encontró en la cuenta de Cloudflare que elegiste. Prueba con otra cuenta.',
+      dmarc_update:
+        'No se pudo completar la configuración automáticamente. Prueba la opción manual.',
+      register: 'Casi — el último paso falló. Inténtalo de nuevo.',
+      somethingWrong: 'Algo salió mal.',
+    },
+  },
+  domains: {
+    backHome: 'Inicio',
+    eyebrow: 'Registros públicos',
+    title: 'Dominios que construyen confianza',
+    intro:
+      'Ordenados por historial verificado — cuánto tiempo cada dominio ha sido confirmado de forma independiente. Las puntuaciones de confianza aparecen cuando ese historial es significativo.',
+    addDomain: 'Añade tu dominio',
+    building: 'En construcción',
+    proven: 'Comprobado',
+    rankedBy: 'Ordenados por historial verificado',
+    rankedHint:
+      'Un historial confirmado de forma independiente más largo se sitúa más arriba. Una puntuación de confianza aparece cuando el historial es significativo.',
+    colDomain: 'Dominio',
+    colHistory: 'Historial',
+    colStatus: 'Estado',
+    verified: 'verificado',
+    report: 'informe',
+    reports: 'informes',
+    org: 'org',
+    orgs: 'orgs',
+    emptyTitle: 'Aún no hay dominios',
+    emptyBody: 'Añade un dominio para empezar a construir un registro público.',
+    emptyCta: 'Añadir el primer dominio',
+    searchPlaceholder: 'Buscar por dominio…',
+    noMatch: 'Ningún dominio coincide con "{query}".',
+    registered: 'registrado',
+  },
+  domain: {
+    backRecords: 'Registros',
+    publicRecord: 'Registro público',
+    building: 'En construcción',
+    proven: 'Comprobado',
+    awaitingFirst: 'Esperando el primer informe',
+    awaitingIntro:
+      'Registrado. Esperando la primera confirmación independiente — normalmente en un día.',
+    connected: 'Conectado',
+    whatNext: 'Qué ocurre a continuación',
+    next1: 'Este dominio es detectado de forma independiente, normalmente en un día.',
+    next2: 'Confirma en silencio que todo está en orden.',
+    next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
+    historyHero: 'de historial verificado',
+    historyIntro:
+      'Historial confirmado de forma independiente, construyéndose un día honesto a la vez. Una puntuación de confianza aparece cuando se ha acumulado suficiente historial.',
+    scoreIntro:
+      'Historial confirmado de forma independiente, con una puntuación de confianza que refleja cuánto tiempo y con qué amplitud ha sido verificado.',
+    timeVerified: 'Tiempo verificado',
+    reports: 'Informes',
+    allTime: 'histórico',
+    passRate: 'Tasa de acierto',
+    techSummary: 'Verificación técnica — informes y prueba criptográfica',
+    showMath: 'Mostrar el cálculo',
+    domainRegistered: 'Dominio registrado',
+    verifiedSince: 'Verificado desde',
+    awaitingReport: 'Esperando el primer informe',
+    noRecordYet: 'Aún no hay registro público.',
+    noRecordHint:
+      'Si ya añadiste el registro de verificación, guarda esta página. Se actualiza sola cuando llega la primera comprobación independiente, normalmente en un día.',
+    connectDomain: 'Conectar',
+    staging:
+      'Vista previa temprana — la verificación está activa; el anclaje público permanente llegará pronto.',
+  },
+  connectSuccess: {
+    added: 'Añadido',
+    cloudflare: 'Cloudflare',
+    body: 'Añadido, no queda nada más por hacer. Ya empezó a construir tu registro.',
+    whatNext: 'Qué ocurre a continuación',
+    next1: 'Una comprobación independiente suele llegar en un día.',
+    next2:
+      'Eso confirma todo y añade este dominio al registro público. No hay que hacer clic en nada más.',
+    next3: 'A partir de ahí, tu puntuación de confianza se construye y se actualiza sola.',
+    viewDomain: 'Ver',
+    allRecords: 'Todos los registros',
+    missing: 'Faltaba algo en ese enlace — volvamos a intentarlo.',
+    tryAgain: 'Intentar de nuevo',
+  },
+  whitepaper: {
+    eyebrow: 'PACT Protocol',
+    title: 'Whitepaper',
+    intro:
+      'El protocolo abierto detrás del registro público — cómo se captura, publica y mide el historial verificado.',
+    source: 'Código en GitHub →',
+    ready: '¿Listo para empezar?',
+    addDomain: 'Añade tu dominio',
+    publicRecords: 'Registros públicos',
+  },
+  legal: {
+    eyebrow: 'Legal',
+    lastUpdated: 'Última actualización: 8 de agosto de 2026',
+    termsTitle: 'Términos del servicio',
+    privacyTitle: 'Política de privacidad',
+    terms: [
+      {
+        title: '1. Aceptación de los términos',
+        body: 'Al acceder o utilizar este sitio web (pact.pbm-labs.com) y los servicios relacionados operados bajo la marca “we build real”, aceptas estos Términos del servicio. Si no estás de acuerdo, no uses el sitio ni conectes un dominio.',
+      },
+      {
+        title: '2. Quiénes somos',
+        body: 'Este sitio es operado por PBM Labs LLC (“PBM Labs”, “nosotros”), una limited liability company de Wyoming. Ofrece acceso público a la implementación de referencia del Protocolo PACT: conexión de dominios, un registro público del historial de dominios verificado de forma independiente y documentación relacionada.',
+      },
+      {
+        title: '3. El servicio',
+        body: 'PACT captura informes agregados de autenticación DMARC que los sistemas de correo receptores ya generan, registra los metadatos extraídos en un árbol Merkle de solo añadido y publica un registro público y una señal orgánica de confianza para los dominios conectados. Conectar un dominio requiere añadir PACT como destino de informes en DNS (directamente o mediante un proveedor compatible). No leemos el contenido de los mensajes, las identidades de los destinatarios ni los datos del buzón.',
+      },
+      {
+        title: '4. Registros públicos',
+        body: 'La información publicada en el registro público — incluidos nombres de dominio, resúmenes de historial verificado, señales de confianza y pruebas criptográficas — está pensada para ser visible públicamente. No conectes un dominio si no estás autorizado a hacer que los metadatos de autenticación de ese dominio formen parte de un libro público.',
+      },
+      {
+        title: '5. Tus responsabilidades',
+        body: 'Solo debes conectar dominios que controles o que estés autorizado a gestionar. Eres responsable de la exactitud de los cambios de DNS que realices, de cumplir tus propias políticas y la legislación aplicable, y de no usar el servicio para acosar, defraudar o falsear a terceros. No puedes intentar acceso no autorizado, interferir con el servicio, hacer scraping de forma que lo degrade, introducir malware ni hacer un uso indebido del sitio.',
+      },
+      {
+        title: '6. Sin asesoramiento; sin garantía de legitimidad',
+        body: 'Las puntuaciones de confianza, los resúmenes de historial y las pruebas son mediciones informativas derivadas de los informes disponibles. No constituyen asesoramiento legal, financiero, de cumplimiento ni empresarial, y no garantizan que un dominio, organización o persona sea legítimo, seguro para operar o libre de riesgo. Sigues siendo el único responsable de tus propias decisiones.',
+      },
+      {
+        title: '7. Sin servicios financieros',
+        body: 'No somos un banco, corredor, negocio de servicios monetarios ni institución financiera. No procesamos, retenemos, custodiamos ni transferimos moneda, valores ni activos financieros.',
+      },
+      {
+        title: '8. Propiedad intelectual',
+        body: 'El contenido del sitio, la marca y el diseño son propiedad de PBM Labs LLC o de sus licenciantes, salvo que se indique lo contrario. La especificación del Protocolo PACT y el whitepaper se publican abiertamente para su revisión e implementación; se fomentan implementaciones de terceros del protocolo, sujetas a sus propios términos de licencia cuando corresponda. No se conceden derechos salvo el derecho limitado a usar este sitio según lo previsto.',
+      },
+      {
+        title: '9. Servicios de terceros',
+        body: 'El sitio puede depender de o enlazar a terceros (por ejemplo, proveedores DNS como Cloudflare, infraestructura de hosting y edge, y proveedores de bases de datos). No controlamos los servicios de terceros y no somos responsables de su contenido, disponibilidad o políticas. Tu uso de esos servicios está sujeto a sus términos.',
+      },
+      {
+        title: '10. Exención de garantías',
+        body: 'El sitio y el servicio se proporcionan “tal cual” y “según disponibilidad”, sin garantías de ningún tipo, expresas o implícitas, incluidas las de comerciabilidad, idoneidad para un fin particular y no infracción. No garantizamos que el servicio sea ininterrumpido, libre de errores, completo o seguro, ni que las raíces, pruebas o puntuaciones publicadas cumplan tus requisitos.',
+      },
+      {
+        title: '11. Limitación de responsabilidad',
+        body: 'En la máxima medida permitida por la ley, PBM Labs LLC y sus miembros, directivos y contratistas no son responsables de daños indirectos, incidentales, especiales, consecuentes o punitivos derivados de tu uso del sitio o del servicio, incluida la confianza en registros públicos o señales de confianza, incluso si se les informó de la posibilidad de tales daños.',
+      },
+      {
+        title: '12. Cambios',
+        body: 'Podemos actualizar estos Términos de vez en cuando. La versión revisada se publicará en esta página con una fecha actualizada. El uso continuado del sitio tras los cambios constituye la aceptación de los Términos revisados.',
+      },
+      {
+        title: '13. Ley aplicable',
+        body: 'Estos Términos se rigen por las leyes del Estado de Wyoming, Estados Unidos, sin tener en cuenta los principios de conflicto de leyes.',
+      },
+      {
+        title: '14. Contacto',
+        body: 'Avisos legales y preguntas sobre estos Términos: hello@pbm-labs.com.',
+      },
+    ],
+    privacy: [
+      {
+        title: '1. Resumen',
+        body: 'Esta Política de privacidad explica cómo PBM Labs LLC trata la información cuando usas pact.pbm-labs.com y los servicios de referencia de PACT. PACT está diseñado para que su fuente de datos principal — los informes agregados DMARC — no contenga contenido de mensajes ni identidades personales.',
+      },
+      {
+        title: '2. Información que procesamos',
+        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: elección de tema almacenada en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
+      },
+      {
+        title: '3. Qué no recopilamos',
+        body: 'No accedemos, leemos ni almacenamos cuerpos de mensajes de email, asuntos, identidades de destinatarios ni contenidos de buzones a través del Protocolo PACT. Los informes agregados que usa el protocolo no son datos personales por diseño.',
+      },
+      {
+        title: '4. Cómo usamos la información',
+        body: 'Usamos la información anterior para operar la conexión de dominios, ingerir y publicar historial verificado, calcular y mostrar señales de confianza, mantener pruebas criptográficas, prevenir abusos y mejorar la fiabilidad del servicio. Los campos del registro público se publican para que cualquiera pueda verificar el historial de forma independiente.',
+      },
+      {
+        title: '5. Registros públicos',
+        body: 'Los dominios conectados y sus resúmenes de historial verificado, puntuaciones (cuando se muestran) y pruebas están pensados para ser públicos. No conectes un dominio a menos que entiendas que los metadatos de autenticación relacionados aparecerán en un libro público.',
+      },
+      {
+        title: '6. Proveedores de servicios',
+        body: 'Usamos proveedores de infraestructura para alojar el sitio y almacenar datos del protocolo (incluido hosting edge y servicios de bases de datos). Si te conectas mediante OAuth de Cloudflare, Cloudflare procesa la autenticación y las actualizaciones de DNS bajo sus términos. Los proveedores pueden procesar datos en Estados Unidos u otras jurisdicciones donde operen.',
+      },
+      {
+        title: '7. Cookies y almacenamiento local',
+        body: 'No usamos píxeles de seguimiento publicitario ni de analítica en este sitio. Almacenamos preferencias esenciales (como el tema y el idioma) en el almacenamiento local de tu navegador. Puedes borrarlas en la configuración del navegador.',
+      },
+      {
+        title: '8. Conservación',
+        body: 'Los datos del libro público se conservan para preservar la integridad del registro de solo añadido. Los registros operativos y los datos de sesión de conexión se conservan solo según sea necesario para operar, asegurar y depurar el servicio, y para cumplir obligaciones legales.',
+      },
+      {
+        title: '9. Seguridad',
+        body: 'Aplicamos medidas técnicas y organizativas razonables adecuadas a un servicio público de verificación. Ningún método de transmisión o almacenamiento es completamente seguro.',
+      },
+      {
+        title: '10. Tus derechos',
+        body: 'Según tu ubicación, puedes tener derechos de acceso, rectificación o eliminación de los datos personales que conservemos sobre ti. Los nombres de dominio y las entradas del libro público no se tratan como datos personales en el modelo principal de esta política; contáctanos si crees que conservamos datos personales sobre ti de otra forma. No vendemos datos personales.',
+      },
+      {
+        title: '11. Cambios',
+        body: 'Podemos actualizar esta Política de privacidad de vez en cuando. La versión revisada se publicará en esta página con una fecha actualizada.',
+      },
+      {
+        title: '12. Contacto',
+        body: 'Preguntas de privacidad: hello@pbm-labs.com.',
+      },
+    ],
+  },
+};

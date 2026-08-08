@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { CopyableValue } from '@/components/copy-button';
+import { useLocale } from '@/components/locale-provider';
 import type { ConnectPath } from '@/lib/connect-path';
 import {
   btnPrimary,
@@ -59,24 +60,6 @@ interface DnsPathFlowProps {
   initialPath?: ConnectPath | null;
 }
 
-const PATH_COPY = {
-  cloudflare: {
-    title: 'I use Cloudflare',
-    description: 'One click — we handle the rest.',
-    badge: 'Fastest',
-  },
-  manual: {
-    title: 'Add it manually',
-    description: 'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
-    badge: 'Universal',
-  },
-  'dmarc-tool': {
-    title: 'I use an email security tool',
-    description: 'Postmark, EasyDMARC, or similar — point it to us.',
-    badge: 'Existing tool',
-  },
-} as const;
-
 export function DnsPathFlow({
   variant = 'default',
   domainPrefill = '',
@@ -84,10 +67,29 @@ export function DnsPathFlow({
   ruaAddress = 'rua@pact.pbm-labs.com',
   initialPath = null,
 }: DnsPathFlowProps) {
+  const { t } = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [path, setPath] = useState<ConnectPath | null>(initialPath);
+
+  const pathCopy = {
+    cloudflare: {
+      title: t.howItWorks.pathCloudflareTitle,
+      description: t.howItWorks.pathCloudflareDesc,
+      badge: t.howItWorks.pathCloudflareBadge,
+    },
+    manual: {
+      title: t.howItWorks.pathManualTitle,
+      description: t.howItWorks.pathManualDesc,
+      badge: t.howItWorks.pathManualBadge,
+    },
+    'dmarc-tool': {
+      title: t.howItWorks.pathToolTitle,
+      description: t.howItWorks.pathToolDesc,
+      badge: t.howItWorks.pathToolBadge,
+    },
+  } as const;
 
   const setPathWithUrl = useCallback(
     (next: ConnectPath | null) => {
@@ -112,7 +114,7 @@ export function DnsPathFlow({
         }
       >
         {paths.map((key) => {
-          const item = PATH_COPY[key];
+          const item = pathCopy[key];
           return (
             <button
               key={key}
@@ -137,7 +139,7 @@ export function DnsPathFlow({
     );
   }
 
-  const pathCopy = PATH_COPY[path];
+  const selected = pathCopy[path];
 
   return (
     <div>
@@ -146,14 +148,14 @@ export function DnsPathFlow({
         className="mb-6 text-sm text-muted-2 hover:text-txt transition-colors bg-transparent border-none p-0 cursor-pointer font-mono"
         onClick={() => setPathWithUrl(null)}
       >
-        ← Choose a different way
+        {t.howItWorks.chooseDifferent}
       </button>
 
       <section className={panel}>
         <div className={panelHeader}>
-          <h2 className="text-base font-semibold text-txt m-0">{pathCopy.title}</h2>
+          <h2 className="text-base font-semibold text-txt m-0">{selected.title}</h2>
           <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
-            {pathCopy.badge}
+            {selected.badge}
           </span>
         </div>
 
@@ -162,7 +164,7 @@ export function DnsPathFlow({
             <form className="space-y-5" action="/api/connect/cloudflare" method="GET">
               <div>
                 <label htmlFor="connect-cf-domain" className={label}>
-                  Your domain
+                  {t.howItWorks.yourDomain}
                 </label>
                 <div className="flex items-stretch gap-2 mt-3">
                   <input
@@ -178,36 +180,31 @@ export function DnsPathFlow({
                     className={`${input} flex-1`}
                   />
                   <button type="submit" className={`${btnPrimary} shrink-0 px-4 sm:px-5`}>
-                    Continue
+                    {t.common.continue}
                   </button>
                 </div>
               </div>
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                  What does this do?
+                  {t.howItWorks.whatDoesThisDo}
                 </p>
                 <p className="text-xs text-muted-2 leading-relaxed m-0">
-                  You&apos;ll sign in to Cloudflare and we&apos;ll add the verification record for
-                  you. Nothing about how you send email changes.
+                  {t.howItWorks.cloudflareExplain}
                 </p>
               </div>
             </form>
           ) : path === 'dmarc-tool' ? (
             <div className="space-y-5">
               <div>
-                <p className="text-sm text-muted leading-relaxed mb-4">
-                  In your tool&apos;s settings, add this as a report destination:
-                </p>
+                <p className="text-sm text-muted leading-relaxed mb-4">{t.howItWorks.toolIntro}</p>
                 <CopyableValue text={ruaAddress} />
               </div>
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                  What does this do?
+                  {t.howItWorks.whatDoesThisDo}
                 </p>
                 <p className="text-xs text-muted-2 leading-relaxed m-0">
-                  Your tool already handles email authentication. Pointing it here just tells it
-                  to also send us a copy of the verification result. Nothing about how you send
-                  email changes.
+                  {t.howItWorks.toolExplain}
                 </p>
               </div>
             </div>
@@ -216,20 +213,16 @@ export function DnsPathFlow({
               <div className="space-y-5">
                 <div>
                   <p className="text-sm text-muted leading-relaxed mb-4">
-                    Paste this wherever you manage your website&apos;s settings (ask your host if
-                    you&apos;re not sure where):
+                    {t.howItWorks.manualIntro}
                   </p>
                   <CopyableValue text={dmarcSnippet} />
                 </div>
                 <div>
                   <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                    What does this do?
+                    {t.howItWorks.whatDoesThisDo}
                   </p>
                   <p className="text-xs text-muted-2 leading-relaxed m-0">
-                    This is a DMARC record — an email security standard mail providers already
-                    use. Adding it doesn&apos;t change how you send email; it just tells
-                    providers to also send us a copy of the verification result. If you already
-                    have one of these, just add our address to it instead of replacing it.
+                    {t.howItWorks.manualExplain}
                   </p>
                 </div>
               </div>

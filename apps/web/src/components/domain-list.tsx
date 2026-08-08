@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { ScoreBar } from '@/components/score-bar';
+import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
 import { formatVerifiedDays, shouldShowTrustScore } from '@/lib/trust-display';
@@ -15,17 +18,26 @@ function rankClass(rank: number | null): string {
   return 'text-muted-2';
 }
 
-function StatusBadge({ domain }: { domain: DomainSummary }) {
+function StatusBadge({
+  domain,
+  building,
+  proven,
+}: {
+  domain: DomainSummary;
+  building: string;
+  proven: string;
+}) {
   if (domain.status === 'waiting') {
     return null;
   }
   if (domain.trustStatus === 'activated') {
-    return <span className={badgeVerified}>Proven</span>;
+    return <span className={badgeVerified}>{proven}</span>;
   }
-  return <span className={badgeAmber}>Building</span>;
+  return <span className={badgeAmber}>{building}</span>;
 }
 
 function HistoryCell({ domain }: { domain: DomainSummary }) {
+  const { t } = useLocale();
   const days = domain.pactAgeDays ?? 0;
   const reports = domain.leafCount ?? 0;
   const orgs = domain.uniqueReporterCount ?? 0;
@@ -44,11 +56,13 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
         {formatVerifiedDays(days)}
       </span>
       <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
-        verified
+        {t.domains.verified}
       </span>
       <span className="block text-[0.65rem] font-mono text-muted-2 mt-1.5">
-        {reports} report{reports === 1 ? '' : 's'}
-        {orgs > 0 ? ` · ${orgs} org${orgs === 1 ? '' : 's'}` : ''}
+        {reports} {reports === 1 ? t.domains.report : t.domains.reports}
+        {orgs > 0
+          ? ` · ${orgs} ${orgs === 1 ? t.domains.org : t.domains.orgs}`
+          : ''}
       </span>
       {showScore && domain.trustScoreDisplay != null && (
         <span className="mt-2 block">
@@ -69,15 +83,15 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
 }
 
 export function DomainList({ domains }: DomainListProps) {
+  const { t } = useLocale();
+
   if (!domains.length) {
     return (
       <div className={`${panel} p-8 text-center`}>
-        <p className="text-base font-semibold text-txt mb-2">No domains yet</p>
-        <p className="text-sm text-muted mb-6">
-          Add a domain to start building a public record.
-        </p>
+        <p className="text-base font-semibold text-txt mb-2">{t.domains.emptyTitle}</p>
+        <p className="text-sm text-muted mb-6">{t.domains.emptyBody}</p>
         <Link href="/how-it-works" className={btnPrimary}>
-          Add the first domain
+          {t.domains.emptyCta}
         </Link>
       </div>
     );
@@ -90,21 +104,18 @@ export function DomainList({ domains }: DomainListProps) {
       <div className={`${panelBody} border-b border-border flex flex-wrap items-end justify-between gap-3`}>
         <div>
           <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 mb-1">
-            Ranked by verified history
+            {t.domains.rankedBy}
           </p>
-          <p className="text-xs text-muted m-0">
-            Longer independently confirmed history ranks higher. A trust score appears once
-            history is meaningful.
-          </p>
+          <p className="text-xs text-muted m-0">{t.domains.rankedHint}</p>
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />
-            Building
+            {t.domains.building}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-verified" aria-hidden />
-            Proven
+            {t.domains.proven}
           </span>
         </div>
       </div>
@@ -114,10 +125,10 @@ export function DomainList({ domains }: DomainListProps) {
           <thead>
             <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
-              <th className="text-left font-medium px-4 sm:px-5 py-2.5">Domain</th>
-              <th className="text-right font-medium px-4 sm:px-5 py-2.5">History</th>
+              <th className="text-left font-medium px-4 sm:px-5 py-2.5">{t.domains.colDomain}</th>
+              <th className="text-right font-medium px-4 sm:px-5 py-2.5">{t.domains.colHistory}</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 hidden sm:table-cell">
-                Status
+                {t.domains.colStatus}
               </th>
             </tr>
           </thead>
@@ -145,11 +156,15 @@ export function DomainList({ domains }: DomainListProps) {
                     </Link>
                     {d.domainRegisteredAt && (
                       <p className="text-[0.65rem] font-mono text-muted-2 mt-1 m-0">
-                        registered {formatDomainRegisteredAt(d.domainRegisteredAt)}
+                        {t.domains.registered} {formatDomainRegisteredAt(d.domainRegisteredAt)}
                       </p>
                     )}
                     <div className="sm:hidden mt-1.5">
-                      <StatusBadge domain={d} />
+                      <StatusBadge
+                        domain={d}
+                        building={t.domains.building}
+                        proven={t.domains.proven}
+                      />
                     </div>
                   </td>
                   <td className="px-4 sm:px-5 py-3.5 text-right">
@@ -160,7 +175,11 @@ export function DomainList({ domains }: DomainListProps) {
                     )}
                   </td>
                   <td className="px-4 sm:px-5 py-3.5 hidden sm:table-cell">
-                    <StatusBadge domain={d} />
+                    <StatusBadge
+                      domain={d}
+                      building={t.domains.building}
+                      proven={t.domains.proven}
+                    />
                   </td>
                 </tr>
               );

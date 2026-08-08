@@ -2,10 +2,12 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useLocale } from '@/components/locale-provider';
 import { WHITEOBER_URL } from '@/lib/links';
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
+  const { t } = useLocale();
 
   return (
     <div className="sm:hidden">
@@ -50,14 +52,14 @@ export function MobileMenu() {
               onClick={() => setOpen(false)}
               className="py-2.5 text-sm text-muted hover:text-txt no-underline"
             >
-              Public records
+              {t.nav.publicRecords}
             </Link>
             <Link
               href={WHITEOBER_URL}
               onClick={() => setOpen(false)}
               className="py-2.5 text-sm text-muted hover:text-txt no-underline"
             >
-              Whitepaper
+              {t.nav.whitepaper}
             </Link>
           </div>
         </div>
