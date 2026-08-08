@@ -11,9 +11,6 @@ importers:
       '@pact/core':
         specifier: workspace:*
         version: link:packages/pact-core
-      tsx:
-        specifier: ^4.19.4
-        version: 4.22.4
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
@@ -5360,6 +5357,7 @@ snapshots:
       '@esbuild/win32-arm64': 0.28.1
       '@esbuild/win32-ia32': 0.28.1
       '@esbuild/win32-x64': 0.28.1
+    optional: true
 
   escalade@3.2.0: {}
 
@@ -6571,6 +6569,7 @@ snapshots:
       esbuild: 0.28.1
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   type-is@2.1.0:
     dependencies:
