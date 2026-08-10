@@ -112,7 +112,7 @@ export const fr: Dictionary = {
     registered: 'enregistré',
   },
   domain: {
-    backRecords: 'Registres',
+    backRecords: 'Registres publics',
     publicRecord: 'Registre public',
     building: 'En construction',
     proven: 'Éprouvé',
