@@ -238,6 +238,34 @@ export const fr: Dictionary = {
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
+    roadmapTitle: 'Roadmap',
+    roadmapBody: "Ce qui est en ligne aujourd'hui, et ce qui vient ensuite.",
+  },
+  roadmap: {
+    eyebrow: 'PACT Protocol',
+    title: 'Roadmap',
+    intro:
+      'La phase 0a est en ligne : un registre public recomputable avec des racines Merkle en staging. L’ancrage on-chain vient ensuite.',
+    nowTitle: "En ligne aujourd'hui",
+    nowItems: [
+      'Connexion de domaine via OAuth Cloudflare, DNS manuel ou outils de reporting existants',
+      'Création automatique du registre public dès le premier rapport agrégé valide',
+      'Ingestion continue de vrais rapports agrégés DMARC',
+      'Arbre de Merkle append-only avec preuves d’inclusion recomputables publiquement',
+      'Publication régulière de racines de staging sur un registre public',
+      'Registres publics classés par historique vérifié ; score mis à l’échelle quand il est significatif',
+      'Pages par domaine avec horloges, activité et vérification technique',
+    ],
+    nextTitle: 'En développement actif',
+    nextItems: [
+      'Ancrage on-chain des racines Merkle',
+      'La vélocité comme signal compagnon de la maturité',
+      'Surveillance des discontinuités d’infrastructure (Signal)',
+      'Opération multi-nœuds / permissionless plus large',
+    ],
+    nextNote:
+      'Aucun de ces points n’est requis pour que la vérification publique d’aujourd’hui fonctionne. Ils étendent ce qui est déjà en ligne.',
+    whitepaperLink: 'Lire le whitepaper →',
   },
   legal: {
     eyebrow: 'Mentions légales',

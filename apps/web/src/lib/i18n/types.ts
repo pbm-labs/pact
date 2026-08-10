@@ -202,6 +202,19 @@ export type Dictionary = {
     whyBody: string;
     whitepaperTitle: string;
     whitepaperBody: string;
+    roadmapTitle: string;
+    roadmapBody: string;
+  };
+  roadmap: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    nowTitle: string;
+    nowItems: readonly string[];
+    nextTitle: string;
+    nextItems: readonly string[];
+    nextNote: string;
+    whitepaperLink: string;
   };
   legal: {
     eyebrow: string;

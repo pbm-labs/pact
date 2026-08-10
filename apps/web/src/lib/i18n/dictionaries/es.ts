@@ -236,6 +236,34 @@ export const es: Dictionary = {
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'El protocolo abierto detrás del registro público — cómo se captura, publica y mide el historial verificado.',
+    roadmapTitle: 'Roadmap',
+    roadmapBody: 'Qué está en vivo hoy, y qué viene después.',
+  },
+  roadmap: {
+    eyebrow: 'PACT Protocol',
+    title: 'Roadmap',
+    intro:
+      'La fase 0a está en vivo: un registro público recomputable con raíces Merkle en staging. El anclaje on-chain es lo siguiente.',
+    nowTitle: 'En vivo hoy',
+    nowItems: [
+      'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
+      'Creación automática del registro público con el primer informe agregado válido',
+      'Ingesta continua de informes agregados DMARC reales',
+      'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
+      'Publicación periódica de raíces de staging en un ledger público',
+      'Registros públicos ordenados por historial verificado; puntuación escalada cuando importa',
+      'Páginas por dominio con relojes, actividad y verificación técnica',
+    ],
+    nextTitle: 'En desarrollo activo',
+    nextItems: [
+      'Anclaje on-chain de raíces Merkle',
+      'Velocidad como señal compañera de la madurez',
+      'Monitorización de discontinuidades de infraestructura (Signal)',
+      'Operación multi-nodo / sin permiso más amplia',
+    ],
+    nextNote:
+      'Ninguno de estos puntos es necesario para que la verificación pública de hoy funcione. Extienden lo que ya está en vivo.',
+    whitepaperLink: 'Leer el whitepaper →',
   },
   legal: {
     eyebrow: 'Legal',

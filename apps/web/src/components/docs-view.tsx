@@ -37,6 +37,17 @@ export function DocsView() {
             {t.docs.whitepaperBody}
           </p>
         </div>
+        <div>
+          <Link
+            href="/roadmap"
+            className="text-lg sm:text-xl font-semibold text-txt no-underline hover:text-accent"
+          >
+            {t.docs.roadmapTitle}
+          </Link>
+          <p className="text-sm text-muted leading-relaxed mt-2 m-0 max-w-xl">
+            {t.docs.roadmapBody}
+          </p>
+        </div>
       </nav>
     </PageShell>
   );

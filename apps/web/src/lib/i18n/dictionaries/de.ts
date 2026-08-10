@@ -236,6 +236,34 @@ export const de: Dictionary = {
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
+    roadmapTitle: 'Roadmap',
+    roadmapBody: 'Was heute live ist — und was als Nächstes kommt.',
+  },
+  roadmap: {
+    eyebrow: 'PACT Protocol',
+    title: 'Roadmap',
+    intro:
+      'Phase 0a ist live: ein öffentlicher, nachrechenbarer Eintrag mit Staging-Merkle-Roots. On-Chain-Verankerung folgt.',
+    nowTitle: 'Heute live',
+    nowItems: [
+      'Domain-Verbindung über Cloudflare OAuth, manuelles DNS oder bestehende Reporting-Tools',
+      'Automatische Erstellung des öffentlichen Eintrags beim ersten gültigen Aggregatbericht',
+      'Kontinuierliche Aufnahme echter DMARC-Aggregatberichte',
+      'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
+      'Regelmäßige Veröffentlichung von Staging-Roots in einem öffentlichen Ledger',
+      'Öffentliche Einträge nach verifizierter Historie sortiert; skalierte Score wenn sinnvoll',
+      'Domain-Seiten mit Uhren, Aktivität und technischer Verifikation',
+    ],
+    nextTitle: 'In aktiver Entwicklung',
+    nextItems: [
+      'On-Chain-Verankerung von Merkle-Roots',
+      'Velocity als Begleitsignal zur Maturity',
+      'Überwachung von Infrastruktur-Diskontinuitäten (Signal)',
+      'Breitere Multi-Node- / permissionless Operation',
+    ],
+    nextNote:
+      'Nichts davon ist für die heutige öffentliche Verifikation erforderlich. Sie erweitern, was bereits live ist.',
+    whitepaperLink: 'Whitepaper lesen →',
   },
   legal: {
     eyebrow: 'Rechtliches',

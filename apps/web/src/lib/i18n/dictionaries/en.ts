@@ -235,6 +235,34 @@ export const en: Dictionary = {
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'The open protocol behind the public record — how verified history is captured, published, and measured.',
+    roadmapTitle: 'Roadmap',
+    roadmapBody: 'What’s live today, and what’s next.',
+  },
+  roadmap: {
+    eyebrow: 'PACT Protocol',
+    title: 'Roadmap',
+    intro:
+      'Phase 0a is live: a public, recomputable record with staging Merkle roots. On-chain anchoring is next.',
+    nowTitle: 'Live today',
+    nowItems: [
+      'Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools',
+      'Automatic public-record creation on the first valid aggregate report',
+      'Continuous ingestion of real DMARC aggregate reports',
+      'Append-only Merkle tree with publicly recomputable inclusion proofs',
+      'Regular publication of staging roots to a public ledger',
+      'Public records ranked by verified history; scaled score when meaningful',
+      'Per-domain pages with clocks, activity, and technical verification',
+    ],
+    nextTitle: 'In active development',
+    nextItems: [
+      'On-chain anchoring of Merkle roots',
+      'Velocity as a companion signal to maturity',
+      'Infrastructure-discontinuity monitoring (Signal)',
+      'Broader multi-node / permissionless operation',
+    ],
+    nextNote:
+      'None of these are required for today’s public verification to function. They extend what is already live.',
+    whitepaperLink: 'Read the whitepaper →',
   },
   legal: {
     eyebrow: 'Legal',
