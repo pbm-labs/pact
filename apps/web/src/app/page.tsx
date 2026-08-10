@@ -31,7 +31,7 @@ export default function HomePage() {
             <p className="text-base sm:text-lg text-txt font-semibold leading-relaxed mb-3">
               {t.home.ctaTitle}
             </p>
-            <p className="text-sm sm:text-base text-muted leading-relaxed mb-8">
+            <p className="text-sm sm:text-base text-muted leading-relaxed mb-8 whitespace-pre-line">
               {t.home.ctaBody}
             </p>
             <Link href="/how-it-works#add-your-domain" className={btnPrimary}>

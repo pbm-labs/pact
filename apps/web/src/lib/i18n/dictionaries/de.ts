@@ -34,7 +34,7 @@ export const de: Dictionary = {
     showLess: 'Weniger anzeigen',
     ctaTitle: 'Beginne, das Fundament zu gießen.',
     ctaBody:
-      'Geschichte entsteht Tag für Tag — ehrlich und nachvollziehbar. Jeder Tag, den wir warten, kommt nicht zurück.',
+      'Geschichte entsteht Tag für Tag — ehrlich und nachvollziehbar.\nJeder Tag, den wir warten, kommt nicht zurück.',
     ctaButton: 'Domain hinzufügen',
     ctaSub: 'Sei unter den Ersten auf festem Boden.',
     watchManifesto: 'Das Manifest ansehen',

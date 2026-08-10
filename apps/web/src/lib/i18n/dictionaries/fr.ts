@@ -34,7 +34,7 @@ export const fr: Dictionary = {
     showLess: 'Réduire',
     ctaTitle: 'Commencez à couler la fondation.',
     ctaBody:
-      "L'histoire s'acquiert un jour honnête à la fois, et chaque jour d'attente est un jour que l'on ne récupère jamais.",
+      "L'histoire s'acquiert un jour honnête à la fois,\net chaque jour d'attente est un jour que l'on ne récupère jamais.",
     ctaButton: 'Ajoutez votre domaine',
     ctaSub: 'Soyez parmi les premiers sur un terrain solide.',
     watchManifesto: 'Voir le manifeste',
