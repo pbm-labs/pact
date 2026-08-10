@@ -11,6 +11,9 @@ export function MovementFooter() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4 text-xs text-muted-2 font-mono">
         <p className="m-0">&copy; {new Date().getFullYear()} we build real</p>
         <nav className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2">
+          <Link href="/why-pact" className="hover:text-muted no-underline">
+            {t.footer.whyPact}
+          </Link>
           <Link href="/whitepaper" className="hover:text-muted no-underline">
             {t.footer.whitepaper}
           </Link>

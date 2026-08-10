@@ -6,6 +6,7 @@ export const de: Dictionary = {
     publicRecords: 'Öffentliche Einträge',
   },
   footer: {
+    whyPact: 'Warum PACT',
     whitepaper: 'Whitepaper',
     terms: 'Nutzungsbedingungen',
     privacy: 'Datenschutz',
@@ -218,6 +219,15 @@ export const de: Dictionary = {
     intro:
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
     source: 'Quellcode auf GitHub →',
+  },
+  whyPact: {
+    eyebrow: 'PACT Protocol',
+    title: 'What Makes PACT Different',
+    intro: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — nicht das vollständige Whitepaper.',
+    scope:
+      'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien.',
+    whitepaperLink: 'Whitepaper lesen →',
+    howItWorksLink: 'Domain hinzufügen',
   },
   legal: {
     eyebrow: 'Rechtliches',

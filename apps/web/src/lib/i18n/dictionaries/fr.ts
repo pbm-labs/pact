@@ -6,6 +6,7 @@ export const fr: Dictionary = {
     publicRecords: 'Registres publics',
   },
   footer: {
+    whyPact: 'Pourquoi PACT',
     whitepaper: 'Whitepaper',
     terms: 'Conditions',
     privacy: 'Confidentialité',
@@ -220,6 +221,15 @@ export const fr: Dictionary = {
     intro:
       "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
     source: 'Source sur GitHub →',
+  },
+  whyPact: {
+    eyebrow: 'PACT Protocol',
+    title: 'What Makes PACT Different',
+    intro: "Une note de deux minutes sur l'évidence face à l'autorité — pas le whitepaper complet.",
+    scope:
+      "PACT mesure l'historique de domaine vérifié de façon indépendante à partir des rapports agrégés DMARC. Ce n'est pas du KYC, pas une identité personnelle, et pas un substitut aux registres ou aux bureaux de crédit.",
+    whitepaperLink: 'Lire le whitepaper →',
+    howItWorksLink: 'Ajoutez votre domaine',
   },
   legal: {
     eyebrow: 'Mentions légales',
