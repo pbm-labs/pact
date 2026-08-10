@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
+import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
 import { WHY_PACT_PARAGRAPHS } from '@/lib/why-pact';
 import { eyebrow, pageTitle } from '@/lib/ui';
@@ -40,16 +40,10 @@ export function WhyPactView() {
             {renderInline(paragraph)}
           </p>
         ))}
+        <p className="m-0 pt-2 text-sm text-muted-2 leading-relaxed">{t.whyPact.scope}</p>
       </article>
 
-      <aside className="mt-12 pt-8 border-t border-border space-y-3">
-        <p className="text-sm text-muted leading-relaxed m-0">{t.whyPact.scope}</p>
-        <p className="text-sm m-0">
-          <Link href="/whitepaper" className="text-accent font-semibold no-underline hover:opacity-90">
-            {t.whyPact.whitepaperLink}
-          </Link>
-        </p>
-      </aside>
+      <DocsFooter href="/whitepaper" label={t.whyPact.whitepaperLink} />
     </PageShell>
   );
 }

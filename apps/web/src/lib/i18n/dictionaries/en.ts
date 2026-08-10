@@ -217,6 +217,7 @@ export const en: Dictionary = {
     intro:
       'The open protocol behind the public record — how verified history is captured, published, and measured.',
     source: 'Source on GitHub →',
+    footerLink: 'See the roadmap →',
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
@@ -237,6 +238,7 @@ export const en: Dictionary = {
       'The open protocol behind the public record — how verified history is captured, published, and measured.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'What’s live today, and what’s next.',
+    footerLink: 'Read the whitepaper →',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',

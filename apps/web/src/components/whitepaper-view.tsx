@@ -1,6 +1,7 @@
 'use client';
 
 import { useLocale } from '@/components/locale-provider';
+import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
 import { eyebrow, linkMuted, pageTitle } from '@/lib/ui';
@@ -32,6 +33,8 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
       </header>
 
       <WhitepaperBody markdown={markdown} />
+
+      <DocsFooter href="/roadmap" label={t.whitepaper.footerLink} />
     </PageShell>
   );
 }

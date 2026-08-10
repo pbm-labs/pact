@@ -186,6 +186,7 @@ export type Dictionary = {
     title: string;
     intro: string;
     source: string;
+    footerLink: string;
   };
   whyPact: {
     eyebrow: string;
@@ -204,6 +205,7 @@ export type Dictionary = {
     whitepaperBody: string;
     roadmapTitle: string;
     roadmapBody: string;
+    footerLink: string;
   };
   roadmap: {
     eyebrow: string;

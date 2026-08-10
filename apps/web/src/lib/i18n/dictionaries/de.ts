@@ -218,6 +218,7 @@ export const de: Dictionary = {
     intro:
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
     source: 'Quellcode auf GitHub →',
+    footerLink: 'Roadmap ansehen →',
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
@@ -238,6 +239,7 @@ export const de: Dictionary = {
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'Was heute live ist — und was als Nächstes kommt.',
+    footerLink: 'Whitepaper lesen →',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',
