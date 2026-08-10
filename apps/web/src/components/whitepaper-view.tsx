@@ -14,7 +14,7 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/" backLabel={t.common.home}>
+    <PageShell backHref="/docs" backLabel={t.docs.title}>
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whitepaper.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whitepaper.title}</h1>

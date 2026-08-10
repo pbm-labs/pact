@@ -6,8 +6,7 @@ export const es: Dictionary = {
     publicRecords: 'Registros públicos',
   },
   footer: {
-    whyPact: 'Por qué PACT',
-    whitepaper: 'Whitepaper',
+    docs: 'Docs',
     terms: 'Términos',
     privacy: 'Privacidad',
   },
@@ -227,7 +226,16 @@ export const es: Dictionary = {
     scope:
       'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es una credencial personal y no sustituye registros ni burós de crédito.',
     whitepaperLink: 'Leer el whitepaper →',
-    howItWorksLink: 'Añade tu dominio',
+  },
+  docs: {
+    eyebrow: 'PACT Protocol',
+    title: 'Docs',
+    intro: 'Cómo funciona PACT y por qué es diferente.',
+    whyTitle: 'What Makes PACT Different',
+    whyBody: 'Una nota de dos minutos sobre evidencia frente a autoridad — léela primero.',
+    whitepaperTitle: 'Whitepaper',
+    whitepaperBody:
+      'El protocolo abierto detrás del registro público — cómo se captura, publica y mide el historial verificado.',
   },
   legal: {
     eyebrow: 'Legal',

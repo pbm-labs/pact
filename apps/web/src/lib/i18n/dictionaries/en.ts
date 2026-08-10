@@ -6,8 +6,7 @@ export const en: Dictionary = {
     publicRecords: 'Public records',
   },
   footer: {
-    whyPact: 'Why PACT',
-    whitepaper: 'Whitepaper',
+    docs: 'Docs',
     terms: 'Terms',
     privacy: 'Privacy',
   },
@@ -226,7 +225,16 @@ export const en: Dictionary = {
     scope:
       'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a personal credential, and not a replacement for registries or credit bureaus.',
     whitepaperLink: 'Read the whitepaper →',
-    howItWorksLink: 'Add your domain',
+  },
+  docs: {
+    eyebrow: 'PACT Protocol',
+    title: 'Docs',
+    intro: 'How PACT works and why it’s different.',
+    whyTitle: 'What Makes PACT Different',
+    whyBody: 'A two-minute note on evidence vs. authority — the brief to read first.',
+    whitepaperTitle: 'Whitepaper',
+    whitepaperBody:
+      'The open protocol behind the public record — how verified history is captured, published, and measured.',
   },
   legal: {
     eyebrow: 'Legal',

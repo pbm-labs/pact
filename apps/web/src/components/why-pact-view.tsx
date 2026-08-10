@@ -27,7 +27,7 @@ export function WhyPactView() {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/" backLabel={t.common.home}>
+    <PageShell backHref="/docs" backLabel={t.docs.title}>
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whyPact.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whyPact.title}</h1>
@@ -47,13 +47,6 @@ export function WhyPactView() {
         <p className="text-sm m-0">
           <Link href="/whitepaper" className="text-accent font-semibold no-underline hover:opacity-90">
             {t.whyPact.whitepaperLink}
-          </Link>
-          <span className="text-muted-2"> · </span>
-          <Link
-            href="/how-it-works"
-            className="text-accent font-semibold no-underline hover:opacity-90"
-          >
-            {t.whyPact.howItWorksLink}
           </Link>
         </p>
       </aside>

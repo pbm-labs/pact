@@ -6,8 +6,7 @@ export type Dictionary = {
     publicRecords: string;
   };
   footer: {
-    whyPact: string;
-    whitepaper: string;
+    docs: string;
     terms: string;
     privacy: string;
   };
@@ -194,7 +193,15 @@ export type Dictionary = {
     intro: string;
     scope: string;
     whitepaperLink: string;
-    howItWorksLink: string;
+  };
+  docs: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    whyTitle: string;
+    whyBody: string;
+    whitepaperTitle: string;
+    whitepaperBody: string;
   };
   legal: {
     eyebrow: string;
