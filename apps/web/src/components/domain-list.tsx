@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ScoreBar } from '@/components/score-bar';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
@@ -51,12 +52,8 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
     : null;
 
   return (
-    <Link
-      href={routes.record(domain.domain)}
-      className="block text-right no-underline group-hover:text-accent"
-      title={bandLabel ?? undefined}
-    >
-      <span className="font-mono text-xl font-bold tabular-nums text-txt">
+    <div className="text-right" title={bandLabel ?? undefined}>
+      <span className="font-mono text-xl font-bold tabular-nums text-txt group-hover:text-accent">
         {formatVerifiedDays(days, t.domain)}
       </span>
       <span className="block text-xs text-muted-2 mt-1 normal-case tracking-normal font-sans">
@@ -82,11 +79,12 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
           )}
         </span>
       )}
-    </Link>
+    </div>
   );
 }
 
 export function DomainList({ domains }: DomainListProps) {
+  const router = useRouter();
   const { t, locale } = useLocale();
   const clockLabels = {
     clockUnknown: t.domain.clockUnknown,
@@ -96,6 +94,15 @@ export function DomainList({ domains }: DomainListProps) {
     clockMonths: t.domain.clockMonths,
     clockDaysShort: t.domain.clockDaysShort,
   };
+
+  function openRecord(domain: string, event?: { metaKey?: boolean; ctrlKey?: boolean }) {
+    const href = routes.record(domain);
+    if (event?.metaKey || event?.ctrlKey) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    router.push(href);
+  }
 
   if (!domains.length) {
     return (
@@ -151,7 +158,17 @@ export function DomainList({ domains }: DomainListProps) {
               return (
                 <tr
                   key={d.domain}
-                  className="border-b border-border last:border-0 group hover:bg-surface-2/40"
+                  role="link"
+                  tabIndex={0}
+                  aria-label={d.domain}
+                  className="border-b border-border last:border-0 group hover:bg-surface-2/40 cursor-pointer"
+                  onClick={(event) => openRecord(d.domain, event)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      openRecord(d.domain);
+                    }
+                  }}
                 >
                   <td className="px-4 sm:px-5 py-3.5">
                     <span className={`font-mono tabular-nums text-xs ${rankClass(rank)}`}>
@@ -159,13 +176,12 @@ export function DomainList({ domains }: DomainListProps) {
                     </span>
                   </td>
                   <td className="px-4 sm:px-5 py-3.5 min-w-[8rem] max-w-[14rem] sm:max-w-none">
-                    <Link
-                      href={routes.record(d.domain)}
-                      className="font-mono text-sm text-txt no-underline group-hover:text-accent break-all sm:truncate sm:block"
+                    <span
+                      className="font-mono text-sm text-txt group-hover:text-accent break-all sm:truncate sm:block"
                       title={d.domain}
                     >
                       {d.domain}
-                    </Link>
+                    </span>
                     {d.domainRegisteredAt && (
                       <p className="text-xs font-mono text-muted-2 mt-1 m-0">
                         {t.records.registered}{' '}
