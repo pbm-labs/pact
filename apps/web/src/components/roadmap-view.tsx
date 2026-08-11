@@ -1,7 +1,6 @@
 'use client';
 
 import { useLocale } from '@/components/locale-provider';
-import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
 import { routes } from '@/lib/routes';
 import { eyebrow, pageIntro, pageTitle } from '@/lib/ui';
@@ -37,8 +36,6 @@ export function RoadmapView() {
           <p className="text-sm text-muted-2 leading-relaxed mt-4 m-0 max-w-xl">{t.roadmap.nextNote}</p>
         </section>
       </div>
-
-      <DocsFooter href={routes.docsWhitepaper} label={t.roadmap.whitepaperLink} />
     </PageShell>
   );
 }

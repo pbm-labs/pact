@@ -223,7 +223,6 @@ export const de: Dictionary = {
     intro:
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
     source: 'Quellcode auf GitHub →',
-    footerLink: 'Roadmap ansehen →',
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
@@ -231,7 +230,6 @@ export const de: Dictionary = {
     intro: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — nicht das vollständige Whitepaper.',
     scope:
       'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien.',
-    whitepaperLink: 'Whitepaper lesen →',
   },
   docs: {
     eyebrow: 'PACT Protocol',
@@ -269,7 +267,6 @@ export const de: Dictionary = {
     ],
     nextNote:
       'Nichts davon ist für die heutige öffentliche Verifikation erforderlich. Sie erweitern, was bereits live ist.',
-    whitepaperLink: 'Whitepaper lesen →',
   },
   legal: {
     eyebrow: 'Rechtliches',

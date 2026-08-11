@@ -1,5 +1,5 @@
 /** Canonical English positioning essay — not the protocol whitepaper. */
-export const WHY_PACT_PARAGRAPHS = [
+export const WHY_PACT_MARKDOWN = [
   "Every existing way to prove a business is real shares the same flaw: it is an *authority's claim*, not *evidence*. A credit bureau's report, a state registry entry, a bank statement, a LinkedIn history — all of them ask you to trust that someone else verified correctly. None of them produce something a stranger can check for themselves, from first principles, without trusting a gatekeeper.",
   "That flaw used to be tolerable. It isn't anymore. Generative AI did not create a new threat — it removed the last thing that made faking these signals expensive. A ten-year-old domain, a five-year LinkedIn history, a convincing bank statement: all of it can now be fabricated cheaply. The authorities did not get worse. The cost of lying to them collapsed.",
   'PACT does not ask you to trust an authority. It asks you to check a public record.',
@@ -11,4 +11,4 @@ export const WHY_PACT_PARAGRAPHS = [
   'Every other proof of legitimacy answers: *what did someone claim, and who is vouching for it?*',
   'PACT answers a different question: *what actually happened, for how long, witnessed by how many independent parties who had no reason to lie?*',
   'That question has never had a durable public answer before. Starting now, it does.',
-] as const;
+].join('\n\n');

@@ -191,14 +191,12 @@ export type Dictionary = {
     title: string;
     intro: string;
     source: string;
-    footerLink: string;
   };
   whyPact: {
     eyebrow: string;
     title: string;
     intro: string;
     scope: string;
-    whitepaperLink: string;
   };
   docs: {
     eyebrow: string;
@@ -220,7 +218,6 @@ export type Dictionary = {
     nextTitle: string;
     nextItems: readonly string[];
     nextNote: string;
-    whitepaperLink: string;
   };
   legal: {
     eyebrow: string;
