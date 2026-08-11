@@ -65,7 +65,9 @@ Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 ### Cloudflare OAuth (`/connect`)
 
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
-2. Redirect URL: `https://webuildreal.dev/api/connect/cloudflare/callback`
+2. Redirect URLs (both must be listed so either host can run OAuth):
+   - `https://webuildreal.dev/api/connect/cloudflare/callback`
+   - `https://pact.pbm-labs.com/api/connect/cloudflare/callback`
 3. Client URL: `https://webuildreal.dev` (HTTPS required; verify with TXT on the apex / `www`)
 4. Promote to **public** after domain verification on `client_uri` (required for external users)
    - **Logo URL:** `https://webuildreal.dev/pact-logo.svg` (hosted in `apps/web/public/`)
@@ -77,7 +79,7 @@ After moving the app to `webuildreal.dev`, update the OAuth client in the dashbo
 | Field | Value |
 |-------|--------|
 | Client URL | `https://webuildreal.dev` |
-| Redirect URL | `/api/connect/cloudflare/callback` |
+| Redirect URLs | `/api/connect/cloudflare/callback` on **both** `webuildreal.dev` and `pact.pbm-labs.com` |
 | Logo URL | `https://webuildreal.dev/pact-logo.svg` |
 
 Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.example`.
@@ -103,9 +105,9 @@ insert into domains (domain) values ('pbm-labs.com');
 | Host | Role |
 |------|------|
 | `webuildreal.dev` / `www` | PACT web app (`pact-web` Worker) — canonical |
-| `pact.pbm-labs.com` | Legacy app host → 308 redirect to `webuildreal.dev` |
+| `pact.pbm-labs.com` | Legacy app host — same app (no redirect) |
 | `rua@webuildreal.dev` | DMARC intake (`pact-ingest` Worker) — canonical |
-| `rua@pact.pbm-labs.com` | Legacy DMARC intake (keep routed for existing domains) |
+| `rua@pact.pbm-labs.com` | Legacy DMARC intake — still routed + accepted |
 | `pbm-labs.com` / `www` | Company website (Vercel or other host — not the PACT Worker) |
 | `hello@pbm-labs.com` | Proton mail (apex MX) |
 
@@ -180,7 +182,7 @@ Remove apex **A** records that pointed the PACT Worker at the root domain.
 | TXT | `pact` | `cloudflare_oauth_client_publisher=…` |
 | TXT | `_report._dmarc.pact` | `v=DMARC1` |
 
-Worker route (wrangler): `webuildreal.dev` (+ `www`) → `pact-web`; legacy `pact.pbm-labs.com/*` redirects.
+Worker route (wrangler): `webuildreal.dev` (+ `www`) and legacy `pact.pbm-labs.com/*` → `pact-web`.
 
 ### 4. Cloudflare Email Routing — rules
 

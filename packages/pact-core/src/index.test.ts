@@ -17,6 +17,7 @@ import {
   addPactRuaToDmarc,
   dmarcIncludesPactRua,
   PACT_RUA_MAILTO,
+  PACT_RUA_MAILTOS,
 } from './index.js';
 
 /** Minimal aggregate report used by parser / leaf / Merkle tests. */
@@ -100,8 +101,8 @@ describe('dmarc rua', () => {
     expect(content).toContain('hello@example.com');
   });
 
-  it('is idempotent when pact rua already present', () => {
-    const existing = `v=DMARC1; p=none; rua=${PACT_RUA_MAILTO}`;
+  it('is idempotent when both pact ruas already present', () => {
+    const existing = `v=DMARC1; p=none; rua=${PACT_RUA_MAILTOS.join(',')}`;
     const { changed } = addPactRuaToDmarc(existing);
     expect(changed).toBe(false);
   });
@@ -109,14 +110,16 @@ describe('dmarc rua', () => {
   it('creates minimal record when missing', () => {
     const { content, changed } = addPactRuaToDmarc(null);
     expect(changed).toBe(true);
-    expect(content).toBe(`v=DMARC1; p=none; rua=${PACT_RUA_MAILTO}`);
+    expect(content).toBe(`v=DMARC1; p=none; rua=${PACT_RUA_MAILTOS.join(',')}`);
   });
 
-  it('treats legacy rua as already connected', () => {
+  it('upgrades legacy-only rua to include canonical', () => {
     const existing = 'v=DMARC1; p=none; rua=mailto:rua@pact.pbm-labs.com';
     expect(dmarcIncludesPactRua(existing)).toBe(true);
-    const { changed } = addPactRuaToDmarc(existing);
-    expect(changed).toBe(false);
+    const { content, changed } = addPactRuaToDmarc(existing);
+    expect(changed).toBe(true);
+    expect(content).toContain('rua@webuildreal.dev');
+    expect(content).toContain('rua@pact.pbm-labs.com');
   });
 });
 

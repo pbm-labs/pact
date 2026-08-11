@@ -1,22 +1,17 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const CANONICAL_HOST = 'webuildreal.dev';
-const LEGACY_HOSTS = new Set(['pact.pbm-labs.com', 'www.webuildreal.dev']);
+/** Keep apex canonical; both webuildreal.dev and pact.pbm-labs.com serve the app. */
+const APEX_HOST = 'webuildreal.dev';
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host')?.split(':')[0]?.toLowerCase();
-  if (!host || (!LEGACY_HOSTS.has(host) && host !== CANONICAL_HOST)) {
-    return NextResponse.next();
-  }
-
-  if (LEGACY_HOSTS.has(host)) {
+  if (host === `www.${APEX_HOST}`) {
     const url = request.nextUrl.clone();
     url.protocol = 'https:';
-    url.host = CANONICAL_HOST;
+    url.host = APEX_HOST;
     return NextResponse.redirect(url, 308);
   }
-
   return NextResponse.next();
 }
 

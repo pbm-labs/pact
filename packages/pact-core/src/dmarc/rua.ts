@@ -6,6 +6,12 @@ export const PACT_RUA_LEGACY_ADDRESSES = ['rua@pact.pbm-labs.com'] as const;
 
 const PACT_RUA_ACCEPTED = [PACT_RUA_ADDRESS, ...PACT_RUA_LEGACY_ADDRESSES] as const;
 
+/** Canonical first, then legacy — both receive aggregate reports during the transition. */
+export const PACT_RUA_MAILTOS = [
+  PACT_RUA_MAILTO,
+  ...PACT_RUA_LEGACY_ADDRESSES.map((address) => `mailto:${address}` as const),
+] as const;
+
 const TAG_ORDER = ['v', 'p', 'sp', 'adkim', 'aspf', 'pct', 'rua', 'ruf', 'np'] as const;
 
 export function parseDmarcTags(record: string): Map<string, string> {
@@ -42,24 +48,40 @@ export function dmarcIncludesPactRua(record: string): boolean {
   return PACT_RUA_ACCEPTED.some((address) => rua.includes(address));
 }
 
-/** Add PACT rua= to an existing _dmarc TXT value, or return a minimal new record. */
+function withAllPactRuas(rua: string): { rua: string; changed: boolean } {
+  let next = rua;
+  let changed = false;
+  for (const mailto of PACT_RUA_MAILTOS) {
+    const address = mailto.slice('mailto:'.length);
+    if (!next.includes(address)) {
+      next = next ? `${next},${mailto}` : mailto;
+      changed = true;
+    }
+  }
+  return { rua: next, changed };
+}
+
+/** Add PACT rua= addresses (canonical + legacy) to an existing _dmarc TXT value. */
 export function addPactRuaToDmarc(record: string | null | undefined): {
   content: string;
   changed: boolean;
 } {
   const base = record?.trim().replace(/^"|"$/g, '') ?? '';
   if (!base) {
-    return { content: `v=DMARC1; p=none; rua=${PACT_RUA_MAILTO}`, changed: true };
+    return {
+      content: `v=DMARC1; p=none; rua=${PACT_RUA_MAILTOS.join(',')}`,
+      changed: true,
+    };
   }
 
   const tags = parseDmarcTags(base);
   if (!tags.has('v')) tags.set('v', 'DMARC1');
 
-  if (dmarcIncludesPactRua(base)) {
+  const { rua, changed } = withAllPactRuas(tags.get('rua') ?? '');
+  if (!changed) {
     return { content: serializeDmarcTags(tags), changed: false };
   }
 
-  const rua = tags.get('rua') ?? '';
-  tags.set('rua', rua ? `${rua},${PACT_RUA_MAILTO}` : PACT_RUA_MAILTO);
+  tags.set('rua', rua);
   return { content: serializeDmarcTags(tags), changed: true };
 }
