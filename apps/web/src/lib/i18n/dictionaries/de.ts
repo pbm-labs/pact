@@ -45,6 +45,7 @@ export const de: Dictionary = {
     title: 'Domain hinzufügen',
     intro:
       'Kein Papierkram, kein Warten auf andere. Nur der erste Tag einer Geschichte, die wirklich dir gehört.',
+    seeLiveDomain: 'Eine Live-Domain ansehen →',
     chooseDifferent: '← Anderen Weg wählen',
     yourDomain: 'Deine Domain',
     pathCloudflareTitle: 'Ich nutze Cloudflare',
@@ -52,14 +53,15 @@ export const de: Dictionary = {
     pathCloudflareBadge: 'Am schnellsten',
     pathManualTitle: 'Manuell hinzufügen',
     pathManualDesc:
-      'Eine Zeile zum Einfügen, wo du deine Website verwaltest — GoDaddy, Namecheap oder ein anderer Anbieter.',
-    pathManualBadge: 'Universell',
+      'Eine Zeile in DNS einfügen — kein Konto, kein OAuth.',
+    pathManualBadge: 'Ohne Login',
     pathToolTitle: 'Ich nutze bereits ein Tool',
     pathToolDesc: 'Postmark oder ähnlich — hierher zeigen.',
     pathToolBadge: 'Vorhandenes Tool',
     whatDoesThisDo: 'Was bewirkt das?',
     cloudflareExplain:
       'Du meldest dich bei Cloudflare an, und wir fügen den Verifizierungs-Eintrag für dich hinzu.',
+    cloudflareNoLoginHint: 'Lieber nicht anmelden? Nutze',
     toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
       'Dein Tool prüft diese Domain bereits. Wenn du es hierher zeigst, sind wir Teil dieser Prüfung.',
@@ -202,6 +204,11 @@ export const de: Dictionary = {
     added: 'Hinzugefügt',
     cloudflare: 'Cloudflare',
     body: 'Hinzugefügt — mehr ist nicht nötig. Der Aufbau deines Eintrags hat gerade begonnen.',
+    publicRecord: 'Dein öffentlicher Eintrag',
+    shareEyebrow: 'Teile deinen Nachweis',
+    shareLinkedIn: 'LinkedIn',
+    shareX: 'X',
+    shareText: '{domain} baut einen öffentlichen Vertrauenseintrag auf PACT auf',
     whatNext: 'Was als Nächstes passiert',
     next1: 'Eine unabhängige Prüfung kommt meist innerhalb eines Tages.',
     next2:

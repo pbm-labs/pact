@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
+import { SharePublicRecord } from '@/components/share-public-record';
 import {
   badgeVerified,
   btnGhost,
@@ -19,6 +21,13 @@ interface ConnectSuccessViewProps {
 
 export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
   const { t } = useLocale();
+  const [recordUrl, setRecordUrl] = useState(`https://pact.pbm-labs.com/domain/${domain}`);
+
+  useEffect(() => {
+    if (domain) {
+      setRecordUrl(`${window.location.origin}/domain/${domain}`);
+    }
+  }, [domain]);
 
   if (!domain) {
     return (
@@ -40,6 +49,12 @@ export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
         <p className="text-sm text-muted-2 font-mono mt-2">{t.connectSuccess.cloudflare}</p>
         <p className="text-sm text-muted mt-3 max-w-md mx-auto">{t.connectSuccess.body}</p>
       </div>
+
+      <section className={`${panel} w-full text-left mb-6`}>
+        <div className={`${panelBody} space-y-5`}>
+          <SharePublicRecord domain={domain} recordUrl={recordUrl} />
+        </div>
+      </section>
 
       <section className={`${panel} w-full text-left mb-8`}>
         <div className={panelBody}>

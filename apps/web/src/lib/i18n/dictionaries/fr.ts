@@ -45,6 +45,7 @@ export const fr: Dictionary = {
     title: 'Ajoutez votre domaine',
     intro:
       "Pas de paperasse, pas d'attente. Juste le premier jour d'une histoire qui est vraiment la vôtre.",
+    seeLiveDomain: 'Voir un domaine en direct →',
     chooseDifferent: '← Choisir une autre méthode',
     yourDomain: 'Votre domaine',
     pathCloudflareTitle: "J'utilise Cloudflare",
@@ -52,14 +53,15 @@ export const fr: Dictionary = {
     pathCloudflareBadge: 'Le plus rapide',
     pathManualTitle: 'Ajouter manuellement',
     pathManualDesc:
-      'Une ligne à coller là où vous gérez votre site — GoDaddy, Namecheap ou tout autre hébergeur.',
-    pathManualBadge: 'Universel',
+      'Collez une ligne là où vous gérez le DNS — sans compte ni OAuth.',
+    pathManualBadge: 'Sans connexion',
     pathToolTitle: "J'utilise déjà un outil",
     pathToolDesc: 'Postmark ou similaire — pointez-le ici.',
     pathToolBadge: 'Outil existant',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
       "Vous vous connecterez à Cloudflare et nous ajouterons l'enregistrement de vérification pour vous.",
+    cloudflareNoLoginHint: 'Vous préférez ne pas vous connecter ? Utilisez',
     toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
       'Votre outil vérifie déjà ce domaine. Le pointer ici nous inclut dans cette vérification.',
@@ -204,6 +206,11 @@ export const fr: Dictionary = {
     added: 'Ajouté',
     cloudflare: 'Cloudflare',
     body: 'Ajouté, rien d\'autre à faire. La construction de votre registre vient de commencer.',
+    publicRecord: 'Votre registre public',
+    shareEyebrow: 'Partagez votre preuve',
+    shareLinkedIn: 'LinkedIn',
+    shareX: 'X',
+    shareText: '{domain} construit un registre public de confiance sur PACT',
     whatNext: 'Et ensuite',
     next1: 'Un contrôle indépendant arrive généralement sous un jour.',
     next2:

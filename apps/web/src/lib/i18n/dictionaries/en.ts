@@ -45,6 +45,7 @@ export const en: Dictionary = {
     title: 'Add your domain',
     intro:
       "No paperwork, no waiting on anyone. Just the first day of a history that's genuinely yours.",
+    seeLiveDomain: 'See a live domain →',
     chooseDifferent: '← Choose a different way',
     yourDomain: 'Your domain',
     pathCloudflareTitle: 'I use Cloudflare',
@@ -52,14 +53,15 @@ export const en: Dictionary = {
     pathCloudflareBadge: 'Fastest',
     pathManualTitle: 'Add it manually',
     pathManualDesc:
-      'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
-    pathManualBadge: 'Universal',
+      'Paste one line where you manage DNS — no account, no OAuth.',
+    pathManualBadge: 'No login',
     pathToolTitle: 'I already use a tool',
     pathToolDesc: 'Postmark or similar — point it here.',
     pathToolBadge: 'Existing tool',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
       "You'll sign in to Cloudflare and we'll add the verification record for you.",
+    cloudflareNoLoginHint: 'Prefer not to sign in? Use',
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
       'Your tool already checks this domain. Pointing it here includes us in that check.',
@@ -201,6 +203,11 @@ export const en: Dictionary = {
     added: 'Added',
     cloudflare: 'Cloudflare',
     body: 'Added, nothing else to do. It just started building your record.',
+    publicRecord: 'Your public record',
+    shareEyebrow: 'Share your proof',
+    shareLinkedIn: 'LinkedIn',
+    shareX: 'X',
+    shareText: '{domain} is building a public trust record on PACT',
     whatNext: 'What happens next',
     next1: 'An independent check usually arrives within a day.',
     next2:

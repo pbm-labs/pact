@@ -33,6 +33,7 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     intro: string;
+    seeLiveDomain: string;
     chooseDifferent: string;
     yourDomain: string;
     pathCloudflareTitle: string;
@@ -46,6 +47,7 @@ export type Dictionary = {
     pathToolBadge: string;
     whatDoesThisDo: string;
     cloudflareExplain: string;
+    cloudflareNoLoginHint: string;
     toolIntro: string;
     toolExplain: string;
     manualIntro: string;
@@ -172,6 +174,11 @@ export type Dictionary = {
     added: string;
     cloudflare: string;
     body: string;
+    publicRecord: string;
+    shareEyebrow: string;
+    shareLinkedIn: string;
+    shareX: string;
+    shareText: string;
     whatNext: string;
     next1: string;
     next2: string;
