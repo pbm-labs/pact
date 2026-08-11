@@ -28,7 +28,7 @@ export type Dictionary = {
     ctaSub: string;
     watchManifesto: string;
   };
-  howItWorks: {
+  connect: {
     backHome: string;
     eyebrow: string;
     title: string;
@@ -63,7 +63,7 @@ export type Dictionary = {
       somethingWrong: string;
     };
   };
-  domains: {
+  records: {
     backHome: string;
     eyebrow: string;
     title: string;

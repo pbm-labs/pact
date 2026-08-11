@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
+import { routes } from '@/lib/routes';
 import { eyebrow, pageIntro, pageTitle } from '@/lib/ui';
 
 export function DocsView() {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/" backLabel={t.common.home}>
+    <PageShell backHref={routes.home} backLabel={t.common.home}>
       <header className="mb-12">
         <p className={`${eyebrow} mb-3`}>{t.docs.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.docs.title}</h1>
@@ -20,7 +21,7 @@ export function DocsView() {
       <nav className="space-y-10" aria-label={t.docs.title}>
         <div>
           <Link
-            href="/why-pact"
+            href={routes.docsWhy}
             className="text-lg sm:text-xl font-semibold text-txt no-underline hover:text-accent"
           >
             {t.docs.whyTitle}
@@ -29,7 +30,7 @@ export function DocsView() {
         </div>
         <div>
           <Link
-            href="/whitepaper"
+            href={routes.docsWhitepaper}
             className="text-lg sm:text-xl font-semibold text-txt no-underline hover:text-accent"
           >
             {t.docs.whitepaperTitle}
@@ -40,7 +41,7 @@ export function DocsView() {
         </div>
         <div>
           <Link
-            href="/roadmap"
+            href={routes.docsRoadmap}
             className="text-lg sm:text-xl font-semibold text-txt no-underline hover:text-accent"
           >
             {t.docs.roadmapTitle}
@@ -51,7 +52,7 @@ export function DocsView() {
         </div>
       </nav>
 
-      <DocsFooter href="/whitepaper" label={t.docs.footerLink} />
+      <DocsFooter href={routes.docsWhitepaper} label={t.docs.footerLink} />
     </PageShell>
   );
 }

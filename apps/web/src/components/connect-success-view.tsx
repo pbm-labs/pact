@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { SharePublicRecord } from '@/components/share-public-record';
+import { routes } from '@/lib/routes';
 import {
   badgeVerified,
   btnGhost,
@@ -21,20 +22,22 @@ interface ConnectSuccessViewProps {
 
 export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
   const { t } = useLocale();
-  const [recordUrl, setRecordUrl] = useState(`https://pact.pbm-labs.com/domain/${domain}`);
+  const [recordUrl, setRecordUrl] = useState(
+    `https://pact.pbm-labs.com${routes.record(domain)}`,
+  );
 
   useEffect(() => {
     if (domain) {
-      setRecordUrl(`${window.location.origin}/domain/${domain}`);
+      setRecordUrl(`${window.location.origin}${routes.record(domain)}`);
     }
   }, [domain]);
 
   if (!domain) {
     return (
-      <PageShell backHref="/how-it-works" backLabel={t.domain.connectDomain} centered>
+      <PageShell backHref={routes.connect} backLabel={t.domain.connectDomain} centered>
         <h1 className={pageTitle}>{t.domain.connected}</h1>
         <p className="text-sm text-muted mt-2 mb-6">{t.connectSuccess.missing}</p>
-        <Link href="/how-it-works#add-your-domain" className={btnPrimary}>
+        <Link href={routes.connect} className={btnPrimary}>
           {t.connectSuccess.tryAgain}
         </Link>
       </PageShell>
@@ -42,7 +45,7 @@ export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
   }
 
   return (
-    <PageShell backHref="/domains" backLabel={t.domain.backRecords} centered>
+    <PageShell backHref={routes.records} backLabel={t.domain.backRecords} centered>
       <div className="mb-8">
         <span className={`${badgeVerified} mb-4`}>{t.connectSuccess.added}</span>
         <h1 className={`${pageTitle} break-all`}>{domain}</h1>
@@ -68,10 +71,10 @@ export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
       </section>
 
       <div className="flex flex-wrap gap-3 justify-center">
-        <Link href={`/domain/${domain}`} className={btnPrimary}>
+        <Link href={routes.record(domain)} className={btnPrimary}>
           {t.connectSuccess.viewDomain} {domain}
         </Link>
-        <Link href="/domains" className={btnGhost}>
+        <Link href={routes.records} className={btnGhost}>
           {t.connectSuccess.allRecords}
         </Link>
       </div>

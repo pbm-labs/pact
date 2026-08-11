@@ -9,7 +9,7 @@ interface PageProps {
   params: Promise<{ domain: string }>;
 }
 
-export default async function DomainPage({ params }: PageProps) {
+export default async function RecordPage({ params }: PageProps) {
   const { domain } = await params;
   const state = await fetchDomainPageState(domain);
 

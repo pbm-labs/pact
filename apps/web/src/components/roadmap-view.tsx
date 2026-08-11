@@ -3,13 +3,14 @@
 import { useLocale } from '@/components/locale-provider';
 import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
+import { routes } from '@/lib/routes';
 import { eyebrow, pageIntro, pageTitle } from '@/lib/ui';
 
 export function RoadmapView() {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/docs" backLabel={t.docs.title}>
+    <PageShell backHref={routes.docs} backLabel={t.docs.title}>
       <header className="mb-12">
         <p className={`${eyebrow} mb-3`}>{t.roadmap.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.roadmap.title}</h1>
@@ -37,7 +38,7 @@ export function RoadmapView() {
         </section>
       </div>
 
-      <DocsFooter href="/whitepaper" label={t.roadmap.whitepaperLink} />
+      <DocsFooter href={routes.docsWhitepaper} label={t.roadmap.whitepaperLink} />
     </PageShell>
   );
 }

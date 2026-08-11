@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ScoreBar } from '@/components/score-bar';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
+import { routes } from '@/lib/routes';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
 import { formatVerifiedDays, localizeBandLabel, shouldShowTrustScore, type ScoreBandKey } from '@/lib/trust-display';
 import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
@@ -51,7 +52,7 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
 
   return (
     <Link
-      href={`/domain/${domain.domain}`}
+      href={routes.record(domain.domain)}
       className="block text-right no-underline group-hover:text-accent"
       title={bandLabel ?? undefined}
     >
@@ -59,12 +60,12 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
         {formatVerifiedDays(days, t.domain)}
       </span>
       <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
-        {t.domains.verified}
+        {t.records.verified}
       </span>
       <span className="block text-[0.65rem] font-mono text-muted-2 mt-1.5">
-        {reports} {reports === 1 ? t.domains.report : t.domains.reports}
+        {reports} {reports === 1 ? t.records.report : t.records.reports}
         {orgs > 0
-          ? ` · ${orgs} ${orgs === 1 ? t.domains.org : t.domains.orgs}`
+          ? ` · ${orgs} ${orgs === 1 ? t.records.org : t.records.orgs}`
           : ''}
       </span>
       {showScore && domain.trustScoreDisplay != null && (
@@ -99,10 +100,10 @@ export function DomainList({ domains }: DomainListProps) {
   if (!domains.length) {
     return (
       <div className={`${panel} p-8 text-center`}>
-        <p className="text-base font-semibold text-txt mb-2">{t.domains.emptyTitle}</p>
-        <p className="text-sm text-muted mb-6">{t.domains.emptyBody}</p>
-        <Link href="/how-it-works" className={btnPrimary}>
-          {t.domains.emptyCta}
+        <p className="text-base font-semibold text-txt mb-2">{t.records.emptyTitle}</p>
+        <p className="text-sm text-muted mb-6">{t.records.emptyBody}</p>
+        <Link href={routes.connect} className={btnPrimary}>
+          {t.records.emptyCta}
         </Link>
       </div>
     );
@@ -115,18 +116,18 @@ export function DomainList({ domains }: DomainListProps) {
       <div className={`${panelBody} border-b border-border flex flex-wrap items-end justify-between gap-3`}>
         <div>
           <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 mb-1">
-            {t.domains.rankedBy}
+            {t.records.rankedBy}
           </p>
-          <p className="text-xs text-muted m-0">{t.domains.rankedHint}</p>
+          <p className="text-xs text-muted m-0">{t.records.rankedHint}</p>
         </div>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />
-            {t.domains.building}
+            {t.records.building}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-verified" aria-hidden />
-            {t.domains.proven}
+            {t.records.proven}
           </span>
         </div>
       </div>
@@ -136,10 +137,10 @@ export function DomainList({ domains }: DomainListProps) {
           <thead>
             <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
-              <th className="text-left font-medium px-4 sm:px-5 py-2.5">{t.domains.colDomain}</th>
-              <th className="text-right font-medium px-4 sm:px-5 py-2.5">{t.domains.colHistory}</th>
+              <th className="text-left font-medium px-4 sm:px-5 py-2.5">{t.records.colDomain}</th>
+              <th className="text-right font-medium px-4 sm:px-5 py-2.5">{t.records.colHistory}</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 hidden sm:table-cell">
-                {t.domains.colStatus}
+                {t.records.colStatus}
               </th>
             </tr>
           </thead>
@@ -159,7 +160,7 @@ export function DomainList({ domains }: DomainListProps) {
                   </td>
                   <td className="px-4 sm:px-5 py-3.5 min-w-[8rem] max-w-[14rem] sm:max-w-none">
                     <Link
-                      href={`/domain/${d.domain}`}
+                      href={routes.record(d.domain)}
                       className="font-mono text-sm text-txt no-underline group-hover:text-accent break-all sm:truncate sm:block"
                       title={d.domain}
                     >
@@ -167,15 +168,15 @@ export function DomainList({ domains }: DomainListProps) {
                     </Link>
                     {d.domainRegisteredAt && (
                       <p className="text-[0.65rem] font-mono text-muted-2 mt-1 m-0">
-                        {t.domains.registered}{' '}
+                        {t.records.registered}{' '}
                         {formatDomainRegisteredAt(d.domainRegisteredAt, locale, clockLabels)}
                       </p>
                     )}
                     <div className="sm:hidden mt-1.5">
                       <StatusBadge
                         domain={d}
-                        building={t.domains.building}
-                        proven={t.domains.proven}
+                        building={t.records.building}
+                        proven={t.records.proven}
                       />
                     </div>
                   </td>
@@ -189,8 +190,8 @@ export function DomainList({ domains }: DomainListProps) {
                   <td className="px-4 sm:px-5 py-3.5 hidden sm:table-cell">
                     <StatusBadge
                       domain={d}
-                      building={t.domains.building}
-                      proven={t.domains.proven}
+                      building={t.records.building}
+                      proven={t.records.proven}
                     />
                   </td>
                 </tr>

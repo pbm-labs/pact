@@ -1,6 +1,6 @@
 # PACT Protocol — Phase 0a
 
-Public brand is **we build real**; the protocol is **PACT**. Domain provenance from DMARC aggregate reports. Connect UX lives at [`/how-it-works`](https://pact.pbm-labs.com/how-it-works).
+Public brand is **we build real**; the protocol is **PACT**. Domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://pact.pbm-labs.com/connect).
 
 Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding).
 
@@ -45,7 +45,7 @@ Used by `pnpm dev:web` and (via wrangler secrets) the Workers.
 | Variable | Used by |
 |----------|---------|
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, worker (via wrangler secrets) |
-| `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/how-it-works` Cloudflare connect |
+| `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/connect` Cloudflare connect |
 | `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://pact.pbm-labs.com` in prod) |
 | `CONNECT_STATE_SECRET` | Optional HMAC for OAuth state |
 
@@ -62,7 +62,7 @@ cd apps/web && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_SECRET
 
 Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 
-### Cloudflare OAuth (`/how-it-works`)
+### Cloudflare OAuth (`/connect`)
 
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
 2. Redirect URL: `https://pact.pbm-labs.com/api/connect/cloudflare/callback`
@@ -84,7 +84,7 @@ Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.exampl
 
 ### Manual DNS connect
 
-Copy the `_dmarc` snippet on `/how-it-works`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths register on first report.
+Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths register on first report.
 
 **Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `domain_registered_at` if missing). New domains resolve registration age at connect/ingest time.
 
@@ -244,13 +244,13 @@ delete from processed_reports;
 
 **Phase 0a**
 - [x] Parser, dedup, leaves, staging roots
-- [x] Public page at `/domain/{domain}`
-- [x] Cloudflare OAuth + manual DNS + existing-tool path (`/how-it-works`)
-- [x] Merkle inclusion proofs on `/domain/{domain}`
+- [x] Public page at `/records/{domain}`
+- [x] Cloudflare OAuth + manual DNS + existing-tool path (`/connect`)
+- [x] Merkle inclusion proofs on `/records/{domain}`
 - [ ] End-to-end with live reporter data (`pbm-labs.com`)
 
 **Before Phase 0b (on-chain)**
-- [ ] First external domain via `/how-it-works`
+- [ ] First external domain via `/connect`
 - [ ] OAuth client public + production redirect URLs
 
 **Phase 0b**

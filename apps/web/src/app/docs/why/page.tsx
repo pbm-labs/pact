@@ -6,6 +6,6 @@ export const metadata = {
     'Why PACT is evidence you can recheck — not another authority claim — and why that history cannot be manufactured after the fact.',
 };
 
-export default function WhyPactPage() {
+export default function DocsWhyPage() {
   return <WhyPactView />;
 }

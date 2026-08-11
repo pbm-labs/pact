@@ -8,6 +8,7 @@ import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { ScoreGauge } from '@/components/score-gauge';
 import type { DomainLiveData, DomainPageState } from '@/lib/domain-data';
+import { routes } from '@/lib/routes';
 import {
   formatScoreProgressHint,
   formatVerifiedDays,
@@ -114,7 +115,7 @@ function WaitingPage({
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/domains" backLabel={t.domain.backRecords}>
+    <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
       <header className="mb-8">
         <span className={`${badgeAmber} mb-3`}>{t.domain.awaitingFirst}</span>
         <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
@@ -158,7 +159,7 @@ function LivePage({
   const progressHint = formatScoreProgressHint(progress, rawScore, t.domain);
 
   return (
-    <PageShell backHref="/domains" backLabel={t.domain.backRecords}>
+    <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
       {data.staging && <div className={alertStaging}>{t.domain.staging}</div>}
 
       <header className="mb-8">
@@ -266,7 +267,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/domains" backLabel={t.domain.backRecords} centered>
+    <PageShell backHref={routes.records} backLabel={t.domain.backRecords} centered>
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
       <p className={`${pageIntro} mb-2`}>{t.domain.noRecordYet}</p>
       <p className="text-sm text-muted-2 mb-6 max-w-sm mx-auto leading-relaxed">
@@ -284,7 +285,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
         </div>
       </section>
 
-      <Link href={`/how-it-works?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
+      <Link href={`${routes.connect}?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
         {t.domain.connectDomain} {domain}
       </Link>
     </PageShell>
@@ -295,7 +296,7 @@ function UnconfiguredPage({ domain }: { domain: string }) {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/domains" backLabel={t.domain.backRecords} centered>
+    <PageShell backHref={routes.records} backLabel={t.domain.backRecords} centered>
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
       <p className="text-sm text-muted">{t.domain.dbNotConfigured}</p>
     </PageShell>

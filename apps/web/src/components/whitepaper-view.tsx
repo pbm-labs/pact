@@ -4,6 +4,7 @@ import { useLocale } from '@/components/locale-provider';
 import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
+import { routes } from '@/lib/routes';
 import { eyebrow, linkMuted, pageTitle } from '@/lib/ui';
 
 interface WhitepaperViewProps {
@@ -15,7 +16,7 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/docs" backLabel={t.docs.title}>
+    <PageShell backHref={routes.docs} backLabel={t.docs.title}>
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whitepaper.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whitepaper.title}</h1>
@@ -34,7 +35,7 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
 
       <WhitepaperBody markdown={markdown} />
 
-      <DocsFooter href="/roadmap" label={t.whitepaper.footerLink} />
+      <DocsFooter href={routes.docsRoadmap} label={t.whitepaper.footerLink} />
     </PageShell>
   );
 }

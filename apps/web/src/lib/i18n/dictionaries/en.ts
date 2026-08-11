@@ -39,7 +39,7 @@ export const en: Dictionary = {
     ctaSub: 'Be one of the first to stand on solid ground.',
     watchManifesto: 'Watch The Manifesto',
   },
-  howItWorks: {
+  connect: {
     backHome: '← Home',
     eyebrow: 'Two minutes, mostly automatic',
     title: 'Add your domain',
@@ -82,7 +82,7 @@ export const en: Dictionary = {
       somethingWrong: 'Something went wrong.',
     },
   },
-  domains: {
+  records: {
     backHome: 'Home',
     eyebrow: 'Public records',
     title: 'Domains building trust',

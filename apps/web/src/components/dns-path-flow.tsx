@@ -73,19 +73,19 @@ export function DnsPathFlow({
 
   const pathCopy = {
     cloudflare: {
-      title: t.howItWorks.pathCloudflareTitle,
-      description: t.howItWorks.pathCloudflareDesc,
-      badge: t.howItWorks.pathCloudflareBadge,
+      title: t.connect.pathCloudflareTitle,
+      description: t.connect.pathCloudflareDesc,
+      badge: t.connect.pathCloudflareBadge,
     },
     manual: {
-      title: t.howItWorks.pathManualTitle,
-      description: t.howItWorks.pathManualDesc,
-      badge: t.howItWorks.pathManualBadge,
+      title: t.connect.pathManualTitle,
+      description: t.connect.pathManualDesc,
+      badge: t.connect.pathManualBadge,
     },
     'dmarc-tool': {
-      title: t.howItWorks.pathToolTitle,
-      description: t.howItWorks.pathToolDesc,
-      badge: t.howItWorks.pathToolBadge,
+      title: t.connect.pathToolTitle,
+      description: t.connect.pathToolDesc,
+      badge: t.connect.pathToolBadge,
     },
   } as const;
 
@@ -139,7 +139,7 @@ export function DnsPathFlow({
         className="mb-6 text-sm text-muted-2 hover:text-txt transition-colors bg-transparent border-none p-0 cursor-pointer font-mono"
         onClick={() => setPathWithUrl(null)}
       >
-        {t.howItWorks.chooseDifferent}
+        {t.connect.chooseDifferent}
       </button>
 
       <section className={panel}>
@@ -155,7 +155,7 @@ export function DnsPathFlow({
             <form className="space-y-5" action="/api/connect/cloudflare" method="GET">
               <div>
                 <label htmlFor="connect-cf-domain" className={label}>
-                  {t.howItWorks.yourDomain}
+                  {t.connect.yourDomain}
                 </label>
                 <div className="flex items-stretch gap-2 mt-3">
                   <input
@@ -177,25 +177,25 @@ export function DnsPathFlow({
               </div>
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                  {t.howItWorks.whatDoesThisDo}
+                  {t.connect.whatDoesThisDo}
                 </p>
                 <p className="text-xs text-muted-2 leading-relaxed m-0">
-                  {t.howItWorks.cloudflareExplain}
+                  {t.connect.cloudflareExplain}
                 </p>
               </div>
             </form>
           ) : path === 'dmarc-tool' ? (
             <div className="space-y-5">
               <div>
-                <p className="text-sm text-muted leading-relaxed mb-4">{t.howItWorks.toolIntro}</p>
+                <p className="text-sm text-muted leading-relaxed mb-4">{t.connect.toolIntro}</p>
                 <CopyableValue text={ruaAddress} />
               </div>
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                  {t.howItWorks.whatDoesThisDo}
+                  {t.connect.whatDoesThisDo}
                 </p>
                 <p className="text-xs text-muted-2 leading-relaxed m-0">
-                  {t.howItWorks.toolExplain}
+                  {t.connect.toolExplain}
                 </p>
               </div>
             </div>
@@ -204,16 +204,16 @@ export function DnsPathFlow({
               <div className="space-y-5">
                 <div>
                   <p className="text-sm text-muted leading-relaxed mb-4">
-                    {t.howItWorks.manualIntro}
+                    {t.connect.manualIntro}
                   </p>
                   <CopyableValue text={dmarcSnippet} />
                 </div>
                 <div>
                   <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                    {t.howItWorks.whatDoesThisDo}
+                    {t.connect.whatDoesThisDo}
                   </p>
                   <p className="text-xs text-muted-2 leading-relaxed m-0">
-                    {t.howItWorks.manualExplain}
+                    {t.connect.manualExplain}
                   </p>
                 </div>
               </div>

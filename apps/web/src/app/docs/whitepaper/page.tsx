@@ -7,7 +7,7 @@ export const metadata = {
     'PACT Protocol: an open provenance layer for independently verified domain history.',
 };
 
-export default async function WhitepaperPage() {
+export default async function DocsWhitepaperPage() {
   const { markdown } = await loadWhitepaperMarkdown();
 
   return <WhitepaperView markdown={markdown} sourceUrl={WHITEOBER_SOURCE_URL} />;

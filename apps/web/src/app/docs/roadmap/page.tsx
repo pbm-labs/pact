@@ -6,6 +6,6 @@ export const metadata = {
     'What PACT ships today and what’s next — staging public record first, on-chain anchoring next.',
 };
 
-export default function RoadmapPage() {
+export default function DocsRoadmapPage() {
   return <RoadmapView />;
 }

@@ -6,11 +6,12 @@ import { DnsPathFlow } from '@/components/dns-path-flow';
 import { useLocale } from '@/components/locale-provider';
 import type { ConnectPath } from '@/lib/connect-path';
 import type { Dictionary } from '@/lib/i18n';
+import { routes } from '@/lib/routes';
 import { alertError, eyebrow, linkMuted, pageTitle } from '@/lib/ui';
 
-type HowItWorksErrorKey = keyof Dictionary['howItWorks']['errors'];
+type ConnectErrorKey = keyof Dictionary['connect']['errors'];
 
-interface HowItWorksViewProps {
+interface ConnectViewProps {
   errorKey?: string;
   detail?: string;
   domainPrefill: string;
@@ -19,18 +20,18 @@ interface HowItWorksViewProps {
   initialPath: ConnectPath | null;
 }
 
-export function HowItWorksView({
+export function ConnectView({
   errorKey,
   detail,
   domainPrefill,
   dmarcSnippet,
   ruaAddress,
   initialPath,
-}: HowItWorksViewProps) {
+}: ConnectViewProps) {
   const { t } = useLocale();
-  const errors = t.howItWorks.errors;
+  const errors = t.connect.errors;
   const errorMessage = errorKey
-    ? errors[errorKey as HowItWorksErrorKey] ?? errors.somethingWrong
+    ? errors[errorKey as ConnectErrorKey] ?? errors.somethingWrong
     : null;
 
   return (
@@ -38,15 +39,15 @@ export function HowItWorksView({
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-2xl mx-auto">
           <p className="mb-6">
-            <Link href="/" className={`${linkMuted} text-sm font-mono`}>
-              {t.howItWorks.backHome}
+            <Link href={routes.home} className={`${linkMuted} text-sm font-mono`}>
+              {t.connect.backHome}
             </Link>
           </p>
 
-          <header id="add-your-domain" className="mb-8 sm:mb-10 scroll-mt-8">
-            <p className={`${eyebrow} mb-3`}>{t.howItWorks.eyebrow}</p>
-            <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.howItWorks.title}</h1>
-            <p className="text-base text-muted leading-relaxed">{t.howItWorks.intro}</p>
+          <header className="mb-8 sm:mb-10">
+            <p className={`${eyebrow} mb-3`}>{t.connect.eyebrow}</p>
+            <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.connect.title}</h1>
+            <p className="text-base text-muted leading-relaxed">{t.connect.intro}</p>
           </header>
 
           <section>

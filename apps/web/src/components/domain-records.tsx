@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { DomainList } from '@/components/domain-list';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
+import { routes } from '@/lib/routes';
 
 function normalizeQuery(raw: string): string {
   return raw
@@ -34,7 +35,7 @@ export function DomainRecords({ domains }: DomainRecordsProps) {
     e.preventDefault();
     const domain = normalizeQuery(query);
     if (!domain) return;
-    router.push(`/domain/${encodeURIComponent(domain)}`);
+    router.push(routes.record(domain));
   }
 
   if (!domains.length) {
@@ -64,12 +65,12 @@ export function DomainRecords({ domains }: DomainRecordsProps) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={t.domains.searchPlaceholder}
+            placeholder={t.records.searchPlaceholder}
             spellCheck={false}
             autoCapitalize="none"
             autoCorrect="off"
             inputMode="url"
-            aria-label={t.domains.searchPlaceholder}
+            aria-label={t.records.searchPlaceholder}
             className="bg-transparent outline-none text-base sm:text-sm font-mono text-txt placeholder:text-muted-2 flex-1 min-w-0"
           />
         </label>
@@ -77,7 +78,7 @@ export function DomainRecords({ domains }: DomainRecordsProps) {
 
       {filtered.length === 0 ? (
         <p className="text-sm text-muted-2 font-mono text-center py-8">
-          {t.domains.noMatch.replace('{query}', query.trim())}
+          {t.records.noMatch.replace('{query}', query.trim())}
         </p>
       ) : (
         <DomainList domains={filtered} />

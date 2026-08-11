@@ -4,6 +4,7 @@ import { useLocale } from '@/components/locale-provider';
 import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
 import { WHY_PACT_PARAGRAPHS } from '@/lib/why-pact';
+import { routes } from '@/lib/routes';
 import { eyebrow, pageTitle } from '@/lib/ui';
 
 function renderInline(text: string) {
@@ -27,7 +28,7 @@ export function WhyPactView() {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/docs" backLabel={t.docs.title}>
+    <PageShell backHref={routes.docs} backLabel={t.docs.title}>
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whyPact.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whyPact.title}</h1>
@@ -43,7 +44,7 @@ export function WhyPactView() {
         <p className="m-0 pt-2 text-sm text-muted-2 leading-relaxed">{t.whyPact.scope}</p>
       </article>
 
-      <DocsFooter href="/whitepaper" label={t.whyPact.whitepaperLink} />
+      <DocsFooter href={routes.docsWhitepaper} label={t.whyPact.whitepaperLink} />
     </PageShell>
   );
 }

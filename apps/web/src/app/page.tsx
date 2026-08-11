@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
+import { routes } from '@/lib/routes';
 import { btnPrimary, eyebrow } from '@/lib/ui';
 
 export default function HomePage() {
@@ -34,7 +35,7 @@ export default function HomePage() {
             <p className="text-sm sm:text-base text-muted leading-relaxed mb-8 whitespace-pre-line">
               {t.home.ctaBody}
             </p>
-            <Link href="/how-it-works#add-your-domain" className={btnPrimary}>
+            <Link href={routes.connect} className={btnPrimary}>
               {t.home.ctaButton}
             </Link>
             <p className="mt-5 text-xs text-muted-2 font-mono">{t.home.ctaSub}</p>

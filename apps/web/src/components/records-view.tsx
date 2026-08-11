@@ -5,38 +5,39 @@ import { DomainRecords } from '@/components/domain-records';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import type { DomainSummary } from '@/lib/domain-data';
+import { routes } from '@/lib/routes';
 import { btnPrimary, eyebrow, pageIntro, pageTitle, statCard, statLabel, statValue } from '@/lib/ui';
 
-interface DomainsViewProps {
+interface RecordsViewProps {
   domains: DomainSummary[];
   building: number;
   proven: number;
 }
 
-export function DomainsView({ domains, building, proven }: DomainsViewProps) {
+export function RecordsView({ domains, building, proven }: RecordsViewProps) {
   const { t } = useLocale();
 
   return (
-    <PageShell backHref="/" backLabel={t.domains.backHome}>
+    <PageShell backHref={routes.home} backLabel={t.records.backHome}>
       <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
-          <p className={`${eyebrow} mb-2`}>{t.domains.eyebrow}</p>
-          <h1 className={`${pageTitle} mb-2`}>{t.domains.title}</h1>
-          <p className={pageIntro}>{t.domains.intro}</p>
+          <p className={`${eyebrow} mb-2`}>{t.records.eyebrow}</p>
+          <h1 className={`${pageTitle} mb-2`}>{t.records.title}</h1>
+          <p className={pageIntro}>{t.records.intro}</p>
         </div>
-        <Link href="/how-it-works" className={`${btnPrimary} shrink-0 sm:mt-1`}>
-          {t.domains.addDomain}
+        <Link href={routes.connect} className={`${btnPrimary} shrink-0 sm:mt-1`}>
+          {t.records.addDomain}
         </Link>
       </header>
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
         <div className={statCard}>
           <p className={`${statValue} text-amber`}>{building}</p>
-          <p className={statLabel}>{t.domains.building}</p>
+          <p className={statLabel}>{t.records.building}</p>
         </div>
         <div className={statCard}>
           <p className={`${statValue} text-verified`}>{proven}</p>
-          <p className={statLabel}>{t.domains.proven}</p>
+          <p className={statLabel}>{t.records.proven}</p>
         </div>
       </div>
 

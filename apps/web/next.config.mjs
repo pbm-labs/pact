@@ -18,6 +18,16 @@ if (existsSync(envLocal)) {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ['@pact/core'],
+  async redirects() {
+    return [
+      { source: '/how-it-works', destination: '/connect', permanent: true },
+      { source: '/domains', destination: '/records', permanent: true },
+      { source: '/domain/:domain', destination: '/records/:domain', permanent: true },
+      { source: '/why-pact', destination: '/docs/why', permanent: true },
+      { source: '/whitepaper', destination: '/docs/whitepaper', permanent: true },
+      { source: '/roadmap', destination: '/docs/roadmap', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
