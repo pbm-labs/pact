@@ -115,9 +115,10 @@ Apply DNS in Cloudflare (zones for `webuildreal.dev` and `pbm-labs.com`).
 
 | Record | Purpose |
 |--------|---------|
-| Apex / `www` | Custom domains on `pact-web` Worker |
+| Apex / `www` | Worker routes for `pact-web` |
 | MX `route*.mx.cloudflare.net` | Email Routing for DMARC intake |
 | TXT `_report._dmarc` `v=DMARC1` | Authorize external rua destination (required) |
+| TXT `@` `cloudflare_oauth_client_publisher=…` | OAuth client URL verification (from CF OAuth client page) |
 | Email Routing rule | `rua@webuildreal.dev` → Worker `pact-ingest` |
 
 ## DNS (pbm-labs.com)

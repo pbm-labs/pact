@@ -66,8 +66,14 @@ export function appOrigin(request?: Request): string {
       /* fall through */
     }
   }
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
-  }
-  return 'http://localhost:3000';
+  return canonicalOrigin();
+}
+
+/** Public app host — OAuth redirect_uri and post-login redirects. */
+export function canonicalOrigin(): string {
+  return (process.env.NEXT_PUBLIC_APP_URL ?? 'https://webuildreal.dev').replace(/\/$/, '');
+}
+
+export function oauthCallbackUri(): string {
+  return `${canonicalOrigin()}/api/connect/cloudflare/callback`;
 }

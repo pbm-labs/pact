@@ -1,7 +1,7 @@
 import { normalizeDomain } from '@pact/core';
 import { NextResponse } from 'next/server';
 import { cloudflareAuthorizeUrl } from '@/lib/cloudflare-connect';
-import { appOrigin, encodeConnectState } from '@/lib/connect-state';
+import { encodeConnectState, oauthCallbackUri } from '@/lib/connect-state';
 import { routes } from '@/lib/routes';
 
 export async function GET(request: Request) {
@@ -16,8 +16,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL(`${routes.connect}?error=server_config`, request.url));
   }
 
-  const origin = appOrigin(request);
-  const redirectUri = `${origin}/api/connect/cloudflare/callback`;
+  const redirectUri = oauthCallbackUri();
   const authorizeUrl = cloudflareAuthorizeUrl(state, redirectUri);
   if (!authorizeUrl) {
     return NextResponse.redirect(
