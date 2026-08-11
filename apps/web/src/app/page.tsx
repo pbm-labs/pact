@@ -32,7 +32,7 @@ export default function HomePage() {
             <p className={`${sectionTitle} leading-relaxed mb-3`}>
               {t.home.ctaTitle}
             </p>
-            <p className="text-sm text-muted leading-relaxed mb-8 whitespace-pre-line">
+            <p className="text-sm text-muted leading-relaxed mb-8">
               {t.home.ctaBody}
             </p>
             <Link href={routes.connect} className={btnPrimary}>

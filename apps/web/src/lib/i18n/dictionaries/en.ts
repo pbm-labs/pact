@@ -34,7 +34,7 @@ export const en: Dictionary = {
     showLess: 'Show less',
     ctaTitle: 'Start pouring the foundation.',
     ctaBody:
-      'History is earned one honest day at a time,\nand every day we wait is a day we never get back.',
+      'History is earned one honest day at a time, and every day we wait is a day we never get back.',
     ctaButton: 'Add your domain',
     ctaSub: 'Be one of the first to stand on solid ground.',
     watchManifesto: 'Watch The Manifesto',

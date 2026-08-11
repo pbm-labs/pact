@@ -34,7 +34,7 @@ export const es: Dictionary = {
     showLess: 'Mostrar menos',
     ctaTitle: 'Empieza a echar los cimientos.',
     ctaBody:
-      'La historia se gana un día honesto a la vez,\ny cada día que esperamos es un día que no recuperamos.',
+      'La historia se gana un día honesto a la vez, y cada día que esperamos es un día que no recuperamos.',
     ctaButton: 'Añade tu dominio',
     ctaSub: 'Sé de los primeros en pisar terreno firme.',
     watchManifesto: 'Ver el manifiesto',
