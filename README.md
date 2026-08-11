@@ -102,10 +102,10 @@ insert into domains (domain) values ('pbm-labs.com');
 
 | Host | Role |
 |------|------|
-| `webuildreal.dev` / `www` | PACT web app (`pact-web` Worker) — canonical |
-| `pact.pbm-labs.com` | Legacy app host → 308 redirect to `webuildreal.dev` |
+| `webuildreal.dev` / `www` | PACT web app (`pact-web` Worker) |
 | `rua@webuildreal.dev` | DMARC intake for **new** connects |
-| `rua@pact.pbm-labs.com` | Legacy DMARC intake — keep for domains already registered |
+| `rua@pact.pbm-labs.com` | Legacy DMARC intake only — keep for domains already registered |
+| `pact.pbm-labs.com` (HTTP) | Retired — optional Cloudflare Redirect Rule → `webuildreal.dev` |
 | `pbm-labs.com` / `www` | Company website (Vercel or other host — not the PACT Worker) |
 | `hello@pbm-labs.com` | Proton mail (apex MX) |
 
@@ -180,7 +180,8 @@ Remove apex **A** records that pointed the PACT Worker at the root domain.
 | TXT | `pact` | `cloudflare_oauth_client_publisher=…` |
 | TXT | `_report._dmarc.pact` | `v=DMARC1` |
 
-Worker route (wrangler): `webuildreal.dev` (+ `www`) → `pact-web`; legacy `pact.pbm-labs.com/*` redirects.
+Worker route (wrangler): `webuildreal.dev` (+ `www`) → `pact-web`.
+`pact.pbm-labs.com` is no longer a Worker route; keep subdomain MX/Email Routing for legacy `rua@` only.
 
 ### 4. Cloudflare Email Routing — rules
 
@@ -195,8 +196,8 @@ Remove apex rules (catch-all, `hello@` forwards). Keep **only**:
 ```bash
 dig @1.1.1.1 CNAME pbm-labs.com +short         # company site
 dig @1.1.1.1 MX pbm-labs.com +short            # mail.protonmail.ch
-dig @1.1.1.1 MX pact.pbm-labs.com +short       # route*.mx.cloudflare.net
-dig @1.1.1.1 A pact.pbm-labs.com +short        # Cloudflare edge (web)
+dig @1.1.1.1 MX pact.pbm-labs.com +short       # route*.mx.cloudflare.net (legacy rua only)
+dig @1.1.1.1 A webuildreal.dev +short          # Cloudflare edge (web)
 dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short    # includes rua=mailto:rua@webuildreal.dev
 curl -sI https://webuildreal.dev/ | head -1  # PACT app
 ```
