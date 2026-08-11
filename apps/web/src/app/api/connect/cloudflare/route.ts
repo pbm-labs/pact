@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL(`${routes.connect}?error=server_config`, request.url));
   }
 
-  const origin = appOrigin();
+  const origin = appOrigin(request);
   const redirectUri = `${origin}/api/connect/cloudflare/callback`;
   const authorizeUrl = cloudflareAuthorizeUrl(state, redirectUri);
   if (!authorizeUrl) {

@@ -58,7 +58,14 @@ export function decodeConnectState(state: string): ConnectState | null {
   return payload;
 }
 
-export function appOrigin(): string {
+export function appOrigin(request?: Request): string {
+  if (request) {
+    try {
+      return new URL(request.url).origin;
+    } catch {
+      /* fall through */
+    }
+  }
   if (process.env.NEXT_PUBLIC_APP_URL) {
     return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
   }
