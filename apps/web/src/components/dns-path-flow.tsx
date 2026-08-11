@@ -57,7 +57,7 @@ interface DnsPathFlowProps {
   initialPath?: ConnectPath | null;
 }
 
-const PATHS: ConnectPath[] = ['manual', 'cloudflare', 'dmarc-tool'];
+const PATHS: ConnectPath[] = ['cloudflare', 'manual', 'dmarc-tool'];
 
 export function DnsPathFlow({
   domainPrefill = '',
@@ -181,17 +181,6 @@ export function DnsPathFlow({
                 </p>
                 <p className="text-xs text-muted-2 leading-relaxed m-0">
                   {t.howItWorks.cloudflareExplain}
-                </p>
-                <p className="text-xs text-muted-2 leading-relaxed m-0 mt-2">
-                  {t.howItWorks.cloudflareNoLoginHint}{' '}
-                  <button
-                    type="button"
-                    className="text-accent font-semibold bg-transparent border-none p-0 cursor-pointer hover:opacity-90"
-                    onClick={() => setPathWithUrl('manual')}
-                  >
-                    {t.howItWorks.pathManualTitle}
-                  </button>
-                  .
                 </p>
               </div>
             </form>

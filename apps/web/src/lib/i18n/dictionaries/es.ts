@@ -45,7 +45,6 @@ export const es: Dictionary = {
     title: 'Añade tu dominio',
     intro:
       'Sin papeleo ni esperas. Solo el primer día de una historia que es realmente tuya.',
-    seeLiveDomain: 'Ver un dominio en vivo →',
     chooseDifferent: '← Elige otra forma',
     yourDomain: 'Tu dominio',
     pathCloudflareTitle: 'Uso Cloudflare',
@@ -53,15 +52,14 @@ export const es: Dictionary = {
     pathCloudflareBadge: 'Más rápido',
     pathManualTitle: 'Añadirlo manualmente',
     pathManualDesc:
-      'Pega una línea donde gestiones el DNS — sin cuenta ni OAuth.',
-    pathManualBadge: 'Sin login',
+      'Una línea para pegar donde gestiones tu sitio — GoDaddy, Namecheap u otro proveedor.',
+    pathManualBadge: 'Universal',
     pathToolTitle: 'Ya uso una herramienta',
     pathToolDesc: 'Postmark o similar — apúntala aquí.',
     pathToolBadge: 'Herramienta existente',
     whatDoesThisDo: '¿Qué hace esto?',
     cloudflareExplain:
       'Iniciarás sesión en Cloudflare y añadiremos el registro de verificación por ti.',
-    cloudflareNoLoginHint: '¿Prefieres no iniciar sesión? Usa',
     toolIntro: 'En la configuración de tu herramienta, añade esto:',
     toolExplain:
       'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación.',

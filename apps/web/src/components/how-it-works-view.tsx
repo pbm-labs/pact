@@ -47,14 +47,6 @@ export function HowItWorksView({
             <p className={`${eyebrow} mb-3`}>{t.howItWorks.eyebrow}</p>
             <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.howItWorks.title}</h1>
             <p className="text-base text-muted leading-relaxed">{t.howItWorks.intro}</p>
-            <p className="mt-4 text-sm m-0">
-              <Link
-                href="/domain/pbm-labs.com"
-                className="text-accent font-semibold no-underline hover:opacity-90"
-              >
-                {t.howItWorks.seeLiveDomain}
-              </Link>
-            </p>
           </header>
 
           <section>
