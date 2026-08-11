@@ -8,7 +8,7 @@ interface PageProps {
 
 export const metadata = {
   title: 'Add your domain — We build real',
-  description: 'Connect a domain to the PACT public record.',
+  description: 'Connect your domain and start building a public, honest record — in about two minutes.',
 };
 
 export default async function ConnectPage({ searchParams }: PageProps) {

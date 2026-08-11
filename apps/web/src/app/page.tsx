@@ -29,12 +29,16 @@ export default function HomePage() {
       <section className="border-t border-border bg-bg">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-base sm:text-lg text-txt font-semibold leading-relaxed mb-8">
+            <p className="text-base sm:text-lg text-txt font-semibold leading-relaxed mb-3">
               {t.home.ctaTitle}
+            </p>
+            <p className="text-sm sm:text-base text-muted leading-relaxed mb-8 whitespace-pre-line">
+              {t.home.ctaBody}
             </p>
             <Link href={routes.connect} className={btnPrimary}>
               {t.home.ctaButton}
             </Link>
+            <p className="mt-5 text-xs text-muted-2 font-mono">{t.home.ctaSub}</p>
           </div>
         </div>
       </section>

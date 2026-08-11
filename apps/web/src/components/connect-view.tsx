@@ -7,7 +7,7 @@ import { useLocale } from '@/components/locale-provider';
 import type { ConnectPath } from '@/lib/connect-path';
 import type { Dictionary } from '@/lib/i18n';
 import { routes } from '@/lib/routes';
-import { alertError, linkMuted, pageTitle } from '@/lib/ui';
+import { alertError, eyebrow, linkMuted, pageTitle } from '@/lib/ui';
 
 type ConnectErrorKey = keyof Dictionary['connect']['errors'];
 
@@ -45,7 +45,9 @@ export function ConnectView({
           </p>
 
           <header className="mb-8 sm:mb-10">
-            <h1 className={`${pageTitle} text-2xl sm:text-3xl`}>{t.connect.title}</h1>
+            <p className={`${eyebrow} mb-3`}>{t.connect.eyebrow}</p>
+            <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.connect.title}</h1>
+            <p className="text-base text-muted leading-relaxed">{t.connect.intro}</p>
           </header>
 
           <section>

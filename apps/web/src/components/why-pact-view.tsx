@@ -15,6 +15,7 @@ export function WhyPactView() {
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whyPact.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whyPact.title}</h1>
+        <p className="text-sm text-muted leading-relaxed max-w-xl">{t.whyPact.intro}</p>
       </header>
 
       <WhitepaperBody markdown={`${WHY_PACT_MARKDOWN}\n\n${t.whyPact.scope}`} />

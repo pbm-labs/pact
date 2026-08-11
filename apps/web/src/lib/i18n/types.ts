@@ -23,12 +23,16 @@ export type Dictionary = {
     readMore: string;
     showLess: string;
     ctaTitle: string;
+    ctaBody: string;
     ctaButton: string;
+    ctaSub: string;
     watchManifesto: string;
   };
   connect: {
     backHome: string;
+    eyebrow: string;
     title: string;
+    intro: string;
     chooseDifferent: string;
     yourDomain: string;
     pathCloudflareTitle: string;
@@ -40,8 +44,12 @@ export type Dictionary = {
     pathToolTitle: string;
     pathToolDesc: string;
     pathToolBadge: string;
+    whatDoesThisDo: string;
+    cloudflareExplain: string;
     toolIntro: string;
+    toolExplain: string;
     manualIntro: string;
+    manualExplain: string;
     errors: {
       invalid_domain: string;
       server_config: string;
@@ -57,11 +65,14 @@ export type Dictionary = {
   };
   records: {
     backHome: string;
+    eyebrow: string;
     title: string;
+    intro: string;
     addDomain: string;
     building: string;
     proven: string;
     rankedBy: string;
+    rankedHint: string;
     colDomain: string;
     colHistory: string;
     colStatus: string;
@@ -90,6 +101,8 @@ export type Dictionary = {
     next2: string;
     next3: string;
     historyHero: string;
+    historyIntro: string;
+    scoreIntro: string;
     timeVerified: string;
     reports: string;
     allTime: string;
@@ -100,6 +113,7 @@ export type Dictionary = {
     verifiedSince: string;
     awaitingReport: string;
     noRecordYet: string;
+    noRecordHint: string;
     connectDomain: string;
     staging: string;
     firstDay: string;
@@ -124,6 +138,7 @@ export type Dictionary = {
     mathFailedChecks: string;
     dbNotConfigured: string;
     reportHistory: string;
+    reportHistoryIntro: string;
     reportHistoryCounts: string;
     colReporter: string;
     colPeriod: string;
@@ -132,6 +147,7 @@ export type Dictionary = {
     colIngested: string;
     showOlderReports: string;
     verification: string;
+    verificationIntro: string;
     anchor: string;
     onChain: string;
     stagingOffChain: string;
@@ -155,6 +171,7 @@ export type Dictionary = {
   connectSuccess: {
     added: string;
     cloudflare: string;
+    body: string;
     publicRecord: string;
     shareEyebrow: string;
     shareLinkedIn: string;
@@ -172,27 +189,35 @@ export type Dictionary = {
   whitepaper: {
     eyebrow: string;
     title: string;
+    intro: string;
     source: string;
   };
   whyPact: {
     eyebrow: string;
     title: string;
+    intro: string;
     scope: string;
   };
   docs: {
     eyebrow: string;
     title: string;
+    intro: string;
     whyTitle: string;
+    whyBody: string;
     whitepaperTitle: string;
+    whitepaperBody: string;
     roadmapTitle: string;
+    roadmapBody: string;
   };
   roadmap: {
     eyebrow: string;
     title: string;
+    intro: string;
     nowTitle: string;
     nowItems: readonly string[];
     nextTitle: string;
     nextItems: readonly string[];
+    nextNote: string;
   };
   legal: {
     eyebrow: string;

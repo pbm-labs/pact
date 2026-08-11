@@ -20,7 +20,7 @@ export const fr: Dictionary = {
   home: {
     manifestoEyebrow: 'Le manifeste',
     manifestoParagraphs: [
-"En 1969, quatre ordinateurs se sont connectés pour la première fois. Personne dans cette pièce n'a pensé à l'identité. Ce n'était pas nécessaire. Tous ceux qui étaient en ligne se connaissaient déjà.",
+      "En 1969, quatre ordinateurs se sont connectés pour la première fois. Personne dans cette pièce n'a pensé à l'identité. Ce n'était pas nécessaire. Tous ceux qui étaient en ligne se connaissaient déjà.",
       "Ainsi Internet est né sans moyen de savoir qui est vraiment qui. Pas un défaut. Juste une question que personne n'avait encore besoin de poser.",
       'Puis le monde est devenu plus petit, et s\'est rempli d\'inconnus.',
       "Un nom à l'écran pouvait être n'importe qui. Ou personne. Nous avons bâti une civilisation entière sur un réseau auquel on n'a jamais donné la seule chose dont toute communauté a besoin pour survivre : un moyen de savoir qui est réel.",
@@ -32,31 +32,45 @@ export const fr: Dictionary = {
     ],
     readMore: 'Lire la suite',
     showLess: 'Réduire',
-    ctaTitle: 'Ajoutez votre domaine',
+    ctaTitle: 'Commencez à couler la fondation.',
+    ctaBody:
+      "L'histoire s'acquiert un jour honnête à la fois,\net chaque jour d'attente est un jour que l'on ne récupère jamais.",
     ctaButton: 'Ajoutez votre domaine',
+    ctaSub: 'Soyez parmi les premiers sur un terrain solide.',
     watchManifesto: 'Voir le manifeste',
   },
   connect: {
     backHome: '← Accueil',
+    eyebrow: 'Deux minutes, presque automatique',
     title: 'Ajoutez votre domaine',
+    intro:
+      "Pas de paperasse, pas d'attente. Juste le premier jour d'une histoire qui est vraiment la vôtre.",
     chooseDifferent: '← Choisir une autre méthode',
     yourDomain: 'Votre domaine',
     pathCloudflareTitle: "J'utilise Cloudflare",
-    pathCloudflareDesc: 'Connecter avec Cloudflare.',
+    pathCloudflareDesc: 'Un clic — nous nous occupons du reste.',
     pathCloudflareBadge: 'Le plus rapide',
     pathManualTitle: 'Ajouter manuellement',
-    pathManualDesc: 'Collez une ligne DNS chez votre fournisseur.',
+    pathManualDesc:
+      'Une ligne à coller là où vous gérez votre site — GoDaddy, Namecheap ou tout autre hébergeur.',
     pathManualBadge: 'Universel',
     pathToolTitle: "J'utilise déjà un outil",
-    pathToolDesc: 'Pointez un outil existant ici.',
+    pathToolDesc: 'Postmark ou similaire — pointez-le ici.',
     pathToolBadge: 'Outil existant',
-    toolIntro: 'Ajoutez cette destination de rapports :',
+    whatDoesThisDo: 'Que fait cela ?',
+    cloudflareExplain:
+      "Vous vous connecterez à Cloudflare et nous ajouterons l'enregistrement de vérification pour vous.",
+    toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
+    toolExplain:
+      'Votre outil vérifie déjà ce domaine. Le pointer ici nous inclut dans cette vérification.',
     manualIntro:
-      "Collez ceci dans le DNS. Si un enregistrement DMARC existe déjà, ajoutez notre adresse — ne le remplacez pas.",
+      "Collez ceci là où vous gérez les paramètres de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
+    manualExplain:
+      "Une ligne qui permet à des systèmes indépendants de confirmer que votre domaine est réel. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer.",
     errors: {
       invalid_domain: 'Saisissez un domaine valide (ex. example.com).',
       server_config:
-        "Le serveur n'a pas CONNECT_STATE_SECRET ou les identifiants Supabase.",
+        'Le serveur n\'a pas CONNECT_STATE_SECRET ou les identifiants Supabase.',
       oauth_not_configured:
         "La connexion Cloudflare n'est pas configurée sur ce serveur.",
       missing_code: 'La connexion a été annulée ou est incomplète.',
@@ -64,18 +78,24 @@ export const fr: Dictionary = {
       token_exchange: 'Impossible de terminer la connexion à Cloudflare.',
       zone_not_found:
         "Ce domaine n'a pas été trouvé dans le compte Cloudflare choisi. Essayez un autre compte.",
-      dmarc_update: "Impossible de mettre à jour le DNS automatiquement. Essayez l'option manuelle.",
-      register: "L'enregistrement a échoué. Réessayez.",
-      somethingWrong: 'Une erreur est survenue.',
+      dmarc_update:
+        "Impossible de terminer la configuration automatiquement. Essayez l'option manuelle.",
+      register: 'Presque — la dernière étape a échoué. Réessayez.',
+      somethingWrong: "Une erreur s'est produite.",
     },
   },
   records: {
     backHome: 'Accueil',
-    title: 'Registres publics',
+    eyebrow: 'Registres publics',
+    title: 'Domaines qui construisent la confiance',
+    intro:
+      "Classés par historique vérifié — depuis combien de temps chaque domaine a été confirmé de façon indépendante. Les scores de confiance apparaissent lorsque cet historique a du sens.",
     addDomain: 'Ajoutez votre domaine',
     building: 'En construction',
     proven: 'Éprouvé',
-    rankedBy: 'Historique vérifié',
+    rankedBy: 'Classés par historique vérifié',
+    rankedHint:
+      "Un historique confirmé indépendamment plus long se classe plus haut. Un score de confiance apparaît lorsque l'historique a du sens.",
     colDomain: 'Domaine',
     colHistory: 'Historique',
     colStatus: 'Statut',
@@ -84,10 +104,10 @@ export const fr: Dictionary = {
     reports: 'rapports',
     org: 'org',
     orgs: 'orgs',
-    emptyTitle: "Aucun domaine pour l'instant",
-    emptyBody: 'Ajoutez un domaine pour ouvrir un registre public.',
-    emptyCta: 'Ajouter un domaine',
-    searchPlaceholder: 'Rechercher un domaine…',
+    emptyTitle: 'Aucun domaine pour le moment',
+    emptyBody: 'Ajoutez un domaine pour commencer un registre public.',
+    emptyCta: 'Ajouter le premier domaine',
+    searchPlaceholder: 'Rechercher par domaine…',
     noMatch: 'Aucun domaine ne correspond à « {query} ».',
     registered: 'enregistré',
   },
@@ -97,13 +117,18 @@ export const fr: Dictionary = {
     building: 'En construction',
     proven: 'Éprouvé',
     awaitingFirst: 'En attente du premier rapport',
-    awaitingIntro: 'En attente de la première confirmation indépendante.',
+    awaitingIntro:
+      'Enregistré. En attente de la première confirmation indépendante — généralement sous un jour.',
     connected: 'Connecté',
     whatNext: 'Et ensuite',
-    next1: 'Première confirmation indépendante généralement sous un jour.',
-    next2: 'Le registre public se met à jour automatiquement.',
-    next3: 'L’historique vérifié s’accumule ensuite.',
+    next1: 'Ce domaine est remarqué de façon indépendante, généralement sous un jour.',
+    next2: 'Cela confirme discrètement que tout est en ordre.',
+    next3: 'Cette page se met à jour toute seule — rien à cliquer.',
     historyHero: "d'historique vérifié",
+    historyIntro:
+      "Historique confirmé de façon indépendante, jour honnête après jour. Un score de confiance apparaît une fois qu'assez d'historique s'est accumulé.",
+    scoreIntro:
+      "Historique confirmé de façon indépendante, avec un score de confiance qui reflète depuis combien de temps et combien largement il a été vérifié.",
     timeVerified: 'Temps vérifié',
     reports: 'Rapports',
     allTime: 'depuis le début',
@@ -114,6 +139,8 @@ export const fr: Dictionary = {
     verifiedSince: 'Vérifié depuis',
     awaitingReport: 'En attente du premier rapport',
     noRecordYet: 'Pas encore de registre public.',
+    noRecordHint:
+      "Si vous avez déjà ajouté l'enregistrement de vérification, mettez cette page en favori. Elle se met à jour seule dès que le premier contrôle indépendant revient, généralement sous un jour.",
     connectDomain: 'Connecter',
     staging:
       'Aperçu anticipé — la vérification est active, l\'ancrage public permanent arrive bientôt.',
@@ -122,7 +149,7 @@ export const fr: Dictionary = {
     days: '{n} jours',
     progressDaysToBand: 'Environ {days} jours de plus pour atteindre « {band} », à ce rythme.',
     progressBuilding: 'L\'historique continue de se construire à chaque confirmation indépendante.',
-    progressStarts: 'Commence après la première confirmation.',
+    progressStarts: 'Cela commence à bouger dès votre première confirmation.',
     bands: {
       no_history_yet: 'Pas encore d\'historique',
       provisional: 'Provisoire',
@@ -139,7 +166,10 @@ export const fr: Dictionary = {
     mathFailedChecks: 'Contrôles échoués',
     dbNotConfigured: 'Base de données non configurée',
     reportHistory: 'Historique des rapports',
-    reportHistoryCounts: '{periods} périodes · {reporters} reporters — plus récent d’abord.',
+    reportHistoryIntro:
+      'Les contrôles indépendants arrivent en continu depuis les reporters connectés (généralement chaque jour).',
+    reportHistoryCounts:
+      '{periods} périodes de rapport de {reporters} organisations reporteuses — les plus récentes en premier.',
     colReporter: 'Reporter',
     colPeriod: 'Période',
     colPass: 'Réussi',
@@ -147,6 +177,8 @@ export const fr: Dictionary = {
     colIngested: 'Ingesté',
     showOlderReports: 'Afficher les rapports plus anciens ({shown} sur {total})',
     verification: 'Vérification',
+    verificationIntro:
+      'Preuves d\'inclusion recalculées à partir des données en direct contre la dernière racine de staging.',
     anchor: 'Ancre',
     onChain: 'On-chain',
     stagingOffChain: 'Staging (hors chaîne)',
@@ -171,58 +203,72 @@ export const fr: Dictionary = {
   connectSuccess: {
     added: 'Ajouté',
     cloudflare: 'Cloudflare',
-    publicRecord: 'Registre public',
-    shareEyebrow: 'Partager',
+    body: 'Ajouté, rien d\'autre à faire. La construction de votre registre vient de commencer.',
+    publicRecord: 'Votre registre public',
+    shareEyebrow: 'Partagez votre preuve',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
-    shareText: '{domain} sur PACT',
+    shareText: '{domain} construit un registre public de confiance sur PACT',
     whatNext: 'Et ensuite',
-    next1: 'Première confirmation indépendante généralement sous un jour.',
-    next2: 'Le registre public se met à jour automatiquement.',
-    next3: "L’historique vérifié s’accumule ensuite.",
+    next1: 'Un contrôle indépendant arrive généralement sous un jour.',
+    next2:
+      "C'est ce qui confirme tout et ajoute ce domaine au registre public. Rien d'autre à cliquer.",
+    next3: 'Ensuite, votre score de confiance se construit et se met à jour tout seul.',
     viewDomain: 'Voir',
     allRecords: 'Tous les registres',
-    missing: 'Ce lien était incomplet — réessayez.',
+    missing: 'Il manque quelque chose dans ce lien — réessayons.',
     tryAgain: 'Réessayer',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',
     title: 'Whitepaper',
+    intro:
+      "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
     source: 'Source sur GitHub →',
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
-    title: 'Ce qui rend PACT différent',
+    title: 'What Makes PACT Different',
+    intro: "Une note de deux minutes sur l'évidence face à l'autorité — pas le whitepaper complet.",
     scope:
-      "PACT mesure un historique de domaine vérifié indépendamment à partir des rapports agrégés DMARC. Ce n’est pas du KYC, ni une crédential personnelle, ni un remplacement des registres ou des bureaux de crédit.",
+      "PACT mesure l'historique de domaine vérifié de façon indépendante à partir des rapports agrégés DMARC. Ce n'est pas du KYC, pas une identité personnelle, et pas un substitut aux registres ou aux bureaux de crédit.",
   },
   docs: {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
-    whyTitle: 'Ce qui rend PACT différent',
+    intro: 'Comment PACT fonctionne et pourquoi c’est différent.',
+    whyTitle: 'What Makes PACT Different',
+    whyBody: "Une note de deux minutes sur l'évidence face à l'autorité — à lire en premier.",
     whitepaperTitle: 'Whitepaper',
+    whitepaperBody:
+      "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
     roadmapTitle: 'Roadmap',
+    roadmapBody: "Ce qui est en ligne aujourd'hui, et ce qui vient ensuite.",
   },
   roadmap: {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
-    nowTitle: "En ligne aujourd’hui",
+    intro:
+      'La phase 0a est en ligne : un registre public recomputable avec des racines Merkle en staging. L’ancrage on-chain vient ensuite.',
+    nowTitle: "En ligne aujourd'hui",
     nowItems: [
-      'Connexion de domaine via Cloudflare OAuth, DNS manuel ou outils de reporting existants',
+      'Connexion de domaine via OAuth Cloudflare, DNS manuel ou outils de reporting existants',
       'Création automatique du registre public dès le premier rapport agrégé valide',
       'Ingestion continue de vrais rapports agrégés DMARC',
-      'Arbre Merkle append-only avec preuves d’inclusion recomputables publiquement',
+      'Arbre de Merkle append-only avec preuves d’inclusion recomputables publiquement',
       'Publication régulière de racines de staging sur un registre public',
-      'Registres publics classés par historique vérifié',
+      'Registres publics classés par historique vérifié ; score mis à l’échelle quand il est significatif',
       'Pages par domaine avec horloges, activité et vérification technique',
     ],
     nextTitle: 'En développement actif',
     nextItems: [
       'Ancrage on-chain des racines Merkle',
-      'Vélocité comme signal complémentaire à la maturité',
+      'La vélocité comme signal compagnon de la maturité',
       'Surveillance des discontinuités d’infrastructure (Signal)',
-      'Exploitation multi-nœuds / permissionless plus large',
+      'Opération multi-nœuds / permissionless plus large',
     ],
+    nextNote:
+      'Aucun de ces points n’est requis pour que la vérification publique d’aujourd’hui fonctionne. Ils étendent ce qui est déjà en ligne.',
   },
   legal: {
     eyebrow: 'Mentions légales',

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { routes } from '@/lib/routes';
-import { eyebrow, pageTitle } from '@/lib/ui';
+import { eyebrow, pageIntro, pageTitle } from '@/lib/ui';
 
 export function DocsView() {
   const { t } = useLocale();
@@ -13,10 +13,11 @@ export function DocsView() {
     <PageShell backHref={routes.home} backLabel={t.common.home}>
       <header className="mb-12">
         <p className={`${eyebrow} mb-3`}>{t.docs.eyebrow}</p>
-        <h1 className={`${pageTitle} text-2xl sm:text-3xl`}>{t.docs.title}</h1>
+        <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.docs.title}</h1>
+        <p className={`${pageIntro} max-w-xl`}>{t.docs.intro}</p>
       </header>
 
-      <nav className="space-y-8" aria-label={t.docs.title}>
+      <nav className="space-y-10" aria-label={t.docs.title}>
         <div>
           <Link
             href={routes.docsWhy}
@@ -24,6 +25,7 @@ export function DocsView() {
           >
             {t.docs.whyTitle}
           </Link>
+          <p className="text-sm text-muted leading-relaxed mt-2 m-0 max-w-xl">{t.docs.whyBody}</p>
         </div>
         <div>
           <Link
@@ -32,6 +34,9 @@ export function DocsView() {
           >
             {t.docs.whitepaperTitle}
           </Link>
+          <p className="text-sm text-muted leading-relaxed mt-2 m-0 max-w-xl">
+            {t.docs.whitepaperBody}
+          </p>
         </div>
         <div>
           <Link
@@ -40,6 +45,9 @@ export function DocsView() {
           >
             {t.docs.roadmapTitle}
           </Link>
+          <p className="text-sm text-muted leading-relaxed mt-2 m-0 max-w-xl">
+            {t.docs.roadmapBody}
+          </p>
         </div>
       </nav>
     </PageShell>
