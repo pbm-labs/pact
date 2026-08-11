@@ -27,7 +27,7 @@ export async function loadWhitepaperMarkdown(): Promise<{
   source: 'github' | 'local';
 }> {
   try {
-    const res = await fetch(WHITEPAPBER_RAW_URL, {
+    const res = await fetch(WHITEOBER_RAW_URL, {
       next: { revalidate: 3600 },
       headers: { Accept: 'text/plain' },
     });
