@@ -1,5 +1,10 @@
-export const PACT_RUA_MAILTO = 'mailto:rua@pact.pbm-labs.com';
-export const PACT_RUA_ADDRESS = 'rua@pact.pbm-labs.com';
+export const PACT_RUA_ADDRESS = 'rua@webuildreal.dev';
+export const PACT_RUA_MAILTO = `mailto:${PACT_RUA_ADDRESS}`;
+
+/** Previous intake host — still accepted so existing DMARC records keep working. */
+export const PACT_RUA_LEGACY_ADDRESSES = ['rua@pact.pbm-labs.com'] as const;
+
+const PACT_RUA_ACCEPTED = [PACT_RUA_ADDRESS, ...PACT_RUA_LEGACY_ADDRESSES] as const;
 
 const TAG_ORDER = ['v', 'p', 'sp', 'adkim', 'aspf', 'pct', 'rua', 'ruf', 'np'] as const;
 
@@ -34,7 +39,7 @@ export function serializeDmarcTags(tags: Map<string, string>): string {
 
 export function dmarcIncludesPactRua(record: string): boolean {
   const rua = parseDmarcTags(record).get('rua') ?? '';
-  return rua.includes(PACT_RUA_ADDRESS);
+  return PACT_RUA_ACCEPTED.some((address) => rua.includes(address));
 }
 
 /** Add PACT rua= to an existing _dmarc TXT value, or return a minimal new record. */

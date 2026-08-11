@@ -23,7 +23,7 @@ interface ConnectSuccessViewProps {
 export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
   const { t } = useLocale();
   const [recordUrl, setRecordUrl] = useState(
-    `https://pact.pbm-labs.com${routes.record(domain)}`,
+    `https://webuildreal.dev${routes.record(domain)}`,
   );
 
   useEffect(() => {

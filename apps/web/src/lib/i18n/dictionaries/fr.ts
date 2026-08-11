@@ -279,7 +279,7 @@ export const fr: Dictionary = {
     terms: [
       {
         title: '1. Acceptation des conditions',
-        body: "En accédant à ce site (pact.pbm-labs.com) et aux services associés exploités sous la marque « we build real », ou en les utilisant, vous acceptez les présentes Conditions d'utilisation. Si vous n'êtes pas d'accord, n'utilisez pas le site et ne connectez pas de domaine.",
+        body: "En accédant à ce site (webuildreal.dev) et aux services associés exploités sous la marque « we build real », ou en les utilisant, vous acceptez les présentes Conditions d'utilisation. Si vous n'êtes pas d'accord, n'utilisez pas le site et ne connectez pas de domaine.",
       },
       {
         title: '2. Qui nous sommes',
@@ -337,7 +337,7 @@ export const fr: Dictionary = {
     privacy: [
       {
         title: '1. Vue d\'ensemble',
-        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez pact.pbm-labs.com et les services de référence PACT. PACT est conçu pour que sa source de données principale — les rapports agrégés DMARC — ne contienne ni contenu de message ni identités personnelles.",
+        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez webuildreal.dev et les services de référence PACT. PACT est conçu pour que sa source de données principale — les rapports agrégés DMARC — ne contienne ni contenu de message ni identités personnelles.",
       },
       {
         title: '2. Informations que nous traitons',

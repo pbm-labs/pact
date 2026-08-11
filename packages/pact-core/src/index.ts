@@ -44,6 +44,7 @@ export {
 export {
   PACT_RUA_MAILTO,
   PACT_RUA_ADDRESS,
+  PACT_RUA_LEGACY_ADDRESSES,
   addPactRuaToDmarc,
   dmarcIncludesPactRua,
   parseDmarcTags,

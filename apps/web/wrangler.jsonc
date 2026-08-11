@@ -17,6 +17,14 @@
   ],
   "routes": [
     {
+      "pattern": "webuildreal.dev",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.webuildreal.dev",
+      "custom_domain": true
+    },
+    {
       "pattern": "pact.pbm-labs.com/*",
       "zone_id": "eda4b298d663534da9d8868b7b60c084"
     }
@@ -25,6 +33,6 @@
   //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
   //   CLOUDFLARE_OAUTH_CLIENT_ID, CLOUDFLARE_OAUTH_CLIENT_SECRET
   "vars": {
-    "NEXT_PUBLIC_APP_URL": "https://pact.pbm-labs.com"
+    "NEXT_PUBLIC_APP_URL": "https://webuildreal.dev"
   }
 }

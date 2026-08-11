@@ -175,14 +175,14 @@ AFTER:
 _dmarc.wise.com TXT
   "v=DMARC1; p=reject;
    rua=mailto:dmarc@wise.com,
-       mailto:rua@pact.pbm-labs.com"
+       mailto:rua@webuildreal.dev"
 ```
 
 That is the only change required. No software installation. No API integration. No SDK. No behavioral change for any sender or recipient. The receiving mail servers of the world — Gmail, Outlook, Yahoo — continue generating the same aggregate reports they always have. They now send a copy to PACT alongside the domain's existing destination.
 
 ### 2.3 Zero-Friction Onboarding
 
-The reference MVP implementation (`pact.pbm-labs.com`) supports two onboarding paths:
+The reference MVP implementation (`webuildreal.dev`) supports two onboarding paths:
 
 - **Cloudflare OAuth** — one confirmation click; PACT adds the rua= field to `_dmarc` via API. Minimum scope: zone-scoped DNS edit for the target domain only.
 - **Manual DNS** — one `_dmarc` field edit at any provider (GoDaddy, Namecheap, Route 53 console, etc.), then domain registration.
@@ -538,7 +538,7 @@ The domain's existing DMARC policy, reporting destinations, and email operations
 RFC 7489 requires that third-party report destinations verify their willingness to receive reports. PACT satisfies this by publishing a verification DNS record:
 
 ```
-_report._dmarc.pact.pbm-labs.com TXT
+_report._dmarc.webuildreal.dev TXT
   "v=DMARC1"
 ```
 
@@ -816,8 +816,8 @@ The PBM Labs reference implementation for v0.2 uses:
 | DNS onboarding | Cloudflare API (OAuth) |
 
 **Reference domain (Phase 0a):** `pbm-labs.com`  
-**Intake:** `rua@pact.pbm-labs.com`  
-**External destination verification:** `_report._dmarc.pact.pbm-labs.com TXT "v=DMARC1"`
+**Intake:** `rua@webuildreal.dev`  
+**External destination verification:** `_report._dmarc.webuildreal.dev TXT "v=DMARC1"`
 
 This stack is not normative. Any implementation producing identical leaf hashes (Appendix C) and compatible Merkle proofs (Section 3.3.1) is interoperable.
 

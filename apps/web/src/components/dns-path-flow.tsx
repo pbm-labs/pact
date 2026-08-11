@@ -62,7 +62,7 @@ const PATHS: ConnectPath[] = ['cloudflare', 'manual', 'dmarc-tool'];
 export function DnsPathFlow({
   domainPrefill = '',
   dmarcSnippet,
-  ruaAddress = 'rua@pact.pbm-labs.com',
+  ruaAddress = 'rua@webuildreal.dev',
   initialPath = null,
 }: DnsPathFlowProps) {
   const { t } = useLocale();

@@ -1,15 +1,15 @@
 # PACT Protocol — Phase 0a
 
-Public brand is **we build real**; the protocol is **PACT**. Domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://pact.pbm-labs.com/connect).
+Public brand is **we build real**; the protocol is **PACT**. Domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding).
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 
 **Reference domain:** `pbm-labs.com`  
-**PACT app:** `https://pact.pbm-labs.com`  
+**PACT app:** `https://webuildreal.dev`  
 **Company site:** `https://pbm-labs.com`  
-**Intake address:** `rua@pact.pbm-labs.com`
+**Intake address:** `rua@webuildreal.dev` (legacy `rua@pact.pbm-labs.com` still accepted)
 
 ## Monorepo structure
 
@@ -28,7 +28,7 @@ pnpm install
 pnpm test                         # pact-core unit tests
 pnpm --filter @pact/core build
 pnpm dev:web                      # http://localhost:3000
-pnpm deploy:web                   # Cloudflare Workers (pact.pbm-labs.com)
+pnpm deploy:web                   # Cloudflare Workers (webuildreal.dev)
 ```
 
 ## Environment
@@ -46,7 +46,7 @@ Used by `pnpm dev:web` and (via wrangler secrets) the Workers.
 |----------|---------|
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, worker (via wrangler secrets) |
 | `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/connect` Cloudflare connect |
-| `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://pact.pbm-labs.com` in prod) |
+| `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://webuildreal.dev` in prod) |
 | `CONNECT_STATE_SECRET` | Optional HMAC for OAuth state |
 
 Cloudflare Worker production secrets:
@@ -65,20 +65,20 @@ Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 ### Cloudflare OAuth (`/connect`)
 
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
-2. Redirect URL: `https://pact.pbm-labs.com/api/connect/cloudflare/callback`
-3. Client URL: `https://pact.pbm-labs.com` (HTTPS required; verify with TXT on `pact` subdomain)
+2. Redirect URL: `https://webuildreal.dev/api/connect/cloudflare/callback`
+3. Client URL: `https://webuildreal.dev` (HTTPS required; verify with TXT on the apex / `www`)
 4. Promote to **public** after domain verification on `client_uri` (required for external users)
-   - **Logo URL:** `https://pact.pbm-labs.com/pact-logo.svg` (hosted in `apps/web/public/`)
-   - Add the publisher TXT from the OAuth client page on the `pact` subdomain in Cloudflare DNS
+   - **Logo URL:** `https://webuildreal.dev/pact-logo.svg` (hosted in `apps/web/public/`)
+   - Add the publisher TXT from the OAuth client page on `webuildreal.dev` in Cloudflare DNS
 5. Add client ID and secret to `.env.local` (see `.env.example`)
 
-After moving the app to `pact.pbm-labs.com`, update the OAuth client in the dashboard (API token needs **OAuth Clients Write**):
+After moving the app to `webuildreal.dev`, update the OAuth client in the dashboard (API token needs **OAuth Clients Write**):
 
 | Field | Value |
 |-------|--------|
-| Client URL | `https://pact.pbm-labs.com` |
+| Client URL | `https://webuildreal.dev` |
 | Redirect URL | `/api/connect/cloudflare/callback` |
-| Logo URL | `https://pact.pbm-labs.com/pact-logo.svg` |
+| Logo URL | `https://webuildreal.dev/pact-logo.svg` |
 
 Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.example`.
 
@@ -102,18 +102,29 @@ insert into domains (domain) values ('pbm-labs.com');
 
 | Host | Role |
 |------|------|
+| `webuildreal.dev` / `www` | PACT web app (`pact-web` Worker) — canonical |
+| `pact.pbm-labs.com` | Legacy app host → 308 redirect to `webuildreal.dev` |
+| `rua@webuildreal.dev` | DMARC intake (`pact-ingest` Worker) — canonical |
+| `rua@pact.pbm-labs.com` | Legacy DMARC intake (keep routed for existing domains) |
 | `pbm-labs.com` / `www` | Company website (Vercel or other host — not the PACT Worker) |
-| `pact.pbm-labs.com` | PACT web app (`pact-web` Worker) |
-| `rua@pact.pbm-labs.com` | DMARC intake (`pact-ingest` Worker) |
 | `hello@pbm-labs.com` | Proton mail (apex MX) |
 
-Apply DNS in the Cloudflare dashboard (zone for `pbm-labs.com`).
+Apply DNS in Cloudflare (zones for `webuildreal.dev` and `pbm-labs.com`).
+
+## DNS (webuildreal.dev)
+
+| Record | Purpose |
+|--------|---------|
+| Apex / `www` | Custom domains on `pact-web` Worker |
+| MX `route*.mx.cloudflare.net` | Email Routing for DMARC intake |
+| TXT `_report._dmarc` `v=DMARC1` | Authorize external rua destination (required) |
+| Email Routing rule | `rua@webuildreal.dev` → Worker `pact-ingest` |
 
 ## DNS (pbm-labs.com)
 
 | Record | Purpose |
 |--------|---------|
-| `_dmarc` TXT with `rua=mailto:rua@pact.pbm-labs.com` | Send aggregate reports to PACT |
+| `_dmarc` TXT with `rua=mailto:rua@webuildreal.dev` | Send aggregate reports to PACT |
 | `_report._dmarc.pact` TXT `v=DMARC1` | Authorize external rua destination |
 | `pact` MX → `route1/route2.mx.cloudflare.net` | Receive DMARC mail on subdomain |
 | `pact` proxied `A 192.0.2.1` | Worker HTTP (required alongside MX) |
@@ -154,7 +165,7 @@ In [Proton Mail](https://mail.proton.me) → **Settings → All settings → Pro
 | MX | `@` | `10 mail.protonmail.ch` |
 | MX | `@` | `20 mailsec.protonmail.ch` |
 | TXT | `@` | Proton SPF (from wizard) |
-| TXT | `_dmarc` | Include `rua=mailto:rua@pact.pbm-labs.com` **and** Proton DMARC tags |
+| TXT | `_dmarc` | Include `rua=mailto:rua@webuildreal.dev` **and** Proton DMARC tags |
 | CNAME | `protonmail._domainkey` etc. | From Proton wizard |
 
 Remove apex **A** records that pointed the PACT Worker at the root domain.
@@ -169,7 +180,7 @@ Remove apex **A** records that pointed the PACT Worker at the root domain.
 | TXT | `pact` | `cloudflare_oauth_client_publisher=…` |
 | TXT | `_report._dmarc.pact` | `v=DMARC1` |
 
-Worker route (wrangler): `pact.pbm-labs.com/*` → `pact-web`.
+Worker route (wrangler): `webuildreal.dev` (+ `www`) → `pact-web`; legacy `pact.pbm-labs.com/*` redirects.
 
 ### 4. Cloudflare Email Routing — rules
 
@@ -186,17 +197,17 @@ dig @1.1.1.1 CNAME pbm-labs.com +short         # company site
 dig @1.1.1.1 MX pbm-labs.com +short            # mail.protonmail.ch
 dig @1.1.1.1 MX pact.pbm-labs.com +short       # route*.mx.cloudflare.net
 dig @1.1.1.1 A pact.pbm-labs.com +short        # Cloudflare edge (web)
-dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short    # includes rua=mailto:rua@pact.pbm-labs.com
-curl -sI https://pact.pbm-labs.com/ | head -1  # PACT app
+dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short    # includes rua=mailto:rua@webuildreal.dev
+curl -sI https://webuildreal.dev/ | head -1  # PACT app
 ```
 
 Send test to `hello@pbm-labs.com` → Proton inbox.  
-DMARC reports still go to `rua@pact.pbm-labs.com` → worker (~24–48h).
+DMARC reports go to `rua@webuildreal.dev` (legacy rua still works) → worker (~24–48h).
 
 ## Deploy PACT web app
 
 ```bash
-pnpm deploy:web   # pact.pbm-labs.com (see apps/web/wrangler.jsonc)
+pnpm deploy:web   # webuildreal.dev (see apps/web/wrangler.jsonc)
 ```
 
 After first deploy on the new hostname, remove any leftover Worker routes for `pbm-labs.com/*` in the Cloudflare dashboard.

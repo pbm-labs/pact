@@ -15,6 +15,7 @@ import {
   mergeLeafAggregation,
   leafInputFromAggregation,
   addPactRuaToDmarc,
+  dmarcIncludesPactRua,
   PACT_RUA_MAILTO,
 } from './index.js';
 
@@ -109,6 +110,13 @@ describe('dmarc rua', () => {
     const { content, changed } = addPactRuaToDmarc(null);
     expect(changed).toBe(true);
     expect(content).toBe(`v=DMARC1; p=none; rua=${PACT_RUA_MAILTO}`);
+  });
+
+  it('treats legacy rua as already connected', () => {
+    const existing = 'v=DMARC1; p=none; rua=mailto:rua@pact.pbm-labs.com';
+    expect(dmarcIncludesPactRua(existing)).toBe(true);
+    const { changed } = addPactRuaToDmarc(existing);
+    expect(changed).toBe(false);
   });
 });
 
