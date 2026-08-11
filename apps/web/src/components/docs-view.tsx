@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
-import { DocsFooter } from '@/components/docs-footer';
 import { PageShell } from '@/components/page-shell';
 import { routes } from '@/lib/routes';
 import { eyebrow, pageIntro, pageTitle } from '@/lib/ui';
@@ -51,8 +50,6 @@ export function DocsView() {
           </p>
         </div>
       </nav>
-
-      <DocsFooter href={routes.docsWhitepaper} label={t.docs.footerLink} />
     </PageShell>
   );
 }

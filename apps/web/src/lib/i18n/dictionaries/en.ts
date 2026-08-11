@@ -243,7 +243,6 @@ export const en: Dictionary = {
       'The open protocol behind the public record — how verified history is captured, published, and measured.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'What’s live today, and what’s next.',
-    footerLink: 'Read the whitepaper →',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',

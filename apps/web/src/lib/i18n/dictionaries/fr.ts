@@ -246,7 +246,6 @@ export const fr: Dictionary = {
       "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
     roadmapTitle: 'Roadmap',
     roadmapBody: "Ce qui est en ligne aujourd'hui, et ce qui vient ensuite.",
-    footerLink: 'Lire le whitepaper →',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',
