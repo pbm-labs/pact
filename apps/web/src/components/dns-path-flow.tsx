@@ -175,47 +175,17 @@ export function DnsPathFlow({
                   </button>
                 </div>
               </div>
-              <div>
-                <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                  {t.connect.whatDoesThisDo}
-                </p>
-                <p className="text-xs text-muted-2 leading-relaxed m-0">
-                  {t.connect.cloudflareExplain}
-                </p>
-              </div>
             </form>
           ) : path === 'dmarc-tool' ? (
-            <div className="space-y-5">
-              <div>
-                <p className="text-sm text-muted leading-relaxed mb-4">{t.connect.toolIntro}</p>
-                <CopyableValue text={ruaAddress} />
-              </div>
-              <div>
-                <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                  {t.connect.whatDoesThisDo}
-                </p>
-                <p className="text-xs text-muted-2 leading-relaxed m-0">
-                  {t.connect.toolExplain}
-                </p>
-              </div>
+            <div>
+              <p className="text-sm text-muted leading-relaxed mb-4">{t.connect.toolIntro}</p>
+              <CopyableValue text={ruaAddress} />
             </div>
           ) : (
             dmarcSnippet && (
-              <div className="space-y-5">
-                <div>
-                  <p className="text-sm text-muted leading-relaxed mb-4">
-                    {t.connect.manualIntro}
-                  </p>
-                  <CopyableValue text={dmarcSnippet} />
-                </div>
-                <div>
-                  <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                    {t.connect.whatDoesThisDo}
-                  </p>
-                  <p className="text-xs text-muted-2 leading-relaxed m-0">
-                    {t.connect.manualExplain}
-                  </p>
-                </div>
+              <div>
+                <p className="text-sm text-muted leading-relaxed mb-4">{t.connect.manualIntro}</p>
+                <CopyableValue text={dmarcSnippet} />
               </div>
             )
           )}

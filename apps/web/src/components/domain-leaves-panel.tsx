@@ -38,8 +38,7 @@ export function DomainLeavesPanel({
       <section className={`${panel} mb-6`}>
         <div className={`${panelBody} border-b border-border`}>
           <h2 className={panelSectionTitle}>{t.domain.reportHistory}</h2>
-          <p className="text-xs text-muted-2 mt-1 max-w-2xl leading-relaxed">
-            {t.domain.reportHistoryIntro}{' '}
+          <p className="text-xs text-muted-2 mt-1 max-w-2xl leading-relaxed m-0">
             {t.domain.reportHistoryCounts
               .replace('{periods}', domainLeafCount.toLocaleString())
               .replace('{reporters}', String(uniqueReporters))}
@@ -100,8 +99,7 @@ export function DomainLeavesPanel({
       <section className={`${panel} mb-6`}>
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>{t.domain.verification}</h2>
-          <p className="text-sm text-muted mb-4">{t.domain.verificationIntro}</p>
-          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm mb-4">
+          <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm mb-4 mt-4">
             <dt className="text-muted-2">{t.domain.anchor}</dt>
             <dd className="m-0">
               {anchorType === 'base' ? t.domain.onChain : t.domain.stagingOffChain}

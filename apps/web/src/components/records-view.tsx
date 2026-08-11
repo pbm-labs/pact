@@ -6,7 +6,7 @@ import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import type { DomainSummary } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
-import { btnPrimary, eyebrow, pageIntro, pageTitle, statCard, statLabel, statValue } from '@/lib/ui';
+import { btnPrimary, pageTitle, statCard, statLabel, statValue } from '@/lib/ui';
 
 interface RecordsViewProps {
   domains: DomainSummary[];
@@ -21,9 +21,7 @@ export function RecordsView({ domains, building, proven }: RecordsViewProps) {
     <PageShell backHref={routes.home} backLabel={t.records.backHome}>
       <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
-          <p className={`${eyebrow} mb-2`}>{t.records.eyebrow}</p>
-          <h1 className={`${pageTitle} mb-2`}>{t.records.title}</h1>
-          <p className={pageIntro}>{t.records.intro}</p>
+          <h1 className={pageTitle}>{t.records.title}</h1>
         </div>
         <Link href={routes.connect} className={`${btnPrimary} shrink-0 sm:mt-1`}>
           {t.records.addDomain}

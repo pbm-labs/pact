@@ -167,9 +167,6 @@ function LivePage({
           <div className="min-w-0">
             <p className={`${eyebrow} mb-2`}>{t.domain.publicRecord}</p>
             <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
-            <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">
-              {showScore ? t.domain.scoreIntro : t.domain.historyIntro}
-            </p>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
             {showScore ? (
@@ -269,10 +266,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords} centered>
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
-      <p className={`${pageIntro} mb-2`}>{t.domain.noRecordYet}</p>
-      <p className="text-sm text-muted-2 mb-6 max-w-sm mx-auto leading-relaxed">
-        {t.domain.noRecordHint}
-      </p>
+      <p className={`${pageIntro} mb-6`}>{t.domain.noRecordYet}</p>
 
       <section className={`${panel} w-full text-left mb-8`}>
         <div className={panelBody}>

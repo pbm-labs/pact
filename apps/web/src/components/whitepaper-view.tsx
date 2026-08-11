@@ -19,7 +19,6 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whitepaper.eyebrow}</p>
         <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whitepaper.title}</h1>
-        <p className="text-sm text-muted leading-relaxed max-w-xl">{t.whitepaper.intro}</p>
         <p className="mt-4 text-xs font-mono text-muted-2">
           <a
             href={sourceUrl}

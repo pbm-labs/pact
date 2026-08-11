@@ -50,7 +50,6 @@ export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
         <span className={`${badgeVerified} mb-4`}>{t.connectSuccess.added}</span>
         <h1 className={`${pageTitle} break-all`}>{domain}</h1>
         <p className="text-sm text-muted-2 font-mono mt-2">{t.connectSuccess.cloudflare}</p>
-        <p className="text-sm text-muted mt-3 max-w-md mx-auto">{t.connectSuccess.body}</p>
       </div>
 
       <section className={`${panel} w-full text-left mb-6`}>

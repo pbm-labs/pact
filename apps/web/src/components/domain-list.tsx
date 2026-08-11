@@ -114,12 +114,9 @@ export function DomainList({ domains }: DomainListProps) {
   return (
     <div className={panel}>
       <div className={`${panelBody} border-b border-border flex flex-wrap items-end justify-between gap-3`}>
-        <div>
-          <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 mb-1">
-            {t.records.rankedBy}
-          </p>
-          <p className="text-xs text-muted m-0">{t.records.rankedHint}</p>
-        </div>
+        <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 m-0">
+          {t.records.rankedBy}
+        </p>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />
