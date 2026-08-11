@@ -38,7 +38,7 @@ export function CopyableValue({ text, label, caption }: CopyableValueProps) {
         className="group w-full flex items-center justify-between gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-xl border border-accent/30 bg-accent/5 hover:border-accent/60 hover:bg-accent/10 text-left"
         aria-label={`${copyLabel} ${text}`}
       >
-        <code className="text-sm sm:text-base font-mono font-semibold text-accent truncate min-w-0">
+        <code className="text-sm font-mono font-semibold text-accent truncate min-w-0">
           {text}
         </code>
         <span

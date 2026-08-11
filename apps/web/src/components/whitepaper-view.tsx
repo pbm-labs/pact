@@ -4,7 +4,7 @@ import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
 import { routes } from '@/lib/routes';
-import { eyebrow, linkMuted, pageTitle } from '@/lib/ui';
+import { eyebrow, linkMuted, metaText, pageIntro, pageTitle } from '@/lib/ui';
 
 interface WhitepaperViewProps {
   markdown: string;
@@ -18,9 +18,9 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
     <PageShell backHref={routes.docs} backLabel={t.docs.title}>
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whitepaper.eyebrow}</p>
-        <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whitepaper.title}</h1>
-        <p className="text-sm text-muted leading-relaxed max-w-xl">{t.whitepaper.intro}</p>
-        <p className="mt-4 text-xs font-mono text-muted-2">
+        <h1 className={`${pageTitle} mb-4`}>{t.whitepaper.title}</h1>
+        <p className={`${pageIntro} max-w-xl`}>{t.whitepaper.intro}</p>
+        <p className={`mt-4 ${metaText}`}>
           <a
             href={sourceUrl}
             target="_blank"

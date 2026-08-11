@@ -26,6 +26,7 @@ import {
   panel,
   panelBody,
   panelSectionTitle,
+  statValue,
 } from '@/lib/ui';
 
 export type DomainLiveScoreView = {
@@ -58,15 +59,13 @@ function Stat({
   return (
     <div className="rounded-xl border border-border bg-surface px-4 py-4 hover:border-muted-2">
       <p
-        className={`text-2xl sm:text-3xl font-bold font-mono leading-none ${
-          dim ? 'text-muted-2' : 'text-txt'
-        }`}
+        className={`${statValue} ${dim ? 'text-muted-2' : 'text-txt'}`}
       >
         {value}
       </p>
-      <p className="text-xs sm:text-sm font-semibold text-txt mt-2">{label}</p>
+      <p className="text-xs font-semibold text-txt mt-2">{label}</p>
       {sub && (
-        <p className="text-[0.65rem] sm:text-xs text-muted-2 mt-0.5 leading-tight">{sub}</p>
+        <p className="text-xs text-muted-2 mt-0.5 leading-tight">{sub}</p>
       )}
     </div>
   );
@@ -177,17 +176,17 @@ function LivePage({
                 <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
                   <ScoreGauge score={displayScore} size={108} strokeWidth={8} />
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-2xl sm:text-3xl font-bold font-mono tabular-nums text-txt leading-none">
+                    <span className={`${statValue} text-txt`}>
                       {displayScore}
                     </span>
-                    <span className="text-[0.6rem] font-mono text-muted-2 mt-0.5">/ 100</span>
+                    <span className="text-xs font-mono text-muted-2 mt-0.5">/ 100</span>
                   </div>
                 </div>
                 <p className="text-sm text-muted m-0">{bandLabel}</p>
               </>
             ) : (
               <div className="text-left sm:text-right">
-                <p className="text-3xl sm:text-4xl font-bold font-mono tabular-nums text-txt leading-none m-0">
+                <p className={`${statValue} text-txt m-0`}>
                   {verifiedLabel}
                 </p>
                 <p className="text-sm text-muted mt-2 m-0">{t.domain.historyHero}</p>
@@ -214,7 +213,7 @@ function LivePage({
       </div>
 
       <details className="group mb-2">
-        <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 hover:text-muted">
+        <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-xs font-mono uppercase tracking-widest text-muted-2 hover:text-muted">
           <span className={`inline-block group-open:rotate-90`}>›</span>
           {t.domain.techSummary}
         </summary>
@@ -230,7 +229,7 @@ function LivePage({
         />
 
         <div className={`${panel} mb-2`}>
-          <div className="px-5 py-4 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+          <div className="px-5 py-4 text-xs font-mono uppercase tracking-widest text-muted-2">
             {t.domain.showMath}
           </div>
           <div className={`${panelBody} pt-0 border-t border-border`}>

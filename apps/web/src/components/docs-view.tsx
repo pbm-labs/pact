@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { routes } from '@/lib/routes';
-import { eyebrow, pageIntro, pageTitle } from '@/lib/ui';
+import { eyebrow, listTitle, pageIntro, pageTitle } from '@/lib/ui';
 
 export function DocsView() {
   const { t } = useLocale();
@@ -13,7 +13,7 @@ export function DocsView() {
     <PageShell backHref={routes.home} backLabel={t.common.home}>
       <header className="mb-12">
         <p className={`${eyebrow} mb-3`}>{t.docs.eyebrow}</p>
-        <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.docs.title}</h1>
+        <h1 className={`${pageTitle} mb-4`}>{t.docs.title}</h1>
         <p className={`${pageIntro} max-w-xl`}>{t.docs.intro}</p>
       </header>
 
@@ -21,31 +21,31 @@ export function DocsView() {
         <div>
           <Link
             href={routes.docsWhy}
-            className="text-lg sm:text-xl font-semibold text-txt no-underline hover:text-accent"
+            className={listTitle}
           >
             {t.docs.whyTitle}
           </Link>
-          <p className="text-sm text-muted leading-relaxed mt-2 m-0 max-w-xl">{t.docs.whyBody}</p>
+          <p className={`${pageIntro} mt-2 m-0 max-w-xl`}>{t.docs.whyBody}</p>
         </div>
         <div>
           <Link
             href={routes.docsWhitepaper}
-            className="text-lg sm:text-xl font-semibold text-txt no-underline hover:text-accent"
+            className={listTitle}
           >
             {t.docs.whitepaperTitle}
           </Link>
-          <p className="text-sm text-muted leading-relaxed mt-2 m-0 max-w-xl">
+          <p className={`${pageIntro} mt-2 m-0 max-w-xl`}>
             {t.docs.whitepaperBody}
           </p>
         </div>
         <div>
           <Link
             href={routes.docsRoadmap}
-            className="text-lg sm:text-xl font-semibold text-txt no-underline hover:text-accent"
+            className={listTitle}
           >
             {t.docs.roadmapTitle}
           </Link>
-          <p className="text-sm text-muted leading-relaxed mt-2 m-0 max-w-xl">
+          <p className={`${pageIntro} mt-2 m-0 max-w-xl`}>
             {t.docs.roadmapBody}
           </p>
         </div>

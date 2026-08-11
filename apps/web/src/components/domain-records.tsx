@@ -71,7 +71,7 @@ export function DomainRecords({ domains }: DomainRecordsProps) {
             autoCorrect="off"
             inputMode="url"
             aria-label={t.records.searchPlaceholder}
-            className="bg-transparent outline-none text-base sm:text-sm font-mono text-txt placeholder:text-muted-2 flex-1 min-w-0"
+            className="bg-transparent outline-none text-sm font-mono text-txt placeholder:text-muted-2 flex-1 min-w-0"
           />
         </label>
       </form>

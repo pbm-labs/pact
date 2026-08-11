@@ -20,7 +20,7 @@ export function SharePublicRecord({ domain, recordUrl }: SharePublicRecordProps)
       <CopyableValue text={recordUrl} caption={t.connectSuccess.publicRecord} />
 
       <div>
-        <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 text-center mb-2 m-0">
+        <p className="text-xs font-mono uppercase tracking-widest text-muted-2 text-center mb-2 m-0">
           {t.connectSuccess.shareEyebrow}
         </p>
         <div className="grid grid-cols-2 gap-2">

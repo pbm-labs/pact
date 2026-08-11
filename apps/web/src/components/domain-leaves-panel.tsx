@@ -48,7 +48,7 @@ export function DomainLeavesPanel({
         <div className="overflow-x-auto thin-scrollbar">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
+              <tr className="border-b border-border text-xs font-mono uppercase tracking-widest text-muted-2">
                 <th className="text-left font-medium px-5 py-2.5">{t.domain.colReporter}</th>
                 <th className="text-left font-medium px-5 py-2.5">{t.domain.colPeriod}</th>
                 <th className="text-right font-medium px-5 py-2.5">{t.domain.colPass}</th>
@@ -116,7 +116,7 @@ export function DomainLeavesPanel({
             </dd>
           </dl>
           <details className="mb-4">
-            <summary className="cursor-pointer text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+            <summary className="cursor-pointer text-xs font-mono uppercase tracking-widest text-muted-2">
               {t.domain.publishedRoot}
             </summary>
             <p className="font-mono text-xs break-all text-muted mt-2">{latestRoot ?? '—'}</p>

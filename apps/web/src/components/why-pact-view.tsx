@@ -14,7 +14,7 @@ export function WhyPactView() {
     <PageShell backHref={routes.docs} backLabel={t.docs.title}>
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whyPact.eyebrow}</p>
-        <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-4`}>{t.whyPact.title}</h1>
+        <h1 className={`${pageTitle} mb-4`}>{t.whyPact.title}</h1>
         <p className="text-sm text-muted leading-relaxed max-w-xl">{t.whyPact.intro}</p>
       </header>
 

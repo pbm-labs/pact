@@ -22,7 +22,7 @@ export function LegalDocument({
       <div className="max-w-2xl">
         <header className="mb-10">
           <p className={`${eyebrow} mb-3`}>{t.legal.eyebrow}</p>
-          <h1 className={`${pageTitle} text-2xl sm:text-3xl mb-3`}>{title}</h1>
+          <h1 className={`${pageTitle} mb-3`}>{title}</h1>
           <p className="text-xs font-mono text-muted-2 m-0">{t.legal.lastUpdated}</p>
         </header>
 

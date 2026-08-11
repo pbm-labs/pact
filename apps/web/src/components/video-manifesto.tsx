@@ -57,11 +57,11 @@ function PlayPoster({
         </svg>
       </span>
       <span
-        className={`px-4 text-center font-semibold text-txt ${compact ? 'text-base sm:text-lg' : 'text-lg sm:text-2xl'}`}
+        className={`px-4 text-center font-semibold text-txt ${compact ? 'text-base' : 'text-lg'}`}
       >
         {VIDEO_TITLE}
       </span>
-      <span className="text-xs sm:text-sm text-muted-2">{watchLabel}</span>
+      <span className="text-xs text-muted-2">{watchLabel}</span>
     </button>
   );
 }

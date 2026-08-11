@@ -56,13 +56,13 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
       className="block text-right no-underline group-hover:text-accent"
       title={bandLabel ?? undefined}
     >
-      <span className="font-mono text-lg sm:text-xl font-bold tabular-nums text-txt">
+      <span className="font-mono text-xl font-bold tabular-nums text-txt">
         {formatVerifiedDays(days, t.domain)}
       </span>
-      <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
+      <span className="block text-xs text-muted-2 mt-1 normal-case tracking-normal font-sans">
         {t.records.verified}
       </span>
-      <span className="block text-[0.65rem] font-mono text-muted-2 mt-1.5">
+      <span className="block text-xs font-mono text-muted-2 mt-1.5">
         {reports} {reports === 1 ? t.records.report : t.records.reports}
         {orgs > 0
           ? ` · ${orgs} ${orgs === 1 ? t.records.org : t.records.orgs}`
@@ -76,7 +76,7 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
           </span>
           <ScoreBar score={domain.trustScoreDisplay} className="mt-1 ml-auto max-w-24" />
           {bandLabel && (
-            <span className="block text-[0.65rem] text-muted-2 mt-1 normal-case tracking-normal font-sans">
+            <span className="block text-xs text-muted-2 mt-1 normal-case tracking-normal font-sans">
               {bandLabel}
             </span>
           )}
@@ -115,12 +115,12 @@ export function DomainList({ domains }: DomainListProps) {
     <div className={panel}>
       <div className={`${panelBody} border-b border-border flex flex-wrap items-end justify-between gap-3`}>
         <div>
-          <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 mb-1">
+          <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-1">
             {t.records.rankedBy}
           </p>
           <p className="text-xs text-muted m-0">{t.records.rankedHint}</p>
         </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[0.65rem] font-mono uppercase tracking-widest text-muted-2">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-mono uppercase tracking-widest text-muted-2">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full bg-amber" aria-hidden />
             {t.records.building}
@@ -135,7 +135,7 @@ export function DomainList({ domains }: DomainListProps) {
       <div className="overflow-x-auto thin-scrollbar">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
+            <tr className="border-b border-border text-xs font-mono uppercase tracking-widest text-muted-2">
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5">{t.records.colDomain}</th>
               <th className="text-right font-medium px-4 sm:px-5 py-2.5">{t.records.colHistory}</th>
@@ -167,7 +167,7 @@ export function DomainList({ domains }: DomainListProps) {
                       {d.domain}
                     </Link>
                     {d.domainRegisteredAt && (
-                      <p className="text-[0.65rem] font-mono text-muted-2 mt-1 m-0">
+                      <p className="text-xs font-mono text-muted-2 mt-1 m-0">
                         {t.records.registered}{' '}
                         {formatDomainRegisteredAt(d.domainRegisteredAt, locale, clockLabels)}
                       </p>

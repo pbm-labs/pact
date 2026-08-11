@@ -117,7 +117,7 @@ export function DnsPathFlow({
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg/80 text-muted group-hover:text-accent">
                   <PathIcon kind={key} />
                 </span>
-                <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
+                <span className="text-xs font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
                   {item.badge}
                 </span>
               </span>
@@ -145,7 +145,7 @@ export function DnsPathFlow({
       <section className={panel}>
         <div className={panelHeader}>
           <h2 className="text-base font-semibold text-txt m-0">{selected.title}</h2>
-          <span className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
+          <span className="text-xs font-mono uppercase tracking-widest text-muted-2">
             {selected.badge}
           </span>
         </div>

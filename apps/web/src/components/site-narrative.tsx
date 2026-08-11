@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useLocale } from '@/components/locale-provider';
+import { eyebrow, narrative } from '@/lib/ui';
 
 function paragraphClass(index: number, length: number): string {
-  const base = 'text-[18px] leading-[1.8] mb-5';
+  const base = `${narrative} mb-5`;
   const peakStart = length - 2;
   if (index >= peakStart) {
     return `${base} text-txt font-semibold`;
@@ -39,7 +40,7 @@ export function SiteNarrative() {
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className="relative inline-flex items-center gap-1.5 bg-transparent border-none p-0 cursor-pointer text-xs font-mono uppercase tracking-widest text-muted-2 hover:text-muted mt-3"
+        className={`relative inline-flex items-center gap-1.5 bg-transparent border-none p-0 cursor-pointer ${eyebrow} hover:text-muted mt-3`}
       >
         <span className={`inline-block ${expanded ? 'rotate-90' : ''}`}>›</span>
         {expanded ? t.home.showLess : t.home.readMore}

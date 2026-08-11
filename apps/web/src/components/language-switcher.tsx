@@ -57,7 +57,7 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
           <line x1="2" y1="12" x2="22" y2="12" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </svg>
-        <span className="text-[11px] font-semibold tracking-wide">{current.label}</span>
+        <span className="text-xs font-semibold tracking-wide">{current.label}</span>
         <svg
           width="12"
           height="12"
@@ -95,7 +95,7 @@ export function LanguageSwitcher({ className = '' }: { className?: string }) {
                   }`}
                 >
                   <span className="flex items-center gap-2.5">
-                    <span className="w-6 text-[11px] font-semibold tracking-wide text-accent">
+                    <span className="w-6 text-xs font-semibold tracking-wide text-accent">
                       {label}
                     </span>
                     <span>{name}</span>
