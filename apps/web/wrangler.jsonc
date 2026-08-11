@@ -17,12 +17,12 @@
   ],
   "routes": [
     {
-      "pattern": "webuildreal.dev",
-      "custom_domain": true
+      "pattern": "webuildreal.dev/*",
+      "zone_id": "5ffd7c7b499cb8a4dc2df630eafb0351"
     },
     {
-      "pattern": "www.webuildreal.dev",
-      "custom_domain": true
+      "pattern": "www.webuildreal.dev/*",
+      "zone_id": "5ffd7c7b499cb8a4dc2df630eafb0351"
     },
     {
       "pattern": "pact.pbm-labs.com/*",
