@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-/** Keep apex canonical; both webuildreal.dev and pact.pbm-labs.com serve the app. */
-const APEX_HOST = 'webuildreal.dev';
+const CANONICAL_HOST = 'webuildreal.dev';
+const REDIRECT_HOSTS = new Set(['pact.pbm-labs.com', 'www.webuildreal.dev']);
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host')?.split(':')[0]?.toLowerCase();
-  if (host === `www.${APEX_HOST}`) {
+  if (host && REDIRECT_HOSTS.has(host)) {
     const url = request.nextUrl.clone();
     url.protocol = 'https:';
-    url.host = APEX_HOST;
+    url.host = CANONICAL_HOST;
     return NextResponse.redirect(url, 308);
   }
   return NextResponse.next();
