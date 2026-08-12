@@ -5,7 +5,7 @@
 **Status:** Normative (reference implementation: `pact-score-0.1`)  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Contact:** pact@pbm-labs.com
+**Contact:** hello@webuildreal.dev
 
 ---
 
@@ -234,7 +234,7 @@ No message content. No recipient identity. No personal data. The leaf is a crypt
 
 Leaves are inserted into an append-only sparse Merkle tree. The Merkle root is published on-chain at regular intervals. Once published, the root is immutable — it cannot be modified or deleted.
 
-Any party can independently verify that a specific leaf is a member of the tree by providing the leaf value and a Merkle inclusion proof (the path of sibling hashes from the leaf to the root). This verification requires only the published on-chain root and does not require contacting PBM Labs.
+Any party can independently verify that a specific leaf is a member of the tree by providing the leaf value and a Merkle inclusion proof (the path of sibling hashes from the leaf to the root). This verification requires only the published on-chain root and does not require contacting the reference operator.
 
 ### 3.4 Anomaly Detection
 
@@ -460,7 +460,7 @@ _report._dmarc.webuildreal.dev TXT
   "v=DMARC1"
 ```
 
-This record is published once by PBM Labs and authorizes all domains to send their DMARC aggregate reports to rua@webuildreal.dev. No per-domain configuration is required on the PACT side.
+This record is published once by the reference operator (PBM Labs LLC) and authorizes all domains to send their DMARC aggregate reports to rua@webuildreal.dev. No per-domain configuration is required on the PACT side.
 
 ### 6.3 Onboarding Paths
 
@@ -566,7 +566,7 @@ Use cases: active BEC campaign detection, domain impersonation alerting, DKIM in
 
 PACT Chain is a compliance and onboarding credential built on top of PACT Protocol. It packages the full Merkle inclusion proof and trust history of a connected domain into a portable, independently verifiable document suitable for regulatory submissions, financial institution onboarding, and audit trails.
 
-A PACT Chain credential answers the question that banks, regulators, and counterparties increasingly need answered: "Has this institutional domain been operating with verified, authenticated email activity for a credible period of time?" The credential references the on-chain Merkle roots directly — any party can verify it without contacting PBM Labs.
+A PACT Chain credential answers the question that banks, regulators, and counterparties increasingly need answered: "Has this institutional domain been operating with verified, authenticated email activity for a credible period of time?" The credential references the on-chain Merkle roots directly — any party can verify it without contacting the reference operator.
 
 Use cases: corporate account opening at financial institutions, vendor onboarding for procurement compliance, regulatory filings requiring proof of institutional legitimacy, due diligence in M&A and investment processes.
 
@@ -625,7 +625,7 @@ function getLatestRoot()
 
 ### 9.3 Governance
 
-The smart contract has no upgrade mechanism. It is deployed once and is immutable. Root publication is initially permissioned to PBM Labs-operated nodes. Permissionless operation with economic stake requirements is deferred to v0.2.
+The smart contract has no upgrade mechanism. It is deployed once and is immutable. Root publication is initially permissioned to reference-implementation nodes operated by PBM Labs LLC. Permissionless operation with economic stake requirements is deferred to v0.2.
 
 ---
 
@@ -720,4 +720,4 @@ PACT does not protect against:
 PACT — Provenance Attestation and Chain of Trust
 Protocol Specification v0.1 — Open standard. Freely implementable.
 Reference implementation: PBM Labs LLC
-Contact: pact@pbm-labs.com
+Contact: hello@webuildreal.dev

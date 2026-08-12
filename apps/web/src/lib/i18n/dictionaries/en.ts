@@ -280,7 +280,7 @@ export const en: Dictionary = {
       },
       {
         title: '2. Who We Are',
-        body: 'This site is operated by PBM Labs LLC (“PBM Labs”, “we”, “us”), a Wyoming limited liability company. It provides public access to the PACT Protocol reference implementation: domain connection, a public record of independently verified domain history, and related documentation.',
+        body: 'This site is operated under the “we build real” brand by PBM Labs LLC (“we”, “us”), a Wyoming limited liability company — the company behind the PACT Protocol reference implementation. The site provides public access to that reference implementation: domain connection, a public record of independently verified domain history, and related documentation.',
       },
       {
         title: '3. The Service',
@@ -304,7 +304,7 @@ export const en: Dictionary = {
       },
       {
         title: '8. Intellectual Property',
-        body: 'Site content, branding, and design are owned by PBM Labs LLC or its licensors unless otherwise stated. The PACT Protocol specification and whitepaper are published openly for review and implementation; third-party protocol implementations are encouraged subject to their own license terms where applicable. No rights are granted except the limited right to use this site as intended.',
+        body: 'Site content, branding, and design for “we build real” are owned by PBM Labs LLC or its licensors unless otherwise stated. The PACT Protocol specification and whitepaper are published openly for review and implementation; third-party protocol implementations are encouraged subject to their own license terms where applicable. No rights are granted except the limited right to use this site as intended.',
       },
       {
         title: '9. Third-Party Services',
@@ -328,13 +328,13 @@ export const en: Dictionary = {
       },
       {
         title: '14. Contact',
-        body: 'Legal notices and questions about these Terms: hello@pbm-labs.com.',
+        body: 'Legal notices and questions about these Terms: hello@webuildreal.dev.',
       },
     ],
     privacy: [
       {
         title: '1. Overview',
-        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use webuildreal.dev and the PACT reference services. PACT is designed so its primary data source — DMARC aggregate reports — contains no message content and no personal identities.',
+        body: 'This Privacy Policy explains how we (“we build real”, operated by PBM Labs LLC) handle information when you use webuildreal.dev and the PACT reference services. PACT is designed so its primary data source — DMARC aggregate reports — contains no message content and no personal identities.',
       },
       {
         title: '2. Information We Process',
@@ -378,7 +378,7 @@ export const en: Dictionary = {
       },
       {
         title: '12. Contact',
-        body: 'Privacy questions: hello@pbm-labs.com.',
+        body: 'Privacy questions: hello@webuildreal.dev.',
       },
     ],
   },

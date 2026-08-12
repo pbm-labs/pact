@@ -1,8 +1,11 @@
-export const PACT_RUA_ADDRESS = 'rua@webuildreal.dev';
+export const PACT_RUA_ADDRESS = 'rua@pact.webuildreal.dev';
 export const PACT_RUA_MAILTO = `mailto:${PACT_RUA_ADDRESS}`;
 
-/** Previous intake — still accepted for domains already pointing here. */
-export const PACT_RUA_LEGACY_ADDRESSES = ['rua@pact.pbm-labs.com'] as const;
+/** Previous intake addresses — still accepted for domains already pointing here. */
+export const PACT_RUA_LEGACY_ADDRESSES = [
+  'rua@webuildreal.dev',
+  'rua@pact.pbm-labs.com',
+] as const;
 
 const PACT_RUA_ACCEPTED = [PACT_RUA_ADDRESS, ...PACT_RUA_LEGACY_ADDRESSES] as const;
 

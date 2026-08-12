@@ -7,7 +7,7 @@
 **Status:** Historical draft  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Contact:** pact@pbm-labs.com  
+**Contact:** hello@webuildreal.dev  
 **Superseded by:** [Protocol Specification v0.1](pact_protocol_v01.md) for trust score and two-clock display rules
 
 ---
@@ -28,7 +28,7 @@ The result is a decentralized domain provenance layer — the trust cornerstone 
 
 **Normative language:** MUST, MUST NOT, SHOULD, and MAY are used as defined in RFC 2119.
 
-**Normative vs. reference:** Sections 1–12 and Appendix C define protocol behavior any independent implementation MUST follow to be interoperable. Appendix B describes the PBM Labs reference implementation and is informative unless explicitly marked normative.
+**Normative vs. reference:** Sections 1–12 and Appendix C define protocol behavior any independent implementation MUST follow to be interoperable. Appendix B describes the PBM Labs LLC reference implementation and is informative unless explicitly marked normative.
 
 ---
 
@@ -247,7 +247,7 @@ Report source authentication prevents fake report injection and sybil attacks on
 
 **Reporter allowlist (v0.2):**
 
-- Initially maintained by the operating entity (PBM Labs in the reference implementation).
+- Initially maintained by the reference-implementation operator (PBM Labs LLC).
 - MUST include major mailbox providers: Google, Microsoft, Yahoo, Apple, and major ESPs generating DMARC aggregate reports at scale.
 - MUST include approved forwarding agents: Valimail, Postmark, EasyDMARC, Dmarcian, and equivalent services.
 - Transition to community-maintained allowlist with transparent governance is planned for v0.3 (Section 9.4).
@@ -697,7 +697,7 @@ Leaf data is stored off-chain by one or more data providers. In v0.2, the refere
 
 The smart contract has no upgrade mechanism. It is deployed once and is immutable.
 
-**v0.2:** Root publication is permissioned to authorized publisher keys operated by PBM Labs. A permissioned publisher can theoretically omit new leaves from publication but cannot alter previously published roots.
+**v0.2:** Root publication is permissioned to authorized publisher keys operated by PBM Labs LLC (reference implementation). A permissioned publisher can theoretically omit new leaves from publication but cannot alter previously published roots.
 
 **v0.3 (planned):** Permissionless root publication with economic stake requirements. Stake slashing conditions under consideration:
 
@@ -802,7 +802,7 @@ PACT does not protect against:
 
 ## Appendix B: Reference Implementation (Informative)
 
-The PBM Labs reference implementation for v0.2 uses:
+The PBM Labs LLC reference implementation for v0.2 uses:
 
 | Component | Technology |
 |-----------|------------|
@@ -815,7 +815,7 @@ The PBM Labs reference implementation for v0.2 uses:
 | Public pages | Next.js (`apps/web`) |
 | DNS onboarding | Cloudflare API (OAuth) |
 
-**Reference domain (Phase 0a):** `pbm-labs.com`  
+**Reference domain (Phase 0a):** `webuildreal.dev`  
 **App host:** `https://webuildreal.dev`  
 **Intake:** `rua@webuildreal.dev` (legacy `rua@pact.pbm-labs.com` still accepted by the reference ingest worker)  
 **External destination verification:** `_report._dmarc.webuildreal.dev TXT "v=DMARC1"`
@@ -909,4 +909,4 @@ leaf = keccak256(preimage)
 PACT — Provenance Attestation and Chain of Trust  
 Protocol Specification v0.2 — Open standard. Freely implementable.  
 Reference implementation: PBM Labs LLC  
-Contact: pact@pbm-labs.com
+Contact: hello@webuildreal.dev

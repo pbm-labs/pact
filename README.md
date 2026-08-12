@@ -6,10 +6,11 @@ Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust sc
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 
-**Reference domain:** `pbm-labs.com`  
-**PACT app:** `https://webuildreal.dev`  
-**Company site:** `https://pbm-labs.com`  
-**Intake address:** `rua@webuildreal.dev` (legacy `rua@pact.pbm-labs.com` still accepted)
+**App / brand:** `https://webuildreal.dev`  
+**Intake:** `rua@pact.webuildreal.dev`  
+**Contact:** `hello@webuildreal.dev`  
+**Reference implementation:** PBM Labs LLC (company behind this PACT implementation)  
+**Legacy intake (still accepted):** `rua@webuildreal.dev`, `rua@pact.pbm-labs.com`
 
 ## Monorepo structure
 
@@ -89,127 +90,96 @@ Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for G
 3. Register your domain:
 
 ```sql
-insert into domains (domain) values ('pbm-labs.com');
+insert into domains (domain) values ('webuildreal.dev');
 ```
 
 ## Hostnames
 
 | Host | Role |
 |------|------|
-| `webuildreal.dev` / `www` | PACT web app (`pact-web` Worker) |
-| `rua@webuildreal.dev` | DMARC intake for **new** connects |
-| `rua@pact.pbm-labs.com` | Legacy DMARC intake — keep for domains already pointing here |
-| `pact.pbm-labs.com` (HTTP) | No app — keep DNS `A 192.0.2.1` proxied only for legacy MX / `rua@` mail |
-| `pbm-labs.com` / `www` | Company website (Vercel — not the PACT Worker) |
-| `hello@pbm-labs.com` | Proton mail (apex MX) |
+| `webuildreal.dev` / `www` | we build real / PACT web app (`pact-web` Worker) |
+| `hello@webuildreal.dev` | Contact mail (Proton, apex MX) |
+| `rua@pact.webuildreal.dev` | DMARC intake (canonical) |
+| `rua@webuildreal.dev` | Legacy intake — still accepted |
+| `rua@pact.pbm-labs.com` | Legacy DMARC intake |
+| `pact.pbm-labs.com` (HTTP) | No app — DNS `A 192.0.2.1` proxied only for legacy MX / `rua@` mail |
 
-Apply DNS in Cloudflare (zones for `webuildreal.dev` and `pbm-labs.com`).
+Apply primary DNS in Cloudflare on the `webuildreal.dev` zone. Legacy `pact.pbm-labs.com` intake stays on the PBM Labs LLC zone only for backward compatibility.
 
 ## DNS (webuildreal.dev)
 
 | Record | Purpose |
 |--------|---------|
-| Apex `A` `192.0.2.1` proxied | Worker placeholder for `pact-web` |
-| `www` CNAME → `webuildreal.dev` proxied | www → apex (middleware 308) |
-| MX `route*.mx.cloudflare.net` | Email Routing for DMARC intake |
-| TXT `_dmarc` `v=DMARC1; p=none; rua=mailto:rua@webuildreal.dev` | Zone’s own DMARC + PACT intake |
-| TXT `_report._dmarc` `v=DMARC1` | Authorize external rua destination (required) |
-| TXT `@` SPF `include:_spf.mx.cloudflare.net` | Cloudflare Email Routing |
-| TXT `@` `cloudflare_oauth_client_publisher=…` | OAuth client URL verification (value from CF OAuth client page) |
-| DKIM `cf2024-1._domainkey` | Email Routing DKIM |
-| Email Routing rule | `rua@webuildreal.dev` → Worker `pact-ingest` |
+| Apex `A` proxied | Worker placeholder for `pact-web` |
+| `www` CNAME → `webuildreal.dev` proxied | www → apex |
+| Apex MX `mail.protonmail.ch` / `mailsec.protonmail.ch` | Proton (`hello@`) |
+| TXT `@` SPF `v=spf1 include:_spf.protonmail.ch ~all` | Proton sending |
+| CNAME `protonmail[123]._domainkey` | Proton DKIM |
+| TXT `@` `cloudflare_oauth_client_publisher=…` | OAuth client URL verification |
+| TXT `_dmarc` `rua=mailto:rua@pact.webuildreal.dev` | Zone’s own DMARC + PACT intake |
+| `pact` MX → `route*.mx.cloudflare.net` | Email Routing for DMARC intake |
+| `pact` TXT SPF | Cloudflare Email Routing |
+| TXT `_report._dmarc.pact` `v=DMARC1` | Authorize external reports to canonical rua |
+| Email Routing rule | `rua@pact.webuildreal.dev` → Worker `pact-ingest` |
 
 Worker routes (`apps/web/wrangler.jsonc`): `webuildreal.dev/*`, `www.webuildreal.dev/*`.
 
-## DNS (pbm-labs.com)
+## DNS (legacy `pact.pbm-labs.com` only)
+
+Kept solely so existing DMARC records that still point at `rua@pact.pbm-labs.com` keep working. Not a public brand surface.
 
 | Record | Purpose |
 |--------|---------|
-| Apex / `www` → Vercel | Company site |
-| Apex MX / SPF / DKIM | Proton (`hello@`) |
-| `_dmarc` | Company policy + `rua=mailto:rua@webuildreal.dev` (legacy `rua@pact.pbm-labs.com` may remain as secondary) |
 | `pact` MX → `route*.mx.cloudflare.net` | Legacy DMARC mail intake |
-| `pact` proxied `A 192.0.2.1` | Needed alongside MX; also serves HTTP redirect via Worker |
+| `pact` proxied `A 192.0.2.1` | Needed alongside MX (not an app host) |
 | `pact` TXT SPF | Cloudflare Email Routing |
 | `_report._dmarc.pact` TXT `v=DMARC1` | Authorize external reports to legacy rua |
 
 Do **not** keep OAuth publisher TXT on `pact.pbm-labs.com` — publisher verification lives on `webuildreal.dev` only.
 
-**Note:** Some home routers mishandle names that have both MX and proxied A records (IPv4 missing, IPv6 only). Use Cloudflare DNS (`1.1.1.1`) on clients if resolution fails.
-
 ## Email
 
 | Address | MX | Handler |
 |---------|-----|---------|
-| `hello@pbm-labs.com` (apex) | `mail.protonmail.ch` | Proton inbox |
-| `rua@webuildreal.dev` | `route*.mx.cloudflare.net` | `pact-ingest` (canonical) |
-| `rua@pact.pbm-labs.com` (`pact`) | `route*.mx.cloudflare.net` | `pact-ingest` (legacy) |
+| `hello@webuildreal.dev` | Proton (apex) | Inbox |
+| `rua@pact.webuildreal.dev` | `route*.mx.cloudflare.net` | `pact-ingest` (canonical) |
+| `rua@webuildreal.dev` | — | Legacy; still accepted if a domain still points here |
+| `rua@pact.pbm-labs.com` | `route*.mx.cloudflare.net` | `pact-ingest` (legacy) |
 
-### 1. Proton — custom domain (receiving)
+### 1. Proton — `webuildreal.dev`
 
-In [Proton Mail](https://mail.proton.me) → **Settings → All settings → Proton Mail → Domain names** → add `pbm-labs.com` and copy the DNS records Proton gives you (MX, SPF, DKIM).
+In [Proton Mail](https://mail.proton.me) → **Settings → Domain names** → add `webuildreal.dev` and publish the MX / SPF / DKIM / verification TXT Proton shows.
 
-### 2. Cloudflare — unlock apex MX on `pbm-labs.com`
-
-1. **Email** → **Email Routing** → **Settings**
-2. Confirm subdomain **`pact`** is listed and **Configured**
-3. For the **root domain** row, **unlock** MX records (so apex MX is not locked to Cloudflare)
-4. Subdomain `pact` should stay **locked** to Cloudflare Email Routing
-
-### 3. Cloudflare DNS (summary)
-
-**`pbm-labs.com` apex — company site + Proton**
-
-| Type | Name | Content |
-|------|------|---------|
-| CNAME | `@` | `cname.vercel-dns.com` (or current host) |
-| CNAME | `www` | Same as apex |
-| MX | `@` | Proton MX (from wizard) |
-| TXT | `@` | Proton SPF / verification |
-| TXT | `_dmarc` | Policy tags + `rua=mailto:rua@webuildreal.dev` (optional legacy rua secondary) |
-| CNAME | `protonmail._domainkey` etc. | From Proton wizard |
-
-**`pact.pbm-labs.com` — legacy intake only (no HTTP app)**
-
-| Type | Name | Content |
-|------|------|---------|
-| MX | `pact` | `route1/2/3.mx.cloudflare.net` |
-| A | `pact` | Proxied `192.0.2.1` (required alongside MX; not an app host) |
-| TXT | `pact` | `v=spf1 include:_spf.mx.cloudflare.net ~all` |
-| TXT | `_report._dmarc.pact` | `v=DMARC1` |
-
-### 4. Cloudflare Email Routing — rules
+### 2. Cloudflare Email Routing — rules
 
 **`webuildreal.dev`**
 
 | Custom address | Action |
 |----------------|--------|
-| `rua@webuildreal.dev` | **Send to Worker** → `pact-ingest` |
+| `rua@pact.webuildreal.dev` | **Send to Worker** → `pact-ingest` |
 
-**`pbm-labs.com`** (legacy)
+Keep `hello@webuildreal.dev` on Proton (apex MX). Do not put Cloudflare Email Routing MX on the apex.
+
+**Legacy (PBM Labs LLC zone)**
 
 | Custom address | Action |
 |----------------|--------|
 | `rua@pact.pbm-labs.com` | **Send to Worker** → `pact-ingest` |
 
-Keep apex `hello@` on Proton (not Cloudflare Email Routing).
-
-### 5. Verify
+### 3. Verify
 
 ```bash
-dig @1.1.1.1 CNAME pbm-labs.com +short              # company site
-dig @1.1.1.1 MX pbm-labs.com +short                 # mail.protonmail.ch
-dig @1.1.1.1 MX webuildreal.dev +short              # route*.mx.cloudflare.net
+dig @1.1.1.1 MX webuildreal.dev +short              # mail.protonmail.ch
+dig @1.1.1.1 MX pact.webuildreal.dev +short         # route*.mx.cloudflare.net
 dig @1.1.1.1 MX pact.pbm-labs.com +short            # legacy rua MX
-dig @1.1.1.1 TXT _dmarc.webuildreal.dev +short       # rua@webuildreal.dev
-dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short         # includes rua@webuildreal.dev
+dig @1.1.1.1 TXT _dmarc.webuildreal.dev +short       # rua@pact.webuildreal.dev
 dig @1.1.1.1 TXT webuildreal.dev +short | grep oauth # publisher TXT
-curl -sI https://webuildreal.dev/ | head -1         # PACT app
+curl -sI https://webuildreal.dev/ | head -1         # app
 # pact.pbm-labs.com has no Worker route — HTTP is not the app (mail MX remains)
 ```
 
-Send test to `hello@pbm-labs.com` → Proton inbox.  
-New DMARC reports should use `rua@webuildreal.dev` → worker (~24–48h). Legacy rua still accepted.
+Send test to `hello@webuildreal.dev` → Proton inbox.  
+New DMARC reports should use `rua@pact.webuildreal.dev` → worker (~24–48h). Legacy rua still accepted.
 
 ## Deploy PACT web app
 
@@ -237,7 +207,7 @@ Google DMARC reports arrive as **ZIP** attachments (`application/zip`); the inge
 | Method | What it tests |
 |--------|----------------|
 | `pnpm test` | pact-core unit tests (parser, Merkle, trust score) |
-| Send mail to `hello@pbm-labs.com` | Proton inbox (apex MX) |
+| Send mail to `hello@webuildreal.dev` | Proton inbox (apex MX) |
 | Wait ~24–48h | **Real** Google/Microsoft DMARC reports |
 
 Real reports arrive from allowlisted senders (e.g. `noreply-dmarc-support@google.com`). Resend/test mail is rejected by the reporter allowlist — that is intentional.
@@ -266,7 +236,7 @@ delete from processed_reports;
 - [x] OAuth client on `webuildreal.dev` (callback + publisher TXT)
 - [x] Legacy `pact.pbm-labs.com` kept for mail only (no HTTP app route)
 - [x] Merkle inclusion proofs on `/records/{domain}`
-- [ ] End-to-end with live reporter data (`pbm-labs.com`)
+- [ ] End-to-end with live reporter data (`webuildreal.dev`)
 
 **Before Phase 0b (on-chain)**
 - [ ] First external domain via `/connect`
@@ -288,4 +258,4 @@ delete from processed_reports;
 
 ## License
 
-PBM Labs LLC — Protocol open, reference implementation private.
+PBM Labs LLC — company behind the PACT reference implementation. Protocol open; reference implementation private.

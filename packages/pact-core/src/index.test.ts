@@ -32,7 +32,7 @@ const sampleXml = `<?xml version="1.0" encoding="UTF-8" ?>
     </date_range>
   </report_metadata>
   <policy_published>
-    <domain>pbm-labs.com</domain>
+    <domain>webuildreal.dev</domain>
     <adkim>r</adkim>
     <aspf>r</aspf>
     <p>none</p>
@@ -59,16 +59,16 @@ const sampleXml = `<?xml version="1.0" encoding="UTF-8" ?>
       </policy_evaluated>
     </row>
     <identifiers>
-      <header_from>pbm-labs.com</header_from>
+      <header_from>webuildreal.dev</header_from>
     </identifiers>
     <auth_results>
       <dkim>
-        <domain>pbm-labs.com</domain>
+        <domain>webuildreal.dev</domain>
         <selector>google-2024</selector>
         <result>pass</result>
       </dkim>
       <dkim>
-        <domain>pbm-labs.com</domain>
+        <domain>webuildreal.dev</domain>
         <selector>google-2023</selector>
         <result>pass</result>
       </dkim>
@@ -118,7 +118,7 @@ describe('dmarc rua', () => {
     const { content, changed } = addPactRuaToDmarc(existing);
     expect(changed).toBe(false);
     expect(content).toContain('rua@pact.pbm-labs.com');
-    expect(content).not.toContain('webuildreal.dev');
+    expect(content).not.toContain('rua@pact.webuildreal.dev');
   });
 });
 
@@ -126,7 +126,7 @@ describe('dmarc parser', () => {
   it('parses sample report', () => {
     const reports = parseDmarcAggregateReport(sampleXml);
     expect(reports).toHaveLength(1);
-    expect(reports[0]!.domain).toBe('pbm-labs.com');
+    expect(reports[0]!.domain).toBe('webuildreal.dev');
     expect(reports[0]!.orgName).toBe('google.com');
     expect(reports[0]!.rows).toHaveLength(2);
   });
@@ -281,7 +281,7 @@ describe('formatScoreForDisplay', () => {
     expect(display.rawScore).toBeCloseTo(0.019);
   });
 
-  it('maps pbm-labs-like early score (~0.02) to 1/100 provisional', () => {
+  it('maps early score (~0.02) to 1/100 provisional', () => {
     const display = formatScoreForDisplay(0.023);
     expect(display.displayScore).toBe(1);
     expect(display.label).toBe('Provisional');

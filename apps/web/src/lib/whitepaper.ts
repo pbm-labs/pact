@@ -14,7 +14,7 @@ const WHITEOBER_RAW_URLS = [
 export function stripWhitepaperSignature(markdown: string): string {
   return markdown
     .replace(
-      /\n---\n\n\*PACT [^\n]*\*\s*\n\*Whitepaper[^\n]*\*\s*\n\*[^\n]*@pbm-labs\.com\*\s*$/m,
+      /\n---\n\n\*PACT [^\n]*\*\s*\n\*Whitepaper[^\n]*\*\s*\n\*[^\n]*@(?:pbm-labs\.com|webuildreal\.dev)\*\s*$/m,
       '\n',
     )
     .trimEnd()

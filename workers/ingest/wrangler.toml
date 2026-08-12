@@ -19,5 +19,5 @@ ENVIRONMENT = "staging"
 #   SUPABASE_URL
 #   SUPABASE_SERVICE_ROLE_KEY
 
-# After deploy: Cloudflare → Email Routing → rua@webuildreal.dev → Send to Worker → pact-ingest
-# Legacy intake rua@pact.pbm-labs.com remains routed for existing DMARC records.
+# After deploy: Cloudflare Email Routing → rua@pact.webuildreal.dev → Send to Worker → pact-ingest
+# Legacy intake: rua@webuildreal.dev (if still pointed) and rua@pact.pbm-labs.com
