@@ -45,7 +45,6 @@ export const de: Dictionary = {
     title: 'Domain hinzufügen',
     intro:
       'Kein Papierkram, kein Warten auf andere. Nur der erste Tag einer Geschichte, die wirklich dir gehört.',
-    chooseDifferent: '← Anderen Weg wählen',
     yourDomain: 'Deine Domain',
     pathCloudflareTitle: 'Ich nutze Cloudflare',
     pathCloudflareDesc: 'Ein Klick — wir erledigen den Rest.',

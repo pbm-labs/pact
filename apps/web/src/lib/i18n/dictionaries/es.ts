@@ -45,7 +45,6 @@ export const es: Dictionary = {
     title: 'Añade tu dominio',
     intro:
       'Sin papeleo ni esperas. Solo el primer día de una historia que es realmente tuya.',
-    chooseDifferent: '← Elige otra forma',
     yourDomain: 'Tu dominio',
     pathCloudflareTitle: 'Uso Cloudflare',
     pathCloudflareDesc: 'Un clic — nosotros nos ocupamos del resto.',

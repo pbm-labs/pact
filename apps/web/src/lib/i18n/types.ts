@@ -33,7 +33,6 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     intro: string;
-    chooseDifferent: string;
     yourDomain: string;
     pathCloudflareTitle: string;
     pathCloudflareDesc: string;
