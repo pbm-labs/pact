@@ -23,11 +23,6 @@
     {
       "pattern": "www.webuildreal.dev/*",
       "zone_id": "5ffd7c7b499cb8a4dc2df630eafb0351"
-    },
-    {
-      // Legacy app host → middleware 308 to webuildreal.dev
-      "pattern": "pact.pbm-labs.com/*",
-      "zone_id": "eda4b298d663534da9d8868b7b60c084"
     }
   ],
   // Non-secret runtime config only. Set secrets via wrangler (see README):

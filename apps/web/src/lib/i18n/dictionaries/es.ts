@@ -62,11 +62,11 @@ export const es: Dictionary = {
       'Iniciarás sesión en Cloudflare y añadiremos el registro de verificación por ti.',
     toolIntro: 'En la configuración de tu herramienta, añade esto:',
     toolExplain:
-      'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación.',
+      'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
     manualIntro:
       'Pega esto donde gestiones la configuración de tu sitio (pregunta a tu proveedor si no estás seguro):',
     manualExplain:
-      'Una línea que permite a sistemas independientes confirmar que tu dominio es real. Si ya tienes una línea parecida, añade nuestra dirección en lugar de reemplazarla.',
+      'Una línea que permite a sistemas independientes confirmar que tu dominio es real. Si ya tienes una línea parecida, añade nuestra dirección en lugar de reemplazarla. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
     errors: {
       invalid_domain: 'Introduce un dominio válido (p. ej. example.com).',
       server_config: 'Falta CONNECT_STATE_SECRET o las credenciales de Supabase en el servidor.',

@@ -62,11 +62,11 @@ export const de: Dictionary = {
       'Du meldest dich bei Cloudflare an, und wir fügen den Verifizierungs-Eintrag für dich hinzu.',
     toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
-      'Dein Tool prüft diese Domain bereits. Wenn du es hierher zeigst, sind wir Teil dieser Prüfung.',
+      'Dein Tool prüft diese Domain bereits. Wenn du es hierher zeigst, sind wir Teil dieser Prüfung. Dein öffentlicher Eintrag erscheint automatisch, sobald der erste Report eintrifft (meist innerhalb von 24–48 Stunden) — hier ist kein weiterer Schritt nötig.',
     manualIntro:
       'Füge dies dort ein, wo du die Einstellungen deiner Website verwaltest (frage deinen Anbieter, wenn du unsicher bist):',
     manualExplain:
-      'Eine Zeile, mit der unabhängige Systeme bestätigen können, dass deine Domain echt ist. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen.',
+      'Eine Zeile, mit der unabhängige Systeme bestätigen können, dass deine Domain echt ist. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Dein öffentlicher Eintrag erscheint automatisch, sobald der erste Report eintrifft (meist innerhalb von 24–48 Stunden) — hier musst du nichts weiter absenden.',
     errors: {
       invalid_domain: 'Gib eine gültige Domain ein (z. B. example.com).',
       server_config: 'Dem Server fehlen CONNECT_STATE_SECRET oder Supabase-Zugangsdaten.',

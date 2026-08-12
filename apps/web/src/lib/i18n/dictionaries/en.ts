@@ -62,11 +62,11 @@ export const en: Dictionary = {
       "You'll sign in to Cloudflare and we'll add the verification record for you.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
-      'Your tool already checks this domain. Pointing it here includes us in that check.',
+      'Your tool already checks this domain. Pointing it here includes us in that check. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — no extra step here.',
     manualIntro:
       "Paste this wherever you manage your website's settings (ask your host if you're not sure where):",
     manualExplain:
-      'One line that lets independent systems confirm your domain is real. If you already have a similar line, add our address to it instead of replacing it.',
+      'One line that lets independent systems confirm your domain is real. If you already have a similar line, add our address to it instead of replacing it. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — nothing else to submit here.',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or Supabase credentials.',

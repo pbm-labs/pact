@@ -2,11 +2,10 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const APEX_HOST = 'webuildreal.dev';
-const LEGACY_APP_HOST = 'pact.pbm-labs.com';
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host')?.split(':')[0]?.toLowerCase();
-  if (host === `www.${APEX_HOST}` || host === LEGACY_APP_HOST) {
+  if (host === `www.${APEX_HOST}`) {
     const url = request.nextUrl.clone();
     url.protocol = 'https:';
     url.host = APEX_HOST;

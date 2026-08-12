@@ -62,11 +62,11 @@ export const fr: Dictionary = {
       "Vous vous connecterez à Cloudflare et nous ajouterons l'enregistrement de vérification pour vous.",
     toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
-      'Votre outil vérifie déjà ce domaine. Le pointer ici nous inclut dans cette vérification.',
+      'Votre outil vérifie déjà ce domaine. Le pointer ici nous inclut dans cette vérification. Votre fiche publique apparaît automatiquement à l’arrivée du premier rapport (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
     manualIntro:
       "Collez ceci là où vous gérez les paramètres de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
     manualExplain:
-      "Une ligne qui permet à des systèmes indépendants de confirmer que votre domaine est réel. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer.",
+      "Une ligne qui permet à des systèmes indépendants de confirmer que votre domaine est réel. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Votre fiche publique apparaît automatiquement à l’arrivée du premier rapport (souvent sous 24–48 h) — rien d’autre à envoyer ici.",
     errors: {
       invalid_domain: 'Saisissez un domaine valide (ex. example.com).',
       server_config:

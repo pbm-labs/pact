@@ -78,7 +78,7 @@ Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.exampl
 
 ### Manual DNS connect
 
-Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths register the domain when the form is submitted (reports still arrive later).
+Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths do **not** submit a domain on the site — the ingest worker auto-creates the domain row on the first valid aggregate report (`insert_leaf`).
 
 **Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `domain_registered_at` if missing). New domains resolve registration age at connect/ingest time.
 
@@ -99,7 +99,7 @@ insert into domains (domain) values ('pbm-labs.com');
 | `webuildreal.dev` / `www` | PACT web app (`pact-web` Worker) |
 | `rua@webuildreal.dev` | DMARC intake for **new** connects |
 | `rua@pact.pbm-labs.com` | Legacy DMARC intake — keep for domains already pointing here |
-| `pact.pbm-labs.com` (HTTP) | Retired app host — `pact-web` route + middleware **308** → `webuildreal.dev` |
+| `pact.pbm-labs.com` (HTTP) | No app — keep DNS `A 192.0.2.1` proxied only for legacy MX / `rua@` mail |
 | `pbm-labs.com` / `www` | Company website (Vercel — not the PACT Worker) |
 | `hello@pbm-labs.com` | Proton mail (apex MX) |
 
@@ -119,7 +119,7 @@ Apply DNS in Cloudflare (zones for `webuildreal.dev` and `pbm-labs.com`).
 | DKIM `cf2024-1._domainkey` | Email Routing DKIM |
 | Email Routing rule | `rua@webuildreal.dev` → Worker `pact-ingest` |
 
-Worker routes (`apps/web/wrangler.jsonc`): `webuildreal.dev/*`, `www.webuildreal.dev/*`, and legacy `pact.pbm-labs.com/*` (redirect only).
+Worker routes (`apps/web/wrangler.jsonc`): `webuildreal.dev/*`, `www.webuildreal.dev/*`.
 
 ## DNS (pbm-labs.com)
 
@@ -169,12 +169,12 @@ In [Proton Mail](https://mail.proton.me) → **Settings → All settings → Pro
 | TXT | `_dmarc` | Policy tags + `rua=mailto:rua@webuildreal.dev` (optional legacy rua secondary) |
 | CNAME | `protonmail._domainkey` etc. | From Proton wizard |
 
-**`pact.pbm-labs.com` — legacy intake + HTTP redirect**
+**`pact.pbm-labs.com` — legacy intake only (no HTTP app)**
 
 | Type | Name | Content |
 |------|------|---------|
 | MX | `pact` | `route1/2/3.mx.cloudflare.net` |
-| A | `pact` | Proxied `192.0.2.1` |
+| A | `pact` | Proxied `192.0.2.1` (required alongside MX; not an app host) |
 | TXT | `pact` | `v=spf1 include:_spf.mx.cloudflare.net ~all` |
 | TXT | `_report._dmarc.pact` | `v=DMARC1` |
 
@@ -205,7 +205,7 @@ dig @1.1.1.1 TXT _dmarc.webuildreal.dev +short       # rua@webuildreal.dev
 dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short         # includes rua@webuildreal.dev
 dig @1.1.1.1 TXT webuildreal.dev +short | grep oauth # publisher TXT
 curl -sI https://webuildreal.dev/ | head -1         # PACT app
-curl -sI https://pact.pbm-labs.com/ | head -5       # 308 → webuildreal.dev
+# pact.pbm-labs.com has no Worker route — HTTP is not the app (mail MX remains)
 ```
 
 Send test to `hello@pbm-labs.com` → Proton inbox.  
@@ -264,7 +264,7 @@ delete from processed_reports;
 - [x] Public page at `/records/{domain}` on `webuildreal.dev`
 - [x] Cloudflare OAuth + manual DNS + existing-tool path (`/connect`)
 - [x] OAuth client on `webuildreal.dev` (callback + publisher TXT)
-- [x] Legacy `pact.pbm-labs.com` HTTP → 308 `webuildreal.dev`
+- [x] Legacy `pact.pbm-labs.com` kept for mail only (no HTTP app route)
 - [x] Merkle inclusion proofs on `/records/{domain}`
 - [ ] End-to-end with live reporter data (`pbm-labs.com`)
 

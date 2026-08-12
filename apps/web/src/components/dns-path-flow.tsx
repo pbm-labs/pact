@@ -185,31 +185,10 @@ export function DnsPathFlow({
               </div>
             </form>
           ) : path === 'dmarc-tool' ? (
-            <form action="/api/connect/register" method="get" className="space-y-5">
+            <div className="space-y-5">
               <div>
                 <p className="text-sm text-muted leading-relaxed mb-4">{t.connect.toolIntro}</p>
                 <CopyableValue text={ruaAddress} />
-              </div>
-              <div>
-                <label htmlFor="connect-tool-domain" className={`${label} mb-2`}>
-                  {t.connect.yourDomain}
-                </label>
-                <div className="flex items-stretch gap-2">
-                  <input
-                    id="connect-tool-domain"
-                    name="domain"
-                    type="text"
-                    placeholder="example.com"
-                    defaultValue={domainPrefill}
-                    required
-                    autoComplete="off"
-                    spellCheck={false}
-                    className={`${input} flex-1`}
-                  />
-                  <button type="submit" className={`${btnPrimary} shrink-0 px-4 sm:px-5`}>
-                    {t.common.continue}
-                  </button>
-                </div>
               </div>
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
@@ -219,36 +198,15 @@ export function DnsPathFlow({
                   {t.connect.toolExplain}
                 </p>
               </div>
-            </form>
+            </div>
           ) : (
             dmarcSnippet && (
-              <form action="/api/connect/register" method="get" className="space-y-5">
+              <div className="space-y-5">
                 <div>
                   <p className="text-sm text-muted leading-relaxed mb-4">
                     {t.connect.manualIntro}
                   </p>
                   <CopyableValue text={dmarcSnippet} />
-                </div>
-                <div>
-                  <label htmlFor="connect-manual-domain" className={`${label} mb-2`}>
-                    {t.connect.yourDomain}
-                  </label>
-                  <div className="flex items-stretch gap-2">
-                    <input
-                      id="connect-manual-domain"
-                      name="domain"
-                      type="text"
-                      placeholder="example.com"
-                      defaultValue={domainPrefill}
-                      required
-                      autoComplete="off"
-                      spellCheck={false}
-                      className={`${input} flex-1`}
-                    />
-                    <button type="submit" className={`${btnPrimary} shrink-0 px-4 sm:px-5`}>
-                      {t.common.continue}
-                    </button>
-                  </div>
                 </div>
                 <div>
                   <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
@@ -258,7 +216,7 @@ export function DnsPathFlow({
                     {t.connect.manualExplain}
                   </p>
                 </div>
-              </form>
+              </div>
             )
           )}
         </div>
