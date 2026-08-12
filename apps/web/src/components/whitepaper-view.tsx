@@ -1,6 +1,6 @@
 'use client';
 
-import { DocsNextLink } from '@/components/docs-next-link';
+import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
@@ -34,7 +34,12 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
       </header>
 
       <WhitepaperBody markdown={markdown} />
-      <DocsNextLink current="whitepaper" />
+
+      <p className="mt-12 m-0">
+        <Link href={routes.docsRoadmap} className="text-sm font-semibold text-accent no-underline hover:opacity-90">
+          {t.docs.readRoadmap}
+        </Link>
+      </p>
     </PageShell>
   );
 }

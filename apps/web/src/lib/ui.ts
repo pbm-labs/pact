@@ -7,7 +7,7 @@ export const pageIntro = 'text-sm text-muted leading-relaxed';
 export const sectionTitle = 'text-base font-semibold text-txt';
 export const bodyText = 'text-base text-muted leading-relaxed';
 export const metaText = 'text-xs font-mono text-muted-2';
-export const listTitle = 'text-lg font-semibold text-txt no-underline hover:text-accent';
+export const listTitle = 'text-lg font-semibold text-accent no-underline hover:opacity-90';
 export const narrative = 'text-lg leading-relaxed';
 
 export const btnPrimary =

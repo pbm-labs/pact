@@ -1,6 +1,6 @@
 'use client';
 
-import { DocsNextLink } from '@/components/docs-next-link';
+import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
@@ -20,7 +20,12 @@ export function WhyPactView() {
       </header>
 
       <WhitepaperBody markdown={`${WHY_PACT_MARKDOWN}\n\n${t.whyPact.scope}`} />
-      <DocsNextLink current="why" />
+
+      <p className="mt-12 m-0">
+        <Link href={routes.docsWhitepaper} className="text-sm font-semibold text-accent no-underline hover:opacity-90">
+          {t.docs.readWhitepaper}
+        </Link>
+      </p>
     </PageShell>
   );
 }

@@ -208,7 +208,8 @@ export type Dictionary = {
     whitepaperBody: string;
     roadmapTitle: string;
     roadmapBody: string;
-    nextLabel: string;
+    readWhitepaper: string;
+    readRoadmap: string;
   };
   roadmap: {
     eyebrow: string;
