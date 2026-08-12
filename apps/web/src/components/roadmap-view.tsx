@@ -1,5 +1,6 @@
 'use client';
 
+import { DocsNextLink } from '@/components/docs-next-link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { routes } from '@/lib/routes';
@@ -36,6 +37,7 @@ export function RoadmapView() {
           <p className="text-sm text-muted-2 leading-relaxed mt-4 m-0 max-w-xl">{t.roadmap.nextNote}</p>
         </section>
       </div>
+      <DocsNextLink current="roadmap" />
     </PageShell>
   );
 }

@@ -208,6 +208,7 @@ export type Dictionary = {
     whitepaperBody: string;
     roadmapTitle: string;
     roadmapBody: string;
+    nextLabel: string;
   };
   roadmap: {
     eyebrow: string;

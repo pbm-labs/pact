@@ -242,6 +242,7 @@ export const es: Dictionary = {
       'El protocolo abierto detrás del registro público — cómo se captura, publica y mide el historial verificado.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'Qué está en vivo hoy, y qué viene después.',
+    nextLabel: 'Siguiente',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',

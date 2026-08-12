@@ -1,5 +1,6 @@
 'use client';
 
+import { DocsNextLink } from '@/components/docs-next-link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
@@ -33,6 +34,7 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
       </header>
 
       <WhitepaperBody markdown={markdown} />
+      <DocsNextLink current="whitepaper" />
     </PageShell>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { DocsNextLink } from '@/components/docs-next-link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
@@ -19,6 +20,7 @@ export function WhyPactView() {
       </header>
 
       <WhitepaperBody markdown={`${WHY_PACT_MARKDOWN}\n\n${t.whyPact.scope}`} />
+      <DocsNextLink current="why" />
     </PageShell>
   );
 }
