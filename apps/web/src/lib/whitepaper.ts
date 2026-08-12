@@ -4,8 +4,11 @@ import { LOCAL_WHITEOBER_MARKDOWN } from '@/lib/whitepaper-markdown';
 export const WHITEOBER_SOURCE_URL =
   'https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md';
 
-const WHITEOBER_RAW_URL =
-  'https://raw.githubusercontent.com/pbm-labs/pact-protocol/main/white-paper.md';
+/** Prefer jsDelivr — raw.githubusercontent.com can lag after pushes. */
+const WHITEOBER_RAW_URLS = [
+  'https://cdn.jsdelivr.net/gh/pbm-labs/pact-protocol@main/white-paper.md',
+  'https://raw.githubusercontent.com/pbm-labs/pact-protocol/main/white-paper.md',
+] as const;
 
 /** Drop the italic closing signature block from the published whitepaper. */
 export function stripWhitepaperSignature(markdown: string): string {
@@ -26,19 +29,20 @@ export async function loadWhitepaperMarkdown(): Promise<{
   markdown: string;
   source: 'github' | 'local';
 }> {
-  try {
-    const res = await fetch(WHITEOBER_RAW_URL, {
-      next: { revalidate: 3600 },
-      headers: { Accept: 'text/plain' },
-    });
-    if (res.ok) {
+  for (const url of WHITEOBER_RAW_URLS) {
+    try {
+      const res = await fetch(url, {
+        next: { revalidate: 3600 },
+        headers: { Accept: 'text/plain' },
+      });
+      if (!res.ok) continue;
       const markdown = await res.text();
       if (markdown.trim().startsWith('#')) {
         return { markdown: stripWhitepaperSignature(markdown), source: 'github' };
       }
+    } catch {
+      /* try next source */
     }
-  } catch {
-    /* fall through to local copy */
   }
 
   return {
