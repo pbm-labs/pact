@@ -69,7 +69,7 @@ OAuth is pinned to `webuildreal.dev` only (`redirect_uri` + Client URL). Do not 
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
 2. Redirect URL: `https://webuildreal.dev/api/connect/cloudflare/callback`
 3. Client URL: `https://webuildreal.dev` (HTTPS required; verify with publisher TXT on the apex)
-4. **Logo URL:** `https://webuildreal.dev/pact-logo.svg` (hosted in `apps/web/public/`)
+4. **Logo URL:** `https://webuildreal.dev/we-build-real-logo.png` (hosted in `apps/web/public/`)
 5. Add the publisher TXT from the OAuth client page as an apex TXT on `webuildreal.dev`
 6. Promote to **public** after domain verification (required for external users)
 7. Put client ID and secret in `.env.local` and Worker secrets (see `.env.example`)
