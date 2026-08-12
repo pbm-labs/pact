@@ -16,7 +16,6 @@ import {
   type ScoreBandKey,
 } from '@/lib/trust-display';
 import {
-  alertStaging,
   badgeAmber,
   badgeVerified,
   btnPrimary,
@@ -159,8 +158,6 @@ function LivePage({
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
-      {data.staging && <div className={alertStaging}>{t.domain.staging}</div>}
-
       <header className="mb-8">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-3">
           <div className="min-w-0">

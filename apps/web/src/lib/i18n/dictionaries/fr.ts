@@ -141,8 +141,6 @@ export const fr: Dictionary = {
     noRecordHint:
       "Si vous avez déjà ajouté l'enregistrement de vérification, mettez cette page en favori. Elle se met à jour seule dès que le premier contrôle indépendant revient, généralement sous un jour.",
     connectDomain: 'Connecter',
-    staging:
-      'Aperçu anticipé — la vérification est active, l\'ancrage public permanent arrive bientôt.',
     firstDay: 'Premier jour',
     dayOne: '1 jour',
     days: '{n} jours',

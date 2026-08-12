@@ -114,7 +114,6 @@ export type Dictionary = {
     noRecordYet: string;
     noRecordHint: string;
     connectDomain: string;
-    staging: string;
     firstDay: string;
     dayOne: string;
     days: string;

@@ -139,8 +139,6 @@ export const de: Dictionary = {
     noRecordHint:
       'Wenn du den Verifizierungs-Eintrag bereits hinzugefügt hast, speichere diese Seite. Sie aktualisiert sich von allein, sobald die erste unabhängige Prüfung zurückkommt — meist innerhalb eines Tages.',
     connectDomain: 'Verbinden',
-    staging:
-      'Frühe Vorschau — die Verifizierung läuft; die dauerhafte öffentliche Verankerung folgt bald.',
     firstDay: 'Erster Tag',
     dayOne: '1 Tag',
     days: '{n} Tage',

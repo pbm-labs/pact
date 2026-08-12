@@ -27,8 +27,6 @@ export const panelSectionTitle = `${sectionTitle} mb-4`;
 
 export const alertError =
   'rounded-lg border border-rose-400/30 bg-rose-400/5 px-4 py-3 text-sm font-semibold text-rose-500 mb-6';
-export const alertStaging =
-  'rounded-lg border border-amber/30 bg-amber/5 px-4 py-3 text-sm text-amber mb-6';
 
 export const badgeVerified =
   'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-verified/40 bg-verified/10 text-verified text-xs font-semibold shrink-0';

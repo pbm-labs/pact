@@ -139,7 +139,6 @@ export const en: Dictionary = {
     noRecordHint:
       'If you already added the verification record, bookmark this page. It updates on its own once the first independent check comes back, usually within a day.',
     connectDomain: 'Connect',
-    staging: 'Early preview — verification is live, permanent public anchoring is coming soon.',
     firstDay: 'First day',
     dayOne: '1 day',
     days: '{n} days',

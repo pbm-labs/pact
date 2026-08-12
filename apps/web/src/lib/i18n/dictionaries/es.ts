@@ -139,8 +139,6 @@ export const es: Dictionary = {
     noRecordHint:
       'Si ya añadiste el registro de verificación, guarda esta página. Se actualiza sola cuando llega la primera comprobación independiente, normalmente en un día.',
     connectDomain: 'Conectar',
-    staging:
-      'Vista previa temprana — la verificación está activa; el anclaje público permanente llegará pronto.',
     firstDay: 'Primer día',
     dayOne: '1 día',
     days: '{n} días',
