@@ -202,7 +202,7 @@ PACT explicitly does not use and does not request access to:
 
 ### 3.1 Data Ingestion
 
-PACT operates a purpose-built SMTP receiver at rua@webuildreal.dev that accepts incoming DMARC aggregate reports. Upon receipt:
+PACT operates a purpose-built SMTP receiver at rua@webuildreal.dev that accepts incoming DMARC aggregate reports. (The reference implementation also accepts legacy `rua@pact.pbm-labs.com` for domains that connected before the `webuildreal.dev` cutover.) Upon receipt:
 
 1. The report XML is parsed and validated against the DMARC aggregate report schema (RFC 7489 Appendix C).
 2. Per-domain authentication records are extracted.

@@ -816,7 +816,8 @@ The PBM Labs reference implementation for v0.2 uses:
 | DNS onboarding | Cloudflare API (OAuth) |
 
 **Reference domain (Phase 0a):** `pbm-labs.com`  
-**Intake:** `rua@webuildreal.dev`  
+**App host:** `https://webuildreal.dev`  
+**Intake:** `rua@webuildreal.dev` (legacy `rua@pact.pbm-labs.com` still accepted by the reference ingest worker)  
 **External destination verification:** `_report._dmarc.webuildreal.dev TXT "v=DMARC1"`
 
 This stack is not normative. Any implementation producing identical leaf hashes (Appendix C) and compatible Merkle proofs (Section 3.3.1) is interoperable.

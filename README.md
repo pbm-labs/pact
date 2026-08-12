@@ -64,27 +64,21 @@ Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 
 ### Cloudflare OAuth (`/connect`)
 
+OAuth is pinned to `webuildreal.dev` only (`redirect_uri` + Client URL). Do not use `pact.pbm-labs.com` for the OAuth client.
+
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
 2. Redirect URL: `https://webuildreal.dev/api/connect/cloudflare/callback`
-3. Client URL: `https://webuildreal.dev` (HTTPS required; verify with TXT on the apex / `www`)
-4. Promote to **public** after domain verification on `client_uri` (required for external users)
-   - **Logo URL:** `https://webuildreal.dev/pact-logo.svg` (hosted in `apps/web/public/`)
-   - Add the publisher TXT from the OAuth client page on `webuildreal.dev` in Cloudflare DNS
-5. Add client ID and secret to `.env.local` (see `.env.example`)
-
-After moving the app to `webuildreal.dev`, update the OAuth client in the dashboard (API token needs **OAuth Clients Write**):
-
-| Field | Value |
-|-------|--------|
-| Client URL | `https://webuildreal.dev` |
-| Redirect URL | `/api/connect/cloudflare/callback` |
-| Logo URL | `https://webuildreal.dev/pact-logo.svg` |
+3. Client URL: `https://webuildreal.dev` (HTTPS required; verify with publisher TXT on the apex)
+4. **Logo URL:** `https://webuildreal.dev/pact-logo.svg` (hosted in `apps/web/public/`)
+5. Add the publisher TXT from the OAuth client page as an apex TXT on `webuildreal.dev`
+6. Promote to **public** after domain verification (required for external users)
+7. Put client ID and secret in `.env.local` and Worker secrets (see `.env.example`)
 
 Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.example`.
 
 ### Manual DNS connect
 
-Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths register on first report.
+Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths register the domain when the form is submitted (reports still arrive later).
 
 **Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `domain_registered_at` if missing). New domains resolve registration age at connect/ingest time.
 
@@ -104,9 +98,9 @@ insert into domains (domain) values ('pbm-labs.com');
 |------|------|
 | `webuildreal.dev` / `www` | PACT web app (`pact-web` Worker) |
 | `rua@webuildreal.dev` | DMARC intake for **new** connects |
-| `rua@pact.pbm-labs.com` | Legacy DMARC intake only — keep for domains already registered |
-| `pact.pbm-labs.com` (HTTP) | Retired — optional Cloudflare Redirect Rule → `webuildreal.dev` |
-| `pbm-labs.com` / `www` | Company website (Vercel or other host — not the PACT Worker) |
+| `rua@pact.pbm-labs.com` | Legacy DMARC intake — keep for domains already pointing here |
+| `pact.pbm-labs.com` (HTTP) | Retired app host — `pact-web` route + middleware **308** → `webuildreal.dev` |
+| `pbm-labs.com` / `www` | Company website (Vercel — not the PACT Worker) |
 | `hello@pbm-labs.com` | Proton mail (apex MX) |
 
 Apply DNS in Cloudflare (zones for `webuildreal.dev` and `pbm-labs.com`).
@@ -115,104 +109,113 @@ Apply DNS in Cloudflare (zones for `webuildreal.dev` and `pbm-labs.com`).
 
 | Record | Purpose |
 |--------|---------|
-| Apex / `www` | Worker routes for `pact-web` |
+| Apex `A` `192.0.2.1` proxied | Worker placeholder for `pact-web` |
+| `www` CNAME → `webuildreal.dev` proxied | www → apex (middleware 308) |
 | MX `route*.mx.cloudflare.net` | Email Routing for DMARC intake |
+| TXT `_dmarc` `v=DMARC1; p=none; rua=mailto:rua@webuildreal.dev` | Zone’s own DMARC + PACT intake |
 | TXT `_report._dmarc` `v=DMARC1` | Authorize external rua destination (required) |
-| TXT `@` `cloudflare_oauth_client_publisher=…` | OAuth client URL verification (from CF OAuth client page) |
+| TXT `@` SPF `include:_spf.mx.cloudflare.net` | Cloudflare Email Routing |
+| TXT `@` `cloudflare_oauth_client_publisher=…` | OAuth client URL verification (value from CF OAuth client page) |
+| DKIM `cf2024-1._domainkey` | Email Routing DKIM |
 | Email Routing rule | `rua@webuildreal.dev` → Worker `pact-ingest` |
+
+Worker routes (`apps/web/wrangler.jsonc`): `webuildreal.dev/*`, `www.webuildreal.dev/*`, and legacy `pact.pbm-labs.com/*` (redirect only).
 
 ## DNS (pbm-labs.com)
 
 | Record | Purpose |
 |--------|---------|
-| `_dmarc` TXT with `rua=mailto:rua@webuildreal.dev` | Send aggregate reports to PACT |
-| `_report._dmarc.pact` TXT `v=DMARC1` | Authorize external rua destination |
-| `pact` MX → `route1/route2.mx.cloudflare.net` | Receive DMARC mail on subdomain |
-| `pact` proxied `A 192.0.2.1` | Worker HTTP (required alongside MX) |
-| `pact` TXT SPF for Cloudflare Email Routing | Allow Cloudflare to receive |
+| Apex / `www` → Vercel | Company site |
+| Apex MX / SPF / DKIM | Proton (`hello@`) |
+| `_dmarc` | Company policy + `rua=mailto:rua@webuildreal.dev` (legacy `rua@pact.pbm-labs.com` may remain as secondary) |
+| `pact` MX → `route*.mx.cloudflare.net` | Legacy DMARC mail intake |
+| `pact` proxied `A 192.0.2.1` | Needed alongside MX; also serves HTTP redirect via Worker |
+| `pact` TXT SPF | Cloudflare Email Routing |
+| `_report._dmarc.pact` TXT `v=DMARC1` | Authorize external reports to legacy rua |
 
-**Note:** Some home routers mishandle names that have both MX and proxied A records (IPv4 missing, IPv6 only). Use Cloudflare DNS (`1.1.1.1`) on clients if the app URL fails to resolve.
+Do **not** keep OAuth publisher TXT on `pact.pbm-labs.com` — publisher verification lives on `webuildreal.dev` only.
 
-Nameservers must point to Cloudflare for records to go live.
+**Note:** Some home routers mishandle names that have both MX and proxied A records (IPv4 missing, IPv6 only). Use Cloudflare DNS (`1.1.1.1`) on clients if resolution fails.
 
-## Email (split: Proton apex + PACT subdomain)
-
-Apex mail (`hello@pbm-labs.com`) and PACT intake (`rua@pact.pbm-labs.com`) use **different MX targets**:
+## Email
 
 | Address | MX | Handler |
 |---------|-----|---------|
 | `hello@pbm-labs.com` (apex) | `mail.protonmail.ch` | Proton inbox |
-| `rua@pact.pbm-labs.com` (`pact`) | `route*.mx.cloudflare.net` | `pact-ingest` worker |
+| `rua@webuildreal.dev` | `route*.mx.cloudflare.net` | `pact-ingest` (canonical) |
+| `rua@pact.pbm-labs.com` (`pact`) | `route*.mx.cloudflare.net` | `pact-ingest` (legacy) |
 
 ### 1. Proton — custom domain (receiving)
 
 In [Proton Mail](https://mail.proton.me) → **Settings → All settings → Proton Mail → Domain names** → add `pbm-labs.com` and copy the DNS records Proton gives you (MX, SPF, DKIM).
 
-### 2. Cloudflare — unlock apex MX
+### 2. Cloudflare — unlock apex MX on `pbm-labs.com`
 
 1. **Email** → **Email Routing** → **Settings**
 2. Confirm subdomain **`pact`** is listed and **Configured**
 3. For the **root domain** row, **unlock** MX records (so apex MX is not locked to Cloudflare)
 4. Subdomain `pact` should stay **locked** to Cloudflare Email Routing
 
-### 3. Cloudflare DNS
+### 3. Cloudflare DNS (summary)
 
-**Apex (`@`) — company site + Proton mail**
+**`pbm-labs.com` apex — company site + Proton**
 
 | Type | Name | Content |
 |------|------|---------|
-| CNAME | `@` | Company host (e.g. `cname.vercel-dns.com`) |
+| CNAME | `@` | `cname.vercel-dns.com` (or current host) |
 | CNAME | `www` | Same as apex |
-| MX | `@` | `10 mail.protonmail.ch` |
-| MX | `@` | `20 mailsec.protonmail.ch` |
-| TXT | `@` | Proton SPF (from wizard) |
-| TXT | `_dmarc` | Include `rua=mailto:rua@webuildreal.dev` **and** Proton DMARC tags |
+| MX | `@` | Proton MX (from wizard) |
+| TXT | `@` | Proton SPF / verification |
+| TXT | `_dmarc` | Policy tags + `rua=mailto:rua@webuildreal.dev` (optional legacy rua secondary) |
 | CNAME | `protonmail._domainkey` etc. | From Proton wizard |
 
-Remove apex **A** records that pointed the PACT Worker at the root domain.
-
-**Subdomain `pact` — PACT web + DMARC intake**
+**`pact.pbm-labs.com` — legacy intake + HTTP redirect**
 
 | Type | Name | Content |
 |------|------|---------|
-| MX | `pact` | `route1/2/3.mx.cloudflare.net` (priorities from CF) |
-| A | `pact` | Proxied `192.0.2.1` (Worker HTTP) |
+| MX | `pact` | `route1/2/3.mx.cloudflare.net` |
+| A | `pact` | Proxied `192.0.2.1` |
 | TXT | `pact` | `v=spf1 include:_spf.mx.cloudflare.net ~all` |
-| TXT | `pact` | `cloudflare_oauth_client_publisher=…` |
 | TXT | `_report._dmarc.pact` | `v=DMARC1` |
-
-Worker route (wrangler): `webuildreal.dev` (+ `www`) → `pact-web`.
-`pact.pbm-labs.com` is no longer a Worker route; keep subdomain MX/Email Routing for legacy `rua@` only.
 
 ### 4. Cloudflare Email Routing — rules
 
-Remove apex rules (catch-all, `hello@` forwards). Keep **only**:
+**`webuildreal.dev`**
+
+| Custom address | Action |
+|----------------|--------|
+| `rua@webuildreal.dev` | **Send to Worker** → `pact-ingest` |
+
+**`pbm-labs.com`** (legacy)
 
 | Custom address | Action |
 |----------------|--------|
 | `rua@pact.pbm-labs.com` | **Send to Worker** → `pact-ingest` |
 
+Keep apex `hello@` on Proton (not Cloudflare Email Routing).
+
 ### 5. Verify
 
 ```bash
-dig @1.1.1.1 CNAME pbm-labs.com +short         # company site
-dig @1.1.1.1 MX pbm-labs.com +short            # mail.protonmail.ch
-dig @1.1.1.1 MX pact.pbm-labs.com +short       # route*.mx.cloudflare.net (legacy rua only)
-dig @1.1.1.1 A webuildreal.dev +short          # Cloudflare edge (web)
-dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short    # includes rua=mailto:rua@webuildreal.dev
-curl -sI https://webuildreal.dev/ | head -1  # PACT app
+dig @1.1.1.1 CNAME pbm-labs.com +short              # company site
+dig @1.1.1.1 MX pbm-labs.com +short                 # mail.protonmail.ch
+dig @1.1.1.1 MX webuildreal.dev +short              # route*.mx.cloudflare.net
+dig @1.1.1.1 MX pact.pbm-labs.com +short            # legacy rua MX
+dig @1.1.1.1 TXT _dmarc.webuildreal.dev +short       # rua@webuildreal.dev
+dig @1.1.1.1 TXT _dmarc.pbm-labs.com +short         # includes rua@webuildreal.dev
+dig @1.1.1.1 TXT webuildreal.dev +short | grep oauth # publisher TXT
+curl -sI https://webuildreal.dev/ | head -1         # PACT app
+curl -sI https://pact.pbm-labs.com/ | head -5       # 308 → webuildreal.dev
 ```
 
 Send test to `hello@pbm-labs.com` → Proton inbox.  
-DMARC reports go to `rua@webuildreal.dev` (legacy rua still works) → worker (~24–48h).
+New DMARC reports should use `rua@webuildreal.dev` → worker (~24–48h). Legacy rua still accepted.
 
 ## Deploy PACT web app
 
 ```bash
-pnpm deploy:web   # webuildreal.dev (see apps/web/wrangler.jsonc)
+pnpm deploy:web   # webuildreal.dev (+ www, legacy pact redirect) — see apps/web/wrangler.jsonc
 ```
-
-After first deploy on the new hostname, remove any leftover Worker routes for `pbm-labs.com/*` in the Cloudflare dashboard.
 
 ## Deploy ingest worker
 
@@ -250,21 +253,24 @@ delete from processed_reports;
 ## Phase 0a checklist
 
 **Intake**
-- [x] DNS: `_dmarc`, `_report._dmarc.pact`, `pact` MX/SPF
-- [x] Cloudflare Email Routing → `pact-ingest` worker
+- [x] `webuildreal.dev` DNS: `_dmarc`, `_report._dmarc`, MX/SPF/DKIM, OAuth publisher TXT
+- [x] Email Routing `rua@webuildreal.dev` → `pact-ingest`
+- [x] Legacy `rua@pact.pbm-labs.com` still routed for existing DMARC records
 - [x] Worker deployed with Supabase secrets + queue
-- [ ] First **real** DMARC report in Supabase (~24–48h after `_dmarc` live)
+- [ ] First **real** DMARC report via new intake in Supabase (~24–48h)
 
 **Phase 0a**
 - [x] Parser, dedup, leaves, staging roots
-- [x] Public page at `/records/{domain}`
+- [x] Public page at `/records/{domain}` on `webuildreal.dev`
 - [x] Cloudflare OAuth + manual DNS + existing-tool path (`/connect`)
+- [x] OAuth client on `webuildreal.dev` (callback + publisher TXT)
+- [x] Legacy `pact.pbm-labs.com` HTTP → 308 `webuildreal.dev`
 - [x] Merkle inclusion proofs on `/records/{domain}`
 - [ ] End-to-end with live reporter data (`pbm-labs.com`)
 
 **Before Phase 0b (on-chain)**
 - [ ] First external domain via `/connect`
-- [ ] OAuth client public + production redirect URLs
+- [x] OAuth client production redirect URLs on `webuildreal.dev`
 
 **Phase 0b**
 - [ ] Deploy Base contract + `publishRoot`
