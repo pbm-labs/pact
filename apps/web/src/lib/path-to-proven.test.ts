@@ -33,6 +33,7 @@ describe('pathToProven', () => {
     expect(path.daysMet).toBe(false);
     expect(path.days).toBe(14);
     expect(path.activationDays).toBe(ACTIVATION_DAYS);
+    expect(path.activationDays).toBe(139);
   });
 
   it('hides when both requirements are met even if status is still provisional', () => {

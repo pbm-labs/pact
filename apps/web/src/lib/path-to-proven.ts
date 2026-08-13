@@ -1,4 +1,10 @@
-import { ACTIVATION_DAYS } from '@pact/core';
+// Same formula as @pact/core ACTIVATION_DAYS. Do not import @pact/core here —
+// this module is used from client components, and the core package pulls Node builtins.
+const MATURITY_LAMBDA = 0.005;
+const ACTIVATION_THRESHOLD = 0.5;
+export const ACTIVATION_DAYS = Math.ceil(
+  -Math.log(1 - ACTIVATION_THRESHOLD) / MATURITY_LAMBDA,
+);
 
 /** First independent reporter is the prerequisite that starts the history clock. */
 export const MIN_INDEPENDENT_REPORTERS = 1;
