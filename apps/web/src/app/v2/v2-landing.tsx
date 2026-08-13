@@ -15,6 +15,32 @@ const MOCK = {
   orgs: '4',
 };
 
+const SIGNATURE_DOMAIN = 'acme.studio';
+
+function PreviewBadge({ domain }: { domain: string }) {
+  return (
+    <span className="inline-flex items-stretch overflow-hidden rounded-full border border-border text-xs font-semibold leading-none select-none">
+      <span className="flex items-center gap-1.5 bg-verified px-2.5 py-1.5 text-white">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        Verified
+      </span>
+      <span className="flex items-center bg-bg px-2.5 py-1.5 font-mono text-txt">{domain}</span>
+    </span>
+  );
+}
+
 const PRIVACY_ROWS: { label: string; inReport: boolean }[] = [
   { label: 'Sending domain', inReport: true },
   { label: 'Reporting period', inReport: true },
@@ -146,6 +172,41 @@ export function V2Landing() {
             >
               webuildreal.dev/records →
             </Link>
+          </p>
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-surface py-14 sm:py-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <p className={`${eyebrow} mb-3`}>Your proof of business</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
+              Paste once. Lives in every email you send.
+            </h2>
+            <p className="text-muted text-sm max-w-md mx-auto leading-relaxed">
+              A small live image you drop into your email signature. It updates automatically
+              as your history grows. One click opens your full public page.
+            </p>
+          </div>
+
+          <div className="max-w-md mx-auto rounded-xl border border-border bg-bg overflow-hidden shadow-sm">
+            <div className="px-5 py-2.5 border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
+              Your email signature
+            </div>
+            <div className="px-5 py-5">
+              <p className="text-sm font-semibold text-txt leading-tight">Jane Doe</p>
+              <p className="text-xs text-muted mt-0.5">Founder · Acme Studio</p>
+              <p className="text-[0.7rem] text-muted-2 mt-1 font-mono">
+                +1 (415) 555-0134 · acme.studio
+              </p>
+              <div className="mt-4">
+                <PreviewBadge domain={SIGNATURE_DOMAIN} />
+              </div>
+            </div>
+          </div>
+
+          <p className="mt-6 text-center text-xs text-muted-2 leading-relaxed max-w-md mx-auto">
+            Works in Gmail, Outlook, Apple Mail, and anywhere else HTML signatures work.
           </p>
         </div>
       </section>
