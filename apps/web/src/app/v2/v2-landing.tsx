@@ -43,14 +43,9 @@ export function V2Landing() {
             backdate.
           </p>
           <Link href={routes.connect} className={btnPrimary}>
-            Add your domain
+            {t.home.ctaButton}
           </Link>
-          <p className="mt-5 text-xs text-muted-2">
-            Or{' '}
-            <Link href={routes.records} className="font-semibold text-accent no-underline hover:opacity-90">
-              look up a record →
-            </Link>
-          </p>
+          <p className={`mt-5 ${metaText}`}>{t.home.ctaSub}</p>
         </div>
       </section>
 
