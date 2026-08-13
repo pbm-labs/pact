@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
+import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
-import { btnPrimary, eyebrow } from '@/lib/ui';
+import { btnPrimary, eyebrow, metaText, sectionTitle } from '@/lib/ui';
 import { DomainLookup } from './domain-lookup';
 
 const MOCK = {
@@ -26,6 +27,8 @@ const PRIVACY_ROWS: { label: string; stored: boolean }[] = [
 ];
 
 export function V2Landing() {
+  const { t } = useLocale();
+
   return (
     <main className="flex-1">
       <section className="relative overflow-hidden">
@@ -192,19 +195,19 @@ export function V2Landing() {
       </section>
 
       <section className="border-t border-border bg-bg">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
-          <p className="text-base sm:text-lg text-txt font-semibold max-w-xl mx-auto leading-relaxed mb-3">
-            Start building your history.
-          </p>
-          <p className="text-sm sm:text-base text-muted max-w-xl mx-auto leading-relaxed mb-8">
-            Every day without a record is a yesterday you can&apos;t prove.
-          </p>
-          <Link href={routes.connect} className={btnPrimary}>
-            Add your domain
-          </Link>
-          <p className="mt-4 text-xs text-muted-2 font-mono">
-            No account. One DNS line. First confirmation in a day or two.
-          </p>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className={`${sectionTitle} leading-relaxed mb-3`}>
+              {t.home.ctaTitle}
+            </p>
+            <p className="text-sm text-muted leading-relaxed mb-8">
+              {t.home.ctaBody}
+            </p>
+            <Link href={routes.connect} className={btnPrimary}>
+              {t.home.ctaButton}
+            </Link>
+            <p className={`mt-5 ${metaText}`}>{t.home.ctaSub}</p>
+          </div>
         </div>
       </section>
     </main>
