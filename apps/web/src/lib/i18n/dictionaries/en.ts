@@ -1,4 +1,5 @@
 import type { Dictionary } from '../types';
+import { WHY_PACT_MARKDOWN } from '@/lib/why-pact';
 
 export const en: Dictionary = {
   nav: {
@@ -16,9 +17,17 @@ export const en: Dictionary = {
     copy: 'Copy',
     copied: 'Copied',
     loading: 'Loading…',
+    toggleTheme: 'Toggle theme',
+    trustScore: 'Trust score {n} out of 100',
   },
   home: {
+    heroTitle: 'AI can fake everything.',
+    heroAccent: 'Except yesterday.',
+    heroSub:
+      'A verifiable public record for your domain — built passively, impossible to backdate.',
     manifestoEyebrow: 'The Manifesto',
+    manifestoTitle: "The Internet's Identity Problem",
+    manifestoSub: "Why history is the one thing that still can't be manufactured.",
     manifestoParagraphs: [
       'In 1969, four computers connected for the first time. Nobody in that room thought about identity. They didn\'t need to. Everyone online already knew everyone else.',
       'So the internet was born without a way to know who anyone really is. Not a flaw. Just a question nobody had to ask yet.',
@@ -32,6 +41,42 @@ export const en: Dictionary = {
     ],
     readMore: 'Read more',
     showLess: 'Show less',
+    closeVideo: 'Close and read instead',
+    recordEyebrow: 'Behind every record',
+    recordTitle: 'Your full public page.',
+    recordSub:
+      'Anyone can open it. Independently confirmed history — shareable anywhere a counterparty might look.',
+    mockStatusSub: 'Independently confirmed history, still accumulating.',
+    mockTimeSub: 'since first report',
+    mockOrgs: 'Reporting orgs',
+    mockOrgsSub: 'independent',
+    recordFoot:
+      'Every entry was confirmed by receiving mail systems — not self-reported. This record only grows forward.',
+    lookupEyebrow: 'Check if your domain is on record',
+    lookupPlaceholder: 'acme.com',
+    lookupAria: "Enter a domain to check if it's on record",
+    lookupButton: 'Check',
+    lookupOrRecords: 'or see public records:',
+    privacyTitle: 'Private by design.',
+    privacyBody1:
+      'Connecting points a DNS report address (rua) at us. Independent systems already emit aggregate reports for the domain — authentication counts, period, and infrastructure. That feed is the only data source.',
+    privacyBody2: 'The public record is confirmed domain history. Nothing else is collected.',
+    privacyTableTitle: "What's in a report",
+    privacyRows: [
+      'Domain',
+      'Reporting period',
+      'Pass / fail counts',
+      'Reporting organization',
+    ],
+    badgeEyebrow: 'Your proof of business',
+    badgeTitle: 'Paste once. Lives in every email you send.',
+    badgeSub:
+      'A small live image you drop into your email signature. It updates automatically as your history grows. One click opens your full public page.',
+    signatureName: 'Jane Doe',
+    signatureRole: 'Founder · Acme Studio',
+    signatureContact: '+1 (415) 555-0134 · acme.studio',
+    badgeFoot:
+      'Works in Gmail, Outlook, Apple Mail, and anywhere else HTML signatures work.',
     ctaTitle: 'Start pouring the foundation.',
     ctaBody:
       'History is earned one honest day at a time, and every day we wait is a day we never get back.',
@@ -243,6 +288,7 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'What Makes PACT Different',
     intro: 'A two-minute note on evidence vs. authority — not the full protocol whitepaper.',
+    body: WHY_PACT_MARKDOWN,
     scope:
       'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a personal credential, and not a replacement for registries or credit bureaus.',
   },

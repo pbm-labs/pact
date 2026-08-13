@@ -12,8 +12,8 @@ import {
 import { getDictionary, type Dictionary } from '@/lib/i18n';
 import {
   DEFAULT_LOCALE,
+  persistLocale,
   readStoredLocale,
-  STORAGE_KEYS,
   type Locale,
 } from '@/lib/preferences';
 
@@ -26,19 +26,27 @@ type LocaleContextValue = {
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
+export function LocaleProvider({
+  children,
+  initialLocale = DEFAULT_LOCALE,
+}: {
+  children: ReactNode;
+  initialLocale?: Locale;
+}) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setLocaleState(readStoredLocale());
+    const stored = readStoredLocale();
+    setLocaleState(stored);
+    persistLocale(stored);
     setMounted(true);
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
     document.documentElement.lang = locale;
-    localStorage.setItem(STORAGE_KEYS.locale, locale);
+    persistLocale(locale);
   }, [locale, mounted]);
 
   const setLocale = useCallback((value: Locale) => {

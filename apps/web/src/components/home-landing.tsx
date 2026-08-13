@@ -18,28 +18,20 @@ const MOCK = {
 
 const SIGNATURE_DOMAIN = 'acme.studio';
 
-const PRIVACY_ROWS = [
-  'Domain',
-  'Reporting period',
-  'Pass / fail counts',
-  'Reporting organization',
-] as const;
-
 export function HomeLanding() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
 
   return (
-    <main className="flex-1">
+    <main className="flex-1" key={locale}>
       <section className="relative overflow-hidden">
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16 sm:pb-20 text-center">
           <h1 className="text-[2.5rem] sm:text-5xl font-bold tracking-tight text-txt leading-[1.05] mb-6">
-            AI can fake everything.
+            {t.home.heroTitle}
             <br />
-            <span className="text-accent">Except yesterday.</span>
+            <span className="text-accent">{t.home.heroAccent}</span>
           </h1>
           <p className="text-base sm:text-lg text-muted max-w-lg mx-auto leading-relaxed mb-10">
-            A verifiable public record for your domain — built passively, impossible to
-            backdate.
+            {t.home.heroSub}
           </p>
           <Link href={routes.connect} className={btnPrimary}>
             {t.home.ctaButton}
@@ -51,12 +43,12 @@ export function HomeLanding() {
       <section className="border-y border-border bg-surface py-14 sm:py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <p className={`${eyebrow} mb-3`}>The manifesto</p>
+            <p className={`${eyebrow} mb-3`}>{t.home.manifestoEyebrow}</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
-              The Internet&apos;s Identity Problem
+              {t.home.manifestoTitle}
             </h2>
             <p className="text-muted text-sm max-w-md mx-auto leading-relaxed">
-              Why history is the one thing that still can&apos;t be manufactured.
+              {t.home.manifestoSub}
             </p>
           </div>
           <VideoManifesto />
@@ -68,19 +60,18 @@ export function HomeLanding() {
 
       <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="text-center mb-10">
-          <p className={`${eyebrow} mb-3`}>Behind every record</p>
+          <p className={`${eyebrow} mb-3`}>{t.home.recordEyebrow}</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
-            Your full public page.
+            {t.home.recordTitle}
           </h2>
           <p className="text-muted text-sm max-w-md mx-auto leading-relaxed">
-            Anyone can open it. Independently confirmed history — shareable anywhere a
-            counterparty might look.
+            {t.home.recordSub}
           </p>
         </div>
 
         <div className="max-w-xl mx-auto rounded-xl border border-border bg-surface px-5 sm:px-7 py-6 sm:py-8 shadow-sm">
           <p className="text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
-            Public record
+            {t.domain.publicRecord}
           </p>
           <div className="mt-2.5">
             <h3 className="text-xl sm:text-2xl font-bold text-txt tracking-tight break-all leading-[1.1]">
@@ -100,9 +91,11 @@ export function HomeLanding() {
                 <span className="w-2 h-2 rounded-full bg-bg" />
               </span>
               <div className="min-w-0">
-                <p className="text-lg sm:text-xl font-bold text-amber leading-none">Building</p>
+                <p className="text-lg sm:text-xl font-bold text-amber leading-none">
+                  {t.domain.building}
+                </p>
                 <p className="text-[0.7rem] sm:text-xs text-muted mt-1">
-                  Independently confirmed history, still accumulating.
+                  {t.home.mockStatusSub}
                 </p>
               </div>
             </div>
@@ -110,9 +103,9 @@ export function HomeLanding() {
 
           <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-6">
             {[
-              { value: MOCK.verifiedDays, label: 'Time verified', sub: 'since first report' },
-              { value: MOCK.reports, label: 'Reports', sub: 'all time' },
-              { value: MOCK.orgs, label: 'Reporting orgs', sub: 'independent' },
+              { value: MOCK.verifiedDays, label: t.domain.timeVerified, sub: t.home.mockTimeSub },
+              { value: MOCK.reports, label: t.domain.reports, sub: t.domain.allTime },
+              { value: MOCK.orgs, label: t.home.mockOrgs, sub: t.home.mockOrgsSub },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="text-xl sm:text-2xl font-bold font-mono leading-none text-txt">
@@ -127,18 +120,17 @@ export function HomeLanding() {
           </div>
 
           <p className="mt-6 text-[0.8rem] text-muted leading-relaxed">
-            Every entry was confirmed by receiving mail systems — not self-reported. This
-            record only grows forward.
+            {t.home.recordFoot}
           </p>
         </div>
 
         <div className="mt-10 sm:mt-12">
           <p className="text-center text-xs font-mono uppercase tracking-widest text-muted mb-3">
-            Check if your domain is on record
+            {t.home.lookupEyebrow}
           </p>
           <DomainLookup />
           <p className="text-center text-xs text-muted mt-4">
-            or see public records:{' '}
+            {t.home.lookupOrRecords}{' '}
             <Link
               href={routes.records}
               className="text-accent hover:underline font-mono whitespace-nowrap"
@@ -153,21 +145,15 @@ export function HomeLanding() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row gap-8 sm:gap-14 items-start">
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-4">Private by design.</h2>
-              <p className="text-muted text-sm leading-relaxed mb-4">
-                Connecting points a DNS report address (rua) at us. Independent systems
-                already emit aggregate reports for the domain — authentication counts,
-                period, and infrastructure. That feed is the only data source.
-              </p>
-              <p className="text-muted text-sm leading-relaxed">
-                The public record is confirmed domain history. Nothing else is collected.
-              </p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-4">{t.home.privacyTitle}</h2>
+              <p className="text-muted text-sm leading-relaxed mb-4">{t.home.privacyBody1}</p>
+              <p className="text-muted text-sm leading-relaxed">{t.home.privacyBody2}</p>
             </div>
             <div className="shrink-0 sm:w-64 w-full rounded-xl border border-border bg-bg overflow-hidden text-xs font-mono">
               <div className="border-b border-border px-4 py-2.5 text-muted-2 uppercase tracking-widest text-[0.6rem]">
-                What&apos;s in a report
+                {t.home.privacyTableTitle}
               </div>
-              {PRIVACY_ROWS.map((label, i, arr) => (
+              {t.home.privacyRows.map((label, i, arr) => (
                 <div
                   key={label}
                   className={`flex items-center justify-between px-4 py-2.5 gap-3 ${
@@ -186,34 +172,37 @@ export function HomeLanding() {
       <section className="py-14 sm:py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
-            <p className={`${eyebrow} mb-3`}>Your proof of business</p>
+            <p className={`${eyebrow} mb-3`}>{t.home.badgeEyebrow}</p>
             <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
-              Paste once. Lives in every email you send.
+              {t.home.badgeTitle}
             </h2>
             <p className="text-muted text-sm max-w-md mx-auto leading-relaxed">
-              A small live image you drop into your email signature. It updates automatically
-              as your history grows. One click opens your full public page.
+              {t.home.badgeSub}
             </p>
           </div>
 
           <div className="max-w-md mx-auto rounded-xl border border-border bg-bg overflow-hidden shadow-sm">
             <div className="px-5 py-2.5 border-b border-border text-[0.6rem] font-mono uppercase tracking-widest text-muted-2">
-              Your email signature
+              {t.badge.mockLabel}
             </div>
             <div className="px-5 py-5">
-              <p className="text-sm font-semibold text-txt leading-tight">Jane Doe</p>
-              <p className="text-xs text-muted mt-0.5">Founder · Acme Studio</p>
+              <p className="text-sm font-semibold text-txt leading-tight">{t.home.signatureName}</p>
+              <p className="text-xs text-muted mt-0.5">{t.home.signatureRole}</p>
               <p className="text-[0.7rem] text-muted-2 mt-1 font-mono">
-                +1 (415) 555-0134 · acme.studio
+                {t.home.signatureContact}
               </p>
               <div className="mt-4">
-                <DemoBadge domain={SIGNATURE_DOMAIN} state="verified" />
+                <DemoBadge
+                  domain={SIGNATURE_DOMAIN}
+                  state="verified"
+                  alt={t.badge.alt.replace('{domain}', SIGNATURE_DOMAIN)}
+                />
               </div>
             </div>
           </div>
 
           <p className="mt-6 text-center text-xs text-muted-2 leading-relaxed max-w-md mx-auto">
-            Works in Gmail, Outlook, Apple Mail, and anywhere else HTML signatures work.
+            {t.home.badgeFoot}
           </p>
         </div>
       </section>

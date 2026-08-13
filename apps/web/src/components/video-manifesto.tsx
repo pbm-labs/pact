@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom';
 import { useLocale } from '@/components/locale-provider';
 
 const VIDEO_SRC = encodeURI("/The-Internet's-Identity-Problem.mp4");
-const VIDEO_TITLE = "The Internet's Identity Problem";
 
 function CloseIcon() {
   return (
@@ -29,10 +28,12 @@ function CloseIcon() {
 function PlayPoster({
   onPlay,
   watchLabel,
+  title,
   size = 'default',
 }: {
   onPlay: () => void;
   watchLabel: string;
+  title: string;
   size?: 'default' | 'compact';
 }) {
   const compact = size === 'compact';
@@ -40,7 +41,7 @@ function PlayPoster({
     <button
       type="button"
       onClick={onPlay}
-      aria-label={`Play: ${VIDEO_TITLE}`}
+      aria-label={`${watchLabel}: ${title}`}
       className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-5 bg-[radial-gradient(circle_at_30%_25%,rgba(124,106,247,0.22),transparent_60%)] cursor-pointer"
     >
       <span
@@ -59,7 +60,7 @@ function PlayPoster({
       <span
         className={`px-4 text-center font-semibold text-txt ${compact ? 'text-base' : 'text-lg'}`}
       >
-        {VIDEO_TITLE}
+        {title}
       </span>
       <span className="text-xs text-muted-2">{watchLabel}</span>
     </button>
@@ -102,6 +103,7 @@ export function VideoManifesto() {
     <>
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface shadow-2xl shadow-black/20">
         <PlayPoster
+          title={t.home.manifestoTitle}
           watchLabel={t.home.watchManifesto}
           onPlay={() => {
             setOpen(true);
@@ -118,7 +120,7 @@ export function VideoManifesto() {
             onClick={closeModal}
             role="dialog"
             aria-modal="true"
-            aria-label={VIDEO_TITLE}
+            aria-label={t.home.manifestoTitle}
           >
             <div
               className="relative w-full max-w-[94vw] sm:max-w-4xl lg:max-w-6xl max-h-[88vh] sm:max-h-[85vh] aspect-video rounded-2xl overflow-hidden border border-border-h bg-surface shadow-2xl shadow-black/40"
@@ -131,16 +133,20 @@ export function VideoManifesto() {
                   autoPlay
                   controls
                   playsInline
-                  title={VIDEO_TITLE}
+                  title={t.home.manifestoTitle}
                 />
               ) : (
-                <PlayPoster watchLabel={t.home.watchManifesto} onPlay={() => setPlaying(true)} />
+                <PlayPoster
+                  title={t.home.manifestoTitle}
+                  watchLabel={t.home.watchManifesto}
+                  onPlay={() => setPlaying(true)}
+                />
               )}
 
               <button
                 type="button"
                 onClick={closeModal}
-                aria-label="Close and read instead"
+                aria-label={t.home.closeVideo}
                 className="absolute top-3 right-3 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur-sm hover:bg-black/70"
               >
                 <CloseIcon />

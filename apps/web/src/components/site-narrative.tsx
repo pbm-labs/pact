@@ -19,7 +19,7 @@ export function SiteNarrative() {
   const paragraphs = t.home.manifestoParagraphs;
 
   return (
-    <article aria-label="Manifesto">
+    <article aria-label={t.home.manifestoEyebrow}>
       <div className="relative">
         <div className={expanded ? '' : 'max-h-40 overflow-hidden'}>
           {paragraphs.map((text, i) => (

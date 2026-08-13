@@ -16,9 +16,17 @@ export const de: Dictionary = {
     copy: 'Kopieren',
     copied: 'Kopiert',
     loading: 'Wird geladen…',
+    toggleTheme: 'Thema umschalten',
+    trustScore: 'Vertrauenswert {n} von 100',
   },
   home: {
+    heroTitle: 'KI kann alles fälschen.',
+    heroAccent: 'Außer gestern.',
+    heroSub:
+      'Ein überprüfbarer öffentlicher Eintrag für deine Domain — entsteht passiv, lässt sich nicht zurückdatieren.',
     manifestoEyebrow: 'Das Manifest',
+    manifestoTitle: 'Das Identitätsproblem des Internets',
+    manifestoSub: 'Warum Geschichte das Eine ist, das sich nicht herstellen lässt.',
     manifestoParagraphs: [
       '1969 verbanden sich zum ersten Mal vier Computer. Niemand in diesem Raum dachte an Identität. Es war nicht nötig. Jeder Online kannte ohnehin jeden anderen.',
       'So entstand das Internet ohne eine Möglichkeit zu wissen, wer jemand wirklich ist. Kein Fehler. Nur eine Frage, die noch niemand stellen musste.',
@@ -32,6 +40,42 @@ export const de: Dictionary = {
     ],
     readMore: 'Mehr lesen',
     showLess: 'Weniger anzeigen',
+    closeVideo: 'Schließen und stattdessen lesen',
+    recordEyebrow: 'Hinter jedem Eintrag',
+    recordTitle: 'Deine vollständige öffentliche Seite.',
+    recordSub:
+      'Jede Person kann sie öffnen. Unabhängig bestätigte Historie — teilbar, wo ein Gegenüber nachschauen könnte.',
+    mockStatusSub: 'Unabhängig bestätigte Historie, die weiter wächst.',
+    mockTimeSub: 'seit dem ersten Bericht',
+    mockOrgs: 'Meldende Orgs.',
+    mockOrgsSub: 'unabhängig',
+    recordFoot:
+      'Jeder Eintrag wurde von empfangenden Mailsystemen bestätigt — nicht selbst gemeldet. Dieser Eintrag wächst nur nach vorn.',
+    lookupEyebrow: 'Prüfe, ob deine Domain im Eintrag steht',
+    lookupPlaceholder: 'acme.com',
+    lookupAria: 'Domain eingeben, um zu prüfen, ob sie im Eintrag steht',
+    lookupButton: 'Prüfen',
+    lookupOrRecords: 'oder öffentliche Einträge ansehen:',
+    privacyTitle: 'Von Grund auf privat.',
+    privacyBody1:
+      'Beim Verbinden zeigt ein DNS-Berichtsweg (rua) auf uns. Unabhängige Systeme senden bereits Aggregatberichte für die Domain — Authentifizierungszahlen, Zeitraum und Infrastruktur. Dieser Feed ist die einzige Datenquelle.',
+    privacyBody2: 'Der öffentliche Eintrag ist bestätigte Domain-Historie. Mehr wird nicht erfasst.',
+    privacyTableTitle: 'Was in einem Bericht steht',
+    privacyRows: [
+      'Domain',
+      'Berichtszeitraum',
+      'Bestanden / fehlgeschlagen',
+      'Meldende Organisation',
+    ],
+    badgeEyebrow: 'Dein Nachweis als Unternehmen',
+    badgeTitle: 'Einmal einfügen. Lebt in jeder E-Mail, die du sendest.',
+    badgeSub:
+      'Ein kleines Live-Bild in deiner E-Mail-Signatur. Es aktualisiert sich, während deine Historie wächst. Ein Klick öffnet deine vollständige öffentliche Seite.',
+    signatureName: 'Jane Doe',
+    signatureRole: 'Gründerin · Acme Studio',
+    signatureContact: '+1 (415) 555-0134 · acme.studio',
+    badgeFoot:
+      'Funktioniert in Gmail, Outlook, Apple Mail und überall, wo HTML-Signaturen funktionieren.',
     ctaTitle: 'Beginne, das Fundament zu gießen.',
     ctaBody:
       'Geschichte entsteht Tag für Tag — ehrlich und nachvollziehbar. Jeder Tag, den wir warten, kommt nicht zurück.',
@@ -241,8 +285,21 @@ export const de: Dictionary = {
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
-    title: 'What Makes PACT Different',
+    title: 'Was PACT anders macht',
     intro: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — nicht das vollständige Whitepaper.',
+    body: [
+      'Jede bestehende Art zu beweisen, dass ein Unternehmen echt ist, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
+      'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
+      'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
+      'Jede Aussage von PACT stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den öffentlichen Append-only-Eintrag neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Diesen Eintrag so zu verankern, dass die Prüfung nicht mehr von der Infrastruktur eines einzelnen Betreibers abhängt, ist der nächste Protokoll-Meilenstein — keine Änderung der These.',
+      'Das ist die Eigenschaft, die etablierte Nachweise nicht nachrüsten können. Eine Auskunftei kann nicht trustless werden — ihr Geschäftsmodell *ist* der vertrauenswürdige Mittler. Ein staatliches Register kann nicht trustless werden — es ist definitionsgemäß eine Autorität. Ein Kontoauszug kann nicht trustless werden — er ist ein Dokument, und Dokumente lassen sich ändern. PACT ist keine bessere Version davon. Es sitzt in einer anderen Kategorie: Evidenz, die du nachprüfen kannst, nicht eine Behauptung, die du akzeptieren musst.',
+      'Was das dauerhaft macht, nicht nur anders: **die Historie, die PACT misst, lässt sich nachträglich zu keinem Preis herstellen — auch nicht durch PACTs eigene Betreiber.**',
+      'Du kannst eine gealterte Domain kaufen. Du kannst eine LinkedIn-Historie fälschen. Du kannst eine Briefkastenfirma mit perfekten Papieren bauen. Was du nicht kannst: gestern früher geschehen lassen. PACTs Historie entsteht aus vergehender Echtzeit, während unabhängige Dritte zusahen. Es gibt keine Abkürzung durch die Zeit. Das ist keine Produktpräferenz. Es ist eine physikalische Grenze, die PACT nutzt.',
+      'Deshalb konkurriert PACT heute nicht über Preis oder Bequemlichkeit — und muss es nicht. Bestehende Methoden sind billig und sofort *weil* sie flach genug sind, um billig und sofort gefälscht zu werden. PACT ist langsam im Aufbau *weil* ein gut finanzierter, geduldiger, KI-ausgestatteter Gegner trotzdem keine Vergangenheit kaufen kann, die er nicht gelebt hat. Die Langsamkeit ist keine Limitierung, die wegoptimiert werden soll. Sie ist der Punkt.',
+      'Jeder andere Legitimitätsnachweis beantwortet: *was hat jemand behauptet, und wer bürgt dafür?*',
+      'PACT beantwortet eine andere Frage: *was ist tatsächlich geschehen, wie lange, bezeugt von wie vielen unabhängigen Parteien, die keinen Grund hatten zu lügen?*',
+      'Diese Frage hatte nie eine dauerhafte öffentliche Antwort. Ab jetzt hat sie eine.',
+    ].join('\n\n'),
     scope:
       'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien.',
   },
@@ -250,7 +307,7 @@ export const de: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
     intro: 'PACT ist ein offenes Protokoll. we build real ist die Bewegung. Wie es funktioniert, und warum es anders ist.',
-    whyTitle: 'What Makes PACT Different',
+    whyTitle: 'Was PACT anders macht',
     whyBody: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — zuerst lesen.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:

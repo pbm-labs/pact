@@ -9,21 +9,23 @@ import { routes } from '@/lib/routes';
 export function DemoBadge({
   domain,
   state,
+  alt,
 }: {
   domain: string;
   state: BadgeState;
+  alt?: string;
 }) {
   const { width, height } = sizeBadge(domain);
   const darkSrc = `${routes.badge(domain)}.svg?preview=${state}&theme=dark`;
   const lightSrc = `${routes.badge(domain)}.svg?preview=${state}&theme=light`;
-  const alt = `we build real · ${domain}`;
+  const imageAlt = alt ?? `we build real · ${domain}`;
 
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={darkSrc}
-        alt={alt}
+        alt={imageAlt}
         width={width}
         height={height}
         className="inline-block light:hidden border-0 align-middle select-none"
@@ -32,7 +34,7 @@ export function DemoBadge({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={lightSrc}
-        alt={alt}
+        alt={imageAlt}
         width={width}
         height={height}
         className="hidden light:inline-block border-0 align-middle select-none"

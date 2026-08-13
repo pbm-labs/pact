@@ -16,9 +16,17 @@ export const es: Dictionary = {
     copy: 'Copiar',
     copied: 'Copiado',
     loading: 'Cargando…',
+    toggleTheme: 'Cambiar tema',
+    trustScore: 'Puntuación de confianza {n} de 100',
   },
   home: {
+    heroTitle: 'La IA puede falsificarlo todo.',
+    heroAccent: 'Excepto ayer.',
+    heroSub:
+      'Un registro público verificable para tu dominio — se construye en silencio, imposible de antedatar.',
     manifestoEyebrow: 'El manifiesto',
+    manifestoTitle: 'El problema de identidad de Internet',
+    manifestoSub: 'Por qué la historia es lo único que todavía no se puede fabricar.',
     manifestoParagraphs: [
       'En 1969, cuatro computadoras se conectaron por primera vez. Nadie en esa habitación pensó en la identidad. No hacía falta. Todos los que estaban en línea ya se conocían.',
       'Así nació internet sin una forma de saber quién es realmente cualquiera. No fue un fallo. Solo una pregunta que todavía no había que hacerse.',
@@ -32,6 +40,42 @@ export const es: Dictionary = {
     ],
     readMore: 'Leer más',
     showLess: 'Mostrar menos',
+    closeVideo: 'Cerrar y leer en su lugar',
+    recordEyebrow: 'Detrás de cada registro',
+    recordTitle: 'Tu página pública completa.',
+    recordSub:
+      'Cualquiera puede abrirla. Historial confirmado de forma independiente — para compartir donde un tercero pueda mirar.',
+    mockStatusSub: 'Historial confirmado de forma independiente, todavía acumulándose.',
+    mockTimeSub: 'desde el primer informe',
+    mockOrgs: 'Orgs. informantes',
+    mockOrgsSub: 'independientes',
+    recordFoot:
+      'Cada entrada la confirmaron sistemas de correo receptores — no es autoinformada. Este registro solo crece hacia adelante.',
+    lookupEyebrow: 'Comprueba si tu dominio está en el registro',
+    lookupPlaceholder: 'acme.com',
+    lookupAria: 'Introduce un dominio para ver si está en el registro',
+    lookupButton: 'Comprobar',
+    lookupOrRecords: 'o ver los registros públicos:',
+    privacyTitle: 'Privado por diseño.',
+    privacyBody1:
+      'Al conectar, un DNS apunta una dirección de informes (rua) hacia nosotros. Sistemas independientes ya emiten informes agregados del dominio — conteos de autenticación, periodo e infraestructura. Esa fuente es la única.',
+    privacyBody2: 'El registro público es historial de dominio confirmado. No se recoge nada más.',
+    privacyTableTitle: 'Qué hay en un informe',
+    privacyRows: [
+      'Dominio',
+      'Periodo del informe',
+      'Conteos de acierto / fallo',
+      'Organización informante',
+    ],
+    badgeEyebrow: 'Tu prueba de negocio',
+    badgeTitle: 'Pégalo una vez. Vive en cada email que envías.',
+    badgeSub:
+      'Una imagen viva y pequeña que pones en tu firma de email. Se actualiza sola a medida que crece tu historial. Un clic abre tu página pública completa.',
+    signatureName: 'Jane Doe',
+    signatureRole: 'Fundadora · Acme Studio',
+    signatureContact: '+1 (415) 555-0134 · acme.studio',
+    badgeFoot:
+      'Funciona en Gmail, Outlook, Apple Mail y en cualquier firma HTML.',
     ctaTitle: 'Empieza a echar los cimientos.',
     ctaBody:
       'La historia se gana un día honesto a la vez, y cada día que esperamos es un día que no recuperamos.',
@@ -241,8 +285,21 @@ export const es: Dictionary = {
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
-    title: 'What Makes PACT Different',
+    title: 'Qué hace diferente a PACT',
     intro: 'Una nota de dos minutos sobre evidencia frente a autoridad — no el whitepaper completo.',
+    body: [
+      'Toda forma existente de probar que un negocio es real comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
+      'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
+      'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
+      'Cada afirmación de PACT deriva de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es la prueba. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra el registro público de solo-append, sin pedir permiso a PACT. Anclar ese registro para que la verificación ya no dependa de la infraestructura de un solo operador es el siguiente hito del protocolo — no un cambio de tesis.',
+      'Esa es la propiedad que las pruebas incumbentes no pueden injertar. Un buró de crédito no puede volverse trustless — su modelo de negocio *es* el intermediario de confianza. Un registro estatal no puede volverse trustless — es una autoridad por definición. Un extracto bancario no puede volverse trustless — es un documento, y los documentos se editan. PACT no es una versión mejor de eso. Está en otra categoría: evidencia que puedes volver a comprobar, no una afirmación que debas aceptar.',
+      'Esto es lo que lo hace duradero, no solo distinto: **el historial que PACT mide no se puede fabricar a posteriori, a ningún precio — ni siquiera por los operadores de PACT.**',
+      'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. Puedes armar una empresa pantalla con papeles perfectos. Lo que no puedes hacer es que ayer ocurra antes. El historial de PACT se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo. No es una preferencia de producto. Es una restricción física que PACT pone a trabajar.',
+      'Por eso PACT no compite hoy en costo ni conveniencia, y no necesita hacerlo. Los métodos existentes son baratos e instantáneos *porque* son lo bastante superficiales para falsificarse barato e instantáneo. PACT es lento de construir *porque* un adversario bien financiado, paciente y con IA sigue sin poder comprar un pasado que no vivió. La lentitud no es una limitación a optimizar. Es el punto.',
+      'Toda otra prueba de legitimidad responde: *¿qué afirmó alguien, y quién lo avala?*',
+      'PACT responde otra pregunta: *¿qué ocurrió de verdad, durante cuánto tiempo, presenciado por cuántas partes independientes que no tenían motivo para mentir?*',
+      'Esa pregunta nunca tuvo una respuesta pública duradera. A partir de ahora, sí.',
+    ].join('\n\n'),
     scope:
       'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es una credencial personal y no sustituye registros ni burós de crédito.',
   },
@@ -250,7 +307,7 @@ export const es: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
     intro: 'PACT es un protocolo abierto. we build real es el movimiento. Cómo funciona, y por qué es diferente.',
-    whyTitle: 'What Makes PACT Different',
+    whyTitle: 'Qué hace diferente a PACT',
     whyBody: 'Una nota de dos minutos sobre evidencia frente a autoridad — léela primero.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:

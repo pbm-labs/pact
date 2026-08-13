@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { WhitepaperBody } from '@/components/whitepaper-body';
-import { WHY_PACT_MARKDOWN } from '@/lib/why-pact';
 import { routes } from '@/lib/routes';
 import { eyebrow, pageTitle } from '@/lib/ui';
 
@@ -19,7 +18,7 @@ export function WhyPactView() {
         <p className="text-sm text-muted leading-relaxed max-w-xl">{t.whyPact.intro}</p>
       </header>
 
-      <WhitepaperBody markdown={`${WHY_PACT_MARKDOWN}\n\n${t.whyPact.scope}`} />
+      <WhitepaperBody markdown={`${t.whyPact.body}\n\n${t.whyPact.scope}`} />
 
       <p className="mt-12 m-0">
         <Link href={routes.docsWhitepaper} className="text-sm font-semibold text-accent no-underline hover:opacity-90">

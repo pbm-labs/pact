@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLocale } from '@/components/locale-provider';
 
 export function ThemeToggle() {
+  const { t } = useLocale();
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label="Toggle theme"
+      aria-label={t.common.toggleTheme}
       className="w-6 h-6 flex items-center justify-center rounded-md border border-border text-muted hover:text-txt hover:border-border-h transition-colors"
     >
       {theme === 'dark' ? (

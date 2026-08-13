@@ -1,3 +1,7 @@
+'use client';
+
+import { useLocale } from '@/components/locale-provider';
+
 interface ScoreGaugeProps {
   score: number;
   size?: number;
@@ -6,6 +10,7 @@ interface ScoreGaugeProps {
 }
 
 export function ScoreGauge({ score, size = 120, strokeWidth = 10, className = '' }: ScoreGaugeProps) {
+  const { t } = useLocale();
   const target = Math.max(0, Math.min(100, score));
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -20,7 +25,7 @@ export function ScoreGauge({ score, size = 120, strokeWidth = 10, className = ''
       viewBox={`0 0 ${size} ${size}`}
       className={`-rotate-90 ${className}`}
       role="img"
-      aria-label={`Trust score ${target} out of 100`}
+      aria-label={t.common.trustScore.replace('{n}', String(target))}
     >
       <circle
         cx={size / 2}

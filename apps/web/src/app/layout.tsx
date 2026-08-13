@@ -1,9 +1,11 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { LocaleProvider } from '@/components/locale-provider';
 import { LocaleScript } from '@/components/locale-script';
 import { MovementFooter } from '@/components/movement-footer';
 import { MovementHeader } from '@/components/movement-header';
+import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 
 const siteUrl = 'https://webuildreal.dev';
 const title = 'We build real';
@@ -42,9 +44,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const jar = await cookies();
+  const initialLocale = parseLocale(jar.get(STORAGE_KEYS.locale)?.value);
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={initialLocale} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -60,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="marketing flex flex-col min-h-screen bg-bg text-txt antialiased">
-        <LocaleProvider>
+        <LocaleProvider initialLocale={initialLocale}>
           <MovementHeader />
           {children}
           <MovementFooter />

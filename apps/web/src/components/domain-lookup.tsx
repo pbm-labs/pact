@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
 
 function normalizeDomain(raw: string): string {
@@ -14,6 +15,7 @@ function normalizeDomain(raw: string): string {
 }
 
 export function DomainLookup() {
+  const { t } = useLocale();
   const router = useRouter();
   const [value, setValue] = useState('');
 
@@ -46,12 +48,12 @@ export function DomainLookup() {
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="acme.com"
+          placeholder={t.home.lookupPlaceholder}
           spellCheck={false}
           autoCapitalize="none"
           autoCorrect="off"
           inputMode="url"
-          aria-label="Enter a domain to check if it's on record"
+          aria-label={t.home.lookupAria}
           className="bg-transparent outline-none text-base sm:text-sm font-mono text-txt placeholder:text-muted flex-1 min-w-0"
         />
       </label>
@@ -60,7 +62,7 @@ export function DomainLookup() {
         disabled={!value.trim()}
         className="shrink-0 px-4 sm:px-5 h-11 rounded-lg bg-accent text-white text-sm font-semibold tracking-wide hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        Check
+        {t.home.lookupButton}
       </button>
     </form>
   );
