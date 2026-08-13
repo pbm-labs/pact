@@ -5,6 +5,7 @@ import type { TrustScoreProgress } from '@pact/core';
 import { BadgeEmbed } from '@/components/badge-embed';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
+import { PathToProven } from '@/components/path-to-proven';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { ScoreGauge } from '@/components/score-gauge';
@@ -127,6 +128,8 @@ function WaitingPage({
         <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
       </header>
 
+      <PathToProven className="mb-8" status="waiting" pactAgeDays={0} uniqueReporters={0} />
+
       <section className={`${panel} mb-2`}>
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>{t.domain.whatNext}</h2>
@@ -211,6 +214,13 @@ function LivePage({
         <Stat value={String(data.domainLeafCount)} label={t.domain.reports} sub={t.domain.allTime} />
         <Stat value={`${data.passRate.toFixed(1)}%`} label={t.domain.passRate} />
       </div>
+
+      <PathToProven
+        className="mb-10"
+        status={data.trust.status}
+        pactAgeDays={verifiedDays}
+        uniqueReporters={data.uniqueReporters}
+      />
 
       <details className="group mb-2">
         <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-xs font-mono uppercase tracking-widest text-muted-2 hover:text-muted">

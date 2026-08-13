@@ -256,6 +256,15 @@ export const de: Dictionary = {
     clockYear: '({n} J.)',
     clockMonths: '({n} Mo.)',
     clockDaysShort: '({n}d)',
+    pathEyebrow: 'Um nachgewiesen zu werden',
+    pathDaysItem: '{n} Tage unabhängig bestätigter Historie',
+    pathDaysCurrent: 'du bist bei {n}',
+    pathReportersItem: 'Mindestens eine unabhängige meldende Organisation',
+    pathReportersCurrent: 'du hast {n}',
+    pathExplainer:
+      'Eine unabhängige meldende Organisation ist ein empfangendes Mailsystem — Gmail, Outlook, Yahoo und andere — das diese Domain mit eigener Authentifizierung bestätigt hat. Unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nachgewiesen braucht genug dieser Historie, damit gestern nicht herstellbar ist.',
+    pathFoot:
+      'Jede Bestätigung kommt von unabhängigen Empfangssystemen — nicht selbst gemeldet. Dieser Eintrag wächst nur vorwärts.',
     badgeEyebrow: 'Einbettbares Badge',
     badgeIntro:
       'Eine kompakte Form dieser Seite. Lebt in E-Mail-Signaturen und aktualisiert sich, während der Eintrag wächst — jeder Klick öffnet hier.',

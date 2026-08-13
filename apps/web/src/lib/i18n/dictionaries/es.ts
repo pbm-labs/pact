@@ -256,6 +256,15 @@ export const es: Dictionary = {
     clockYear: '({n} a)',
     clockMonths: '({n} mes)',
     clockDaysShort: '({n}d)',
+    pathEyebrow: 'Para ser Comprobado',
+    pathDaysItem: '{n} días de historial confirmado de forma independiente',
+    pathDaysCurrent: 'estás en {n}',
+    pathReportersItem: 'Al menos una organización reportera independiente',
+    pathReportersCurrent: 'tienes {n}',
+    pathExplainer:
+      'Una organización reportera independiente es un sistema de correo receptor — Gmail, Outlook, Yahoo y otros — que confirmó este dominio con su propia autenticación. El acuerdo no coordinado a lo largo del tiempo es la prueba. Comprobado exige suficiente historial para que el ayer no se pueda fabricar.',
+    pathFoot:
+      'Cada confirmación viene de sistemas receptores independientes — no es autoinformada. Este registro solo crece hacia adelante.',
     badgeEyebrow: 'Insignia integrable',
     badgeIntro:
       'Una forma compacta de esta página. Vive en las firmas de email y se actualiza a medida que crece el registro — cada clic abre aquí.',

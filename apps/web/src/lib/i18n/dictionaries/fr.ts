@@ -258,6 +258,15 @@ export const fr: Dictionary = {
     clockYear: '({n} an)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}j)',
+    pathEyebrow: 'Pour devenir Éprouvé',
+    pathDaysItem: '{n} jours d’historique confirmé de façon indépendante',
+    pathDaysCurrent: 'vous en êtes à {n}',
+    pathReportersItem: 'Au moins une organisation reporteuse indépendante',
+    pathReportersCurrent: 'vous en avez {n}',
+    pathExplainer:
+      'Une organisation reporteuse indépendante est un système de messagerie destinataire — Gmail, Outlook, Yahoo et d’autres — qui a confirmé ce domaine avec sa propre authentification. L’accord non coordonné dans le temps est la preuve. Éprouvé exige assez de cet historique pour que hier ne puisse pas être fabriqué.',
+    pathFoot:
+      'Chaque confirmation vient de systèmes destinataires indépendants — pas d’auto-déclaration. Ce registre ne grandit que vers l’avant.',
     badgeEyebrow: 'Badge intégrable',
     badgeIntro:
       'Une forme compacte de cette page. Vit dans les signatures d’email et se met à jour à mesure que le registre grandit — chaque clic ouvre ici.',

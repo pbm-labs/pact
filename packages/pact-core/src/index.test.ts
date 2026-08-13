@@ -7,6 +7,9 @@ import {
   validateReportSource,
   computeTrustScore,
   computeDiversity,
+  computeMaturity,
+  ACTIVATION_DAYS,
+  ACTIVATION_THRESHOLD,
   formatScoreForDisplay,
   estimateScoreProgress,
   DISPLAY_VERSION,
@@ -237,6 +240,11 @@ describe('trust score', () => {
   it('computes diversity as reporting orgs per leaf', () => {
     expect(computeDiversity(2, 4)).toBe(0.5);
     expect(computeDiversity(1, 0)).toBe(0);
+  });
+
+  it('ACTIVATION_DAYS is the first calendar day maturity crosses the Proven gate', () => {
+    expect(computeMaturity(ACTIVATION_DAYS - 1)).toBeLessThan(ACTIVATION_THRESHOLD);
+    expect(computeMaturity(ACTIVATION_DAYS)).toBeGreaterThanOrEqual(ACTIVATION_THRESHOLD);
   });
 
   it('hijacking simulation: old domain registration does not inflate maturity on new PACT history', () => {

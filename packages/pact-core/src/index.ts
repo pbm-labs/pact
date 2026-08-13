@@ -17,6 +17,7 @@ export {
   computeMaturity,
   SCORE_ALGORITHM,
   ACTIVATION_THRESHOLD,
+  ACTIVATION_DAYS,
   type TrustScoreResult,
   type DomainTrustInput,
   type ScoreStatus,

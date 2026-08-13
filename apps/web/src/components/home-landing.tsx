@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { DemoBadge } from '@/components/demo-badge';
 import { DomainLookup } from '@/components/domain-lookup';
+import { PathToProven } from '@/components/path-to-proven';
 import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
 import { useLocale } from '@/components/locale-provider';
@@ -11,9 +12,9 @@ import { btnPrimary, eyebrow, metaText, sectionTitle } from '@/lib/ui';
 
 const MOCK = {
   domain: 'acmecorp.com',
-  verifiedDays: '14d',
-  reports: '12',
-  orgs: '4',
+  verifiedDays: 14,
+  reports: 12,
+  orgs: 4,
 };
 
 const SIGNATURE_DOMAIN = 'acme.studio';
@@ -162,9 +163,9 @@ export function HomeLanding() {
 
           <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-6">
             {[
-              { value: MOCK.verifiedDays, label: t.domain.timeVerified, sub: t.home.mockTimeSub },
-              { value: MOCK.reports, label: t.domain.reports, sub: t.domain.allTime },
-              { value: MOCK.orgs, label: t.home.mockOrgs, sub: t.home.mockOrgsSub },
+              { value: `${MOCK.verifiedDays}d`, label: t.domain.timeVerified, sub: t.home.mockTimeSub },
+              { value: String(MOCK.reports), label: t.domain.reports, sub: t.domain.allTime },
+              { value: String(MOCK.orgs), label: t.home.mockOrgs, sub: t.home.mockOrgsSub },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="text-xl sm:text-2xl font-bold font-mono leading-none text-txt">
@@ -177,6 +178,15 @@ export function HomeLanding() {
               </div>
             ))}
           </div>
+
+          <PathToProven
+            className="mt-6"
+            status="provisional"
+            pactAgeDays={MOCK.verifiedDays}
+            uniqueReporters={MOCK.orgs}
+            inset
+            showFoot={false}
+          />
 
           <p className="mt-6 text-[0.8rem] text-muted leading-relaxed">
             {t.home.recordFoot}

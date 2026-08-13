@@ -203,6 +203,13 @@ export type Dictionary = {
     clockYear: string;
     clockMonths: string;
     clockDaysShort: string;
+    pathEyebrow: string;
+    pathDaysItem: string;
+    pathDaysCurrent: string;
+    pathReportersItem: string;
+    pathReportersCurrent: string;
+    pathExplainer: string;
+    pathFoot: string;
     badgeEyebrow: string;
     badgeIntro: string;
   };

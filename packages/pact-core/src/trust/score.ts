@@ -1,6 +1,10 @@
 export const SCORE_ALGORITHM = 'pact-score-0.1' as const;
 export const MATURITY_LAMBDA = 0.005;
 export const ACTIVATION_THRESHOLD = 0.5;
+/** Calendar days of PACT history at which maturity reaches ACTIVATION_THRESHOLD. */
+export const ACTIVATION_DAYS = Math.ceil(
+  -Math.log(1 - ACTIVATION_THRESHOLD) / MATURITY_LAMBDA,
+);
 
 export type ScoreStatus = 'provisional' | 'activated';
 

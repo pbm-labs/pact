@@ -257,6 +257,15 @@ export const en: Dictionary = {
     clockYear: '({n} yr)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}d)',
+    pathEyebrow: 'To become Proven',
+    pathDaysItem: '{n} days of independently confirmed history',
+    pathDaysCurrent: "you're at {n}",
+    pathReportersItem: 'At least one independent reporting org',
+    pathReportersCurrent: 'you have {n}',
+    pathExplainer:
+      'An independent reporter is a receiving mail system — Gmail, Outlook, Yahoo, and others — that confirmed this domain under its own authentication. Uncoordinated agreement over time is the proof. Proven takes enough of that history that yesterday cannot be manufactured.',
+    pathFoot:
+      'Every confirmation comes from independent receiving systems — not self-reported. This record only grows forward.',
     badgeEyebrow: 'Embeddable badge',
     badgeIntro:
       'A compact form of this page. Lives in email signatures and updates as the record grows — every click opens here.',
