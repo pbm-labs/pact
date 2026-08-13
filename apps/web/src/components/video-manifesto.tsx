@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocale } from '@/components/locale-provider';
 
@@ -42,32 +42,32 @@ function PlayPoster({
       type="button"
       onClick={onPlay}
       aria-label={`${watchLabel}: ${title}`}
-      className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-5 bg-[radial-gradient(circle_at_30%_25%,rgba(124,106,247,0.22),transparent_60%)] cursor-pointer"
+      className="group absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-4 bg-[radial-gradient(circle_at_30%_25%,rgba(124,106,247,0.12),transparent_55%)] cursor-pointer"
     >
       <span
-        className={`flex items-center justify-center rounded-full bg-txt text-bg shadow-xl ${
-          compact ? 'h-16 w-16 sm:h-20 sm:w-20' : 'h-20 w-20 sm:h-28 sm:w-28'
+        className={`flex items-center justify-center rounded-full bg-txt text-bg ${
+          compact ? 'h-14 w-14 sm:h-16 sm:w-16' : 'h-16 w-16 sm:h-20 sm:w-20'
         }`}
       >
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"
-          className={compact ? 'h-7 w-7 sm:h-8 sm:w-8 ml-1' : 'h-8 w-8 sm:h-10 sm:w-10 ml-1'}
+          className={compact ? 'h-6 w-6 sm:h-7 sm:w-7 ml-0.5' : 'h-7 w-7 sm:h-8 sm:w-8 ml-0.5'}
         >
           <path d="M8 5v14l11-7z" />
         </svg>
       </span>
       <span
-        className={`px-4 text-center font-semibold text-txt ${compact ? 'text-base' : 'text-lg'}`}
+        className={`px-4 text-center font-semibold text-txt ${compact ? 'text-sm' : 'text-base'}`}
       >
         {title}
       </span>
-      <span className="text-xs text-muted-2">{watchLabel}</span>
+      <span className="text-xs text-muted">{watchLabel}</span>
     </button>
   );
 }
 
-export function VideoManifesto() {
+export function VideoManifesto({ footer }: { footer?: ReactNode }) {
   const { t } = useLocale();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -101,15 +101,22 @@ export function VideoManifesto() {
 
   return (
     <>
-      <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface shadow-2xl shadow-black/20">
-        <PlayPoster
-          title={t.home.manifestoTitle}
-          watchLabel={t.home.watchManifesto}
-          onPlay={() => {
-            setOpen(true);
-            setPlaying(true);
-          }}
-        />
+      <div className="overflow-hidden rounded-2xl border border-border-h bg-surface">
+        <div className="relative aspect-video w-full">
+          <PlayPoster
+            title={t.home.manifestoTitle}
+            watchLabel={t.home.watchManifesto}
+            onPlay={() => {
+              setOpen(true);
+              setPlaying(true);
+            }}
+          />
+        </div>
+        {footer && (
+          <div className="border-t border-border px-5 py-5 sm:py-6 text-center">
+            {footer}
+          </div>
+        )}
       </div>
 
       {mounted &&
