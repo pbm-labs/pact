@@ -56,7 +56,7 @@ function Stat({
   dim?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-surface px-4 py-4 hover:border-muted-2">
+    <div className="rounded-xl border border-border bg-surface px-4 py-4">
       <p
         className={`${statValue} ${dim ? 'text-muted-2' : 'text-txt'}`}
       >
