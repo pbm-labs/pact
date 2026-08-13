@@ -23,7 +23,7 @@ export const es: Dictionary = {
     heroTitle: 'La IA puede falsificarlo todo.',
     heroAccent: 'Excepto ayer.',
     heroSub:
-      'Un registro público verificable para tu dominio de we build real — se construye en silencio, imposible de antedatar.',
+      'Un registro público verificable para tu dominio — se construye en silencio, imposible de antedatar.',
     manifestoEyebrow: 'El manifiesto',
     manifestoTitle: 'El problema de identidad de Internet',
     manifestoSub: 'Por qué la historia es lo único que todavía no se puede fabricar.',

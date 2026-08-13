@@ -24,7 +24,7 @@ export const en: Dictionary = {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
     heroSub:
-      'A verifiable public record for your domain from we build real — built passively, impossible to backdate.',
+      'A verifiable public record for your domain — built passively, impossible to backdate.',
     manifestoEyebrow: 'The Manifesto',
     manifestoTitle: "The Internet's Identity Problem",
     manifestoSub: "Why history is the one thing that still can't be manufactured.",

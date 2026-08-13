@@ -23,7 +23,7 @@ export const de: Dictionary = {
     heroTitle: 'KI kann alles fälschen.',
     heroAccent: 'Außer gestern.',
     heroSub:
-      'Ein überprüfbarer öffentlicher Eintrag für deine Domain von we build real — entsteht passiv, lässt sich nicht zurückdatieren.',
+      'Ein überprüfbarer öffentlicher Eintrag für deine Domain — entsteht passiv, lässt sich nicht zurückdatieren.',
     manifestoEyebrow: 'Das Manifest',
     manifestoTitle: 'Das Identitätsproblem des Internets',
     manifestoSub: 'Warum Geschichte das Eine ist, das sich nicht herstellen lässt.',
