@@ -23,7 +23,7 @@ export const de: Dictionary = {
     heroTitle: 'KI kann alles fälschen.',
     heroAccent: 'Außer gestern.',
     heroSub:
-      'Ein überprüfbarer öffentlicher Eintrag für deine Domain — entsteht passiv, lässt sich nicht zurückdatieren.',
+      'Ein überprüfbarer öffentlicher Eintrag für deine Domain von we build real — entsteht passiv, lässt sich nicht zurückdatieren.',
     manifestoEyebrow: 'Das Manifest',
     manifestoTitle: 'Das Identitätsproblem des Internets',
     manifestoSub: 'Warum Geschichte das Eine ist, das sich nicht herstellen lässt.',
@@ -43,7 +43,7 @@ export const de: Dictionary = {
     closeVideo: 'Schließen und stattdessen lesen',
     howEyebrow: 'So funktioniert es',
     howTitle: 'Evidenz, die du nachprüfen kannst.',
-    howLead: 'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
+    howLead: 'Es bittet dich nicht, einer Autorität zu vertrauen. Es bittet dich, einen öffentlichen Eintrag zu prüfen.',
     howSteps: [
       {
         title: 'Unabhängige Systeme bestätigen es',
@@ -69,12 +69,7 @@ export const de: Dictionary = {
     mockOrgsSub: 'unabhängig',
     recordFoot:
       'Jeder Eintrag wurde von empfangenden Mailsystemen bestätigt — nicht selbst gemeldet. Dieser Eintrag wächst nur nach vorn.',
-    lookupEyebrow: 'Prüfe, ob deine Domain im Eintrag steht',
-    lookupPlaceholder: 'acme.com',
-    lookupAria: 'Domain eingeben, um zu prüfen, ob sie im Eintrag steht',
-    lookupButton: 'Prüfen',
-    lookupOrRecords: 'oder öffentliche Einträge ansehen:',
-    privacyTitle: 'Von Grund auf privat.',
+    privacyTitle: 'Datenschutz by Design.',
     privacyBody1:
       'Beim Verbinden zeigt ein DNS-Berichtsweg (rua) auf uns. Unabhängige Systeme senden bereits Aggregatberichte für die Domain — Authentifizierungszahlen, Zeitraum und Infrastruktur. Dieser Feed ist die einzige Datenquelle.',
     privacyBody2: 'Der öffentliche Eintrag ist bestätigte Domain-Historie. Mehr wird nicht erfasst.',
@@ -268,25 +263,11 @@ export const de: Dictionary = {
     badgeEyebrow: 'Einbettbares Badge',
     badgeIntro:
       'Eine kompakte Form dieser Seite. Lebt in E-Mail-Signaturen und aktualisiert sich, während der Eintrag wächst — jeder Klick öffnet hier.',
-  },
-  connectSuccess: {
-    added: 'Hinzugefügt',
-    cloudflare: 'Cloudflare',
-    body: 'Hinzugefügt — mehr ist nicht nötig. Der Aufbau deines Eintrags hat gerade begonnen.',
-    publicRecord: 'Dein öffentlicher Eintrag',
+    shareRecord: 'Dein öffentlicher Eintrag',
     shareEyebrow: 'Teile deinen Nachweis',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
-    shareText: '{domain} baut einen öffentlichen Vertrauenseintrag auf PACT auf',
-    whatNext: 'Was als Nächstes passiert',
-    next1: 'Eine unabhängige Prüfung kommt meist innerhalb eines Tages.',
-    next2:
-      'Das bestätigt alles und fügt diese Domain dem öffentlichen Eintrag hinzu. Mehr ist nicht zu klicken.',
-    next3: 'Danach baut sich dein Vertrauenswert auf und aktualisiert sich von allein.',
-    viewDomain: 'Ansehen',
-    allRecords: 'Alle Einträge',
-    missing: 'In diesem Link fehlte etwas — lass es uns erneut versuchen.',
-    tryAgain: 'Erneut versuchen',
+    shareText: '{domain} baut einen öffentlichen Vertrauenseintrag auf we build real auf',
   },
   badge: {
     mockLabel: 'Deine E-Mail-Signatur',

@@ -72,9 +72,5 @@ export async function GET(request: Request) {
     });
   }
 
-  return redirectWith(routes.connectSuccess, {
-    domain,
-    provider: 'cloudflare',
-    dmarc: dmarc.action,
-  });
+  return NextResponse.redirect(new URL(routes.record(domain), canonicalOrigin()));
 }

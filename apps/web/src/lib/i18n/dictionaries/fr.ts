@@ -23,7 +23,7 @@ export const fr: Dictionary = {
     heroTitle: 'L’IA peut tout falsifier.',
     heroAccent: 'Sauf hier.',
     heroSub:
-      'Un registre public vérifiable pour votre domaine — construit passivement, impossible à antidater.',
+      'Un registre public vérifiable pour votre domaine, par we build real — construit passivement, impossible à antidater.',
     manifestoEyebrow: 'Le manifeste',
     manifestoTitle: 'Le problème d’identité d’Internet',
     manifestoSub: 'Pourquoi l’histoire est la seule chose qui ne peut encore se fabriquer.',
@@ -43,7 +43,7 @@ export const fr: Dictionary = {
     closeVideo: 'Fermer et lire à la place',
     howEyebrow: 'Comment ça marche',
     howTitle: 'De l’évidence que l’on peut revérifier.',
-    howLead: 'PACT ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public.',
+    howLead: 'Il ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public.',
     howSteps: [
       {
         title: 'Des systèmes indépendants le confirment',
@@ -69,12 +69,7 @@ export const fr: Dictionary = {
     mockOrgsSub: 'indépendantes',
     recordFoot:
       'Chaque entrée a été confirmée par des systèmes de messagerie destinataires — pas auto-déclarée. Ce registre ne grandit que vers l’avant.',
-    lookupEyebrow: 'Vérifiez si votre domaine est au registre',
-    lookupPlaceholder: 'acme.com',
-    lookupAria: 'Saisissez un domaine pour voir s’il est au registre',
-    lookupButton: 'Vérifier',
-    lookupOrRecords: 'ou voir les registres publics :',
-    privacyTitle: 'Privé par conception.',
+    privacyTitle: 'Confidentialité par conception.',
     privacyBody1:
       'En connectant, un enregistrement DNS pointe une adresse de rapports (rua) vers nous. Des systèmes indépendants émettent déjà des rapports agrégés pour le domaine — compteurs d’authentification, période et infrastructure. Cette source est la seule.',
     privacyBody2: 'Le registre public est l’historique de domaine confirmé. Rien d’autre n’est collecté.',
@@ -270,25 +265,11 @@ export const fr: Dictionary = {
     badgeEyebrow: 'Badge intégrable',
     badgeIntro:
       'Une forme compacte de cette page. Vit dans les signatures d’email et se met à jour à mesure que le registre grandit — chaque clic ouvre ici.',
-  },
-  connectSuccess: {
-    added: 'Ajouté',
-    cloudflare: 'Cloudflare',
-    body: 'Ajouté, rien d\'autre à faire. La construction de votre registre vient de commencer.',
-    publicRecord: 'Votre registre public',
+    shareRecord: 'Votre registre public',
     shareEyebrow: 'Partagez votre preuve',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
-    shareText: '{domain} construit un registre public de confiance sur PACT',
-    whatNext: 'Et ensuite',
-    next1: 'Un contrôle indépendant arrive généralement sous un jour.',
-    next2:
-      "C'est ce qui confirme tout et ajoute ce domaine au registre public. Rien d'autre à cliquer.",
-    next3: 'Ensuite, votre score de confiance se construit et se met à jour tout seul.',
-    viewDomain: 'Voir',
-    allRecords: 'Tous les registres',
-    missing: 'Il manque quelque chose dans ce lien — réessayons.',
-    tryAgain: 'Réessayer',
+    shareText: '{domain} construit un registre public de confiance sur we build real',
   },
   badge: {
     mockLabel: 'Votre signature email',

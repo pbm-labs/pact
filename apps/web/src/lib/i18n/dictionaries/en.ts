@@ -24,7 +24,7 @@ export const en: Dictionary = {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
     heroSub:
-      'A verifiable public record for your domain — built passively, impossible to backdate.',
+      'A verifiable public record for your domain from we build real — built passively, impossible to backdate.',
     manifestoEyebrow: 'The Manifesto',
     manifestoTitle: "The Internet's Identity Problem",
     manifestoSub: "Why history is the one thing that still can't be manufactured.",
@@ -44,7 +44,7 @@ export const en: Dictionary = {
     closeVideo: 'Close and read instead',
     howEyebrow: 'How it works',
     howTitle: 'Evidence you can recheck.',
-    howLead: 'PACT does not ask you to trust an authority. It asks you to check a public record.',
+    howLead: 'It does not ask you to trust an authority. It asks you to check a public record.',
     howSteps: [
       {
         title: 'Independent systems confirm it',
@@ -70,12 +70,7 @@ export const en: Dictionary = {
     mockOrgsSub: 'independent',
     recordFoot:
       'Every entry was confirmed by receiving mail systems — not self-reported. This record only grows forward.',
-    lookupEyebrow: 'Check if your domain is on record',
-    lookupPlaceholder: 'acme.com',
-    lookupAria: "Enter a domain to check if it's on record",
-    lookupButton: 'Check',
-    lookupOrRecords: 'or see public records:',
-    privacyTitle: 'Private by design.',
+    privacyTitle: 'Privacy by design.',
     privacyBody1:
       'Connecting points a DNS report address (rua) at us. Independent systems already emit aggregate reports for the domain — authentication counts, period, and infrastructure. That feed is the only data source.',
     privacyBody2: 'The public record is confirmed domain history. Nothing else is collected.',
@@ -269,25 +264,11 @@ export const en: Dictionary = {
     badgeEyebrow: 'Embeddable badge',
     badgeIntro:
       'A compact form of this page. Lives in email signatures and updates as the record grows — every click opens here.',
-  },
-  connectSuccess: {
-    added: 'Added',
-    cloudflare: 'Cloudflare',
-    body: 'Added, nothing else to do. It just started building your record.',
-    publicRecord: 'Your public record',
+    shareRecord: 'Your public record',
     shareEyebrow: 'Share your proof',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
-    shareText: '{domain} is building a public trust record on PACT',
-    whatNext: 'What happens next',
-    next1: 'An independent check usually arrives within a day.',
-    next2:
-      "That's what confirms everything and adds this domain to the public record. Nothing else to click.",
-    next3: 'From there, your trust score builds and updates on its own.',
-    viewDomain: 'View',
-    allRecords: 'All records',
-    missing: "Something went missing from that link — let's try again.",
-    tryAgain: 'Try again',
+    shareText: '{domain} is building a public trust record on we build real',
   },
   badge: {
     mockLabel: 'Your email signature',

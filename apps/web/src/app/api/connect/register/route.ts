@@ -34,8 +34,5 @@ export async function GET(request: Request) {
     });
   }
 
-  return redirectWith(request, routes.connectSuccess, {
-    domain,
-    provider: 'manual',
-  });
+  return NextResponse.redirect(new URL(routes.record(domain), appOrigin(request)));
 }

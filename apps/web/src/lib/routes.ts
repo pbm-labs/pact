@@ -2,7 +2,6 @@
 export const routes = {
   home: '/',
   connect: '/connect',
-  connectSuccess: '/connect/success',
   records: '/records',
   record: (domain: string) => `/records/${encodeURIComponent(domain)}`,
   badge: (domain: string) => `/badge/${encodeURIComponent(domain)}`,

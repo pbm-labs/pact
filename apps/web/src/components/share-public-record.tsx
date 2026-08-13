@@ -1,27 +1,31 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { CopyableValue } from '@/components/copy-button';
 import { useLocale } from '@/components/locale-provider';
+import { routes } from '@/lib/routes';
 
-interface SharePublicRecordProps {
-  domain: string;
-  /** Absolute or path URL to the public record. */
-  recordUrl: string;
-}
-
-export function SharePublicRecord({ domain, recordUrl }: SharePublicRecordProps) {
+export function SharePublicRecord({ domain }: { domain: string }) {
   const { t } = useLocale();
-  const shareText = t.connectSuccess.shareText.replace('{domain}', domain);
+  const [recordUrl, setRecordUrl] = useState(
+    `https://webuildreal.dev${routes.record(domain)}`,
+  );
+
+  useEffect(() => {
+    setRecordUrl(`${window.location.origin}${routes.record(domain)}`);
+  }, [domain]);
+
+  const shareText = t.domain.shareText.replace('{domain}', domain);
   const encodedText = encodeURIComponent(shareText);
   const encodedUrl = encodeURIComponent(recordUrl);
 
   return (
     <div className="w-full space-y-4">
-      <CopyableValue text={recordUrl} caption={t.connectSuccess.publicRecord} />
+      <CopyableValue text={recordUrl} caption={t.domain.shareRecord} />
 
       <div>
-        <p className="text-xs font-mono uppercase tracking-widest text-muted-2 text-center mb-2 m-0">
-          {t.connectSuccess.shareEyebrow}
+        <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2 m-0">
+          {t.domain.shareEyebrow}
         </p>
         <div className="grid grid-cols-2 gap-2">
           <a
@@ -31,7 +35,7 @@ export function SharePublicRecord({ domain, recordUrl }: SharePublicRecordProps)
             className="flex items-center justify-center gap-2 rounded-lg border border-border bg-bg hover:border-muted-2 px-4 py-2.5 text-sm font-medium text-muted hover:text-txt no-underline transition-colors"
           >
             <LinkedInIcon />
-            {t.connectSuccess.shareLinkedIn}
+            {t.domain.shareLinkedIn}
           </a>
           <a
             href={`https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`}
@@ -40,7 +44,7 @@ export function SharePublicRecord({ domain, recordUrl }: SharePublicRecordProps)
             className="flex items-center justify-center gap-2 rounded-lg border border-border bg-bg hover:border-muted-2 px-4 py-2.5 text-sm font-medium text-muted hover:text-txt no-underline transition-colors"
           >
             <XIcon />
-            {t.connectSuccess.shareX}
+            {t.domain.shareX}
           </a>
         </div>
       </div>

@@ -23,7 +23,7 @@ export const es: Dictionary = {
     heroTitle: 'La IA puede falsificarlo todo.',
     heroAccent: 'Excepto ayer.',
     heroSub:
-      'Un registro público verificable para tu dominio — se construye en silencio, imposible de antedatar.',
+      'Un registro público verificable para tu dominio de we build real — se construye en silencio, imposible de antedatar.',
     manifestoEyebrow: 'El manifiesto',
     manifestoTitle: 'El problema de identidad de Internet',
     manifestoSub: 'Por qué la historia es lo único que todavía no se puede fabricar.',
@@ -43,7 +43,7 @@ export const es: Dictionary = {
     closeVideo: 'Cerrar y leer en su lugar',
     howEyebrow: 'Cómo funciona',
     howTitle: 'Evidencia que puedes volver a comprobar.',
-    howLead: 'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
+    howLead: 'No te pide confiar en una autoridad. Te pide revisar un registro público.',
     howSteps: [
       {
         title: 'Sistemas independientes lo confirman',
@@ -69,12 +69,7 @@ export const es: Dictionary = {
     mockOrgsSub: 'independientes',
     recordFoot:
       'Cada entrada la confirmaron sistemas de correo receptores — no es autoinformada. Este registro solo crece hacia adelante.',
-    lookupEyebrow: 'Comprueba si tu dominio está en el registro',
-    lookupPlaceholder: 'acme.com',
-    lookupAria: 'Introduce un dominio para ver si está en el registro',
-    lookupButton: 'Comprobar',
-    lookupOrRecords: 'o ver los registros públicos:',
-    privacyTitle: 'Privado por diseño.',
+    privacyTitle: 'Privacidad por diseño.',
     privacyBody1:
       'Al conectar, un DNS apunta una dirección de informes (rua) hacia nosotros. Sistemas independientes ya emiten informes agregados del dominio — conteos de autenticación, periodo e infraestructura. Esa fuente es la única.',
     privacyBody2: 'El registro público es historial de dominio confirmado. No se recoge nada más.',
@@ -268,25 +263,11 @@ export const es: Dictionary = {
     badgeEyebrow: 'Insignia integrable',
     badgeIntro:
       'Una forma compacta de esta página. Vive en las firmas de email y se actualiza a medida que crece el registro — cada clic abre aquí.',
-  },
-  connectSuccess: {
-    added: 'Añadido',
-    cloudflare: 'Cloudflare',
-    body: 'Añadido, no queda nada más por hacer. Ya empezó a construir tu registro.',
-    publicRecord: 'Tu registro público',
+    shareRecord: 'Tu registro público',
     shareEyebrow: 'Comparte tu prueba',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
-    shareText: '{domain} está construyendo un registro público de confianza en PACT',
-    whatNext: 'Qué ocurre a continuación',
-    next1: 'Una comprobación independiente suele llegar en un día.',
-    next2:
-      'Eso confirma todo y añade este dominio al registro público. No hay que hacer clic en nada más.',
-    next3: 'A partir de ahí, tu puntuación de confianza se construye y se actualiza sola.',
-    viewDomain: 'Ver',
-    allRecords: 'Todos los registros',
-    missing: 'Faltaba algo en ese enlace — volvamos a intentarlo.',
-    tryAgain: 'Intentar de nuevo',
+    shareText: '{domain} está construyendo un registro público de confianza en we build real',
   },
   badge: {
     mockLabel: 'Tu firma de email',

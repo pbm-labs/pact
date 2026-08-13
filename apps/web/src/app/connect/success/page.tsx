@@ -1,13 +1,13 @@
-import { ConnectSuccessView } from '@/components/connect-success-view';
+import { redirect } from 'next/navigation';
+import { routes } from '@/lib/routes';
 
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-// Reached after Cloudflare OAuth or manual/tool registration.
-export default async function ConnectSuccessPage({ searchParams }: PageProps) {
+/** Old connect-success links land on the domain record. */
+export default async function ConnectSuccessRedirect({ searchParams }: PageProps) {
   const params = await searchParams;
   const domain = typeof params.domain === 'string' ? params.domain : '';
-
-  return <ConnectSuccessView domain={domain} />;
+  redirect(domain ? routes.record(domain) : routes.records);
 }

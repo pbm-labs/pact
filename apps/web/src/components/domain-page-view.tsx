@@ -6,6 +6,7 @@ import { BadgeEmbed } from '@/components/badge-embed';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { PathToProven } from '@/components/path-to-proven';
+import { SharePublicRecord } from '@/components/share-public-record';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { ScoreGauge } from '@/components/score-gauge';
@@ -281,6 +282,9 @@ function EmbeddableBadgeSection({ domain }: { domain: string }) {
   const { t } = useLocale();
   return (
     <section className="mt-12 pt-10 border-t border-border">
+      <div className="mb-10">
+        <SharePublicRecord domain={domain} />
+      </div>
       <p className={eyebrow}>{t.domain.badgeEyebrow}</p>
       <p className="mt-3 mb-6 text-sm text-muted leading-relaxed max-w-xl">
         {t.domain.badgeIntro}

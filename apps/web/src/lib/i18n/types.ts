@@ -43,11 +43,6 @@ export type Dictionary = {
     mockOrgs: string;
     mockOrgsSub: string;
     recordFoot: string;
-    lookupEyebrow: string;
-    lookupPlaceholder: string;
-    lookupAria: string;
-    lookupButton: string;
-    lookupOrRecords: string;
     privacyTitle: string;
     privacyBody1: string;
     privacyBody2: string;
@@ -212,24 +207,11 @@ export type Dictionary = {
     pathFoot: string;
     badgeEyebrow: string;
     badgeIntro: string;
-  };
-  connectSuccess: {
-    added: string;
-    cloudflare: string;
-    body: string;
-    publicRecord: string;
+    shareRecord: string;
     shareEyebrow: string;
     shareLinkedIn: string;
     shareX: string;
     shareText: string;
-    whatNext: string;
-    next1: string;
-    next2: string;
-    next3: string;
-    viewDomain: string;
-    allRecords: string;
-    missing: string;
-    tryAgain: string;
   };
   badge: {
     mockLabel: string;
