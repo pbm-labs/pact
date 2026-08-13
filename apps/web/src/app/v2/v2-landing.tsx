@@ -31,13 +31,12 @@ export function V2Landing() {
       <section className="relative overflow-hidden">
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16 sm:pb-20 text-center">
           <h1 className="text-[2.5rem] sm:text-5xl font-bold tracking-tight text-txt leading-[1.05] mb-6">
-            History can&apos;t be faked.
+            AI can fake everything.
             <br />
             <span className="text-accent">Except yesterday.</span>
           </h1>
           <p className="text-base sm:text-lg text-muted max-w-lg mx-auto leading-relaxed mb-10">
-            A public record of a domain&apos;s independently confirmed history — built
-            passively, impossible to backdate.
+            A public record for your domain — built passively, impossible to backdate.
           </p>
           <Link href={routes.connect} className={btnPrimary}>
             Add your domain
