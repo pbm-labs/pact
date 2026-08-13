@@ -39,7 +39,8 @@ export function V2Landing() {
             <span className="text-accent">Except yesterday.</span>
           </h1>
           <p className="text-base sm:text-lg text-muted max-w-lg mx-auto leading-relaxed mb-10">
-            A public record for your domain — built passively, impossible to backdate.
+            A verifiable public record for your domain — built passively, impossible to
+            backdate.
           </p>
           <Link href={routes.connect} className={btnPrimary}>
             Add your domain
