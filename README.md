@@ -1,15 +1,19 @@
-# we build real / PACT Protocol — Phase 0a
+# we build real
 
-**we build real** is the movement. **PACT** is an open protocol. **PBM Labs LLC** provides the first reference implementation (this repo). Domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
+**we build real** is a movement for verifiable history.  
+**PACT** is an open protocol (Provenance Attestation and Chain of Trust).  
+**PBM Labs LLC** provides the first reference implementation, hosted at [webuildreal.dev](https://webuildreal.dev).
+
+This repo is that reference implementation: domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding).
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 
-**App / brand:** `https://webuildreal.dev`  
+**Movement:** [we build real](https://webuildreal.dev)  
 **Intake:** `rua@pact.webuildreal.dev`  
 **Contact:** `hello@webuildreal.dev`  
-**Reference implementation:** PBM Labs LLC (first implementation of PACT, under the we build real movement)  
+**First reference implementation:** PBM Labs LLC  
 **Legacy intake (still accepted):** `rua@webuildreal.dev`, `rua@pact.pbm-labs.com`
 
 ## Monorepo structure
@@ -97,7 +101,7 @@ insert into domains (domain) values ('webuildreal.dev');
 
 | Host | Role |
 |------|------|
-| `webuildreal.dev` / `www` | we build real / PACT web app (`pact-web` Worker) |
+| `webuildreal.dev` / `www` | we build real movement + first PACT reference app (`pact-web` Worker) |
 | `hello@webuildreal.dev` | Contact mail (Proton, apex MX) |
 | `rua@pact.webuildreal.dev` | DMARC intake (canonical) |
 | `rua@webuildreal.dev` | Legacy intake — still accepted |
@@ -258,4 +262,6 @@ delete from processed_reports;
 
 ## License
 
-PBM Labs LLC — first reference implementation of the PACT open protocol, under the we build real movement. Protocol open; this implementation is private.
+**PACT** is an open protocol — freely implementable.  
+**we build real** is the movement.  
+**PBM Labs LLC** provides the first reference implementation (this repo).

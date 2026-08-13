@@ -1,4 +1,4 @@
-/** we build real is the movement; PACT is the open protocol; PBM Labs LLC provides the first reference implementation. */
+/** PBM Labs LLC provides the first PACT reference implementation, hosted under the we build real movement. */
 export const LEGAL_ENTITY = {
   name: 'PBM Labs LLC',
   brand: 'we build real',

@@ -1,14 +1,13 @@
 # PACT — Provenance Attestation and Chain of Trust
 ## Protocol Specification v0.1 — Draft
 
-**Authors:** PBM Labs LLC  
+**Authors:** PBM Labs LLC (first reference implementation)  
 **Status:** Normative (reference implementation: `pact-score-0.1`)  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Movement:** we build real  
-**Protocol:** PACT (open)  
-**Reference implementation:** PBM Labs LLC  
-**Contact:** hello@webuildreal.dev
+**Contact:** hello@webuildreal.dev  
+**Movement:** we build real (`https://webuildreal.dev`)  
+**Protocol:** PACT — open; anyone may implement
 
 ---
 
@@ -205,7 +204,7 @@ PACT explicitly does not use and does not request access to:
 
 ### 3.1 Data Ingestion
 
-PACT operates a purpose-built SMTP receiver at rua@webuildreal.dev that accepts incoming DMARC aggregate reports. (The reference implementation also accepts legacy `rua@pact.pbm-labs.com` for domains that connected before the `webuildreal.dev` cutover.) Upon receipt:
+The first reference implementation (PBM Labs LLC), hosted under the we build real movement, operates a purpose-built SMTP receiver at rua@pact.webuildreal.dev that accepts incoming DMARC aggregate reports. (It also accepts legacy `rua@webuildreal.dev` and `rua@pact.pbm-labs.com` for domains that connected before the canonical intake.) Upon receipt:
 
 1. The report XML is parsed and validated against the DMARC aggregate report schema (RFC 7489 Appendix C).
 2. Per-domain authentication records are extracted.
@@ -463,7 +462,7 @@ _report._dmarc.webuildreal.dev TXT
   "v=DMARC1"
 ```
 
-This record is published once by the reference operator (PBM Labs LLC) and authorizes all domains to send their DMARC aggregate reports to rua@webuildreal.dev. No per-domain configuration is required on the PACT side.
+This record is published once by the first reference implementation (PBM Labs LLC), hosted under the we build real movement, and authorizes all domains to send their DMARC aggregate reports to the reference intake. No per-domain configuration is required on the PACT side.
 
 ### 6.3 Onboarding Paths
 
@@ -628,7 +627,7 @@ function getLatestRoot()
 
 ### 9.3 Governance
 
-The smart contract has no upgrade mechanism. It is deployed once and is immutable. Root publication is initially permissioned to reference-implementation nodes operated by PBM Labs LLC. Permissionless operation with economic stake requirements is deferred to v0.2.
+The smart contract has no upgrade mechanism. It is deployed once and is immutable. Root publication is initially permissioned to first-reference-implementation nodes operated by PBM Labs LLC. Permissionless operation with economic stake requirements is deferred to v0.2.
 
 ---
 
@@ -722,6 +721,6 @@ PACT does not protect against:
 
 PACT — Provenance Attestation and Chain of Trust
 Protocol Specification v0.1 — Open standard. Freely implementable.
-Movement: we build real
-Reference implementation: PBM Labs LLC
+we build real — movement. PACT — open protocol.
+First reference implementation: PBM Labs LLC
 Contact: hello@webuildreal.dev

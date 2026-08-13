@@ -3,14 +3,13 @@
 
 > **Historical — not normative for trust score.** The live reference implementation uses [Protocol Specification v0.1](pact_protocol_v01.md) (`pact-score-0.1`: natural-log volume, `reportingOrgs / leafCount` diversity, two independent clocks in §4.2). Retain this document for Merkle tree parameters (§3.3.1), leaf encoding (Appendix C), reporter allowlist, and provisional/activated score semantics — not for the §4.2 trust score formula (`log(|R|+1)/log(50)` diversity), which was never shipped.
 
-**Authors:** PBM Labs LLC  
+**Authors:** PBM Labs LLC (first reference implementation)  
 **Status:** Historical draft  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Movement:** we build real  
-**Protocol:** PACT (open)  
-**Reference implementation:** PBM Labs LLC  
 **Contact:** hello@webuildreal.dev  
+**Movement:** we build real (`https://webuildreal.dev`)  
+**Protocol:** PACT — open; anyone may implement  
 **Superseded by:** [Protocol Specification v0.1](pact_protocol_v01.md) for trust score and two-clock display rules
 
 ---
@@ -31,7 +30,7 @@ The result is a decentralized domain provenance layer — the trust cornerstone 
 
 **Normative language:** MUST, MUST NOT, SHOULD, and MAY are used as defined in RFC 2119.
 
-**Normative vs. reference:** Sections 1–12 and Appendix C define protocol behavior any independent implementation MUST follow to be interoperable. Appendix B describes the PBM Labs LLC reference implementation and is informative unless explicitly marked normative.
+**Normative vs. reference:** Sections 1–12 and Appendix C define protocol behavior any independent implementation MUST follow to be interoperable. Appendix B describes the first reference implementation (PBM Labs LLC, hosted under the we build real movement) and is informative unless explicitly marked normative.
 
 ---
 
@@ -250,7 +249,7 @@ Report source authentication prevents fake report injection and sybil attacks on
 
 **Reporter allowlist (v0.2):**
 
-- Initially maintained by the reference-implementation operator (PBM Labs LLC).
+- Initially maintained by the first reference implementation (PBM Labs LLC).
 - MUST include major mailbox providers: Google, Microsoft, Yahoo, Apple, and major ESPs generating DMARC aggregate reports at scale.
 - MUST include approved forwarding agents: Valimail, Postmark, EasyDMARC, Dmarcian, and equivalent services.
 - Transition to community-maintained allowlist with transparent governance is planned for v0.3 (Section 9.4).
@@ -700,7 +699,7 @@ Leaf data is stored off-chain by one or more data providers. In v0.2, the refere
 
 The smart contract has no upgrade mechanism. It is deployed once and is immutable.
 
-**v0.2:** Root publication is permissioned to authorized publisher keys operated by PBM Labs LLC (reference implementation). A permissioned publisher can theoretically omit new leaves from publication but cannot alter previously published roots.
+**v0.2:** Root publication is permissioned to authorized publisher keys operated by PBM Labs LLC (first reference implementation). A permissioned publisher can theoretically omit new leaves from publication but cannot alter previously published roots.
 
 **v0.3 (planned):** Permissionless root publication with economic stake requirements. Stake slashing conditions under consideration:
 
@@ -805,7 +804,7 @@ PACT does not protect against:
 
 ## Appendix B: Reference Implementation (Informative)
 
-The PBM Labs LLC reference implementation for v0.2 uses:
+The first PACT reference implementation, provided by PBM Labs LLC and hosted under the we build real movement, uses:
 
 | Component | Technology |
 |-----------|------------|
@@ -819,8 +818,8 @@ The PBM Labs LLC reference implementation for v0.2 uses:
 | DNS onboarding | Cloudflare API (OAuth) |
 
 **Reference domain (Phase 0a):** `webuildreal.dev`  
-**App host:** `https://webuildreal.dev`  
-**Intake:** `rua@webuildreal.dev` (legacy `rua@pact.pbm-labs.com` still accepted by the reference ingest worker)  
+**App host (movement + first reference UI):** `https://webuildreal.dev`  
+**Intake:** `rua@pact.webuildreal.dev` (legacy `rua@webuildreal.dev` and `rua@pact.pbm-labs.com` still accepted)  
 **External destination verification:** `_report._dmarc.webuildreal.dev TXT "v=DMARC1"`
 
 This stack is not normative. Any implementation producing identical leaf hashes (Appendix C) and compatible Merkle proofs (Section 3.3.1) is interoperable.
@@ -911,6 +910,6 @@ leaf = keccak256(preimage)
 
 PACT — Provenance Attestation and Chain of Trust  
 Protocol Specification v0.2 — Open standard. Freely implementable.  
-Movement: we build real  
-Reference implementation: PBM Labs LLC  
+we build real — movement. PACT — open protocol.  
+First reference implementation: PBM Labs LLC  
 Contact: hello@webuildreal.dev
