@@ -14,15 +14,15 @@ const MOCK = {
   orgs: '4',
 };
 
-const PRIVACY_ROWS: { label: string; inReport: boolean }[] = [
-  { label: 'Sending domain', inReport: true },
-  { label: 'Reporting period', inReport: true },
-  { label: 'Pass / fail counts', inReport: true },
-  { label: 'Reporting organization', inReport: true },
-  { label: 'Message content', inReport: false },
-  { label: 'Recipients', inReport: false },
-  { label: 'Mailboxes', inReport: false },
-  { label: 'Personal identities', inReport: false },
+const PRIVACY_ROWS: { label: string; stored: boolean }[] = [
+  { label: 'Sending domain', stored: true },
+  { label: 'Reporting period', stored: true },
+  { label: 'Pass / fail counts', stored: true },
+  { label: 'Reporting organization', stored: true },
+  { label: 'Message subject', stored: false },
+  { label: 'Message body', stored: false },
+  { label: 'Attachments', stored: false },
+  { label: 'Recipients / names', stored: false },
 ];
 
 export function V2Landing() {
@@ -156,24 +156,21 @@ export function V2Landing() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row gap-8 sm:gap-14 items-start">
             <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-4">
-                Private by architecture.
-              </h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-4">Private by design.</h2>
               <p className="text-muted text-sm leading-relaxed mb-4">
-                PACT is not on your mail path. No Bcc, no forwarding, no mailbox access.
-                Receiving systems already send domain owners a daily aggregate report —
-                whether mail authenticated, how much, from which infrastructure. Those
-                reports have never included message content or people.
+                Mail contains sensitive information. We never see it. Independent receiving
+                systems already emit aggregate reports — no message content, no people.
+                We record the proof, not the mail.
               </p>
               <p className="text-muted text-sm leading-relaxed">
-                That feed is the only data source. Connecting is one DNS field. After that,
-                receivers report on their own. The public record is domain history, not
-                anyone&apos;s correspondence.
+                Nothing is collected until you point an existing DNS field at us. You can
+                disconnect anytime. The public record is history that was independently
+                confirmed — never a copy of anyone&apos;s inbox.
               </p>
             </div>
             <div className="shrink-0 sm:w-64 w-full rounded-xl border border-border bg-bg overflow-hidden text-xs font-mono">
               <div className="border-b border-border px-4 py-2.5 text-muted-2 uppercase tracking-widest text-[0.6rem]">
-                What&apos;s in a report
+                What we store
               </div>
               {PRIVACY_ROWS.map((row, i, arr) => (
                 <div
@@ -183,7 +180,7 @@ export function V2Landing() {
                   }`}
                 >
                   <span className="text-muted truncate">{row.label}</span>
-                  {row.inReport ? (
+                  {row.stored ? (
                     <span className="text-verified shrink-0">✓</span>
                   ) : (
                     <span className="text-muted-2 shrink-0">✗ never</span>
