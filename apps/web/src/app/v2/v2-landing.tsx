@@ -41,16 +41,12 @@ function PreviewBadge({ domain }: { domain: string }) {
   );
 }
 
-const PRIVACY_ROWS: { label: string; inReport: boolean }[] = [
-  { label: 'Sending domain', inReport: true },
-  { label: 'Reporting period', inReport: true },
-  { label: 'Pass / fail counts', inReport: true },
-  { label: 'Reporting organization', inReport: true },
-  { label: 'Message content', inReport: false },
-  { label: 'Recipients', inReport: false },
-  { label: 'Mailboxes', inReport: false },
-  { label: 'Personal identities', inReport: false },
-];
+const PRIVACY_ROWS = [
+  'Domain',
+  'Reporting period',
+  'Pass / fail counts',
+  'Reporting organization',
+] as const;
 
 export function V2Landing() {
   const { t } = useLocale();
@@ -182,33 +178,27 @@ export function V2Landing() {
             <div className="flex-1">
               <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-4">Private by design.</h2>
               <p className="text-muted text-sm leading-relaxed mb-4">
-                We never receive your mail. Connecting points a DNS report address (rua) at
-                us — the aggregate reports receivers already send domain owners each day.
-                Those reports are authentication counts and infrastructure, not messages.
-                No content. No people.
+                Connecting points a DNS report address (rua) at us. Independent systems
+                already emit aggregate reports for the domain — authentication counts,
+                period, and infrastructure. That feed is the only data source.
               </p>
               <p className="text-muted text-sm leading-relaxed">
-                That feed is the only data source. The public record is a domain&apos;s
-                confirmed history, not anyone&apos;s correspondence.
+                The public record is confirmed domain history. Nothing else is collected.
               </p>
             </div>
             <div className="shrink-0 sm:w-64 w-full rounded-xl border border-border bg-bg overflow-hidden text-xs font-mono">
               <div className="border-b border-border px-4 py-2.5 text-muted-2 uppercase tracking-widest text-[0.6rem]">
                 What&apos;s in a report
               </div>
-              {PRIVACY_ROWS.map((row, i, arr) => (
+              {PRIVACY_ROWS.map((label, i, arr) => (
                 <div
-                  key={row.label}
+                  key={label}
                   className={`flex items-center justify-between px-4 py-2.5 gap-3 ${
                     i < arr.length - 1 ? 'border-b border-border' : ''
                   }`}
                 >
-                  <span className="text-muted truncate">{row.label}</span>
-                  {row.inReport ? (
-                    <span className="text-verified shrink-0">✓</span>
-                  ) : (
-                    <span className="text-muted-2 shrink-0">✗ never</span>
-                  )}
+                  <span className="text-muted truncate">{label}</span>
+                  <span className="text-verified shrink-0">✓</span>
                 </div>
               ))}
             </div>
