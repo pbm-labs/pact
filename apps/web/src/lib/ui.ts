@@ -8,7 +8,6 @@ export const sectionTitle = 'text-base font-semibold text-txt';
 export const bodyText = 'text-base text-muted leading-relaxed';
 export const metaText = 'text-xs font-mono text-muted-2';
 export const listTitle = 'text-lg font-semibold text-accent no-underline hover:opacity-90';
-export const narrative = 'text-lg leading-relaxed';
 
 export const btnPrimary =
   'inline-flex items-center justify-center h-11 px-5 rounded-lg bg-accent text-white text-sm font-semibold tracking-wide hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed no-underline';

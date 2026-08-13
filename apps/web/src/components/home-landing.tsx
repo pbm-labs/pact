@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { DemoBadge } from '@/components/demo-badge';
-import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
@@ -35,9 +34,6 @@ export function HomeLanding() {
             </p>
           </div>
           <VideoManifesto />
-          <div className="max-w-2xl mx-auto mt-10">
-            <SiteNarrative />
-          </div>
           <div className="text-center mt-10">
             <Link href={routes.connect} className={btnPrimary}>
               {t.home.ctaButton}
@@ -73,15 +69,6 @@ export function HomeLanding() {
             </div>
           ))}
         </div>
-
-        <p className="text-center mt-8 m-0">
-          <Link
-            href={routes.docsWhy}
-            className="text-sm font-semibold text-accent no-underline hover:opacity-90"
-          >
-            {t.home.howMore} →
-          </Link>
-        </p>
         </div>
       </section>
 

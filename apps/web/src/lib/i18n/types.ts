@@ -26,15 +26,11 @@ export type Dictionary = {
     manifestoEyebrow: string;
     manifestoTitle: string;
     manifestoSub: string;
-    manifestoParagraphs: readonly string[];
-    readMore: string;
-    showLess: string;
     closeVideo: string;
     howEyebrow: string;
     howTitle: string;
     howLead: string;
     howSteps: readonly { title: string; body: string }[];
-    howMore: string;
     recordEyebrow: string;
     recordTitle: string;
     recordSub: string;

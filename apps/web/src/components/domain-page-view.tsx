@@ -234,46 +234,48 @@ function LivePage({
         uniqueReporters={data.uniqueReporters}
       />
 
-      <p className={`${eyebrow} mb-3`}>{t.domain.techSummary}</p>
-
-      <DomainLeavesPanel
-        leaves={data.leaves}
-        domainLeafCount={data.domainLeafCount}
-        uniqueReporters={data.uniqueReporters}
-        anchorType={data.anchorType}
-        rootMatchesPublished={data.rootMatchesPublished}
-        latestRoot={data.latestRoot}
-        globalTreeLeafCount={data.globalTreeLeafCount}
-      />
-
-      <div className={`${panel} mb-2`}>
-        <div className="px-3 py-2 border-b border-border text-xs font-mono uppercase tracking-widest text-muted-2">
-          {t.domain.showMath}
-        </div>
-        <div className="overflow-x-auto thin-scrollbar">
-          <table className="w-full text-xs">
-            <tbody>
-              <MathRow label={t.domain.mathRawScore} value={rawScore.toFixed(4)} />
-              {showScore && (
-                <MathRow
-                  label={t.domain.mathDisplay}
-                  value={`${displayScore} / 100 · ${bandLabel}`}
-                />
-              )}
-              <MathRow label={t.domain.mathVolume} value={data.trust.volume.toFixed(3)} />
-              <MathRow label={t.domain.mathDiversity} value={data.trust.diversity.toFixed(3)} />
-              <MathRow label={t.domain.mathMaturity} value={data.trust.maturity.toFixed(4)} />
-              <MathRow label={t.domain.timeVerified} value={`${verifiedDays}d`} />
-              <MathRow
-                label={t.domain.mathFailedChecks}
-                value={data.totalFailCount.toLocaleString()}
-              />
-            </tbody>
-          </table>
-        </div>
-      </div>
-
       <EmbeddableBadgeSection domain={data.domain} />
+
+      <section className="mt-12 pt-10 border-t border-border">
+        <p className={`${eyebrow} mb-3`}>{t.domain.techSummary}</p>
+
+        <DomainLeavesPanel
+          leaves={data.leaves}
+          domainLeafCount={data.domainLeafCount}
+          uniqueReporters={data.uniqueReporters}
+          anchorType={data.anchorType}
+          rootMatchesPublished={data.rootMatchesPublished}
+          latestRoot={data.latestRoot}
+          globalTreeLeafCount={data.globalTreeLeafCount}
+        />
+
+        <div className={`${panel} mb-2`}>
+          <div className="px-3 py-2 border-b border-border text-xs font-mono uppercase tracking-widest text-muted-2">
+            {t.domain.showMath}
+          </div>
+          <div className="overflow-x-auto thin-scrollbar">
+            <table className="w-full text-xs">
+              <tbody>
+                <MathRow label={t.domain.mathRawScore} value={rawScore.toFixed(4)} />
+                {showScore && (
+                  <MathRow
+                    label={t.domain.mathDisplay}
+                    value={`${displayScore} / 100 · ${bandLabel}`}
+                  />
+                )}
+                <MathRow label={t.domain.mathVolume} value={data.trust.volume.toFixed(3)} />
+                <MathRow label={t.domain.mathDiversity} value={data.trust.diversity.toFixed(3)} />
+                <MathRow label={t.domain.mathMaturity} value={data.trust.maturity.toFixed(4)} />
+                <MathRow label={t.domain.timeVerified} value={`${verifiedDays}d`} />
+                <MathRow
+                  label={t.domain.mathFailedChecks}
+                  value={data.totalFailCount.toLocaleString()}
+                />
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </PageShell>
   );
 }
