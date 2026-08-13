@@ -30,6 +30,11 @@ export type Dictionary = {
     readMore: string;
     showLess: string;
     closeVideo: string;
+    howEyebrow: string;
+    howTitle: string;
+    howLead: string;
+    howSteps: readonly { title: string; body: string }[];
+    howMore: string;
     recordEyebrow: string;
     recordTitle: string;
     recordSub: string;

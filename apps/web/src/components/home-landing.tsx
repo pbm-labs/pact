@@ -60,6 +60,65 @@ export function HomeLanding() {
 
       <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="text-center mb-10">
+          <p className={`${eyebrow} mb-3`}>{t.home.howEyebrow}</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
+            {t.home.howTitle}
+          </h2>
+          <p className="text-muted text-sm max-w-lg mx-auto leading-relaxed">
+            {t.home.howLead}
+          </p>
+        </div>
+
+        <ol className="space-y-8 max-w-xl mx-auto m-0 p-0 list-none">
+          {t.home.howSteps.map((step, i) => (
+            <li key={step.title} className="flex gap-4 sm:gap-5">
+              <span className="shrink-0 font-mono text-[0.65rem] uppercase tracking-widest text-muted-2 pt-1.5 tabular-nums">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-base font-semibold text-txt m-0 leading-snug">{step.title}</h3>
+                <p className="text-sm text-muted leading-relaxed mt-2 m-0">{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-12 max-w-xl mx-auto flex flex-col sm:flex-row gap-6 sm:gap-10 items-start">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base font-semibold text-txt m-0">{t.home.privacyTitle}</h3>
+            <p className="text-sm text-muted leading-relaxed mt-2 m-0">{t.home.privacyBody2}</p>
+          </div>
+          <div className="shrink-0 sm:w-56 w-full rounded-xl border border-border bg-surface overflow-hidden text-xs font-mono">
+            <div className="border-b border-border px-4 py-2.5 text-muted-2 uppercase tracking-widest text-[0.6rem]">
+              {t.home.privacyTableTitle}
+            </div>
+            {t.home.privacyRows.map((label, i, arr) => (
+              <div
+                key={label}
+                className={`flex items-center justify-between px-4 py-2.5 gap-3 ${
+                  i < arr.length - 1 ? 'border-b border-border' : ''
+                }`}
+              >
+                <span className="text-muted truncate">{label}</span>
+                <span className="text-verified shrink-0">✓</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-center mt-10 m-0">
+          <Link
+            href={routes.docsWhy}
+            className="text-sm font-semibold text-accent no-underline hover:opacity-90"
+          >
+            {t.home.howMore} →
+          </Link>
+        </p>
+      </section>
+
+      <section className="border-t border-border">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <div className="text-center mb-10">
           <p className={`${eyebrow} mb-3`}>{t.home.recordEyebrow}</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
             {t.home.recordTitle}
@@ -139,33 +198,6 @@ export function HomeLanding() {
             </Link>
           </p>
         </div>
-      </section>
-
-      <section className="border-y border-border bg-surface py-14 sm:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row gap-8 sm:gap-14 items-start">
-            <div className="flex-1">
-              <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-4">{t.home.privacyTitle}</h2>
-              <p className="text-muted text-sm leading-relaxed mb-4">{t.home.privacyBody1}</p>
-              <p className="text-muted text-sm leading-relaxed">{t.home.privacyBody2}</p>
-            </div>
-            <div className="shrink-0 sm:w-64 w-full rounded-xl border border-border bg-bg overflow-hidden text-xs font-mono">
-              <div className="border-b border-border px-4 py-2.5 text-muted-2 uppercase tracking-widest text-[0.6rem]">
-                {t.home.privacyTableTitle}
-              </div>
-              {t.home.privacyRows.map((label, i, arr) => (
-                <div
-                  key={label}
-                  className={`flex items-center justify-between px-4 py-2.5 gap-3 ${
-                    i < arr.length - 1 ? 'border-b border-border' : ''
-                  }`}
-                >
-                  <span className="text-muted truncate">{label}</span>
-                  <span className="text-verified shrink-0">✓</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 

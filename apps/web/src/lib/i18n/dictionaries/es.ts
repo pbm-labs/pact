@@ -41,6 +41,24 @@ export const es: Dictionary = {
     readMore: 'Leer más',
     showLess: 'Mostrar menos',
     closeVideo: 'Cerrar y leer en su lugar',
+    howEyebrow: 'Cómo funciona',
+    howTitle: 'Evidencia que puedes volver a comprobar.',
+    howLead: 'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
+    howSteps: [
+      {
+        title: 'Sistemas independientes lo confirman',
+        body: 'Cada afirmación proviene de sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo descoordinado en el tiempo es la prueba.',
+      },
+      {
+        title: 'Cualquiera puede revisar el registro',
+        body: 'El registro público es de solo-append. Cualquiera puede recomputar lo publicado sin pedir permiso. Es evidencia que puedes volver a comprobar — no una afirmación que debas aceptar.',
+      },
+      {
+        title: 'Ayer no se puede fabricar',
+        body: 'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. No puedes hacer que ayer ocurra antes. Este historial se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo.',
+      },
+    ],
+    howMore: 'Lee por qué es diferente',
     recordEyebrow: 'Detrás de cada registro',
     recordTitle: 'Tu página pública completa.',
     recordSub:
@@ -76,11 +94,11 @@ export const es: Dictionary = {
     signatureContact: '+1 (415) 555-0134 · acme.studio',
     badgeFoot:
       'Funciona en Gmail, Outlook, Apple Mail y en cualquier firma HTML.',
-    ctaTitle: 'Empieza a echar los cimientos.',
+    ctaTitle: 'Empieza tu registro público.',
     ctaBody:
-      'La historia se gana un día honesto a la vez, y cada día que esperamos es un día que no recuperamos.',
+      'Conecta una vez. Sistemas independientes confirman el resto. El historial solo crece hacia adelante.',
     ctaButton: 'Añade tu dominio',
-    ctaSub: 'Sé de los primeros en pisar terreno firme.',
+    ctaSub: 'La primera confirmación suele llegar en un día.',
     watchManifesto: 'Ver el manifiesto',
   },
   connect: {

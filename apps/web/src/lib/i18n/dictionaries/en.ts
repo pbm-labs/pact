@@ -42,6 +42,24 @@ export const en: Dictionary = {
     readMore: 'Read more',
     showLess: 'Show less',
     closeVideo: 'Close and read instead',
+    howEyebrow: 'How it works',
+    howTitle: 'Evidence you can recheck.',
+    howLead: 'PACT does not ask you to trust an authority. It asks you to check a public record.',
+    howSteps: [
+      {
+        title: 'Independent systems confirm it',
+        body: 'Every claim comes from receiving mail systems — Gmail, Outlook, Yahoo, and others — that have no relationship with each other, no incentive to coordinate, and no idea they are being used as evidence. Their uncoordinated agreement over time is the proof.',
+      },
+      {
+        title: 'Anyone can check the record',
+        body: 'The public record is append-only. Anyone can recompute what was published without asking permission. It is evidence you can recheck — not a claim you must accept.',
+      },
+      {
+        title: 'Yesterday cannot be manufactured',
+        body: 'You can buy an aged domain. You can fabricate a LinkedIn history. You cannot make yesterday happen earlier. This history is built from real time passing while independent third parties were watching. There is no shortcut through time.',
+      },
+    ],
+    howMore: 'Read why this is different',
     recordEyebrow: 'Behind every record',
     recordTitle: 'Your full public page.',
     recordSub:
@@ -77,11 +95,11 @@ export const en: Dictionary = {
     signatureContact: '+1 (415) 555-0134 · acme.studio',
     badgeFoot:
       'Works in Gmail, Outlook, Apple Mail, and anywhere else HTML signatures work.',
-    ctaTitle: 'Start pouring the foundation.',
+    ctaTitle: 'Start your public record.',
     ctaBody:
-      'History is earned one honest day at a time, and every day we wait is a day we never get back.',
+      'Connect once. Independent systems confirm the rest. The history only grows forward.',
     ctaButton: 'Add your domain',
-    ctaSub: 'Be one of the first to stand on solid ground.',
+    ctaSub: 'First confirmation usually within a day.',
     watchManifesto: 'Watch The Manifesto',
   },
   connect: {

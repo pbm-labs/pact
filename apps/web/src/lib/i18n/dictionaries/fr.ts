@@ -41,6 +41,24 @@ export const fr: Dictionary = {
     readMore: 'Lire la suite',
     showLess: 'Réduire',
     closeVideo: 'Fermer et lire à la place',
+    howEyebrow: 'Comment ça marche',
+    howTitle: 'De l’évidence que l’on peut revérifier.',
+    howLead: 'PACT ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public.',
+    howSteps: [
+      {
+        title: 'Des systèmes indépendants le confirment',
+        body: 'Chaque affirmation vient de systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — qui n’ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu’ils servent d’évidence. Leur accord non coordonné dans le temps est la preuve.',
+      },
+      {
+        title: 'N’importe qui peut vérifier le registre',
+        body: 'Le registre public est append-only. N’importe qui peut recalculer ce qui a été publié sans demander la permission. C’est de l’évidence que l’on peut revérifier — pas une affirmation à accepter.',
+      },
+      {
+        title: 'Hier ne se fabrique pas',
+        body: 'Vous pouvez acheter un domaine âgé. Fabriquer un LinkedIn. Vous ne pouvez pas faire arriver hier plus tôt. Cet historique se construit avec le temps réel qui passe pendant que des tiers indépendants regardaient. Il n’y a pas de raccourci dans le temps.',
+      },
+    ],
+    howMore: 'Lire pourquoi c’est différent',
     recordEyebrow: 'Derrière chaque registre',
     recordTitle: 'Votre page publique complète.',
     recordSub:
@@ -76,11 +94,11 @@ export const fr: Dictionary = {
     signatureContact: '+1 (415) 555-0134 · acme.studio',
     badgeFoot:
       'Fonctionne dans Gmail, Outlook, Apple Mail, et partout où les signatures HTML fonctionnent.',
-    ctaTitle: 'Commencez à couler la fondation.',
+    ctaTitle: 'Commencez votre registre public.',
     ctaBody:
-      "L'histoire s'acquiert un jour honnête à la fois, et chaque jour d'attente est un jour que l'on ne récupère jamais.",
+      'Connectez une fois. Des systèmes indépendants confirment le reste. L’historique ne grandit que vers l’avant.',
     ctaButton: 'Ajoutez votre domaine',
-    ctaSub: 'Soyez parmi les premiers sur un terrain solide.',
+    ctaSub: 'Première confirmation généralement sous un jour.',
     watchManifesto: 'Voir le manifeste',
   },
   connect: {

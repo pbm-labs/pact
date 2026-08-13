@@ -41,6 +41,24 @@ export const de: Dictionary = {
     readMore: 'Mehr lesen',
     showLess: 'Weniger anzeigen',
     closeVideo: 'Schließen und stattdessen lesen',
+    howEyebrow: 'So funktioniert es',
+    howTitle: 'Evidenz, die du nachprüfen kannst.',
+    howLead: 'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
+    howSteps: [
+      {
+        title: 'Unabhängige Systeme bestätigen es',
+        body: 'Jede Aussage stammt von empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre unkoordinierte Übereinstimmung über die Zeit ist der Beweis.',
+      },
+      {
+        title: 'Jede Person kann den Eintrag prüfen',
+        body: 'Der öffentliche Eintrag ist append-only. Jede Person kann das Veröffentlichte neu berechnen, ohne um Erlaubnis zu bitten. Evidenz, die du nachprüfen kannst — keine Behauptung, die du akzeptieren musst.',
+      },
+      {
+        title: 'Gestern lässt sich nicht herstellen',
+        body: 'Du kannst eine gealterte Domain kaufen. Du kannst eine LinkedIn-Historie fälschen. Du kannst gestern nicht früher geschehen lassen. Diese Historie entsteht aus vergehender Echtzeit, während unabhängige Dritte zusahen. Es gibt keine Abkürzung durch die Zeit.',
+      },
+    ],
+    howMore: 'Lesen, warum das anders ist',
     recordEyebrow: 'Hinter jedem Eintrag',
     recordTitle: 'Deine vollständige öffentliche Seite.',
     recordSub:
@@ -76,11 +94,11 @@ export const de: Dictionary = {
     signatureContact: '+1 (415) 555-0134 · acme.studio',
     badgeFoot:
       'Funktioniert in Gmail, Outlook, Apple Mail und überall, wo HTML-Signaturen funktionieren.',
-    ctaTitle: 'Beginne, das Fundament zu gießen.',
+    ctaTitle: 'Starte deinen öffentlichen Eintrag.',
     ctaBody:
-      'Geschichte entsteht Tag für Tag — ehrlich und nachvollziehbar. Jeder Tag, den wir warten, kommt nicht zurück.',
+      'Einmal verbinden. Unabhängige Systeme bestätigen den Rest. Die Historie wächst nur nach vorn.',
     ctaButton: 'Domain hinzufügen',
-    ctaSub: 'Sei unter den Ersten auf festem Boden.',
+    ctaSub: 'Erste Bestätigung meist innerhalb eines Tages.',
     watchManifesto: 'Das Manifest ansehen',
   },
   connect: {
