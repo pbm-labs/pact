@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocale } from '@/components/locale-provider';
 
@@ -67,7 +67,7 @@ function PlayPoster({
   );
 }
 
-export function VideoManifesto({ footer }: { footer?: ReactNode }) {
+export function VideoManifesto() {
   const { t } = useLocale();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -101,22 +101,15 @@ export function VideoManifesto({ footer }: { footer?: ReactNode }) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-2xl border border-border-h bg-surface">
-        <div className="relative aspect-video w-full">
-          <PlayPoster
-            title={t.home.manifestoTitle}
-            watchLabel={t.home.watchManifesto}
-            onPlay={() => {
-              setOpen(true);
-              setPlaying(true);
-            }}
-          />
-        </div>
-        {footer && (
-          <div className="border-t border-border px-5 py-5 sm:py-6 text-center">
-            {footer}
-          </div>
-        )}
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-border-h bg-surface">
+        <PlayPoster
+          title={t.home.manifestoTitle}
+          watchLabel={t.home.watchManifesto}
+          onPlay={() => {
+            setOpen(true);
+            setPlaying(true);
+          }}
+        />
       </div>
 
       {mounted &&

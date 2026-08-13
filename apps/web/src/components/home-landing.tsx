@@ -33,18 +33,13 @@ export function HomeLanding() {
               {t.home.heroSub}
             </p>
           </div>
-          <VideoManifesto
-            footer={
-              <>
-                <Link href={routes.connect} className={btnPrimary}>
-                  {t.home.ctaButton}
-                </Link>
-                <p className={`${pageIntro} mt-3 mb-0`}>
-                  {t.home.ctaSub}
-                </p>
-              </>
-            }
-          />
+          <VideoManifesto />
+          <div className="text-center mt-10">
+            <Link href={routes.connect} className={btnPrimary}>
+              {t.home.ctaButton}
+            </Link>
+            <p className={`${pageIntro} mt-3 mb-0`}>{t.home.ctaSub}</p>
+          </div>
         </div>
       </section>
 
