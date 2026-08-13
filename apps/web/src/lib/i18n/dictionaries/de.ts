@@ -224,7 +224,7 @@ export const de: Dictionary = {
   whyPact: {
     eyebrow: 'PACT Protocol',
     title: 'What Makes PACT Different',
-    intro: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — nicht das vollständige Whitepaper.',
+    intro: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — nicht das vollständige Whitepaper. we build real ist die Bewegung; PACT ist das offene Protokoll; PBM Labs LLC stellt die erste Referenzimplementierung bereit.',
     scope:
       'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien.',
   },
@@ -232,6 +232,9 @@ export const de: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
     intro: 'Wie PACT funktioniert und warum es anders ist.',
+    layerMovement: 'we build real — die Bewegung',
+    layerProtocol: 'PACT — ein offenes Protokoll',
+    layerImpl: 'PBM Labs LLC — erste Referenzimplementierung',
     whyTitle: 'What Makes PACT Different',
     whyBody: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — zuerst lesen.',
     whitepaperTitle: 'Whitepaper',
@@ -280,7 +283,7 @@ export const de: Dictionary = {
       },
       {
         title: '2. Wer wir sind',
-        body: 'Diese Website wird unter der Marke „we build real“ von PBM Labs LLC („wir“, „uns“) betrieben, einer Limited Liability Company nach dem Recht von Wyoming — dem Unternehmen hinter der Referenzimplementierung des PACT-Protokolls. Sie bietet öffentlichen Zugang zu dieser Referenzimplementierung: Domain-Verbindung, einen öffentlichen Eintrag unabhängig verifizierter Domain-Historie und zugehörige Dokumentation.',
+        body: 'we build real ist die Bewegung. PACT ist ein offenes Protokoll. Diese Website ist die erste Referenzimplementierung, bereitgestellt von PBM Labs LLC („wir“, „uns“), einer Limited Liability Company nach dem Recht von Wyoming. Sie bietet öffentlichen Zugang zu dieser Implementierung: Domain-Verbindung, einen öffentlichen Eintrag unabhängig verifizierter Domain-Historie und zugehörige Dokumentation.',
       },
       {
         title: '3. Der Dienst',
@@ -334,7 +337,7 @@ export const de: Dictionary = {
     privacy: [
       {
         title: '1. Überblick',
-        body: 'Diese Datenschutzerklärung erläutert, wie wir („we build real“, betrieben von PBM Labs LLC) Informationen verarbeiten, wenn du webuildreal.dev und die PACT-Referenzdienste nutzt. PACT ist so gestaltet, dass seine primäre Datenquelle — DMARC-Aggregatberichte — keinen Nachrichteninhalt und keine persönlichen Identitäten enthält.',
+        body: 'Diese Datenschutzerklärung erläutert, wie wir Informationen verarbeiten, wenn du webuildreal.dev nutzt. we build real ist die Bewegung; PACT ist das offene Protokoll; PBM Labs LLC stellt die erste Referenzimplementierung bereit. PACT ist so gestaltet, dass seine primäre Datenquelle — DMARC-Aggregatberichte — keinen Nachrichteninhalt und keine persönlichen Identitäten enthält.',
       },
       {
         title: '2. Informationen, die wir verarbeiten',

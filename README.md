@@ -1,6 +1,6 @@
-# PACT Protocol — Phase 0a
+# we build real / PACT Protocol — Phase 0a
 
-Public brand is **we build real**; the protocol is **PACT**. Domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
+**we build real** is the movement. **PACT** is an open protocol. **PBM Labs LLC** provides the first reference implementation (this repo). Domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding).
 
@@ -9,7 +9,7 @@ The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer
 **App / brand:** `https://webuildreal.dev`  
 **Intake:** `rua@pact.webuildreal.dev`  
 **Contact:** `hello@webuildreal.dev`  
-**Reference implementation:** PBM Labs LLC (company behind this PACT implementation)  
+**Reference implementation:** PBM Labs LLC (first implementation of PACT, under the we build real movement)  
 **Legacy intake (still accepted):** `rua@webuildreal.dev`, `rua@pact.pbm-labs.com`
 
 ## Monorepo structure
@@ -258,4 +258,4 @@ delete from processed_reports;
 
 ## License
 
-PBM Labs LLC — company behind the PACT reference implementation. Protocol open; reference implementation private.
+PBM Labs LLC — first reference implementation of the PACT open protocol, under the we build real movement. Protocol open; this implementation is private.

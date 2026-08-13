@@ -218,13 +218,13 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Whitepaper',
     intro:
-      'The open protocol behind the public record — how verified history is captured, published, and measured.',
+      'The open protocol behind the public record — how verified history is captured, published, and measured. we build real is the movement; PBM Labs LLC provides the first reference implementation.',
     source: 'Source on GitHub →',
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
     title: 'What Makes PACT Different',
-    intro: 'A two-minute note on evidence vs. authority — not the full protocol whitepaper.',
+    intro: 'A two-minute note on evidence vs. authority — not the full protocol whitepaper. we build real is the movement; PACT is the open protocol; PBM Labs LLC provides the first reference implementation.',
     scope:
       'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a personal credential, and not a replacement for registries or credit bureaus.',
   },
@@ -232,6 +232,9 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
     intro: 'How PACT works and why it’s different.',
+    layerMovement: 'we build real — the movement',
+    layerProtocol: 'PACT — an open protocol',
+    layerImpl: 'PBM Labs LLC — first reference implementation',
     whyTitle: 'What Makes PACT Different',
     whyBody: 'A two-minute note on evidence vs. authority — the brief to read first.',
     whitepaperTitle: 'Whitepaper',
@@ -246,7 +249,7 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'Phase 0a is live: a public, recomputable record with staging Merkle roots. On-chain anchoring is next.',
+      'Phase 0a of the first reference implementation is live: a public, recomputable record with staging Merkle roots. On-chain anchoring is next. we build real is the movement; PACT is the open protocol; PBM Labs LLC provides this implementation.',
     nowTitle: 'Live today',
     nowItems: [
       'Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools',
@@ -280,7 +283,7 @@ export const en: Dictionary = {
       },
       {
         title: '2. Who We Are',
-        body: 'This site is operated under the “we build real” brand by PBM Labs LLC (“we”, “us”), a Wyoming limited liability company — the company behind the PACT Protocol reference implementation. The site provides public access to that reference implementation: domain connection, a public record of independently verified domain history, and related documentation.',
+        body: 'we build real is the movement. PACT is an open protocol. This site is the first reference implementation, provided by PBM Labs LLC (“we”, “us”), a Wyoming limited liability company. It offers public access to that implementation: domain connection, a public record of independently verified domain history, and related documentation.',
       },
       {
         title: '3. The Service',
@@ -334,7 +337,7 @@ export const en: Dictionary = {
     privacy: [
       {
         title: '1. Overview',
-        body: 'This Privacy Policy explains how we (“we build real”, operated by PBM Labs LLC) handle information when you use webuildreal.dev and the PACT reference services. PACT is designed so its primary data source — DMARC aggregate reports — contains no message content and no personal identities.',
+        body: 'This Privacy Policy explains how we handle information when you use webuildreal.dev. we build real is the movement; PACT is the open protocol; PBM Labs LLC provides the first reference implementation. PACT is designed so its primary data source — DMARC aggregate reports — contains no message content and no personal identities.',
       },
       {
         title: '2. Information We Process',

@@ -14,7 +14,12 @@ export function DocsView() {
       <header className="mb-12">
         <p className={`${eyebrow} mb-3`}>{t.docs.eyebrow}</p>
         <h1 className={`${pageTitle} mb-4`}>{t.docs.title}</h1>
-        <p className={`${pageIntro} max-w-xl`}>{t.docs.intro}</p>
+        <p className={`${pageIntro} max-w-xl mb-4`}>{t.docs.intro}</p>
+        <ul className={`${pageIntro} max-w-xl m-0 pl-5 list-disc space-y-1`}>
+          <li>{t.docs.layerMovement}</li>
+          <li>{t.docs.layerProtocol}</li>
+          <li>{t.docs.layerImpl}</li>
+        </ul>
       </header>
 
       <nav className="space-y-10" aria-label={t.docs.title}>

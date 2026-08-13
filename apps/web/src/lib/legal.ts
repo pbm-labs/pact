@@ -1,4 +1,4 @@
-/** Legal operator behind the we build real site and PACT reference implementation. */
+/** we build real is the movement; PACT is the open protocol; PBM Labs LLC provides the first reference implementation. */
 export const LEGAL_ENTITY = {
   name: 'PBM Labs LLC',
   brand: 'we build real',

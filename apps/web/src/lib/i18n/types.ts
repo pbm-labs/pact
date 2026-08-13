@@ -200,6 +200,9 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     intro: string;
+    layerMovement: string;
+    layerProtocol: string;
+    layerImpl: string;
     whyTitle: string;
     whyBody: string;
     whitepaperTitle: string;

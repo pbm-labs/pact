@@ -7,6 +7,9 @@
 **Status:** Historical draft  
 **Date:** June 2026  
 **License:** Open — freely implementable  
+**Movement:** we build real  
+**Protocol:** PACT (open)  
+**Reference implementation:** PBM Labs LLC  
 **Contact:** hello@webuildreal.dev  
 **Superseded by:** [Protocol Specification v0.1](pact_protocol_v01.md) for trust score and two-clock display rules
 
@@ -908,5 +911,6 @@ leaf = keccak256(preimage)
 
 PACT — Provenance Attestation and Chain of Trust  
 Protocol Specification v0.2 — Open standard. Freely implementable.  
+Movement: we build real  
 Reference implementation: PBM Labs LLC  
 Contact: hello@webuildreal.dev
