@@ -1,11 +1,11 @@
 /** Canonical app paths — use these instead of string literals. */
 export const routes = {
   home: '/',
-  v2: '/v2',
   connect: '/connect',
   connectSuccess: '/connect/success',
   records: '/records',
   record: (domain: string) => `/records/${encodeURIComponent(domain)}`,
+  badge: (domain: string) => `/badge/${encodeURIComponent(domain)}`,
   docs: '/docs',
   docsWhy: '/docs/why',
   docsWhitepaper: '/docs/whitepaper',

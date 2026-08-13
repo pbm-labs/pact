@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { TrustScoreProgress } from '@pact/core';
+import { BadgeEmbed } from '@/components/badge-embed';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { useLocale } from '@/components/locale-provider';
@@ -136,6 +137,8 @@ function WaitingPage({
           </ol>
         </div>
       </section>
+
+      <EmbeddableBadgeSection domain={domain} />
     </PageShell>
   );
 }
@@ -255,7 +258,22 @@ function LivePage({
           </div>
         </div>
       </details>
+
+      <EmbeddableBadgeSection domain={data.domain} />
     </PageShell>
+  );
+}
+
+function EmbeddableBadgeSection({ domain }: { domain: string }) {
+  const { t } = useLocale();
+  return (
+    <section className="mt-12 pt-10 border-t border-border">
+      <p className={eyebrow}>{t.domain.badgeEyebrow}</p>
+      <p className="mt-3 mb-6 text-sm text-muted leading-relaxed max-w-xl">
+        {t.domain.badgeIntro}
+      </p>
+      <BadgeEmbed domain={domain} />
+    </section>
   );
 }
 

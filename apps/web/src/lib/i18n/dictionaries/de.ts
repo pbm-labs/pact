@@ -194,6 +194,9 @@ export const de: Dictionary = {
     clockYear: '({n} J.)',
     clockMonths: '({n} Mo.)',
     clockDaysShort: '({n}d)',
+    badgeEyebrow: 'Einbettbares Badge',
+    badgeIntro:
+      'Eine kompakte Form dieser Seite. Lebt in E-Mail-Signaturen und aktualisiert sich, während der Eintrag wächst — jeder Klick öffnet hier.',
   },
   connectSuccess: {
     added: 'Hinzugefügt',
@@ -213,6 +216,21 @@ export const de: Dictionary = {
     allRecords: 'Alle Einträge',
     missing: 'In diesem Link fehlte etwas — lass es uns erneut versuchen.',
     tryAgain: 'Erneut versuchen',
+  },
+  badge: {
+    mockLabel: 'Deine E-Mail-Signatur',
+    signatureName: 'Dein Name',
+    signatureRole: 'Rolle · Unternehmen',
+    signatureContact: 'name@{domain}',
+    copyBadge: 'Badge kopieren',
+    copyDone: 'Kopiert — in die Signatur einfügen',
+    copyError: 'Kopieren fehlgeschlagen — erneut versuchen',
+    howTo:
+      'Funktioniert in Gmail, Outlook und Apple Mail. Das Badge bleibt nach dem Einfügen klickbar.',
+    alt: 'we build real Badge für {domain}',
+    themeAria: 'Badge-Thema',
+    themeDark: 'Dunkel',
+    themeLight: 'Hell',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',

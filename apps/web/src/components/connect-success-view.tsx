@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
+import { BadgeEmbed } from '@/components/badge-embed';
 import { SharePublicRecord } from '@/components/share-public-record';
 import { routes } from '@/lib/routes';
 import {
@@ -56,6 +57,16 @@ export function ConnectSuccessView({ domain }: ConnectSuccessViewProps) {
       <section className={`${panel} w-full text-left mb-6`}>
         <div className={`${panelBody} space-y-5`}>
           <SharePublicRecord domain={domain} recordUrl={recordUrl} />
+        </div>
+      </section>
+
+      <section className={`${panel} w-full text-left mb-6`}>
+        <div className={panelBody}>
+          <h2 className={panelSectionTitle}>{t.domain.badgeEyebrow}</h2>
+          <p className="text-sm text-muted leading-relaxed mb-5">
+            {t.domain.badgeIntro}
+          </p>
+          <BadgeEmbed domain={domain} />
         </div>
       </section>
 

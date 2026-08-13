@@ -194,6 +194,9 @@ export const es: Dictionary = {
     clockYear: '({n} a)',
     clockMonths: '({n} mes)',
     clockDaysShort: '({n}d)',
+    badgeEyebrow: 'Insignia integrable',
+    badgeIntro:
+      'Una forma compacta de esta página. Vive en las firmas de email y se actualiza a medida que crece el registro — cada clic abre aquí.',
   },
   connectSuccess: {
     added: 'Añadido',
@@ -213,6 +216,21 @@ export const es: Dictionary = {
     allRecords: 'Todos los registros',
     missing: 'Faltaba algo en ese enlace — volvamos a intentarlo.',
     tryAgain: 'Intentar de nuevo',
+  },
+  badge: {
+    mockLabel: 'Tu firma de email',
+    signatureName: 'Tu nombre',
+    signatureRole: 'Cargo · Empresa',
+    signatureContact: 'nombre@{domain}',
+    copyBadge: 'Copiar insignia',
+    copyDone: 'Copiado — pégala en tu firma',
+    copyError: 'No se pudo copiar — inténtalo de nuevo',
+    howTo:
+      'Funciona en Gmail, Outlook y Apple Mail. La insignia sigue siendo clicable al pegarla.',
+    alt: 'Insignia we build real de {domain}',
+    themeAria: 'Tema de la insignia',
+    themeDark: 'Oscuro',
+    themeLight: 'Claro',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',

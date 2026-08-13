@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { DemoBadge } from '@/components/demo-badge';
+import { DomainLookup } from '@/components/domain-lookup';
 import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
 import { btnPrimary, eyebrow, metaText, sectionTitle } from '@/lib/ui';
-import { DomainLookup } from './domain-lookup';
 
 const MOCK = {
   domain: 'acmecorp.com',
@@ -17,30 +18,6 @@ const MOCK = {
 
 const SIGNATURE_DOMAIN = 'acme.studio';
 
-function PreviewBadge({ domain }: { domain: string }) {
-  return (
-    <span className="inline-flex items-stretch overflow-hidden rounded-full border border-border text-xs font-semibold leading-none select-none">
-      <span className="flex items-center gap-1.5 bg-verified px-2.5 py-1.5 text-white">
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden
-        >
-          <polyline points="20 6 9 17 4 12" />
-        </svg>
-        Verified
-      </span>
-      <span className="flex items-center bg-bg px-2.5 py-1.5 font-mono text-txt">{domain}</span>
-    </span>
-  );
-}
-
 const PRIVACY_ROWS = [
   'Domain',
   'Reporting period',
@@ -48,7 +25,7 @@ const PRIVACY_ROWS = [
   'Reporting organization',
 ] as const;
 
-export function V2Landing() {
+export function HomeLanding() {
   const { t } = useLocale();
 
   return (
@@ -230,7 +207,7 @@ export function V2Landing() {
                 +1 (415) 555-0134 · acme.studio
               </p>
               <div className="mt-4">
-                <PreviewBadge domain={SIGNATURE_DOMAIN} />
+                <DemoBadge domain={SIGNATURE_DOMAIN} state="verified" />
               </div>
             </div>
           </div>

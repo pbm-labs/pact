@@ -194,6 +194,9 @@ export const en: Dictionary = {
     clockYear: '({n} yr)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}d)',
+    badgeEyebrow: 'Embeddable badge',
+    badgeIntro:
+      'A compact form of this page. Lives in email signatures and updates as the record grows — every click opens here.',
   },
   connectSuccess: {
     added: 'Added',
@@ -213,6 +216,21 @@ export const en: Dictionary = {
     allRecords: 'All records',
     missing: "Something went missing from that link — let's try again.",
     tryAgain: 'Try again',
+  },
+  badge: {
+    mockLabel: 'Your email signature',
+    signatureName: 'Your name',
+    signatureRole: 'Role · Company',
+    signatureContact: 'name@{domain}',
+    copyBadge: 'Copy badge',
+    copyDone: 'Copied — paste into your signature',
+    copyError: 'Copy failed — try again',
+    howTo:
+      'Works in Gmail, Outlook, and Apple Mail. The badge stays clickable when pasted.',
+    alt: 'we build real badge for {domain}',
+    themeAria: 'Badge theme',
+    themeDark: 'Dark',
+    themeLight: 'Light',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',

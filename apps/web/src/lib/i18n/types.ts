@@ -165,6 +165,8 @@ export type Dictionary = {
     clockYear: string;
     clockMonths: string;
     clockDaysShort: string;
+    badgeEyebrow: string;
+    badgeIntro: string;
   };
   connectSuccess: {
     added: string;
@@ -184,6 +186,20 @@ export type Dictionary = {
     missing: string;
     tryAgain: string;
   };
+  badge: {
+    mockLabel: string;
+    signatureName: string;
+    signatureRole: string;
+    signatureContact: string;
+    copyBadge: string;
+    copyDone: string;
+    copyError: string;
+    howTo: string;
+    alt: string;
+    themeAria: string;
+    themeDark: string;
+    themeLight: string;
+  };
   whitepaper: {
     eyebrow: string;
     title: string;
@@ -200,9 +216,6 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     intro: string;
-    layerMovement: string;
-    layerProtocol: string;
-    layerImpl: string;
     whyTitle: string;
     whyBody: string;
     whitepaperTitle: string;

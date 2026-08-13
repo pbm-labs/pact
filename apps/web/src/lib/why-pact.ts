@@ -11,5 +11,4 @@ export const WHY_PACT_MARKDOWN = [
   'Every other proof of legitimacy answers: *what did someone claim, and who is vouching for it?*',
   'PACT answers a different question: *what actually happened, for how long, witnessed by how many independent parties who had no reason to lie?*',
   'That question has never had a durable public answer before. Starting now, it does.',
-  'we build real is the movement. PACT is the open protocol. PBM Labs LLC provides the first reference implementation.',
 ].join('\n\n');
