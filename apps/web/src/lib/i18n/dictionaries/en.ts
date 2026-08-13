@@ -99,7 +99,7 @@ export const en: Dictionary = {
     ctaBody:
       'Connect once. Independent systems confirm the rest. The history only grows forward.',
     ctaButton: 'Add your domain',
-    ctaSub: 'First confirmation usually within a day.',
+    ctaSub: 'Be one of the first to stand on solid ground.',
     watchManifesto: 'Watch The Manifesto',
   },
   connect: {

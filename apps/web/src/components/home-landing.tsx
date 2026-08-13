@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { DemoBadge } from '@/components/demo-badge';
 import { DomainLookup } from '@/components/domain-lookup';
-import { PathToProven } from '@/components/path-to-proven';
 import { SiteNarrative } from '@/components/site-narrative';
 import { VideoManifesto } from '@/components/video-manifesto';
 import { useLocale } from '@/components/locale-provider';
@@ -25,41 +24,32 @@ export function HomeLanding() {
   return (
     <main className="flex-1" key={locale}>
       <section className="relative overflow-hidden">
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16 sm:pb-20 text-center">
-          <h1 className="text-[2.5rem] sm:text-5xl font-bold tracking-tight text-txt leading-[1.05] mb-6">
-            {t.home.heroTitle}
-            <br />
-            <span className="text-accent">{t.home.heroAccent}</span>
-          </h1>
-          <p className="text-base sm:text-lg text-muted max-w-lg mx-auto leading-relaxed mb-10">
-            {t.home.heroSub}
-          </p>
-          <Link href={routes.connect} className={btnPrimary}>
-            {t.home.ctaButton}
-          </Link>
-          <p className={`mt-5 ${metaText}`}>{t.home.ctaSub}</p>
-        </div>
-      </section>
-
-      <section className="border-y border-border bg-surface py-14 sm:py-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10">
-            <p className={`${eyebrow} mb-3`}>{t.home.manifestoEyebrow}</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
-              {t.home.manifestoTitle}
-            </h2>
-            <p className="text-muted text-sm max-w-md mx-auto leading-relaxed">
-              {t.home.manifestoSub}
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16 sm:pb-20">
+          <div className="text-center">
+            <h1 className="text-[2.5rem] sm:text-5xl font-bold tracking-tight text-txt leading-[1.05] mb-6">
+              {t.home.heroTitle}
+              <br />
+              <span className="text-accent">{t.home.heroAccent}</span>
+            </h1>
+            <p className="text-base sm:text-lg text-muted max-w-lg mx-auto leading-relaxed mb-10">
+              {t.home.heroSub}
             </p>
           </div>
           <VideoManifesto />
           <div className="max-w-2xl mx-auto mt-10">
             <SiteNarrative />
           </div>
+          <div className="text-center mt-10">
+            <Link href={routes.connect} className={btnPrimary}>
+              {t.home.ctaButton}
+            </Link>
+            <p className={`mt-5 ${metaText}`}>{t.home.ctaSub}</p>
+          </div>
         </div>
       </section>
 
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+      <section className="border-t border-border">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="text-center mb-10">
           <p className={`${eyebrow} mb-3`}>{t.home.howEyebrow}</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-txt mb-3">
@@ -115,6 +105,7 @@ export function HomeLanding() {
             {t.home.howMore} →
           </Link>
         </p>
+        </div>
       </section>
 
       <section className="border-t border-border">
@@ -178,15 +169,6 @@ export function HomeLanding() {
               </div>
             ))}
           </div>
-
-          <PathToProven
-            className="mt-6"
-            status="provisional"
-            pactAgeDays={MOCK.verifiedDays}
-            uniqueReporters={MOCK.orgs}
-            inset
-            showFoot={false}
-          />
 
           <p className="mt-6 text-[0.8rem] text-muted leading-relaxed">
             {t.home.recordFoot}

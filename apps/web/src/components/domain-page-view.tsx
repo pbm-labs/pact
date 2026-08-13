@@ -46,6 +46,17 @@ interface DomainPageViewProps {
   unconfigured: boolean;
 }
 
+function MathRow({ label, value }: { label: string; value: string }) {
+  return (
+    <tr className="border-b border-border last:border-0">
+      <th className="text-left font-medium px-3 py-1.5 text-muted-2 whitespace-nowrap w-[9rem]">
+        {label}
+      </th>
+      <td className="px-3 py-1.5 font-mono tabular-nums">{value}</td>
+    </tr>
+  );
+}
+
 function Stat({
   value,
   label,
@@ -222,52 +233,44 @@ function LivePage({
         uniqueReporters={data.uniqueReporters}
       />
 
-      <details className="group mb-2">
-        <summary className="flex items-center gap-2 cursor-pointer select-none mb-6 text-xs font-mono uppercase tracking-widest text-muted-2 hover:text-muted">
-          <span className={`inline-block group-open:rotate-90`}>›</span>
-          {t.domain.techSummary}
-        </summary>
+      <p className={`${eyebrow} mb-3`}>{t.domain.techSummary}</p>
 
-        <DomainLeavesPanel
-          leaves={data.leaves}
-          domainLeafCount={data.domainLeafCount}
-          uniqueReporters={data.uniqueReporters}
-          anchorType={data.anchorType}
-          rootMatchesPublished={data.rootMatchesPublished}
-          latestRoot={data.latestRoot}
-          globalTreeLeafCount={data.globalTreeLeafCount}
-        />
+      <DomainLeavesPanel
+        leaves={data.leaves}
+        domainLeafCount={data.domainLeafCount}
+        uniqueReporters={data.uniqueReporters}
+        anchorType={data.anchorType}
+        rootMatchesPublished={data.rootMatchesPublished}
+        latestRoot={data.latestRoot}
+        globalTreeLeafCount={data.globalTreeLeafCount}
+      />
 
-        <div className={`${panel} mb-2`}>
-          <div className="px-5 py-4 text-xs font-mono uppercase tracking-widest text-muted-2">
-            {t.domain.showMath}
-          </div>
-          <div className={`${panelBody} pt-0 border-t border-border`}>
-            <dl className="grid grid-cols-[minmax(7rem,auto)_1fr] gap-x-4 gap-y-2 text-sm">
-              <dt className="text-muted-2">{t.domain.mathRawScore}</dt>
-              <dd className="m-0 font-mono tabular-nums">{rawScore.toFixed(4)}</dd>
-              {showScore && (
-                <>
-                  <dt className="text-muted-2">{t.domain.mathDisplay}</dt>
-                  <dd className="m-0 font-mono tabular-nums">
-                    {displayScore} / 100 · {bandLabel}
-                  </dd>
-                </>
-              )}
-              <dt className="text-muted-2">{t.domain.mathVolume}</dt>
-              <dd className="m-0 font-mono tabular-nums">{data.trust.volume.toFixed(3)}</dd>
-              <dt className="text-muted-2">{t.domain.mathDiversity}</dt>
-              <dd className="m-0 font-mono tabular-nums">{data.trust.diversity.toFixed(3)}</dd>
-              <dt className="text-muted-2">{t.domain.mathMaturity}</dt>
-              <dd className="m-0 font-mono tabular-nums">{data.trust.maturity.toFixed(4)}</dd>
-              <dt className="text-muted-2">{t.domain.timeVerified}</dt>
-              <dd className="m-0 font-mono tabular-nums">{verifiedDays}d</dd>
-              <dt className="text-muted-2">{t.domain.mathFailedChecks}</dt>
-              <dd className="m-0 font-mono tabular-nums">{data.totalFailCount.toLocaleString()}</dd>
-            </dl>
-          </div>
+      <div className={`${panel} mb-2`}>
+        <div className="px-3 py-2 border-b border-border text-xs font-mono uppercase tracking-widest text-muted-2">
+          {t.domain.showMath}
         </div>
-      </details>
+        <div className="overflow-x-auto thin-scrollbar">
+          <table className="w-full text-xs">
+            <tbody>
+              <MathRow label={t.domain.mathRawScore} value={rawScore.toFixed(4)} />
+              {showScore && (
+                <MathRow
+                  label={t.domain.mathDisplay}
+                  value={`${displayScore} / 100 · ${bandLabel}`}
+                />
+              )}
+              <MathRow label={t.domain.mathVolume} value={data.trust.volume.toFixed(3)} />
+              <MathRow label={t.domain.mathDiversity} value={data.trust.diversity.toFixed(3)} />
+              <MathRow label={t.domain.mathMaturity} value={data.trust.maturity.toFixed(4)} />
+              <MathRow label={t.domain.timeVerified} value={`${verifiedDays}d`} />
+              <MathRow
+                label={t.domain.mathFailedChecks}
+                value={data.totalFailCount.toLocaleString()}
+              />
+            </tbody>
+          </table>
+        </div>
+      </div>
 
       <EmbeddableBadgeSection domain={data.domain} />
     </PageShell>

@@ -98,7 +98,7 @@ export const fr: Dictionary = {
     ctaBody:
       'Connectez une fois. Des systèmes indépendants confirment le reste. L’historique ne grandit que vers l’avant.',
     ctaButton: 'Ajoutez votre domaine',
-    ctaSub: 'Première confirmation généralement sous un jour.',
+    ctaSub: 'Soyez parmi les premiers sur un terrain solide.',
     watchManifesto: 'Voir le manifeste',
   },
   connect: {
