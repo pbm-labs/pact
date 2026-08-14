@@ -15,8 +15,10 @@ export function SharePublicRecord({ domain }: { domain: string }) {
     setRecordUrl(`${window.location.origin}${routes.record(domain)}`);
   }, [domain]);
 
-  const shareText = t.domain.shareText.replace('{domain}', domain);
-  const encodedText = encodeURIComponent(shareText);
+  const shareX = t.domain.shareTextX.replace('{domain}', domain);
+  const shareLinkedIn = t.domain.shareTextLinkedIn.replace('{domain}', domain);
+  const encodedX = encodeURIComponent(shareX);
+  const encodedLinkedIn = encodeURIComponent(`${shareLinkedIn}\n\n${recordUrl}`);
   const encodedUrl = encodeURIComponent(recordUrl);
 
   return (
@@ -29,7 +31,7 @@ export function SharePublicRecord({ domain }: { domain: string }) {
         </p>
         <div className="grid grid-cols-2 gap-2">
           <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+            href={`https://www.linkedin.com/feed/?shareActive=true&text=${encodedLinkedIn}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-lg border border-border bg-bg hover:border-muted-2 px-4 py-2.5 text-sm font-medium text-muted hover:text-txt no-underline transition-colors"
@@ -38,7 +40,7 @@ export function SharePublicRecord({ domain }: { domain: string }) {
             {t.domain.shareLinkedIn}
           </a>
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`}
+            href={`https://twitter.com/intent/tweet?text=${encodedX}&url=${encodedUrl}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-lg border border-border bg-bg hover:border-muted-2 px-4 py-2.5 text-sm font-medium text-muted hover:text-txt no-underline transition-colors"

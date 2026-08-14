@@ -208,7 +208,8 @@ export type Dictionary = {
     shareEyebrow: string;
     shareLinkedIn: string;
     shareX: string;
-    shareText: string;
+    shareTextX: string;
+    shareTextLinkedIn: string;
   };
   badge: {
     mockLabel: string;

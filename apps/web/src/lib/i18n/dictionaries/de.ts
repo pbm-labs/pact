@@ -254,7 +254,10 @@ export const de: Dictionary = {
     shareEyebrow: 'Teile deinen Nachweis',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
-    shareText: '{domain} baut einen öffentlichen Vertrauenseintrag auf we build real auf',
+    shareTextX:
+      'KI kann alles fälschen. Außer gestern.\n\n{domain} hat jetzt einen öffentlichen Eintrag, den jede Person nachprüfen kann.',
+    shareTextLinkedIn:
+      '{domain} hat jetzt einen öffentlichen Eintrag, den jede Person nachprüfen kann — unabhängig bestätigte Historie, entsteht passiv, lässt sich nicht zurückdatieren.',
   },
   badge: {
     mockLabel: 'Deine E-Mail-Signatur',

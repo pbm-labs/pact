@@ -256,7 +256,10 @@ export const fr: Dictionary = {
     shareEyebrow: 'Partagez votre preuve',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
-    shareText: '{domain} construit un registre public de confiance sur we build real',
+    shareTextX:
+      'L’IA peut tout falsifier. Sauf hier.\n\n{domain} a désormais un registre public que n’importe qui peut revérifier.',
+    shareTextLinkedIn:
+      '{domain} a désormais un registre public que n’importe qui peut revérifier — historique confirmé de façon indépendante, construit passivement, impossible à antidater.',
   },
   badge: {
     mockLabel: 'Votre signature email',
