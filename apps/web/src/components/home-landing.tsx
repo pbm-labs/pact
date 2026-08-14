@@ -50,12 +50,12 @@ export function HomeLanding() {
           <h2 className={`${pageTitle} mb-3`}>
             {t.home.howTitle}
           </h2>
-          <p className={`${pageIntro} max-w-md mx-auto`}>
+          <p className={`${pageIntro} max-w-2xl mx-auto`}>
             {t.home.howLead}
           </p>
         </div>
 
-        <div className="max-w-xl mx-auto rounded-xl border border-border bg-bg overflow-hidden">
+        <div className="rounded-xl border border-border bg-bg overflow-hidden">
           {t.home.howSteps.map((step, i) => (
             <div
               key={step.title}
