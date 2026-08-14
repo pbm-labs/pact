@@ -44,19 +44,19 @@ describe('badge-dimensions (Split Pill v1)', () => {
 
   describe('themes', () => {
     it('ships a light + dark palette for the right half', () => {
-      expect(BADGE_THEMES.dark.rightBg).toBe('#131316');
+      expect(BADGE_THEMES.dark.rightBg).toBe('#1a1a20');
       expect(BADGE_THEMES.dark.rightFg).toBe('#e8e8f2');
-      expect(BADGE_THEMES.dark.border).toBe('#25252f');
+      expect(BADGE_THEMES.dark.border).toBe('#3a3a50');
       expect(BADGE_THEMES.light.rightBg).toBe('#ffffff');
       expect(BADGE_THEMES.light.rightFg).toBe('#18181e');
       expect(BADGE_THEMES.light.border).toBe('#e0e0ec');
     });
 
-    it('uses we build real brand + amber for the left half', () => {
-      expect(STATE_PALETTES.verified.bg).toBe('#7c6af7');
+    it('keeps Proven green and Building amber', () => {
+      expect(STATE_PALETTES.verified.bg).toBe('#16a34a');
       expect(STATE_PALETTES.verified.fg).toBe('#ffffff');
-      expect(STATE_PALETTES.building.bg).toBe('#f59e0b');
-      expect(STATE_PALETTES.building.fg).toBe('#0c0c0f');
+      expect(STATE_PALETTES.building.bg).toBe('#d97706');
+      expect(STATE_PALETTES.building.fg).toBe('#ffffff');
     });
 
     it('defaults to dark', () => {

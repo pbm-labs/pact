@@ -1,17 +1,19 @@
-// Badge layout constants for the Split Pill (ETag: v2).
+// Badge layout constants for the Split Pill (ETag: v3).
 //
 //   ┌──────────────────┬──────────────────┐
 //   │  ✓  Proven       │     acme.com     │
 //   └──────────────────┴──────────────────┘
-//      brand (state)         site surface (theme-aware)
+//      tinted (state)        site surface (theme-aware)
 //
-// LEFT  — variable status. Background uses the we build real palette
-//         (brand violet for Proven, amber for Building) and carries
+// LEFT  — variable status. Background changes with the tier
+//         (green for Proven, amber for Building) and carries
 //         the state icon + state word. Fixed width so a Proven
 //         badge and a Building badge for the same domain share
 //         the exact same canvas — no reflow on graduation.
 // RIGHT — the domain itself. Theme-aware surface + text from the
-//         site tokens. Variable width — adapts to the domain length.
+//         site tokens. Dark is charcoal, not near-black, so the
+//         pill reads on both the site and a light email client.
+//         Variable width — adapts to the domain length.
 //
 // Brand attribution lives in the click target
 // (`webuildreal.dev/records/<domain>`), not in the rendered pixels.
@@ -63,9 +65,9 @@ export interface BadgeThemePalette {
 
 export const BADGE_THEMES: Record<BadgeTheme, BadgeThemePalette> = {
   dark: {
-    rightBg: '#131316',
+    rightBg: '#1a1a20',
     rightFg: '#e8e8f2',
-    border: '#25252f',
+    border: '#3a3a50',
   },
   light: {
     rightBg: '#ffffff',
@@ -80,17 +82,17 @@ export interface BadgeStatePalette {
   iconNotch: string;
 }
 
-/** Matches `apps/web/src/app/globals.css` marketing tokens (`--brand`, `--amber`). */
+/** Proven / Building fills — site `--verified` / `--amber` (light tokens, white type). */
 export const STATE_PALETTES: Record<BadgeState, BadgeStatePalette> = {
   verified: {
-    bg: '#7c6af7',
+    bg: '#16a34a',
     fg: '#ffffff',
-    iconNotch: '#7c6af7',
+    iconNotch: '#16a34a',
   },
   building: {
-    bg: '#f59e0b',
-    fg: '#0c0c0f',
-    iconNotch: '#f59e0b',
+    bg: '#d97706',
+    fg: '#ffffff',
+    iconNotch: '#d97706',
   },
 };
 

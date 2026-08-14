@@ -24,15 +24,14 @@ import {
   type BadgeState,
 } from '@/lib/badge-state';
 
-// Split Pill (ETag: v2).
+// Split Pill (ETag: v3).
 //
 //   ┌──────────────────┬──────────────────┐
 //   │  ✓  Proven       │     acme.com     │
 //   └──────────────────┴──────────────────┘
 //
-// LEFT half  — state fill from the we build real palette
-//              (brand violet for Proven, amber for Building)
-//              + icon + state word. Constant 104px.
+// LEFT half  — state-tinted bg (green for Proven, amber for Building)
+//              + white icon + white state word. Constant 104px.
 // RIGHT half — theme-aware site surface + monospace domain text.
 //              Width adapts to the domain. Brand attribution lives
 //              in the click target (`webuildreal.dev/records/<domain>`).
@@ -269,7 +268,7 @@ function cacheHeaders(
   format: 'svg' | 'png',
   theme: BadgeTheme,
 ): Record<string, string> {
-  const etag = `W/"${snapshot.state}-${theme}-${format}-v2"`;
+  const etag = `W/"${snapshot.state}-${theme}-${format}-v3"`;
   return {
     'Cache-Control':
       'public, max-age=60, s-maxage=120, stale-while-revalidate=3600',
