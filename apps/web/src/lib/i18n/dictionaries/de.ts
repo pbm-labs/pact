@@ -254,6 +254,8 @@ export const de: Dictionary = {
     shareEyebrow: 'Teile deinen Nachweis',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
+    shareText:
+      'KI kann alles fälschen. Außer gestern.\n\n{domain} hat jetzt einen öffentlichen Eintrag, den jede Person nachprüfen kann.',
   },
   badge: {
     mockLabel: 'Deine E-Mail-Signatur',

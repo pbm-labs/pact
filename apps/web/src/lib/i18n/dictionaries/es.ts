@@ -254,6 +254,8 @@ export const es: Dictionary = {
     shareEyebrow: 'Comparte tu prueba',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
+    shareText:
+      'La IA puede falsificarlo todo. Excepto ayer.\n\n{domain} ya tiene un registro público que cualquiera puede comprobar.',
   },
   badge: {
     mockLabel: 'Tu firma de email',

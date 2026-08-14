@@ -255,6 +255,8 @@ export const en: Dictionary = {
     shareEyebrow: 'Share your proof',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
+    shareText:
+      'AI can fake everything. Except yesterday.\n\n{domain} now has a public record anyone can recheck.',
   },
   badge: {
     mockLabel: 'Your email signature',
