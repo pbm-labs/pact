@@ -329,7 +329,7 @@ export const en: Dictionary = {
   },
   legal: {
     eyebrow: 'Legal',
-    lastUpdated: 'Last updated August 8, 2026',
+    lastUpdated: 'Last updated August 14, 2026',
     termsTitle: 'Terms of Service',
     privacyTitle: 'Privacy Policy',
     emailLabel: 'Email',
@@ -388,7 +388,7 @@ export const en: Dictionary = {
       },
       {
         title: '14. Contact',
-        body: 'Legal notices and questions about these Terms: hello@webuildreal.dev.',
+        body: 'Legal notices and questions about these Terms: hello@pbm-labs.com.',
       },
     ],
     privacy: [
@@ -438,7 +438,7 @@ export const en: Dictionary = {
       },
       {
         title: '12. Contact',
-        body: 'Privacy questions: hello@webuildreal.dev.',
+        body: 'Privacy questions: hello@pbm-labs.com.',
       },
     ],
   },
