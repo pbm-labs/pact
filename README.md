@@ -12,7 +12,7 @@ The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer
 
 **Movement:** [we build real](https://webuildreal.dev)  
 **Intake:** `rua@pact.webuildreal.dev`  
-**Contact:** `hello@webuildreal.dev`  
+**Contact:** `hello@pbm-labs.com`  
 **First reference implementation:** PBM Labs LLC  
 **Legacy intake (still accepted):** `rua@webuildreal.dev`, `rua@pact.pbm-labs.com`
 
@@ -102,7 +102,7 @@ insert into domains (domain) values ('webuildreal.dev');
 | Host | Role |
 |------|------|
 | `webuildreal.dev` / `www` | we build real movement + first PACT reference app (`pact-web` Worker) |
-| `hello@webuildreal.dev` | Contact mail (Proton, apex MX) |
+| `hello@pbm-labs.com` | Legal / operator contact (PBM Labs LLC) |
 | `rua@pact.webuildreal.dev` | DMARC intake (canonical) |
 | `rua@webuildreal.dev` | Legacy intake — still accepted |
 | `rua@pact.pbm-labs.com` | Legacy DMARC intake |
@@ -145,7 +145,8 @@ Do **not** keep OAuth publisher TXT on `pact.pbm-labs.com` — publisher verific
 
 | Address | MX | Handler |
 |---------|-----|---------|
-| `hello@webuildreal.dev` | Proton (apex) | Inbox |
+| `hello@pbm-labs.com` | PBM Labs LLC | Legal / operator inbox |
+| `hello@webuildreal.dev` | Proton (apex) | Movement domain only — not a legal inbox |
 | `rua@pact.webuildreal.dev` | `route*.mx.cloudflare.net` | `pact-ingest` (canonical) |
 | `rua@webuildreal.dev` | — | Legacy; still accepted if a domain still points here |
 | `rua@pact.pbm-labs.com` | `route*.mx.cloudflare.net` | `pact-ingest` (legacy) |
@@ -162,7 +163,7 @@ In [Proton Mail](https://mail.proton.me) → **Settings → Domain names** → a
 |----------------|--------|
 | `rua@pact.webuildreal.dev` | **Send to Worker** → `pact-ingest` |
 
-Keep `hello@webuildreal.dev` on Proton (apex MX). Do not put Cloudflare Email Routing MX on the apex.
+Legal contact is `hello@pbm-labs.com` (PBM Labs LLC). Keep `webuildreal.dev` apex MX on Proton if that mailbox still exists; it is not the legal inbox. Do not put Cloudflare Email Routing MX on the apex.
 
 **Legacy (PBM Labs LLC zone)**
 
@@ -182,7 +183,8 @@ curl -sI https://webuildreal.dev/ | head -1         # app
 # pact.pbm-labs.com has no Worker route — HTTP is not the app (mail MX remains)
 ```
 
-Send test to `hello@webuildreal.dev` → Proton inbox.  
+Send test to `hello@webuildreal.dev` → Proton on the movement domain (not the legal inbox).  
+Legal / operator contact is `hello@pbm-labs.com`.  
 New DMARC reports should use `rua@pact.webuildreal.dev` → worker (~24–48h). Legacy rua still accepted.
 
 ## Deploy PACT web app
@@ -211,7 +213,7 @@ Google DMARC reports arrive as **ZIP** attachments (`application/zip`); the inge
 | Method | What it tests |
 |--------|----------------|
 | `pnpm test` | pact-core unit tests (parser, Merkle, trust score) |
-| Send mail to `hello@webuildreal.dev` | Proton inbox (apex MX) |
+| Send mail to `hello@pbm-labs.com` | PBM Labs LLC operator inbox |
 | Wait ~24–48h | **Real** Google/Microsoft DMARC reports |
 
 Real reports arrive from allowlisted senders (e.g. `noreply-dmarc-support@google.com`). Resend/test mail is rejected by the reporter allowlist — that is intentional.

@@ -4,7 +4,7 @@ Three layers, kept distinct:
 
 1. **we build real** — the movement. Public home: [webuildreal.dev](https://webuildreal.dev).
 2. **PACT** — an open protocol (Provenance Attestation and Chain of Trust). Anyone may implement it.
-3. **PBM Labs LLC** — provides the **first** reference implementation (this repository).
+3. **PBM Labs LLC** — provides the **first** reference implementation (this repository). Legal contact: `hello@pbm-labs.com`.
 
 | Spec | Role |
 |------|------|

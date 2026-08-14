@@ -7,7 +7,7 @@
 **Status:** Historical draft  
 **Date:** June 2026  
 **License:** Open — freely implementable  
-**Contact:** hello@webuildreal.dev  
+**Contact:** hello@pbm-labs.com  
 **Movement:** we build real (`https://webuildreal.dev`)  
 **Protocol:** PACT — open; anyone may implement  
 **Superseded by:** [Protocol Specification v0.1](pact_protocol_v01.md) for trust score and two-clock display rules
@@ -912,4 +912,4 @@ PACT — Provenance Attestation and Chain of Trust
 Protocol Specification v0.2 — Open standard. Freely implementable.  
 we build real — movement. PACT — open protocol.  
 First reference implementation: PBM Labs LLC  
-Contact: hello@webuildreal.dev
+Contact: hello@pbm-labs.com
