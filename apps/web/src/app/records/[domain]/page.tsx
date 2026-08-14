@@ -1,12 +1,42 @@
+import type { Metadata } from 'next';
 import { estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
 import { DomainPageView, type DomainLiveScoreView } from '@/components/domain-page-view';
 import { fetchDomainPageState } from '@/lib/domain-data';
+import { routes } from '@/lib/routes';
 import { scoreBandKey, shouldShowTrustScore } from '@/lib/trust-display';
 
 export const dynamic = 'force-dynamic';
 
 interface PageProps {
   params: Promise<{ domain: string }>;
+}
+
+const siteUrl = 'https://webuildreal.dev';
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { domain: raw } = await params;
+  const domain = decodeURIComponent(raw).toLowerCase().trim();
+  const title = `${domain} — public record`;
+  const description =
+    'Independently confirmed history anyone can recheck. Impossible to backdate.';
+  const url = `${siteUrl}${routes.record(domain)}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: 'we build real',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
 }
 
 export default async function RecordPage({ params }: PageProps) {
