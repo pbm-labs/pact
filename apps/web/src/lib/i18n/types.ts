@@ -34,6 +34,7 @@ export type Dictionary = {
     recordEyebrow: string;
     recordTitle: string;
     recordSub: string;
+    mockLabel: string;
     mockStatusSub: string;
     mockTimeSub: string;
     mockOrgs: string;

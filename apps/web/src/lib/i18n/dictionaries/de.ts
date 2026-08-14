@@ -49,6 +49,7 @@ export const de: Dictionary = {
     recordTitle: 'Deine vollständige öffentliche Seite.',
     recordSub:
       'Jede Person kann sie öffnen. Unabhängig bestätigte Historie — teilbar, wo ein Gegenüber nachschauen könnte.',
+    mockLabel: 'Beispiel',
     mockStatusSub: 'Unabhängig bestätigte Historie, die weiter wächst.',
     mockTimeSub: 'seit dem ersten Bericht',
     mockOrgs: 'Meldende Orgs.',

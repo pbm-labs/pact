@@ -50,6 +50,7 @@ export const en: Dictionary = {
     recordTitle: 'Your full public page.',
     recordSub:
       'Anyone can open it. Independently confirmed history — shareable anywhere a counterparty might look.',
+    mockLabel: 'Example',
     mockStatusSub: 'Independently confirmed history, still accumulating.',
     mockTimeSub: 'since first report',
     mockOrgs: 'Reporting orgs',

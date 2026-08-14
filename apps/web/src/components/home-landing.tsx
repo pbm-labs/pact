@@ -116,15 +116,12 @@ export function HomeLanding() {
 
         <div className="max-w-xl mx-auto rounded-xl border border-border bg-bg px-5 sm:px-7 py-6">
           <p className={eyebrow}>
-            {t.domain.publicRecord}
+            {t.home.mockLabel}
           </p>
           <div className="mt-2.5">
             <h3 className="text-xl font-bold text-txt tracking-tight break-all leading-tight">
               {MOCK.domain}
             </h3>
-            <p className="text-xs text-muted-2 font-mono mt-1.5 break-all">
-              webuildreal.dev/records/{MOCK.domain}
-            </p>
           </div>
 
           <div className="mt-5 rounded-xl border border-amber/30 bg-amber/5 px-4 py-3.5">
