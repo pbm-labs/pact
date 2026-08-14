@@ -24,7 +24,7 @@ import {
   type BadgeState,
 } from '@/lib/badge-state';
 
-// Split Pill (ETag: v3).
+// Split Pill (ETag: v4).
 //
 //   ┌──────────────────┬──────────────────┐
 //   │  ✓  Proven       │     acme.com     │
@@ -130,9 +130,9 @@ function renderSvg(domain: string, state: BadgeState, theme: BadgeTheme): string
   <g clip-path="url(#pill)">
     <rect x="0" y="0" width="${LEFT_W}" height="${H}" fill="${p.bg}"/>
     <rect x="${LEFT_W}" y="0" width="${rightW}" height="${H}" fill="${t.rightBg}"/>
-    <line x1="${LEFT_W}" y1="0" x2="${LEFT_W}" y2="${H}" stroke="${t.border}" stroke-width="1" stroke-opacity="0.55"/>
+    <line x1="${LEFT_W}" y1="0" x2="${LEFT_W}" y2="${H}" stroke="${t.border}" stroke-width="1"/>
   </g>
-  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="${R - 0.5}" fill="none" stroke="${t.border}" stroke-width="1" stroke-opacity="0.55"/>${iconEl}
+  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="${R - 0.5}" fill="none" stroke="${t.border}" stroke-width="1"/>${iconEl}
   <text x="${stateX}" y="${baselineY}" ${textFont} font-weight="800" fill="${p.fg}">${esc(stateWord)}</text>
   <text x="${rightCenterX}" y="${baselineY}" ${textFont} font-weight="700" fill="${t.rightFg}" text-anchor="middle">${esc(domainText)}</text>
 </svg>`;
@@ -195,7 +195,7 @@ function renderPng(
           width: '100%',
           height: '100%',
           borderRadius: R * 2,
-          border: `1px solid ${t.border}`,
+          border: `2px solid ${t.border}`,
           overflow: 'hidden',
           fontFamily: 'monospace',
           boxSizing: 'border-box',
@@ -268,7 +268,7 @@ function cacheHeaders(
   format: 'svg' | 'png',
   theme: BadgeTheme,
 ): Record<string, string> {
-  const etag = `W/"${snapshot.state}-${theme}-${format}-v3"`;
+  const etag = `W/"${snapshot.state}-${theme}-${format}-v4"`;
   return {
     'Cache-Control':
       'public, max-age=60, s-maxage=120, stale-while-revalidate=3600',

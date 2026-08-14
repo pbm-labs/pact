@@ -44,9 +44,9 @@ describe('badge-dimensions (Split Pill v1)', () => {
 
   describe('themes', () => {
     it('ships a light + dark palette for the right half', () => {
-      expect(BADGE_THEMES.dark.rightBg).toBe('#1a1a20');
+      expect(BADGE_THEMES.dark.rightBg).toBe('#2a2a38');
       expect(BADGE_THEMES.dark.rightFg).toBe('#e8e8f2');
-      expect(BADGE_THEMES.dark.border).toBe('#3a3a50');
+      expect(BADGE_THEMES.dark.border).toBe('#4a4a68');
       expect(BADGE_THEMES.light.rightBg).toBe('#ffffff');
       expect(BADGE_THEMES.light.rightFg).toBe('#18181e');
       expect(BADGE_THEMES.light.border).toBe('#e0e0ec');

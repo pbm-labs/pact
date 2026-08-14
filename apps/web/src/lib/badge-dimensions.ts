@@ -1,4 +1,4 @@
-// Badge layout constants for the Split Pill (ETag: v3).
+// Badge layout constants for the Split Pill (ETag: v4).
 //
 //   ┌──────────────────┬──────────────────┐
 //   │  ✓  Proven       │     acme.com     │
@@ -11,8 +11,8 @@
 //         badge and a Building badge for the same domain share
 //         the exact same canvas — no reflow on graduation.
 // RIGHT — the domain itself. Theme-aware surface + text from the
-//         site tokens. Dark is charcoal, not near-black, so the
-//         pill reads on both the site and a light email client.
+//         site tokens. Dark is a lifted charcoal so the pill reads
+//         on the site preview and in a light email client.
 //         Variable width — adapts to the domain length.
 //
 // Brand attribution lives in the click target
@@ -65,9 +65,9 @@ export interface BadgeThemePalette {
 
 export const BADGE_THEMES: Record<BadgeTheme, BadgeThemePalette> = {
   dark: {
-    rightBg: '#1a1a20',
+    rightBg: '#2a2a38',
     rightFg: '#e8e8f2',
-    border: '#3a3a50',
+    border: '#4a4a68',
   },
   light: {
     rightBg: '#ffffff',
