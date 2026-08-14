@@ -10,6 +10,7 @@ import {
   LEFT_W,
   PAD_L,
   PAD_R,
+  STATE_PALETTES,
   STATE_WORDS,
   isBadgeTheme,
   rightWidthFor,
@@ -23,15 +24,16 @@ import {
   type BadgeState,
 } from '@/lib/badge-state';
 
-// Split Pill (ETag: v1).
+// Split Pill (ETag: v2).
 //
 //   ┌──────────────────┬──────────────────┐
 //   │  ✓  Proven       │     acme.com     │
 //   └──────────────────┴──────────────────┘
 //
-// LEFT half  — state-tinted bg (green for Proven, amber for Building)
-//              + white icon + white state word. Constant 104px.
-// RIGHT half — theme-aware neutral bg + monospace domain text.
+// LEFT half  — state fill from the we build real palette
+//              (brand violet for Proven, amber for Building)
+//              + icon + state word. Constant 104px.
+// RIGHT half — theme-aware site surface + monospace domain text.
 //              Width adapts to the domain. Brand attribution lives
 //              in the click target (`webuildreal.dev/records/<domain>`).
 //
@@ -87,25 +89,6 @@ function esc(s: string): string {
     }
   });
 }
-
-interface LeftPalette {
-  bg: string;
-  fg: string;
-  iconNotch: string;
-}
-
-const STATE_PALETTES: Record<BadgeState, LeftPalette> = {
-  verified: {
-    bg: '#16a34a',
-    fg: '#ffffff',
-    iconNotch: '#16a34a',
-  },
-  building: {
-    bg: '#d97706',
-    fg: '#ffffff',
-    iconNotch: '#d97706',
-  },
-};
 
 function stateAria(state: BadgeState): string {
   return STATE_WORDS[state].toLowerCase();
@@ -286,7 +269,7 @@ function cacheHeaders(
   format: 'svg' | 'png',
   theme: BadgeTheme,
 ): Record<string, string> {
-  const etag = `W/"${snapshot.state}-${theme}-${format}-v1"`;
+  const etag = `W/"${snapshot.state}-${theme}-${format}-v2"`;
   return {
     'Cache-Control':
       'public, max-age=60, s-maxage=120, stale-while-revalidate=3600',

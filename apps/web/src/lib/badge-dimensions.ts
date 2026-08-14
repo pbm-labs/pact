@@ -1,18 +1,17 @@
-// Badge layout constants for the Split Pill (ETag: v1).
+// Badge layout constants for the Split Pill (ETag: v2).
 //
 //   ┌──────────────────┬──────────────────┐
 //   │  ✓  Proven       │     acme.com     │
 //   └──────────────────┴──────────────────┘
-//      tinted (state)        neutral (theme-aware)
+//      brand (state)         site surface (theme-aware)
 //
-// LEFT  — variable status. Background changes with the tier
-//         (green for Proven, amber for Building) and carries
+// LEFT  — variable status. Background uses the we build real palette
+//         (brand violet for Proven, amber for Building) and carries
 //         the state icon + state word. Fixed width so a Proven
 //         badge and a Building badge for the same domain share
 //         the exact same canvas — no reflow on graduation.
-// RIGHT — the domain itself. Theme-aware neutral background
-//         (light or dark) + monospace domain text. Variable
-//         width — adapts to the domain length.
+// RIGHT — the domain itself. Theme-aware surface + text from the
+//         site tokens. Variable width — adapts to the domain length.
 //
 // Brand attribution lives in the click target
 // (`webuildreal.dev/records/<domain>`), not in the rendered pixels.
@@ -66,12 +65,32 @@ export const BADGE_THEMES: Record<BadgeTheme, BadgeThemePalette> = {
   dark: {
     rightBg: '#131316',
     rightFg: '#e8e8f2',
-    border: '#0c0c0f',
+    border: '#25252f',
   },
   light: {
     rightBg: '#ffffff',
     rightFg: '#18181e',
     border: '#e0e0ec',
+  },
+};
+
+export interface BadgeStatePalette {
+  bg: string;
+  fg: string;
+  iconNotch: string;
+}
+
+/** Matches `apps/web/src/app/globals.css` marketing tokens (`--brand`, `--amber`). */
+export const STATE_PALETTES: Record<BadgeState, BadgeStatePalette> = {
+  verified: {
+    bg: '#7c6af7',
+    fg: '#ffffff',
+    iconNotch: '#7c6af7',
+  },
+  building: {
+    bg: '#f59e0b',
+    fg: '#0c0c0f',
+    iconNotch: '#f59e0b',
   },
 };
 
