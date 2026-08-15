@@ -175,6 +175,8 @@ export const fr: Dictionary = {
     timeVerified: 'Temps vérifié',
     reports: 'Rapports',
     allTime: 'depuis le début',
+    reportingOrgs: 'Orgs déclarantes',
+    independent: 'indépendantes',
     passRate: 'Taux de réussite',
     techSummary: 'Vérification technique — rapports et preuve cryptographique',
     showMath: 'Voir le calcul',

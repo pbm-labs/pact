@@ -14,7 +14,6 @@ import type { DomainLiveData, DomainPageState } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
 import {
   formatScoreProgressHint,
-  formatVerifiedDays,
   localizeBandLabel,
   type ScoreBandKey,
 } from '@/lib/trust-display';
@@ -171,7 +170,6 @@ function LivePage({
     data.trust.status === 'activated' ? t.domain.proven : t.domain.building;
   const { rawScore, displayScore, bandKey, showScore, progress, verifiedDays } = liveScore;
   const bandLabel = localizeBandLabel(bandKey, t.domain);
-  const verifiedLabel = formatVerifiedDays(verifiedDays, t.domain);
   const progressHint = formatScoreProgressHint(progress, rawScore, t.domain);
 
   return (
@@ -182,38 +180,10 @@ function LivePage({
             <p className={`${eyebrow} mb-2`}>{t.domain.publicRecord}</p>
             <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
             <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">
-              {showScore ? t.domain.scoreIntro : t.domain.historyIntro}
+              {t.domain.historyIntro}
             </p>
           </div>
-          <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
-            {showScore ? (
-              <>
-                <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
-                  <ScoreGauge score={displayScore} size={108} strokeWidth={8} />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className={`${statValue} text-txt`}>
-                      {displayScore}
-                    </span>
-                    <span className="text-xs font-mono text-muted-2 mt-0.5">/ 100</span>
-                  </div>
-                </div>
-                <p className="text-sm text-muted m-0">{bandLabel}</p>
-              </>
-            ) : (
-              <div className="text-left sm:text-right">
-                <p className={`${statValue} text-txt m-0`}>
-                  {verifiedLabel}
-                </p>
-                <p className="text-sm text-muted mt-2 m-0">{t.domain.historyHero}</p>
-              </div>
-            )}
-            {progressHint && (
-              <p className="text-xs text-muted-2 m-0 max-w-[16rem] sm:text-right leading-snug">
-                {progressHint}
-              </p>
-            )}
-            <span className={statusBadge}>{statusLabel}</span>
-          </div>
+          <span className={`${statusBadge} shrink-0`}>{statusLabel}</span>
         </div>
         <DomainClocks
           domainRegisteredAt={data.domainRegisteredAt}
@@ -223,8 +193,16 @@ function LivePage({
 
       <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-10">
         <Stat value={`${verifiedDays}d`} label={t.domain.timeVerified} />
-        <Stat value={String(data.domainLeafCount)} label={t.domain.reports} sub={t.domain.allTime} />
-        <Stat value={`${data.passRate.toFixed(1)}%`} label={t.domain.passRate} />
+        <Stat
+          value={String(data.domainLeafCount)}
+          label={t.domain.reports}
+          sub={t.domain.allTime}
+        />
+        <Stat
+          value={String(data.uniqueReporters)}
+          label={t.domain.reportingOrgs}
+          sub={t.domain.independent}
+        />
       </div>
 
       <PathToProven
@@ -238,6 +216,37 @@ function LivePage({
 
       <section className="mt-12 pt-10 border-t border-border">
         <p className={`${eyebrow} mb-3`}>{t.domain.techSummary}</p>
+
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-8">
+          <Stat
+            value={`${data.passRate.toFixed(1)}%`}
+            label={t.domain.passRate}
+          />
+          {showScore && (
+            <div className="flex items-center gap-4 min-w-0">
+              <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
+                <ScoreGauge score={displayScore} size={108} strokeWidth={8} />
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className={`${statValue} text-txt`}>
+                    {displayScore}
+                  </span>
+                  <span className="text-xs font-mono text-muted-2 mt-0.5">/ 100</span>
+                </div>
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-txt m-0">{bandLabel}</p>
+                <p className="text-sm text-muted mt-2 m-0 leading-relaxed">
+                  {t.domain.scoreIntro}
+                </p>
+                {progressHint && (
+                  <p className="text-xs text-muted-2 mt-2 m-0 leading-snug">
+                    {progressHint}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
         <DomainLeavesPanel
           leaves={data.leaves}
@@ -270,6 +279,10 @@ function LivePage({
                 <MathRow
                   label={t.domain.mathFailedChecks}
                   value={data.totalFailCount.toLocaleString()}
+                />
+                <MathRow
+                  label={t.domain.passRate}
+                  value={`${data.passRate.toFixed(1)}%`}
                 />
               </tbody>
             </table>

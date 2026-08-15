@@ -174,6 +174,8 @@ export const en: Dictionary = {
     timeVerified: 'Time verified',
     reports: 'Reports',
     allTime: 'all time',
+    reportingOrgs: 'Reporting orgs',
+    independent: 'independent',
     passRate: 'Pass rate',
     techSummary: 'Technical verification — reports & cryptographic proof',
     showMath: 'Show the math',

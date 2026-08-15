@@ -173,6 +173,8 @@ export const de: Dictionary = {
     timeVerified: 'Verifizierte Zeit',
     reports: 'Berichte',
     allTime: 'gesamt',
+    reportingOrgs: 'Meldende Orgs.',
+    independent: 'unabhängig',
     passRate: 'Erfolgsquote',
     techSummary: 'Technische Verifizierung — Berichte & kryptografischer Nachweis',
     showMath: 'Rechnung anzeigen',

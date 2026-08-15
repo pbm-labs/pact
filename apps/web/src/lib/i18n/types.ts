@@ -135,6 +135,8 @@ export type Dictionary = {
     timeVerified: string;
     reports: string;
     allTime: string;
+    reportingOrgs: string;
+    independent: string;
     passRate: string;
     techSummary: string;
     showMath: string;
