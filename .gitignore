@@ -20,6 +20,11 @@ apps/web/.dev.vars
 **/.DS_Store
 .vercel
 
+# Foundry
+packages/contracts/out/
+packages/contracts/cache/
+packages/contracts/broadcast/
+
 # Editor / local
 .cursor/
 
