@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS processed_reports (
   envelope_sender TEXT,
   dkim_domain TEXT,
   dkim_selector TEXT,
+  wrapper_hash TEXT,
+  wrapper_dkim TEXT,
   processed_at TEXT NOT NULL DEFAULT (datetime('now')),
   UNIQUE (report_id, reporter_org, period_start, period_end, header_from)
 );
@@ -35,8 +37,12 @@ CREATE TABLE IF NOT EXISTS leaves (
   selector_hash TEXT NOT NULL,
   source_ip_hash TEXT NOT NULL,
   report_hash TEXT NOT NULL,
+  wrapper_hash TEXT NOT NULL DEFAULT '',
+  wrapper_dkim_hash TEXT NOT NULL DEFAULT '',
   selectors TEXT NOT NULL DEFAULT '[]',
   ip_ranges TEXT NOT NULL DEFAULT '[]',
+  wrapper_hashes TEXT NOT NULL DEFAULT '[]',
+  wrapper_dkim TEXT NOT NULL DEFAULT '[]',
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   UNIQUE (domain, period_start, period_end, reporter_org),
   FOREIGN KEY (domain) REFERENCES domains(domain)

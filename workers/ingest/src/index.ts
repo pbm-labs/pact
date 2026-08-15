@@ -1,3 +1,4 @@
+import { hashWrapperMessage } from '@pact/core';
 import { createProcessor, type ReportJob } from './process-report.js';
 import { extractDmarcXmlFromEmail } from './extract-xml.js';
 import { handleLedgerRequest } from './http.js';
@@ -42,6 +43,7 @@ export default {
       }
 
       const primary = dkim.passed[0]!;
+      const wrapperHash = hashWrapperMessage(rawBytes);
       await env.REPORT_QUEUE.send({
         envelopeFrom: message.from,
         rawXml: xml,
@@ -49,6 +51,8 @@ export default {
         dkimDomains: dkim.passed.map((row) => row.domain),
         dkimDomain: primary.domain,
         dkimSelector: primary.selector,
+        wrapperHash,
+        wrapperDkim: dkim.passed,
       });
 
       console.log(
@@ -57,6 +61,7 @@ export default {
           from: message.from,
           size: rawBytes.length,
           dkim: dkim.passed,
+          wrapperHash,
         }),
       );
     } catch (err) {

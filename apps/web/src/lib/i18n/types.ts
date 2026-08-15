@@ -188,6 +188,7 @@ export type Dictionary = {
     publishedRoot: string;
     proofsShown: string;
     leafHash: string;
+    colWrapper: string;
     proofVerified: string;
     proofUnverified: string;
     clockUnknown: string;

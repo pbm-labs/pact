@@ -233,6 +233,7 @@ export const fr: Dictionary = {
     proofsShown:
       'Preuves affichées pour les {n} feuilles les plus récentes. Chargez les rapports plus anciens ci-dessus pour inspecter les périodes antérieures.',
     leafHash: 'Hash de la feuille',
+    colWrapper: 'DKIM du wrapper',
     proofVerified: 'Vérifiée',
     proofUnverified: 'Non vérifiée',
     clockUnknown: '—',

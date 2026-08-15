@@ -231,6 +231,7 @@ export const es: Dictionary = {
     proofsShown:
       'Se muestran las pruebas de las {n} hojas más recientes. Carga informes anteriores arriba para inspeccionar periodos previos.',
     leafHash: 'Hash de la hoja',
+    colWrapper: 'DKIM del wrapper',
     proofVerified: 'Verificada',
     proofUnverified: 'No verificada',
     clockUnknown: '—',

@@ -107,6 +107,8 @@ export interface AggregatedLeafData {
   dkimFailCount: bigint;
   selectors: string[];
   sourceIps: string[];
+  wrapperHashes: string[];
+  wrapperDkim: { domain: string; selector: string }[];
 }
 
 export function aggregateReportToLeaves(report: ParsedDmarcReport): AggregatedLeafData[] {
@@ -143,6 +145,8 @@ export function aggregateReportToLeaves(report: ParsedDmarcReport): AggregatedLe
       dkimFailCount: failCount,
       selectors: [...selectors],
       sourceIps: [...sourceIps],
+      wrapperHashes: [],
+      wrapperDkim: [],
     },
   ];
 }

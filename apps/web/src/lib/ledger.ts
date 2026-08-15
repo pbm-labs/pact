@@ -41,6 +41,10 @@ export interface LedgerLeafRow {
   dkim_fail_count: number;
   selectors: string;
   created_at: string;
+  wrapper_hash?: string;
+  wrapper_dkim_hash?: string;
+  wrapper_hashes?: string;
+  wrapper_dkim?: string;
 }
 
 export interface LedgerOnChain {

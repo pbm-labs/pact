@@ -21,6 +21,8 @@ export interface DomainLeafSummary {
   dkimPassCount: number;
   dkimFailCount: number;
   selectors: string[];
+  wrapperDkim: { domain: string; selector: string }[];
+  wrapperHashes: string[];
   receivedAt: string | null;
   leafIndex: number;
   leafHash: Hash;
@@ -235,6 +237,8 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
           dkimPassCount: Number(leaf.dkim_pass_count),
           dkimFailCount: Number(leaf.dkim_fail_count),
           selectors: safeJsonArray(leaf.selectors),
+          wrapperDkim: parseWrapperDkim(leaf.wrapper_dkim),
+          wrapperHashes: safeJsonArray(leaf.wrapper_hashes),
           receivedAt: leaf.created_at ?? null,
           leafIndex: proof.leafIndex,
           leafHash: proof.leafHash,
@@ -248,12 +252,31 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 
 export { ledgerConfigured };
 
-function safeJsonArray(value: string | string[] | null): string[] {
+function safeJsonArray(value: string | string[] | null | undefined): string[] {
   if (Array.isArray(value)) return value;
   if (!value) return [];
   try {
     const parsed = JSON.parse(value) as unknown;
     return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return [];
+  }
+}
+
+function parseWrapperDkim(
+  value: string | { domain: string; selector: string }[] | null | undefined,
+): { domain: string; selector: string }[] {
+  if (Array.isArray(value)) {
+    return value.filter((row) => row && typeof row.domain === 'string');
+  }
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (row): row is { domain: string; selector: string } =>
+        Boolean(row) && typeof row === 'object' && typeof (row as { domain?: unknown }).domain === 'string',
+    );
   } catch {
     return [];
   }

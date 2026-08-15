@@ -20,8 +20,12 @@ export interface LeafRow {
   selector_hash: string;
   source_ip_hash: string;
   report_hash: string;
+  wrapper_hash: string;
+  wrapper_dkim_hash: string;
   selectors: string;
   ip_ranges: string;
+  wrapper_hashes: string;
+  wrapper_dkim: string;
   created_at: string;
 }
 
@@ -38,8 +42,12 @@ export interface InsertLeafInput {
   selectorHash: Hash;
   sourceIpHash: Hash;
   reportHash: Hash;
+  wrapperHash: Hash;
+  wrapperDkimHash: Hash;
   selectors: string[];
   ipRanges: string[];
+  wrapperHashes: string[];
+  wrapperDkim: { domain: string; selector: string }[];
 }
 
 export async function findProcessedReport(
@@ -74,13 +82,15 @@ export async function insertProcessedReport(
     envelopeSender: string;
     dkimDomain?: string | null;
     dkimSelector?: string | null;
+    wrapperHash?: string | null;
+    wrapperDkim?: { domain: string; selector: string }[] | null;
   },
 ): Promise<void> {
   await db
     .prepare(
       `INSERT INTO processed_reports
-        (report_id, reporter_org, period_start, period_end, header_from, envelope_sender, dkim_domain, dkim_selector)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        (report_id, reporter_org, period_start, period_end, header_from, envelope_sender, dkim_domain, dkim_selector, wrapper_hash, wrapper_dkim)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       input.reportId,
@@ -91,6 +101,8 @@ export async function insertProcessedReport(
       input.envelopeSender,
       input.dkimDomain ?? null,
       input.dkimSelector ?? null,
+      input.wrapperHash ?? null,
+      JSON.stringify(input.wrapperDkim ?? []),
     )
     .run();
 }
@@ -103,10 +115,12 @@ export async function loadLeafAggregation(
   dkim_fail_count: number;
   selectors: string[];
   ip_ranges: string[];
+  wrapper_hashes: string[];
+  wrapper_dkim: { domain: string; selector: string }[];
 } | null> {
   const row = await db
     .prepare(
-      `SELECT dkim_pass_count, dkim_fail_count, selectors, ip_ranges
+      `SELECT dkim_pass_count, dkim_fail_count, selectors, ip_ranges, wrapper_hashes, wrapper_dkim
        FROM leaves
        WHERE domain = ? AND period_start = ? AND period_end = ? AND reporter_org = ?
        LIMIT 1`,
@@ -117,13 +131,17 @@ export async function loadLeafAggregation(
       dkim_fail_count: number;
       selectors: string;
       ip_ranges: string;
+      wrapper_hashes: string | null;
+      wrapper_dkim: string | null;
     }>();
   if (!row) return null;
   return {
     dkim_pass_count: row.dkim_pass_count,
     dkim_fail_count: row.dkim_fail_count,
-    selectors: JSON.parse(row.selectors) as string[],
-    ip_ranges: JSON.parse(row.ip_ranges) as string[],
+    selectors: parseJsonArray<string>(row.selectors),
+    ip_ranges: parseJsonArray<string>(row.ip_ranges),
+    wrapper_hashes: parseJsonArray<string>(row.wrapper_hashes),
+    wrapper_dkim: parseJsonArray<{ domain: string; selector: string }>(row.wrapper_dkim),
   };
 }
 
@@ -143,6 +161,8 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
 
   const selectors = JSON.stringify(input.selectors);
   const ipRanges = JSON.stringify(input.ipRanges);
+  const wrapperHashes = JSON.stringify(input.wrapperHashes);
+  const wrapperDkim = JSON.stringify(input.wrapperDkim);
 
   if (existing) {
     await db
@@ -150,7 +170,8 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
         `UPDATE leaves SET
           leaf_hash = ?, dkim_pass_count = ?, dkim_fail_count = ?,
           domain_hash = ?, reporter_hash = ?, selector_hash = ?,
-          source_ip_hash = ?, report_hash = ?, selectors = ?, ip_ranges = ?
+          source_ip_hash = ?, report_hash = ?, selectors = ?, ip_ranges = ?,
+          wrapper_hash = ?, wrapper_dkim_hash = ?, wrapper_hashes = ?, wrapper_dkim = ?
          WHERE leaf_index = ?`,
       )
       .bind(
@@ -164,6 +185,10 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
         input.reportHash,
         selectors,
         ipRanges,
+        input.wrapperHash,
+        input.wrapperDkimHash,
+        wrapperHashes,
+        wrapperDkim,
         existing.leaf_index,
       )
       .run();
@@ -180,8 +205,9 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
       `INSERT INTO leaves (
         leaf_index, leaf_hash, domain, period_start, period_end, reporter_org,
         dkim_pass_count, dkim_fail_count, domain_hash, reporter_hash,
-        selector_hash, source_ip_hash, report_hash, selectors, ip_ranges
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        selector_hash, source_ip_hash, report_hash, selectors, ip_ranges,
+        wrapper_hash, wrapper_dkim_hash, wrapper_hashes, wrapper_dkim
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       nextIndex,
@@ -199,6 +225,10 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
       input.reportHash,
       selectors,
       ipRanges,
+      input.wrapperHash,
+      input.wrapperDkimHash,
+      wrapperHashes,
+      wrapperDkim,
     )
     .run();
 
@@ -298,4 +328,14 @@ export async function listLeavesSummary(db: D1Database): Promise<
       period_start: number;
     }>();
   return results ?? [];
+}
+
+function parseJsonArray<T>(raw: string | null | undefined): T[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed) ? (parsed as T[]) : [];
+  } catch {
+    return [];
+  }
 }

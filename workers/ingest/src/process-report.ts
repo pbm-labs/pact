@@ -26,6 +26,10 @@ export interface ReportJob {
   dkimDomains: string[];
   dkimSelector?: string | null;
   dkimDomain?: string | null;
+  /** keccak256 of the authenticating RFC822 wrapper */
+  wrapperHash?: `0x${string}` | string;
+  /** Passing wrapper DKIM d= / s= pairs */
+  wrapperDkim?: { domain: string; selector: string }[];
 }
 
 export interface ProcessResult {
@@ -41,8 +45,26 @@ export interface IngestEnv {
   PUBLISHER_PRIVATE_KEY?: string;
 }
 
+function hasWrapperWitness(job: ReportJob): job is ReportJob & {
+  wrapperHash: `0x${string}`;
+  wrapperDkim: { domain: string; selector: string }[];
+} {
+  return (
+    typeof job.wrapperHash === 'string' &&
+    /^0x[0-9a-f]{64}$/i.test(job.wrapperHash) &&
+    Array.isArray(job.wrapperDkim) &&
+    job.wrapperDkim.length > 0
+  );
+}
+
 export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<ProcessResult> {
   const result: ProcessResult = { processed: 0, skipped: 0, rejected: 0, errors: [] };
+
+  if (!hasWrapperWitness(job)) {
+    result.rejected += 1;
+    result.errors.push('wrapper witness missing');
+    return result;
+  }
 
   let reports;
   try {
@@ -88,13 +110,18 @@ export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<
 
     let reportLeavesProcessed = 0;
     for (const agg of aggregateReportToLeaves(report)) {
+      const witnessed = {
+        ...agg,
+        wrapperHashes: [job.wrapperHash],
+        wrapperDkim: job.wrapperDkim,
+      };
       const existing = await loadLeafAggregation(env.DB, {
         domain: agg.key.domain,
         periodStart: Number(agg.key.periodStart),
         periodEnd: Number(agg.key.periodEnd),
         reporterOrg: agg.key.reporterOrg,
       });
-      const mergedAgg = existing ? mergeLeafAggregation(existing, agg) : agg;
+      const mergedAgg = existing ? mergeLeafAggregation(existing, witnessed) : witnessed;
       const leafInput = leafInputFromAggregation(mergedAgg);
       const components = buildLeafComponents(leafInput);
       const leafHash = computeLeafHash(leafInput);
@@ -112,8 +139,12 @@ export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<
         selectorHash: components.selectorHash,
         sourceIpHash: components.sourceIpHash,
         reportHash: components.reportHash,
+        wrapperHash: components.wrapperHash,
+        wrapperDkimHash: components.wrapperDkimHash,
         selectors: mergedAgg.selectors,
         ipRanges: mergedAgg.sourceIps,
+        wrapperHashes: mergedAgg.wrapperHashes,
+        wrapperDkim: mergedAgg.wrapperDkim,
       });
 
       reportLeavesProcessed += 1;
@@ -130,6 +161,8 @@ export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<
         envelopeSender: job.envelopeFrom,
         dkimDomain: job.dkimDomain ?? job.dkimDomains[0] ?? null,
         dkimSelector: job.dkimSelector ?? null,
+        wrapperHash: job.wrapperHash,
+        wrapperDkim: job.wrapperDkim,
       });
     }
   }

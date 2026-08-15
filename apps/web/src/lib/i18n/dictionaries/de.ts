@@ -231,6 +231,7 @@ export const de: Dictionary = {
     proofsShown:
       'Nachweise für die {n} neuesten Leaves. Lade oben ältere Berichte, um frühere Zeiträume zu prüfen.',
     leafHash: 'Leaf-Hash',
+    colWrapper: 'Wrapper-DKIM',
     proofVerified: 'Verifiziert',
     proofUnverified: 'Nicht verifiziert',
     clockUnknown: '—',

@@ -2,6 +2,11 @@ import { encodePacked, keccak256, toBytes } from 'viem';
 import { normalizeDomain, normalizeReporter } from './domain.js';
 import { hashIpRanges } from './ips.js';
 import { hashSelectors } from './selectors.js';
+import {
+  hashWrapperDkim,
+  hashWrapperMessages,
+  type WrapperDkimId,
+} from './wrapper.js';
 
 export interface LeafInput {
   domain: string;
@@ -13,6 +18,10 @@ export interface LeafInput {
   selectors: string[];
   sourceIps: string[];
   reportId: string;
+  /** keccak256(RFC822) hex hashes of authenticating wrapper messages */
+  wrapperHashes?: readonly string[];
+  /** Passing wrapper DKIM d= / s= pairs */
+  wrapperDkim?: readonly WrapperDkimId[];
 }
 
 export interface LeafComponents {
@@ -27,6 +36,8 @@ export interface LeafComponents {
   selectorHash: `0x${string}`;
   sourceIpHash: `0x${string}`;
   reportHash: `0x${string}`;
+  wrapperHash: `0x${string}`;
+  wrapperDkimHash: `0x${string}`;
 }
 
 export function computeReportHash(params: {
@@ -70,6 +81,8 @@ export function buildLeafComponents(input: LeafInput): LeafComponents {
       periodEnd: input.periodEnd,
       domain,
     }),
+    wrapperHash: hashWrapperMessages(input.wrapperHashes ?? []),
+    wrapperDkimHash: hashWrapperDkim(input.wrapperDkim ?? []),
   };
 }
 
@@ -87,6 +100,8 @@ export function computeLeafHash(input: LeafInput): `0x${string}` {
       'bytes32',
       'bytes32',
       'bytes32',
+      'bytes32',
+      'bytes32',
     ],
     [
       c.domainHash,
@@ -98,6 +113,8 @@ export function computeLeafHash(input: LeafInput): `0x${string}` {
       c.selectorHash,
       c.sourceIpHash,
       c.reportHash,
+      c.wrapperHash,
+      c.wrapperDkimHash,
     ],
   );
   return keccak256(preimage);

@@ -258,6 +258,7 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 
 **Reporter mail (boundary 2)**
 - [x] DKIM-verify of Gmail/Microsoft wrapper mail (fail closed; forwarding-agent DKIM is weaker than the reporter's own signature)
+- [x] Wrapper witness in the leaf (`d=` / selector + keccak256 of the RFC822; RFC822 not published)
 
 ## Protocol implementation
 
@@ -268,7 +269,7 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 | On-chain roots | `PactRoots` — [§9](docs/pact_protocol.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Trust score (raw) | `pact-score-0.1` — [§4.3](docs/pact_protocol.md) |
 | Trust score (display) | `pact-display-0.1` — [§4.6](docs/pact_protocol.md) |
-| Allowlist + wrapper DKIM | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts`; ingest verifies RFC 6376 on the wrapper before queueing |
+| Allowlist + wrapper DKIM | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts`; ingest verifies RFC 6376 on the wrapper, then commits keccak256(RFC822) + passing `d=`/`s=` in the leaf (Appendix C.5). The RFC822 is not stored. |
 
 ## License
 

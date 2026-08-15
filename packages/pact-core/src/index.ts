@@ -12,6 +12,17 @@ export { normalizeDomain, normalizeReporter } from './encoding/domain.js';
 export { canonicalizeSelectors, hashSelectors } from './encoding/selectors.js';
 export { canonicalizeIpRanges, hashIpRanges, truncateIp } from './encoding/ips.js';
 export {
+  canonicalizeWrapperDkim,
+  canonicalizeWrapperHashes,
+  formatWrapperDkimId,
+  hashWrapperDkim,
+  hashWrapperMessage,
+  hashWrapperMessages,
+  unionWrapperDkim,
+  unionWrapperHashes,
+  type WrapperDkimId,
+} from './encoding/wrapper.js';
+export {
   buildLeafComponents,
   computeLeafHash,
   computeReportHash,

@@ -140,6 +140,7 @@ export function DomainLeavesPanel({
               <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
                 <th className={th}>#</th>
                 <th className={th}>{t.domain.colReporter}</th>
+                <th className={th}>{t.domain.colWrapper}</th>
                 <th className={th}>{t.domain.verification}</th>
                 <th className={th}>{t.domain.leafHash}</th>
               </tr>
@@ -149,6 +150,12 @@ export function DomainLeavesPanel({
                 <tr key={`proof-${leaf.leafIndex}`} className="border-b border-border last:border-0">
                   <td className={`${td} font-mono tabular-nums text-muted`}>#{leaf.leafIndex}</td>
                   <td className={`${td} text-txt`}>{reporterLabel(leaf.reporterOrg)}</td>
+                  <td
+                    className={`${td} font-mono text-muted-2`}
+                    title={leaf.wrapperHashes.join(', ') || undefined}
+                  >
+                    {formatWrapperDkim(leaf.wrapperDkim)}
+                  </td>
                   <td className={`${td} ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}>
                     {leaf.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
                   </td>
@@ -193,4 +200,11 @@ function truncateHash(hash: string | null, head = 10, tail = 6): string {
   if (!hash) return '—';
   if (hash.length <= head + tail + 1) return hash;
   return `${hash.slice(0, head)}…${hash.slice(-tail)}`;
+}
+
+function formatWrapperDkim(ids: { domain: string; selector: string }[]): string {
+  if (!ids.length) return '—';
+  return ids
+    .map((id) => (id.selector ? `${id.domain}:${id.selector}` : id.domain))
+    .join(', ');
 }

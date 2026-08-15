@@ -232,6 +232,7 @@ export const en: Dictionary = {
     proofsShown:
       'Proofs shown for the {n} most recent leaves. Load older reports above to inspect earlier periods.',
     leafHash: 'Leaf hash',
+    colWrapper: 'Wrapper DKIM',
     proofVerified: 'Verified',
     proofUnverified: 'Unverified',
     clockUnknown: '—',

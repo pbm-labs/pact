@@ -15,6 +15,9 @@ import {
   DISPLAY_VERSION,
   canonicalizeSelectors,
   canonicalizeIpRanges,
+  canonicalizeWrapperDkim,
+  hashWrapperMessage,
+  hashWrapperMessages,
   mergeLeafAggregation,
   leafInputFromAggregation,
   addPactRuaToDmarc,
@@ -247,6 +250,71 @@ describe('leaf merge', () => {
     expect(merged.dkimPassCount).toBe(100n + agg.dkimPassCount);
     expect(merged.selectors).toContain('google-2024');
     expect(computeLeafHash(leafInputFromAggregation(merged))).toMatch(/^0x[a-f0-9]{64}$/);
+  });
+
+  it('unions wrapper hashes and DKIM ids across reports', () => {
+    const reports = parseDmarcAggregateReport(sampleXml);
+    const agg = {
+      ...aggregateReportToLeaves(reports[0]!)[0]!,
+      wrapperHashes: ['0x' + 'bb'.repeat(32)],
+      wrapperDkim: [{ domain: 'google.com', selector: '20230601' }],
+    };
+    const merged = mergeLeafAggregation(
+      {
+        dkim_pass_count: 0,
+        dkim_fail_count: 0,
+        selectors: [],
+        ip_ranges: [],
+        wrapper_hashes: ['0x' + 'aa'.repeat(32)],
+        wrapper_dkim: [{ domain: 'google.com', selector: '20230601' }],
+      },
+      agg,
+    );
+    expect(merged.wrapperHashes).toEqual(['0x' + 'aa'.repeat(32), '0x' + 'bb'.repeat(32)]);
+    expect(merged.wrapperDkim).toEqual([{ domain: 'google.com', selector: '20230601' }]);
+  });
+});
+
+describe('wrapper witness', () => {
+  it('hashes RFC822 bytes with keccak256', () => {
+    const hash = hashWrapperMessage(new TextEncoder().encode('rfc822'));
+    expect(hash).toMatch(/^0x[a-f0-9]{64}$/);
+    expect(hash).toBe(hashWrapperMessage(new TextEncoder().encode('rfc822')));
+    expect(hash).not.toBe(hashWrapperMessage(new TextEncoder().encode('rfc823')));
+  });
+
+  it('canonicalizes wrapper DKIM ids order-independently', () => {
+    expect(
+      canonicalizeWrapperDkim([
+        { domain: 'Google.COM', selector: '20230601' },
+        { domain: 'protection.outlook.com', selector: 'selector1' },
+      ]),
+    ).toBe(
+      canonicalizeWrapperDkim([
+        { domain: 'protection.outlook.com', selector: 'selector1' },
+        { domain: 'google.com', selector: '20230601' },
+      ]),
+    );
+  });
+
+  it('changes the leaf hash when a wrapper witness is present', () => {
+    const reports = parseDmarcAggregateReport(sampleXml);
+    const agg = aggregateReportToLeaves(reports[0]!)[0]!;
+    const without = computeLeafHash(leafInputFromAggregation(agg));
+    const wrapperHash = hashWrapperMessage(new TextEncoder().encode('wrapper'));
+    const withWitness = computeLeafHash(
+      leafInputFromAggregation({
+        ...agg,
+        wrapperHashes: [wrapperHash],
+        wrapperDkim: [{ domain: 'google.com', selector: '20230601' }],
+      }),
+    );
+    expect(withWitness).not.toBe(without);
+    expect(
+      hashWrapperMessages([wrapperHash, hashWrapperMessage(new TextEncoder().encode('other'))]),
+    ).toBe(
+      hashWrapperMessages([hashWrapperMessage(new TextEncoder().encode('other')), wrapperHash]),
+    );
   });
 });
 

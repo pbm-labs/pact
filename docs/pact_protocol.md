@@ -17,7 +17,7 @@ This document is the single protocol specification. It supersedes the earlier sp
 |------|----------------------------|
 | Trust score | `pact-score-0.1` — §4.3 (`reportingOrgs / leafCount` diversity, two clocks) |
 | Score display | `pact-display-0.1` — §4.6 |
-| Merkle tree / leaf encoding | §3.3.1 and Appendix C (from the v0.2 draft) |
+| Merkle tree / leaf encoding | §3.3.1 and Appendix C (wrapper witness in the leaf: C.5) |
 | On-chain roots | `PactRoots` on **Base Sepolia** at [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) — testnet, permissioned publisher |
 | Leaves | Off-chain (Cloudflare D1 + public HTTP API). Roots attest **inclusion**, not leaf availability (§9.3) |
 | Report source auth | Wrapper DKIM (RFC 6376) + reporter/`org_name` allowlist (§3.1.1). SPF of the connecting MTA is **not** independently checked (Email Routing accepted the hop) |
@@ -236,9 +236,10 @@ PACT operates a purpose-built SMTP receiver that accepts incoming DMARC aggregat
 
 1. The report XML MUST be parsed and validated against the DMARC aggregate report schema (RFC 7489 Appendix C).
 2. Source authentication MUST be performed per Section 3.1.1. Reports failing authentication MUST be discarded.
-3. Per-domain authentication records MUST be extracted and normalized per Appendix C.
-4. The raw report XML MUST be discarded after extraction. It MUST NOT be stored.
-5. Extracted signals MUST be aggregated into leaf candidates per Section 3.2.1 before Merkle insertion.
+3. The authenticating RFC822 wrapper MUST be committed per Appendix C.5 (`wrapper_hash` and `wrapper_dkim_hash`) before wrapper bytes are discarded. Storing or queueing the RFC822 is not required.
+4. Per-domain authentication records MUST be extracted and normalized per Appendix C.
+5. The raw report XML MUST be discarded after extraction. It MUST NOT be stored.
+6. Extracted signals MUST be aggregated into leaf candidates per Section 3.2.1 before Merkle insertion.
 
 #### 3.1.1 Report Source Authentication
 
@@ -274,7 +275,7 @@ Fail closed if no signature passes. Transient DNS failures while fetching the DK
 - Transition to community-maintained allowlist with transparent governance is planned for v0.3 (Section 9.4).
 
 
-**Reference implementation (August 2026):** Live ingest DKIM-verifies the wrapper (mailauth, DNS-over-HTTPS) before extracting XML. `validateReportSource` in `@pact/core` then requires a passing `d=` on the reporter or forwarding-agent allowlist, plus envelope-from / `org_name` consistency. The Worker does **not** independently SPF-check the connecting MTA (Cloudflare Email Routing has already accepted the message). Failed DKIM is discarded silently (no bounce to the reporter).
+**Reference implementation (August 2026):** Live ingest DKIM-verifies the wrapper (mailauth, DNS-over-HTTPS) before extracting XML. The Worker hashes the RFC822 (`keccak256`) in the email handler and puts that hash plus passing `d=` / selector pairs on the queue — not the wrapper bytes (Cloudflare Queues cannot hold a full RFC822). `validateReportSource` in `@pact/core` then requires a passing `d=` on the reporter or forwarding-agent allowlist, plus envelope-from / `org_name` consistency. The Worker does **not** independently SPF-check the connecting MTA (Cloudflare Email Routing has already accepted the message). Failed DKIM is discarded silently (no bounce to the reporter). Wrapper openings (`d=` / `s=` and the message hash) are stored on the public leaf. The RFC822 itself is **not** published.
 
 **Anti-abuse:**
 
@@ -299,6 +300,7 @@ When multiple authenticated reports arrive for the same leaf key (e.g., a report
 
 - Add pass/fail counts
 - Union selectors and IP ranges
+- Union wrapper message hashes and wrapper DKIM `d=` / selector ids (Appendix C.5)
 - Retain the earliest seen `report_hash` components (Appendix C.3)
 
 **Temporal ordering:** Trust scoring and anomaly detection MUST use `period_start` and `period_end` from the report, not ingestion order or tree insertion index. A leaf inserted later with an earlier reporting period MUST be scored against the period it attests to, not its position in the tree.
@@ -317,7 +319,9 @@ leaf = keccak256(
   dkim_fail_count,  // uint256
   selector_hash,    // keccak256 of canonical selector list (Appendix C.2)
   source_ip_hash,   // keccak256 of canonical IP range list (Appendix C.2)
-  report_hash       // Appendix C.3
+  report_hash,      // Appendix C.3
+  wrapper_hash,     // Appendix C.5 — keccak256 of wrapper RFC822 hashes
+  wrapper_dkim_hash // Appendix C.5 — keccak256 of passing wrapper d=:s= ids
 )
 ```
 
@@ -325,9 +329,9 @@ All fields except hashes are ABI-encoded as `uint256` in the order shown, then c
 
 keccak256 is used throughout off-chain processors and on-chain verifiers. Using the same hash function in both layers ensures Merkle inclusion proofs generated off-chain are verifiable on-chain without a dedicated proof verifier contract.
 
-No message content. No recipient identity. No personal data. The leaf is a cryptographic commitment to authentication infrastructure activity over a time period.
+No message content. No recipient identity. No personal data. The leaf is a cryptographic commitment to authentication infrastructure activity over a time period, including which wrapper DKIM `d=` / selector signed the report and a hash of that signed message.
 
-**Sorting requirement:** Selectors and IP ranges MUST be canonically sorted before hashing (Appendix C.2). Different sort orders MUST NOT produce different leaf hashes for the same underlying data.
+**Sorting requirement:** Selectors, IP ranges, wrapper message hashes, and wrapper DKIM ids MUST be canonically sorted before hashing (Appendix C.2, C.5). Different sort orders MUST NOT produce different leaf hashes for the same underlying data.
 
 **Sub-commitments (deferred):** v0.2 commits to sorted aggregate hashes for selectors and IPs. v0.3 MAY introduce an internal Merkle sub-tree over `(selector, ip_range, pass_count, fail_count)` tuples within a leaf to enable selective disclosure for Layer 2 applications (e.g., PACT Chain) without revealing full leaf content.
 
@@ -574,6 +578,8 @@ Each Merkle leaf commits to:
 - Aggregate DKIM pass and fail counts
 - `selector_hash` and `source_ip_hash` — commitments to sorted lists. Selectors are also public in DNS; IP ranges are brute-forceable over plausible /24 candidates. These hashes provide compact commitments, not cryptographic privacy.
 - `report_hash` — auditability anchor to the source report (Appendix C.3)
+- `wrapper_hash` — commitment to keccak256 of authenticating wrapper RFC822 messages (Appendix C.5)
+- `wrapper_dkim_hash` — commitment to passing wrapper DKIM `d=` / selector pairs (Appendix C.5)
 
 ### 5.3 Off-Chain Data Retention
 
@@ -812,7 +818,7 @@ PACT does not protect against:
 
 **Trust score gaming:** Generating false DKIM-pass volume requires controlling the sending domain's DKIM key and sending real email received and reported by allowlisted mail servers. Cost equals legitimate high-volume operation.
 
-**Fake aggregate reports:** Reports without a passing wrapper DKIM `d=` on the reporter or forwarding-agent allowlist are discarded (Section 3.1.1). Deduplication prevents naive replay. The reference implementation does not independently SPF-check the connecting MTA. Forwarded reports are witnessed by the forwarder's DKIM, not the original reporter's.
+**Fake aggregate reports:** Reports without a passing wrapper DKIM `d=` on the reporter or forwarding-agent allowlist are discarded (Section 3.1.1). Deduplication prevents naive replay. The wrapper witness is bound in the leaf (Appendix C.5), so a later verifier is not asked to trust ingest's private logs for `d=` / selector or the wrapper message hash. The reference implementation does not independently SPF-check the connecting MTA. Forwarded reports are witnessed by the forwarder's DKIM, not the original reporter's. Without a copy of the RFC822, a verifier cannot re-run DKIM; they can recompute the leaf from the published openings and check the Merkle proof.
 
 **Receiver sybil attack:** A domain operator who operates or colludes with a reporting MTA could attempt to inflate `V` and `D` by submitting self-generated reports. Mitigated in v0.2 by the reporter allowlist. v0.3 SHOULD add per-reporter volume caps and reporter reputation weighting.
 
@@ -903,6 +909,7 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 - Sepolia is a public testnet. Treat on-chain roots as independently checkable, not as mainnet finality.
 - The publisher key is permissioned (contract owner). Independent verifiers can still recompute the tree and compare it to `getLatestRoot()`.
 - Report acceptance requires a passing wrapper DKIM `d=` on the reporter (or forwarding-agent) allowlist. SPF of the connecting MTA is not independently checked.
+- The leaf commits the wrapper keccak256 and passing `d=` / selector (Appendix C.5). Those openings are on the public leaf. The RFC822 itself is not published (size, and envelope headers include reporter mailboxes). A verifier who archived the same message can recompute the hash and re-verify DKIM. A stranger without the bytes can still check the published openings against the leaf hash and Merkle proof, without asking ingest to re-verify.
 - Leaves are available from the operator's D1 / HTTP API. The chain does not store leaves (§9.3).
 
 This stack is not normative. Any implementation producing identical leaf hashes (Appendix C) and compatible Merkle proofs (Section 3.3.1) is interoperable.
@@ -963,10 +970,35 @@ preimage = abi.encodePacked(
   uint256 dkim_fail_count,
   bytes32 selector_hash,
   bytes32 source_ip_hash,
-  bytes32 report_hash
+  bytes32 report_hash,
+  bytes32 wrapper_hash,
+  bytes32 wrapper_dkim_hash
 )
 leaf = keccak256(preimage)
 ```
+
+### C.5 Wrapper Witness
+
+The leaf MUST commit the authenticating wrapper so a later verifier is not asked to trust ingest's private logs.
+
+**Wrapper message hashes:**
+
+1. For each authenticating RFC822 wrapper bound into the leaf, compute `wrapper_message_hash = keccak256(rfc822_bytes)`.
+2. Encode each hash as lowercase hex **without** the `0x` prefix.
+3. Deduplicate, sort lexicographically (UTF-8 byte order).
+4. Concatenate with `,` separator (no spaces).
+5. `wrapper_hash = keccak256(utf8_bytes(canonical_string))`
+
+An empty list hashes `keccak256('')`. Live ingest MUST NOT accept a report whose wrapper witness is empty after DKIM verification.
+
+**Wrapper DKIM ids:**
+
+1. Collect passing wrapper DKIM signatures as `d + ":" + s` (signing domain and selector), both lowercase trimmed.
+2. Deduplicate, sort lexicographically.
+3. Concatenate with `,` separator.
+4. `wrapper_dkim_hash = keccak256(utf8_bytes(canonical_string))`
+
+**Opening vs availability:** Implementations SHOULD publish the openings (the lists of message hashes and `d=` / selector pairs) with the leaf so anyone can recompute `wrapper_hash` and `wrapper_dkim_hash`. Publishing the RFC822 bytes is not required. The reference implementation does not store the wrapper. A verifier with an independent copy of the same RFC822 can check `keccak256(bytes)` against the published list and re-verify DKIM (RFC 6376) without asking the operator. A verifier without those bytes can still recompute the leaf from the published openings and verify the Merkle proof against the on-chain root.
 
 ---
 
@@ -976,7 +1008,7 @@ leaf = keccak256(preimage)
 |-------|------|
 | v0.1 (June 2026) | Score formula `pact-score-0.1`, two clocks, display mapping `pact-display-0.1` |
 | v0.2 (June 2026) | Merkle parameters, leaf encoding, reporter allowlist, provisional vs activated, threat model. Diversity formula in that draft was **not** implemented |
-| This document (August 2026) | Single spec: v0.2 Merkle/encoding + live v0.1 score/display + Base Sepolia `PactRoots` + D1 leaf availability + wrapper DKIM |
+| This document (August 2026) | Single spec: v0.2 Merkle/encoding + live v0.1 score/display + Base Sepolia `PactRoots` + D1 leaf availability + wrapper DKIM + wrapper witness in the leaf (C.5) |
 
 | Area | This specification |
 |------|-------------------|
@@ -986,7 +1018,7 @@ leaf = keccak256(preimage)
 | Trust presentation | Provisional vs. activated; public UI leads with history |
 | On-chain roots | `PactRoots` on Base Sepolia (testnet, permissioned publisher) |
 | Leaf availability | Off-chain (D1 + HTTP API); roots attest inclusion only |
-| Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked) |
+| Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked). Wrapper keccak256 and passing `d=` / `s=` are in the leaf (C.5); RFC822 not published |
 
 ---
 
