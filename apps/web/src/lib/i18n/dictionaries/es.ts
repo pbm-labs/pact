@@ -289,7 +289,8 @@ export const es: Dictionary = {
       'Toda forma existente de probar que un negocio es real comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
       'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
       'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
-      'Cada afirmación de PACT deriva de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es la prueba. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso). Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas, esa clave de publicación, y el testigo criptográfico del correo del reportero — no un cambio de tesis.',
+      'Cada afirmación de PACT deriva de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es la prueba. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso). El DKIM del wrapper del reportero se verifica en la ingesta, y el d=/selector que pasa más el keccak256 del wrapper quedan comprometidos en la hoja. El RFC822 no se publica. Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas y esa clave de publicación — no un cambio de tesis.',
+      'Esa evidencia es tercamente aburrida sobre lo que ocurrió. El juicio queda fuera. El mismo historial puede alimentar políticas de aplicación distintas. Un testigo más fuerte sigue sin heredar la decisión.',
       'Esa es la propiedad que las pruebas incumbentes no pueden injertar. Un buró de crédito no puede volverse trustless — su modelo de negocio *es* el intermediario de confianza. Un registro estatal no puede volverse trustless — es una autoridad por definición. Un extracto bancario no puede volverse trustless — es un documento, y los documentos se editan. PACT no es una versión mejor de eso. Está en otra categoría: evidencia que puedes volver a comprobar, no una afirmación que debas aceptar.',
       'Esto es lo que lo hace duradero, no solo distinto: **el historial que PACT mide no se puede fabricar a posteriori, a ningún precio — ni siquiera por los operadores de PACT.**',
       'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. Puedes armar una empresa pantalla con papeles perfectos. Lo que no puedes hacer es que ayer ocurra antes. El historial de PACT se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo. No es una preferencia de producto. Es una restricción física que PACT pone a trabajar.',
@@ -299,7 +300,7 @@ export const es: Dictionary = {
       'Esa pregunta nunca tuvo una respuesta pública duradera. A partir de ahora, sí.',
     ].join('\n\n'),
     scope:
-      'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es una credencial personal y no sustituye registros ni burós de crédito.',
+      'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es un veredicto de que un dominio es legítimo, no es una credencial personal y no sustituye registros ni burós de crédito. Las puntuaciones y los umbrales son política de aplicación sobre ese historial.',
   },
   docs: {
     eyebrow: 'PACT Protocol',
@@ -312,7 +313,7 @@ export const es: Dictionary = {
       'El protocolo abierto detrás del registro público — cómo se captura, publica y mide el historial verificado.',
     protocolTitle: 'Especificación del protocolo',
     protocolBody:
-      'Especificación normativa — árbol Merkle, codificación de hojas, puntuación y raíces on-chain.',
+      'Especificación normativa — árbol Merkle, codificación de hojas (testigo del wrapper en la hoja), puntuación y raíces on-chain.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'Qué está en vivo hoy, y qué viene después.',
     readWhitepaper: 'Leer el whitepaper',
@@ -322,20 +323,21 @@ export const es: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'Las raíces Merkle están en Base Sepolia. El DKIM del wrapper del reportero está en vivo. Sigue mainnet.',
+      'Las raíces Merkle están en Base Sepolia. El DKIM del wrapper del reportero está en vivo, y el testigo del wrapper está en la hoja. Sigue el primer publish on-chain tras informes reales, luego mainnet.',
     nowTitle: 'En vivo hoy',
     nowItems: [
       'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
       'Creación automática del registro público con el primer informe agregado válido',
-      'Ingesta continua de informes agregados DMARC reales',
+      'Ingesta fail-closed con DKIM del wrapper del reportero (Gmail, Microsoft, Yahoo, Apple y forwarders en la lista)',
+      'Testigo del wrapper en la hoja: d=/selector que pasa y keccak256 del RFC822 (el correo no se publica)',
       'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
-      'Raíces Merkle publicadas en PactRoots en Base Sepolia (testnet, publicador con permiso)',
-      'Testigo criptográfico del correo del reportero (DKIM de los wrappers de Gmail/Microsoft)',
+      'Raíces Merkle en PactRoots / Base Sepolia (testnet, publicador con permiso)',
       'Registros públicos ordenados por historial verificado',
       'Páginas por dominio con relojes, actividad y verificación técnica',
     ],
     nextTitle: 'En desarrollo activo',
     nextItems: [
+      'Primeras hojas reales tras el corte a D1, luego el primer publishRoot',
       'Base mainnet para PactRoots',
       'Velocidad como señal compañera de la madurez',
       'Monitorización de discontinuidades de infraestructura (Signal)',

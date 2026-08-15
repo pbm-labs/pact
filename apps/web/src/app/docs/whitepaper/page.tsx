@@ -5,6 +5,7 @@ export const metadata = {
   title: 'Whitepaper — We build real',
   description:
     'PACT Protocol: an open provenance layer for independently verified domain history.',
+  robots: { index: false, follow: false },
 };
 
 export default async function DocsWhitepaperPage() {

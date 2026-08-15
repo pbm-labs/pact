@@ -288,7 +288,7 @@ export const en: Dictionary = {
     intro: 'A two-minute note on evidence vs. authority — not the full protocol whitepaper.',
     body: WHY_PACT_MARKDOWN,
     scope:
-      'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a personal credential, and not a replacement for registries or credit bureaus.',
+      'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a verdict that a domain is legitimate, not a personal credential, and not a replacement for registries or credit bureaus. Scores and thresholds are application policy on top of that history.',
   },
   docs: {
     eyebrow: 'PACT Protocol',
@@ -301,7 +301,7 @@ export const en: Dictionary = {
       'The open protocol behind the public record — how verified history is captured, published, and measured.',
     protocolTitle: 'Protocol specification',
     protocolBody:
-      'Normative spec — Merkle tree, leaf encoding, score, and on-chain roots.',
+      'Normative spec — Merkle tree, leaf encoding (wrapper witness in the leaf), score, and on-chain roots.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'What’s live today, and what’s next.',
     readWhitepaper: 'Read the whitepaper',
@@ -311,20 +311,21 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'Merkle roots are on Base Sepolia. Reporter-wrapper DKIM is live. Next is Base mainnet.',
+      'Merkle roots are on Base Sepolia. Reporter-wrapper DKIM is live, and the wrapper witness is in the leaf. Next is the first on-chain publish after live reports, then Base mainnet.',
     nowTitle: 'Live today',
     nowItems: [
       'Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools',
       'Automatic public-record creation on the first valid aggregate report',
-      'Continuous ingestion of real DMARC aggregate reports',
+      'Ingest fail-closed on reporter-wrapper DKIM (Gmail, Microsoft, Yahoo, Apple, and allowlisted forwarders)',
+      'Wrapper witness in the leaf: passing d=/selector and keccak256 of the RFC822 (the mail itself is not published)',
       'Append-only Merkle tree with publicly recomputable inclusion proofs',
-      'Merkle roots published to PactRoots on Base Sepolia (testnet, permissioned publisher)',
-      'Cryptographic witness of reporter mail (DKIM of Gmail/Microsoft wrappers)',
+      'Merkle roots on PactRoots / Base Sepolia (testnet, permissioned publisher)',
       'Public records ranked by verified history',
       'Per-domain pages with clocks, activity, and technical verification',
     ],
     nextTitle: 'In active development',
     nextItems: [
+      'First live leaves after D1 cutover, then the first publishRoot',
       'Base mainnet for PactRoots',
       'Velocity as a companion signal to maturity',
       'Infrastructure-discontinuity monitoring (Signal)',

@@ -6,4 +6,4 @@
 
 Normative spec: [pact_protocol.md](pact_protocol.md).
 
-Whitepaper (essay, not the spec): [pbm-labs/pact-protocol](https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md), also at [webuildreal.dev/docs/whitepaper](https://webuildreal.dev/docs/whitepaper).
+On-site docs are unlisted (`/docs`, `/docs/why`, `/docs/whitepaper`, `/docs/roadmap`) — reachable by URL, not linked from the homepage, not indexed.

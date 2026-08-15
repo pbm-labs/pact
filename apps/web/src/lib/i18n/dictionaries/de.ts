@@ -289,7 +289,8 @@ export const de: Dictionary = {
       'Jede bestehende Art zu beweisen, dass ein Unternehmen echt ist, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
       'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
       'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
-      'Jede Aussage von PACT stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher). Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter, dieser Publisher-Schlüssel, und kryptographisches Zeugnis der Reporter-Mail — keine Änderung der These.',
+      'Jede Aussage von PACT stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher). DKIM des Reporter-Wrappers wird beim Ingest geprüft, und das bestandene d=/Selektor plus keccak256 des Wrappers sind im Leaf committed. Das RFC822 selbst wird nicht veröffentlicht. Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter und dieser Publisher-Schlüssel — keine Änderung der These.',
+      'Diese Evidenz ist stur langweilig darüber, was geschehen ist. Das Urteil bleibt draußen. Dieselbe Historie kann unterschiedliche Anwendungspolitiken speisen. Ein stärkerer Zeuge erbt trotzdem nicht die Entscheidung.',
       'Das ist die Eigenschaft, die etablierte Nachweise nicht nachrüsten können. Eine Auskunftei kann nicht trustless werden — ihr Geschäftsmodell *ist* der vertrauenswürdige Mittler. Ein staatliches Register kann nicht trustless werden — es ist definitionsgemäß eine Autorität. Ein Kontoauszug kann nicht trustless werden — er ist ein Dokument, und Dokumente lassen sich ändern. PACT ist keine bessere Version davon. Es sitzt in einer anderen Kategorie: Evidenz, die du nachprüfen kannst, nicht eine Behauptung, die du akzeptieren musst.',
       'Was das dauerhaft macht, nicht nur anders: **die Historie, die PACT misst, lässt sich nachträglich zu keinem Preis herstellen — auch nicht durch PACTs eigene Betreiber.**',
       'Du kannst eine gealterte Domain kaufen. Du kannst eine LinkedIn-Historie fälschen. Du kannst eine Briefkastenfirma mit perfekten Papieren bauen. Was du nicht kannst: gestern früher geschehen lassen. PACTs Historie entsteht aus vergehender Echtzeit, während unabhängige Dritte zusahen. Es gibt keine Abkürzung durch die Zeit. Das ist keine Produktpräferenz. Es ist eine physikalische Grenze, die PACT nutzt.',
@@ -299,7 +300,7 @@ export const de: Dictionary = {
       'Diese Frage hatte nie eine dauerhafte öffentliche Antwort. Ab jetzt hat sie eine.',
     ].join('\n\n'),
     scope:
-      'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien.',
+      'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, kein Verdikt dass eine Domain legitim ist, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien. Scores und Schwellen sind Anwendungspolitik auf dieser Historie.',
   },
   docs: {
     eyebrow: 'PACT Protocol',
@@ -312,7 +313,7 @@ export const de: Dictionary = {
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
     protocolTitle: 'Protokollspezifikation',
     protocolBody:
-      'Normative Spezifikation — Merkle-Baum, Blattkodierung, Score und On-Chain-Roots.',
+      'Normative Spezifikation — Merkle-Baum, Blattkodierung (Wrapper-Zeugnis im Leaf), Score und On-Chain-Roots.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'Was heute live ist — und was als Nächstes kommt.',
     readWhitepaper: 'Whitepaper lesen',
@@ -322,20 +323,21 @@ export const de: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'Merkle-Roots sind auf Base Sepolia. DKIM der Reporter-Wrapper ist live. Als Nächstes: Mainnet.',
+      'Merkle-Roots sind auf Base Sepolia. DKIM der Reporter-Wrapper ist live, und das Wrapper-Zeugnis ist im Leaf. Als Nächstes: erster On-Chain-Publish nach Live-Reports, dann Mainnet.',
     nowTitle: 'Heute live',
     nowItems: [
       'Domain-Verbindung über Cloudflare OAuth, manuelles DNS oder bestehende Reporting-Tools',
       'Automatische Erstellung des öffentlichen Eintrags beim ersten gültigen Aggregatbericht',
-      'Kontinuierliche Aufnahme echter DMARC-Aggregatberichte',
+      'Ingest fail-closed auf DKIM des Reporter-Wrappers (Gmail, Microsoft, Yahoo, Apple und allowlistete Forwarder)',
+      'Wrapper-Zeugnis im Leaf: bestandenes d=/Selektor und keccak256 des RFC822 (die Mail selbst wird nicht veröffentlicht)',
       'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
-      'Merkle-Roots veröffentlicht in PactRoots auf Base Sepolia (Testnet, permissionierter Publisher)',
-      'Kryptographisches Zeugnis der Reporter-Mail (DKIM der Gmail/Microsoft-Wrapper)',
+      'Merkle-Roots auf PactRoots / Base Sepolia (Testnet, permissionierter Publisher)',
       'Öffentliche Einträge nach verifizierter Historie sortiert',
       'Domain-Seiten mit Uhren, Aktivität und technischer Verifikation',
     ],
     nextTitle: 'In aktiver Entwicklung',
     nextItems: [
+      'Erste Live-Leaves nach dem D1-Cutover, dann der erste publishRoot',
       'Base-Mainnet für PactRoots',
       'Velocity als Begleitsignal zur Maturity',
       'Überwachung von Infrastruktur-Diskontinuitäten (Signal)',
