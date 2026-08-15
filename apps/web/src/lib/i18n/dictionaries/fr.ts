@@ -132,13 +132,13 @@ export const fr: Dictionary = {
     eyebrow: 'Registres publics',
     title: 'Domaines qui construisent la confiance',
     intro:
-      "Classés par historique vérifié — depuis combien de temps chaque domaine a été confirmé de façon indépendante. Les scores de confiance apparaissent lorsque cet historique a du sens.",
+      'Classés par historique vérifié — depuis combien de temps chaque domaine a été confirmé de façon indépendante.',
     addDomain: 'Ajoutez votre domaine',
     building: 'En construction',
     proven: 'Éprouvé',
     rankedBy: 'Classés par historique vérifié',
     rankedHint:
-      "Un historique confirmé indépendamment plus long se classe plus haut. Un score de confiance apparaît lorsque l'historique a du sens.",
+      'Un historique confirmé indépendamment plus long se classe plus haut.',
     colDomain: 'Domaine',
     colHistory: 'Historique',
     colStatus: 'Statut',

@@ -2,12 +2,11 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ScoreBar } from '@/components/score-bar';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
-import { formatVerifiedDays, localizeBandLabel, shouldShowTrustScore, type ScoreBandKey } from '@/lib/trust-display';
+import { formatVerifiedDays } from '@/lib/trust-display';
 import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
 
 interface DomainListProps {
@@ -43,16 +42,9 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
   const days = domain.pactAgeDays ?? 0;
   const reports = domain.leafCount ?? 0;
   const orgs = domain.uniqueReporterCount ?? 0;
-  const showScore =
-    domain.trustScore != null &&
-    domain.trustStatus != null &&
-    shouldShowTrustScore({ score: domain.trustScore, status: domain.trustStatus });
-  const bandLabel = domain.trustScoreBand
-    ? localizeBandLabel(domain.trustScoreBand as ScoreBandKey, t.domain)
-    : null;
 
   return (
-    <div className="text-right" title={bandLabel ?? undefined}>
+    <div className="text-right">
       <span className="font-mono text-xl font-bold tabular-nums text-txt group-hover:text-accent">
         {formatVerifiedDays(days, t.domain)}
       </span>
@@ -65,20 +57,6 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
           ? ` · ${orgs} ${orgs === 1 ? t.records.org : t.records.orgs}`
           : ''}
       </span>
-      {showScore && domain.trustScoreDisplay != null && (
-        <span className="mt-2 block">
-          <span className="font-mono text-sm font-semibold tabular-nums text-txt">
-            {domain.trustScoreDisplay}
-            <span className="text-muted-2"> / 100</span>
-          </span>
-          <ScoreBar score={domain.trustScoreDisplay} className="mt-1 ml-auto max-w-24" />
-          {bandLabel && (
-            <span className="block text-xs text-muted-2 mt-1 normal-case tracking-normal font-sans">
-              {bandLabel}
-            </span>
-          )}
-        </span>
-      )}
     </div>
   );
 }

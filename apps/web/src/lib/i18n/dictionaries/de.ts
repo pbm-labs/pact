@@ -130,13 +130,13 @@ export const de: Dictionary = {
     eyebrow: 'Öffentliche Einträge',
     title: 'Domains, die Vertrauen aufbauen',
     intro:
-      'Sortiert nach verifizierter Historie — wie lange jede Domain unabhängig bestätigt wurde. Vertrauenswerte erscheinen, sobald diese Historie aussagekräftig ist.',
+      'Sortiert nach verifizierter Historie — wie lange jede Domain unabhängig bestätigt wurde.',
     addDomain: 'Domain hinzufügen',
     building: 'Im Aufbau',
     proven: 'Nachgewiesen',
     rankedBy: 'Sortiert nach verifizierter Historie',
     rankedHint:
-      'Längere unabhängig bestätigte Historie steht höher. Ein Vertrauenswert erscheint, sobald die Historie aussagekräftig ist.',
+      'Längere unabhängig bestätigte Historie steht höher.',
     colDomain: 'Domain',
     colHistory: 'Historie',
     colStatus: 'Status',

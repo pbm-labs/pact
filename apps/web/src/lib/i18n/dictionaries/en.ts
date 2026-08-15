@@ -131,13 +131,13 @@ export const en: Dictionary = {
     eyebrow: 'Public records',
     title: 'Domains building trust',
     intro:
-      'Ranked by verified history — how long each domain has been independently confirmed. Trust scores appear once that history is meaningful.',
+      'Ranked by verified history — how long each domain has been independently confirmed.',
     addDomain: 'Add your domain',
     building: 'Building',
     proven: 'Proven',
     rankedBy: 'Ranked by verified history',
     rankedHint:
-      'Longer independently confirmed history ranks higher. A trust score appears once history is meaningful.',
+      'Longer independently confirmed history ranks higher.',
     colDomain: 'Domain',
     colHistory: 'History',
     colStatus: 'Status',
