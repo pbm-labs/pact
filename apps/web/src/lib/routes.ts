@@ -15,13 +15,3 @@ export const routes = {
 
 export const PROTOCOL_SPEC_URL =
   'https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md';
-
-/** Legacy paths kept only for redirects / inbound links. */
-export const legacyRoutes = {
-  howItWorks: '/how-it-works',
-  domains: '/domains',
-  domain: (domain: string) => `/domain/${encodeURIComponent(domain)}`,
-  whyPact: '/why-pact',
-  whitepaper: '/whitepaper',
-  roadmap: '/roadmap',
-} as const;

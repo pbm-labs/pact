@@ -9,7 +9,7 @@
 **Movement:** we build real (`https://webuildreal.dev`)
 **Protocol:** PACT — open; anyone may implement
 
-This document is the single protocol specification. It supersedes the split drafts `pact_protocol_v01.md` (score / display) and `pact_protocol_v02.md` (Merkle / encoding).
+This document is the single protocol specification. It supersedes the earlier split drafts (v0.1 score / display, v0.2 Merkle / encoding).
 
 **What is live in the reference implementation**
 
@@ -991,7 +991,7 @@ leaf = keccak256(preimage)
 ---
 
 PACT — Provenance Attestation and Chain of Trust  
-Protocol Specification v0.2 — Open standard. Freely implementable.  
+Protocol Specification — August 2026. Open standard. Freely implementable.  
 we build real — movement. PACT — open protocol.  
 First reference implementation: PBM Labs LLC  
 Contact: hello@pbm-labs.com

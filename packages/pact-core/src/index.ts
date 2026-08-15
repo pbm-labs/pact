@@ -7,7 +7,7 @@ export {
   REPORTER_ALLOWLIST,
   type ReportSourceAuth,
 } from './auth/allowlist.js';
-export { hexToBytea, byteaToHash, byteaToHex } from './encoding/bytea.js';
+export { byteaToHash } from './encoding/bytea.js';
 export { normalizeDomain, normalizeReporter } from './encoding/domain.js';
 export { canonicalizeSelectors, hashSelectors } from './encoding/selectors.js';
 export { canonicalizeIpRanges, hashIpRanges, truncateIp } from './encoding/ips.js';
