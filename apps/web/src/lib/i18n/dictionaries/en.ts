@@ -129,7 +129,7 @@ export const en: Dictionary = {
   records: {
     backHome: 'Home',
     eyebrow: 'Public records',
-    title: 'Domains building trust',
+    title: 'Domains with a public record',
     intro:
       'Ranked by verified history — how long each domain has been independently confirmed.',
     addDomain: 'Add your domain',
@@ -168,7 +168,7 @@ export const en: Dictionary = {
     next3: 'This page updates on its own — nothing to click.',
     historyHero: 'of verified history',
     historyIntro:
-      'Independently confirmed history, building one honest day at a time. A trust score appears once enough history has accrued.',
+      'Independently confirmed history, building one honest day at a time.',
     scoreIntro:
       'Independently confirmed history, with a trust score that reflects how long and how widely it has been verified.',
     timeVerified: 'Time verified',
@@ -316,7 +316,7 @@ export const en: Dictionary = {
       'Continuous ingestion of real DMARC aggregate reports',
       'Append-only Merkle tree with publicly recomputable inclusion proofs',
       'Regular publication of staging roots to a public ledger',
-      'Public records ranked by verified history; scaled score when meaningful',
+      'Public records ranked by verified history',
       'Per-domain pages with clocks, activity, and technical verification',
     ],
     nextTitle: 'In active development',

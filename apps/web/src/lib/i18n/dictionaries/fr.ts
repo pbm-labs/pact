@@ -130,7 +130,7 @@ export const fr: Dictionary = {
   records: {
     backHome: 'Accueil',
     eyebrow: 'Registres publics',
-    title: 'Domaines qui construisent la confiance',
+    title: 'Domaines avec un registre public',
     intro:
       'Classés par historique vérifié — depuis combien de temps chaque domaine a été confirmé de façon indépendante.',
     addDomain: 'Ajoutez votre domaine',
@@ -169,7 +169,7 @@ export const fr: Dictionary = {
     next3: 'Cette page se met à jour toute seule — rien à cliquer.',
     historyHero: "d'historique vérifié",
     historyIntro:
-      "Historique confirmé de façon indépendante, jour honnête après jour. Un score de confiance apparaît une fois qu'assez d'historique s'est accumulé.",
+      'Historique confirmé de façon indépendante, jour honnête après jour.',
     scoreIntro:
       "Historique confirmé de façon indépendante, avec un score de confiance qui reflète depuis combien de temps et combien largement il a été vérifié.",
     timeVerified: 'Temps vérifié',
@@ -329,7 +329,7 @@ export const fr: Dictionary = {
       'Ingestion continue de vrais rapports agrégés DMARC',
       'Arbre de Merkle append-only avec preuves d’inclusion recomputables publiquement',
       'Publication régulière de racines de staging sur un registre public',
-      'Registres publics classés par historique vérifié ; score mis à l’échelle quand il est significatif',
+      'Registres publics classés par historique vérifié',
       'Pages par domaine avec horloges, activité et vérification technique',
     ],
     nextTitle: 'En développement actif',

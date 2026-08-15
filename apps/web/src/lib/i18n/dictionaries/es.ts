@@ -128,7 +128,7 @@ export const es: Dictionary = {
   records: {
     backHome: 'Inicio',
     eyebrow: 'Registros públicos',
-    title: 'Dominios que construyen confianza',
+    title: 'Dominios con registro público',
     intro:
       'Ordenados por historial verificado — cuánto tiempo cada dominio ha sido confirmado de forma independiente.',
     addDomain: 'Añade tu dominio',
@@ -167,7 +167,7 @@ export const es: Dictionary = {
     next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
     historyHero: 'de historial verificado',
     historyIntro:
-      'Historial confirmado de forma independiente, construyéndose un día honesto a la vez. Una puntuación de confianza aparece cuando se ha acumulado suficiente historial.',
+      'Historial confirmado de forma independiente, construyéndose un día honesto a la vez.',
     scoreIntro:
       'Historial confirmado de forma independiente, con una puntuación de confianza que refleja cuánto tiempo y con qué amplitud ha sido verificado.',
     timeVerified: 'Tiempo verificado',
@@ -327,7 +327,7 @@ export const es: Dictionary = {
       'Ingesta continua de informes agregados DMARC reales',
       'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
       'Publicación periódica de raíces de staging en un ledger público',
-      'Registros públicos ordenados por historial verificado; puntuación escalada cuando importa',
+      'Registros públicos ordenados por historial verificado',
       'Páginas por dominio con relojes, actividad y verificación técnica',
     ],
     nextTitle: 'En desarrollo activo',

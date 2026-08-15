@@ -128,7 +128,7 @@ export const de: Dictionary = {
   records: {
     backHome: 'Startseite',
     eyebrow: 'Öffentliche Einträge',
-    title: 'Domains, die Vertrauen aufbauen',
+    title: 'Domains mit öffentlichem Eintrag',
     intro:
       'Sortiert nach verifizierter Historie — wie lange jede Domain unabhängig bestätigt wurde.',
     addDomain: 'Domain hinzufügen',
@@ -167,7 +167,7 @@ export const de: Dictionary = {
     next3: 'Diese Seite aktualisiert sich von allein — nichts zu klicken.',
     historyHero: 'verifizierter Historie',
     historyIntro:
-      'Unabhängig bestätigte Historie, Tag für Tag ehrlich aufgebaut. Ein Vertrauenswert erscheint, sobald genug Historie vorliegt.',
+      'Unabhängig bestätigte Historie, Tag für Tag ehrlich aufgebaut.',
     scoreIntro:
       'Unabhängig bestätigte Historie mit einem Vertrauenswert, der widerspiegelt, wie lange und wie breit sie verifiziert wurde.',
     timeVerified: 'Verifizierte Zeit',
@@ -327,7 +327,7 @@ export const de: Dictionary = {
       'Kontinuierliche Aufnahme echter DMARC-Aggregatberichte',
       'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
       'Regelmäßige Veröffentlichung von Staging-Roots in einem öffentlichen Ledger',
-      'Öffentliche Einträge nach verifizierter Historie sortiert; skalierte Score wenn sinnvoll',
+      'Öffentliche Einträge nach verifizierter Historie sortiert',
       'Domain-Seiten mit Uhren, Aktivität und technischer Verifikation',
     ],
     nextTitle: 'In aktiver Entwicklung',
