@@ -260,7 +260,7 @@ delete from processed_reports;
 |--------|----------------|
 | Leaf encoding | [v0.2 Appendix C](docs/pact_protocol_v02.md) |
 | Sparse Merkle | [v0.2 §3.3.1](docs/pact_protocol_v02.md) (32 levels) |
-| On-chain roots | `PactRoots` — [v0.2 §9](docs/pact_protocol_v02.md) (`packages/contracts`, not deployed) |
+| On-chain roots | `PactRoots` — [v0.2 §9](docs/pact_protocol_v02.md) (`packages/contracts`; Base Sepolia script ready, not broadcast) |
 | Trust score (raw) | `pact-score-0.1` — [v0.1 §4.3](docs/pact_protocol_v01.md) |
 | Trust score (display) | `pact-display-0.1` — [v0.1 §4.5](docs/pact_protocol_v01.md) |
 | Allowlist | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts` |

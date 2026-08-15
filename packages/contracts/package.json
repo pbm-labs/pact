@@ -3,6 +3,7 @@
   "private": true,
   "description": "PACT Merkle root publication (v0.2 §9). Foundry — no npm build.",
   "scripts": {
-    "test": "forge test"
+    "test": "forge test",
+    "script:sepolia": "forge script script/Deploy.s.sol --rpc-url base_sepolia -vvvv"
   }
 }
