@@ -23,7 +23,7 @@ export const de: Dictionary = {
     heroTitle: 'KI kann alles fälschen.',
     heroAccent: 'Außer gestern.',
     heroSub:
-      'Ein überprüfbarer öffentlicher Eintrag für deine Domain — entsteht passiv, lässt sich nicht zurückdatieren.',
+      'Die Historie existiert zuerst. Die Behauptung kann danach kommen.',
     manifestoEyebrow: 'Das Manifest',
     manifestoTitle: 'Das Identitätsproblem des Internets',
     manifestoSub: 'Warum Geschichte das Eine ist, das sich nicht herstellen lässt.',
@@ -67,10 +67,10 @@ export const de: Dictionary = {
       'Bestanden / fehlgeschlagen',
       'Meldende Organisation',
     ],
-    badgeEyebrow: 'Dein Nachweis als Unternehmen',
+    badgeEyebrow: 'Ein Verweis auf den Eintrag',
     badgeTitle: 'Einmal einfügen. Lebt in jeder E-Mail, die du sendest.',
     badgeSub:
-      'Ein kleines Live-Bild in deiner E-Mail-Signatur. Es aktualisiert sich, während deine Historie wächst. Ein Klick öffnet deine vollständige öffentliche Seite.',
+      'Kein Zertifikat. Ein Live-Link zur unabhängig bestätigten Historie — in die Signatur einfügen, jede Person kann den Eintrag öffnen.',
     signatureName: 'Jane Doe',
     signatureRole: 'Gründerin · Acme Studio',
     signatureContact: '+1 (415) 555-0134 · acme.studio',

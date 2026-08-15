@@ -23,7 +23,7 @@ export const fr: Dictionary = {
     heroTitle: 'L’IA peut tout falsifier.',
     heroAccent: 'Sauf hier.',
     heroSub:
-      'Un registre public vérifiable pour votre domaine — construit passivement, impossible à antidater.',
+      'L’histoire existe d’abord. L’affirmation peut se faire ensuite.',
     manifestoEyebrow: 'Le manifeste',
     manifestoTitle: 'Le problème d’identité d’Internet',
     manifestoSub: 'Pourquoi l’histoire est la seule chose qui ne peut encore se fabriquer.',
@@ -67,10 +67,10 @@ export const fr: Dictionary = {
       'Compteurs succès / échec',
       'Organisation déclarante',
     ],
-    badgeEyebrow: 'Votre preuve d’activité',
+    badgeEyebrow: 'Un lien vers le registre',
     badgeTitle: 'Collez une fois. Vit dans chaque email que vous envoyez.',
     badgeSub:
-      'Une petite image live à placer dans votre signature. Elle se met à jour à mesure que votre historique grandit. Un clic ouvre votre page publique complète.',
+      'Pas un certificat. Un lien live vers l’historique confirmé de façon indépendante — collez-le dans votre signature, n’importe qui peut ouvrir le registre.',
     signatureName: 'Jane Doe',
     signatureRole: 'Fondatrice · Acme Studio',
     signatureContact: '+1 (415) 555-0134 · acme.studio',

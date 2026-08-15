@@ -24,7 +24,7 @@ export const en: Dictionary = {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
     heroSub:
-      'A verifiable public record for your domain — built passively, impossible to backdate.',
+      'History exists first. The claim can be made afterwards.',
     manifestoEyebrow: 'The Manifesto',
     manifestoTitle: "The Internet's Identity Problem",
     manifestoSub: "Why history is the one thing that still can't be manufactured.",
@@ -68,10 +68,10 @@ export const en: Dictionary = {
       'Pass / fail counts',
       'Reporting organization',
     ],
-    badgeEyebrow: 'Your proof of business',
+    badgeEyebrow: 'A pointer to the record',
     badgeTitle: 'Paste once. Lives in every email you send.',
     badgeSub:
-      'A small live image you drop into your email signature. It updates automatically as your history grows. One click opens your full public page.',
+      'Not a certificate. A live link to independently confirmed history — paste it in your signature, anyone can open the record.',
     signatureName: 'Jane Doe',
     signatureRole: 'Founder · Acme Studio',
     signatureContact: '+1 (415) 555-0134 · acme.studio',

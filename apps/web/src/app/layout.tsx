@@ -10,7 +10,7 @@ import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 const siteUrl = 'https://webuildreal.dev';
 const title = 'We build real';
 const description =
-  'A verifiable public record for your domain — built passively, impossible to backdate.';
+  'History exists first. The claim can be made afterwards.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'we build real — a verifiable public record for your domain.',
+        alt: 'we build real — history exists first. The claim can be made afterwards.',
       },
     ],
   },
