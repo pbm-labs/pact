@@ -249,9 +249,9 @@ export const es: Dictionary = {
       'Cada confirmación viene de sistemas receptores independientes — no es autoinformada. Este registro solo crece hacia adelante.',
     badgeEyebrow: 'Insignia integrable',
     badgeIntro:
-      'Una forma compacta de esta página. Vive en las firmas de email y se actualiza a medida que crece el registro — cada clic abre aquí.',
+      'No es un certificado. Un enlace vivo a esta página — pégalo en una firma, cualquiera puede abrir el registro.',
     shareRecord: 'Tu registro público',
-    shareEyebrow: 'Comparte tu prueba',
+    shareEyebrow: 'Comparte el registro',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
     shareText:

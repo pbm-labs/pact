@@ -251,9 +251,9 @@ export const fr: Dictionary = {
       'Chaque confirmation vient de systèmes destinataires indépendants — pas d’auto-déclaration. Ce registre ne grandit que vers l’avant.',
     badgeEyebrow: 'Badge intégrable',
     badgeIntro:
-      'Une forme compacte de cette page. Vit dans les signatures d’email et se met à jour à mesure que le registre grandit — chaque clic ouvre ici.',
+      'Pas un certificat. Un lien live vers cette page — collez-le dans une signature, n’importe qui peut ouvrir le registre.',
     shareRecord: 'Votre registre public',
-    shareEyebrow: 'Partagez votre preuve',
+    shareEyebrow: 'Partagez le registre',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
     shareText:

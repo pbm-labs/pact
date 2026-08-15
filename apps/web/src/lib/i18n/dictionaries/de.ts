@@ -249,9 +249,9 @@ export const de: Dictionary = {
       'Jede Bestätigung kommt von unabhängigen Empfangssystemen — nicht selbst gemeldet. Dieser Eintrag wächst nur vorwärts.',
     badgeEyebrow: 'Einbettbares Badge',
     badgeIntro:
-      'Eine kompakte Form dieser Seite. Lebt in E-Mail-Signaturen und aktualisiert sich, während der Eintrag wächst — jeder Klick öffnet hier.',
+      'Kein Zertifikat. Ein Live-Link zu dieser Seite — in eine Signatur einfügen, jede Person kann den Eintrag öffnen.',
     shareRecord: 'Dein öffentlicher Eintrag',
-    shareEyebrow: 'Teile deinen Nachweis',
+    shareEyebrow: 'Teile den Eintrag',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
     shareText:

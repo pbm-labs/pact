@@ -250,9 +250,9 @@ export const en: Dictionary = {
       'Every confirmation comes from independent receiving systems — not self-reported. This record only grows forward.',
     badgeEyebrow: 'Embeddable badge',
     badgeIntro:
-      'A compact form of this page. Lives in email signatures and updates as the record grows — every click opens here.',
+      'Not a certificate. A live link to this page — paste it in a signature, anyone can open the record.',
     shareRecord: 'Your public record',
-    shareEyebrow: 'Share your proof',
+    shareEyebrow: 'Share the record',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
     shareText:
