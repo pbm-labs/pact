@@ -129,7 +129,6 @@ export type Dictionary = {
     next1: string;
     next2: string;
     next3: string;
-    historyHero: string;
     historyIntro: string;
     scoreIntro: string;
     timeVerified: string;
@@ -247,6 +246,8 @@ export type Dictionary = {
     whyBody: string;
     whitepaperTitle: string;
     whitepaperBody: string;
+    protocolTitle: string;
+    protocolBody: string;
     roadmapTitle: string;
     roadmapBody: string;
     readWhitepaper: string;

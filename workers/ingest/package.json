@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@pact/core": "workspace:*",
-    "@supabase/supabase-js": "^2.49.8",
-    "fflate": "^0.8.3"
+    "fflate": "^0.8.3",
+    "viem": "^2.52.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250525.0",

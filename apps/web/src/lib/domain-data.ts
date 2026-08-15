@@ -1,15 +1,17 @@
-import { createClient } from '@supabase/supabase-js';
 import {
   computeTrustScore,
   normalizeDomain,
   formatScoreForDisplay,
-  byteaToHex,
   byteaToHash,
   type Hash,
 } from '@pact/core';
 import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
-import { fetchAllRows } from '@/lib/supabase-fetch-all';
-import { ensureDomainRegisteredAt } from '@/lib/supabase-admin';
+import {
+  fetchLedgerDomain,
+  fetchLedgerDomains,
+  ledgerConfigured,
+} from '@/lib/ledger';
+import { ensureDomainRegisteredAt } from '@/lib/ledger-admin';
 import { scoreBandKey } from '@/lib/trust-display';
 
 export interface DomainLeafSummary {
@@ -55,16 +57,6 @@ export type DomainPageState =
   | { status: 'waiting'; data: DomainWaitingData }
   | null;
 
-function getSupabase() {
-  const url = process.env.SUPABASE_URL;
-  if (!url) return null;
-
-  const key =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_ANON_KEY;
-  if (!key) return null;
-  return createClient(url, key);
-}
-
 function pactHistoryStartFromLeaves(
   leaves: { period_start: number }[],
   connectedAt: string | null,
@@ -85,79 +77,27 @@ export interface DomainSummary {
   domain: string;
   domainRegisteredAt?: string | null;
   status: 'waiting' | 'live';
-  /** Raw canonical T — use for sorting only when history days tie. */
   trustScore?: number;
   trustScoreDisplay?: number;
   trustScoreBand?: string;
   trustStatus?: 'provisional' | 'activated';
-  /** Days of verified PACT history — primary ranking key. */
   pactAgeDays?: number;
   leafCount?: number;
   uniqueReporterCount?: number;
 }
 
 export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
-  const supabase = getSupabase();
-  if (!supabase) return [];
+  const payload = await fetchLedgerDomains();
+  if (!payload) return [];
 
-  const { data: domainRows, error: domainError } = await supabase
-    .from('domains')
-    .select('domain, connected_at, domain_registered_at')
-    .order('domain', { ascending: true });
-
-  const rowsWithoutReg =
-    domainError?.code === '42703'
-      ? (
-          await supabase
-            .from('domains')
-            .select('domain, connected_at')
-            .order('domain', { ascending: true })
-        ).data
-      : null;
-
-  if ((domainError && !rowsWithoutReg) || (!domainRows?.length && !rowsWithoutReg?.length)) {
-    if (domainError && domainError.code !== '42703') return [];
-    if (!rowsWithoutReg?.length) return [];
-  }
-
-  const effectiveRows = (domainRows ?? rowsWithoutReg ?? []).map((row) => ({
-    ...row,
-    domain_registered_at:
-      'domain_registered_at' in row
-        ? (row as { domain_registered_at?: string | null }).domain_registered_at ?? null
-        : null,
-  }));
-
-  let leaves: Awaited<
-    ReturnType<
-      typeof fetchAllRows<{
-        domain: string;
-        dkim_pass_count: number;
-        reporter_org: string;
-        period_start: number;
-      }>
-    >
-  >;
-  try {
-    leaves = await fetchAllRows((from, to) =>
-      supabase
-        .from('leaves')
-        .select('domain, dkim_pass_count, reporter_org, period_start')
-        .order('leaf_index', { ascending: true })
-        .range(from, to),
-    );
-  } catch {
-    return [];
-  }
-
-  const leavesByDomain = new Map<string, typeof leaves>();
-  for (const leaf of leaves) {
+  const leavesByDomain = new Map<string, typeof payload.leaves>();
+  for (const leaf of payload.leaves) {
     const list = leavesByDomain.get(leaf.domain) ?? [];
     list.push(leaf);
     leavesByDomain.set(leaf.domain, list);
   }
 
-  return effectiveRows
+  return payload.domains
     .map((row) => {
       const domainLeaves = leavesByDomain.get(row.domain) ?? [];
       const domainRegisteredAt = row.domain_registered_at ?? null;
@@ -213,107 +153,34 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
 }
 
 export async function fetchDomainPageState(domain: string): Promise<DomainPageState> {
-  const supabase = getSupabase();
-  if (!supabase) return null;
-
   const normalized = normalizeDomain(domain);
-
-  let domainRow:
-    | {
-        connected_at: string;
-        domain_registered_at?: string | null;
-      }
-    | null = null;
-
-  const primary = await supabase
-    .from('domains')
-    .select('connected_at, domain_registered_at')
-    .eq('domain', normalized)
-    .maybeSingle();
-
-  if (primary.error?.code === '42703') {
-    const fallback = await supabase
-      .from('domains')
-      .select('connected_at')
-      .eq('domain', normalized)
-      .maybeSingle();
-    if (fallback.error || !fallback.data) return null;
-    domainRow = { ...fallback.data, domain_registered_at: null };
-  } else {
-    if (primary.error || !primary.data) return null;
-    domainRow = primary.data;
-  }
+  const payload = await fetchLedgerDomain(normalized);
+  if (!payload) return null;
 
   const domainRegisteredAt = await ensureDomainRegisteredAt(
     normalized,
-    domainRow.domain_registered_at,
+    payload.domain.domain_registered_at,
   );
 
-  let leaves: Awaited<
-    ReturnType<
-      typeof fetchAllRows<{
-        leaf_index: number;
-        leaf_hash: unknown;
-        dkim_pass_count: number;
-        dkim_fail_count: number;
-        reporter_org: string;
-        period_start: number;
-        period_end: number;
-        selectors: string[] | null;
-        created_at: string | null;
-      }>
-    >
-  >;
-  try {
-    leaves = await fetchAllRows((from, to) =>
-      supabase
-        .from('leaves')
-        .select(
-          'leaf_index, leaf_hash, dkim_pass_count, dkim_fail_count, reporter_org, period_start, period_end, selectors, created_at',
-        )
-        .eq('domain', normalized)
-        .order('period_start', { ascending: false })
-        .range(from, to),
-    );
-  } catch {
-    return null;
-  }
-
+  const leaves = payload.leaves;
   if (!leaves.length) {
     return {
       status: 'waiting',
       data: {
         domain: normalized,
-        connectedSince: domainRow.connected_at,
+        connectedSince: payload.domain.connected_at,
         domainRegisteredAt,
       },
     };
   }
 
-  let globalLeaves: Awaited<
-    ReturnType<typeof fetchAllRows<{ leaf_index: number; leaf_hash: unknown }>>
-  >;
-  try {
-    globalLeaves = await fetchAllRows((from, to) =>
-      supabase
-        .from('leaves')
-        .select('leaf_index, leaf_hash')
-        .order('leaf_index', { ascending: true })
-        .range(from, to),
-    );
-  } catch {
-    return null;
-  }
-
-  const merkleContext = rebuildGlobalMerkleTree(globalLeaves);
-
+  const merkleContext = rebuildGlobalMerkleTree(payload.globalLeaves);
   const totalPassCount = leaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
   const totalFailCount = leaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
   const reporters = new Set(leaves.map((l) => l.reporter_org));
   const total = totalPassCount + totalFailCount;
   const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
-
-  const pactHistoryStart = pactHistoryStartFromLeaves(leaves, domainRow.connected_at);
+  const pactHistoryStart = pactHistoryStartFromLeaves(leaves, payload.domain.connected_at);
 
   const trust = computeTrustScore({
     totalPassCount,
@@ -323,23 +190,19 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     domainRegisteredAt: domainRegisteredAt ? new Date(domainRegisteredAt) : null,
   });
 
-  const { data: rootRow } = await supabase
-    .from('merkle_roots')
-    .select('root_hash, leaf_count, anchor_type')
-    .order('published_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const latestRoot = byteaToHex(rootRow?.root_hash);
+  const latestRoot = payload.onChain?.root ?? null;
   const computedRoot = merkleContext?.root ?? null;
   const rootMatchesPublished =
-    latestRoot !== null && computedRoot !== null && latestRoot === computedRoot;
+    latestRoot !== null &&
+    computedRoot !== null &&
+    latestRoot.toLowerCase() === computedRoot.toLowerCase();
+  const onChain = payload.onChain != null;
 
   return {
     status: 'live',
     data: {
       domain: normalized,
-      connectedSince: domainRow.connected_at ?? null,
+      connectedSince: payload.domain.connected_at ?? null,
       domainRegisteredAt,
       pactHistoryStart: pactHistoryStart.toISOString(),
       trust,
@@ -349,9 +212,9 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       latestRoot,
       rootMatchesPublished,
       domainLeafCount: leaves.length,
-      globalTreeLeafCount: rootRow?.leaf_count ?? merkleContext?.tree.size ?? null,
-      anchorType: (rootRow?.anchor_type as 'staging' | 'base') ?? null,
-      staging: rootRow?.anchor_type !== 'base',
+      globalTreeLeafCount: payload.onChain?.leafCount ?? merkleContext?.tree.size ?? null,
+      anchorType: onChain ? 'base' : 'staging',
+      staging: !onChain,
       leaves: leaves.map((leaf) => {
         const leafHash = byteaToHash(leaf.leaf_hash);
         const leafIndex = Number(leaf.leaf_index);
@@ -371,7 +234,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
           periodEnd: Number(leaf.period_end),
           dkimPassCount: Number(leaf.dkim_pass_count),
           dkimFailCount: Number(leaf.dkim_fail_count),
-          selectors: leaf.selectors ?? [],
+          selectors: safeJsonArray(leaf.selectors),
           receivedAt: leaf.created_at ?? null,
           leafIndex: proof.leafIndex,
           leafHash: proof.leafHash,
@@ -381,4 +244,17 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       }),
     },
   };
+}
+
+export { ledgerConfigured };
+
+function safeJsonArray(value: string | string[] | null): string[] {
+  if (Array.isArray(value)) return value;
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return [];
+  }
 }

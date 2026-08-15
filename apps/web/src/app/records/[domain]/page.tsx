@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
 import { DomainPageView, type DomainLiveScoreView } from '@/components/domain-page-view';
-import { fetchDomainPageState } from '@/lib/domain-data';
+import { fetchDomainPageState, ledgerConfigured } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
 import { scoreBandKey, shouldShowTrustScore } from '@/lib/trust-display';
 
@@ -43,9 +43,7 @@ export default async function RecordPage({ params }: PageProps) {
   const { domain } = await params;
   const state = await fetchDomainPageState(domain);
 
-  const hasSupabase =
-    process.env.SUPABASE_URL &&
-    (process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY);
+  const hasLedger = ledgerConfigured();
 
   let liveScore: DomainLiveScoreView | null = null;
   if (state?.status === 'live') {
@@ -72,7 +70,7 @@ export default async function RecordPage({ params }: PageProps) {
       domain={domain}
       state={state}
       liveScore={liveScore}
-      unconfigured={!state && !hasSupabase}
+      unconfigured={!state && !hasLedger}
     />
   );
 }

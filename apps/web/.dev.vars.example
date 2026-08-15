@@ -6,10 +6,8 @@
 # Or symlink repo-root .env.local (same keys):
 #   ln -sf ../../.env.local .dev.vars
 
-SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
-# Optional if service role is unavailable locally:
-SUPABASE_ANON_KEY=
+LEDGER_URL=http://localhost:8787
+LEDGER_WRITE_SECRET=
 CONNECT_STATE_SECRET=
 CLOUDFLARE_OAUTH_CLIENT_ID=
 CLOUDFLARE_OAUTH_CLIENT_SECRET=

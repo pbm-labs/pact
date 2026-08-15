@@ -112,7 +112,7 @@ export const es: Dictionary = {
       'Una línea que permite a sistemas independientes confirmar que tu dominio es real. Si ya tienes una línea parecida, añade nuestra dirección en lugar de reemplazarla. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
     errors: {
       invalid_domain: 'Introduce un dominio válido (p. ej. example.com).',
-      server_config: 'Falta CONNECT_STATE_SECRET o las credenciales de Supabase en el servidor.',
+      server_config: 'Falta CONNECT_STATE_SECRET o las credenciales de escritura del ledger.',
       oauth_not_configured: 'El inicio de sesión con Cloudflare no está configurado en este servidor.',
       missing_code: 'El inicio de sesión se canceló o quedó incompleto.',
       invalid_state: 'La sesión caducó — intenta conectar de nuevo.',
@@ -165,7 +165,6 @@ export const es: Dictionary = {
     next1: 'Este dominio es detectado de forma independiente, normalmente en un día.',
     next2: 'Confirma en silencio que todo está en orden.',
     next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
-    historyHero: 'de historial verificado',
     historyIntro:
       'Historial confirmado de forma independiente, construyéndose un día honesto a la vez.',
     scoreIntro:
@@ -205,7 +204,7 @@ export const es: Dictionary = {
     mathDiversity: 'Diversidad (D)',
     mathMaturity: 'Madurez (A)',
     mathFailedChecks: 'Comprobaciones fallidas',
-    dbNotConfigured: 'Base de datos no configurada',
+    dbNotConfigured: 'Ledger no configurado',
     reportHistory: 'Historial de informes',
     reportHistoryIntro:
       'Las comprobaciones independientes llegan de forma continua desde los reporters conectados (normalmente a diario).',
@@ -219,7 +218,7 @@ export const es: Dictionary = {
     showOlderReports: 'Mostrar informes anteriores ({shown} de {total})',
     verification: 'Verificación',
     verificationIntro:
-      'Pruebas de inclusión recalculadas a partir de datos en vivo frente a la raíz de staging más reciente.',
+      'Pruebas de inclusión recalculadas a partir de las hojas en vivo frente a la raíz on-chain más reciente.',
     anchor: 'Ancla',
     onChain: 'En cadena',
     stagingOffChain: 'Staging (fuera de cadena)',
@@ -289,7 +288,7 @@ export const es: Dictionary = {
       'Toda forma existente de probar que un negocio es real comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
       'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
       'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
-      'Cada afirmación de PACT deriva de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es la prueba. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra el registro público de solo-append, sin pedir permiso a PACT. Anclar ese registro para que la verificación ya no dependa de la infraestructura de un solo operador es el siguiente hito del protocolo — no un cambio de tesis.',
+      'Cada afirmación de PACT deriva de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es la prueba. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso). Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas, esa clave de publicación, y el testigo criptográfico del correo del reportero — no un cambio de tesis.',
       'Esa es la propiedad que las pruebas incumbentes no pueden injertar. Un buró de crédito no puede volverse trustless — su modelo de negocio *es* el intermediario de confianza. Un registro estatal no puede volverse trustless — es una autoridad por definición. Un extracto bancario no puede volverse trustless — es un documento, y los documentos se editan. PACT no es una versión mejor de eso. Está en otra categoría: evidencia que puedes volver a comprobar, no una afirmación que debas aceptar.',
       'Esto es lo que lo hace duradero, no solo distinto: **el historial que PACT mide no se puede fabricar a posteriori, a ningún precio — ni siquiera por los operadores de PACT.**',
       'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. Puedes armar una empresa pantalla con papeles perfectos. Lo que no puedes hacer es que ayer ocurra antes. El historial de PACT se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo. No es una preferencia de producto. Es una restricción física que PACT pone a trabajar.',
@@ -310,6 +309,9 @@ export const es: Dictionary = {
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'El protocolo abierto detrás del registro público — cómo se captura, publica y mide el historial verificado.',
+    protocolTitle: 'Especificación del protocolo',
+    protocolBody:
+      'Especificación normativa — árbol Merkle, codificación de hojas, puntuación y raíces on-chain.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'Qué está en vivo hoy, y qué viene después.',
     readWhitepaper: 'Leer el whitepaper',
@@ -319,23 +321,24 @@ export const es: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'La fase 0a está en vivo: un registro público recomputable con raíces Merkle en staging. El anclaje on-chain es lo siguiente.',
+      'Las raíces Merkle están en Base Sepolia. Sigue mainnet, luego el testigo criptográfico del correo del reportero.',
     nowTitle: 'En vivo hoy',
     nowItems: [
       'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
       'Creación automática del registro público con el primer informe agregado válido',
       'Ingesta continua de informes agregados DMARC reales',
       'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
-      'Publicación periódica de raíces de staging en un ledger público',
+      'Raíces Merkle publicadas en PactRoots en Base Sepolia (testnet, publicador con permiso)',
       'Registros públicos ordenados por historial verificado',
       'Páginas por dominio con relojes, actividad y verificación técnica',
     ],
     nextTitle: 'En desarrollo activo',
     nextItems: [
-      'Anclaje on-chain de raíces Merkle',
+      'Base mainnet para PactRoots',
+      'Testigo criptográfico del correo del reportero (DKIM de los wrappers de Gmail/Microsoft)',
       'Velocidad como señal compañera de la madurez',
       'Monitorización de discontinuidades de infraestructura (Signal)',
-      'Operación multi-nodo / sin permiso más amplia',
+      'Publicación multi-nodo / sin permiso más amplia',
     ],
     nextNote:
       'Ninguno de estos puntos es necesario para que la verificación pública de hoy funcione. Extienden lo que ya está en vivo.',

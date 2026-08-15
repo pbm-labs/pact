@@ -11,7 +11,7 @@ import {
   oauthCallbackUri,
 } from '@/lib/connect-state';
 import { routes } from '@/lib/routes';
-import { registerDomain } from '@/lib/supabase-admin';
+import { registerDomain } from '@/lib/ledger-admin';
 
 function redirectWith(path: string, params: Record<string, string>) {
   const url = new URL(path, canonicalOrigin());

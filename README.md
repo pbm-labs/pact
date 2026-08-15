@@ -6,7 +6,8 @@
 
 This repo is that reference implementation: domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
-Protocol specs: [docs/pact_protocol_v01.md](docs/pact_protocol_v01.md) (trust score) and [docs/pact_protocol_v02.md](docs/pact_protocol_v02.md) (Merkle / encoding).
+Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
+Whitepaper: [pbm-labs/pact-protocol](https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md).
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 
@@ -20,11 +21,10 @@ The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer
 
 ```
 packages/pact-core   Protocol logic (leaf, merkle, trust, dmarc parser)
-packages/contracts   Foundry — PactRoots (v0.2 §9). Base Sepolia deployed; mainnet not.
-apps/web             Next.js public domain page (staging banner)
-workers/ingest       Cloudflare Email Worker + queue → Supabase
-supabase/schema.sql  PostgreSQL schema (single file)
-docs/                Protocol specs (v0.1 score, v0.2 Merkle/encoding)
+packages/contracts   Foundry — PactRoots (spec §9). Base Sepolia deployed; mainnet not.
+apps/web             Next.js public record (webuildreal.dev)
+workers/ingest       Cloudflare Email Worker + queue → D1 ledger + on-chain publishRoot
+docs/                Protocol specification
 ```
 
 ## Quick start
@@ -35,6 +35,7 @@ pnpm test                         # pact-core unit tests
 pnpm --filter @pact/core build
 pnpm dev:web                      # http://localhost:3000
 pnpm deploy:web                   # Cloudflare Workers (webuildreal.dev)
+pnpm deploy:ingest                # Email ingest + ledger API (ledger.webuildreal.dev)
 ```
 
 ## Environment
@@ -43,30 +44,41 @@ All secrets stay in **repo-root `.env.local`** (gitignored). Never commit it.
 
 ```bash
 cp .env.example .env.local
-# fill in Supabase, Cloudflare OAuth, etc.
+# fill in LEDGER_URL, Cloudflare OAuth, CONNECT_STATE_SECRET, etc.
 ```
 
 Used by `pnpm dev:web` and (via wrangler secrets) the Workers.
 
 | Variable | Used by |
 |----------|---------|
-| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | Web app, worker (via wrangler secrets) |
+| `LEDGER_URL` | Web app — ingest HTTP API (`https://ledger.webuildreal.dev` in prod) |
+| `LEDGER_WRITE_SECRET` | Web + ingest — Bearer token for `POST /v1/domains` |
+| `PUBLISHER_PRIVATE_KEY` | Ingest — `PactRoots` owner key (Sepolia) |
 | `CLOUDFLARE_OAUTH_CLIENT_ID`, `CLOUDFLARE_OAUTH_CLIENT_SECRET` | `/connect` Cloudflare connect |
-| `NEXT_PUBLIC_APP_URL` | PACT app URL (`https://webuildreal.dev` in prod) |
-| `CONNECT_STATE_SECRET` | Optional HMAC for OAuth state |
+| `NEXT_PUBLIC_APP_URL` | App URL (`https://webuildreal.dev` in prod) |
+| `CONNECT_STATE_SECRET` | HMAC for OAuth state |
 
 Cloudflare Worker production secrets:
 
 ```bash
-cd workers/ingest && npx wrangler secret put SUPABASE_URL
-cd workers/ingest && npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
-cd apps/web && npx wrangler secret put SUPABASE_URL
-cd apps/web && npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+cd workers/ingest && npx wrangler secret put PUBLISHER_PRIVATE_KEY
+cd workers/ingest && npx wrangler secret put LEDGER_WRITE_SECRET
+cd apps/web && npx wrangler secret put LEDGER_WRITE_SECRET
 cd apps/web && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_ID
 cd apps/web && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_SECRET
+cd apps/web && npx wrangler secret put CONNECT_STATE_SECRET
 ```
 
+`LEDGER_URL` is a wrangler **var** on `pact-web` (not a secret): `https://ledger.webuildreal.dev`.
+
 Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
+
+D1 schema (once, after creating `pact-ledger`):
+
+```bash
+cd workers/ingest
+npx wrangler d1 execute pact-ledger --remote --file=src/schema.sql
+```
 
 ### Cloudflare OAuth (`/connect`)
 
@@ -84,25 +96,14 @@ Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.exampl
 
 ### Manual DNS connect
 
-Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths do **not** submit a domain on the site — the ingest worker auto-creates the domain row on the first valid aggregate report (`insert_leaf`).
-
-**Supabase upgrades** (existing projects): re-run the upgrade block at the bottom of `supabase/schema.sql` in the SQL editor (adds `domain_registered_at` if missing). New domains resolve registration age at connect/ingest time.
-
-## Supabase setup
-
-1. Create project at [supabase.com](https://supabase.com)
-2. Run `supabase/schema.sql` in the SQL editor
-3. Register your domain:
-
-```sql
-insert into domains (domain) values ('webuildreal.dev');
-```
+Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths do **not** submit a domain on the site — the ingest worker auto-creates the domain row on the first valid aggregate report.
 
 ## Hostnames
 
 | Host | Role |
 |------|------|
 | `webuildreal.dev` / `www` | we build real movement + first PACT reference app (`pact-web` Worker) |
+| `ledger.webuildreal.dev` | Public ledger HTTP API (`pact-ingest`) |
 | `hello@pbm-labs.com` | Legal / operator contact (PBM Labs LLC) |
 | `rua@pact.webuildreal.dev` | DMARC intake (canonical) |
 | `rua@webuildreal.dev` | Legacy intake — still accepted |
@@ -127,7 +128,7 @@ Apply primary DNS in Cloudflare on the `webuildreal.dev` zone. Legacy `pact.pbm-
 | TXT `_report._dmarc.pact` `v=DMARC1` | Authorize external reports to canonical rua |
 | Email Routing rule | `rua@pact.webuildreal.dev` → Worker `pact-ingest` |
 
-Worker routes (`apps/web/wrangler.jsonc`): `webuildreal.dev/*`, `www.webuildreal.dev/*`.
+Worker routes: `webuildreal.dev/*`, `www.webuildreal.dev/*` (`apps/web/wrangler.jsonc`); `ledger.webuildreal.dev` (`workers/ingest/wrangler.toml`).
 
 ## DNS (legacy `pact.pbm-labs.com` only)
 
@@ -181,6 +182,7 @@ dig @1.1.1.1 MX pact.pbm-labs.com +short            # legacy rua MX
 dig @1.1.1.1 TXT _dmarc.webuildreal.dev +short       # rua@pact.webuildreal.dev
 dig @1.1.1.1 TXT webuildreal.dev +short | grep oauth # publisher TXT
 curl -sI https://webuildreal.dev/ | head -1         # app
+curl -s https://ledger.webuildreal.dev/v1/health    # ledger API
 # pact.pbm-labs.com has no Worker route — HTTP is not the app (mail MX remains)
 ```
 
@@ -191,7 +193,7 @@ New DMARC reports should use `rua@pact.webuildreal.dev` → worker (~24–48h). 
 ## Deploy PACT web app
 
 ```bash
-pnpm deploy:web   # webuildreal.dev (+ www, legacy pact redirect) — see apps/web/wrangler.jsonc
+pnpm deploy:web   # webuildreal.dev (+ www) — see apps/web/wrangler.jsonc
 ```
 
 ## Deploy ingest worker
@@ -200,14 +202,26 @@ pnpm deploy:web   # webuildreal.dev (+ www, legacy pact redirect) — see apps/w
 cd workers/ingest
 npx wrangler login                          # once
 npx wrangler queues create pact-reports     # once
-echo "https://YOUR_PROJECT_REF.supabase.co" | npx wrangler secret put SUPABASE_URL
-echo "YOUR_SERVICE_ROLE_KEY" | npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+npx wrangler d1 create pact-ledger          # once; put database_id in wrangler.toml
+npx wrangler d1 execute pact-ledger --remote --file=src/schema.sql
+npx wrangler secret put PUBLISHER_PRIVATE_KEY
+npx wrangler secret put LEDGER_WRITE_SECRET
 pnpm run deploy                             # not `pnpm deploy`
 ```
 
-Worker flow: email handler → `pact-reports` queue → parse/auth/dedup → `insert_leaf` → staging Merkle root in Supabase.
+Worker flow: email handler → `pact-reports` queue → parse/auth/dedup → D1 leaf → `publishRoot` on Base Sepolia `PactRoots`.
 
 Google DMARC reports arrive as **ZIP** attachments (`application/zip`); the ingest worker must unzip before parsing XML.
+
+Public ledger API (CORS open for GET):
+
+| Method | Path | Notes |
+|--------|------|--------|
+| GET | `/v1/health` | Contract address + chain |
+| GET | `/v1/root` | Latest on-chain root |
+| GET | `/v1/domains` | Domains + leaf summaries |
+| GET | `/v1/domains/:domain` | Domain, leaves, global hashes, on-chain root |
+| POST | `/v1/domains` | Bearer `LEDGER_WRITE_SECRET` |
 
 ## Testing
 
@@ -220,51 +234,40 @@ Google DMARC reports arrive as **ZIP** attachments (`application/zip`); the inge
 
 Real reports arrive from allowlisted senders (e.g. `noreply-dmarc-support@google.com`). Resend/test mail is rejected by the reporter allowlist — that is intentional.
 
-To clear simulated / old leaf data:
-
-```sql
-delete from merkle_roots;
-delete from leaves;
-delete from processed_reports;
-```
-
-## Phase 0a checklist
+## Checklist
 
 **Intake**
 - [x] `webuildreal.dev` DNS: `_dmarc`, `_report._dmarc`, MX/SPF/DKIM, OAuth publisher TXT
 - [x] Email Routing `rua@webuildreal.dev` → `pact-ingest`
 - [x] Legacy `rua@pact.pbm-labs.com` still routed for existing DMARC records
-- [x] Worker deployed with Supabase secrets + queue
-- [ ] First **real** DMARC report via new intake in Supabase (~24–48h)
+- [x] Worker deployed with D1 + queue + publisher key
 
-**Phase 0a**
-- [x] Parser, dedup, leaves, staging roots
+**Public record**
+- [x] Parser, dedup, leaves
 - [x] Public page at `/records/{domain}` on `webuildreal.dev`
 - [x] Cloudflare OAuth + manual DNS + existing-tool path (`/connect`)
 - [x] OAuth client on `webuildreal.dev` (callback + publisher TXT)
 - [x] Legacy `pact.pbm-labs.com` kept for mail only (no HTTP app route)
 - [x] Merkle inclusion proofs on `/records/{domain}`
-- [ ] End-to-end with live reporter data (`webuildreal.dev`)
+- [ ] End-to-end with live reporter data after D1 cutover (`webuildreal.dev`)
 
-**Before Phase 0b (on-chain)**
-- [ ] First external domain via `/connect`
-- [x] OAuth client production redirect URLs on `webuildreal.dev`
-
-**Phase 0b**
+**On-chain (boundary 1)**
 - [x] Deploy `PactRoots` on Base Sepolia (`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`)
-- [ ] First `publishRoot` from the operator
-- [ ] Replace staging banner with on-chain verification
+- [ ] First `publishRoot` from ingest after a real leaf
 - [ ] Base mainnet
+
+**Not this milestone (boundary 2)**
+- [ ] DKIM-verify of Gmail/Microsoft wrapper mail
 
 ## Protocol implementation
 
 | Module | Spec reference |
 |--------|----------------|
-| Leaf encoding | [v0.2 Appendix C](docs/pact_protocol_v02.md) |
-| Sparse Merkle | [v0.2 §3.3.1](docs/pact_protocol_v02.md) (32 levels) |
-| On-chain roots | `PactRoots` — [v0.2 §9](docs/pact_protocol_v02.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
-| Trust score (raw) | `pact-score-0.1` — [v0.1 §4.3](docs/pact_protocol_v01.md) |
-| Trust score (display) | `pact-display-0.1` — [v0.1 §4.5](docs/pact_protocol_v01.md) |
+| Leaf encoding | [Appendix C](docs/pact_protocol.md) |
+| Sparse Merkle | [§3.3.1](docs/pact_protocol.md) (32 levels) |
+| On-chain roots | `PactRoots` — [§9](docs/pact_protocol.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
+| Trust score (raw) | `pact-score-0.1` — [§4.3](docs/pact_protocol.md) |
+| Trust score (display) | `pact-display-0.1` — [§4.6](docs/pact_protocol.md) |
 | Allowlist | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts` |
 
 ## License

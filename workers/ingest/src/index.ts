@@ -1,14 +1,21 @@
 import { createProcessor, type ReportJob } from './process-report.js';
 import { extractDmarcXmlFromEmail } from './extract-xml.js';
+import { handleLedgerRequest } from './http.js';
 
 export interface Env {
   ENVIRONMENT: string;
   REPORT_QUEUE: Queue<ReportJob>;
-  SUPABASE_URL: string;
-  SUPABASE_SERVICE_ROLE_KEY: string;
+  DB: D1Database;
+  CHAIN_RPC_URL: string;
+  PUBLISHER_PRIVATE_KEY?: string;
+  LEDGER_WRITE_SECRET?: string;
 }
 
 export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    return handleLedgerRequest(request, env);
+  },
+
   async email(message: ForwardableEmailMessage, env: Env): Promise<void> {
     try {
       const raw = await new Response(message.raw).text();

@@ -11,7 +11,7 @@ export type ScoreStatus = 'provisional' | 'activated';
 /**
  * pactHistoryStart feeds the trust score formula only.
  * domainRegisteredAt is display context — NEVER used in score math.
- * See pact_protocol_v01.md Section 4.2.
+ * See pact_protocol.md Section 4.2.
  */
 export interface DomainTrustInput {
   totalPassCount: number;

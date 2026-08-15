@@ -6,7 +6,7 @@ import { Ownable } from "openzeppelin-contracts/contracts/access/Ownable.sol";
 import { Pausable } from "openzeppelin-contracts/contracts/utils/Pausable.sol";
 
 /// @title PactRoots
-/// @notice Permissioned publication of PACT sparse Merkle roots (protocol v0.2 §9).
+/// @notice Permissioned publication of PACT sparse Merkle roots (protocol spec §9).
 ///         Does not compute scores, store leaves, or maintain a domain registry.
 ///         `verifyProof` is a pure helper matching v0.2 §3.3.1
 ///         (32-level keccak256 sparse Merkle, left-then-right parent hash).

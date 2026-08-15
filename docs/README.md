@@ -8,5 +8,8 @@ Three layers, kept distinct:
 
 | Spec | Role |
 |------|------|
-| [pact_protocol_v01.md](pact_protocol_v01.md) | Normative for trust score and display (`pact-score-0.1`) |
-| [pact_protocol_v02.md](pact_protocol_v02.md) | Merkle tree, leaf encoding, reporter allowlist (historical for score) |
+| [pact_protocol.md](pact_protocol.md) | Normative specification (Merkle, encoding, score, on-chain roots) |
+| [pact_protocol_v01.md](pact_protocol_v01.md) | Stub — superseded |
+| [pact_protocol_v02.md](pact_protocol_v02.md) | Stub — superseded |
+
+Whitepaper (essay, not the spec): [pbm-labs/pact-protocol](https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md), also at [webuildreal.dev/docs/whitepaper](https://webuildreal.dev/docs/whitepaper).

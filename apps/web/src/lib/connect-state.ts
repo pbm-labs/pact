@@ -7,11 +7,7 @@ export interface ConnectState {
 }
 
 function getSecret(): string | null {
-  return (
-    process.env.CONNECT_STATE_SECRET ??
-    process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    null
-  );
+  return process.env.CONNECT_STATE_SECRET ?? process.env.LEDGER_WRITE_SECRET ?? null;
 }
 
 export function encodeConnectState(domain: string): string | null {

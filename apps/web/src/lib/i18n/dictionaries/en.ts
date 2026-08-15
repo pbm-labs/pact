@@ -113,7 +113,7 @@ export const en: Dictionary = {
       'One line that lets independent systems confirm your domain is real. If you already have a similar line, add our address to it instead of replacing it. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — nothing else to submit here.',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
-      server_config: 'Server is missing CONNECT_STATE_SECRET or Supabase credentials.',
+      server_config: 'Server is missing CONNECT_STATE_SECRET or ledger write credentials.',
       oauth_not_configured: 'Cloudflare sign-in is not configured on this server.',
       missing_code: 'Sign-in was cancelled or incomplete.',
       invalid_state: 'Session expired — try connecting again.',
@@ -166,7 +166,6 @@ export const en: Dictionary = {
     next1: 'This domain gets independently noticed, usually within a day.',
     next2: 'It quietly confirms everything checks out.',
     next3: 'This page updates on its own — nothing to click.',
-    historyHero: 'of verified history',
     historyIntro:
       'Independently confirmed history, building one honest day at a time.',
     scoreIntro:
@@ -206,7 +205,7 @@ export const en: Dictionary = {
     mathDiversity: 'Diversity (D)',
     mathMaturity: 'Maturity (A)',
     mathFailedChecks: 'Failed checks',
-    dbNotConfigured: 'Database not configured',
+    dbNotConfigured: 'Ledger not configured',
     reportHistory: 'Report history',
     reportHistoryIntro:
       'Independent checks arrive continuously from connected reporters (typically daily).',
@@ -220,7 +219,7 @@ export const en: Dictionary = {
     showOlderReports: 'Show older reports ({shown} of {total})',
     verification: 'Verification',
     verificationIntro:
-      'Inclusion proofs recomputed from live data against the latest staging root.',
+      'Inclusion proofs recomputed from live leaves against the latest on-chain root.',
     anchor: 'Anchor',
     onChain: 'On-chain',
     stagingOffChain: 'Staging (off-chain)',
@@ -299,6 +298,9 @@ export const en: Dictionary = {
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'The open protocol behind the public record — how verified history is captured, published, and measured.',
+    protocolTitle: 'Protocol specification',
+    protocolBody:
+      'Normative spec — Merkle tree, leaf encoding, score, and on-chain roots.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'What’s live today, and what’s next.',
     readWhitepaper: 'Read the whitepaper',
@@ -308,23 +310,24 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'Phase 0a is live: a public, recomputable record with staging Merkle roots. On-chain anchoring is next.',
+      'Merkle roots are on Base Sepolia. Next is mainnet, then cryptographic witness of reporter mail.',
     nowTitle: 'Live today',
     nowItems: [
       'Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools',
       'Automatic public-record creation on the first valid aggregate report',
       'Continuous ingestion of real DMARC aggregate reports',
       'Append-only Merkle tree with publicly recomputable inclusion proofs',
-      'Regular publication of staging roots to a public ledger',
+      'Merkle roots published to PactRoots on Base Sepolia (testnet, permissioned publisher)',
       'Public records ranked by verified history',
       'Per-domain pages with clocks, activity, and technical verification',
     ],
     nextTitle: 'In active development',
     nextItems: [
-      'On-chain anchoring of Merkle roots',
+      'Base mainnet for PactRoots',
+      'Cryptographic witness of reporter mail (DKIM of Gmail/Microsoft wrappers)',
       'Velocity as a companion signal to maturity',
       'Infrastructure-discontinuity monitoring (Signal)',
-      'Broader multi-node / permissionless operation',
+      'Broader multi-node / permissionless publication',
     ],
     nextNote:
       'None of these are required for today’s public verification to function. They extend what is already live.',

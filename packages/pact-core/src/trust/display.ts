@@ -1,6 +1,6 @@
 /**
  * Human-facing trust score presentation — never an input to computeTrustScore().
- * See pact_protocol_v01.md Sections 4.5 and 4.6.
+ * See pact_protocol.md Sections 4.6 and 4.7.
  */
 
 import { MATURITY_LAMBDA } from './score.js';

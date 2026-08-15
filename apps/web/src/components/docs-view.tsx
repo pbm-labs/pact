@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
-import { routes } from '@/lib/routes';
+import { PROTOCOL_SPEC_URL, routes } from '@/lib/routes';
 import { eyebrow, listTitle, pageIntro, pageTitle } from '@/lib/ui';
 
 export function DocsView() {
@@ -29,6 +29,17 @@ export function DocsView() {
             {t.docs.whitepaperTitle}
           </Link>
           <p className={`${pageIntro} mt-2 m-0 max-w-xl`}>{t.docs.whitepaperBody}</p>
+        </div>
+        <div>
+          <a
+            href={PROTOCOL_SPEC_URL}
+            className={listTitle}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t.docs.protocolTitle}
+          </a>
+          <p className={`${pageIntro} mt-2 m-0 max-w-xl`}>{t.docs.protocolBody}</p>
         </div>
         <div>
           <Link href={routes.docsRoadmap} className={listTitle}>

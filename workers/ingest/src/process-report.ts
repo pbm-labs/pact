@@ -2,16 +2,22 @@ import {
   aggregateReportToLeaves,
   buildLeafComponents,
   computeLeafHash,
-  hexToBytea,
-  byteaToHash,
   leafInputFromAggregation,
   mergeLeafAggregation,
   parseDmarcAggregateReport,
   SparseMerkleTree,
   validateReportSource,
+  type Hash,
 } from '@pact/core';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import { createSupabaseAdmin } from './supabase.js';
+import { publishRootOnChain } from './chain.js';
+import {
+  findProcessedReport,
+  insertMerkleRoot,
+  insertProcessedReport,
+  listLeafHashes,
+  loadLeafAggregation,
+  upsertLeaf,
+} from './ledger.js';
 
 export interface ReportJob {
   envelopeFrom: string;
@@ -26,10 +32,13 @@ export interface ProcessResult {
   errors: string[];
 }
 
-export async function processReportJob(
-  supabase: SupabaseClient,
-  job: ReportJob,
-): Promise<ProcessResult> {
+export interface IngestEnv {
+  DB: D1Database;
+  CHAIN_RPC_URL: string;
+  PUBLISHER_PRIVATE_KEY?: string;
+}
+
+export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<ProcessResult> {
   const result: ProcessResult = { processed: 0, skipped: 0, rejected: 0, errors: [] };
 
   let reports;
@@ -54,126 +63,117 @@ export async function processReportJob(
       continue;
     }
 
-    // No pre-check against `domains` here: receiving a valid, source-verified RUA
-    // report for a domain is itself the proof that its DMARC record points at us,
-    // so `insert_leaf` below auto-creates the domain row on first sight
-    // (see the `on conflict (domain) do nothing` insert in the SQL function).
-    const { data: existingDedup } = await supabase
-      .from('processed_reports')
-      .select('id')
-      .eq('report_id', report.reportId)
-      .eq('reporter_org', report.orgName)
-      .eq('period_start', Number(report.periodStart))
-      .eq('period_end', Number(report.periodEnd))
-      .eq('header_from', report.domain)
-      .maybeSingle();
-
-    if (existingDedup) {
+    const already = await findProcessedReport(env.DB, {
+      reportId: report.reportId,
+      reporterOrg: report.orgName,
+      periodStart: Number(report.periodStart),
+      periodEnd: Number(report.periodEnd),
+      headerFrom: report.domain,
+    });
+    if (already) {
       result.skipped += 1;
       continue;
     }
 
     let reportLeavesProcessed = 0;
     for (const agg of aggregateReportToLeaves(report)) {
-      const mergedAgg = await loadMergedAggregation(supabase, agg);
+      const existing = await loadLeafAggregation(env.DB, {
+        domain: agg.key.domain,
+        periodStart: Number(agg.key.periodStart),
+        periodEnd: Number(agg.key.periodEnd),
+        reporterOrg: agg.key.reporterOrg,
+      });
+      const mergedAgg = existing ? mergeLeafAggregation(existing, agg) : agg;
       const leafInput = leafInputFromAggregation(mergedAgg);
       const components = buildLeafComponents(leafInput);
       const leafHash = computeLeafHash(leafInput);
 
-      const { error: leafError } = await supabase.rpc('insert_leaf', {
-        p_leaf_hash: hexToBytea(leafHash),
-        p_domain: components.domain,
-        p_period_start: Number(components.periodStart),
-        p_period_end: Number(components.periodEnd),
-        p_reporter_org: components.reporterOrg,
-        p_dkim_pass_count: Number(components.dkimPassCount),
-        p_dkim_fail_count: Number(components.dkimFailCount),
-        p_domain_hash: hexToBytea(components.domainHash),
-        p_reporter_hash: hexToBytea(components.reporterHash),
-        p_selector_hash: hexToBytea(components.selectorHash),
-        p_source_ip_hash: hexToBytea(components.sourceIpHash),
-        p_report_hash: hexToBytea(components.reportHash),
-        p_selectors: mergedAgg.selectors,
-        p_ip_ranges: mergedAgg.sourceIps,
+      await upsertLeaf(env.DB, {
+        leafHash,
+        domain: components.domain,
+        periodStart: Number(components.periodStart),
+        periodEnd: Number(components.periodEnd),
+        reporterOrg: components.reporterOrg,
+        dkimPassCount: Number(components.dkimPassCount),
+        dkimFailCount: Number(components.dkimFailCount),
+        domainHash: components.domainHash,
+        reporterHash: components.reporterHash,
+        selectorHash: components.selectorHash,
+        sourceIpHash: components.sourceIpHash,
+        reportHash: components.reportHash,
+        selectors: mergedAgg.selectors,
+        ipRanges: mergedAgg.sourceIps,
       });
-
-      if (leafError) {
-        result.errors.push(`insert_leaf: ${leafError.message}`);
-        result.rejected += 1;
-        continue;
-      }
 
       reportLeavesProcessed += 1;
       result.processed += 1;
     }
 
     if (reportLeavesProcessed > 0) {
-      const { error: dedupError } = await supabase.from('processed_reports').insert({
-        report_id: report.reportId,
-        reporter_org: report.orgName,
-        period_start: Number(report.periodStart),
-        period_end: Number(report.periodEnd),
-        header_from: report.domain,
-        envelope_sender: job.envelopeFrom,
+      await insertProcessedReport(env.DB, {
+        reportId: report.reportId,
+        reporterOrg: report.orgName,
+        periodStart: Number(report.periodStart),
+        periodEnd: Number(report.periodEnd),
+        headerFrom: report.domain,
+        envelopeSender: job.envelopeFrom,
       });
-
-      if (dedupError) {
-        result.errors.push(`dedup insert: ${dedupError.message}`);
-      }
     }
   }
 
   if (result.processed > 0) {
-    const rootError = await publishStagingRoot(supabase);
+    const rootError = await publishAnchoredRoot(env);
     if (rootError) result.errors.push(rootError);
   }
 
   return result;
 }
 
-async function loadMergedAggregation(
-  supabase: SupabaseClient,
-  agg: ReturnType<typeof aggregateReportToLeaves>[number],
-) {
-  const { data: existing } = await supabase
-    .from('leaves')
-    .select('dkim_pass_count, dkim_fail_count, selectors, ip_ranges')
-    .eq('domain', agg.key.domain)
-    .eq('period_start', Number(agg.key.periodStart))
-    .eq('period_end', Number(agg.key.periodEnd))
-    .eq('reporter_org', agg.key.reporterOrg)
-    .maybeSingle();
-
-  if (!existing) return agg;
-  return mergeLeafAggregation(existing, agg);
-}
-
-async function publishStagingRoot(supabase: SupabaseClient): Promise<string | null> {
-  const { data: leaves, error } = await supabase
-    .from('leaves')
-    .select('leaf_index, leaf_hash')
-    .order('leaf_index', { ascending: true });
-
-  if (error) return `merkle fetch: ${error.message}`;
-  if (!leaves?.length) return null;
+async function publishAnchoredRoot(env: IngestEnv): Promise<string | null> {
+  const leaves = await listLeafHashes(env.DB);
+  if (!leaves.length) return null;
 
   const tree = new SparseMerkleTree();
   for (const leaf of leaves) {
-    tree.insert(byteaToHash(leaf.leaf_hash));
+    tree.insert(leaf.leaf_hash as Hash);
+  }
+  const root = tree.getRoot();
+
+  if (!env.PUBLISHER_PRIVATE_KEY) {
+    await insertMerkleRoot(env.DB, {
+      rootHash: root,
+      leafCount: leaves.length,
+      anchorType: 'staging',
+    });
+    return 'publisher key missing — wrote staging root only';
   }
 
-  const root = tree.getRoot();
-  const { error: insertError } = await supabase.from('merkle_roots').insert({
-    root_hash: hexToBytea(root),
-    leaf_count: leaves.length,
-    anchor_type: 'staging',
+  const published = await publishRootOnChain({
+    rpcUrl: env.CHAIN_RPC_URL,
+    privateKey: env.PUBLISHER_PRIVATE_KEY,
+    root,
+    leafCount: leaves.length,
   });
 
-  if (insertError) return `merkle insert: ${insertError.message}`;
+  if ('error' in published) {
+    await insertMerkleRoot(env.DB, {
+      rootHash: root,
+      leafCount: leaves.length,
+      anchorType: 'staging',
+    });
+    return `on-chain publish: ${published.error}`;
+  }
+
+  const txHash = 'txHash' in published ? published.txHash : null;
+  await insertMerkleRoot(env.DB, {
+    rootHash: root,
+    leafCount: leaves.length,
+    anchorType: 'base',
+    txHash,
+  });
   return null;
 }
 
-export function createProcessor(env: { SUPABASE_URL: string; SUPABASE_SERVICE_ROLE_KEY: string }) {
-  const supabase = createSupabaseAdmin(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
-  return (job: ReportJob) => processReportJob(supabase, job);
+export function createProcessor(env: IngestEnv) {
+  return (job: ReportJob) => processReportJob(env, job);
 }

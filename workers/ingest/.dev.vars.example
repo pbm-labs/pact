@@ -1,0 +1,6 @@
+# Copy to workers/ingest/.dev.vars for `wrangler dev`.
+# Production: wrangler secret put <NAME>
+
+LEDGER_WRITE_SECRET=
+PUBLISHER_PRIVATE_KEY=
+CHAIN_RPC_URL=https://sepolia.base.org

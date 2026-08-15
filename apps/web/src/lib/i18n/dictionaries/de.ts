@@ -112,7 +112,7 @@ export const de: Dictionary = {
       'Eine Zeile, mit der unabhängige Systeme bestätigen können, dass deine Domain echt ist. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Dein öffentlicher Eintrag erscheint automatisch, sobald der erste Report eintrifft (meist innerhalb von 24–48 Stunden) — hier musst du nichts weiter absenden.',
     errors: {
       invalid_domain: 'Gib eine gültige Domain ein (z. B. example.com).',
-      server_config: 'Dem Server fehlen CONNECT_STATE_SECRET oder Supabase-Zugangsdaten.',
+      server_config: 'Dem Server fehlen CONNECT_STATE_SECRET oder Ledger-Schreibzugangsdaten.',
       oauth_not_configured: 'Cloudflare-Anmeldung ist auf diesem Server nicht konfiguriert.',
       missing_code: 'Anmeldung wurde abgebrochen oder ist unvollständig.',
       invalid_state: 'Sitzung abgelaufen — versuche erneut zu verbinden.',
@@ -165,7 +165,6 @@ export const de: Dictionary = {
     next1: 'Diese Domain wird unabhängig erkannt, meist innerhalb eines Tages.',
     next2: 'Sie bestätigt still, dass alles in Ordnung ist.',
     next3: 'Diese Seite aktualisiert sich von allein — nichts zu klicken.',
-    historyHero: 'verifizierter Historie',
     historyIntro:
       'Unabhängig bestätigte Historie, Tag für Tag ehrlich aufgebaut.',
     scoreIntro:
@@ -205,7 +204,7 @@ export const de: Dictionary = {
     mathDiversity: 'Diversität (D)',
     mathMaturity: 'Reife (A)',
     mathFailedChecks: 'Fehlgeschlagene Prüfungen',
-    dbNotConfigured: 'Datenbank nicht konfiguriert',
+    dbNotConfigured: 'Ledger nicht konfiguriert',
     reportHistory: 'Berichtshistorie',
     reportHistoryIntro:
       'Unabhängige Prüfungen treffen fortlaufend von verbundenen Reportern ein (typischerweise täglich).',
@@ -219,7 +218,7 @@ export const de: Dictionary = {
     showOlderReports: 'Ältere Berichte anzeigen ({shown} von {total})',
     verification: 'Verifizierung',
     verificationIntro:
-      'Inklusionsnachweise neu berechnet aus Live-Daten gegen den neuesten Staging-Root.',
+      'Inklusionsnachweise neu berechnet aus Live-Blättern gegen den neuesten On-Chain-Root.',
     anchor: 'Anker',
     onChain: 'On-chain',
     stagingOffChain: 'Staging (off-chain)',
@@ -289,7 +288,7 @@ export const de: Dictionary = {
       'Jede bestehende Art zu beweisen, dass ein Unternehmen echt ist, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
       'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
       'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
-      'Jede Aussage von PACT stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den öffentlichen Append-only-Eintrag neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Diesen Eintrag so zu verankern, dass die Prüfung nicht mehr von der Infrastruktur eines einzelnen Betreibers abhängt, ist der nächste Protokoll-Meilenstein — keine Änderung der These.',
+      'Jede Aussage von PACT stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher). Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter, dieser Publisher-Schlüssel, und kryptographisches Zeugnis der Reporter-Mail — keine Änderung der These.',
       'Das ist die Eigenschaft, die etablierte Nachweise nicht nachrüsten können. Eine Auskunftei kann nicht trustless werden — ihr Geschäftsmodell *ist* der vertrauenswürdige Mittler. Ein staatliches Register kann nicht trustless werden — es ist definitionsgemäß eine Autorität. Ein Kontoauszug kann nicht trustless werden — er ist ein Dokument, und Dokumente lassen sich ändern. PACT ist keine bessere Version davon. Es sitzt in einer anderen Kategorie: Evidenz, die du nachprüfen kannst, nicht eine Behauptung, die du akzeptieren musst.',
       'Was das dauerhaft macht, nicht nur anders: **die Historie, die PACT misst, lässt sich nachträglich zu keinem Preis herstellen — auch nicht durch PACTs eigene Betreiber.**',
       'Du kannst eine gealterte Domain kaufen. Du kannst eine LinkedIn-Historie fälschen. Du kannst eine Briefkastenfirma mit perfekten Papieren bauen. Was du nicht kannst: gestern früher geschehen lassen. PACTs Historie entsteht aus vergehender Echtzeit, während unabhängige Dritte zusahen. Es gibt keine Abkürzung durch die Zeit. Das ist keine Produktpräferenz. Es ist eine physikalische Grenze, die PACT nutzt.',
@@ -310,6 +309,9 @@ export const de: Dictionary = {
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
+    protocolTitle: 'Protokollspezifikation',
+    protocolBody:
+      'Normative Spezifikation — Merkle-Baum, Blattkodierung, Score und On-Chain-Roots.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'Was heute live ist — und was als Nächstes kommt.',
     readWhitepaper: 'Whitepaper lesen',
@@ -319,23 +321,24 @@ export const de: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'Phase 0a ist live: ein öffentlicher, nachrechenbarer Eintrag mit Staging-Merkle-Roots. On-Chain-Verankerung folgt.',
+      'Merkle-Roots sind auf Base Sepolia. Als Nächstes: Mainnet, dann kryptographisches Zeugnis der Reporter-Mail.',
     nowTitle: 'Heute live',
     nowItems: [
       'Domain-Verbindung über Cloudflare OAuth, manuelles DNS oder bestehende Reporting-Tools',
       'Automatische Erstellung des öffentlichen Eintrags beim ersten gültigen Aggregatbericht',
       'Kontinuierliche Aufnahme echter DMARC-Aggregatberichte',
       'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
-      'Regelmäßige Veröffentlichung von Staging-Roots in einem öffentlichen Ledger',
+      'Merkle-Roots veröffentlicht in PactRoots auf Base Sepolia (Testnet, permissionierter Publisher)',
       'Öffentliche Einträge nach verifizierter Historie sortiert',
       'Domain-Seiten mit Uhren, Aktivität und technischer Verifikation',
     ],
     nextTitle: 'In aktiver Entwicklung',
     nextItems: [
-      'On-Chain-Verankerung von Merkle-Roots',
+      'Base-Mainnet für PactRoots',
+      'Kryptographisches Zeugnis der Reporter-Mail (DKIM der Gmail/Microsoft-Wrapper)',
       'Velocity als Begleitsignal zur Maturity',
       'Überwachung von Infrastruktur-Diskontinuitäten (Signal)',
-      'Breitere Multi-Node- / permissionless Operation',
+      'Breitere Multi-Node- / permissionless Publikation',
     ],
     nextNote:
       'Nichts davon ist für die heutige öffentliche Verifikation erforderlich. Sie erweitern, was bereits live ist.',
