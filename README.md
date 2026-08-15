@@ -20,7 +20,7 @@ The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer
 
 ```
 packages/pact-core   Protocol logic (leaf, merkle, trust, dmarc parser)
-packages/contracts   Foundry — PactRoots (v0.2 §9). Tests only; not deployed.
+packages/contracts   Foundry — PactRoots (v0.2 §9). Base Sepolia deployed; mainnet not.
 apps/web             Next.js public domain page (staging banner)
 workers/ingest       Cloudflare Email Worker + queue → Supabase
 supabase/schema.sql  PostgreSQL schema (single file)
@@ -251,8 +251,10 @@ delete from processed_reports;
 - [x] OAuth client production redirect URLs on `webuildreal.dev`
 
 **Phase 0b**
-- [ ] Deploy Base contract + `publishRoot`
+- [x] Deploy `PactRoots` on Base Sepolia (`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`)
+- [ ] First `publishRoot` from the operator
 - [ ] Replace staging banner with on-chain verification
+- [ ] Base mainnet
 
 ## Protocol implementation
 
@@ -260,7 +262,7 @@ delete from processed_reports;
 |--------|----------------|
 | Leaf encoding | [v0.2 Appendix C](docs/pact_protocol_v02.md) |
 | Sparse Merkle | [v0.2 §3.3.1](docs/pact_protocol_v02.md) (32 levels) |
-| On-chain roots | `PactRoots` — [v0.2 §9](docs/pact_protocol_v02.md) (`packages/contracts`; Base Sepolia script ready, not broadcast) |
+| On-chain roots | `PactRoots` — [v0.2 §9](docs/pact_protocol_v02.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Trust score (raw) | `pact-score-0.1` — [v0.1 §4.3](docs/pact_protocol_v01.md) |
 | Trust score (display) | `pact-display-0.1` — [v0.1 §4.5](docs/pact_protocol_v01.md) |
 | Allowlist | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts` |
