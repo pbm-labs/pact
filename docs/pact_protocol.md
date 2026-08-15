@@ -20,7 +20,7 @@ This document is the single protocol specification. It supersedes the split draf
 | Merkle tree / leaf encoding | §3.3.1 and Appendix C (from the v0.2 draft) |
 | On-chain roots | `PactRoots` on **Base Sepolia** at [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) — testnet, permissioned publisher |
 | Leaves | Off-chain (Cloudflare D1 + public HTTP API). Roots attest **inclusion**, not leaf availability (§9.3) |
-| Report source auth | Envelope-from allowlist + `org_name` (§3.1.1). **Not** DKIM-verify of the reporter's wrapper mail |
+| Report source auth | Wrapper DKIM (RFC 6376) + reporter/`org_name` allowlist (§3.1.1). SPF of the connecting MTA is **not** independently checked (Email Routing accepted the hop) |
 
 The v0.2 draft's diversity formula `log(|R|+1)/log(50)` was never shipped. Do not implement it.
 
@@ -244,18 +244,27 @@ PACT operates a purpose-built SMTP receiver that accepts incoming DMARC aggregat
 
 Report source authentication prevents fake report injection and sybil attacks on trust scores. A report MUST pass all applicable checks before processing.
 
+**Wrapper DKIM (required):** Cryptographically verify DKIM signatures on the RFC822 wrapper message (RFC 6376) — not the XML inside it. At least one passing signature's `d=` MUST match:
+
+- **Direct:** an allowlisted DKIM domain for that report's `org_name` (e.g. Google `d=google.com`).
+- **Forwarded:** an allowlisted forwarding-agent domain, only when `org_name` is a known reporter and the envelope sender is a forwarding agent — **or** the original reporter's `d=` still verifies on the forwarded wrapper.
+
+Fail closed if no signature passes. Transient DNS failures while fetching the DKIM key SHOULD be retried, not treated as authentic. A forwarding agent's signature is a weaker witness than the reporter signing the wrapper itself; it proves the forwarder sent the message, not that Google or Microsoft did.
+
 **Direct delivery** (SMTP envelope sender domain matches a known reporting organization):
 
-1. Validate SPF (or equivalent envelope authentication) for the connecting MTA.
-2. Confirm the envelope sender's organizational domain matches an entry on the reporter allowlist, OR matches the `org_name` declared in the report metadata after normalization.
-3. Reject reports where `org_name` and envelope sender domain are inconsistent without a documented forwarding relationship.
+1. Wrapper DKIM as above.
+2. Validate SPF (or equivalent envelope authentication) for the connecting MTA.
+3. Confirm the envelope sender's organizational domain matches an entry on the reporter allowlist, OR matches the `org_name` declared in the report metadata after normalization.
+4. Reject reports where `org_name` and envelope sender domain are inconsistent without a documented forwarding relationship.
 
 **Forwarded delivery** (Path B — DMARC analytics service forwarding):
 
-1. Confirm the forwarding agent (e.g., `reports.valimail.com`) is on the forwarding-agent allowlist.
-2. Validate SPF for the forwarding agent's envelope sender.
-3. Extract the original `org_name` from report metadata — this is the reporting organization for diversity and leaf construction, not the forwarder's domain.
-4. Forwarded reports MUST NOT be attributed to the forwarding agent as the reporting organization.
+1. Wrapper DKIM as above (`d=` on the forwarding-agent allowlist).
+2. Confirm the forwarding agent (e.g., `reports.valimail.com`) is on the forwarding-agent allowlist.
+3. Validate SPF for the forwarding agent's envelope sender.
+4. Extract the original `org_name` from report metadata — this is the reporting organization for diversity and leaf construction, not the forwarder's domain.
+5. Forwarded reports MUST NOT be attributed to the forwarding agent as the reporting organization.
 
 **Reporter allowlist (v0.2):**
 
@@ -265,7 +274,7 @@ Report source authentication prevents fake report injection and sybil attacks on
 - Transition to community-maintained allowlist with transparent governance is planned for v0.3 (Section 9.4).
 
 
-**Reference implementation (August 2026):** Live ingest uses `validateReportSource` in `@pact/core` — envelope-from domain allowlist plus `org_name` consistency, including a forwarding-agent allowlist. The Worker does **not** SPF-check the connecting MTA itself (Cloudflare Email Routing has already accepted the message) and does **not** DKIM-verify the reporter's wrapper (e.g. Google's `noreply-dmarc-support@google.com` signature). That cryptographic witness of reporter mail is a separate milestone. The allowlist is enough to reject casual injection from unknown senders; it is not proof that a given report was produced by Gmail or Outlook.
+**Reference implementation (August 2026):** Live ingest DKIM-verifies the wrapper (mailauth, DNS-over-HTTPS) before extracting XML. `validateReportSource` in `@pact/core` then requires a passing `d=` on the reporter or forwarding-agent allowlist, plus envelope-from / `org_name` consistency. The Worker does **not** independently SPF-check the connecting MTA (Cloudflare Email Routing has already accepted the message). Failed DKIM is discarded silently (no bounce to the reporter).
 
 **Anti-abuse:**
 
@@ -803,7 +812,7 @@ PACT does not protect against:
 
 **Trust score gaming:** Generating false DKIM-pass volume requires controlling the sending domain's DKIM key and sending real email received and reported by allowlisted mail servers. Cost equals legitimate high-volume operation.
 
-**Fake aggregate reports:** Reports from sources not on the reporter or forwarding-agent allowlist are discarded (Section 3.1.1). Deduplication prevents naive replay. The reference implementation does not independently SPF-check the connecting MTA or DKIM-verify the reporter wrapper.
+**Fake aggregate reports:** Reports without a passing wrapper DKIM `d=` on the reporter or forwarding-agent allowlist are discarded (Section 3.1.1). Deduplication prevents naive replay. The reference implementation does not independently SPF-check the connecting MTA. Forwarded reports are witnessed by the forwarder's DKIM, not the original reporter's.
 
 **Receiver sybil attack:** A domain operator who operates or colludes with a reporting MTA could attempt to inflate `V` and `D` by submitting self-generated reports. Mitigated in v0.2 by the reporter allowlist. v0.3 SHOULD add per-reporter volume caps and reporter reputation weighting.
 
@@ -893,7 +902,7 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 
 - Sepolia is a public testnet. Treat on-chain roots as independently checkable, not as mainnet finality.
 - The publisher key is permissioned (contract owner). Independent verifiers can still recompute the tree and compare it to `getLatestRoot()`.
-- Report acceptance is allowlist-based, not DKIM-verify of the reporter wrapper.
+- Report acceptance requires a passing wrapper DKIM `d=` on the reporter (or forwarding-agent) allowlist. SPF of the connecting MTA is not independently checked.
 - Leaves are available from the operator's D1 / HTTP API. The chain does not store leaves (§9.3).
 
 This stack is not normative. Any implementation producing identical leaf hashes (Appendix C) and compatible Merkle proofs (Section 3.3.1) is interoperable.
@@ -967,7 +976,7 @@ leaf = keccak256(preimage)
 |-------|------|
 | v0.1 (June 2026) | Score formula `pact-score-0.1`, two clocks, display mapping `pact-display-0.1` |
 | v0.2 (June 2026) | Merkle parameters, leaf encoding, reporter allowlist, provisional vs activated, threat model. Diversity formula in that draft was **not** implemented |
-| This document (August 2026) | Single spec: v0.2 Merkle/encoding + live v0.1 score/display + Base Sepolia `PactRoots` + D1 leaf availability |
+| This document (August 2026) | Single spec: v0.2 Merkle/encoding + live v0.1 score/display + Base Sepolia `PactRoots` + D1 leaf availability + wrapper DKIM |
 
 | Area | This specification |
 |------|-------------------|
@@ -977,7 +986,7 @@ leaf = keccak256(preimage)
 | Trust presentation | Provisional vs. activated; public UI leads with history |
 | On-chain roots | `PactRoots` on Base Sepolia (testnet, permissioned publisher) |
 | Leaf availability | Off-chain (D1 + HTTP API); roots attest inclusion only |
-| Report source auth | Envelope-from allowlist (DKIM of wrapper: not yet) |
+| Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked) |
 
 ---
 

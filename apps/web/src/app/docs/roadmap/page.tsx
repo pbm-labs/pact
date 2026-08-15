@@ -3,7 +3,7 @@ import { RoadmapView } from '@/components/roadmap-view';
 export const metadata = {
   title: 'Roadmap — We build real',
   description:
-    'What PACT ships today and what’s next — Base Sepolia roots live, mainnet and reporter DKIM next.',
+    'What PACT ships today and what’s next — Base Sepolia roots and reporter-wrapper DKIM live, mainnet next.',
 };
 
 export default function DocsRoadmapPage() {

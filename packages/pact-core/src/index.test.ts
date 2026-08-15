@@ -80,16 +80,94 @@ const sampleXml = `<?xml version="1.0" encoding="UTF-8" ?>
 </feedback>`;
 
 describe('allowlist', () => {
-  it('accepts google reporter with google envelope', () => {
-    expect(validateReportSource('google.com', 'noreply-dmarc-support@google.com')).toBe(true);
+  it('accepts google reporter with google envelope and google DKIM', () => {
+    expect(
+      validateReportSource({
+        orgName: 'google.com',
+        envelopeFrom: 'noreply-dmarc-support@google.com',
+        dkimDomains: ['google.com'],
+      }),
+    ).toBe(true);
   });
 
-  it('rejects unknown reporter', () => {
-    expect(validateReportSource('evil.com', 'attacker@evil.com')).toBe(false);
+  it('rejects google org with google envelope but no DKIM', () => {
+    expect(
+      validateReportSource({
+        orgName: 'google.com',
+        envelopeFrom: 'noreply-dmarc-support@google.com',
+        dkimDomains: [],
+      }),
+    ).toBe(false);
+  });
+
+  it('rejects google org signed by an unrelated domain', () => {
+    expect(
+      validateReportSource({
+        orgName: 'google.com',
+        envelopeFrom: 'noreply-dmarc-support@google.com',
+        dkimDomains: ['evil.com'],
+      }),
+    ).toBe(false);
+  });
+
+  it('rejects unknown reporter even with a passing DKIM', () => {
+    expect(
+      validateReportSource({
+        orgName: 'evil.com',
+        envelopeFrom: 'attacker@evil.com',
+        dkimDomains: ['evil.com'],
+      }),
+    ).toBe(false);
   });
 
   it('rejects reporter org without envelope domain', () => {
-    expect(validateReportSource('google.com', 'invalid-sender')).toBe(false);
+    expect(
+      validateReportSource({
+        orgName: 'google.com',
+        envelopeFrom: 'invalid-sender',
+        dkimDomains: ['google.com'],
+      }),
+    ).toBe(false);
+  });
+
+  it('accepts a known reporter forwarded by an allowlisted agent with agent DKIM', () => {
+    expect(
+      validateReportSource({
+        orgName: 'google.com',
+        envelopeFrom: 'bounces@postmarkapp.com',
+        dkimDomains: ['postmarkapp.com'],
+      }),
+    ).toBe(true);
+  });
+
+  it('accepts a known reporter forwarded with the reporter DKIM intact', () => {
+    expect(
+      validateReportSource({
+        orgName: 'google.com',
+        envelopeFrom: 'bounces@postmarkapp.com',
+        dkimDomains: ['google.com'],
+      }),
+    ).toBe(true);
+  });
+
+  it('accepts microsoft reporter with protection.outlook.com DKIM', () => {
+    expect(
+      validateReportSource({
+        orgName: 'microsoft.com',
+        envelopeFrom: 'dmarcreport@microsoft.com',
+        dkimDomains: ['protection.outlook.com'],
+      }),
+    ).toBe(true);
+  });
+
+  it('rejects a forwarder DKIM when org_name is unknown', () => {
+    expect(
+      validateReportSource({
+        orgName: 'evil.com',
+        envelopeFrom: 'bounces@postmarkapp.com',
+        dkimDomains: ['postmarkapp.com'],
+      }),
+    ).toBe(false);
   });
 });
 

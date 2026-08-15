@@ -10,6 +10,7 @@
   "dependencies": {
     "@pact/core": "workspace:*",
     "fflate": "^0.8.3",
+    "mailauth": "^5.0.1",
     "viem": "^2.52.2"
   },
   "devDependencies": {

@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS processed_reports (
   period_end INTEGER NOT NULL,
   header_from TEXT NOT NULL,
   envelope_sender TEXT,
+  dkim_domain TEXT,
+  dkim_selector TEXT,
   processed_at TEXT NOT NULL DEFAULT (datetime('now')),
   UNIQUE (report_id, reporter_org, period_start, period_end, header_from)
 );

@@ -23,6 +23,9 @@ export interface ReportJob {
   envelopeFrom: string;
   rawXml: string;
   receivedAt: string;
+  dkimDomains: string[];
+  dkimSelector?: string | null;
+  dkimDomain?: string | null;
 }
 
 export interface ProcessResult {
@@ -57,9 +60,17 @@ export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<
   }
 
   for (const report of reports) {
-    if (!validateReportSource(report.orgName, job.envelopeFrom)) {
+    if (
+      !validateReportSource({
+        orgName: report.orgName,
+        envelopeFrom: job.envelopeFrom,
+        dkimDomains: job.dkimDomains ?? [],
+      })
+    ) {
       result.rejected += 1;
-      result.errors.push(`auth failed: ${report.orgName} from ${job.envelopeFrom}`);
+      result.errors.push(
+        `auth failed: ${report.orgName} from ${job.envelopeFrom} dkim=${(job.dkimDomains ?? []).join(',') || 'none'}`,
+      );
       continue;
     }
 
@@ -117,6 +128,8 @@ export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<
         periodEnd: Number(report.periodEnd),
         headerFrom: report.domain,
         envelopeSender: job.envelopeFrom,
+        dkimDomain: job.dkimDomain ?? job.dkimDomains[0] ?? null,
+        dkimSelector: job.dkimSelector ?? null,
       });
     }
   }

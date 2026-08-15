@@ -232,7 +232,7 @@ Public ledger API (CORS open for GET):
 | Send mail to `hello@pbm-labs.com` | PBM Labs LLC operator inbox |
 | Wait ~24–48h | **Real** Google/Microsoft DMARC reports |
 
-Real reports arrive from allowlisted senders (e.g. `noreply-dmarc-support@google.com`). Resend/test mail is rejected by the reporter allowlist — that is intentional.
+Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allowlisted forwarder), plus the `org_name` / envelope-from allowlist. Resend/test mail is rejected — that is intentional.
 
 ## Checklist
 
@@ -256,8 +256,8 @@ Real reports arrive from allowlisted senders (e.g. `noreply-dmarc-support@google
 - [ ] First `publishRoot` from ingest after a real leaf
 - [ ] Base mainnet
 
-**Not this milestone (boundary 2)**
-- [ ] DKIM-verify of Gmail/Microsoft wrapper mail
+**Reporter mail (boundary 2)**
+- [x] DKIM-verify of Gmail/Microsoft wrapper mail (fail closed; forwarding-agent DKIM is weaker than the reporter's own signature)
 
 ## Protocol implementation
 
@@ -268,7 +268,7 @@ Real reports arrive from allowlisted senders (e.g. `noreply-dmarc-support@google
 | On-chain roots | `PactRoots` — [§9](docs/pact_protocol.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Trust score (raw) | `pact-score-0.1` — [§4.3](docs/pact_protocol.md) |
 | Trust score (display) | `pact-display-0.1` — [§4.6](docs/pact_protocol.md) |
-| Allowlist | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts` |
+| Allowlist + wrapper DKIM | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts`; ingest verifies RFC 6376 on the wrapper before queueing |
 
 ## License
 

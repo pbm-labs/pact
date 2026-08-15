@@ -1,4 +1,12 @@
-export { validateReportSource, isAllowedReporter, isAllowedForwardingAgent, REPORTER_ALLOWLIST } from './auth/allowlist.js';
+export {
+  validateReportSource,
+  isAllowedReporter,
+  isAllowedForwardingAgent,
+  isKnownReporterOrg,
+  dkimMatchesReporter,
+  REPORTER_ALLOWLIST,
+  type ReportSourceAuth,
+} from './auth/allowlist.js';
 export { hexToBytea, byteaToHash, byteaToHex } from './encoding/bytea.js';
 export { normalizeDomain, normalizeReporter } from './encoding/domain.js';
 export { canonicalizeSelectors, hashSelectors } from './encoding/selectors.js';

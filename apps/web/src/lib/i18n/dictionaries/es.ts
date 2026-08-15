@@ -321,7 +321,7 @@ export const es: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Roadmap',
     intro:
-      'Las raíces Merkle están en Base Sepolia. Sigue mainnet, luego el testigo criptográfico del correo del reportero.',
+      'Las raíces Merkle están en Base Sepolia. El DKIM del wrapper del reportero está en vivo. Sigue mainnet.',
     nowTitle: 'En vivo hoy',
     nowItems: [
       'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
@@ -329,13 +329,13 @@ export const es: Dictionary = {
       'Ingesta continua de informes agregados DMARC reales',
       'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
       'Raíces Merkle publicadas en PactRoots en Base Sepolia (testnet, publicador con permiso)',
+      'Testigo criptográfico del correo del reportero (DKIM de los wrappers de Gmail/Microsoft)',
       'Registros públicos ordenados por historial verificado',
       'Páginas por dominio con relojes, actividad y verificación técnica',
     ],
     nextTitle: 'En desarrollo activo',
     nextItems: [
       'Base mainnet para PactRoots',
-      'Testigo criptográfico del correo del reportero (DKIM de los wrappers de Gmail/Microsoft)',
       'Velocidad como señal compañera de la madurez',
       'Monitorización de discontinuidades de infraestructura (Signal)',
       'Publicación multi-nodo / sin permiso más amplia',

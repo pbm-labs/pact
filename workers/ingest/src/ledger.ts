@@ -72,13 +72,15 @@ export async function insertProcessedReport(
     periodEnd: number;
     headerFrom: string;
     envelopeSender: string;
+    dkimDomain?: string | null;
+    dkimSelector?: string | null;
   },
 ): Promise<void> {
   await db
     .prepare(
       `INSERT INTO processed_reports
-        (report_id, reporter_org, period_start, period_end, header_from, envelope_sender)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+        (report_id, reporter_org, period_start, period_end, header_from, envelope_sender, dkim_domain, dkim_selector)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       input.reportId,
@@ -87,6 +89,8 @@ export async function insertProcessedReport(
       input.periodEnd,
       input.headerFrom,
       input.envelopeSender,
+      input.dkimDomain ?? null,
+      input.dkimSelector ?? null,
     )
     .run();
 }

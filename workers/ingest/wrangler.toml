@@ -31,4 +31,5 @@ CHAIN_RPC_URL = "https://sepolia.base.org"
 #   LEDGER_WRITE_SECRET    — Bearer token for POST /v1/domains
 
 # After deploy: Cloudflare Email Routing → rua@pact.webuildreal.dev → Send to Worker → pact-ingest
+# Email handler DKIM-verifies the wrapper (RFC 6376) before queueing XML.
 # Legacy intake: rua@webuildreal.dev (if still pointed) and rua@pact.pbm-labs.com
