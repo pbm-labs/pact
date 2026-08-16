@@ -16,7 +16,7 @@ export function RecordsView({ domains }: RecordsViewProps) {
   const { t } = useLocale();
 
   return (
-    <PageShell>
+    <PageShell backHref={routes.home} backLabel={t.records.backHome}>
       <header className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
           <p className={`${eyebrow} mb-2`}>{t.records.eyebrow}</p>

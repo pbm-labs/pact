@@ -19,7 +19,7 @@ export function DocsView() {
   ];
 
   return (
-    <PageShell>
+    <PageShell backHref={routes.home} backLabel={t.common.home}>
       <header className="mb-12">
         <h1 className={`${pageTitle} mb-4`}>{t.docs.title}</h1>
         <p className={`${pageIntro} max-w-xl m-0`}>{t.docs.intro}</p>
