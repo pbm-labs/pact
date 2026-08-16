@@ -1,11 +1,11 @@
 export const PACT_RUA_ADDRESS = 'rua@pact.webuildreal.dev';
 export const PACT_RUA_MAILTO = `mailto:${PACT_RUA_ADDRESS}`;
 
-/** Previous intake addresses — still accepted for domains already pointing here. */
-export const PACT_RUA_LEGACY_ADDRESSES = [
-  'rua@webuildreal.dev',
-  'rua@pact.pbm-labs.com',
-] as const;
+/**
+ * Previous intake that still has Cloudflare MX and reaches ingest.
+ * `rua@webuildreal.dev` is not here: apex MX is Proton, so those reports never hit the Worker.
+ */
+export const PACT_RUA_LEGACY_ADDRESSES = ['rua@pact.pbm-labs.com'] as const;
 
 const PACT_RUA_ACCEPTED = [PACT_RUA_ADDRESS, ...PACT_RUA_LEGACY_ADDRESSES] as const;
 
@@ -48,7 +48,9 @@ export function dmarcIncludesPactRua(record: string): boolean {
 
 /**
  * Add the canonical PACT rua= for new connects.
- * Does not rewrite domains that already use the legacy intake address.
+ * Does not rewrite domains that already use a working intake address
+ * (canonical or `rua@pact.pbm-labs.com`). The dead apex address
+ * `rua@webuildreal.dev` is not treated as connected — connect will add canonical.
  */
 export function addPactRuaToDmarc(record: string | null | undefined): {
   content: string;

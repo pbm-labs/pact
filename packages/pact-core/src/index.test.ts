@@ -196,13 +196,22 @@ describe('dmarc rua', () => {
     expect(content).toBe(`v=DMARC1; p=none; rua=${PACT_RUA_MAILTO}`);
   });
 
-  it('leaves legacy-only rua unchanged so old domains keep sending there', () => {
+  it('leaves working legacy rua unchanged so old domains keep sending there', () => {
     const existing = 'v=DMARC1; p=none; rua=mailto:rua@pact.pbm-labs.com';
     expect(dmarcIncludesPactRua(existing)).toBe(true);
     const { content, changed } = addPactRuaToDmarc(existing);
     expect(changed).toBe(false);
     expect(content).toContain('rua@pact.pbm-labs.com');
     expect(content).not.toContain('rua@pact.webuildreal.dev');
+  });
+
+  it('adds canonical rua when the record only has the dead apex address', () => {
+    const existing = 'v=DMARC1; p=none; rua=mailto:rua@webuildreal.dev';
+    expect(dmarcIncludesPactRua(existing)).toBe(false);
+    const { content, changed } = addPactRuaToDmarc(existing);
+    expect(changed).toBe(true);
+    expect(content).toContain('rua@pact.webuildreal.dev');
+    expect(content).toContain('rua@webuildreal.dev');
   });
 });
 

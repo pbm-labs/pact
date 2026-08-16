@@ -15,7 +15,7 @@ The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer
 **Intake:** `rua@pact.webuildreal.dev`  
 **Contact:** `hello@pbm-labs.com`  
 **First reference implementation:** PBM Labs LLC  
-**Legacy intake (still accepted):** `rua@webuildreal.dev`, `rua@pact.pbm-labs.com`
+**Legacy intake (still reaches ingest):** `rua@pact.pbm-labs.com`
 
 ## Monorepo structure
 
@@ -106,8 +106,7 @@ Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for G
 | `ledger.webuildreal.dev` | Public ledger HTTP API (`pact-ingest`) |
 | `hello@pbm-labs.com` | Legal / operator contact (PBM Labs LLC) |
 | `rua@pact.webuildreal.dev` | DMARC intake (canonical) |
-| `rua@webuildreal.dev` | Legacy intake — still accepted |
-| `rua@pact.pbm-labs.com` | Legacy DMARC intake |
+| `rua@pact.pbm-labs.com` | Legacy DMARC intake (still has Cloudflare MX) |
 | `pact.pbm-labs.com` (HTTP) | No app — DNS `A 192.0.2.1` proxied only for legacy MX / `rua@` mail |
 
 Apply primary DNS in Cloudflare on the `webuildreal.dev` zone. Legacy `pact.pbm-labs.com` intake stays on the PBM Labs LLC zone only for backward compatibility.
@@ -150,7 +149,6 @@ Do **not** keep OAuth publisher TXT on `pact.pbm-labs.com` — publisher verific
 | `hello@pbm-labs.com` | PBM Labs LLC | Legal / operator inbox |
 | `hello@webuildreal.dev` | Proton (apex) | Movement domain only — not a legal inbox |
 | `rua@pact.webuildreal.dev` | `route*.mx.cloudflare.net` | `pact-ingest` (canonical) |
-| `rua@webuildreal.dev` | — | Legacy; still accepted if a domain still points here |
 | `rua@pact.pbm-labs.com` | `route*.mx.cloudflare.net` | `pact-ingest` (legacy) |
 
 ### 1. Proton — `webuildreal.dev`
@@ -188,7 +186,7 @@ curl -s https://ledger.webuildreal.dev/v1/health    # ledger API
 
 Send test to `hello@webuildreal.dev` → Proton on the movement domain (not the legal inbox).  
 Legal / operator contact is `hello@pbm-labs.com`.  
-New DMARC reports should use `rua@pact.webuildreal.dev` → worker (~24–48h). Legacy rua still accepted.
+New DMARC reports must use `rua@pact.webuildreal.dev` → worker (~24–48h). `rua@pact.pbm-labs.com` still reaches ingest. `rua@webuildreal.dev` does not (apex MX is Proton).
 
 ## Deploy PACT web app
 
@@ -237,8 +235,8 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 ## Checklist
 
 **Intake**
-- [x] `webuildreal.dev` DNS: `_dmarc`, `_report._dmarc`, MX/SPF/DKIM, OAuth publisher TXT
-- [x] Email Routing `rua@webuildreal.dev` → `pact-ingest`
+- [x] `webuildreal.dev` DNS: `_dmarc`, `_report._dmarc.pact`, MX/SPF/DKIM, OAuth publisher TXT
+- [x] Email Routing `rua@pact.webuildreal.dev` → `pact-ingest`
 - [x] Legacy `rua@pact.pbm-labs.com` still routed for existing DMARC records
 - [x] Worker deployed with D1 + queue + publisher key
 

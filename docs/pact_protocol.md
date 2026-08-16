@@ -189,7 +189,7 @@ AFTER:
 _dmarc.wise.com TXT
   "v=DMARC1; p=reject;
    rua=mailto:dmarc@wise.com,
-       mailto:rua@webuildreal.dev"
+       mailto:rua@pact.webuildreal.dev"
 ```
 
 That is the only change required. No software installation. No API integration. No SDK. No behavioral change for any sender or recipient. The receiving mail servers of the world — Gmail, Outlook, Yahoo — continue generating the same aggregate reports they always have. They now send a copy to PACT alongside the domain's existing destination.
@@ -618,14 +618,14 @@ The domain's existing DMARC policy, reporting destinations, and email operations
 
 ### 6.2 External Destination Verification
 
-RFC 7489 requires that third-party report destinations verify their willingness to receive reports. PACT satisfies this by publishing a verification DNS record:
+RFC 7489 requires that third-party report destinations verify their willingness to receive reports. PACT satisfies this by publishing a verification DNS record on the **rua host** (`pact.webuildreal.dev`):
 
 ```
-_report._dmarc.webuildreal.dev TXT
+_report._dmarc.pact.webuildreal.dev TXT
   "v=DMARC1"
 ```
 
-This record is published once and authorizes all domains to send their DMARC aggregate reports to the PACT rua= address. No per-domain configuration is required on the PACT side.
+This record is published once and authorizes all domains to send their DMARC aggregate reports to `rua@pact.webuildreal.dev`. No per-domain configuration is required on the PACT side. Legacy intake uses `_report._dmarc.pact.pbm-labs.com` the same way. Do not send reports to `rua@webuildreal.dev`: the apex MX is Proton, not ingest.
 
 ### 6.3 Onboarding Paths
 
@@ -900,8 +900,8 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 
 **Reference domain:** `webuildreal.dev`
 **App host (movement + first reference UI):** `https://webuildreal.dev`
-**Intake:** `rua@pact.webuildreal.dev` (legacy `rua@webuildreal.dev` and `rua@pact.pbm-labs.com` still accepted)
-**External destination verification:** `_report._dmarc.webuildreal.dev TXT "v=DMARC1"`
+**Intake:** `rua@pact.webuildreal.dev` (legacy `rua@pact.pbm-labs.com` still reaches ingest; `rua@webuildreal.dev` does not — apex MX is Proton)
+**External destination verification:** `_report._dmarc.pact.webuildreal.dev TXT "v=DMARC1"`
 **Legal / operator contact:** `hello@pbm-labs.com`
 
 **Honest limits of this stack**
