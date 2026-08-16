@@ -13,7 +13,7 @@ The internet was built without a durable way to tell who is real. Names on scree
 
 Every domain that sends mail already participates in a quiet, global verification loop: outbound messages are cryptographically signed; receiving mail systems check those signatures and emit structured aggregate reports. Those reports have been produced continuously since 2011. They contain no message content and no personal identities — only whether a domain showed up honestly, how often, and through which infrastructure.
 
-PACT is an open protocol that captures those reports, commits them to an append-only Merkle tree anyone can recompute, and derives an organic trust signal from verified history. Domains join by pointing an existing DNS field at PACT. Nothing about how they send mail changes. No message is ever read.
+PACT is an open protocol that captures those reports, commits them to an append-only Merkle tree anyone can recompute, and publishes a public record of independently confirmed history. A score formula exists for applications that choose to interpret; judgement stays outside. Domains join by pointing an existing DNS field at PACT. Nothing about how they send mail changes. No message is ever read.
 
 The public record is stubbornly boring about what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Judgement stays outside. A score formula exists in the protocol for applications that choose to interpret; the reference UI does not display it. Merkle roots are published to a public blockchain so a verifier does not have to trust the operator's database for inclusion. Leaves stay off-chain: the chain attests inclusion, not availability.
 
@@ -156,7 +156,7 @@ That is not an exploit. That is legitimate operation. Sybil resistance is econom
 
 Proof of Operational Work stops attackers building fake history from zero. It does not, by itself, stop an attacker who seizes a domain that already has history.
 
-PACT treats scores as continuously re-evaluated. Leaf data already records infrastructure identifiers (selectors, IP ranges) so discontinuity monitoring can be added without migrating the past. When shipping, abrupt infrastructure breaks should discount inherited reputation until the new pattern stabilizes or is confirmed as intentional. That monitoring layer is on the roadmap (Section 8); the data it needs is already being collected.
+Applications that score this history should treat that score as continuously re-evaluated. Leaf data already records infrastructure identifiers (selectors, IP ranges) so discontinuity monitoring can be added without migrating the past. When shipping, abrupt infrastructure breaks should discount inherited reputation until the new pattern stabilizes or is confirmed as intentional. That monitoring layer is on the roadmap (Section 8); the data it needs is already being collected.
 
 ---
 
@@ -164,23 +164,23 @@ PACT treats scores as continuously re-evaluated. Leaf data already records infra
 
 ### 6.1 A Primitive, Not a Product Pitch
 
-PACT answers a question most systems only approximate: *what independently verified history does this domain have?*
+PACT answers a question most systems only approximate: *what independently confirmed history does this domain have?*
 
 It is not a replacement for KYC paperwork, credit bureaus, or government registries. Those are authorities' claims. PACT is evidence anyone can recheck.
 
-Useful wherever "is this domain real and operationally continuous?" matters — counterpart checks, vendor diligence, underwriting inputs, agent and automation decisions that need a signal resistant to synthetic documents and purchased aging.
+The protocol does not answer whether a domain is legitimate. Applications may use the same history for counterpart checks, vendor diligence, underwriting, or agent decisions — each with its own policy.
 
 ### 6.2 The Deeper Architecture
 
 Cryptographic identity solved ownership of identifiers. It did not solve empty containers: a fraudulent entity and a real institution can look identical on day one.
 
-PACT binds real-world operational history to a domain identity without appointing a trusted intermediary as judge. Merkle roots and scores are meant to be consumable by any downstream system. The base layer is the public record. What is built on top stays open.
+PACT binds real-world operational history to a domain identity without appointing a trusted intermediary as judge. Merkle roots are meant to be consumable by any downstream system. A score formula exists for applications that choose to interpret. The base layer is the public record. What is built on top stays open.
 
 ---
 
 ## 7. Ecosystem Boundary
 
-**PACT Protocol** is the base layer: ingest, Merkle tree, public verification, organic score. Open to implement. Verifiable without contacting the authors.
+**PACT Protocol** is the base layer: ingest, Merkle tree, public verification, and a score formula for applications. Open to implement. Verifiable without contacting the authors.
 
 Applications that may sit on top — without expanding the protocol's data boundary — include:
 

@@ -34,8 +34,8 @@ export const en: Dictionary = {
     howLead: 'It does not ask you to trust an authority. It asks you to check a public record.',
     howSteps: [
       {
-        title: 'Independent systems confirm it',
-        body: 'Every claim comes from receiving mail systems — Gmail, Outlook, Yahoo, and others — that have no relationship with each other, no incentive to coordinate, and no idea they are being used as evidence. Their uncoordinated agreement over time is the proof.',
+        title: 'Independent systems report it',
+        body: 'Every entry comes from receiving mail systems — Gmail, Outlook, Yahoo, and others — that have no relationship with each other, no incentive to coordinate, and no idea they are being used as evidence. Their uncoordinated agreement over time is what the record contains.',
       },
       {
         title: 'Anyone can check the record',
@@ -49,7 +49,7 @@ export const en: Dictionary = {
     recordEyebrow: 'Behind every record',
     recordTitle: 'Your full public page.',
     recordSub:
-      'Anyone can open it. Independently confirmed history — shareable anywhere a counterparty might look.',
+      'Anyone can open it. Independently confirmed history — days, reports, and who confirmed them.',
     mockLabel: 'Example',
     mockStatusSub: 'Independently confirmed history, still accumulating.',
     mockTimeSub: 'since first report',
@@ -79,9 +79,9 @@ export const en: Dictionary = {
       'Works in Gmail, Outlook, Apple Mail, and anywhere else HTML signatures work.',
     ctaTitle: 'Start your public record.',
     ctaBody:
-      'Connect once. Independent systems confirm the rest. The history only grows forward.',
+      'Connect once. Independent receiving systems send the reports. The history only grows forward.',
     ctaButton: 'Add your domain',
-    ctaSub: 'Be one of the first to stand on solid ground.',
+    ctaSub: 'The record starts when independent reports arrive.',
     watchManifesto: 'Watch The Manifesto',
   },
   connect: {
@@ -89,7 +89,7 @@ export const en: Dictionary = {
     eyebrow: 'Two minutes, mostly automatic',
     title: 'Add your domain',
     intro:
-      "No paperwork, no waiting on anyone. Just the first day of a history that's genuinely yours.",
+      'No paperwork, no waiting on anyone. The public record starts when the first independent report arrives.',
     yourDomain: 'Your domain',
     pathCloudflareTitle: 'I use Cloudflare',
     pathCloudflareDesc: 'One click — we handle the rest.',
@@ -110,7 +110,7 @@ export const en: Dictionary = {
     manualIntro:
       "Paste this wherever you manage your website's settings (ask your host if you're not sure where):",
     manualExplain:
-      'One line that lets independent systems confirm your domain is real. If you already have a similar line, add our address to it instead of replacing it. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — nothing else to submit here.',
+      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — nothing else to submit here.',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or ledger write credentials.',
@@ -131,17 +131,17 @@ export const en: Dictionary = {
     eyebrow: 'Public records',
     title: 'Domains with a public record',
     intro:
-      'Ranked by verified history — how long each domain has been independently confirmed.',
+      'Ranked by independently confirmed history — how long each domain has been reported.',
     addDomain: 'Add your domain',
     building: 'Building',
     proven: 'Proven',
-    rankedBy: 'Ranked by verified history',
+    rankedBy: 'Ranked by independently confirmed history',
     rankedHint:
       'Longer independently confirmed history ranks higher.',
     colDomain: 'Domain',
     colHistory: 'History',
     colStatus: 'Status',
-    verified: 'verified',
+    verified: 'confirmed',
     report: 'report',
     reports: 'reports',
     org: 'org',
@@ -163,23 +163,23 @@ export const en: Dictionary = {
       'Registered. Waiting for the first independent confirmation — usually within a day.',
     connected: 'Connected',
     whatNext: 'What happens next',
-    next1: 'This domain gets independently noticed, usually within a day.',
-    next2: 'It quietly confirms everything checks out.',
+    next1: 'Receiving mail systems notice this domain, usually within a day.',
+    next2: 'The first independent reports arrive.',
     next3: 'This page updates on its own — nothing to click.',
     historyIntro:
       'Independently confirmed history anyone can recheck.',
     scoreIntro:
-      'Independently confirmed history, with a trust score that reflects how long and how widely it has been verified.',
-    timeVerified: 'Time verified',
+      'Independently confirmed history anyone can recheck.',
+    timeVerified: 'Days confirmed',
     reports: 'Reports',
     allTime: 'all time',
     reportingOrgs: 'Reporting orgs',
     independent: 'independent',
     passRate: 'Pass rate',
-    techSummary: 'Technical verification — reports & cryptographic proof',
+    techSummary: 'What was published — reports and cryptographic proofs',
     showMath: 'Show the math',
     domainRegistered: 'Domain registered',
-    verifiedSince: 'Verified since',
+    verifiedSince: 'Confirmed since',
     awaitingReport: 'Awaiting first report',
     noRecordYet: 'No public record yet.',
     noRecordHint:
@@ -241,19 +241,19 @@ export const en: Dictionary = {
     clockYear: '({n} yr)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}d)',
-    pathEyebrow: 'To become Proven',
+    pathEyebrow: 'What still accumulates',
     pathDaysItem: '{n} days of independently confirmed history',
     pathDaysCurrent: "you're at {n}",
     pathReportersItem: 'At least one independent reporting org',
     pathReportersCurrent: 'you have {n}',
     pathExplainer:
-      'An independent reporter is a receiving mail system — Gmail, Outlook, Yahoo, and others — that confirmed this domain under its own authentication. Uncoordinated agreement over time is the proof. Proven takes enough of that history that yesterday cannot be manufactured.',
+      'An independent reporter is a receiving mail system — Gmail, Outlook, Yahoo, and others — that confirmed this domain under its own authentication. Uncoordinated agreement over time is what the record contains.',
     pathFoot:
       'Every confirmation comes from independent receiving systems — not self-reported. This record only grows forward.',
     badgeEyebrow: 'Embeddable badge',
     badgeIntro:
       'Not a certificate. A live link to this page — paste it in a signature, anyone can open the record.',
-    shareRecord: 'Your public record',
+    shareRecord: 'Public record',
     shareEyebrow: 'Share the record',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
@@ -279,7 +279,7 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Whitepaper',
     intro:
-      'The open protocol behind the public record — how verified history is captured, published, and measured.',
+      'The open protocol behind the public record — how independently confirmed history is captured and published.',
     source: 'Source on GitHub →',
   },
   whyPact: {
@@ -298,10 +298,10 @@ export const en: Dictionary = {
     whyBody: 'A two-minute note on evidence vs. authority — the brief to read first.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
-      'The open protocol behind the public record — how verified history is captured, published, and measured.',
+      'The open protocol behind the public record — how independently confirmed history is captured and published.',
     protocolTitle: 'Protocol specification',
     protocolBody:
-      'Normative spec — Merkle tree, leaf encoding (wrapper witness in the leaf), score, and on-chain roots.',
+      'Normative spec — Merkle tree, leaf encoding (wrapper witness in the leaf), score formula for applications, and on-chain roots.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'What’s live today, and what’s next.',
     readWhitepaper: 'Read the whitepaper',
@@ -320,7 +320,7 @@ export const en: Dictionary = {
       'Wrapper witness in the leaf: passing d=/selector and keccak256 of the RFC822 (the mail itself is not published)',
       'Append-only Merkle tree with publicly recomputable inclusion proofs',
       'Merkle roots on PactRoots / Base Sepolia (testnet, permissioned publisher)',
-      'Public records ranked by verified history',
+      'Public records ranked by independently confirmed history',
       'Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs',
     ],
     nextTitle: 'In active development',
@@ -336,7 +336,7 @@ export const en: Dictionary = {
   },
   legal: {
     eyebrow: 'Legal',
-    lastUpdated: 'Last updated August 14, 2026',
+    lastUpdated: 'Last updated August 16, 2026',
     termsTitle: 'Terms of Service',
     privacyTitle: 'Privacy Policy',
     emailLabel: 'Email',
@@ -351,11 +351,11 @@ export const en: Dictionary = {
       },
       {
         title: '3. The Service',
-        body: 'PACT captures DMARC aggregate authentication reports that receiving mail systems already generate, commits extracted metadata to an append-only Merkle tree, and publishes a public record and organic trust signal for connected domains. Connecting a domain requires adding PACT as a report destination in DNS (directly or via a supported provider). We do not read message content, recipient identities, or mailbox data.',
+        body: 'PACT captures DMARC aggregate authentication reports that receiving mail systems already generate, commits extracted metadata to an append-only Merkle tree, and publishes a public record of that history for connected domains. Connecting a domain requires adding PACT as a report destination in DNS (directly or via a supported provider). We do not read message content, recipient identities, or mailbox data.',
       },
       {
         title: '4. Public Records',
-        body: 'Information published in the public record — including domain names, verified-history summaries, trust signals, and cryptographic proofs — is intended to be publicly viewable. Do not connect a domain if you are not authorized to make that domain’s authentication metadata part of a public ledger.',
+        body: 'Information published in the public record — including domain names, independently confirmed history, and cryptographic proofs — is intended to be publicly viewable. Do not connect a domain if you are not authorized to make that domain’s authentication metadata part of a public ledger.',
       },
       {
         title: '5. Your Responsibilities',
@@ -363,7 +363,7 @@ export const en: Dictionary = {
       },
       {
         title: '6. No Advice; No Guarantee of Legitimacy',
-        body: 'Trust scores, history summaries, and proofs are informational measurements derived from available reports. They are not legal, financial, compliance, or business advice, and they do not guarantee that a domain, organization, or person is legitimate, safe to transact with, or free of risk. You remain solely responsible for your own decisions.',
+        body: 'History summaries and cryptographic proofs are an informational record of what independent receiving systems reported. They are not legal, financial, compliance, or business advice, and they do not guarantee that a domain, organization, or person is legitimate, safe to transact with, or free of risk. Judgement stays outside the record. You remain solely responsible for your own decisions.',
       },
       {
         title: '7. No Financial Services',
@@ -379,11 +379,11 @@ export const en: Dictionary = {
       },
       {
         title: '10. Disclaimer of Warranties',
-        body: 'The site and service are provided “as is” and “as available” without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the service will be uninterrupted, error-free, complete, or secure, or that published roots, proofs, or scores will meet your requirements.',
+        body: 'The site and service are provided “as is” and “as available” without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the service will be uninterrupted, error-free, complete, or secure, or that published roots or proofs will meet your requirements.',
       },
       {
         title: '11. Limitation of Liability',
-        body: 'To the maximum extent permitted by law, PBM Labs LLC and its members, officers, and contractors are not liable for indirect, incidental, special, consequential, or punitive damages arising from your use of the site or service, including reliance on public records or trust signals, even if advised of the possibility of such damages.',
+        body: 'To the maximum extent permitted by law, PBM Labs LLC and its members, officers, and contractors are not liable for indirect, incidental, special, consequential, or punitive damages arising from your use of the site or service, including reliance on public records, even if advised of the possibility of such damages.',
       },
       {
         title: '12. Changes',
@@ -413,11 +413,11 @@ export const en: Dictionary = {
       },
       {
         title: '4. How We Use Information',
-        body: 'We use the information above to operate domain connection, ingest and publish verified history, compute and display trust signals, maintain cryptographic proofs, prevent abuse, and improve reliability of the service. Public record fields are published so anyone can verify history independently.',
+        body: 'We use the information above to operate domain connection, ingest and publish independently confirmed history, maintain cryptographic proofs, prevent abuse, and improve reliability of the service. Public record fields are published so anyone can recheck what happened.',
       },
       {
         title: '5. Public Records',
-        body: 'Connected domains and their verified-history summaries, scores (when shown), and proofs are intended to be public. Do not connect a domain unless you understand that related authentication metadata will appear in a public ledger.',
+        body: 'Connected domains and their independently confirmed history and proofs are intended to be public. Do not connect a domain unless you understand that related authentication metadata will appear in a public ledger.',
       },
       {
         title: '6. Service Providers',

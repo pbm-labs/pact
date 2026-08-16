@@ -33,8 +33,8 @@ export const fr: Dictionary = {
     howLead: 'Il ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public.',
     howSteps: [
       {
-        title: 'Des systèmes indépendants le confirment',
-        body: 'Chaque affirmation vient de systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — qui n’ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu’ils servent d’évidence. Leur accord non coordonné dans le temps est la preuve.',
+        title: 'Des systèmes indépendants le rapportent',
+        body: 'Chaque entrée vient de systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — qui n’ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu’ils servent d’évidence. Leur accord non coordonné dans le temps est ce que contient le registre.',
       },
       {
         title: 'N’importe qui peut vérifier le registre',
@@ -48,7 +48,7 @@ export const fr: Dictionary = {
     recordEyebrow: 'Derrière chaque registre',
     recordTitle: 'Votre page publique complète.',
     recordSub:
-      'N’importe qui peut l’ouvrir. Historique confirmé de façon indépendante — à partager là où une contrepartie pourrait regarder.',
+      'N’importe qui peut l’ouvrir. Historique confirmé de façon indépendante — jours, rapports, et qui les a confirmés.',
     mockLabel: 'Exemple',
     mockStatusSub: 'Historique confirmé de façon indépendante, encore en train de s’accumuler.',
     mockTimeSub: 'depuis le premier rapport',
@@ -78,9 +78,9 @@ export const fr: Dictionary = {
       'Fonctionne dans Gmail, Outlook, Apple Mail, et partout où les signatures HTML fonctionnent.',
     ctaTitle: 'Commencez votre registre public.',
     ctaBody:
-      'Connectez une fois. Des systèmes indépendants confirment le reste. L’historique ne grandit que vers l’avant.',
+      'Connectez une fois. Des systèmes destinataires indépendants envoient les rapports. L’historique ne grandit que vers l’avant.',
     ctaButton: 'Ajoutez votre domaine',
-    ctaSub: 'Soyez parmi les premiers sur un terrain solide.',
+    ctaSub: 'Le registre commence à l’arrivée des rapports indépendants.',
     watchManifesto: 'Voir le manifeste',
   },
   connect: {
@@ -88,7 +88,7 @@ export const fr: Dictionary = {
     eyebrow: 'Deux minutes, presque automatique',
     title: 'Ajoutez votre domaine',
     intro:
-      "Pas de paperasse, pas d'attente. Juste le premier jour d'une histoire qui est vraiment la vôtre.",
+      'Pas de paperasse, pas d’attente. Le registre public commence à l’arrivée du premier rapport indépendant.',
     yourDomain: 'Votre domaine',
     pathCloudflareTitle: "J'utilise Cloudflare",
     pathCloudflareDesc: 'Un clic — nous nous occupons du reste.',
@@ -109,7 +109,7 @@ export const fr: Dictionary = {
     manualIntro:
       "Collez ceci là où vous gérez les paramètres de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
     manualExplain:
-      "Une ligne qui permet à des systèmes indépendants de confirmer que votre domaine est réel. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Votre fiche publique apparaît automatiquement à l’arrivée du premier rapport (souvent sous 24–48 h) — rien d’autre à envoyer ici.",
+      "Une ligne qui permet à des systèmes destinataires indépendants d’envoyer des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Votre fiche publique apparaît automatiquement à l’arrivée du premier rapport (souvent sous 24–48 h) — rien d’autre à envoyer ici.",
     errors: {
       invalid_domain: 'Saisissez un domaine valide (ex. example.com).',
       server_config:
@@ -132,17 +132,17 @@ export const fr: Dictionary = {
     eyebrow: 'Registres publics',
     title: 'Domaines avec un registre public',
     intro:
-      'Classés par historique vérifié — depuis combien de temps chaque domaine a été confirmé de façon indépendante.',
+      'Classés par historique confirmé de façon indépendante — depuis combien de temps chaque domaine a été rapporté.',
     addDomain: 'Ajoutez votre domaine',
     building: 'En construction',
     proven: 'Éprouvé',
-    rankedBy: 'Classés par historique vérifié',
+    rankedBy: 'Classés par historique confirmé de façon indépendante',
     rankedHint:
       'Un historique confirmé indépendamment plus long se classe plus haut.',
     colDomain: 'Domaine',
     colHistory: 'Historique',
     colStatus: 'Statut',
-    verified: 'vérifié',
+    verified: 'confirmé',
     report: 'rapport',
     reports: 'rapports',
     org: 'org',
@@ -164,23 +164,23 @@ export const fr: Dictionary = {
       'Enregistré. En attente de la première confirmation indépendante — généralement sous un jour.',
     connected: 'Connecté',
     whatNext: 'Et ensuite',
-    next1: 'Ce domaine est remarqué de façon indépendante, généralement sous un jour.',
-    next2: 'Cela confirme discrètement que tout est en ordre.',
+    next1: 'Les systèmes de messagerie destinataires remarquent ce domaine, généralement sous un jour.',
+    next2: 'Les premiers rapports indépendants arrivent.',
     next3: 'Cette page se met à jour toute seule — rien à cliquer.',
     historyIntro:
       'Historique confirmé de façon indépendante, que chacun peut revérifier.',
     scoreIntro:
-      "Historique confirmé de façon indépendante, avec un score de confiance qui reflète depuis combien de temps et combien largement il a été vérifié.",
-    timeVerified: 'Temps vérifié',
+      'Historique confirmé de façon indépendante, que chacun peut revérifier.',
+    timeVerified: 'Jours confirmés',
     reports: 'Rapports',
     allTime: 'depuis le début',
     reportingOrgs: 'Orgs déclarantes',
     independent: 'indépendantes',
     passRate: 'Taux de réussite',
-    techSummary: 'Vérification technique — rapports et preuve cryptographique',
+    techSummary: 'Ce qui a été publié — rapports et preuves cryptographiques',
     showMath: 'Voir le calcul',
     domainRegistered: 'Domaine enregistré',
-    verifiedSince: 'Vérifié depuis',
+    verifiedSince: 'Confirmé depuis',
     awaitingReport: 'En attente du premier rapport',
     noRecordYet: 'Pas encore de registre public.',
     noRecordHint:
@@ -242,19 +242,19 @@ export const fr: Dictionary = {
     clockYear: '({n} an)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}j)',
-    pathEyebrow: 'Pour devenir Éprouvé',
+    pathEyebrow: 'Ce qui continue de s’accumuler',
     pathDaysItem: '{n} jours d’historique confirmé de façon indépendante',
     pathDaysCurrent: 'vous en êtes à {n}',
     pathReportersItem: 'Au moins une organisation reporteuse indépendante',
     pathReportersCurrent: 'vous en avez {n}',
     pathExplainer:
-      'Une organisation reporteuse indépendante est un système de messagerie destinataire — Gmail, Outlook, Yahoo et d’autres — qui a confirmé ce domaine avec sa propre authentification. L’accord non coordonné dans le temps est la preuve. Éprouvé exige assez de cet historique pour que hier ne puisse pas être fabriqué.',
+      'Une organisation reporteuse indépendante est un système de messagerie destinataire — Gmail, Outlook, Yahoo et d’autres — qui a confirmé ce domaine avec sa propre authentification. L’accord non coordonné dans le temps est ce que contient le registre.',
     pathFoot:
       'Chaque confirmation vient de systèmes destinataires indépendants — pas d’auto-déclaration. Ce registre ne grandit que vers l’avant.',
     badgeEyebrow: 'Badge intégrable',
     badgeIntro:
       'Pas un certificat. Un lien live vers cette page — collez-le dans une signature, n’importe qui peut ouvrir le registre.',
-    shareRecord: 'Votre registre public',
+    shareRecord: 'Registre public',
     shareEyebrow: 'Partagez le registre',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
@@ -280,7 +280,7 @@ export const fr: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Whitepaper',
     intro:
-      "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
+      "Le protocole ouvert derrière le registre public — comment l'historique confirmé de façon indépendante est capturé et publié.",
     source: 'Source sur GitHub →',
   },
   whyPact: {
@@ -291,7 +291,7 @@ export const fr: Dictionary = {
       "Chaque façon existante de prouver qu'une entreprise est réelle partage le même défaut : c'est l'*affirmation d'une autorité*, pas de l'*évidence*. Un rapport de bureau de crédit, une inscription au registre, un relevé bancaire, un historique LinkedIn — tous vous demandent de faire confiance à la vérification de quelqu'un d'autre. Aucun ne produit quelque chose qu'un inconnu peut vérifier lui-même, depuis les premiers principes, sans faire confiance à un gardien.",
       "Ce défaut était tolérable. Il ne l'est plus. L'IA générative n'a pas créé une nouvelle menace — elle a retiré la dernière chose qui rendait ces signaux chers à falsifier. Un domaine de dix ans, cinq ans de LinkedIn, un relevé convaincant : tout cela se fabrique désormais à bas coût. Les autorités n'ont pas empiré. Le coût de leur mentir s'est effondré.",
       "PACT ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public.",
-      "Chaque affirmation de PACT dérive de systèmes de messagerie destinataires indépendants — Gmail, Outlook, Yahoo et d'autres — qui n'ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu'ils servent d'évidence. Leur accord agrégé et non coordonné dans le temps est la preuve. Pas parce que PACT le dit. Parce que n'importe qui peut recalculer les feuilles publiées et les preuves d'inclusion contre la racine Merkle on-chain, sans demander la permission à PACT. Les racines sont aujourd'hui sur Base Sepolia (testnet, éditeur permissionné). Le DKIM du wrapper rapporteur est vérifié à l'ingest, et le d=/sélecteur qui passe plus le keccak256 du wrapper sont engagés dans la feuille. Le RFC822 lui-même n'est pas publié. Ce qui reste est une confiance opérateur plus étroite : disponibilité des feuilles et cette clé d'édition — pas un changement de thèse.",
+      "Chaque fait du registre vient de systèmes de messagerie destinataires indépendants — Gmail, Outlook, Yahoo et d'autres — qui n'ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu'ils servent d'évidence. Leur accord agrégé et non coordonné dans le temps est ce que contient le registre. Pas parce que PACT le dit. Parce que n'importe qui peut recalculer les feuilles publiées et les preuves d'inclusion contre la racine Merkle on-chain, sans demander la permission à PACT. Les racines sont aujourd'hui sur Base Sepolia (testnet, éditeur permissionné). Le DKIM du wrapper rapporteur est vérifié à l'ingest, et le d=/sélecteur qui passe plus le keccak256 du wrapper sont engagés dans la feuille. Le RFC822 lui-même n'est pas publié. Ce qui reste est une confiance opérateur plus étroite : disponibilité des feuilles et cette clé d'édition — pas un changement de thèse.",
       "Cette évidence est obstinément ennuyeuse sur ce qui s'est passé. Le jugement reste dehors. Le même historique peut alimenter des politiques d'application différentes. Un témoin plus fort n'hérite toujours pas de la décision.",
       "C'est la propriété que les preuves incumbentes ne peuvent pas greffer. Un bureau de crédit ne peut pas devenir trustless — son modèle *est* l'intermédiaire de confiance. Un registre d'État ne peut pas devenir trustless — c'est une autorité par définition. Un relevé bancaire ne peut pas devenir trustless — c'est un document, et les documents s'éditent. PACT n'est pas une meilleure version de cela. Il est dans une autre catégorie : de l'évidence que l'on peut revérifier, pas une affirmation à accepter.",
       "Voici ce qui rend cela durable, pas seulement différent : **l'historique que PACT mesure ne peut pas être fabriqué après coup, à aucun prix — y compris par les opérateurs de PACT.**",
@@ -312,10 +312,10 @@ export const fr: Dictionary = {
     whyBody: "Une note de deux minutes sur l'évidence face à l'autorité — à lire en premier.",
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
-      "Le protocole ouvert derrière le registre public — comment l'historique vérifié est capturé, publié et mesuré.",
+      "Le protocole ouvert derrière le registre public — comment l'historique confirmé de façon indépendante est capturé et publié.",
     protocolTitle: 'Spécification du protocole',
     protocolBody:
-      'Spécification normative — arbre de Merkle, encodage des feuilles (témoin du wrapper dans la feuille), score et racines on-chain.',
+      'Spécification normative — arbre de Merkle, encodage des feuilles (témoin du wrapper dans la feuille), formule de score pour les applications, et racines on-chain.',
     roadmapTitle: 'Roadmap',
     roadmapBody: "Ce qui est en ligne aujourd'hui, et ce qui vient ensuite.",
     readWhitepaper: 'Lire le whitepaper',
@@ -334,7 +334,7 @@ export const fr: Dictionary = {
       'Témoin du wrapper dans la feuille : d=/sélecteur qui passe et keccak256 du RFC822 (le courrier n’est pas publié)',
       'Arbre de Merkle append-only avec preuves d’inclusion recomputables publiquement',
       'Racines Merkle sur PactRoots / Base Sepolia (testnet, éditeur permissionné)',
-      'Registres publics classés par historique vérifié',
+      'Registres publics classés par historique confirmé de façon indépendante',
       'Pages par domaine avec horloges, taux de réussite observé, feuilles et preuves cryptographiques',
     ],
     nextTitle: 'En développement actif',
@@ -350,7 +350,7 @@ export const fr: Dictionary = {
   },
   legal: {
     eyebrow: 'Mentions légales',
-    lastUpdated: 'Dernière mise à jour le 14 août 2026',
+    lastUpdated: 'Dernière mise à jour le 16 août 2026',
     termsTitle: "Conditions d'utilisation",
     privacyTitle: 'Politique de confidentialité',
     emailLabel: 'E-mail',
@@ -365,11 +365,11 @@ export const fr: Dictionary = {
       },
       {
         title: '3. Le service',
-        body: "PACT capture les rapports d'authentification agrégés DMARC que les systèmes de messagerie destinataires génèrent déjà, inscrit les métadonnées extraites dans un arbre de Merkle append-only, et publie un registre public ainsi qu'un signal de confiance organique pour les domaines connectés. Connecter un domaine nécessite d'ajouter PACT comme destination de rapports dans le DNS (directement ou via un fournisseur pris en charge). Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
+        body: "PACT capture les rapports d'authentification agrégés DMARC que les systèmes de messagerie destinataires génèrent déjà, inscrit les métadonnées extraites dans un arbre de Merkle append-only, et publie un registre public de cet historique pour les domaines connectés. Connecter un domaine nécessite d'ajouter PACT comme destination de rapports dans le DNS (directement ou via un fournisseur pris en charge). Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
       },
       {
         title: '4. Registres publics',
-        body: "Les informations publiées dans le registre public — notamment les noms de domaine, résumés d'historique vérifié, signaux de confiance et preuves cryptographiques — sont destinées à être consultables publiquement. Ne connectez pas un domaine si vous n'êtes pas autorisé à faire figurer les métadonnées d'authentification de ce domaine dans un registre public.",
+        body: "Les informations publiées dans le registre public — notamment les noms de domaine, l'historique confirmé de façon indépendante et les preuves cryptographiques — sont destinées à être consultables publiquement. Ne connectez pas un domaine si vous n'êtes pas autorisé à faire figurer les métadonnées d'authentification de ce domaine dans un registre public.",
       },
       {
         title: '5. Vos responsabilités',
@@ -377,7 +377,7 @@ export const fr: Dictionary = {
       },
       {
         title: '6. Pas de conseil ; aucune garantie de légitimité',
-        body: "Les scores de confiance, résumés d'historique et preuves sont des mesures informatives dérivées des rapports disponibles. Ils ne constituent pas un conseil juridique, financier, de conformité ou commercial, et ne garantissent pas qu'un domaine, une organisation ou une personne soit légitime, sûr pour une transaction, ou sans risque. Vous restez seul responsable de vos décisions.",
+        body: "Les résumés d'historique et les preuves cryptographiques sont un enregistrement informatif de ce que des systèmes destinataires indépendants ont rapporté. Ils ne constituent pas un conseil juridique, financier, de conformité ou commercial, et ne garantissent pas qu'un domaine, une organisation ou une personne soit légitime, sûr pour une transaction, ou sans risque. Le jugement reste hors du registre. Vous restez seul responsable de vos décisions.",
       },
       {
         title: '7. Pas de services financiers',
@@ -393,11 +393,11 @@ export const fr: Dictionary = {
       },
       {
         title: '10. Exclusion de garanties',
-        body: "Le site et le service sont fournis « en l'état » et « selon disponibilité », sans garantie d'aucune sorte, expresse ou implicite, y compris de qualité marchande, d'adéquation à un usage particulier et d'absence de contrefaçon. Nous ne garantissons pas que le service sera ininterrompu, sans erreur, complet ou sûr, ni que les racines, preuves ou scores publiés répondront à vos besoins.",
+        body: "Le site et le service sont fournis « en l'état » et « selon disponibilité », sans garantie d'aucune sorte, expresse ou implicite, y compris de qualité marchande, d'adéquation à un usage particulier et d'absence de contrefaçon. Nous ne garantissons pas que le service sera ininterrompu, sans erreur, complet ou sûr, ni que les racines ou preuves publiées répondront à vos besoins.",
       },
       {
         title: '11. Limitation de responsabilité',
-        body: "Dans la mesure maximale permise par la loi, PBM Labs LLC et ses membres, dirigeants et prestataires ne sont pas responsables des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs découlant de votre utilisation du site ou du service, y compris de la confiance accordée aux registres publics ou aux signaux de confiance, même s'ils ont été informés de la possibilité de tels dommages.",
+        body: "Dans la mesure maximale permise par la loi, PBM Labs LLC et ses membres, dirigeants et prestataires ne sont pas responsables des dommages indirects, accessoires, spéciaux, consécutifs ou punitifs découlant de votre utilisation du site ou du service, y compris de la confiance accordée aux registres publics, même s'ils ont été informés de la possibilité de tels dommages.",
       },
       {
         title: '12. Modifications',
@@ -427,11 +427,11 @@ export const fr: Dictionary = {
       },
       {
         title: '4. Comment nous utilisons les informations',
-        body: "Nous utilisons les informations ci-dessus pour assurer la connexion des domaines, ingérer et publier l'historique vérifié, calculer et afficher les signaux de confiance, maintenir les preuves cryptographiques, prévenir les abus et améliorer la fiabilité du service. Les champs du registre public sont publiés pour que quiconque puisse vérifier l'historique de façon indépendante.",
+        body: "Nous utilisons les informations ci-dessus pour assurer la connexion des domaines, ingérer et publier l'historique confirmé de façon indépendante, maintenir les preuves cryptographiques, prévenir les abus et améliorer la fiabilité du service. Les champs du registre public sont publiés pour que quiconque puisse revérifier ce qui s'est passé.",
       },
       {
         title: '5. Registres publics',
-        body: "Les domaines connectés et leurs résumés d'historique vérifié, scores (lorsqu'affichés) et preuves sont destinés à être publics. Ne connectez pas un domaine sans comprendre que les métadonnées d'authentification associées apparaîtront dans un registre public.",
+        body: "Les domaines connectés et leur historique confirmé de façon indépendante ainsi que leurs preuves sont destinés à être publics. Ne connectez pas un domaine sans comprendre que les métadonnées d'authentification associées apparaîtront dans un registre public.",
       },
       {
         title: '6. Prestataires',

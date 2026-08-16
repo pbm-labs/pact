@@ -8,7 +8,7 @@ interface PageProps {
 
 export const metadata = {
   title: 'Add your domain — We build real',
-  description: 'Connect your domain and start building a public, honest record — in about two minutes.',
+  description: 'Point DNS at the intake. The public record starts when the first independent report arrives.',
 };
 
 export default async function ConnectPage({ searchParams }: PageProps) {

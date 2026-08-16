@@ -33,8 +33,8 @@ export const de: Dictionary = {
     howLead: 'Es bittet dich nicht, einer Autorität zu vertrauen. Es bittet dich, einen öffentlichen Eintrag zu prüfen.',
     howSteps: [
       {
-        title: 'Unabhängige Systeme bestätigen es',
-        body: 'Jede Aussage stammt von empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre unkoordinierte Übereinstimmung über die Zeit ist der Beweis.',
+        title: 'Unabhängige Systeme berichten es',
+        body: 'Jeder Eintrag stammt von empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält.',
       },
       {
         title: 'Jede Person kann den Eintrag prüfen',
@@ -48,7 +48,7 @@ export const de: Dictionary = {
     recordEyebrow: 'Hinter jedem Eintrag',
     recordTitle: 'Deine vollständige öffentliche Seite.',
     recordSub:
-      'Jede Person kann sie öffnen. Unabhängig bestätigte Historie — teilbar, wo ein Gegenüber nachschauen könnte.',
+      'Jede Person kann sie öffnen. Unabhängig bestätigte Historie — Tage, Berichte und wer sie bestätigt hat.',
     mockLabel: 'Beispiel',
     mockStatusSub: 'Unabhängig bestätigte Historie, die weiter wächst.',
     mockTimeSub: 'seit dem ersten Bericht',
@@ -78,9 +78,9 @@ export const de: Dictionary = {
       'Funktioniert in Gmail, Outlook, Apple Mail und überall, wo HTML-Signaturen funktionieren.',
     ctaTitle: 'Starte deinen öffentlichen Eintrag.',
     ctaBody:
-      'Einmal verbinden. Unabhängige Systeme bestätigen den Rest. Die Historie wächst nur nach vorn.',
+      'Einmal verbinden. Unabhängige Empfangssysteme senden die Berichte. Die Historie wächst nur nach vorn.',
     ctaButton: 'Domain hinzufügen',
-    ctaSub: 'Sei unter den Ersten auf festem Boden.',
+    ctaSub: 'Der Eintrag beginnt, wenn unabhängige Berichte eintreffen.',
     watchManifesto: 'Das Manifest ansehen',
   },
   connect: {
@@ -88,7 +88,7 @@ export const de: Dictionary = {
     eyebrow: 'Zwei Minuten, weitgehend automatisch',
     title: 'Domain hinzufügen',
     intro:
-      'Kein Papierkram, kein Warten auf andere. Nur der erste Tag einer Geschichte, die wirklich dir gehört.',
+      'Kein Papierkram, kein Warten auf andere. Der öffentliche Eintrag beginnt mit dem ersten unabhängigen Bericht.',
     yourDomain: 'Deine Domain',
     pathCloudflareTitle: 'Ich nutze Cloudflare',
     pathCloudflareDesc: 'Ein Klick — wir erledigen den Rest.',
@@ -109,7 +109,7 @@ export const de: Dictionary = {
     manualIntro:
       'Füge dies dort ein, wo du die Einstellungen deiner Website verwaltest (frage deinen Anbieter, wenn du unsicher bist):',
     manualExplain:
-      'Eine Zeile, mit der unabhängige Systeme bestätigen können, dass deine Domain echt ist. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Dein öffentlicher Eintrag erscheint automatisch, sobald der erste Report eintrifft (meist innerhalb von 24–48 Stunden) — hier musst du nichts weiter absenden.',
+      'Eine Zeile, mit der unabhängige Empfangssysteme Aggregatberichte hierher senden. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Dein öffentlicher Eintrag erscheint automatisch, sobald der erste Report eintrifft (meist innerhalb von 24–48 Stunden) — hier musst du nichts weiter absenden.',
     errors: {
       invalid_domain: 'Gib eine gültige Domain ein (z. B. example.com).',
       server_config: 'Dem Server fehlen CONNECT_STATE_SECRET oder Ledger-Schreibzugangsdaten.',
@@ -130,17 +130,17 @@ export const de: Dictionary = {
     eyebrow: 'Öffentliche Einträge',
     title: 'Domains mit öffentlichem Eintrag',
     intro:
-      'Sortiert nach verifizierter Historie — wie lange jede Domain unabhängig bestätigt wurde.',
+      'Sortiert nach unabhängig bestätigter Historie — wie lange jede Domain berichtet wurde.',
     addDomain: 'Domain hinzufügen',
     building: 'Im Aufbau',
     proven: 'Nachgewiesen',
-    rankedBy: 'Sortiert nach verifizierter Historie',
+    rankedBy: 'Sortiert nach unabhängig bestätigter Historie',
     rankedHint:
       'Längere unabhängig bestätigte Historie steht höher.',
     colDomain: 'Domain',
     colHistory: 'Historie',
     colStatus: 'Status',
-    verified: 'verifiziert',
+    verified: 'bestätigt',
     report: 'Bericht',
     reports: 'Berichte',
     org: 'Org.',
@@ -162,23 +162,23 @@ export const de: Dictionary = {
       'Registriert. Warte auf die erste unabhängige Bestätigung — meist innerhalb eines Tages.',
     connected: 'Verbunden',
     whatNext: 'Was als Nächstes passiert',
-    next1: 'Diese Domain wird unabhängig erkannt, meist innerhalb eines Tages.',
-    next2: 'Sie bestätigt still, dass alles in Ordnung ist.',
+    next1: 'Empfangende Mailsysteme bemerken diese Domain, meist innerhalb eines Tages.',
+    next2: 'Die ersten unabhängigen Berichte treffen ein.',
     next3: 'Diese Seite aktualisiert sich von allein — nichts zu klicken.',
     historyIntro:
       'Unabhängig bestätigte Historie, die jeder nachprüfen kann.',
     scoreIntro:
-      'Unabhängig bestätigte Historie mit einem Vertrauenswert, der widerspiegelt, wie lange und wie breit sie verifiziert wurde.',
-    timeVerified: 'Verifizierte Zeit',
+      'Unabhängig bestätigte Historie, die jeder nachprüfen kann.',
+    timeVerified: 'Bestätigte Tage',
     reports: 'Berichte',
     allTime: 'gesamt',
     reportingOrgs: 'Meldende Orgs.',
     independent: 'unabhängig',
     passRate: 'Erfolgsquote',
-    techSummary: 'Technische Verifizierung — Berichte & kryptografischer Nachweis',
+    techSummary: 'Was veröffentlicht wurde — Berichte und kryptografische Nachweise',
     showMath: 'Rechnung anzeigen',
     domainRegistered: 'Domain registriert',
-    verifiedSince: 'Verifiziert seit',
+    verifiedSince: 'Bestätigt seit',
     awaitingReport: 'Warte auf ersten Bericht',
     noRecordYet: 'Noch kein öffentlicher Eintrag.',
     noRecordHint:
@@ -240,19 +240,19 @@ export const de: Dictionary = {
     clockYear: '({n} J.)',
     clockMonths: '({n} Mo.)',
     clockDaysShort: '({n}d)',
-    pathEyebrow: 'Um nachgewiesen zu werden',
+    pathEyebrow: 'Was sich weiter aufbaut',
     pathDaysItem: '{n} Tage unabhängig bestätigter Historie',
     pathDaysCurrent: 'du bist bei {n}',
     pathReportersItem: 'Mindestens eine unabhängige meldende Organisation',
     pathReportersCurrent: 'du hast {n}',
     pathExplainer:
-      'Eine unabhängige meldende Organisation ist ein empfangendes Mailsystem — Gmail, Outlook, Yahoo und andere — das diese Domain mit eigener Authentifizierung bestätigt hat. Unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nachgewiesen braucht genug dieser Historie, damit gestern nicht herstellbar ist.',
+      'Eine unabhängige meldende Organisation ist ein empfangendes Mailsystem — Gmail, Outlook, Yahoo und andere — das diese Domain mit eigener Authentifizierung bestätigt hat. Unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält.',
     pathFoot:
       'Jede Bestätigung kommt von unabhängigen Empfangssystemen — nicht selbst gemeldet. Dieser Eintrag wächst nur vorwärts.',
     badgeEyebrow: 'Einbettbares Badge',
     badgeIntro:
       'Kein Zertifikat. Ein Live-Link zu dieser Seite — in eine Signatur einfügen, jede Person kann den Eintrag öffnen.',
-    shareRecord: 'Dein öffentlicher Eintrag',
+    shareRecord: 'Öffentlicher Eintrag',
     shareEyebrow: 'Teile den Eintrag',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
@@ -278,7 +278,7 @@ export const de: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Whitepaper',
     intro:
-      'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
+      'Das offene Protokoll hinter dem öffentlichen Eintrag — wie unabhängig bestätigte Historie erfasst und veröffentlicht wird.',
     source: 'Quellcode auf GitHub →',
   },
   whyPact: {
@@ -289,7 +289,7 @@ export const de: Dictionary = {
       'Jede bestehende Art zu beweisen, dass ein Unternehmen echt ist, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
       'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
       'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
-      'Jede Aussage von PACT stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist der Beweis. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher). DKIM des Reporter-Wrappers wird beim Ingest geprüft, und das bestandene d=/Selektor plus keccak256 des Wrappers sind im Leaf committed. Das RFC822 selbst wird nicht veröffentlicht. Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter und dieser Publisher-Schlüssel — keine Änderung der These.',
+      'Jede Tatsache im Eintrag stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher). DKIM des Reporter-Wrappers wird beim Ingest geprüft, und das bestandene d=/Selektor plus keccak256 des Wrappers sind im Leaf committed. Das RFC822 selbst wird nicht veröffentlicht. Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter und dieser Publisher-Schlüssel — keine Änderung der These.',
       'Diese Evidenz ist stur langweilig darüber, was geschehen ist. Das Urteil bleibt draußen. Dieselbe Historie kann unterschiedliche Anwendungspolitiken speisen. Ein stärkerer Zeuge erbt trotzdem nicht die Entscheidung.',
       'Das ist die Eigenschaft, die etablierte Nachweise nicht nachrüsten können. Eine Auskunftei kann nicht trustless werden — ihr Geschäftsmodell *ist* der vertrauenswürdige Mittler. Ein staatliches Register kann nicht trustless werden — es ist definitionsgemäß eine Autorität. Ein Kontoauszug kann nicht trustless werden — er ist ein Dokument, und Dokumente lassen sich ändern. PACT ist keine bessere Version davon. Es sitzt in einer anderen Kategorie: Evidenz, die du nachprüfen kannst, nicht eine Behauptung, die du akzeptieren musst.',
       'Was das dauerhaft macht, nicht nur anders: **die Historie, die PACT misst, lässt sich nachträglich zu keinem Preis herstellen — auch nicht durch PACTs eigene Betreiber.**',
@@ -310,10 +310,10 @@ export const de: Dictionary = {
     whyBody: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — zuerst lesen.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
-      'Das offene Protokoll hinter dem öffentlichen Eintrag — wie verifizierte Historie erfasst, veröffentlicht und gemessen wird.',
+      'Das offene Protokoll hinter dem öffentlichen Eintrag — wie unabhängig bestätigte Historie erfasst und veröffentlicht wird.',
     protocolTitle: 'Protokollspezifikation',
     protocolBody:
-      'Normative Spezifikation — Merkle-Baum, Blattkodierung (Wrapper-Zeugnis im Leaf), Score und On-Chain-Roots.',
+      'Normative Spezifikation — Merkle-Baum, Blattkodierung (Wrapper-Zeugnis im Leaf), Score-Formel für Anwendungen und On-Chain-Roots.',
     roadmapTitle: 'Roadmap',
     roadmapBody: 'Was heute live ist — und was als Nächstes kommt.',
     readWhitepaper: 'Whitepaper lesen',
@@ -332,7 +332,7 @@ export const de: Dictionary = {
       'Wrapper-Zeugnis im Leaf: bestandenes d=/Selektor und keccak256 des RFC822 (die Mail selbst wird nicht veröffentlicht)',
       'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
       'Merkle-Roots auf PactRoots / Base Sepolia (Testnet, permissionierter Publisher)',
-      'Öffentliche Einträge nach verifizierter Historie sortiert',
+      'Öffentliche Einträge nach unabhängig bestätigter Historie sortiert',
       'Domain-Seiten mit Uhren, beobachteter Erfolgsquote, Leaves und kryptografischen Nachweisen',
     ],
     nextTitle: 'In aktiver Entwicklung',
@@ -348,7 +348,7 @@ export const de: Dictionary = {
   },
   legal: {
     eyebrow: 'Rechtliches',
-    lastUpdated: 'Zuletzt aktualisiert: 14. August 2026',
+    lastUpdated: 'Zuletzt aktualisiert: 16. August 2026',
     termsTitle: 'Nutzungsbedingungen',
     privacyTitle: 'Datenschutzerklärung',
     emailLabel: 'E-Mail',
@@ -363,11 +363,11 @@ export const de: Dictionary = {
       },
       {
         title: '3. Der Dienst',
-        body: 'PACT erfasst DMARC-Aggregat-Authentifizierungsberichte, die empfangende Mail-Systeme bereits erzeugen, schreibt extrahierte Metadaten in einen nur anhängenden Merkle-Baum und veröffentlicht einen öffentlichen Eintrag sowie ein organisches Vertrauenssignal für verbundene Domains. Das Verbinden einer Domain erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter). Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
+        body: 'PACT erfasst DMARC-Aggregat-Authentifizierungsberichte, die empfangende Mail-Systeme bereits erzeugen, schreibt extrahierte Metadaten in einen nur anhängenden Merkle-Baum und veröffentlicht einen öffentlichen Eintrag dieser Historie für verbundene Domains. Das Verbinden einer Domain erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter). Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
       },
       {
         title: '4. Öffentliche Einträge',
-        body: 'Informationen im öffentlichen Eintrag — einschließlich Domainnamen, Zusammenfassungen verifizierter Historie, Vertrauenssignale und kryptografischer Nachweise — sind zur öffentlichen Einsicht bestimmt. Verbinde keine Domain, wenn du nicht berechtigt bist, die Authentifizierungs-Metadaten dieser Domain Teil eines öffentlichen Ledgers werden zu lassen.',
+        body: 'Informationen im öffentlichen Eintrag — einschließlich Domainnamen, unabhängig bestätigter Historie und kryptografischer Nachweise — sind zur öffentlichen Einsicht bestimmt. Verbinde keine Domain, wenn du nicht berechtigt bist, die Authentifizierungs-Metadaten dieser Domain Teil eines öffentlichen Ledgers werden zu lassen.',
       },
       {
         title: '5. Deine Verantwortlichkeiten',
@@ -375,7 +375,7 @@ export const de: Dictionary = {
       },
       {
         title: '6. Keine Beratung; keine Garantie der Legitimität',
-        body: 'Vertrauenswerte, Historienzusammenfassungen und Nachweise sind informative Messungen aus verfügbaren Berichten. Sie sind keine rechtliche, finanzielle, Compliance- oder Geschäftsberatung und garantieren nicht, dass eine Domain, Organisation oder Person legitim, sicher für Transaktionen oder risikofrei ist. Du bleibst allein für deine eigenen Entscheidungen verantwortlich.',
+        body: 'Historienzusammenfassungen und kryptografische Nachweise sind ein informativer Eintrag dessen, was unabhängige Empfangssysteme gemeldet haben. Sie sind keine rechtliche, finanzielle, Compliance- oder Geschäftsberatung und garantieren nicht, dass eine Domain, Organisation oder Person legitim, sicher für Transaktionen oder risikofrei ist. Das Urteil bleibt außerhalb des Eintrags. Du bleibst allein für deine eigenen Entscheidungen verantwortlich.',
       },
       {
         title: '7. Keine Finanzdienstleistungen',
@@ -391,11 +391,11 @@ export const de: Dictionary = {
       },
       {
         title: '10. Haftungsausschluss für Gewährleistungen',
-        body: 'Die Website und der Dienst werden „wie besehen“ und „wie verfügbar“ ohne Gewährleistungen jeglicher Art bereitgestellt, ausdrücklich oder stillschweigend, einschließlich der Marktgängigkeit, der Eignung für einen bestimmten Zweck und der Nichtverletzung. Wir garantieren nicht, dass der Dienst ununterbrochen, fehlerfrei, vollständig oder sicher ist oder dass veröffentlichte Roots, Nachweise oder Werte deine Anforderungen erfüllen.',
+        body: 'Die Website und der Dienst werden „wie besehen“ und „wie verfügbar“ ohne Gewährleistungen jeglicher Art bereitgestellt, ausdrücklich oder stillschweigend, einschließlich der Marktgängigkeit, der Eignung für einen bestimmten Zweck und der Nichtverletzung. Wir garantieren nicht, dass der Dienst ununterbrochen, fehlerfrei, vollständig oder sicher ist oder dass veröffentlichte Roots oder Nachweise deine Anforderungen erfüllen.',
       },
       {
         title: '11. Haftungsbeschränkung',
-        body: 'Soweit gesetzlich zulässig, haften PBM Labs LLC und seine Mitglieder, Organe und Auftragnehmer nicht für indirekte, zufällige, besondere, Folgeschäden oder Strafschadensersatz aus deiner Nutzung der Website oder des Dienstes, einschließlich des Vertrauens auf öffentliche Einträge oder Vertrauenssignale, auch wenn auf die Möglichkeit solcher Schäden hingewiesen wurde.',
+        body: 'Soweit gesetzlich zulässig, haften PBM Labs LLC und seine Mitglieder, Organe und Auftragnehmer nicht für indirekte, zufällige, besondere, Folgeschäden oder Strafschadensersatz aus deiner Nutzung der Website oder des Dienstes, einschließlich des Vertrauens auf öffentliche Einträge, auch wenn auf die Möglichkeit solcher Schäden hingewiesen wurde.',
       },
       {
         title: '12. Änderungen',
@@ -425,11 +425,11 @@ export const de: Dictionary = {
       },
       {
         title: '4. Wie wir Informationen nutzen',
-        body: 'Wir nutzen die oben genannten Informationen, um die Domain-Verbindung zu betreiben, verifizierte Historie aufzunehmen und zu veröffentlichen, Vertrauenssignale zu berechnen und anzuzeigen, kryptografische Nachweise zu pflegen, Missbrauch zu verhindern und die Zuverlässigkeit des Dienstes zu verbessern. Felder des öffentlichen Eintrags werden veröffentlicht, damit jeder die Historie unabhängig prüfen kann.',
+        body: 'Wir nutzen die oben genannten Informationen, um die Domain-Verbindung zu betreiben, unabhängig bestätigte Historie aufzunehmen und zu veröffentlichen, kryptografische Nachweise zu pflegen, Missbrauch zu verhindern und die Zuverlässigkeit des Dienstes zu verbessern. Felder des öffentlichen Eintrags werden veröffentlicht, damit jeder nachprüfen kann, was geschehen ist.',
       },
       {
         title: '5. Öffentliche Einträge',
-        body: 'Verbundene Domains und ihre Zusammenfassungen verifizierter Historie, Werte (sofern angezeigt) und Nachweise sind zur Öffentlichkeit bestimmt. Verbinde keine Domain, wenn du nicht verstehst, dass zugehörige Authentifizierungs-Metadaten in einem öffentlichen Ledger erscheinen.',
+        body: 'Verbundene Domains und ihre unabhängig bestätigte Historie sowie Nachweise sind zur Öffentlichkeit bestimmt. Verbinde keine Domain, wenn du nicht verstehst, dass zugehörige Authentifizierungs-Metadaten in einem öffentlichen Ledger erscheinen.',
       },
       {
         title: '6. Dienstleister',
