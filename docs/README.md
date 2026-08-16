@@ -6,4 +6,4 @@
 
 Normative spec: [pact_protocol.md](pact_protocol.md).
 
-On-site docs are unlisted (`/docs`, `/docs/why`, `/docs/whitepaper`, `/docs/roadmap`) — reachable by URL, not linked from the homepage, not indexed.
+On-site docs: [webuildreal.dev/docs](https://webuildreal.dev/docs).

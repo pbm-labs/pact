@@ -4,7 +4,11 @@ import { WHY_PACT_MARKDOWN } from '@/lib/why-pact';
 export const en: Dictionary = {
   nav: {
     language: 'Language',
-    publicRecords: 'Public records',
+    records: 'Records',
+    docs: 'Docs',
+    menu: 'Menu',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
   },
   footer: {
     docs: 'Docs',
@@ -291,47 +295,39 @@ export const en: Dictionary = {
       'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a verdict that a domain is legitimate, not a personal credential, and not a replacement for registries or credit bureaus. Scores and thresholds are application policy on top of that history.',
   },
   docs: {
-    eyebrow: 'we build real',
     title: 'Docs',
     intro:
-      'How the public record works. What it lists. How a domain gets one. How anyone checks. Judgement stays outside. The protocol behind the record is PACT — this site is the first reference implementation.',
+      'The public record of independently confirmed domain history. Judgement stays outside. The protocol is PACT.',
     sections: [
       {
         title: 'The record',
-        body: 'Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate DMARC aggregate reports. A domain joins by pointing an existing DNS field at this implementation. Nothing about how it sends mail changes.\n\nThe public page lists what happened: days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, a Proven label, or a verdict.',
+        body: 'Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate DMARC aggregate reports. A domain joins by pointing an existing DNS field at this implementation. Nothing about how it sends mail changes.\n\nThe public page lists days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, a Proven label, or a verdict.',
       },
       {
         title: 'Judgement stays outside',
-        body: 'The record is stubbornly boring about what happened. A score formula exists for applications that choose to interpret. Activation labels such as Proven are application policy. The same history can feed different decisions. The record does not decide that a domain is legitimate.',
+        body: 'A score formula exists for applications that choose to interpret. Labels such as Proven are application policy. The record does not decide that a domain is legitimate.',
       },
       {
         title: 'How a domain gets a record',
-        body: 'Add a report destination in DNS — rua@pact.webuildreal.dev. Independent systems already emit the reports. The public record appears when the first valid aggregate arrives, usually within a day or two. There is nothing else to submit here.',
+        body: 'Add rua@pact.webuildreal.dev as a report destination in DNS. Independent systems already emit the reports. The record appears when the first valid aggregate arrives, usually within a day or two.',
       },
       {
         title: 'How anyone checks',
-        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root. You do not need permission, an API key, or the operator’s word for that inclusion check. Wrapper openings — passing d=/selector and keccak256 of the RFC822 — are on the public leaf so the commitment can be recomputed. The mail itself is not published.',
+        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root. Wrapper openings — passing d=/selector and keccak256 of the RFC822 — are on the public leaf. The mail itself is not published.',
       },
     ],
     limitsTitle: 'Honest limits',
     limits: [
-      'Roots are on Base Sepolia (testnet), with a permissioned publisher. Independently checkable. Not Base mainnet, and not permissionless publication.',
+      'Roots are on Base Sepolia (testnet), permissioned publisher — not mainnet, not permissionless.',
       'The first publishRoot waits on the first live leaf after the D1 cutover.',
-      'Reporter-wrapper DKIM is verified at ingest. SPF of the connecting MTA is not independently checked — Email Routing accepted the hop. Forwarder DKIM is weaker than the reporter signing the wrapper themselves.',
-      'Without a copy of the RFC822, a stranger cannot re-run DKIM. They can still recompute the leaf from the openings and check the Merkle proof.',
-      'Leaf availability is the operator’s database. Roots attest inclusion, not that leaves will remain available.',
+      'Reporter-wrapper DKIM is verified at ingest. SPF of the connecting MTA is not. Forwarder DKIM is weaker than a reporter-signed wrapper.',
+      'Without the RFC822, DKIM cannot be re-run. The leaf and Merkle proof still can.',
+      'Leaf availability is the operator’s database. Roots attest inclusion, not availability.',
     ],
-    furtherTitle: 'In the docs',
     whyTitle: 'Evidence, not authority',
-    whyBody: 'Why the record publishes what happened instead of asking you to trust a claim.',
     whitepaperTitle: 'Whitepaper',
-    whitepaperBody:
-      'How independently confirmed history is captured and published.',
     protocolTitle: 'Protocol',
-    protocolBody:
-      'The open specification — Merkle tree, leaf encoding (wrapper witness in the leaf), score formula for applications, and on-chain roots.',
     statusTitle: 'Status',
-    statusBody: 'What is live, what is waiting on the world, and what comes later.',
     readWhitepaper: 'Read the whitepaper',
     readStatus: 'Read status',
   },

@@ -3,7 +3,11 @@ export type LegalSectionCopy = { title: string; body: string };
 export type Dictionary = {
   nav: {
     language: string;
-    publicRecords: string;
+    records: string;
+    docs: string;
+    menu: string;
+    openMenu: string;
+    closeMenu: string;
   };
   footer: {
     docs: string;
@@ -240,21 +244,15 @@ export type Dictionary = {
     scope: string;
   };
   docs: {
-    eyebrow: string;
     title: string;
     intro: string;
     sections: readonly { title: string; body: string }[];
     limitsTitle: string;
     limits: readonly string[];
-    furtherTitle: string;
     whyTitle: string;
-    whyBody: string;
     whitepaperTitle: string;
-    whitepaperBody: string;
     protocolTitle: string;
-    protocolBody: string;
     statusTitle: string;
-    statusBody: string;
     readWhitepaper: string;
     readStatus: string;
   };

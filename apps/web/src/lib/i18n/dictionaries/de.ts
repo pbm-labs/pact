@@ -3,7 +3,11 @@ import type { Dictionary } from '../types';
 export const de: Dictionary = {
   nav: {
     language: 'Sprache',
-    publicRecords: 'Öffentliche Einträge',
+    records: 'Einträge',
+    docs: 'Docs',
+    menu: 'Menü',
+    openMenu: 'Menü öffnen',
+    closeMenu: 'Menü schließen',
   },
   footer: {
     docs: 'Docs',
@@ -303,47 +307,39 @@ export const de: Dictionary = {
       'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, kein Verdikt dass eine Domain legitim ist, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien. Scores und Schwellen sind Anwendungspolitik auf dieser Historie.',
   },
   docs: {
-    eyebrow: 'we build real',
     title: 'Docs',
     intro:
-      'Wie der öffentliche Eintrag funktioniert. Was er listet. Wie eine Domain einen bekommt. Wie ihn jede Person prüft. Das Urteil bleibt draußen. Das Protokoll hinter dem Eintrag ist PACT — diese Seite ist die erste Referenzimplementierung.',
+      'Der öffentliche Eintrag unabhängig bestätigter Domain-Historie. Das Urteil bleibt draußen. Das Protokoll ist PACT.',
     sections: [
       {
         title: 'Der Eintrag',
-        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Eine Domain tritt bei, indem sie ein bestehendes DNS-Feld auf diese Implementierung zeigt. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet, was geschehen ist: unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
+        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Eine Domain tritt bei, indem sie ein bestehendes DNS-Feld auf diese Implementierung zeigt. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
       },
       {
         title: 'Das Urteil bleibt draußen',
-        body: 'Der Eintrag ist stur langweilig darüber, was geschehen ist. Eine Score-Formel existiert für Anwendungen, die interpretieren wollen. Aktivierungslabels wie Proven sind Anwendungspolitik. Dieselbe Historie kann unterschiedliche Entscheidungen speisen. Der Eintrag entscheidet nicht, dass eine Domain legitim ist.',
+        body: 'Eine Score-Formel existiert für Anwendungen, die interpretieren wollen. Labels wie Proven sind Anwendungspolitik. Der Eintrag entscheidet nicht, dass eine Domain legitim ist.',
       },
       {
         title: 'Wie eine Domain einen Eintrag erhält',
-        body: 'Füge ein Berichtsziel in DNS hinzu — rua@pact.webuildreal.dev. Unabhängige Systeme senden die Berichte bereits. Der öffentliche Eintrag erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage. Hier ist nichts weiter abzusenden.',
+        body: 'Füge rua@pact.webuildreal.dev als Berichtsziel in DNS hinzu. Unabhängige Systeme senden die Berichte bereits. Der Eintrag erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage.',
       },
       {
         title: 'Wie jede Person nachprüft',
-        body: 'Berechne die veröffentlichten Leaves und den Inklusionsnachweis gegen den On-Chain-Merkle-Root neu. Für diese Inklusionsprüfung brauchst du keine Erlaubnis, keinen API-Schlüssel und nicht das Wort des Betreibers. Wrapper-Öffnungen — bestandenes d=/Selektor und keccak256 des RFC822 — stehen auf dem öffentlichen Leaf, damit die Commitment neu berechnet werden kann. Die Mail selbst wird nicht veröffentlicht.',
+        body: 'Berechne die veröffentlichten Leaves und den Inklusionsnachweis gegen den On-Chain-Merkle-Root neu. Wrapper-Öffnungen — bestandenes d=/Selektor und keccak256 des RFC822 — stehen auf dem öffentlichen Leaf. Die Mail selbst wird nicht veröffentlicht.',
       },
     ],
     limitsTitle: 'Ehrliche Grenzen',
     limits: [
-      'Roots sind auf Base Sepolia (Testnet), mit einem permissionierten Publisher. Unabhängig prüfbar. Nicht Base Mainnet, und keine permissionless Publikation.',
+      'Roots sind auf Base Sepolia (Testnet), permissionierter Publisher — nicht Mainnet, nicht permissionless.',
       'Der erste publishRoot wartet auf das erste Live-Leaf nach dem D1-Cutover.',
-      'DKIM des Reporter-Wrappers wird beim Ingest geprüft. SPF des verbindenden MTA wird nicht unabhängig geprüft — Email Routing hat den Hop akzeptiert. Forwarder-DKIM ist schwächer als wenn der Reporter den Wrapper selbst signiert.',
-      'Ohne eine Kopie des RFC822 kann ein Fremder DKIM nicht erneut ausführen. Er kann das Leaf aus den Öffnungen neu berechnen und den Merkle-Nachweis prüfen.',
-      'Die Verfügbarkeit der Leaves ist die Datenbank des Betreibers. Roots bezeugen Inklusion, nicht dass Leaves verfügbar bleiben.',
+      'DKIM des Reporter-Wrappers wird beim Ingest geprüft. SPF des verbindenden MTA nicht. Forwarder-DKIM ist schwächer als ein vom Reporter signierter Wrapper.',
+      'Ohne das RFC822 kann DKIM nicht erneut ausgeführt werden. Leaf und Merkle-Nachweis schon.',
+      'Die Verfügbarkeit der Leaves ist die Datenbank des Betreibers. Roots bezeugen Inklusion, nicht Verfügbarkeit.',
     ],
-    furtherTitle: 'In den Docs',
     whyTitle: 'Evidenz, keine Autorität',
-    whyBody: 'Warum der Eintrag veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
     whitepaperTitle: 'Whitepaper',
-    whitepaperBody:
-      'Wie unabhängig bestätigte Historie erfasst und veröffentlicht wird.',
     protocolTitle: 'Protokoll',
-    protocolBody:
-      'Die offene Spezifikation — Merkle-Baum, Blattkodierung (Wrapper-Zeugnis im Leaf), Score-Formel für Anwendungen und On-Chain-Roots.',
     statusTitle: 'Status',
-    statusBody: 'Was live ist, was auf die Welt wartet, und was später kommt.',
     readWhitepaper: 'Whitepaper lesen',
     readStatus: 'Status lesen',
   },

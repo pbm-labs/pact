@@ -3,7 +3,11 @@ import type { Dictionary } from '../types';
 export const es: Dictionary = {
   nav: {
     language: 'Idioma',
-    publicRecords: 'Registros públicos',
+    records: 'Registros',
+    docs: 'Docs',
+    menu: 'Menú',
+    openMenu: 'Abrir menú',
+    closeMenu: 'Cerrar menú',
   },
   footer: {
     docs: 'Docs',
@@ -303,47 +307,39 @@ export const es: Dictionary = {
       'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es un veredicto de que un dominio es legítimo, no es una credencial personal y no sustituye registros ni burós de crédito. Las puntuaciones y los umbrales son política de aplicación sobre ese historial.',
   },
   docs: {
-    eyebrow: 'we build real',
     title: 'Docs',
     intro:
-      'Cómo funciona el registro público. Qué lista. Cómo lo obtiene un dominio. Cómo lo comprueba cualquiera. El juicio queda fuera. El protocolo detrás del registro es PACT — este sitio es la primera implementación de referencia.',
+      'El registro público del historial de dominio confirmado de forma independiente. El juicio queda fuera. El protocolo es PACT.',
     sections: [
       {
         title: 'El registro',
-        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Un dominio se une apuntando un campo DNS existente a esta implementación. Nada cambia en cómo envía correo.\n\nLa página pública lista lo que ocurrió: días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
+        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Un dominio se une apuntando un campo DNS existente a esta implementación. Nada cambia en cómo envía correo.\n\nLa página pública lista días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
       },
       {
         title: 'El juicio queda fuera',
-        body: 'El registro es tercamente aburrido sobre lo que ocurrió. Existe una fórmula de puntuación para las aplicaciones que elijan interpretar. Etiquetas de activación como Proven son política de aplicación. El mismo historial puede alimentar decisiones distintas. El registro no decide que un dominio sea legítimo.',
+        body: 'Existe una fórmula de puntuación para las aplicaciones que elijan interpretar. Etiquetas como Proven son política de aplicación. El registro no decide que un dominio sea legítimo.',
       },
       {
         title: 'Cómo obtiene un dominio un registro',
-        body: 'Añade un destino de informes en DNS — rua@pact.webuildreal.dev. Los sistemas independientes ya emiten los informes. El registro público aparece cuando llega el primer agregado válido, normalmente en uno o dos días. Aquí no hay que enviar nada más.',
+        body: 'Añade rua@pact.webuildreal.dev como destino de informes en DNS. Los sistemas independientes ya emiten los informes. El registro aparece cuando llega el primer agregado válido, normalmente en uno o dos días.',
       },
       {
         title: 'Cómo lo comprueba cualquiera',
-        body: 'Recomputa las hojas publicadas y la prueba de inclusión contra la raíz Merkle on-chain. No hace falta permiso, una clave de API ni la palabra del operador para esa comprobación de inclusión. Las aperturas del wrapper — d=/selector que pasa y keccak256 del RFC822 — están en la hoja pública para que se pueda recomputar el compromiso. El correo en sí no se publica.',
+        body: 'Recomputa las hojas publicadas y la prueba de inclusión contra la raíz Merkle on-chain. Las aperturas del wrapper — d=/selector que pasa y keccak256 del RFC822 — están en la hoja pública. El correo no se publica.',
       },
     ],
     limitsTitle: 'Límites honestos',
     limits: [
-      'Las raíces están en Base Sepolia (testnet), con un publicador con permiso. Independientemente comprobable. No es Base mainnet, ni publicación sin permiso.',
+      'Las raíces están en Base Sepolia (testnet), publicador con permiso — no es mainnet, ni publicación sin permiso.',
       'El primer publishRoot espera a la primera hoja real tras el corte a D1.',
-      'El DKIM del wrapper del reportero se verifica en la ingesta. El SPF del MTA que conecta no se comprueba de forma independiente — Email Routing aceptó el salto. El DKIM de un forwarder es más débil que el del reportero firmando el wrapper.',
-      'Sin una copia del RFC822, un desconocido no puede volver a ejecutar DKIM. Sí puede recomputar la hoja a partir de las aperturas y comprobar la prueba Merkle.',
-      'La disponibilidad de las hojas es la base de datos del operador. Las raíces atestiguan inclusión, no que las hojas sigan disponibles.',
+      'El DKIM del wrapper del reportero se verifica en la ingesta. El SPF del MTA que conecta no. El DKIM de un forwarder es más débil que un wrapper firmado por el reportero.',
+      'Sin el RFC822 no se puede volver a ejecutar DKIM. La hoja y la prueba Merkle sí.',
+      'La disponibilidad de las hojas es la base de datos del operador. Las raíces atestiguan inclusión, no disponibilidad.',
     ],
-    furtherTitle: 'En la documentación',
     whyTitle: 'Evidencia, no autoridad',
-    whyBody: 'Por qué el registro publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
     whitepaperTitle: 'Whitepaper',
-    whitepaperBody:
-      'Cómo se captura y publica el historial confirmado de forma independiente.',
     protocolTitle: 'Protocolo',
-    protocolBody:
-      'La especificación abierta — árbol Merkle, codificación de hojas (testigo del wrapper en la hoja), fórmula de puntuación para aplicaciones, y raíces on-chain.',
     statusTitle: 'Estado',
-    statusBody: 'Qué está en vivo, qué espera al mundo, y qué viene después.',
     readWhitepaper: 'Leer el whitepaper',
     readStatus: 'Leer el estado',
   },

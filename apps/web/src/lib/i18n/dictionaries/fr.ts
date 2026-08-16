@@ -3,7 +3,11 @@ import type { Dictionary } from '../types';
 export const fr: Dictionary = {
   nav: {
     language: 'Langue',
-    publicRecords: 'Registres publics',
+    records: 'Registres',
+    docs: 'Docs',
+    menu: 'Menu',
+    openMenu: 'Ouvrir le menu',
+    closeMenu: 'Fermer le menu',
   },
   footer: {
     docs: 'Docs',
@@ -305,47 +309,39 @@ export const fr: Dictionary = {
       "PACT mesure l'historique de domaine vérifié de façon indépendante à partir des rapports agrégés DMARC. Ce n'est pas du KYC, pas un verdict qu'un domaine est légitime, pas une identité personnelle, et pas un substitut aux registres ou aux bureaux de crédit. Scores et seuils sont une politique d'application sur cet historique.",
   },
   docs: {
-    eyebrow: 'we build real',
     title: 'Docs',
     intro:
-      'Comment fonctionne le registre public. Ce qu’il liste. Comment un domaine en obtient un. Comment n’importe qui le vérifie. Le jugement reste dehors. Le protocole derrière le registre est PACT — ce site est la première implémentation de référence.',
+      'Le registre public de l’historique de domaine confirmé de façon indépendante. Le jugement reste dehors. Le protocole est PACT.',
     sections: [
       {
         title: 'Le registre',
-        body: 'Les systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — génèrent déjà des rapports agrégés DMARC. Un domaine rejoint en pointant un champ DNS existant vers cette implémentation. Rien ne change dans la façon dont il envoie du courrier.\n\nLa page publique liste ce qui s’est passé : jours confirmés de façon indépendante, rapports, organisations déclarantes, taux de réussite observé, feuilles, preuves Merkle et DKIM du wrapper. Elle n’affiche pas de score, d’étiquette Proven, ni de verdict.',
+        body: 'Les systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — génèrent déjà des rapports agrégés DMARC. Un domaine rejoint en pointant un champ DNS existant vers cette implémentation. Rien ne change dans la façon dont il envoie du courrier.\n\nLa page publique liste les jours confirmés de façon indépendante, les rapports, les organisations déclarantes, le taux de réussite observé, les feuilles, les preuves Merkle et le DKIM du wrapper. Elle n’affiche pas de score, d’étiquette Proven, ni de verdict.',
       },
       {
         title: 'Le jugement reste dehors',
-        body: 'Le registre est obstinément ennuyeux sur ce qui s’est passé. Une formule de score existe pour les applications qui choisissent d’interpréter. Les libellés d’activation tels que Proven sont une politique d’application. Le même historique peut alimenter des décisions différentes. Le registre ne décide pas qu’un domaine est légitime.',
+        body: 'Une formule de score existe pour les applications qui choisissent d’interpréter. Les libellés tels que Proven sont une politique d’application. Le registre ne décide pas qu’un domaine est légitime.',
       },
       {
         title: 'Comment un domaine obtient un registre',
-        body: 'Ajoutez une destination de rapports dans le DNS — rua@pact.webuildreal.dev. Des systèmes indépendants émettent déjà les rapports. Le registre public apparaît à l’arrivée du premier agrégé valide, souvent sous un jour ou deux. Rien d’autre à envoyer ici.',
+        body: 'Ajoutez rua@pact.webuildreal.dev comme destination de rapports dans le DNS. Des systèmes indépendants émettent déjà les rapports. Le registre apparaît à l’arrivée du premier agrégé valide, souvent sous un jour ou deux.',
       },
       {
         title: 'Comment n’importe qui vérifie',
-        body: 'Recalculez les feuilles publiées et la preuve d’inclusion contre la racine Merkle on-chain. Vous n’avez besoin ni de permission, ni d’une clé d’API, ni de la parole de l’opérateur pour cette vérification d’inclusion. Les ouvertures du wrapper — d=/sélecteur qui passe et keccak256 du RFC822 — sont sur la feuille publique pour que l’engagement puisse être recalculé. Le courrier lui-même n’est pas publié.',
+        body: 'Recalculez les feuilles publiées et la preuve d’inclusion contre la racine Merkle on-chain. Les ouvertures du wrapper — d=/sélecteur qui passe et keccak256 du RFC822 — sont sur la feuille publique. Le courrier n’est pas publié.',
       },
     ],
     limitsTitle: 'Limites honnêtes',
     limits: [
-      'Les racines sont sur Base Sepolia (testnet), avec un éditeur permissionné. Indépendamment vérifiable. Ce n’est pas Base mainnet, ni une publication permissionless.',
+      'Les racines sont sur Base Sepolia (testnet), éditeur permissionné — pas mainnet, pas permissionless.',
       'Le premier publishRoot attend la première feuille live après le basculement D1.',
-      'Le DKIM du wrapper rapporteur est vérifié à l’ingest. Le SPF du MTA connectant n’est pas vérifié de façon indépendante — Email Routing a accepté le saut. Le DKIM d’un forwarder est plus faible que celui du rapporteur signant le wrapper lui-même.',
-      'Sans une copie du RFC822, un inconnu ne peut pas relancer DKIM. Il peut toujours recalculer la feuille à partir des ouvertures et vérifier la preuve Merkle.',
-      'La disponibilité des feuilles est la base de l’opérateur. Les racines attestent l’inclusion, pas que les feuilles resteront disponibles.',
+      'Le DKIM du wrapper rapporteur est vérifié à l’ingest. Le SPF du MTA connectant ne l’est pas. Le DKIM d’un forwarder est plus faible qu’un wrapper signé par le rapporteur.',
+      'Sans le RFC822, DKIM ne peut pas être relancé. La feuille et la preuve Merkle le peuvent.',
+      'La disponibilité des feuilles est la base de l’opérateur. Les racines attestent l’inclusion, pas la disponibilité.',
     ],
-    furtherTitle: 'Dans la doc',
     whyTitle: 'De l’évidence, pas de l’autorité',
-    whyBody: 'Pourquoi le registre publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
     whitepaperTitle: 'Whitepaper',
-    whitepaperBody:
-      'Comment l’historique confirmé de façon indépendante est capturé et publié.',
     protocolTitle: 'Protocole',
-    protocolBody:
-      'La spécification ouverte — arbre de Merkle, encodage des feuilles (témoin du wrapper dans la feuille), formule de score pour les applications, et racines on-chain.',
     statusTitle: 'État',
-    statusBody: 'Ce qui est en ligne, ce qui attend le monde, et ce qui vient plus tard.',
     readWhitepaper: 'Lire le whitepaper',
     readStatus: 'Lire l’état',
   },
