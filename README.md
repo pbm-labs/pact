@@ -255,6 +255,11 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 - [ ] First `publishRoot` from ingest after a real leaf
 - [ ] Base mainnet
 
+**Leaf availability**
+- [ ] Content-addressed blobs (public object store) + CID with each `publishRoot`; D1 as query index only
+- [ ] IPFS pin of the same bytes
+- [ ] Independent third-party mirrors
+
 **Reporter mail (boundary 2)**
 - [x] DKIM-verify of Gmail/Microsoft wrapper mail (fail closed; forwarding-agent DKIM is weaker than the reporter's own signature)
 - [x] Wrapper witness in the leaf (`d=` / selector + keccak256 of the RFC822; RFC822 not published)

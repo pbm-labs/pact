@@ -284,9 +284,11 @@ export const en: Dictionary = {
     ],
     laterTitle: 'Later',
     laterItems: [
+      'Content-addressed leaf blobs — public object store plus a CID with each root; D1 stays the query index. Can ship on Sepolia; leaves do not go in the contract',
+      'IPFS pin of those blobs as a second retrieval path',
       'Base mainnet for PactRoots',
       'Permissionless publication',
-      'Independent leaf mirrors',
+      'Independent third-party leaf mirrors',
       'Velocity as a companion signal for applications',
       'Infrastructure-discontinuity monitoring (Signal)',
     ],

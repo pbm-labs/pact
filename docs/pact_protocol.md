@@ -670,7 +670,7 @@ function getLatestRoot()
 
 Leaf data is stored off-chain by one or more data providers. In v0.2, the reference implementation operates a single data provider. The on-chain root proves the leaf was committed; it does not guarantee that leaf data remains available. Verifiers SHOULD archive proofs they rely on.
 
-**Long-term availability (v0.3):** Content-addressed storage (IPFS or equivalent), replicated data provider sets, and data availability sampling are under consideration.
+**Long-term availability (v0.3):** Canonical leaf preimages as content-addressed blobs in a public object store, with the CID (or equivalent hash) published alongside each root. D1 remains a query index, not the sole copy. IPFS pinning and replicated third-party providers follow. Leaves are not stored in the root contract. Data availability sampling remains under consideration.
 
 ### 9.4 Governance and Permissionless Transition
 

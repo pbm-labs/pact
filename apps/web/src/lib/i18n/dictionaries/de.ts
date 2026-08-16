@@ -296,9 +296,11 @@ export const de: Dictionary = {
     ],
     laterTitle: 'Später',
     laterItems: [
+      'Content-addressed Leaves — öffentlicher Object Store plus CID mit jedem Root; D1 bleibt der Index. Geht auf Sepolia; Leaves kommen nicht in den Contract',
+      'IPFS-Pin derselben Blobs als zweiter Abrufweg',
       'Base-Mainnet für PactRoots',
       'Permissionless Publikation',
-      'Unabhängige Leaf-Spiegel',
+      'Unabhängige Leaf-Spiegel durch Dritte',
       'Velocity als Begleitsignal für Anwendungen',
       'Überwachung von Infrastruktur-Diskontinuitäten (Signal)',
     ],

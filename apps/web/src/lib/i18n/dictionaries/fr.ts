@@ -298,9 +298,11 @@ export const fr: Dictionary = {
     ],
     laterTitle: 'Plus tard',
     laterItems: [
+      'Feuilles adressées par contenu — dépôt public de blobs et un CID avec chaque racine ; D1 reste l’index. Possible sur Sepolia ; les feuilles n’entrent pas dans le contrat',
+      'Pin IPFS de ces blobs comme second chemin de récupération',
       'Base mainnet pour PactRoots',
       'Publication permissionless',
-      'Miroirs indépendants des feuilles',
+      'Miroirs indépendants des feuilles (tiers)',
       'La vélocité comme signal compagnon pour les applications',
       'Surveillance des discontinuités d’infrastructure (Signal)',
     ],

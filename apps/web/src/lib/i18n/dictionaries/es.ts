@@ -296,9 +296,11 @@ export const es: Dictionary = {
     ],
     laterTitle: 'Más adelante',
     laterItems: [
+      'Hojas direccionadas por contenido — almacén público de blobs y un CID con cada raíz; D1 sigue como índice. Puede ir en Sepolia; las hojas no van al contrato',
+      'Pin IPFS de esos blobs como segunda vía de recuperación',
       'Base mainnet para PactRoots',
       'Publicación sin permiso',
-      'Réplicas independientes de las hojas',
+      'Réplicas independientes de las hojas (terceros)',
       'Velocidad como señal compañera para aplicaciones',
       'Monitorización de discontinuidades de infraestructura (Signal)',
     ],
