@@ -1,9 +1,9 @@
 import { RoadmapView } from '@/components/roadmap-view';
 
 export const metadata = {
-  title: 'Roadmap — We build real',
+  title: 'Status — We build real',
   description:
-    'What PACT ships today and what’s next — wrapper witness in the leaf, Base Sepolia roots, mainnet next.',
+    'What is live, what is waiting on the first report, and what comes later. Roots are on Base Sepolia; the first publishRoot waits on a live leaf.',
   robots: { index: false, follow: false },
 };
 

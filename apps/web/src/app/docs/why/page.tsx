@@ -1,9 +1,9 @@
 import { WhyPactView } from '@/components/why-pact-view';
 
 export const metadata = {
-  title: 'What Makes PACT Different — We build real',
+  title: 'Evidence, not authority — We build real',
   description:
-    'Why PACT is evidence you can recheck — not another authority claim — and why that history cannot be manufactured after the fact.',
+    'Why PACT publishes what happened instead of asking you to trust a claim — and why that history cannot be manufactured after the fact.',
   robots: { index: false, follow: false },
 };
 

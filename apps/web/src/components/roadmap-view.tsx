@@ -18,22 +18,31 @@ export function RoadmapView() {
 
       <div className="space-y-12">
         <section>
-          <h2 className={`${sectionTitle} m-0 mb-4`}>{t.roadmap.nowTitle}</h2>
-          <ul className="m-0 pl-5 list-disc space-y-2 text-sm text-muted leading-relaxed">
-            {t.roadmap.nowItems.map((item) => (
+          <h2 className={`${sectionTitle} m-0 mb-4`}>{t.roadmap.liveTitle}</h2>
+          <ul className="m-0 pl-5 list-disc space-y-2 text-sm text-muted leading-relaxed max-w-xl">
+            {t.roadmap.liveItems.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
         </section>
 
         <section>
-          <h2 className={`${sectionTitle} m-0 mb-4`}>{t.roadmap.nextTitle}</h2>
-          <ul className="m-0 pl-5 list-disc space-y-2 text-sm text-muted leading-relaxed">
-            {t.roadmap.nextItems.map((item) => (
+          <h2 className={`${sectionTitle} m-0 mb-4`}>{t.roadmap.waitingTitle}</h2>
+          <ul className="m-0 pl-5 list-disc space-y-2 text-sm text-muted leading-relaxed max-w-xl">
+            {t.roadmap.waitingItems.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <p className="text-sm text-muted-2 leading-relaxed mt-4 m-0 max-w-xl">{t.roadmap.nextNote}</p>
+        </section>
+
+        <section>
+          <h2 className={`${sectionTitle} m-0 mb-4`}>{t.roadmap.laterTitle}</h2>
+          <ul className="m-0 pl-5 list-disc space-y-2 text-sm text-muted leading-relaxed max-w-xl">
+            {t.roadmap.laterItems.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p className="text-sm text-muted-2 leading-relaxed mt-4 m-0 max-w-xl">{t.roadmap.laterNote}</p>
         </section>
       </div>
     </PageShell>

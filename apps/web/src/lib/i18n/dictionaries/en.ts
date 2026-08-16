@@ -284,8 +284,8 @@ export const en: Dictionary = {
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
-    title: 'What Makes PACT Different',
-    intro: 'A two-minute note on evidence vs. authority — not the full protocol whitepaper.',
+    title: 'Evidence, not authority',
+    intro: 'A short note on why PACT publishes what happened instead of asking you to trust a claim.',
     body: WHY_PACT_MARKDOWN,
     scope:
       'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a verdict that a domain is legitimate, not a personal credential, and not a replacement for registries or credit bureaus. Scores and thresholds are application policy on top of that history.',
@@ -293,27 +293,55 @@ export const en: Dictionary = {
   docs: {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
-    intro: 'PACT is an open protocol. we build real is the movement. How it works, and why it’s different.',
-    whyTitle: 'What Makes PACT Different',
-    whyBody: 'A two-minute note on evidence vs. authority — the brief to read first.',
+    intro:
+      'PACT is an open protocol. we build real is the movement. This is the reference implementation — a public record of independently confirmed domain history. Judgement stays outside.',
+    sections: [
+      {
+        title: 'The record',
+        body: 'PACT publishes independently confirmed domain history from DMARC aggregate reports. Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate those reports. A domain joins by pointing an existing DNS field at PACT. Nothing about how it sends mail changes.\n\nThe public page lists what happened: days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, a Proven label, or a verdict.',
+      },
+      {
+        title: 'Judgement stays outside',
+        body: 'The protocol is stubbornly boring about what happened. A score formula exists for applications that choose to interpret. Activation labels such as Proven are application policy. The same history can feed different decisions. PACT does not decide that a domain is legitimate.',
+      },
+      {
+        title: 'How a domain gets a record',
+        body: 'Add PACT as a report destination in DNS — rua@pact.webuildreal.dev. Independent systems already emit the reports. The public record appears when the first valid aggregate arrives, usually within a day or two. There is nothing else to submit here.',
+      },
+      {
+        title: 'How anyone checks',
+        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root. You do not need permission, an API key, or the operator’s word for that inclusion check. Wrapper openings — passing d=/selector and keccak256 of the RFC822 — are on the public leaf so the commitment can be recomputed. The mail itself is not published.',
+      },
+    ],
+    limitsTitle: 'Honest limits',
+    limits: [
+      'Roots are on Base Sepolia (testnet), with a permissioned publisher. Independently checkable. Not Base mainnet, and not permissionless publication.',
+      'The first publishRoot waits on the first live leaf after the D1 cutover.',
+      'Reporter-wrapper DKIM is verified at ingest. SPF of the connecting MTA is not independently checked — Email Routing accepted the hop. Forwarder DKIM is weaker than the reporter signing the wrapper themselves.',
+      'Without a copy of the RFC822, a stranger cannot re-run DKIM. They can still recompute the leaf from the openings and check the Merkle proof.',
+      'Leaf availability is the operator’s database. Roots attest inclusion, not that leaves will remain available.',
+    ],
+    furtherTitle: 'Read further',
+    whyTitle: 'Evidence, not authority',
+    whyBody: 'Why PACT publishes what happened instead of asking you to trust a claim.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'The open protocol behind the public record — how independently confirmed history is captured and published.',
     protocolTitle: 'Protocol specification',
     protocolBody:
       'Normative spec — Merkle tree, leaf encoding (wrapper witness in the leaf), score formula for applications, and on-chain roots.',
-    roadmapTitle: 'Roadmap',
-    roadmapBody: 'What’s live today, and what’s next.',
+    statusTitle: 'Status',
+    statusBody: 'What is live, what is waiting on the world, and what comes later.',
     readWhitepaper: 'Read the whitepaper',
-    readRoadmap: 'Read the roadmap',
+    readStatus: 'Read status',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',
-    title: 'Roadmap',
+    title: 'Status',
     intro:
-      'Merkle roots are on Base Sepolia. Reporter-wrapper DKIM is live, and the wrapper witness is in the leaf. Next is the first on-chain publish after live reports, then Base mainnet.',
-    nowTitle: 'Live today',
-    nowItems: [
+      'The contract is live. Ingest is wired. The public record shows what happened. The first on-chain root waits on the first live report.',
+    liveTitle: 'Live today',
+    liveItems: [
       'Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools',
       'Automatic public-record creation on the first valid aggregate report',
       'Ingest fail-closed on reporter-wrapper DKIM (Gmail, Microsoft, Yahoo, Apple, and allowlisted forwarders)',
@@ -321,18 +349,22 @@ export const en: Dictionary = {
       'Append-only Merkle tree with publicly recomputable inclusion proofs',
       'Merkle roots on PactRoots / Base Sepolia (testnet, permissioned publisher)',
       'Public records ranked by independently confirmed history',
-      'Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs',
+      'Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge',
     ],
-    nextTitle: 'In active development',
-    nextItems: [
-      'First live leaves after D1 cutover, then the first publishRoot',
+    waitingTitle: 'Waiting on the world',
+    waitingItems: [
+      'First live leaves after the D1 cutover, then the first publishRoot. Ingest already writes a leaf and publishes a root when a valid report arrives.',
+    ],
+    laterTitle: 'Later',
+    laterItems: [
       'Base mainnet for PactRoots',
-      'Velocity as a companion signal to maturity',
+      'Permissionless publication',
+      'Independent leaf mirrors',
+      'Velocity as a companion signal for applications',
       'Infrastructure-discontinuity monitoring (Signal)',
-      'Broader multi-node / permissionless publication',
     ],
-    nextNote:
-      'None of these are required for today’s public verification to function. They extend what is already live.',
+    laterNote:
+      'Waiting on reports is operational, not a code task. Later items shrink remaining operator trust. None of them are required for a record to exist once reports arrive.',
   },
   legal: {
     eyebrow: 'Legal',

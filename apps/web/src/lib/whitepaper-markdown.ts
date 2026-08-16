@@ -203,19 +203,23 @@ The protocol boundary is absolute: PACT Protocol never crosses into message-leve
 - Append-only Merkle tree with publicly recomputable inclusion proofs
 - Merkle roots published to \`PactRoots\` on Base Sepolia (testnet; permissioned publisher). First \`publishRoot\` waits on the first leaf after the D1 cutover
 - Off-chain leaf availability via a public HTTP API (Cloudflare D1)
-- Public records ranked by verified history (days independently confirmed, then report count)
+- Public records ranked by independently confirmed history (days, then report count)
 - Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge
-- Unlisted documentation at \`/docs\` on the reference site (not linked from the homepage): a short note on what makes PACT different, this whitepaper, the roadmap, and the [protocol specification](https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md)
+- Documentation at \`/docs\` on the reference site: what the record is, honest limits, this whitepaper, status, and the [protocol specification](https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md)
 
-**In active development**
+**Waiting on the world**
 
-- First live leaves after D1 cutover, then the first \`publishRoot\`
+- First live leaves after D1 cutover, then the first \`publishRoot\`. Ingest already writes a leaf and publishes a root when a valid report arrives.
+
+**Later**
+
 - Base mainnet for \`PactRoots\`
-- Velocity as a companion signal to maturity
+- Permissionless publication
+- Independent leaf mirrors
+- Velocity as a companion signal for applications
 - Infrastructure-discontinuity monitoring (Signal)
-- Broader multi-node / permissionless publication
 
-None of the remaining roadmap items are required for today's public verification to function. They shrink remaining operator trust. The unlisted roadmap page tracks the same Now / Next split without duplicating the protocol specification.
+Waiting on reports is operational, not a code task. Later items shrink remaining operator trust. None of them are required for a record to exist once reports arrive. The status page at \`/docs/roadmap\` tracks the same split without duplicating the protocol specification.
 
 The reference implementation is operated under [we build real](https://webuildreal.dev) — the movement. PACT is an open protocol. PBM Labs LLC provides the first reference implementation. The protocol specification and this whitepaper are public. Third-party implementations are encouraged.
 

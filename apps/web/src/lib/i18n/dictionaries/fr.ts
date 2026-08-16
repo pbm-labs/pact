@@ -285,8 +285,8 @@ export const fr: Dictionary = {
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
-    title: 'Ce qui distingue PACT',
-    intro: "Une note de deux minutes sur l'évidence face à l'autorité — pas le whitepaper complet.",
+    title: 'De l’évidence, pas de l’autorité',
+    intro: 'Une note courte sur pourquoi PACT publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
     body: [
       "Chaque façon existante de prouver qu'une entreprise est réelle partage le même défaut : c'est l'*affirmation d'une autorité*, pas de l'*évidence*. Un rapport de bureau de crédit, une inscription au registre, un relevé bancaire, un historique LinkedIn — tous vous demandent de faire confiance à la vérification de quelqu'un d'autre. Aucun ne produit quelque chose qu'un inconnu peut vérifier lui-même, depuis les premiers principes, sans faire confiance à un gardien.",
       "Ce défaut était tolérable. Il ne l'est plus. L'IA générative n'a pas créé une nouvelle menace — elle a retiré la dernière chose qui rendait ces signaux chers à falsifier. Un domaine de dix ans, cinq ans de LinkedIn, un relevé convaincant : tout cela se fabrique désormais à bas coût. Les autorités n'ont pas empiré. Le coût de leur mentir s'est effondré.",
@@ -307,27 +307,55 @@ export const fr: Dictionary = {
   docs: {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
-    intro: 'PACT est un protocole ouvert. we build real est le mouvement. Comment ça fonctionne, et pourquoi c’est différent.',
-    whyTitle: 'Ce qui distingue PACT',
-    whyBody: "Une note de deux minutes sur l'évidence face à l'autorité — à lire en premier.",
+    intro:
+      'PACT est un protocole ouvert. we build real est le mouvement. Ceci est l’implémentation de référence — un registre public d’historique de domaine confirmé de façon indépendante. Le jugement reste dehors.',
+    sections: [
+      {
+        title: 'Le registre',
+        body: 'PACT publie un historique de domaine confirmé de façon indépendante à partir des rapports agrégés DMARC. Les systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — génèrent déjà ces rapports. Un domaine rejoint en pointant un champ DNS existant vers PACT. Rien ne change dans la façon dont il envoie du courrier.\n\nLa page publique liste ce qui s’est passé : jours confirmés de façon indépendante, rapports, organisations déclarantes, taux de réussite observé, feuilles, preuves Merkle et DKIM du wrapper. Elle n’affiche pas de score, d’étiquette Proven, ni de verdict.',
+      },
+      {
+        title: 'Le jugement reste dehors',
+        body: 'Le protocole est obstinément ennuyeux sur ce qui s’est passé. Une formule de score existe pour les applications qui choisissent d’interpréter. Les libellés d’activation tels que Proven sont une politique d’application. Le même historique peut alimenter des décisions différentes. PACT ne décide pas qu’un domaine est légitime.',
+      },
+      {
+        title: 'Comment un domaine obtient un registre',
+        body: 'Ajoutez PACT comme destination de rapports dans le DNS — rua@pact.webuildreal.dev. Des systèmes indépendants émettent déjà les rapports. Le registre public apparaît à l’arrivée du premier agrégé valide, souvent sous un jour ou deux. Rien d’autre à envoyer ici.',
+      },
+      {
+        title: 'Comment n’importe qui vérifie',
+        body: 'Recalculez les feuilles publiées et la preuve d’inclusion contre la racine Merkle on-chain. Vous n’avez besoin ni de permission, ni d’une clé d’API, ni de la parole de l’opérateur pour cette vérification d’inclusion. Les ouvertures du wrapper — d=/sélecteur qui passe et keccak256 du RFC822 — sont sur la feuille publique pour que l’engagement puisse être recalculé. Le courrier lui-même n’est pas publié.',
+      },
+    ],
+    limitsTitle: 'Limites honnêtes',
+    limits: [
+      'Les racines sont sur Base Sepolia (testnet), avec un éditeur permissionné. Indépendamment vérifiable. Ce n’est pas Base mainnet, ni une publication permissionless.',
+      'Le premier publishRoot attend la première feuille live après le basculement D1.',
+      'Le DKIM du wrapper rapporteur est vérifié à l’ingest. Le SPF du MTA connectant n’est pas vérifié de façon indépendante — Email Routing a accepté le saut. Le DKIM d’un forwarder est plus faible que celui du rapporteur signant le wrapper lui-même.',
+      'Sans une copie du RFC822, un inconnu ne peut pas relancer DKIM. Il peut toujours recalculer la feuille à partir des ouvertures et vérifier la preuve Merkle.',
+      'La disponibilité des feuilles est la base de l’opérateur. Les racines attestent l’inclusion, pas que les feuilles resteront disponibles.',
+    ],
+    furtherTitle: 'Lire la suite',
+    whyTitle: 'De l’évidence, pas de l’autorité',
+    whyBody: 'Pourquoi PACT publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       "Le protocole ouvert derrière le registre public — comment l'historique confirmé de façon indépendante est capturé et publié.",
     protocolTitle: 'Spécification du protocole',
     protocolBody:
       'Spécification normative — arbre de Merkle, encodage des feuilles (témoin du wrapper dans la feuille), formule de score pour les applications, et racines on-chain.',
-    roadmapTitle: 'Roadmap',
-    roadmapBody: "Ce qui est en ligne aujourd'hui, et ce qui vient ensuite.",
+    statusTitle: 'État',
+    statusBody: 'Ce qui est en ligne, ce qui attend le monde, et ce qui vient plus tard.',
     readWhitepaper: 'Lire le whitepaper',
-    readRoadmap: 'Lire la roadmap',
+    readStatus: 'Lire l’état',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',
-    title: 'Roadmap',
+    title: 'État',
     intro:
-      'Les racines Merkle sont sur Base Sepolia. Le DKIM du wrapper rapporteur est en ligne, et le témoin du wrapper est dans la feuille. Ensuite : première publication on-chain après des rapports réels, puis le mainnet.',
-    nowTitle: "En ligne aujourd'hui",
-    nowItems: [
+      'Le contrat est en ligne. L’ingest est câblé. Le registre public montre ce qui s’est passé. La première racine on-chain attend le premier rapport réel.',
+    liveTitle: "En ligne aujourd'hui",
+    liveItems: [
       'Connexion de domaine via OAuth Cloudflare, DNS manuel ou outils de reporting existants',
       'Création automatique du registre public dès le premier rapport agrégé valide',
       'Ingest fail-closed sur le DKIM du wrapper rapporteur (Gmail, Microsoft, Yahoo, Apple et forwarders sur liste)',
@@ -335,18 +363,22 @@ export const fr: Dictionary = {
       'Arbre de Merkle append-only avec preuves d’inclusion recomputables publiquement',
       'Racines Merkle sur PactRoots / Base Sepolia (testnet, éditeur permissionné)',
       'Registres publics classés par historique confirmé de façon indépendante',
-      'Pages par domaine avec horloges, taux de réussite observé, feuilles et preuves cryptographiques',
+      'Pages par domaine avec horloges, taux de réussite observé, feuilles et preuves cryptographiques — pas de score, d’étiquette Proven, ni de verdict',
     ],
-    nextTitle: 'En développement actif',
-    nextItems: [
-      'Premières feuilles live après le basculement D1, puis le premier publishRoot',
+    waitingTitle: 'En attente du monde',
+    waitingItems: [
+      'Premières feuilles live après le basculement D1, puis le premier publishRoot. L’ingest écrit déjà une feuille et publie une racine à l’arrivée d’un rapport valide.',
+    ],
+    laterTitle: 'Plus tard',
+    laterItems: [
       'Base mainnet pour PactRoots',
-      'La vélocité comme signal compagnon de la maturité',
+      'Publication permissionless',
+      'Miroirs indépendants des feuilles',
+      'La vélocité comme signal compagnon pour les applications',
       'Surveillance des discontinuités d’infrastructure (Signal)',
-      'Publication multi-nœuds / permissionless plus large',
     ],
-    nextNote:
-      'Aucun de ces points n’est requis pour que la vérification publique d’aujourd’hui fonctionne. Ils étendent ce qui est déjà en ligne.',
+    laterNote:
+      'Attendre des rapports est opérationnel, pas une tâche de code. Les points suivants réduisent la confiance opérateur restante. Aucun n’est requis pour qu’un registre existe une fois les rapports arrivés.',
   },
   legal: {
     eyebrow: 'Mentions légales',

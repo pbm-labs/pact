@@ -283,8 +283,8 @@ export const es: Dictionary = {
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
-    title: 'Qué hace diferente a PACT',
-    intro: 'Una nota de dos minutos sobre evidencia frente a autoridad — no el whitepaper completo.',
+    title: 'Evidencia, no autoridad',
+    intro: 'Una nota breve sobre por qué PACT publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
     body: [
       'Toda forma existente de probar que un negocio es real comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
       'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
@@ -305,27 +305,55 @@ export const es: Dictionary = {
   docs: {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
-    intro: 'PACT es un protocolo abierto. we build real es el movimiento. Cómo funciona, y por qué es diferente.',
-    whyTitle: 'Qué hace diferente a PACT',
-    whyBody: 'Una nota de dos minutos sobre evidencia frente a autoridad — léela primero.',
+    intro:
+      'PACT es un protocolo abierto. we build real es el movimiento. Esta es la implementación de referencia — un registro público del historial de dominio confirmado de forma independiente. El juicio queda fuera.',
+    sections: [
+      {
+        title: 'El registro',
+        body: 'PACT publica historial de dominio confirmado de forma independiente a partir de informes agregados DMARC. Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan esos informes. Un dominio se une apuntando un campo DNS existente a PACT. Nada cambia en cómo envía correo.\n\nLa página pública lista lo que ocurrió: días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
+      },
+      {
+        title: 'El juicio queda fuera',
+        body: 'El protocolo es tercamente aburrido sobre lo que ocurrió. Existe una fórmula de puntuación para las aplicaciones que elijan interpretar. Etiquetas de activación como Proven son política de aplicación. El mismo historial puede alimentar decisiones distintas. PACT no decide que un dominio sea legítimo.',
+      },
+      {
+        title: 'Cómo obtiene un dominio un registro',
+        body: 'Añade PACT como destino de informes en DNS — rua@pact.webuildreal.dev. Los sistemas independientes ya emiten los informes. El registro público aparece cuando llega el primer agregado válido, normalmente en uno o dos días. Aquí no hay que enviar nada más.',
+      },
+      {
+        title: 'Cómo lo comprueba cualquiera',
+        body: 'Recomputa las hojas publicadas y la prueba de inclusión contra la raíz Merkle on-chain. No hace falta permiso, una clave de API ni la palabra del operador para esa comprobación de inclusión. Las aperturas del wrapper — d=/selector que pasa y keccak256 del RFC822 — están en la hoja pública para que se pueda recomputar el compromiso. El correo en sí no se publica.',
+      },
+    ],
+    limitsTitle: 'Límites honestos',
+    limits: [
+      'Las raíces están en Base Sepolia (testnet), con un publicador con permiso. Independientemente comprobable. No es Base mainnet, ni publicación sin permiso.',
+      'El primer publishRoot espera a la primera hoja real tras el corte a D1.',
+      'El DKIM del wrapper del reportero se verifica en la ingesta. El SPF del MTA que conecta no se comprueba de forma independiente — Email Routing aceptó el salto. El DKIM de un forwarder es más débil que el del reportero firmando el wrapper.',
+      'Sin una copia del RFC822, un desconocido no puede volver a ejecutar DKIM. Sí puede recomputar la hoja a partir de las aperturas y comprobar la prueba Merkle.',
+      'La disponibilidad de las hojas es la base de datos del operador. Las raíces atestiguan inclusión, no que las hojas sigan disponibles.',
+    ],
+    furtherTitle: 'Seguir leyendo',
+    whyTitle: 'Evidencia, no autoridad',
+    whyBody: 'Por qué PACT publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'El protocolo abierto detrás del registro público — cómo se captura y publica el historial confirmado de forma independiente.',
     protocolTitle: 'Especificación del protocolo',
     protocolBody:
       'Especificación normativa — árbol Merkle, codificación de hojas (testigo del wrapper en la hoja), fórmula de puntuación para aplicaciones, y raíces on-chain.',
-    roadmapTitle: 'Roadmap',
-    roadmapBody: 'Qué está en vivo hoy, y qué viene después.',
+    statusTitle: 'Estado',
+    statusBody: 'Qué está en vivo, qué espera al mundo, y qué viene después.',
     readWhitepaper: 'Leer el whitepaper',
-    readRoadmap: 'Leer el roadmap',
+    readStatus: 'Leer el estado',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',
-    title: 'Roadmap',
+    title: 'Estado',
     intro:
-      'Las raíces Merkle están en Base Sepolia. El DKIM del wrapper del reportero está en vivo, y el testigo del wrapper está en la hoja. Sigue el primer publish on-chain tras informes reales, luego mainnet.',
-    nowTitle: 'En vivo hoy',
-    nowItems: [
+      'El contrato está en vivo. La ingesta está conectada. El registro público muestra lo que ocurrió. La primera raíz on-chain espera al primer informe real.',
+    liveTitle: 'En vivo hoy',
+    liveItems: [
       'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
       'Creación automática del registro público con el primer informe agregado válido',
       'Ingesta fail-closed con DKIM del wrapper del reportero (Gmail, Microsoft, Yahoo, Apple y forwarders en la lista)',
@@ -333,18 +361,22 @@ export const es: Dictionary = {
       'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
       'Raíces Merkle en PactRoots / Base Sepolia (testnet, publicador con permiso)',
       'Registros públicos ordenados por historial confirmado de forma independiente',
-      'Páginas por dominio con relojes, tasa de acierto observada, hojas y pruebas criptográficas',
+      'Páginas por dominio con relojes, tasa de acierto observada, hojas y pruebas criptográficas — sin puntuación, etiqueta Proven ni veredicto',
     ],
-    nextTitle: 'En desarrollo activo',
-    nextItems: [
-      'Primeras hojas reales tras el corte a D1, luego el primer publishRoot',
+    waitingTitle: 'Esperando al mundo',
+    waitingItems: [
+      'Primeras hojas reales tras el corte a D1, luego el primer publishRoot. La ingesta ya escribe una hoja y publica una raíz cuando llega un informe válido.',
+    ],
+    laterTitle: 'Más adelante',
+    laterItems: [
       'Base mainnet para PactRoots',
-      'Velocidad como señal compañera de la madurez',
+      'Publicación sin permiso',
+      'Réplicas independientes de las hojas',
+      'Velocidad como señal compañera para aplicaciones',
       'Monitorización de discontinuidades de infraestructura (Signal)',
-      'Publicación multi-nodo / sin permiso más amplia',
     ],
-    nextNote:
-      'Ninguno de estos puntos es necesario para que la verificación pública de hoy funcione. Extienden lo que ya está en vivo.',
+    laterNote:
+      'Esperar informes es operativo, no una tarea de código. Lo posterior reduce la confianza restante en el operador. Nada de ello es necesario para que exista un registro cuando lleguen informes.',
   },
   legal: {
     eyebrow: 'Legal',

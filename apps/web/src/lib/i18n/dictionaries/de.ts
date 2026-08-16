@@ -283,8 +283,8 @@ export const de: Dictionary = {
   },
   whyPact: {
     eyebrow: 'PACT Protocol',
-    title: 'Was PACT anders macht',
-    intro: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — nicht das vollständige Whitepaper.',
+    title: 'Evidenz, keine Autorität',
+    intro: 'Eine kurze Notiz, warum PACT veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
     body: [
       'Jede bestehende Art zu beweisen, dass ein Unternehmen echt ist, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
       'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
@@ -305,27 +305,55 @@ export const de: Dictionary = {
   docs: {
     eyebrow: 'PACT Protocol',
     title: 'Docs',
-    intro: 'PACT ist ein offenes Protokoll. we build real ist die Bewegung. Wie es funktioniert, und warum es anders ist.',
-    whyTitle: 'Was PACT anders macht',
-    whyBody: 'Eine Zwei-Minuten-Notiz zu Evidenz statt Autorität — zuerst lesen.',
+    intro:
+      'PACT ist ein offenes Protokoll. we build real ist die Bewegung. Dies ist die Referenzimplementierung — ein öffentlicher Eintrag unabhängig bestätigter Domain-Historie. Das Urteil bleibt draußen.',
+    sections: [
+      {
+        title: 'Der Eintrag',
+        body: 'PACT veröffentlicht unabhängig bestätigte Domain-Historie aus DMARC-Aggregatberichten. Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen diese Berichte bereits. Eine Domain tritt bei, indem sie ein bestehendes DNS-Feld auf PACT zeigt. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet, was geschehen ist: unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
+      },
+      {
+        title: 'Das Urteil bleibt draußen',
+        body: 'Das Protokoll ist stur langweilig darüber, was geschehen ist. Eine Score-Formel existiert für Anwendungen, die interpretieren wollen. Aktivierungslabels wie Proven sind Anwendungspolitik. Dieselbe Historie kann unterschiedliche Entscheidungen speisen. PACT entscheidet nicht, dass eine Domain legitim ist.',
+      },
+      {
+        title: 'Wie eine Domain einen Eintrag erhält',
+        body: 'Füge PACT als Berichtsziel in DNS hinzu — rua@pact.webuildreal.dev. Unabhängige Systeme senden die Berichte bereits. Der öffentliche Eintrag erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage. Hier ist nichts weiter abzusenden.',
+      },
+      {
+        title: 'Wie jede Person nachprüft',
+        body: 'Berechne die veröffentlichten Leaves und den Inklusionsnachweis gegen den On-Chain-Merkle-Root neu. Für diese Inklusionsprüfung brauchst du keine Erlaubnis, keinen API-Schlüssel und nicht das Wort des Betreibers. Wrapper-Öffnungen — bestandenes d=/Selektor und keccak256 des RFC822 — stehen auf dem öffentlichen Leaf, damit die Commitment neu berechnet werden kann. Die Mail selbst wird nicht veröffentlicht.',
+      },
+    ],
+    limitsTitle: 'Ehrliche Grenzen',
+    limits: [
+      'Roots sind auf Base Sepolia (Testnet), mit einem permissionierten Publisher. Unabhängig prüfbar. Nicht Base Mainnet, und keine permissionless Publikation.',
+      'Der erste publishRoot wartet auf das erste Live-Leaf nach dem D1-Cutover.',
+      'DKIM des Reporter-Wrappers wird beim Ingest geprüft. SPF des verbindenden MTA wird nicht unabhängig geprüft — Email Routing hat den Hop akzeptiert. Forwarder-DKIM ist schwächer als wenn der Reporter den Wrapper selbst signiert.',
+      'Ohne eine Kopie des RFC822 kann ein Fremder DKIM nicht erneut ausführen. Er kann das Leaf aus den Öffnungen neu berechnen und den Merkle-Nachweis prüfen.',
+      'Die Verfügbarkeit der Leaves ist die Datenbank des Betreibers. Roots bezeugen Inklusion, nicht dass Leaves verfügbar bleiben.',
+    ],
+    furtherTitle: 'Weiterlesen',
+    whyTitle: 'Evidenz, keine Autorität',
+    whyBody: 'Warum PACT veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
       'Das offene Protokoll hinter dem öffentlichen Eintrag — wie unabhängig bestätigte Historie erfasst und veröffentlicht wird.',
     protocolTitle: 'Protokollspezifikation',
     protocolBody:
       'Normative Spezifikation — Merkle-Baum, Blattkodierung (Wrapper-Zeugnis im Leaf), Score-Formel für Anwendungen und On-Chain-Roots.',
-    roadmapTitle: 'Roadmap',
-    roadmapBody: 'Was heute live ist — und was als Nächstes kommt.',
+    statusTitle: 'Status',
+    statusBody: 'Was live ist, was auf die Welt wartet, und was später kommt.',
     readWhitepaper: 'Whitepaper lesen',
-    readRoadmap: 'Roadmap lesen',
+    readStatus: 'Status lesen',
   },
   roadmap: {
     eyebrow: 'PACT Protocol',
-    title: 'Roadmap',
+    title: 'Status',
     intro:
-      'Merkle-Roots sind auf Base Sepolia. DKIM der Reporter-Wrapper ist live, und das Wrapper-Zeugnis ist im Leaf. Als Nächstes: erster On-Chain-Publish nach Live-Reports, dann Mainnet.',
-    nowTitle: 'Heute live',
-    nowItems: [
+      'Der Vertrag ist live. Ingest ist verdrahtet. Der öffentliche Eintrag zeigt, was geschehen ist. Der erste On-Chain-Root wartet auf den ersten Live-Bericht.',
+    liveTitle: 'Heute live',
+    liveItems: [
       'Domain-Verbindung über Cloudflare OAuth, manuelles DNS oder bestehende Reporting-Tools',
       'Automatische Erstellung des öffentlichen Eintrags beim ersten gültigen Aggregatbericht',
       'Ingest fail-closed auf DKIM des Reporter-Wrappers (Gmail, Microsoft, Yahoo, Apple und allowlistete Forwarder)',
@@ -333,18 +361,22 @@ export const de: Dictionary = {
       'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
       'Merkle-Roots auf PactRoots / Base Sepolia (Testnet, permissionierter Publisher)',
       'Öffentliche Einträge nach unabhängig bestätigter Historie sortiert',
-      'Domain-Seiten mit Uhren, beobachteter Erfolgsquote, Leaves und kryptografischen Nachweisen',
+      'Domain-Seiten mit Uhren, beobachteter Erfolgsquote, Leaves und kryptografischen Nachweisen — kein Score, kein Proven-Label, kein Verdikt',
     ],
-    nextTitle: 'In aktiver Entwicklung',
-    nextItems: [
-      'Erste Live-Leaves nach dem D1-Cutover, dann der erste publishRoot',
+    waitingTitle: 'Wartet auf die Welt',
+    waitingItems: [
+      'Erste Live-Leaves nach dem D1-Cutover, dann der erste publishRoot. Ingest schreibt bereits ein Leaf und veröffentlicht einen Root, sobald ein gültiger Bericht eintrifft.',
+    ],
+    laterTitle: 'Später',
+    laterItems: [
       'Base-Mainnet für PactRoots',
-      'Velocity als Begleitsignal zur Maturity',
+      'Permissionless Publikation',
+      'Unabhängige Leaf-Spiegel',
+      'Velocity als Begleitsignal für Anwendungen',
       'Überwachung von Infrastruktur-Diskontinuitäten (Signal)',
-      'Breitere Multi-Node- / permissionless Publikation',
     ],
-    nextNote:
-      'Nichts davon ist für die heutige öffentliche Verifikation erforderlich. Sie erweitern, was bereits live ist.',
+    laterNote:
+      'Auf Berichte zu warten ist operativ, keine Code-Aufgabe. Spätere Punkte verringern verbleibendes Betreibervertrauen. Keines davon ist nötig, damit ein Eintrag existiert, sobald Berichte eintreffen.',
   },
   legal: {
     eyebrow: 'Rechtliches',

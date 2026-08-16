@@ -37,7 +37,7 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
 
       <p className="mt-12 m-0">
         <Link href={routes.docsRoadmap} className="text-sm font-semibold text-accent no-underline hover:opacity-90">
-          {t.docs.readRoadmap}
+          {t.docs.readStatus}
         </Link>
       </p>
     </PageShell>
