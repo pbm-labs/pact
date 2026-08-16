@@ -19,11 +19,11 @@ import {
 } from './badge-dimensions';
 import { parsePreviewState, snapshotFromRecord } from './badge-state';
 
-describe('badge-dimensions (Split Pill v1)', () => {
+describe('badge-dimensions (Split Pill pointer)', () => {
   describe('constants', () => {
     it('exposes a stable height + fixed left half', () => {
       expect(BADGE_HEIGHT).toBe(32);
-      expect(LEFT_W).toBeGreaterThan(0);
+      expect(LEFT_W).toBe(104);
     });
 
     it('ships sane inner-layout primitives', () => {
@@ -35,10 +35,9 @@ describe('badge-dimensions (Split Pill v1)', () => {
       expect(STATE_W_RESERVED).toBeGreaterThanOrEqual(longest * 6);
     });
 
-    it('exposes one state word per public tier', () => {
-      expect(STATE_WORDS.verified).toBe('Proven');
-      expect(STATE_WORDS.building).toBe('Building');
-      expect(Object.keys(STATE_WORDS)).toHaveLength(2);
+    it('renders a pointer, not a verdict', () => {
+      expect(STATE_WORDS.record).toBe('record');
+      expect(Object.keys(STATE_WORDS)).toHaveLength(1);
     });
   });
 
@@ -52,11 +51,11 @@ describe('badge-dimensions (Split Pill v1)', () => {
       expect(BADGE_THEMES.light.border).toBe('#e0e0ec');
     });
 
-    it('keeps Proven green and Building amber', () => {
-      expect(STATE_PALETTES.verified.bg).toBe('#16a34a');
-      expect(STATE_PALETTES.verified.fg).toBe('#ffffff');
-      expect(STATE_PALETTES.building.bg).toBe('#d97706');
-      expect(STATE_PALETTES.building.fg).toBe('#ffffff');
+    it('keeps the left half neutral, not green or amber', () => {
+      expect(STATE_PALETTES.record.bg).toBe('#4a4a68');
+      expect(STATE_PALETTES.record.fg).toBe('#ffffff');
+      expect(STATE_PALETTES.record.bg).not.toBe('#16a34a');
+      expect(STATE_PALETTES.record.bg).not.toBe('#d97706');
     });
 
     it('defaults to dark', () => {
@@ -123,31 +122,26 @@ describe('badge-dimensions (Split Pill v1)', () => {
 });
 
 describe('badge-state', () => {
-  it('parsePreviewState accepts marketing aliases', () => {
-    expect(parsePreviewState('verified')).toBe('verified');
-    expect(parsePreviewState('proven')).toBe('verified');
-    expect(parsePreviewState('building')).toBe('building');
+  it('parsePreviewState ignores verdict aliases', () => {
+    expect(parsePreviewState('verified')).toBeNull();
+    expect(parsePreviewState('proven')).toBeNull();
+    expect(parsePreviewState('building')).toBeNull();
     expect(parsePreviewState('unknown')).toBeNull();
     expect(parsePreviewState(null)).toBeNull();
   });
 
-  it('snapshotFromRecord fails closed without a record or leaves', () => {
+  it('snapshotFromRecord is a pointer, never a verdict', () => {
     expect(snapshotFromRecord({ found: false, leafCount: 0 })).toEqual({
-      state: 'building',
+      state: 'record',
       count: 0,
     });
     expect(snapshotFromRecord({ found: true, leafCount: 0 })).toEqual({
-      state: 'building',
+      state: 'record',
       count: 0,
     });
-  });
-
-  it('snapshotFromRecord maps activated trust to Proven', () => {
-    expect(
-      snapshotFromRecord({ found: true, leafCount: 12, status: 'activated' }),
-    ).toEqual({ state: 'verified', count: 12 });
-    expect(
-      snapshotFromRecord({ found: true, leafCount: 12, status: 'provisional' }),
-    ).toEqual({ state: 'building', count: 12 });
+    expect(snapshotFromRecord({ found: true, leafCount: 12 })).toEqual({
+      state: 'record',
+      count: 12,
+    });
   });
 });

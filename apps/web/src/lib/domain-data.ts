@@ -1,7 +1,5 @@
 import {
-  computeTrustScore,
   normalizeDomain,
-  formatScoreForDisplay,
   byteaToHash,
   type Hash,
 } from '@pact/core';
@@ -12,7 +10,6 @@ import {
   ledgerConfigured,
 } from '@/lib/ledger';
 import { ensureDomainRegisteredAt } from '@/lib/ledger-admin';
-import { scoreBandKey } from '@/lib/trust-display';
 
 export interface DomainLeafSummary {
   reporterOrg: string;
@@ -35,7 +32,7 @@ export interface DomainLiveData {
   connectedSince: string | null;
   domainRegisteredAt: string | null;
   pactHistoryStart: string | null;
-  trust: ReturnType<typeof computeTrustScore>;
+  pactAgeDays: number;
   totalFailCount: number;
   uniqueReporters: number;
   passRate: number;
@@ -75,14 +72,14 @@ function pactHistoryStartFromLeaves(
   return new Date();
 }
 
+function pactAgeDaysFrom(start: Date, asOf = new Date()): number {
+  return Math.max(0, (asOf.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+}
+
 export interface DomainSummary {
   domain: string;
   domainRegisteredAt?: string | null;
   status: 'waiting' | 'live';
-  trustScore?: number;
-  trustScoreDisplay?: number;
-  trustScoreBand?: string;
-  trustStatus?: 'provisional' | 'activated';
   pactAgeDays?: number;
   leafCount?: number;
   uniqueReporterCount?: number;
@@ -112,28 +109,14 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         };
       }
 
-      const totalPassCount = domainLeaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
       const reporters = new Set(domainLeaves.map((l) => l.reporter_org));
       const pactHistoryStart = pactHistoryStartFromLeaves(domainLeaves, row.connected_at);
-
-      const trust = computeTrustScore({
-        totalPassCount,
-        leafCount: domainLeaves.length,
-        reportingOrgsCount: reporters.size,
-        pactHistoryStart,
-        domainRegisteredAt: domainRegisteredAt ? new Date(domainRegisteredAt) : null,
-      });
-      const display = formatScoreForDisplay(trust.score);
 
       return {
         domain: row.domain,
         domainRegisteredAt,
         status: 'live' as const,
-        trustScore: trust.score,
-        trustScoreDisplay: display.displayScore,
-        trustScoreBand: scoreBandKey(trust.score, display.band),
-        trustStatus: trust.status,
-        pactAgeDays: trust.pactAgeDays,
+        pactAgeDays: pactAgeDaysFrom(pactHistoryStart),
         leafCount: domainLeaves.length,
         uniqueReporterCount: reporters.size,
       };
@@ -147,9 +130,6 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
       const leavesA = a.leafCount ?? 0;
       const leavesB = b.leafCount ?? 0;
       if (leavesB !== leavesA) return leavesB - leavesA;
-      const scoreA = a.trustScore ?? -1;
-      const scoreB = b.trustScore ?? -1;
-      if (scoreB !== scoreA) return scoreB - scoreA;
       return a.domain.localeCompare(b.domain);
     });
 }
@@ -184,14 +164,6 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
   const pactHistoryStart = pactHistoryStartFromLeaves(leaves, payload.domain.connected_at);
 
-  const trust = computeTrustScore({
-    totalPassCount,
-    leafCount: leaves.length,
-    reportingOrgsCount: reporters.size,
-    pactHistoryStart,
-    domainRegisteredAt: domainRegisteredAt ? new Date(domainRegisteredAt) : null,
-  });
-
   const latestRoot = payload.onChain?.root ?? null;
   const computedRoot = merkleContext?.root ?? null;
   const rootMatchesPublished =
@@ -207,7 +179,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       connectedSince: payload.domain.connected_at ?? null,
       domainRegisteredAt,
       pactHistoryStart: pactHistoryStart.toISOString(),
-      trust,
+      pactAgeDays: pactAgeDaysFrom(pactHistoryStart),
       totalFailCount,
       uniqueReporters: reporters.size,
       passRate,

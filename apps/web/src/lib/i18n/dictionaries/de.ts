@@ -166,7 +166,7 @@ export const de: Dictionary = {
     next2: 'Sie bestätigt still, dass alles in Ordnung ist.',
     next3: 'Diese Seite aktualisiert sich von allein — nichts zu klicken.',
     historyIntro:
-      'Unabhängig bestätigte Historie, Tag für Tag ehrlich aufgebaut.',
+      'Unabhängig bestätigte Historie, die jeder nachprüfen kann.',
     scoreIntro:
       'Unabhängig bestätigte Historie mit einem Vertrauenswert, der widerspiegelt, wie lange und wie breit sie verifiziert wurde.',
     timeVerified: 'Verifizierte Zeit',
@@ -333,7 +333,7 @@ export const de: Dictionary = {
       'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
       'Merkle-Roots auf PactRoots / Base Sepolia (Testnet, permissionierter Publisher)',
       'Öffentliche Einträge nach verifizierter Historie sortiert',
-      'Domain-Seiten mit Uhren, Aktivität und technischer Verifikation',
+      'Domain-Seiten mit Uhren, beobachteter Erfolgsquote, Leaves und kryptografischen Nachweisen',
     ],
     nextTitle: 'In aktiver Entwicklung',
     nextItems: [

@@ -167,7 +167,7 @@ export const en: Dictionary = {
     next2: 'It quietly confirms everything checks out.',
     next3: 'This page updates on its own — nothing to click.',
     historyIntro:
-      'Independently confirmed history, building one honest day at a time.',
+      'Independently confirmed history anyone can recheck.',
     scoreIntro:
       'Independently confirmed history, with a trust score that reflects how long and how widely it has been verified.',
     timeVerified: 'Time verified',
@@ -321,7 +321,7 @@ export const en: Dictionary = {
       'Append-only Merkle tree with publicly recomputable inclusion proofs',
       'Merkle roots on PactRoots / Base Sepolia (testnet, permissioned publisher)',
       'Public records ranked by verified history',
-      'Per-domain pages with clocks, activity, and technical verification',
+      'Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs',
     ],
     nextTitle: 'In active development',
     nextItems: [

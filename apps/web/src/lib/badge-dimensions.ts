@@ -1,15 +1,13 @@
-// Badge layout constants for the Split Pill (ETag: v4).
+// Badge layout constants for the Split Pill (ETag: v5).
 //
 //   ┌──────────────────┬──────────────────┐
-//   │  ✓  Proven       │     acme.com     │
+//   │     record       │     acme.com     │
 //   └──────────────────┴──────────────────┘
-//      tinted (state)        site surface (theme-aware)
+//      muted (pointer)       site surface (theme-aware)
 //
-// LEFT  — variable status. Background changes with the tier
-//         (green for Proven, amber for Building) and carries
-//         the state icon + state word. Fixed width so a Proven
-//         badge and a Building badge for the same domain share
-//         the exact same canvas — no reflow on graduation.
+// LEFT  — a pointer, not a verdict. Fixed width so existing email
+//         signatures that already pasted this image do not reflow
+//         when the word changed from "Proven" / "Building".
 // RIGHT — the domain itself. Theme-aware surface + text from the
 //         site tokens. Dark is a lifted charcoal so the pill reads
 //         on the site preview and in a light email client.
@@ -26,9 +24,9 @@ import type { BadgeState } from '@/lib/badge-state';
 
 export const BADGE_HEIGHT = 32;
 
-// LEFT half is a constant 104px — wide enough for the longest state
-// word ("Building") + icon + pads, with slack so "Proven" and
-// "Building" share the same left canvas.
+// LEFT half is a constant 104px — wide enough for the longest word
+// that used to live here ("Building"), so pasted signatures keep
+// the same canvas.
 export const LEFT_W = 104;
 
 export const PAD_L = 10;
@@ -40,12 +38,10 @@ const CHAR_W = 7.8;
 
 // English-only on purpose: badges live in email signatures that cross
 // locale boundaries, and an `<img>` URL isn't a reliable place to derive
-// a caller locale. `verified` is the internal state key (matches
-// `?preview=verified`); the rendered word is "Proven" to match the
-// public record page.
+// a caller locale. The left word is "record" — a pointer to the page,
+// not a Proven / Building verdict.
 export const STATE_WORDS: Record<BadgeState, string> = {
-  verified: 'Proven',
-  building: 'Building',
+  record: 'record',
 };
 
 const STATE_WORD_MAX_CHARS = Math.max(
@@ -82,17 +78,12 @@ export interface BadgeStatePalette {
   iconNotch: string;
 }
 
-/** Proven / Building fills — site `--verified` / `--amber` (light tokens, white type). */
+/** Neutral fill — not green, not amber. This is a pointer, not a verdict. */
 export const STATE_PALETTES: Record<BadgeState, BadgeStatePalette> = {
-  verified: {
-    bg: '#16a34a',
+  record: {
+    bg: '#4a4a68',
     fg: '#ffffff',
-    iconNotch: '#16a34a',
-  },
-  building: {
-    bg: '#d97706',
-    fg: '#ffffff',
-    iconNotch: '#d97706',
+    iconNotch: '#4a4a68',
   },
 };
 

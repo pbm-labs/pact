@@ -24,20 +24,19 @@ import {
   type BadgeState,
 } from '@/lib/badge-state';
 
-// Split Pill (ETag: v4).
+// Split Pill (ETag: v5).
 //
 //   ┌──────────────────┬──────────────────┐
-//   │  ✓  Proven       │     acme.com     │
+//   │     record       │     acme.com     │
 //   └──────────────────┴──────────────────┘
 //
-// LEFT half  — state-tinted bg (green for Proven, amber for Building)
-//              + white icon + white state word. Constant 104px.
+// LEFT half  — muted pointer, not a verdict. Constant 104px so
+//              existing email signatures do not reflow.
 // RIGHT half — theme-aware site surface + monospace domain text.
 //              Width adapts to the domain. Brand attribution lives
 //              in the click target (`webuildreal.dev/records/<domain>`).
 //
 // `?theme=light|dark` flips the RIGHT half palette. Default is `dark`.
-// LEFT half does NOT theme — the saturated state color IS the identity.
 
 const H = BADGE_HEIGHT;
 const R = BADGE_HEIGHT / 2;
@@ -89,10 +88,6 @@ function esc(s: string): string {
   });
 }
 
-function stateAria(state: BadgeState): string {
-  return STATE_WORDS[state].toLowerCase();
-}
-
 function renderSvg(domain: string, state: BadgeState, theme: BadgeTheme): string {
   const p = STATE_PALETTES[state];
   const t = BADGE_THEMES[theme];
@@ -109,19 +104,11 @@ function renderSvg(domain: string, state: BadgeState, theme: BadgeTheme): string
   const baselineY = H / 2 + 4.5;
   const textFont = `font-family="ui-monospace, 'SF Mono', 'IBM Plex Mono', 'JetBrains Mono', 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" letter-spacing="-0.01em"`;
 
-  let iconEl: string;
-  if (state === 'verified') {
-    const check = `M ${iconCX - 3.5} ${iconCY} L ${iconCX - 1} ${iconCY + 2.5} L ${iconCX + 3.5} ${iconCY - 2.5}`;
-    iconEl = `
-    <circle cx="${iconCX}" cy="${iconCY}" r="${iconR}" fill="${p.fg}"/>
-    <path d="${check}" stroke="${p.iconNotch}" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
-  } else {
-    iconEl = `
+  const iconEl = `
     <circle cx="${iconCX}" cy="${iconCY}" r="${iconR}" fill="${p.fg}"/>
     <circle cx="${iconCX}" cy="${iconCY}" r="1.6" fill="${p.iconNotch}"/>`;
-  }
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="we build real badge: ${esc(domain)} (${stateAria(state)})">
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="we build real record: ${esc(domain)}">
   <defs>
     <clipPath id="pill">
       <rect x="0" y="0" width="${W}" height="${H}" rx="${R}" ry="${R}"/>
@@ -156,25 +143,12 @@ function renderPng(
   const iconD2x = ICON_D * 2;
   const iconR2x = iconD2x / 2;
 
-  const iconNode =
-    state === 'verified' ? (
-      <svg width={iconD2x} height={iconD2x} viewBox={`0 0 ${iconD2x} ${iconD2x}`}>
-        <circle cx={iconR2x} cy={iconR2x} r={iconR2x} fill={p.fg} />
-        <path
-          d={`M ${iconR2x - 7} ${iconR2x} L ${iconR2x - 2} ${iconR2x + 5} L ${iconR2x + 7} ${iconR2x - 5}`}
-          stroke={p.iconNotch}
-          strokeWidth="3.6"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ) : (
-      <svg width={iconD2x} height={iconD2x} viewBox={`0 0 ${iconD2x} ${iconD2x}`}>
-        <circle cx={iconR2x} cy={iconR2x} r={iconR2x} fill={p.fg} />
-        <circle cx={iconR2x} cy={iconR2x} r="3.2" fill={p.iconNotch} />
-      </svg>
-    );
+  const iconNode = (
+    <svg width={iconD2x} height={iconD2x} viewBox={`0 0 ${iconD2x} ${iconD2x}`}>
+      <circle cx={iconR2x} cy={iconR2x} r={iconR2x} fill={p.fg} />
+      <circle cx={iconR2x} cy={iconR2x} r="3.2" fill={p.iconNotch} />
+    </svg>
+  );
 
   const fonts = IBM_PLEX_MONO_BOLD
     ? [
@@ -200,7 +174,7 @@ function renderPng(
           fontFamily: 'monospace',
           boxSizing: 'border-box',
         }}
-        aria-label={`we build real badge: ${domain} (${stateAria(state)})`}
+        aria-label={`we build real record: ${domain}`}
       >
         <div
           style={{
@@ -268,7 +242,7 @@ function cacheHeaders(
   format: 'svg' | 'png',
   theme: BadgeTheme,
 ): Record<string, string> {
-  const etag = `W/"${snapshot.state}-${theme}-${format}-v4"`;
+  const etag = `W/"${snapshot.state}-${theme}-${format}-v5"`;
   return {
     'Cache-Control':
       'public, max-age=60, s-maxage=120, stale-while-revalidate=3600',

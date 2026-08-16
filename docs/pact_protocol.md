@@ -498,14 +498,14 @@ Two score presentations are defined:
 
 | Score | Formula | Label | Intended use |
 |-------|---------|-------|----------------|
-| **Raw score** | `T(d,t)` | "Provisional" / "Building" when `A(d,t) < 0.5` | Public transparency pages, early signal |
-| **Activated score** | `T(d,t)` when `A(d,t) ≥ 0.5`; otherwise omitted or flagged | "Activated" / "Proven" | Third-party reliance, compliance submissions |
+| **Raw score** | `T(d,t)` | "Provisional" / "Building" when `A(d,t) < 0.5` | Application early signal |
+| **Activated score** | `T(d,t)` when `A(d,t) ≥ 0.5`; otherwise omitted or flagged | "Activated" / "Proven" | Application third-party reliance, compliance submissions |
 
-The activation threshold `A(d,t) ≥ 0.5` corresponds to approximately 139 days of continuous history. Implementations MUST display provisional status clearly when `A(d,t) < 0.5`.
+The activation threshold `A(d,t) ≥ 0.5` corresponds to approximately 139 days of continuous history. Implementations that present a score MUST display provisional status clearly when `A(d,t) < 0.5`.
 
 Applications using PACT define their own acceptance thresholds. The protocol does not enforce any threshold.
 
-The public reference UI leads with verified history (days, reports, reporting organizations) and treats the scaled score as a technical verification detail until the signal is meaningful (`pact-display-0.1`, §4.6).
+The public reference UI does not present a score, activation label, or verdict badge. It publishes what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Score and activation labels are application policy (`pact-display-0.1`, §4.6).
 
 ### 4.5 Trust Score Interpretation
 
@@ -543,6 +543,8 @@ DISPLAY MAPPING (raw T → 0-100 shown to humans)
 The display layer MUST never round a nonzero raw score down to a 0/100 display value. The label **"No history yet"** is reserved exclusively for `T = 0`.
 
 Changing how people see the score MUST NOT rewrite what was measured. Display mapping version MAY change without recomputing stored raw scores.
+
+The public reference UI does not apply this display layer. Applications that present a score MUST follow it.
 
 ### 4.7 Communicating Progress, Not Just Position
 
@@ -1015,7 +1017,7 @@ An empty list hashes `keccak256('')`. Live ingest MUST NOT accept a report whose
 | Leaf granularity | One leaf per `(domain, period, reporter)` with row aggregation |
 | Merkle tree | 32-level keccak256 sparse tree with proof format (§3.3.1) |
 | Trust diversity | `min(1, reportingOrgs / leafCount)` — `pact-score-0.1` |
-| Trust presentation | Provisional vs. activated; public UI leads with history |
+| Trust presentation | Score and activation labels are application policy; public UI publishes what happened |
 | On-chain roots | `PactRoots` on Base Sepolia (testnet, permissioned publisher) |
 | Leaf availability | Off-chain (D1 + HTTP API); roots attest inclusion only |
 | Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked). Wrapper keccak256 and passing `d=` / `s=` are in the leaf (C.5); RFC822 not published |

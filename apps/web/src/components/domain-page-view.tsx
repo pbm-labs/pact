@@ -1,25 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import type { TrustScoreProgress } from '@pact/core';
-import { BadgeEmbed } from '@/components/badge-embed';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
-import { PathToProven } from '@/components/path-to-proven';
 import { SharePublicRecord } from '@/components/share-public-record';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
-import { ScoreGauge } from '@/components/score-gauge';
 import type { DomainLiveData, DomainPageState } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
 import {
-  formatScoreProgressHint,
-  localizeBandLabel,
-  type ScoreBandKey,
-} from '@/lib/trust-display';
-import {
   badgeAmber,
-  badgeVerified,
   btnPrimary,
   eyebrow,
   pageIntro,
@@ -30,65 +20,31 @@ import {
   statValue,
 } from '@/lib/ui';
 
-export type DomainLiveScoreView = {
-  rawScore: number;
-  displayScore: number;
-  bandKey: ScoreBandKey;
-  showScore: boolean;
-  progress: TrustScoreProgress;
-  verifiedDays: number;
-};
-
 interface DomainPageViewProps {
   domain: string;
   state: DomainPageState | null;
-  liveScore: DomainLiveScoreView | null;
   unconfigured: boolean;
-}
-
-function MathRow({ label, value }: { label: string; value: string }) {
-  return (
-    <tr className="border-b border-border last:border-0">
-      <th className="text-left font-medium px-3 py-1.5 text-muted-2 whitespace-nowrap w-[9rem]">
-        {label}
-      </th>
-      <td className="px-3 py-1.5 font-mono tabular-nums">{value}</td>
-    </tr>
-  );
 }
 
 function Stat({
   value,
   label,
   sub,
-  dim = false,
 }: {
   value: string;
   label: string;
   sub?: string;
-  dim?: boolean;
 }) {
   return (
     <div className="rounded-xl border border-border bg-surface px-4 py-4">
-      <p
-        className={`${statValue} ${dim ? 'text-muted-2' : 'text-txt'}`}
-      >
-        {value}
-      </p>
+      <p className={`${statValue} text-txt`}>{value}</p>
       <p className="text-xs font-semibold text-txt mt-2">{label}</p>
-      {sub && (
-        <p className="text-xs text-muted-2 mt-0.5 leading-tight">{sub}</p>
-      )}
+      {sub && <p className="text-xs text-muted-2 mt-0.5 leading-tight">{sub}</p>}
     </div>
   );
 }
 
-export function DomainPageView({
-  domain,
-  state,
-  liveScore,
-  unconfigured,
-}: DomainPageViewProps) {
+export function DomainPageView({ domain, state, unconfigured }: DomainPageViewProps) {
   if (unconfigured) {
     return <UnconfiguredPage domain={domain} />;
   }
@@ -107,11 +63,7 @@ export function DomainPageView({
     );
   }
 
-  if (!liveScore) {
-    return <UnknownDomainPage domain={domain} />;
-  }
-
-  return <LivePage data={state.data} liveScore={liveScore} />;
+  return <LivePage data={state.data} />;
 }
 
 function WaitingPage({
@@ -139,8 +91,6 @@ function WaitingPage({
         <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
       </header>
 
-      <PathToProven className="mb-8" status="waiting" pactAgeDays={0} uniqueReporters={0} />
-
       <section className={`${panel} mb-2`}>
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>{t.domain.whatNext}</h2>
@@ -151,40 +101,22 @@ function WaitingPage({
           </ol>
         </div>
       </section>
-
-      <EmbeddableBadgeSection domain={domain} />
     </PageShell>
   );
 }
 
-function LivePage({
-  data,
-  liveScore,
-}: {
-  data: DomainLiveData;
-  liveScore: DomainLiveScoreView;
-}) {
+function LivePage({ data }: { data: DomainLiveData }) {
   const { t } = useLocale();
-  const statusBadge = data.trust.status === 'activated' ? badgeVerified : badgeAmber;
-  const statusLabel =
-    data.trust.status === 'activated' ? t.domain.proven : t.domain.building;
-  const { rawScore, displayScore, bandKey, showScore, progress, verifiedDays } = liveScore;
-  const bandLabel = localizeBandLabel(bandKey, t.domain);
-  const progressHint = formatScoreProgressHint(progress, rawScore, t.domain);
+  const verifiedDays = Math.floor(data.pactAgeDays);
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
       <header className="mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-3">
-          <div className="min-w-0">
-            <p className={`${eyebrow} mb-2`}>{t.domain.publicRecord}</p>
-            <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
-            <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">
-              {t.domain.historyIntro}
-            </p>
-          </div>
-          <span className={`${statusBadge} shrink-0`}>{statusLabel}</span>
-        </div>
+        <p className={`${eyebrow} mb-2`}>{t.domain.publicRecord}</p>
+        <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
+        <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">
+          {t.domain.historyIntro}
+        </p>
         <DomainClocks
           domainRegisteredAt={data.domainRegisteredAt}
           pactHistoryStart={data.pactHistoryStart}
@@ -205,47 +137,15 @@ function LivePage({
         />
       </div>
 
-      <PathToProven
-        className="mb-10"
-        status={data.trust.status}
-        pactAgeDays={verifiedDays}
-        uniqueReporters={data.uniqueReporters}
-      />
-
-      <EmbeddableBadgeSection domain={data.domain} />
+      <div className="mb-10">
+        <SharePublicRecord domain={data.domain} />
+      </div>
 
       <section className="mt-12 pt-10 border-t border-border">
         <p className={`${eyebrow} mb-3`}>{t.domain.techSummary}</p>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-8">
-          <Stat
-            value={`${data.passRate.toFixed(1)}%`}
-            label={t.domain.passRate}
-          />
-          {showScore && (
-            <div className="flex items-center gap-4 min-w-0">
-              <div className="relative shrink-0" style={{ width: 108, height: 108 }}>
-                <ScoreGauge score={displayScore} size={108} strokeWidth={8} />
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className={`${statValue} text-txt`}>
-                    {displayScore}
-                  </span>
-                  <span className="text-xs font-mono text-muted-2 mt-0.5">/ 100</span>
-                </div>
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-txt m-0">{bandLabel}</p>
-                <p className="text-sm text-muted mt-2 m-0 leading-relaxed">
-                  {t.domain.scoreIntro}
-                </p>
-                {progressHint && (
-                  <p className="text-xs text-muted-2 mt-2 m-0 leading-snug">
-                    {progressHint}
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
+        <div className="mb-8">
+          <Stat value={`${data.passRate.toFixed(1)}%`} label={t.domain.passRate} />
         </div>
 
         <DomainLeavesPanel
@@ -257,55 +157,8 @@ function LivePage({
           latestRoot={data.latestRoot}
           globalTreeLeafCount={data.globalTreeLeafCount}
         />
-
-        <div className={`${panel} mb-2`}>
-          <div className="px-3 py-2 border-b border-border text-xs font-mono uppercase tracking-widest text-muted-2">
-            {t.domain.showMath}
-          </div>
-          <div className="overflow-x-auto thin-scrollbar">
-            <table className="w-full text-xs">
-              <tbody>
-                <MathRow label={t.domain.mathRawScore} value={rawScore.toFixed(4)} />
-                {showScore && (
-                  <MathRow
-                    label={t.domain.mathDisplay}
-                    value={`${displayScore} / 100 · ${bandLabel}`}
-                  />
-                )}
-                <MathRow label={t.domain.mathVolume} value={data.trust.volume.toFixed(3)} />
-                <MathRow label={t.domain.mathDiversity} value={data.trust.diversity.toFixed(3)} />
-                <MathRow label={t.domain.mathMaturity} value={data.trust.maturity.toFixed(4)} />
-                <MathRow label={t.domain.timeVerified} value={`${verifiedDays}d`} />
-                <MathRow
-                  label={t.domain.mathFailedChecks}
-                  value={data.totalFailCount.toLocaleString()}
-                />
-                <MathRow
-                  label={t.domain.passRate}
-                  value={`${data.passRate.toFixed(1)}%`}
-                />
-              </tbody>
-            </table>
-          </div>
-        </div>
       </section>
     </PageShell>
-  );
-}
-
-function EmbeddableBadgeSection({ domain }: { domain: string }) {
-  const { t } = useLocale();
-  return (
-    <section className="mt-12 pt-10 border-t border-border">
-      <div className="mb-10">
-        <SharePublicRecord domain={domain} />
-      </div>
-      <p className={eyebrow}>{t.domain.badgeEyebrow}</p>
-      <p className="mt-3 mb-6 text-sm text-muted leading-relaxed max-w-xl">
-        {t.domain.badgeIntro}
-      </p>
-      <BadgeEmbed domain={domain} />
-    </section>
   );
 }
 

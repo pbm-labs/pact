@@ -7,7 +7,7 @@ import type { DomainSummary } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
 import { formatDomainRegisteredAt } from '@/lib/format-time';
 import { formatVerifiedDays } from '@/lib/trust-display';
-import { badgeAmber, badgeVerified, btnPrimary, panel, panelBody } from '@/lib/ui';
+import { btnPrimary, panel, panelBody } from '@/lib/ui';
 
 interface DomainListProps {
   domains: DomainSummary[];
@@ -17,24 +17,6 @@ function rankClass(rank: number | null): string {
   if (rank === 1) return 'text-brand font-semibold';
   if (rank === 2 || rank === 3) return 'text-txt font-semibold';
   return 'text-muted-2';
-}
-
-function StatusBadge({
-  domain,
-  building,
-  proven,
-}: {
-  domain: DomainSummary;
-  building: string;
-  proven: string;
-}) {
-  if (domain.status === 'waiting') {
-    return null;
-  }
-  if (domain.trustStatus === 'activated') {
-    return <span className={badgeVerified}>{proven}</span>;
-  }
-  return <span className={badgeAmber}>{building}</span>;
 }
 
 function HistoryCell({ domain }: { domain: DomainSummary }) {
@@ -98,23 +80,11 @@ export function DomainList({ domains }: DomainListProps) {
 
   return (
     <div className={panel}>
-      <div className={`${panelBody} border-b border-border flex flex-wrap items-end justify-between gap-3`}>
-        <div>
-          <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-1">
-            {t.records.rankedBy}
-          </p>
-          <p className="text-xs text-muted m-0">{t.records.rankedHint}</p>
-        </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-mono uppercase tracking-widest text-muted-2">
-          <span className="inline-flex items-center gap-1.5">
-            <span className="size-2 rounded-full bg-amber" aria-hidden />
-            {t.records.building}
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="size-2 rounded-full bg-verified" aria-hidden />
-            {t.records.proven}
-          </span>
-        </div>
+      <div className={`${panelBody} border-b border-border`}>
+        <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-1">
+          {t.records.rankedBy}
+        </p>
+        <p className="text-xs text-muted m-0">{t.records.rankedHint}</p>
       </div>
 
       <div className="overflow-x-auto thin-scrollbar">
@@ -124,9 +94,6 @@ export function DomainList({ domains }: DomainListProps) {
               <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
               <th className="text-left font-medium px-4 sm:px-5 py-2.5">{t.records.colDomain}</th>
               <th className="text-right font-medium px-4 sm:px-5 py-2.5">{t.records.colHistory}</th>
-              <th className="text-left font-medium px-4 sm:px-5 py-2.5 hidden sm:table-cell">
-                {t.records.colStatus}
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -166,13 +133,6 @@ export function DomainList({ domains }: DomainListProps) {
                         {formatDomainRegisteredAt(d.domainRegisteredAt, locale, clockLabels)}
                       </p>
                     )}
-                    <div className="sm:hidden mt-1.5">
-                      <StatusBadge
-                        domain={d}
-                        building={t.records.building}
-                        proven={t.records.proven}
-                      />
-                    </div>
                   </td>
                   <td className="px-4 sm:px-5 py-3.5 text-right">
                     {d.status === 'live' ? (
@@ -180,13 +140,6 @@ export function DomainList({ domains }: DomainListProps) {
                     ) : (
                       <span className="font-mono text-sm font-semibold text-muted-2">—</span>
                     )}
-                  </td>
-                  <td className="px-4 sm:px-5 py-3.5 hidden sm:table-cell">
-                    <StatusBadge
-                      domain={d}
-                      building={t.records.building}
-                      proven={t.records.proven}
-                    />
                   </td>
                 </tr>
               );

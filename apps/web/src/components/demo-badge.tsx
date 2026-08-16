@@ -1,5 +1,4 @@
 import { sizeBadge } from '@/lib/badge-dimensions';
-import type { BadgeState } from '@/lib/badge-state';
 import { routes } from '@/lib/routes';
 
 // Marketing-only badge image. Renders BOTH theme variants stacked,
@@ -8,16 +7,14 @@ import { routes } from '@/lib/routes';
 // right variant is visible from frame zero — no hydration flicker.
 export function DemoBadge({
   domain,
-  state,
   alt,
 }: {
   domain: string;
-  state: BadgeState;
   alt?: string;
 }) {
   const { width, height } = sizeBadge(domain);
-  const darkSrc = `${routes.badge(domain)}.svg?preview=${state}&theme=dark`;
-  const lightSrc = `${routes.badge(domain)}.svg?preview=${state}&theme=light`;
+  const darkSrc = `${routes.badge(domain)}.svg?theme=dark`;
+  const lightSrc = `${routes.badge(domain)}.svg?theme=light`;
   const imageAlt = alt ?? `we build real · ${domain}`;
 
   return (

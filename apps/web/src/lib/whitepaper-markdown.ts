@@ -15,7 +15,7 @@ Every domain that sends mail already participates in a quiet, global verificatio
 
 PACT is an open protocol that captures those reports, commits them to an append-only Merkle tree anyone can recompute, and derives an organic trust signal from verified history. Domains join by pointing an existing DNS field at PACT. Nothing about how they send mail changes. No message is ever read.
 
-The public record leads with verified history — days independently confirmed — because early scores are still forming. A scaled trust score appears as a technical verification detail once that history is meaningful. Merkle roots are published to a public blockchain so a verifier does not have to trust the operator's database for inclusion. Leaves stay off-chain: the chain attests inclusion, not availability.
+The public record is stubbornly boring about what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Judgement stays outside. A score formula exists in the protocol for applications that choose to interpret; the reference UI does not display it. Merkle roots are published to a public blockchain so a verifier does not have to trust the operator's database for inclusion. Leaves stay off-chain: the chain attests inclusion, not availability.
 
 ---
 
@@ -100,18 +100,15 @@ The live score (\`pact-score-0.1\`) is the product of three factors:
 
 **Maturity** — an asymptotic function of days since the domain's first verified PACT event (λ = 0.005). Roughly two years of continuous presence approaches the ceiling. Time cannot be bought.
 
-Status thresholds:
-
-- **Building** — verified history is accumulating; maturity has not yet crossed the activation threshold (~139 days).
-- **Proven** — maturity has crossed that threshold; the history is long enough to support third-party reliance more seriously.
+Activation labels (**Building** / **Proven**) are application policy. They are not shown on the public record.
 
 ### 3.4 How Humans Should See It
 
 Raw \`T\` is correct and not legible on its own. Early domains with different histories can collapse to the same tiny display number if forced onto a 0–100 gauge too soon.
 
-The public interface therefore leads with **verified history** — days independently confirmed, reports, and reporting organizations — and treats the scaled 0–100 display as technical verification, introduced once the raw signal leaves the compressed early band (or reaches Proven). Progress toward the next interpretation band can be estimated without changing the formula.
+The public reference UI does not display the score, a 0–100 gauge, interpretation bands, or a verdict badge. It publishes what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Anyone can share the record URL.
 
-The formula and the display layer are separate (\`pact-score-0.1\` vs \`pact-display-0.1\`). Changing how people see the score must never rewrite what was measured.
+Score (\`pact-score-0.1\`) and display mapping (\`pact-display-0.1\`) remain in the protocol for applications that choose to interpret. Changing how people see the score must never rewrite what was measured. Judgement stays outside.
 
 ### 3.5 Thresholds Are Policy, Not Protocol
 
@@ -206,8 +203,8 @@ The protocol boundary is absolute: PACT Protocol never crosses into message-leve
 - Append-only Merkle tree with publicly recomputable inclusion proofs
 - Merkle roots published to \`PactRoots\` on Base Sepolia (testnet; permissioned publisher). First \`publishRoot\` waits on the first leaf after the D1 cutover
 - Off-chain leaf availability via a public HTTP API (Cloudflare D1)
-- Public records ranked by verified history; scaled score as technical verification when meaningful
-- Per-domain pages with clocks, activity, and technical verification
+- Public records ranked by verified history (days independently confirmed, then report count)
+- Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge
 - Unlisted documentation at \`/docs\` on the reference site (not linked from the homepage): a short note on what makes PACT different, this whitepaper, the roadmap, and the [protocol specification](https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md)
 
 **In active development**

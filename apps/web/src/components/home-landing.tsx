@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { DemoBadge } from '@/components/demo-badge';
 import { VideoManifesto } from '@/components/video-manifesto';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
@@ -13,8 +12,6 @@ const MOCK = {
   reports: 12,
   orgs: 4,
 };
-
-const SIGNATURE_DOMAIN = 'acme.studio';
 
 export function HomeLanding() {
   const { t, locale } = useLocale();
@@ -124,23 +121,6 @@ export function HomeLanding() {
             </h3>
           </div>
 
-          <div className="mt-5 rounded-xl border border-amber/30 bg-amber/5 px-4 py-3.5">
-            <div className="flex items-center gap-3">
-              <span
-                aria-hidden
-                className="shrink-0 w-2 h-2 rounded-full bg-amber"
-              />
-              <div className="min-w-0">
-                <p className="text-base font-semibold text-txt leading-none">
-                  {t.domain.building}
-                </p>
-                <p className="text-xs text-muted mt-1">
-                  {t.home.mockStatusSub}
-                </p>
-              </div>
-            </div>
-          </div>
-
           <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-6">
             {[
               { value: `${MOCK.verifiedDays}d`, label: t.domain.timeVerified, sub: t.home.mockTimeSub },
@@ -167,44 +147,6 @@ export function HomeLanding() {
       </section>
 
       <section className="border-t border-border">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-          <div className="text-center mb-10">
-            <p className={`${eyebrow} mb-3`}>{t.home.badgeEyebrow}</p>
-            <h2 className={`${pageTitle} mb-3`}>
-              {t.home.badgeTitle}
-            </h2>
-            <p className={`${pageIntro} max-w-md mx-auto`}>
-              {t.home.badgeSub}
-            </p>
-          </div>
-
-          <div className="max-w-md mx-auto rounded-xl border border-border bg-surface overflow-hidden">
-            <div className={`px-5 py-2.5 border-b border-border ${eyebrow}`}>
-              {t.badge.mockLabel}
-            </div>
-            <div className="px-5 py-5">
-              <p className="text-sm font-semibold text-txt leading-tight">{t.home.signatureName}</p>
-              <p className="text-xs text-muted mt-0.5">{t.home.signatureRole}</p>
-              <p className="text-xs text-muted-2 mt-1 font-mono">
-                {t.home.signatureContact}
-              </p>
-              <div className="mt-4">
-                <DemoBadge
-                  domain={SIGNATURE_DOMAIN}
-                  state="verified"
-                  alt={t.badge.alt.replace('{domain}', SIGNATURE_DOMAIN)}
-                />
-              </div>
-            </div>
-          </div>
-
-          <p className={`${pageIntro} mt-6 text-center max-w-md mx-auto`}>
-            {t.home.badgeFoot}
-          </p>
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-surface">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <div className="max-w-md mx-auto text-center">
             <h2 className={`${pageTitle} mb-3`}>

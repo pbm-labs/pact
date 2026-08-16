@@ -166,7 +166,7 @@ export const es: Dictionary = {
     next2: 'Confirma en silencio que todo está en orden.',
     next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
     historyIntro:
-      'Historial confirmado de forma independiente, construyéndose un día honesto a la vez.',
+      'Historial confirmado de forma independiente que cualquiera puede volver a comprobar.',
     scoreIntro:
       'Historial confirmado de forma independiente, con una puntuación de confianza que refleja cuánto tiempo y con qué amplitud ha sido verificado.',
     timeVerified: 'Tiempo verificado',
@@ -333,7 +333,7 @@ export const es: Dictionary = {
       'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
       'Raíces Merkle en PactRoots / Base Sepolia (testnet, publicador con permiso)',
       'Registros públicos ordenados por historial verificado',
-      'Páginas por dominio con relojes, actividad y verificación técnica',
+      'Páginas por dominio con relojes, tasa de acierto observada, hojas y pruebas criptográficas',
     ],
     nextTitle: 'En desarrollo activo',
     nextItems: [

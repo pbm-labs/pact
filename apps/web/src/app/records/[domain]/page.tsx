@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import { estimateScoreProgress, formatScoreForDisplay } from '@pact/core';
-import { DomainPageView, type DomainLiveScoreView } from '@/components/domain-page-view';
+import { DomainPageView } from '@/components/domain-page-view';
 import { fetchDomainPageState, ledgerConfigured } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
-import { scoreBandKey, shouldShowTrustScore } from '@/lib/trust-display';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,38 +37,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function RecordPage({ params }: PageProps) {
+export default async function RecordPage({ params }: PageProps): Promise<React.ReactElement> {
   const { domain } = await params;
   const state = await fetchDomainPageState(domain);
-
   const hasLedger = ledgerConfigured();
 
-  let liveScore: DomainLiveScoreView | null = null;
-  if (state?.status === 'live') {
-    const { trust } = state.data;
-    const display = formatScoreForDisplay(trust.score);
-    const progress = estimateScoreProgress({
-      rawScore: trust.score,
-      volume: trust.volume,
-      diversity: trust.diversity,
-      pactAgeDays: trust.pactAgeDays,
-    });
-    liveScore = {
-      rawScore: display.rawScore,
-      displayScore: display.displayScore,
-      bandKey: scoreBandKey(trust.score, display.band),
-      showScore: shouldShowTrustScore(trust),
-      progress,
-      verifiedDays: Math.floor(trust.pactAgeDays),
-    };
-  }
-
   return (
-    <DomainPageView
-      domain={domain}
-      state={state}
-      liveScore={liveScore}
-      unconfigured={!state && !hasLedger}
-    />
+    <DomainPageView domain={domain} state={state} unconfigured={!state && !hasLedger} />
   );
 }
