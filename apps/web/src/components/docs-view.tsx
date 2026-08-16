@@ -22,7 +22,7 @@ export function DocsView() {
     <PageShell backHref={routes.home} backLabel={t.common.home}>
       <header className="mb-12">
         <h1 className={`${pageTitle} mb-4`}>{t.docs.title}</h1>
-        <p className={`${pageIntro} max-w-xl m-0`}>{t.docs.intro}</p>
+        <p className={`${pageIntro} m-0`}>{t.docs.intro}</p>
       </header>
 
       <div className="space-y-10">
@@ -30,7 +30,7 @@ export function DocsView() {
           <section key={section.title}>
             <h2 className={`${sectionTitle} m-0 mb-3`}>{section.title}</h2>
             {section.body.split('\n\n').map((paragraph, i) => (
-              <p key={i} className={`${pageIntro} max-w-xl mb-3 last:mb-0`}>
+              <p key={i} className={`${pageIntro} mb-3 last:mb-0`}>
                 {paragraph}
               </p>
             ))}
@@ -39,7 +39,7 @@ export function DocsView() {
 
         <section>
           <h2 className={`${sectionTitle} m-0 mb-3`}>{t.docs.limitsTitle}</h2>
-          <ul className="m-0 pl-5 list-disc space-y-2 text-sm text-muted leading-relaxed max-w-xl">
+          <ul className="m-0 pl-5 list-disc space-y-2 text-sm text-muted leading-relaxed">
             {t.docs.limits.map((item) => (
               <li key={item}>{item}</li>
             ))}

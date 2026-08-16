@@ -20,7 +20,7 @@ export function WhitepaperView({ markdown, sourceUrl }: WhitepaperViewProps) {
       <header className="mb-10">
         <p className={`${eyebrow} mb-3`}>{t.whitepaper.eyebrow}</p>
         <h1 className={`${pageTitle} mb-4`}>{t.whitepaper.title}</h1>
-        <p className={`${pageIntro} max-w-xl`}>{t.whitepaper.intro}</p>
+        <p className={pageIntro}>{t.whitepaper.intro}</p>
         <p className={`mt-4 ${metaText}`}>
           <a
             href={sourceUrl}
