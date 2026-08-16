@@ -10,7 +10,6 @@ export const es: Dictionary = {
     closeMenu: 'Cerrar menú',
   },
   footer: {
-    docs: 'Docs',
     terms: 'Términos',
     privacy: 'Privacidad',
   },
@@ -21,16 +20,13 @@ export const es: Dictionary = {
     copied: 'Copiado',
     loading: 'Cargando…',
     toggleTheme: 'Cambiar tema',
-    trustScore: 'Puntuación de confianza {n} de 100',
   },
   home: {
     heroTitle: 'La IA puede falsificarlo todo.',
     heroAccent: 'Excepto ayer.',
     heroSub:
       'La historia existe primero. La afirmación puede hacerse después.',
-    manifestoEyebrow: 'El manifiesto',
     manifestoTitle: 'El problema de identidad de Internet',
-    manifestoSub: 'Por qué la historia es lo único que todavía no se puede fabricar.',
     closeVideo: 'Cerrar',
     howEyebrow: 'Cómo funciona',
     howTitle: 'Evidencia que puedes volver a comprobar.',
@@ -54,7 +50,6 @@ export const es: Dictionary = {
     recordSub:
       'Cualquiera puede abrirla. Historial confirmado de forma independiente — días, informes y quién los confirmó.',
     mockLabel: 'Ejemplo',
-    mockStatusSub: 'Historial confirmado de forma independiente, todavía acumulándose.',
     mockTimeSub: 'desde el primer informe',
     mockOrgs: 'Orgs. informantes',
     mockOrgsSub: 'independientes',
@@ -71,15 +66,6 @@ export const es: Dictionary = {
       'Conteos de acierto / fallo',
       'Organización informante',
     ],
-    badgeEyebrow: 'Un enlace al registro',
-    badgeTitle: 'Pégalo una vez. Vive en cada email que envías.',
-    badgeSub:
-      'No es un certificado. Un enlace vivo al historial confirmado de forma independiente — pégalo en tu firma, cualquiera puede abrir el registro.',
-    signatureName: 'Jane Doe',
-    signatureRole: 'Fundadora · Acme Studio',
-    signatureContact: '+1 (415) 555-0134 · acme.studio',
-    badgeFoot:
-      'Funciona en Gmail, Outlook, Apple Mail y en cualquier firma HTML.',
     ctaTitle: 'Empieza tu registro público.',
     ctaBody:
       'Conecta una vez. Sistemas receptores independientes envían los informes. El historial solo crece hacia adelante.',
@@ -136,14 +122,11 @@ export const es: Dictionary = {
     intro:
       'Ordenados por historial confirmado de forma independiente — cuánto tiempo cada dominio ha sido reportado.',
     addDomain: 'Añade tu dominio',
-    building: 'En construcción',
-    proven: 'Comprobado',
     rankedBy: 'Ordenados por historial confirmado de forma independiente',
     rankedHint:
       'Un historial confirmado de forma independiente más largo se sitúa más arriba.',
     colDomain: 'Dominio',
     colHistory: 'Historial',
-    colStatus: 'Estado',
     verified: 'confirmado',
     report: 'informe',
     reports: 'informes',
@@ -159,8 +142,6 @@ export const es: Dictionary = {
   domain: {
     backRecords: 'Registros públicos',
     publicRecord: 'Registro público',
-    building: 'En construcción',
-    proven: 'Comprobado',
     awaitingFirst: 'Esperando el primer informe',
     awaitingIntro:
       'Registrado. Esperando la primera confirmación independiente — normalmente en un día.',
@@ -171,8 +152,6 @@ export const es: Dictionary = {
     next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
     historyIntro:
       'Historial confirmado de forma independiente que cualquiera puede volver a comprobar.',
-    scoreIntro:
-      'Historial confirmado de forma independiente que cualquiera puede volver a comprobar.',
     timeVerified: 'Días confirmados',
     reports: 'Informes',
     allTime: 'histórico',
@@ -180,7 +159,6 @@ export const es: Dictionary = {
     independent: 'independientes',
     passRate: 'Tasa de acierto',
     techSummary: 'Lo publicado — informes y pruebas criptográficas',
-    showMath: 'Mostrar el cálculo',
     domainRegistered: 'Dominio registrado',
     verifiedSince: 'Confirmado desde',
     awaitingReport: 'Esperando el primer informe',
@@ -191,27 +169,8 @@ export const es: Dictionary = {
     firstDay: 'Primer día',
     dayOne: '1 día',
     days: '{n} días',
-    progressDaysToBand: 'Unos {days} días más para alcanzar «{band}», a este ritmo.',
-    progressBuilding: 'El historial sigue creciendo con cada confirmación independiente.',
-    progressStarts: 'Empieza a moverse en el momento en que te confirman por primera vez.',
-    bands: {
-      no_history_yet: 'Sin historial aún',
-      provisional: 'Provisional',
-      early: 'Temprano',
-      established: 'Establecido',
-      high_confidence: 'Alta confianza',
-      maximum_confidence: 'Confianza máxima',
-    },
-    mathRawScore: 'Puntuación bruta (T)',
-    mathDisplay: 'Mostrada',
-    mathVolume: 'Volumen (V)',
-    mathDiversity: 'Diversidad (D)',
-    mathMaturity: 'Madurez (A)',
-    mathFailedChecks: 'Comprobaciones fallidas',
     dbNotConfigured: 'Ledger no configurado',
     reportHistory: 'Historial de informes',
-    reportHistoryIntro:
-      'Las comprobaciones independientes llegan de forma continua desde los reporters conectados (normalmente a diario).',
     reportHistoryCounts:
       '{periods} periodos de informe de {reporters} organizaciones reporteras — más recientes primero.',
     colReporter: 'Reporter',
@@ -221,8 +180,6 @@ export const es: Dictionary = {
     colIngested: 'Ingerido',
     showOlderReports: 'Mostrar informes anteriores ({shown} de {total})',
     verification: 'Verificación',
-    verificationIntro:
-      'Pruebas de inclusión recalculadas a partir de las hojas en vivo frente a la raíz on-chain más reciente.',
     anchor: 'Ancla',
     onChain: 'En cadena',
     stagingOffChain: 'Staging (fuera de cadena)',
@@ -244,39 +201,12 @@ export const es: Dictionary = {
     clockYear: '({n} a)',
     clockMonths: '({n} mes)',
     clockDaysShort: '({n}d)',
-    pathEyebrow: 'Lo que aún se acumula',
-    pathDaysItem: '{n} días de historial confirmado de forma independiente',
-    pathDaysCurrent: 'estás en {n}',
-    pathReportersItem: 'Al menos una organización reportera independiente',
-    pathReportersCurrent: 'tienes {n}',
-    pathExplainer:
-      'Una organización reportera independiente es un sistema de correo receptor — Gmail, Outlook, Yahoo y otros — que confirmó este dominio con su propia autenticación. El acuerdo no coordinado a lo largo del tiempo es lo que contiene el registro.',
-    pathFoot:
-      'Cada confirmación viene de sistemas receptores independientes — no es autoinformada. Este registro solo crece hacia adelante.',
-    badgeEyebrow: 'Insignia integrable',
-    badgeIntro:
-      'No es un certificado. Un enlace vivo a esta página — pégalo en una firma, cualquiera puede abrir el registro.',
     shareRecord: 'Registro público',
     shareEyebrow: 'Comparte el registro',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
     shareText:
       'La IA puede falsificarlo todo. Excepto ayer.\n\n{domain} ya tiene un registro público que cualquiera puede comprobar.',
-  },
-  badge: {
-    mockLabel: 'Tu firma de email',
-    signatureName: 'Tu nombre',
-    signatureRole: 'Cargo · Empresa',
-    signatureContact: 'nombre@{domain}',
-    copyBadge: 'Copiar insignia',
-    copyDone: 'Copiado — pégala en tu firma',
-    copyError: 'No se pudo copiar — inténtalo de nuevo',
-    howTo:
-      'Funciona en Gmail, Outlook y Apple Mail. La insignia sigue siendo clicable al pegarla.',
-    alt: 'Insignia we build real de {domain}',
-    themeAria: 'Tema de la insignia',
-    themeDark: 'Oscuro',
-    themeLight: 'Claro',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',

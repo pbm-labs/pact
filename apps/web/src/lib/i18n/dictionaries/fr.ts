@@ -10,7 +10,6 @@ export const fr: Dictionary = {
     closeMenu: 'Fermer le menu',
   },
   footer: {
-    docs: 'Docs',
     terms: 'Conditions',
     privacy: 'Confidentialité',
   },
@@ -21,16 +20,13 @@ export const fr: Dictionary = {
     copied: 'Copié',
     loading: 'Chargement…',
     toggleTheme: 'Changer de thème',
-    trustScore: 'Score de confiance {n} sur 100',
   },
   home: {
     heroTitle: 'L’IA peut tout falsifier.',
     heroAccent: 'Sauf hier.',
     heroSub:
       'L’histoire existe d’abord. L’affirmation peut se faire ensuite.',
-    manifestoEyebrow: 'Le manifeste',
     manifestoTitle: 'Le problème d’identité d’Internet',
-    manifestoSub: 'Pourquoi l’histoire est la seule chose qui ne peut encore se fabriquer.',
     closeVideo: 'Fermer',
     howEyebrow: 'Comment ça marche',
     howTitle: 'De l’évidence que l’on peut revérifier.',
@@ -54,7 +50,6 @@ export const fr: Dictionary = {
     recordSub:
       'N’importe qui peut l’ouvrir. Historique confirmé de façon indépendante — jours, rapports, et qui les a confirmés.',
     mockLabel: 'Exemple',
-    mockStatusSub: 'Historique confirmé de façon indépendante, encore en train de s’accumuler.',
     mockTimeSub: 'depuis le premier rapport',
     mockOrgs: 'Orgs déclarantes',
     mockOrgsSub: 'indépendantes',
@@ -71,15 +66,6 @@ export const fr: Dictionary = {
       'Compteurs succès / échec',
       'Organisation déclarante',
     ],
-    badgeEyebrow: 'Un lien vers le registre',
-    badgeTitle: 'Collez une fois. Vit dans chaque email que vous envoyez.',
-    badgeSub:
-      'Pas un certificat. Un lien live vers l’historique confirmé de façon indépendante — collez-le dans votre signature, n’importe qui peut ouvrir le registre.',
-    signatureName: 'Jane Doe',
-    signatureRole: 'Fondatrice · Acme Studio',
-    signatureContact: '+1 (415) 555-0134 · acme.studio',
-    badgeFoot:
-      'Fonctionne dans Gmail, Outlook, Apple Mail, et partout où les signatures HTML fonctionnent.',
     ctaTitle: 'Commencez votre registre public.',
     ctaBody:
       'Connectez une fois. Des systèmes destinataires indépendants envoient les rapports. L’historique ne grandit que vers l’avant.',
@@ -138,14 +124,11 @@ export const fr: Dictionary = {
     intro:
       'Classés par historique confirmé de façon indépendante — depuis combien de temps chaque domaine a été rapporté.',
     addDomain: 'Ajoutez votre domaine',
-    building: 'En construction',
-    proven: 'Éprouvé',
     rankedBy: 'Classés par historique confirmé de façon indépendante',
     rankedHint:
       'Un historique confirmé indépendamment plus long se classe plus haut.',
     colDomain: 'Domaine',
     colHistory: 'Historique',
-    colStatus: 'Statut',
     verified: 'confirmé',
     report: 'rapport',
     reports: 'rapports',
@@ -161,8 +144,6 @@ export const fr: Dictionary = {
   domain: {
     backRecords: 'Registres publics',
     publicRecord: 'Registre public',
-    building: 'En construction',
-    proven: 'Éprouvé',
     awaitingFirst: 'En attente du premier rapport',
     awaitingIntro:
       'Enregistré. En attente de la première confirmation indépendante — généralement sous un jour.',
@@ -173,8 +154,6 @@ export const fr: Dictionary = {
     next3: 'Cette page se met à jour toute seule — rien à cliquer.',
     historyIntro:
       'Historique confirmé de façon indépendante, que chacun peut revérifier.',
-    scoreIntro:
-      'Historique confirmé de façon indépendante, que chacun peut revérifier.',
     timeVerified: 'Jours confirmés',
     reports: 'Rapports',
     allTime: 'depuis le début',
@@ -182,7 +161,6 @@ export const fr: Dictionary = {
     independent: 'indépendantes',
     passRate: 'Taux de réussite',
     techSummary: 'Ce qui a été publié — rapports et preuves cryptographiques',
-    showMath: 'Voir le calcul',
     domainRegistered: 'Domaine enregistré',
     verifiedSince: 'Confirmé depuis',
     awaitingReport: 'En attente du premier rapport',
@@ -193,27 +171,8 @@ export const fr: Dictionary = {
     firstDay: 'Premier jour',
     dayOne: '1 jour',
     days: '{n} jours',
-    progressDaysToBand: 'Environ {days} jours de plus pour atteindre « {band} », à ce rythme.',
-    progressBuilding: 'L\'historique continue de se construire à chaque confirmation indépendante.',
-    progressStarts: 'Cela commence à bouger dès votre première confirmation.',
-    bands: {
-      no_history_yet: 'Pas encore d\'historique',
-      provisional: 'Provisoire',
-      early: 'Précoce',
-      established: 'Établi',
-      high_confidence: 'Confiance élevée',
-      maximum_confidence: 'Confiance maximale',
-    },
-    mathRawScore: 'Score brut (T)',
-    mathDisplay: 'Affiché',
-    mathVolume: 'Volume (V)',
-    mathDiversity: 'Diversité (D)',
-    mathMaturity: 'Maturité (A)',
-    mathFailedChecks: 'Contrôles échoués',
     dbNotConfigured: 'Registre non configuré',
     reportHistory: 'Historique des rapports',
-    reportHistoryIntro:
-      'Les contrôles indépendants arrivent en continu depuis les reporters connectés (généralement chaque jour).',
     reportHistoryCounts:
       '{periods} périodes de rapport de {reporters} organisations reporteuses — les plus récentes en premier.',
     colReporter: 'Reporter',
@@ -223,8 +182,6 @@ export const fr: Dictionary = {
     colIngested: 'Ingesté',
     showOlderReports: 'Afficher les rapports plus anciens ({shown} sur {total})',
     verification: 'Vérification',
-    verificationIntro:
-      'Preuves d\'inclusion recalculées à partir des feuilles en direct contre la dernière racine on-chain.',
     anchor: 'Ancre',
     onChain: 'On-chain',
     stagingOffChain: 'Staging (hors chaîne)',
@@ -246,39 +203,12 @@ export const fr: Dictionary = {
     clockYear: '({n} an)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}j)',
-    pathEyebrow: 'Ce qui continue de s’accumuler',
-    pathDaysItem: '{n} jours d’historique confirmé de façon indépendante',
-    pathDaysCurrent: 'vous en êtes à {n}',
-    pathReportersItem: 'Au moins une organisation reporteuse indépendante',
-    pathReportersCurrent: 'vous en avez {n}',
-    pathExplainer:
-      'Une organisation reporteuse indépendante est un système de messagerie destinataire — Gmail, Outlook, Yahoo et d’autres — qui a confirmé ce domaine avec sa propre authentification. L’accord non coordonné dans le temps est ce que contient le registre.',
-    pathFoot:
-      'Chaque confirmation vient de systèmes destinataires indépendants — pas d’auto-déclaration. Ce registre ne grandit que vers l’avant.',
-    badgeEyebrow: 'Badge intégrable',
-    badgeIntro:
-      'Pas un certificat. Un lien live vers cette page — collez-le dans une signature, n’importe qui peut ouvrir le registre.',
     shareRecord: 'Registre public',
     shareEyebrow: 'Partagez le registre',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
     shareText:
       'L’IA peut tout falsifier. Sauf hier.\n\n{domain} a désormais un registre public que n’importe qui peut revérifier.',
-  },
-  badge: {
-    mockLabel: 'Votre signature email',
-    signatureName: 'Votre nom',
-    signatureRole: 'Fonction · Entreprise',
-    signatureContact: 'nom@{domain}',
-    copyBadge: 'Copier le badge',
-    copyDone: 'Copié — collez-le dans votre signature',
-    copyError: 'Échec de la copie — réessayez',
-    howTo:
-      'Fonctionne dans Gmail, Outlook et Apple Mail. Le badge reste cliquable une fois collé.',
-    alt: 'Badge we build real pour {domain}',
-    themeAria: 'Thème du badge',
-    themeDark: 'Sombre',
-    themeLight: 'Clair',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',

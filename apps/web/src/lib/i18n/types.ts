@@ -10,7 +10,6 @@ export type Dictionary = {
     closeMenu: string;
   };
   footer: {
-    docs: string;
     terms: string;
     privacy: string;
   };
@@ -21,15 +20,12 @@ export type Dictionary = {
     copied: string;
     loading: string;
     toggleTheme: string;
-    trustScore: string;
   };
   home: {
     heroTitle: string;
     heroAccent: string;
     heroSub: string;
-    manifestoEyebrow: string;
     manifestoTitle: string;
-    manifestoSub: string;
     closeVideo: string;
     howEyebrow: string;
     howTitle: string;
@@ -39,7 +35,6 @@ export type Dictionary = {
     recordTitle: string;
     recordSub: string;
     mockLabel: string;
-    mockStatusSub: string;
     mockTimeSub: string;
     mockOrgs: string;
     mockOrgsSub: string;
@@ -49,13 +44,6 @@ export type Dictionary = {
     privacyBody2: string;
     privacyTableTitle: string;
     privacyRows: readonly string[];
-    badgeEyebrow: string;
-    badgeTitle: string;
-    badgeSub: string;
-    signatureName: string;
-    signatureRole: string;
-    signatureContact: string;
-    badgeFoot: string;
     ctaTitle: string;
     ctaBody: string;
     ctaButton: string;
@@ -102,13 +90,10 @@ export type Dictionary = {
     title: string;
     intro: string;
     addDomain: string;
-    building: string;
-    proven: string;
     rankedBy: string;
     rankedHint: string;
     colDomain: string;
     colHistory: string;
-    colStatus: string;
     verified: string;
     report: string;
     reports: string;
@@ -124,8 +109,6 @@ export type Dictionary = {
   domain: {
     backRecords: string;
     publicRecord: string;
-    building: string;
-    proven: string;
     awaitingFirst: string;
     awaitingIntro: string;
     connected: string;
@@ -134,7 +117,6 @@ export type Dictionary = {
     next2: string;
     next3: string;
     historyIntro: string;
-    scoreIntro: string;
     timeVerified: string;
     reports: string;
     allTime: string;
@@ -142,7 +124,6 @@ export type Dictionary = {
     independent: string;
     passRate: string;
     techSummary: string;
-    showMath: string;
     domainRegistered: string;
     verifiedSince: string;
     awaitingReport: string;
@@ -152,26 +133,8 @@ export type Dictionary = {
     firstDay: string;
     dayOne: string;
     days: string;
-    progressDaysToBand: string;
-    progressBuilding: string;
-    progressStarts: string;
-    bands: {
-      no_history_yet: string;
-      provisional: string;
-      early: string;
-      established: string;
-      high_confidence: string;
-      maximum_confidence: string;
-    };
-    mathRawScore: string;
-    mathDisplay: string;
-    mathVolume: string;
-    mathDiversity: string;
-    mathMaturity: string;
-    mathFailedChecks: string;
     dbNotConfigured: string;
     reportHistory: string;
-    reportHistoryIntro: string;
     reportHistoryCounts: string;
     colReporter: string;
     colPeriod: string;
@@ -180,7 +143,6 @@ export type Dictionary = {
     colIngested: string;
     showOlderReports: string;
     verification: string;
-    verificationIntro: string;
     anchor: string;
     onChain: string;
     stagingOffChain: string;
@@ -201,34 +163,11 @@ export type Dictionary = {
     clockYear: string;
     clockMonths: string;
     clockDaysShort: string;
-    pathEyebrow: string;
-    pathDaysItem: string;
-    pathDaysCurrent: string;
-    pathReportersItem: string;
-    pathReportersCurrent: string;
-    pathExplainer: string;
-    pathFoot: string;
-    badgeEyebrow: string;
-    badgeIntro: string;
     shareRecord: string;
     shareEyebrow: string;
     shareLinkedIn: string;
     shareX: string;
     shareText: string;
-  };
-  badge: {
-    mockLabel: string;
-    signatureName: string;
-    signatureRole: string;
-    signatureContact: string;
-    copyBadge: string;
-    copyDone: string;
-    copyError: string;
-    howTo: string;
-    alt: string;
-    themeAria: string;
-    themeDark: string;
-    themeLight: string;
   };
   whitepaper: {
     eyebrow: string;

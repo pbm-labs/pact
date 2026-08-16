@@ -7,7 +7,7 @@
 This repo is that reference implementation: domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
-Whitepaper: [pbm-labs/pact-protocol](https://github.com/pbm-labs/pact-protocol/blob/main/white-paper.md).
+Whitepaper: [webuildreal.dev/docs/whitepaper](https://webuildreal.dev/docs/whitepaper).
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 

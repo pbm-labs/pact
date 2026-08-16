@@ -11,7 +11,6 @@ export const en: Dictionary = {
     closeMenu: 'Close menu',
   },
   footer: {
-    docs: 'Docs',
     terms: 'Terms',
     privacy: 'Privacy',
   },
@@ -22,16 +21,13 @@ export const en: Dictionary = {
     copied: 'Copied',
     loading: 'Loading…',
     toggleTheme: 'Toggle theme',
-    trustScore: 'Trust score {n} out of 100',
   },
   home: {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
     heroSub:
       'History exists first. The claim can be made afterwards.',
-    manifestoEyebrow: 'The Manifesto',
     manifestoTitle: "The Internet's Identity Problem",
-    manifestoSub: "Why history is the one thing that still can't be manufactured.",
     closeVideo: 'Close',
     howEyebrow: 'How it works',
     howTitle: 'Evidence you can recheck.',
@@ -55,7 +51,6 @@ export const en: Dictionary = {
     recordSub:
       'Anyone can open it. Independently confirmed history — days, reports, and who confirmed them.',
     mockLabel: 'Example',
-    mockStatusSub: 'Independently confirmed history, still accumulating.',
     mockTimeSub: 'since first report',
     mockOrgs: 'Reporting orgs',
     mockOrgsSub: 'independent',
@@ -72,15 +67,6 @@ export const en: Dictionary = {
       'Pass / fail counts',
       'Reporting organization',
     ],
-    badgeEyebrow: 'A pointer to the record',
-    badgeTitle: 'Paste once. Lives in every email you send.',
-    badgeSub:
-      'Not a certificate. A live link to independently confirmed history — paste it in your signature, anyone can open the record.',
-    signatureName: 'Jane Doe',
-    signatureRole: 'Founder · Acme Studio',
-    signatureContact: '+1 (415) 555-0134 · acme.studio',
-    badgeFoot:
-      'Works in Gmail, Outlook, Apple Mail, and anywhere else HTML signatures work.',
     ctaTitle: 'Start your public record.',
     ctaBody:
       'Connect once. Independent receiving systems send the reports. The history only grows forward.',
@@ -137,14 +123,11 @@ export const en: Dictionary = {
     intro:
       'Ranked by independently confirmed history — how long each domain has been reported.',
     addDomain: 'Add your domain',
-    building: 'Building',
-    proven: 'Proven',
     rankedBy: 'Ranked by independently confirmed history',
     rankedHint:
       'Longer independently confirmed history ranks higher.',
     colDomain: 'Domain',
     colHistory: 'History',
-    colStatus: 'Status',
     verified: 'confirmed',
     report: 'report',
     reports: 'reports',
@@ -160,8 +143,6 @@ export const en: Dictionary = {
   domain: {
     backRecords: 'Public records',
     publicRecord: 'Public record',
-    building: 'Building',
-    proven: 'Proven',
     awaitingFirst: 'Awaiting first report',
     awaitingIntro:
       'Registered. Waiting for the first independent confirmation — usually within a day.',
@@ -172,8 +153,6 @@ export const en: Dictionary = {
     next3: 'This page updates on its own — nothing to click.',
     historyIntro:
       'Independently confirmed history anyone can recheck.',
-    scoreIntro:
-      'Independently confirmed history anyone can recheck.',
     timeVerified: 'Days confirmed',
     reports: 'Reports',
     allTime: 'all time',
@@ -181,7 +160,6 @@ export const en: Dictionary = {
     independent: 'independent',
     passRate: 'Pass rate',
     techSummary: 'What was published — reports and cryptographic proofs',
-    showMath: 'Show the math',
     domainRegistered: 'Domain registered',
     verifiedSince: 'Confirmed since',
     awaitingReport: 'Awaiting first report',
@@ -192,27 +170,8 @@ export const en: Dictionary = {
     firstDay: 'First day',
     dayOne: '1 day',
     days: '{n} days',
-    progressDaysToBand: 'About {days} more days to reach "{band}", at this pace.',
-    progressBuilding: 'History keeps building with every independent confirmation.',
-    progressStarts: 'This starts moving the moment you’re first confirmed.',
-    bands: {
-      no_history_yet: 'No history yet',
-      provisional: 'Provisional',
-      early: 'Early',
-      established: 'Established',
-      high_confidence: 'High confidence',
-      maximum_confidence: 'Maximum confidence',
-    },
-    mathRawScore: 'Raw score (T)',
-    mathDisplay: 'Display',
-    mathVolume: 'Volume (V)',
-    mathDiversity: 'Diversity (D)',
-    mathMaturity: 'Maturity (A)',
-    mathFailedChecks: 'Failed checks',
     dbNotConfigured: 'Ledger not configured',
     reportHistory: 'Report history',
-    reportHistoryIntro:
-      'Independent checks arrive continuously from connected reporters (typically daily).',
     reportHistoryCounts:
       '{periods} report periods from {reporters} reporter orgs — newest first.',
     colReporter: 'Reporter',
@@ -222,8 +181,6 @@ export const en: Dictionary = {
     colIngested: 'Ingested',
     showOlderReports: 'Show older reports ({shown} of {total})',
     verification: 'Verification',
-    verificationIntro:
-      'Inclusion proofs recomputed from live leaves against the latest on-chain root.',
     anchor: 'Anchor',
     onChain: 'On-chain',
     stagingOffChain: 'Staging (off-chain)',
@@ -245,39 +202,12 @@ export const en: Dictionary = {
     clockYear: '({n} yr)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}d)',
-    pathEyebrow: 'What still accumulates',
-    pathDaysItem: '{n} days of independently confirmed history',
-    pathDaysCurrent: "you're at {n}",
-    pathReportersItem: 'At least one independent reporting org',
-    pathReportersCurrent: 'you have {n}',
-    pathExplainer:
-      'An independent reporter is a receiving mail system — Gmail, Outlook, Yahoo, and others — that confirmed this domain under its own authentication. Uncoordinated agreement over time is what the record contains.',
-    pathFoot:
-      'Every confirmation comes from independent receiving systems — not self-reported. This record only grows forward.',
-    badgeEyebrow: 'Embeddable badge',
-    badgeIntro:
-      'Not a certificate. A live link to this page — paste it in a signature, anyone can open the record.',
     shareRecord: 'Public record',
     shareEyebrow: 'Share the record',
     shareLinkedIn: 'LinkedIn',
     shareX: 'X',
     shareText:
       'AI can fake everything. Except yesterday.\n\n{domain} now has a public record anyone can recheck.',
-  },
-  badge: {
-    mockLabel: 'Your email signature',
-    signatureName: 'Your name',
-    signatureRole: 'Role · Company',
-    signatureContact: 'name@{domain}',
-    copyBadge: 'Copy badge',
-    copyDone: 'Copied — paste into your signature',
-    copyError: 'Copy failed — try again',
-    howTo:
-      'Works in Gmail, Outlook, and Apple Mail. The badge stays clickable when pasted.',
-    alt: 'we build real badge for {domain}',
-    themeAria: 'Badge theme',
-    themeDark: 'Dark',
-    themeLight: 'Light',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',
