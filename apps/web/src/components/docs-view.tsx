@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
-import { PROTOCOL_SPEC_URL, routes } from '@/lib/routes';
+import { EXAMPLE_SCORING_URL, PROTOCOL_SPEC_URL, routes } from '@/lib/routes';
 import { pageIntro, pageTitle, sectionTitle } from '@/lib/ui';
 
 const docLink = `${sectionTitle} no-underline hover:text-accent`;
@@ -15,6 +15,7 @@ export function DocsView() {
     { href: routes.docsWhy, title: t.docs.whyTitle },
     { href: routes.docsWhitepaper, title: t.docs.whitepaperTitle },
     { href: PROTOCOL_SPEC_URL, title: t.docs.protocolTitle, external: true },
+    { href: EXAMPLE_SCORING_URL, title: t.docs.scoringTitle, external: true },
     { href: routes.docsRoadmap, title: t.docs.statusTitle },
   ];
 

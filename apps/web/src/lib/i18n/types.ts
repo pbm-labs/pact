@@ -191,6 +191,7 @@ export type Dictionary = {
     whyTitle: string;
     whitepaperTitle: string;
     protocolTitle: string;
+    scoringTitle: string;
     statusTitle: string;
     readWhitepaper: string;
     readStatus: string;

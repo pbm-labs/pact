@@ -20,18 +20,19 @@ The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer
 ## Monorepo structure
 
 ```
-packages/pact-core   Protocol logic (leaf, merkle, trust, dmarc parser)
+packages/pact-core   Protocol logic (leaf, merkle, dmarc parser)
 packages/contracts   Foundry — PactRoots (spec §9). Base Sepolia deployed; mainnet not.
 apps/web             Next.js public record (webuildreal.dev)
 workers/ingest       Cloudflare Email Worker + queue → D1 ledger + on-chain publishRoot
-docs/                Protocol specification
+examples/score       Informative scoring example (`example-score-0.1`) — not protocol
+docs/                Protocol specification + examples
 ```
 
 ## Quick start
 
 ```bash
 pnpm install
-pnpm test                         # pact-core unit tests
+pnpm test                         # pact-core + example-score + web tests
 pnpm --filter @pact/core build
 pnpm dev:web                      # http://localhost:3000
 pnpm deploy:web                   # Cloudflare Workers (webuildreal.dev)
@@ -265,8 +266,7 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 | Leaf encoding | [Appendix C](docs/pact_protocol.md) |
 | Sparse Merkle | [§3.3.1](docs/pact_protocol.md) (32 levels) |
 | On-chain roots | `PactRoots` — [§9](docs/pact_protocol.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
-| Trust score (raw) | `pact-score-0.1` — [§4.3](docs/pact_protocol.md) |
-| Trust score (display) | `pact-display-0.1` — [§4.6](docs/pact_protocol.md) |
+| Scoring (example, not protocol) | `example-score-0.1` — [docs/examples/scoring.md](docs/examples/scoring.md) |
 | Allowlist + wrapper DKIM | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts`; ingest verifies RFC 6376 on the wrapper, then commits keccak256(RFC822) + passing `d=`/`s=` in the leaf (Appendix C.5). The RFC822 is not stored. |
 
 ## License

@@ -247,7 +247,7 @@ export const es: Dictionary = {
       },
       {
         title: 'El juicio queda fuera',
-        body: 'Existe una fórmula de puntuación para las aplicaciones que elijan interpretar. Etiquetas como Proven son política de aplicación. El registro no decide que un dominio sea legítimo.',
+        body: 'PACT no define una puntuación, una etiqueta de activación ni un veredicto. Las aplicaciones pueden interpretar los campos publicados; un ejemplo informativo está en el repositorio. El registro no decide que un dominio sea legítimo.',
       },
       {
         title: 'Cómo obtiene un dominio un registro',
@@ -269,6 +269,7 @@ export const es: Dictionary = {
     whyTitle: 'Evidencia, no autoridad',
     whitepaperTitle: 'Whitepaper',
     protocolTitle: 'Protocolo',
+    scoringTitle: 'Ejemplo: puntuación',
     statusTitle: 'Estado',
     readWhitepaper: 'Leer el whitepaper',
     readStatus: 'Leer el estado',

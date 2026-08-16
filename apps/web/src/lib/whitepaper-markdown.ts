@@ -2,7 +2,7 @@ export const LOCAL_WHITEOBER_MARKDOWN = `
 # PACT Protocol
 ## Provenance Attestation and Chain of Trust
 
-**Version 1.8 — August 2026**  
+**Version 1.9 — August 2026**  
 **hello@pbm-labs.com**
 
 ---
@@ -13,9 +13,9 @@ The internet was built without a durable way to tell who is real. Names on scree
 
 Every domain that sends mail already participates in a quiet, global verification loop: outbound messages are cryptographically signed; receiving mail systems check those signatures and emit structured aggregate reports. Those reports have been produced continuously since 2011. They contain no message content and no personal identities — only whether a domain showed up honestly, how often, and through which infrastructure.
 
-PACT is an open protocol that captures those reports, commits them to an append-only Merkle tree anyone can recompute, and publishes a public record of independently confirmed history. A score formula exists for applications that choose to interpret; judgement stays outside. Domains join by pointing an existing DNS field at PACT. Nothing about how they send mail changes. No message is ever read.
+PACT is an open protocol that captures those reports, commits them to an append-only Merkle tree anyone can recompute, and publishes a public record of independently confirmed history. PACT does not define a score or a verdict; judgement stays outside. Domains join by pointing an existing DNS field at PACT. Nothing about how they send mail changes. No message is ever read.
 
-The public record is stubbornly boring about what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Judgement stays outside. A score formula exists in the protocol for applications that choose to interpret; the reference UI does not display it. Merkle roots are published to a public blockchain so a verifier does not have to trust the operator's database for inclusion. Leaves stay off-chain: the chain attests inclusion, not availability.
+The public record is stubbornly boring about what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Judgement stays outside. Merkle roots are published to a public blockchain so a verifier does not have to trust the operator's database for inclusion. Leaves stay off-chain: the chain attests inclusion, not availability.
 
 ---
 
@@ -71,46 +71,32 @@ A trust record that requires trusting its operator for the root is not finished.
 
 ---
 
-## 3. History First, Then Score
+## 3. History First
 
-### 3.1 Organic, Not Assigned
+### 3.1 Independently confirmed, not assigned
 
 PACT does not declare legitimacy. It measures verified history.
 
 A domain that has been independently confirmed over time, across many reporting organizations, cannot fabricate that past after the fact. The cost of faking it equals the cost of operating honestly for the same period.
 
-No committee assigns the score. No application process gates it. No registry can be captured. The signal is a mathematical consequence of observable activity.
+No committee assigns a verdict. No application process gates the record. No registry can be captured. The public page publishes what happened.
 
 ### 3.2 Two Clocks
 
-Domain registration age and PACT-verified history are different clocks. They must never be collapsed into one number.
+Domain registration age and independently confirmed history are different clocks. They must never be collapsed into one number.
 
 - **Domain registered** answers: how long has this name existed on the internet?
 - **Verified since** answers: how long has independent infrastructure been confirming this domain inside PACT?
 
-An institution that connects late still has a long registration history — and a short verified history. PACT reports both. Only verified history enters the score. Inflating maturity with domain age would let a hijacker inherit reputation the moment they seize DNS.
+An institution that connects late still has a long registration history — and a short independently confirmed history. PACT reports both. Domain age MUST NOT be folded into any application's maturity of PACT history. Inflating that clock with registration age would let a hijacker inherit reputation the moment they seize DNS.
 
-### 3.3 The Trust Score
+### 3.3 Interpretation is not protocol
 
-The live score (\`pact-score-0.1\`) is the product of three factors:
+PACT does not define a score, an activation label, or a verdict. Applications MAY interpret published fields (days independently confirmed, reports, reporting organizations, pass/fail counts). One informative example is \`example-score-0.1\` — see [docs/examples/scoring.md](https://github.com/pbm-labs/pact/blob/main/docs/examples/scoring.md). It is not part of the protocol.
 
-**Volume** — logarithm of authenticated pass count. Bulk inflation yields diminishing returns.
+The public reference UI does not display a score, a 0–100 gauge, interpretation bands, or a verdict badge. It publishes what happened. Anyone can share the record URL.
 
-**Diversity** — unique reporting organizations relative to verified events, capped at 1. Broad, independent confirmation scores higher than activity concentrated in a single reporter.
-
-**Maturity** — an asymptotic function of days since the domain's first verified PACT event (λ = 0.005). Roughly two years of continuous presence approaches the ceiling. Time cannot be bought.
-
-Activation labels (**Building** / **Proven**) are application policy. They are not shown on the public record.
-
-### 3.4 How Humans Should See It
-
-Raw \`T\` is correct and not legible on its own. Early domains with different histories can collapse to the same tiny display number if forced onto a 0–100 gauge too soon.
-
-The public reference UI does not display the score, a 0–100 gauge, interpretation bands, or a verdict badge. It publishes what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Anyone can share the record URL.
-
-Score (\`pact-score-0.1\`) and display mapping (\`pact-display-0.1\`) remain in the protocol for applications that choose to interpret. Changing how people see the score must never rewrite what was measured. Judgement stays outside.
-
-### 3.5 Thresholds Are Policy, Not Protocol
+### 3.4 Thresholds Are Policy, Not Protocol
 
 PACT produces a measurement. It is stubbornly boring about what happened. Judgement stays outside. Applications define their own acceptance policy. The same history can inform onboarding, vendor screening, underwriting, or automated counterpart checks — each with its own calibration. A stronger wrapper witness still does not inherit the decision: PACT is not KYC, not a verdict that a domain is legitimate, and not an instruction that an agent should transact.
 
@@ -156,7 +142,7 @@ That is not an exploit. That is legitimate operation. Sybil resistance is econom
 
 Proof of Operational Work stops attackers building fake history from zero. It does not, by itself, stop an attacker who seizes a domain that already has history.
 
-Applications that score this history should treat that score as continuously re-evaluated. Leaf data already records infrastructure identifiers (selectors, IP ranges) so discontinuity monitoring can be added without migrating the past. When shipping, abrupt infrastructure breaks should discount inherited reputation until the new pattern stabilizes or is confirmed as intentional. That monitoring layer is on the roadmap (Section 8); the data it needs is already being collected.
+Applications that interpret this history should treat that interpretation as continuously re-evaluated. Leaf data already records infrastructure identifiers (selectors, IP ranges) so discontinuity monitoring can be added without migrating the past. When shipping, abrupt infrastructure breaks should discount inherited reputation until the new pattern stabilizes or is confirmed as intentional. That monitoring layer is on the roadmap (Section 8); the data it needs is already being collected.
 
 ---
 
@@ -174,13 +160,13 @@ The protocol does not answer whether a domain is legitimate. Applications may us
 
 Cryptographic identity solved ownership of identifiers. It did not solve empty containers: a fraudulent entity and a real institution can look identical on day one.
 
-PACT binds real-world operational history to a domain identity without appointing a trusted intermediary as judge. Merkle roots are meant to be consumable by any downstream system. A score formula exists for applications that choose to interpret. The base layer is the public record. What is built on top stays open.
+PACT binds real-world operational history to a domain identity without appointing a trusted intermediary as judge. Merkle roots are meant to be consumable by any downstream system. Applications MAY interpret the public record; the protocol does not. The base layer is the public record. What is built on top stays open.
 
 ---
 
 ## 7. Ecosystem Boundary
 
-**PACT Protocol** is the base layer: ingest, Merkle tree, public verification, and a score formula for applications. Open to implement. Verifiable without contacting the authors.
+**PACT Protocol** is the base layer: ingest, Merkle tree, and public verification. Open to implement. Verifiable without contacting the authors.
 
 Applications that may sit on top — without expanding the protocol's data boundary — include:
 
@@ -205,7 +191,7 @@ The protocol boundary is absolute: PACT Protocol never crosses into message-leve
 - Off-chain leaf availability via a public HTTP API (Cloudflare D1)
 - Public records ranked by independently confirmed history (days, then report count)
 - Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge
-- Documentation at \`/docs\` on the reference site: what the record is, honest limits, this whitepaper, status, and the [protocol specification](https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md)
+- Documentation at \`/docs\` on the reference site: what the record is, honest limits, this whitepaper, status, the [protocol specification](https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md), and an [informative scoring example](https://github.com/pbm-labs/pact/blob/main/docs/examples/scoring.md)
 
 **Waiting on the world**
 
@@ -226,6 +212,6 @@ The reference implementation is operated under [we build real](https://webuildre
 ---
 
 *PACT — Provenance Attestation and Chain of Trust*  
-*Whitepaper v1.8 — August 2026*  
+*Whitepaper v1.9 — August 2026*  
 *hello@pbm-labs.com*
 `;

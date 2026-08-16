@@ -15,3 +15,6 @@ export const routes = {
 
 export const PROTOCOL_SPEC_URL =
   'https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md';
+
+export const EXAMPLE_SCORING_URL =
+  'https://github.com/pbm-labs/pact/blob/main/docs/examples/scoring.md';

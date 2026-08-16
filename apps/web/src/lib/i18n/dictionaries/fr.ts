@@ -249,7 +249,7 @@ export const fr: Dictionary = {
       },
       {
         title: 'Le jugement reste dehors',
-        body: 'Une formule de score existe pour les applications qui choisissent d’interpréter. Les libellés tels que Proven sont une politique d’application. Le registre ne décide pas qu’un domaine est légitime.',
+        body: 'PACT ne définit ni score, ni libellé d’activation, ni verdict. Les applications peuvent interpréter les champs publiés ; un exemple informatif est dans le dépôt. Le registre ne décide pas qu’un domaine est légitime.',
       },
       {
         title: 'Comment un domaine obtient un registre',
@@ -271,6 +271,7 @@ export const fr: Dictionary = {
     whyTitle: 'De l’évidence, pas de l’autorité',
     whitepaperTitle: 'Whitepaper',
     protocolTitle: 'Protocole',
+    scoringTitle: 'Exemple : score',
     statusTitle: 'État',
     readWhitepaper: 'Lire le whitepaper',
     readStatus: 'Lire l’état',

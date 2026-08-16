@@ -31,26 +31,6 @@ export {
 } from './encoding/leaf.js';
 export { SparseMerkleTree, TREE_DEPTH, ZERO_HASHES, type Hash } from './merkle/sparse.js';
 export {
-  computeTrustScore,
-  computeDiversity,
-  computeMaturity,
-  SCORE_ALGORITHM,
-  ACTIVATION_THRESHOLD,
-  ACTIVATION_DAYS,
-  type TrustScoreResult,
-  type DomainTrustInput,
-  type ScoreStatus,
-} from './trust/score.js';
-export {
-  formatScoreForDisplay,
-  estimateScoreProgress,
-  DISPLAY_VERSION,
-  type TrustDisplayScore,
-  type TrustDisplayBand,
-  type TrustProgressBandKey,
-  type TrustScoreProgress,
-} from './trust/display.js';
-export {
   parseDmarcAggregateReport,
   aggregateReportToLeaves,
   type ParsedDmarcReport,

@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "pnpm -r run build",
-    "test": "pnpm --filter @pact/core test && pnpm --filter @pact/web test",
+    "test": "pnpm --filter @pact/core test && pnpm --filter @pact/example-score test && pnpm --filter @pact/web test",
     "dev:web": "pnpm --filter @pact/web dev",
     "deploy:web": "pnpm --filter @pact/core build && env -u CLOUDFLARE_API_TOKEN pnpm --filter @pact/web deploy:cf",
     "deploy:ingest": "pnpm --filter @pact/core build && env -u CLOUDFLARE_API_TOKEN pnpm --filter @pact/ingest run deploy",

@@ -247,7 +247,7 @@ export const de: Dictionary = {
       },
       {
         title: 'Das Urteil bleibt draußen',
-        body: 'Eine Score-Formel existiert für Anwendungen, die interpretieren wollen. Labels wie Proven sind Anwendungspolitik. Der Eintrag entscheidet nicht, dass eine Domain legitim ist.',
+        body: 'PACT definiert keinen Score, kein Aktivierungs-Label und kein Verdikt. Anwendungen dürfen die veröffentlichten Felder interpretieren; ein informatives Beispiel liegt im Repository. Der Eintrag entscheidet nicht, dass eine Domain legitim ist.',
       },
       {
         title: 'Wie eine Domain einen Eintrag erhält',
@@ -269,6 +269,7 @@ export const de: Dictionary = {
     whyTitle: 'Evidenz, keine Autorität',
     whitepaperTitle: 'Whitepaper',
     protocolTitle: 'Protokoll',
+    scoringTitle: 'Beispiel: Scoring',
     statusTitle: 'Status',
     readWhitepaper: 'Whitepaper lesen',
     readStatus: 'Status lesen',

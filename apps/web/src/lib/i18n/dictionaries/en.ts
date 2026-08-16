@@ -235,7 +235,7 @@ export const en: Dictionary = {
       },
       {
         title: 'Judgement stays outside',
-        body: 'A score formula exists for applications that choose to interpret. Labels such as Proven are application policy. The record does not decide that a domain is legitimate.',
+        body: 'PACT does not define a score, an activation label, or a verdict. Applications may interpret the published fields; an informative example lives in the repository. The record does not decide that a domain is legitimate.',
       },
       {
         title: 'How a domain gets a record',
@@ -257,6 +257,7 @@ export const en: Dictionary = {
     whyTitle: 'Evidence, not authority',
     whitepaperTitle: 'Whitepaper',
     protocolTitle: 'Protocol',
+    scoringTitle: 'Example: scoring',
     statusTitle: 'Status',
     readWhitepaper: 'Read the whitepaper',
     readStatus: 'Read status',

@@ -1,42 +1,42 @@
 /**
- * Human-facing trust score presentation — never an input to computeTrustScore().
- * See pact_protocol.md Sections 4.6 and 4.7.
+ * Human-facing presentation for example-score-0.1 — never an input to computeExampleScore().
+ * See docs/examples/scoring.md.
  */
 
 import { MATURITY_LAMBDA } from './score.js';
 
-export const DISPLAY_VERSION = 'pact-display-0.1' as const;
+export const DISPLAY_VERSION = 'example-display-0.1' as const;
 
-export type TrustDisplayBand =
+export type ExampleDisplayBand =
   | 'no_history_yet'
   | 'early'
   | 'established'
   | 'high_confidence'
   | 'maximum_confidence';
 
-export interface TrustDisplayScore {
+export interface ExampleDisplayScore {
   rawScore: number;
   displayScore: number;
   displayMax: 100;
-  band: TrustDisplayBand;
+  band: ExampleDisplayBand;
   label: string;
   displayVersion: typeof DISPLAY_VERSION;
 }
 
-export interface TrustScoreProgress {
-  pactAgeDays: number;
+export interface ExampleScoreProgress {
+  independentlyConfirmedDays: number;
   daysToNextBand: number | null;
   nextBandLabel: string | null;
-  nextBandKey: TrustProgressBandKey | null;
+  nextBandKey: ExampleProgressBandKey | null;
 }
 
-export type TrustProgressBandKey =
+export type ExampleProgressBandKey =
   | 'early'
   | 'established'
   | 'high_confidence'
   | 'maximum_confidence';
 
-const RAW_BAND_THRESHOLDS: { max: number; label: string; key: TrustProgressBandKey }[] = [
+const RAW_BAND_THRESHOLDS: { max: number; label: string; key: ExampleProgressBandKey }[] = [
   { max: 1, label: 'Early', key: 'early' },
   { max: 3, label: 'Established', key: 'established' },
   { max: 6, label: 'High confidence', key: 'high_confidence' },
@@ -48,7 +48,7 @@ const DISPLAY_BANDS: {
   rawMax: number;
   displayMin: number;
   displayMax: number;
-  band: TrustDisplayBand;
+  band: ExampleDisplayBand;
   label: string;
 }[] = [
   {
@@ -92,7 +92,7 @@ function lerp(x: number, x0: number, x1: number, y0: number, y1: number): number
   return y0 + t * (y1 - y0);
 }
 
-export function formatScoreForDisplay(rawScore: number): TrustDisplayScore {
+export function formatScoreForDisplay(rawScore: number): ExampleDisplayScore {
   const raw = Math.max(0, rawScore);
 
   if (raw >= 20) {
@@ -134,32 +134,42 @@ export function formatScoreForDisplay(rawScore: number): TrustDisplayScore {
 
 /**
  * Projects days until the next raw-T interpretation band, holding volume and
- * diversity fixed. Pure presentation — never feeds computeTrustScore().
+ * diversity fixed. Pure presentation — never feeds computeExampleScore().
  */
 export function estimateScoreProgress(input: {
   rawScore: number;
   volume: number;
   diversity: number;
-  pactAgeDays: number;
-}): TrustScoreProgress {
-  const pactAgeDays = Math.max(0, Math.floor(input.pactAgeDays));
+  independentlyConfirmedDays: number;
+}): ExampleScoreProgress {
+  const independentlyConfirmedDays = Math.max(0, Math.floor(input.independentlyConfirmedDays));
   const volumeDiversity = input.volume * input.diversity;
 
   const nextBand = RAW_BAND_THRESHOLDS.find((b) => input.rawScore < b.max);
   if (!nextBand || volumeDiversity <= 0) {
-    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null, nextBandKey: null };
+    return {
+      independentlyConfirmedDays,
+      daysToNextBand: null,
+      nextBandLabel: null,
+      nextBandKey: null,
+    };
   }
 
   const targetMaturity = nextBand.max / volumeDiversity;
   if (targetMaturity >= 1) {
-    return { pactAgeDays, daysToNextBand: null, nextBandLabel: null, nextBandKey: null };
+    return {
+      independentlyConfirmedDays,
+      daysToNextBand: null,
+      nextBandLabel: null,
+      nextBandKey: null,
+    };
   }
 
   const daysNeeded = -Math.log(1 - targetMaturity) / MATURITY_LAMBDA;
-  const daysToNextBand = Math.max(0, Math.ceil(daysNeeded - pactAgeDays));
+  const daysToNextBand = Math.max(0, Math.ceil(daysNeeded - independentlyConfirmedDays));
 
   return {
-    pactAgeDays,
+    independentlyConfirmedDays,
     daysToNextBand,
     nextBandLabel: nextBand.label,
     nextBandKey: nextBand.key,
