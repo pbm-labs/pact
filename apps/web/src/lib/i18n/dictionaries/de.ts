@@ -282,9 +282,9 @@ export const de: Dictionary = {
     source: 'Quellcode auf GitHub →',
   },
   whyPact: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'Docs',
     title: 'Evidenz, keine Autorität',
-    intro: 'Eine kurze Notiz, warum PACT veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
+    intro: 'Eine kurze Notiz, warum der öffentliche Eintrag veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
     body: [
       'Jede bestehende Art zu beweisen, dass ein Unternehmen echt ist, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
       'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
@@ -303,22 +303,22 @@ export const de: Dictionary = {
       'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, kein Verdikt dass eine Domain legitim ist, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien. Scores und Schwellen sind Anwendungspolitik auf dieser Historie.',
   },
   docs: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'we build real',
     title: 'Docs',
     intro:
-      'PACT ist ein offenes Protokoll. we build real ist die Bewegung. Dies ist die Referenzimplementierung — ein öffentlicher Eintrag unabhängig bestätigter Domain-Historie. Das Urteil bleibt draußen.',
+      'Wie der öffentliche Eintrag funktioniert. Was er listet. Wie eine Domain einen bekommt. Wie ihn jede Person prüft. Das Urteil bleibt draußen. Das Protokoll hinter dem Eintrag ist PACT — diese Seite ist die erste Referenzimplementierung.',
     sections: [
       {
         title: 'Der Eintrag',
-        body: 'PACT veröffentlicht unabhängig bestätigte Domain-Historie aus DMARC-Aggregatberichten. Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen diese Berichte bereits. Eine Domain tritt bei, indem sie ein bestehendes DNS-Feld auf PACT zeigt. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet, was geschehen ist: unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
+        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Eine Domain tritt bei, indem sie ein bestehendes DNS-Feld auf diese Implementierung zeigt. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet, was geschehen ist: unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
       },
       {
         title: 'Das Urteil bleibt draußen',
-        body: 'Das Protokoll ist stur langweilig darüber, was geschehen ist. Eine Score-Formel existiert für Anwendungen, die interpretieren wollen. Aktivierungslabels wie Proven sind Anwendungspolitik. Dieselbe Historie kann unterschiedliche Entscheidungen speisen. PACT entscheidet nicht, dass eine Domain legitim ist.',
+        body: 'Der Eintrag ist stur langweilig darüber, was geschehen ist. Eine Score-Formel existiert für Anwendungen, die interpretieren wollen. Aktivierungslabels wie Proven sind Anwendungspolitik. Dieselbe Historie kann unterschiedliche Entscheidungen speisen. Der Eintrag entscheidet nicht, dass eine Domain legitim ist.',
       },
       {
         title: 'Wie eine Domain einen Eintrag erhält',
-        body: 'Füge PACT als Berichtsziel in DNS hinzu — rua@pact.webuildreal.dev. Unabhängige Systeme senden die Berichte bereits. Der öffentliche Eintrag erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage. Hier ist nichts weiter abzusenden.',
+        body: 'Füge ein Berichtsziel in DNS hinzu — rua@pact.webuildreal.dev. Unabhängige Systeme senden die Berichte bereits. Der öffentliche Eintrag erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage. Hier ist nichts weiter abzusenden.',
       },
       {
         title: 'Wie jede Person nachprüft',
@@ -333,22 +333,22 @@ export const de: Dictionary = {
       'Ohne eine Kopie des RFC822 kann ein Fremder DKIM nicht erneut ausführen. Er kann das Leaf aus den Öffnungen neu berechnen und den Merkle-Nachweis prüfen.',
       'Die Verfügbarkeit der Leaves ist die Datenbank des Betreibers. Roots bezeugen Inklusion, nicht dass Leaves verfügbar bleiben.',
     ],
-    furtherTitle: 'Weiterlesen',
+    furtherTitle: 'In den Docs',
     whyTitle: 'Evidenz, keine Autorität',
-    whyBody: 'Warum PACT veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
+    whyBody: 'Warum der Eintrag veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
-      'Das offene Protokoll hinter dem öffentlichen Eintrag — wie unabhängig bestätigte Historie erfasst und veröffentlicht wird.',
-    protocolTitle: 'Protokollspezifikation',
+      'Wie unabhängig bestätigte Historie erfasst und veröffentlicht wird.',
+    protocolTitle: 'Protokoll',
     protocolBody:
-      'Normative Spezifikation — Merkle-Baum, Blattkodierung (Wrapper-Zeugnis im Leaf), Score-Formel für Anwendungen und On-Chain-Roots.',
+      'Die offene Spezifikation — Merkle-Baum, Blattkodierung (Wrapper-Zeugnis im Leaf), Score-Formel für Anwendungen und On-Chain-Roots.',
     statusTitle: 'Status',
     statusBody: 'Was live ist, was auf die Welt wartet, und was später kommt.',
     readWhitepaper: 'Whitepaper lesen',
     readStatus: 'Status lesen',
   },
   roadmap: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'Docs',
     title: 'Status',
     intro:
       'Der Vertrag ist live. Ingest ist verdrahtet. Der öffentliche Eintrag zeigt, was geschehen ist. Der erste On-Chain-Root wartet auf den ersten Live-Bericht.',

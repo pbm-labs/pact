@@ -284,9 +284,9 @@ export const fr: Dictionary = {
     source: 'Source sur GitHub →',
   },
   whyPact: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'Docs',
     title: 'De l’évidence, pas de l’autorité',
-    intro: 'Une note courte sur pourquoi PACT publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
+    intro: 'Une note courte sur pourquoi le registre public publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
     body: [
       "Chaque façon existante de prouver qu'une entreprise est réelle partage le même défaut : c'est l'*affirmation d'une autorité*, pas de l'*évidence*. Un rapport de bureau de crédit, une inscription au registre, un relevé bancaire, un historique LinkedIn — tous vous demandent de faire confiance à la vérification de quelqu'un d'autre. Aucun ne produit quelque chose qu'un inconnu peut vérifier lui-même, depuis les premiers principes, sans faire confiance à un gardien.",
       "Ce défaut était tolérable. Il ne l'est plus. L'IA générative n'a pas créé une nouvelle menace — elle a retiré la dernière chose qui rendait ces signaux chers à falsifier. Un domaine de dix ans, cinq ans de LinkedIn, un relevé convaincant : tout cela se fabrique désormais à bas coût. Les autorités n'ont pas empiré. Le coût de leur mentir s'est effondré.",
@@ -305,22 +305,22 @@ export const fr: Dictionary = {
       "PACT mesure l'historique de domaine vérifié de façon indépendante à partir des rapports agrégés DMARC. Ce n'est pas du KYC, pas un verdict qu'un domaine est légitime, pas une identité personnelle, et pas un substitut aux registres ou aux bureaux de crédit. Scores et seuils sont une politique d'application sur cet historique.",
   },
   docs: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'we build real',
     title: 'Docs',
     intro:
-      'PACT est un protocole ouvert. we build real est le mouvement. Ceci est l’implémentation de référence — un registre public d’historique de domaine confirmé de façon indépendante. Le jugement reste dehors.',
+      'Comment fonctionne le registre public. Ce qu’il liste. Comment un domaine en obtient un. Comment n’importe qui le vérifie. Le jugement reste dehors. Le protocole derrière le registre est PACT — ce site est la première implémentation de référence.',
     sections: [
       {
         title: 'Le registre',
-        body: 'PACT publie un historique de domaine confirmé de façon indépendante à partir des rapports agrégés DMARC. Les systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — génèrent déjà ces rapports. Un domaine rejoint en pointant un champ DNS existant vers PACT. Rien ne change dans la façon dont il envoie du courrier.\n\nLa page publique liste ce qui s’est passé : jours confirmés de façon indépendante, rapports, organisations déclarantes, taux de réussite observé, feuilles, preuves Merkle et DKIM du wrapper. Elle n’affiche pas de score, d’étiquette Proven, ni de verdict.',
+        body: 'Les systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — génèrent déjà des rapports agrégés DMARC. Un domaine rejoint en pointant un champ DNS existant vers cette implémentation. Rien ne change dans la façon dont il envoie du courrier.\n\nLa page publique liste ce qui s’est passé : jours confirmés de façon indépendante, rapports, organisations déclarantes, taux de réussite observé, feuilles, preuves Merkle et DKIM du wrapper. Elle n’affiche pas de score, d’étiquette Proven, ni de verdict.',
       },
       {
         title: 'Le jugement reste dehors',
-        body: 'Le protocole est obstinément ennuyeux sur ce qui s’est passé. Une formule de score existe pour les applications qui choisissent d’interpréter. Les libellés d’activation tels que Proven sont une politique d’application. Le même historique peut alimenter des décisions différentes. PACT ne décide pas qu’un domaine est légitime.',
+        body: 'Le registre est obstinément ennuyeux sur ce qui s’est passé. Une formule de score existe pour les applications qui choisissent d’interpréter. Les libellés d’activation tels que Proven sont une politique d’application. Le même historique peut alimenter des décisions différentes. Le registre ne décide pas qu’un domaine est légitime.',
       },
       {
         title: 'Comment un domaine obtient un registre',
-        body: 'Ajoutez PACT comme destination de rapports dans le DNS — rua@pact.webuildreal.dev. Des systèmes indépendants émettent déjà les rapports. Le registre public apparaît à l’arrivée du premier agrégé valide, souvent sous un jour ou deux. Rien d’autre à envoyer ici.',
+        body: 'Ajoutez une destination de rapports dans le DNS — rua@pact.webuildreal.dev. Des systèmes indépendants émettent déjà les rapports. Le registre public apparaît à l’arrivée du premier agrégé valide, souvent sous un jour ou deux. Rien d’autre à envoyer ici.',
       },
       {
         title: 'Comment n’importe qui vérifie',
@@ -335,22 +335,22 @@ export const fr: Dictionary = {
       'Sans une copie du RFC822, un inconnu ne peut pas relancer DKIM. Il peut toujours recalculer la feuille à partir des ouvertures et vérifier la preuve Merkle.',
       'La disponibilité des feuilles est la base de l’opérateur. Les racines attestent l’inclusion, pas que les feuilles resteront disponibles.',
     ],
-    furtherTitle: 'Lire la suite',
+    furtherTitle: 'Dans la doc',
     whyTitle: 'De l’évidence, pas de l’autorité',
-    whyBody: 'Pourquoi PACT publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
+    whyBody: 'Pourquoi le registre publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
-      "Le protocole ouvert derrière le registre public — comment l'historique confirmé de façon indépendante est capturé et publié.",
-    protocolTitle: 'Spécification du protocole',
+      'Comment l’historique confirmé de façon indépendante est capturé et publié.',
+    protocolTitle: 'Protocole',
     protocolBody:
-      'Spécification normative — arbre de Merkle, encodage des feuilles (témoin du wrapper dans la feuille), formule de score pour les applications, et racines on-chain.',
+      'La spécification ouverte — arbre de Merkle, encodage des feuilles (témoin du wrapper dans la feuille), formule de score pour les applications, et racines on-chain.',
     statusTitle: 'État',
     statusBody: 'Ce qui est en ligne, ce qui attend le monde, et ce qui vient plus tard.',
     readWhitepaper: 'Lire le whitepaper',
     readStatus: 'Lire l’état',
   },
   roadmap: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'Docs',
     title: 'État',
     intro:
       'Le contrat est en ligne. L’ingest est câblé. Le registre public montre ce qui s’est passé. La première racine on-chain attend le premier rapport réel.',

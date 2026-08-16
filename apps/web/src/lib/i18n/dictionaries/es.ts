@@ -282,9 +282,9 @@ export const es: Dictionary = {
     source: 'Código en GitHub →',
   },
   whyPact: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'Docs',
     title: 'Evidencia, no autoridad',
-    intro: 'Una nota breve sobre por qué PACT publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
+    intro: 'Una nota breve sobre por qué el registro público publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
     body: [
       'Toda forma existente de probar que un negocio es real comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
       'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
@@ -303,22 +303,22 @@ export const es: Dictionary = {
       'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es un veredicto de que un dominio es legítimo, no es una credencial personal y no sustituye registros ni burós de crédito. Las puntuaciones y los umbrales son política de aplicación sobre ese historial.',
   },
   docs: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'we build real',
     title: 'Docs',
     intro:
-      'PACT es un protocolo abierto. we build real es el movimiento. Esta es la implementación de referencia — un registro público del historial de dominio confirmado de forma independiente. El juicio queda fuera.',
+      'Cómo funciona el registro público. Qué lista. Cómo lo obtiene un dominio. Cómo lo comprueba cualquiera. El juicio queda fuera. El protocolo detrás del registro es PACT — este sitio es la primera implementación de referencia.',
     sections: [
       {
         title: 'El registro',
-        body: 'PACT publica historial de dominio confirmado de forma independiente a partir de informes agregados DMARC. Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan esos informes. Un dominio se une apuntando un campo DNS existente a PACT. Nada cambia en cómo envía correo.\n\nLa página pública lista lo que ocurrió: días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
+        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Un dominio se une apuntando un campo DNS existente a esta implementación. Nada cambia en cómo envía correo.\n\nLa página pública lista lo que ocurrió: días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
       },
       {
         title: 'El juicio queda fuera',
-        body: 'El protocolo es tercamente aburrido sobre lo que ocurrió. Existe una fórmula de puntuación para las aplicaciones que elijan interpretar. Etiquetas de activación como Proven son política de aplicación. El mismo historial puede alimentar decisiones distintas. PACT no decide que un dominio sea legítimo.',
+        body: 'El registro es tercamente aburrido sobre lo que ocurrió. Existe una fórmula de puntuación para las aplicaciones que elijan interpretar. Etiquetas de activación como Proven son política de aplicación. El mismo historial puede alimentar decisiones distintas. El registro no decide que un dominio sea legítimo.',
       },
       {
         title: 'Cómo obtiene un dominio un registro',
-        body: 'Añade PACT como destino de informes en DNS — rua@pact.webuildreal.dev. Los sistemas independientes ya emiten los informes. El registro público aparece cuando llega el primer agregado válido, normalmente en uno o dos días. Aquí no hay que enviar nada más.',
+        body: 'Añade un destino de informes en DNS — rua@pact.webuildreal.dev. Los sistemas independientes ya emiten los informes. El registro público aparece cuando llega el primer agregado válido, normalmente en uno o dos días. Aquí no hay que enviar nada más.',
       },
       {
         title: 'Cómo lo comprueba cualquiera',
@@ -333,22 +333,22 @@ export const es: Dictionary = {
       'Sin una copia del RFC822, un desconocido no puede volver a ejecutar DKIM. Sí puede recomputar la hoja a partir de las aperturas y comprobar la prueba Merkle.',
       'La disponibilidad de las hojas es la base de datos del operador. Las raíces atestiguan inclusión, no que las hojas sigan disponibles.',
     ],
-    furtherTitle: 'Seguir leyendo',
+    furtherTitle: 'En la documentación',
     whyTitle: 'Evidencia, no autoridad',
-    whyBody: 'Por qué PACT publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
+    whyBody: 'Por qué el registro publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
     whitepaperTitle: 'Whitepaper',
     whitepaperBody:
-      'El protocolo abierto detrás del registro público — cómo se captura y publica el historial confirmado de forma independiente.',
-    protocolTitle: 'Especificación del protocolo',
+      'Cómo se captura y publica el historial confirmado de forma independiente.',
+    protocolTitle: 'Protocolo',
     protocolBody:
-      'Especificación normativa — árbol Merkle, codificación de hojas (testigo del wrapper en la hoja), fórmula de puntuación para aplicaciones, y raíces on-chain.',
+      'La especificación abierta — árbol Merkle, codificación de hojas (testigo del wrapper en la hoja), fórmula de puntuación para aplicaciones, y raíces on-chain.',
     statusTitle: 'Estado',
     statusBody: 'Qué está en vivo, qué espera al mundo, y qué viene después.',
     readWhitepaper: 'Leer el whitepaper',
     readStatus: 'Leer el estado',
   },
   roadmap: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'Docs',
     title: 'Estado',
     intro:
       'El contrato está en vivo. La ingesta está conectada. El registro público muestra lo que ocurrió. La primera raíz on-chain espera al primer informe real.',
