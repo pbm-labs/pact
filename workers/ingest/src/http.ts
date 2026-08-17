@@ -29,6 +29,8 @@ export async function handleLedgerRequest(
     DB: D1Database;
     CHAIN_RPC_URL: string;
     LEDGER_WRITE_SECRET?: string;
+    SUPABASE_URL?: string;
+    SUPABASE_SERVICE_ROLE_KEY?: string;
   },
 ): Promise<Response> {
   if (request.method === 'OPTIONS') {
@@ -111,7 +113,7 @@ export async function handleLedgerRequest(
     const wrapperHash = normalizeWrapperHash(decodeURIComponent(wrapperMatch[1]!));
     if (!wrapperHash) return json({ error: 'invalid_hash' }, 400);
     if (wrapperMatch[2] === 'rfc822') {
-      const rfc822 = await getWrapperRfc822(env.DB, wrapperHash);
+      const rfc822 = await getWrapperRfc822(env, wrapperHash);
       if (!rfc822) return json({ error: 'not_found' }, 404);
       return new Response(rfc822, {
         headers: {
@@ -121,7 +123,7 @@ export async function handleLedgerRequest(
         },
       });
     }
-    const meta = await getWrapperMeta(env.DB, wrapperHash);
+    const meta = await getWrapperMeta(env, wrapperHash);
     if (!meta) return json({ error: 'not_found' }, 404);
     return json({
       ...meta,

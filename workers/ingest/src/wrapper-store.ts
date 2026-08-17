@@ -1,3 +1,8 @@
+export interface WrapperStoreEnv {
+  SUPABASE_URL?: string;
+  SUPABASE_SERVICE_ROLE_KEY?: string;
+}
+
 export interface WrapperMeta {
   wrapperHash: `0x${string}`;
   byteLength: number;
@@ -16,48 +21,107 @@ export interface WrapperMeta {
   bytesFrom: 'email-worker';
 }
 
+const BUCKET = 'wrapper-blobs';
+
 export function normalizeWrapperHash(hash: string): `0x${string}` | null {
   const hex = hash.trim().toLowerCase().replace(/^0x/, '');
   if (!/^[0-9a-f]{64}$/.test(hex)) return null;
   return `0x${hex}`;
 }
 
+function requireSupabase(env: WrapperStoreEnv): { url: string; key: string } {
+  const url = env.SUPABASE_URL?.replace(/\/$/, '');
+  const key = env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) throw new Error('supabase wrapper store is not configured');
+  return { url, key };
+}
+
+function authHeaders(key: string): Record<string, string> {
+  return { apikey: key, Authorization: `Bearer ${key}` };
+}
+
+async function ensureBucket(url: string, key: string): Promise<void> {
+  const res = await fetch(`${url}/storage/v1/bucket`, {
+    method: 'POST',
+    headers: { ...authHeaders(key), 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id: BUCKET,
+      name: BUCKET,
+      public: false,
+      fileSizeLimit: 10 * 1024 * 1024,
+    }),
+  });
+  if (res.ok || res.status === 409) return;
+  const body = await res.text();
+  if (res.status === 400 && /already exists|duplicate/i.test(body)) return;
+  throw new Error(`supabase bucket ${res.status}: ${body.slice(0, 300)}`);
+}
+
+async function putObject(
+  url: string,
+  key: string,
+  path: string,
+  body: BodyInit,
+  contentType: string,
+): Promise<void> {
+  const res = await fetch(`${url}/storage/v1/object/${BUCKET}/${path}`, {
+    method: 'POST',
+    headers: {
+      ...authHeaders(key),
+      'Content-Type': contentType,
+      'x-upsert': 'true',
+    },
+    body,
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`supabase put ${path} ${res.status}: ${text.slice(0, 300)}`);
+  }
+}
+
+async function getObject(url: string, key: string, path: string): Promise<Response | null> {
+  const res = await fetch(`${url}/storage/v1/object/${BUCKET}/${path}`, {
+    headers: authHeaders(key),
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`supabase get ${path} ${res.status}: ${text.slice(0, 300)}`);
+  }
+  return res;
+}
+
 export async function storeWrapperBlob(
-  db: D1Database,
+  env: WrapperStoreEnv,
   input: {
     wrapperHash: `0x${string}`;
     rfc822: Uint8Array;
     meta: WrapperMeta;
   },
 ): Promise<void> {
-  await db
-    .prepare(
-      `INSERT OR IGNORE INTO wrapper_blobs (wrapper_hash, rfc822, meta_json, byte_length)
-       VALUES (?, ?, ?, ?)`,
-    )
-    .bind(input.wrapperHash, input.rfc822, JSON.stringify(input.meta), input.rfc822.byteLength)
-    .run();
+  const { url, key } = requireSupabase(env);
+  await ensureBucket(url, key);
+  const hex = input.wrapperHash.slice(2);
+  await putObject(url, key, `${hex}.rfc822`, input.rfc822, 'message/rfc822');
+  await putObject(url, key, `${hex}.json`, JSON.stringify(input.meta), 'application/json');
 }
 
 export async function getWrapperMeta(
-  db: D1Database,
+  env: WrapperStoreEnv,
   wrapperHash: `0x${string}`,
 ): Promise<WrapperMeta | null> {
-  const row = await db
-    .prepare(`SELECT meta_json FROM wrapper_blobs WHERE wrapper_hash = ?`)
-    .bind(wrapperHash)
-    .first<{ meta_json: string }>();
-  if (!row) return null;
-  return JSON.parse(row.meta_json) as WrapperMeta;
+  const { url, key } = requireSupabase(env);
+  const res = await getObject(url, key, `${wrapperHash.slice(2)}.json`);
+  if (!res) return null;
+  return (await res.json()) as WrapperMeta;
 }
 
 export async function getWrapperRfc822(
-  db: D1Database,
+  env: WrapperStoreEnv,
   wrapperHash: `0x${string}`,
 ): Promise<ArrayBuffer | null> {
-  const row = await db
-    .prepare(`SELECT rfc822 FROM wrapper_blobs WHERE wrapper_hash = ?`)
-    .bind(wrapperHash)
-    .first<{ rfc822: ArrayBuffer }>();
-  return row?.rfc822 ?? null;
+  const { url, key } = requireSupabase(env);
+  const res = await getObject(url, key, `${wrapperHash.slice(2)}.rfc822`);
+  if (!res) return null;
+  return res.arrayBuffer();
 }

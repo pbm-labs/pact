@@ -256,8 +256,7 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 - [ ] Base mainnet
 
 **Leaf availability**
-- [x] Wrapper bytes + DKIM TXT snapshot, content-addressed by keccak256 (`GET /v1/wrappers/{hash}` on the ledger)
-- [ ] R2 object store (account R2 not enabled yet)
+- [x] Wrapper bytes + DKIM TXT snapshot in Supabase Storage, content-addressed by keccak256 (`GET /v1/wrappers/{hash}` on the ledger)
 - [ ] CID with each `publishRoot`
 - [ ] IPFS pin of the same bytes
 - [ ] Independent third-party mirrors

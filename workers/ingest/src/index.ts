@@ -12,6 +12,8 @@ export interface Env {
   CHAIN_RPC_URL: string;
   PUBLISHER_PRIVATE_KEY?: string;
   LEDGER_WRITE_SECRET?: string;
+  SUPABASE_URL?: string;
+  SUPABASE_SERVICE_ROLE_KEY?: string;
 }
 
 export default {
@@ -71,7 +73,7 @@ export default {
       const wrapperHash = hashWrapperMessage(rawBytes);
       const dkimKeys = await snapshotWrapperDkimKeys(witness.ids);
       try {
-        await storeWrapperBlob(env.DB, {
+        await storeWrapperBlob(env, {
           wrapperHash,
           rfc822: rawBytes,
           meta: {
