@@ -8,7 +8,7 @@ import {
   listLeavesSummary,
   upsertDomain,
 } from './ledger.js';
-import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash } from './wrapper-store.js';
+import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash, checkStoredWrapper } from './wrapper-store.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -108,7 +108,7 @@ export async function handleLedgerRequest(
     return json({ ok: true, domain });
   }
 
-  const wrapperMatch = path.match(/^\/v1\/wrappers\/([^/]+)(?:\/(rfc822))?$/);
+  const wrapperMatch = path.match(/^\/v1\/wrappers\/([^/]+)(?:\/(rfc822|check))?$/);
   if (request.method === 'GET' && wrapperMatch) {
     const wrapperHash = normalizeWrapperHash(decodeURIComponent(wrapperMatch[1]!));
     if (!wrapperHash) return json({ error: 'invalid_hash' }, 400);
@@ -123,11 +123,20 @@ export async function handleLedgerRequest(
         },
       });
     }
+    if (wrapperMatch[2] === 'check') {
+      const check = await checkStoredWrapper(env, wrapperHash);
+      if (!check) return json({ error: 'not_found' }, 404);
+      return json({
+        ...check,
+        ok: check.hashMatches && check.dkimKeysOnRecord,
+      });
+    }
     const meta = await getWrapperMeta(env, wrapperHash);
     if (!meta) return json({ error: 'not_found' }, 404);
     return json({
       ...meta,
       rfc822: `/v1/wrappers/${wrapperHash.slice(2)}/rfc822`,
+      check: `/v1/wrappers/${wrapperHash.slice(2)}/check`,
     });
   }
 

@@ -28,9 +28,11 @@ export {
   hashWrapperDkim,
   hashWrapperMessage,
   hashWrapperMessages,
+  checkWrapperOpening,
   unionWrapperDkim,
   unionWrapperHashes,
   type WrapperDkimId,
+  type WrapperOpeningCheck,
 } from './encoding/wrapper.js';
 export {
   buildLeafComponents,

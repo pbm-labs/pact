@@ -66,6 +66,50 @@ export async function fetchLedgerDomains(): Promise<{
   }
 }
 
+export interface LedgerWrapperCheck {
+  hashMatches: boolean;
+  dkimKeysOnRecord: boolean;
+  ok: boolean;
+}
+
+function wrapperHashHex(hash: string): string | null {
+  const hex = hash.trim().toLowerCase().replace(/^0x/, '');
+  return /^[0-9a-f]{64}$/.test(hex) ? hex : null;
+}
+
+export async function fetchWrapperCheck(hash: string): Promise<LedgerWrapperCheck | null> {
+  const hex = wrapperHashHex(hash);
+  if (!hex) return null;
+  try {
+    const res = await ledgerFetch(`/v1/wrappers/${hex}/check`);
+    if (!res.ok) return null;
+    const body = (await res.json()) as Partial<LedgerWrapperCheck>;
+    if (typeof body.hashMatches !== 'boolean' || typeof body.dkimKeysOnRecord !== 'boolean') {
+      return null;
+    }
+    return {
+      hashMatches: body.hashMatches,
+      dkimKeysOnRecord: body.dkimKeysOnRecord,
+      ok: body.hashMatches && body.dkimKeysOnRecord,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchWrapperChecks(
+  hashes: readonly string[],
+): Promise<Map<string, LedgerWrapperCheck>> {
+  const unique = [...new Set(hashes.map(wrapperHashHex).filter((hex): hex is string => Boolean(hex)))];
+  const rows = await Promise.all(
+    unique.map(async (hex) => {
+      const check = await fetchWrapperCheck(hex);
+      return check ? ([hex, check] as const) : null;
+    }),
+  );
+  return new Map(rows.filter((row): row is [string, LedgerWrapperCheck] => row != null));
+}
+
 export async function fetchLedgerDomain(domain: string): Promise<{
   domain: LedgerDomainRow;
   leaves: LedgerLeafRow[];

@@ -36,6 +36,28 @@ export function hashWrapperDkim(ids: readonly WrapperDkimId[]): `0x${string}` {
   return keccak256(toBytes(canonicalizeWrapperDkim(ids)));
 }
 
+export interface WrapperOpeningCheck {
+  hashMatches: boolean;
+  computedHash: `0x${string}`;
+  dkimKeysOnRecord: boolean;
+}
+
+/** Recheck what we can without the original SMTP bytes: stored hash + DNS TXT snapshot. */
+export function checkWrapperOpening(input: {
+  expectedHash: string;
+  rfc822: Uint8Array;
+  dkim: readonly { selector?: string; txt?: string[] | null }[];
+}): WrapperOpeningCheck {
+  const computedHash = hashWrapperMessage(input.rfc822);
+  const expected = input.expectedHash.trim().toLowerCase().replace(/^0x/, '');
+  const keyed = input.dkim.filter((row) => (row.selector ?? '').trim());
+  return {
+    hashMatches: computedHash.slice(2) === expected,
+    computedHash,
+    dkimKeysOnRecord: keyed.length > 0 && keyed.every((row) => (row.txt?.length ?? 0) > 0),
+  };
+}
+
 export function unionWrapperHashes(
   a: readonly string[] | undefined,
   b: readonly string[] | undefined,

@@ -269,7 +269,7 @@ Fail closed if no signature passes. Transient DNS failures while fetching the DK
 - Transition to community-maintained allowlist with transparent governance is planned for v0.3 (Section 9.4).
 
 
-**Reference implementation (August 2026):** Live ingest tries to DKIM-verify the wrapper (mailauth, DNS-over-HTTPS). Cloudflare Email Routing may rewrite `message.raw`, so a crypto miss does **not** drop the report: ingest then takes `d=` / `s=` from `DKIM-Signature` headers, or from an allowlisted reporter envelope. The Worker stores the received RFC822 and a DNS snapshot of `selector._domainkey.domain` in Supabase Storage, keyed by `keccak256` of those bytes, then queues the hash plus `d=` / selector pairs. Fetch: `GET /v1/wrappers/{hash}` and `GET /v1/wrappers/{hash}/rfc822`. `validateReportSource` still requires a reporter/`org_name` allowlist match plus envelope-from consistency. The Worker does **not** independently SPF-check the connecting MTA. Reports that are not DMARC XML are discarded. Wrapper openings (`d=` / `s=` and the message hash) are stored on the public leaf. Publishing a CID next to `publishRoot` is not live.
+**Reference implementation (August 2026):** Live ingest tries to DKIM-verify the wrapper (mailauth, DNS-over-HTTPS). Cloudflare Email Routing may rewrite `message.raw`, so a crypto miss does **not** drop the report: ingest then takes `d=` / `s=` from `DKIM-Signature` headers, or from an allowlisted reporter envelope. The Worker stores the received RFC822 and a DNS snapshot of `selector._domainkey.domain` in Supabase Storage, keyed by `keccak256` of those bytes, then queues the hash plus `d=` / selector pairs. Fetch: `GET /v1/wrappers/{hash}`, `GET /v1/wrappers/{hash}/rfc822`, and `GET /v1/wrappers/{hash}/check` (keccak256 of stored bytes vs the leaf hash; every keyed snapshot has TXT). `validateReportSource` still requires a reporter/`org_name` allowlist match plus envelope-from consistency. The Worker does **not** independently SPF-check the connecting MTA. Reports that are not DMARC XML are discarded. Wrapper openings (`d=` / `s=` and the message hash) are stored on the public leaf. Publishing a CID next to `publishRoot` is not live.
 
 **Anti-abuse:**
 
@@ -714,7 +714,7 @@ PACT does not protect against:
 
 **History inflation:** Generating false DKIM-pass volume requires controlling the sending domain's DKIM key and sending real email received and reported by allowlisted mail servers. Cost equals legitimate high-volume operation.
 
-**Fake aggregate reports:** Reports without a passing wrapper DKIM `d=` on the reporter or forwarding-agent allowlist are discarded (Section 3.1.1). Deduplication prevents naive replay. The wrapper witness is bound in the leaf (Appendix C.5), so a later verifier is not asked to trust ingest's private logs for `d=` / selector or the wrapper message hash. The reference implementation does not independently SPF-check the connecting MTA. Forwarded reports are witnessed by the forwarder's DKIM, not the original reporter's. Without a copy of the RFC822, a verifier cannot re-run DKIM; they can recompute the leaf from the published openings and check the Merkle proof.
+**Fake aggregate reports:** Reports without a passing wrapper DKIM `d=` on the reporter or forwarding-agent allowlist are discarded (Section 3.1.1). Deduplication prevents naive replay. The wrapper witness is bound in the leaf (Appendix C.5), so a later verifier is not asked to trust ingest's private logs for `d=` / selector or the wrapper message hash. The reference implementation does not independently SPF-check the connecting MTA. Forwarded reports are witnessed by the forwarder's DKIM, not the original reporter's. RFC 6376 on the Email Worker copy may fail. A checker can still confirm keccak256 of the stored bytes matches the leaf, and that the DKIM TXT from ingest's DNS lookup is on record. The leaf and Merkle proof remain independently recomputable from the published openings.
 
 **Receiver sybil attack:** A domain operator who operates or colludes with a reporting MTA could attempt to inflate published volume and reporter diversity by submitting self-generated reports. Mitigated in v0.2 by the reporter allowlist. v0.3 SHOULD add per-reporter volume caps and reporter reputation weighting.
 
@@ -783,7 +783,7 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 | Queue | Cloudflare Queues (`pact-reports`) |
 | Processing | Cloudflare Workers + `@pact/core` |
 | Leaf availability | Cloudflare D1 (`pact-ledger`) — schema in `workers/ingest/src/schema.sql` |
-| Public ledger API | `GET /v1/root`, `GET /v1/domains`, `GET /v1/domains/:domain` on the ingest Worker |
+| Public ledger API | `GET /v1/root`, `GET /v1/domains`, `GET /v1/domains/:domain`, `GET /v1/wrappers/:hash`, `GET /v1/wrappers/:hash/rfc822`, `GET /v1/wrappers/:hash/check` on the ingest Worker |
 | On-chain roots | `PactRoots` on **Base Sepolia** — [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Public pages | Next.js (`apps/web`) at `https://webuildreal.dev` |
 | DNS onboarding | Cloudflare API (OAuth), manual DNS, existing-tool forwarding |
@@ -799,7 +799,7 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 - Sepolia is a public testnet. Treat on-chain roots as independently checkable, not as mainnet finality.
 - The publisher key is permissioned (contract owner). Independent verifiers can still recompute the tree and compare it to `getLatestRoot()`.
 - Report acceptance requires a passing wrapper DKIM `d=` on the reporter (or forwarding-agent) allowlist. SPF of the connecting MTA is not independently checked.
-- The leaf commits the wrapper keccak256 and passing `d=` / selector (Appendix C.5). Those openings are on the public leaf. The RFC822 itself is not published (size, and envelope headers include reporter mailboxes). A verifier who archived the same message can recompute the hash and re-verify DKIM. A stranger without the bytes can still check the published openings against the leaf hash and Merkle proof, without asking ingest to re-verify.
+- The leaf commits the wrapper keccak256 and passing `d=` / selector (Appendix C.5). Those openings are on the public leaf. The RFC822 is not on-chain (size, and envelope headers include reporter mailboxes). The reference implementation stores the Email Worker copy plus a DKIM TXT snapshot in Supabase Storage. A checker confirms keccak256 of those bytes matches the leaf, and that the key from ingest's DNS lookup is on record. RFC 6376 on that copy may fail. A stranger can still recompute the leaf from the published openings and check the Merkle proof, without asking ingest to re-verify.
 - Leaves are available from the operator's D1 / HTTP API. The chain does not store leaves (§9.3).
 
 This stack is not normative. Any implementation producing identical leaf hashes (Appendix C) and compatible Merkle proofs (Section 3.3.1) is interoperable.
@@ -888,7 +888,7 @@ An empty list hashes `keccak256('')`. Live ingest MUST NOT accept a report whose
 3. Concatenate with `,` separator.
 4. `wrapper_dkim_hash = keccak256(utf8_bytes(canonical_string))`
 
-**Opening vs availability:** Implementations SHOULD publish the openings (the lists of message hashes and `d=` / selector pairs) with the leaf so anyone can recompute `wrapper_hash` and `wrapper_dkim_hash`. Publishing the RFC822 bytes is not required by the protocol. The reference implementation stores the received wrapper and a DKIM TXT snapshot in Supabase Storage, keyed by `keccak256`, at `GET https://ledger.webuildreal.dev/v1/wrappers/{hash}`. Those bytes are the Email Worker copy (Email Routing may have rewritten the SMTP message). A CID next to each `publishRoot` is not live.
+**Opening vs availability:** Implementations SHOULD publish the openings (the lists of message hashes and `d=` / selector pairs) with the leaf so anyone can recompute `wrapper_hash` and `wrapper_dkim_hash`. Publishing the RFC822 bytes is not required by the protocol. The reference implementation stores the received wrapper and a DKIM TXT snapshot in Supabase Storage, keyed by `keccak256`, at `GET https://ledger.webuildreal.dev/v1/wrappers/{hash}`. Recheck: `GET /v1/wrappers/{hash}/check` — hash of stored bytes matches the leaf, and every keyed snapshot has TXT. Those bytes are the Email Worker copy (Email Routing may have rewritten the SMTP message). A CID next to each `publishRoot` is not live.
 
 ---
 
@@ -907,7 +907,7 @@ An empty list hashes `keccak256('')`. Live ingest MUST NOT accept a report whose
 | Interpretation | Not protocol. Applications MAY score published fields; see `docs/examples/scoring.md` |
 | On-chain roots | `PactRoots` on Base Sepolia (testnet, permissioned publisher) |
 | Leaf availability | Off-chain (D1 + HTTP API); roots attest inclusion only |
-| Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked). Wrapper keccak256 and passing `d=` / `s=` are in the leaf (C.5). Reference ingest stores the received RFC822 + DKIM TXT snapshot in Supabase Storage, fetchable by hash. |
+| Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked). Wrapper keccak256 and passing `d=` / `s=` are in the leaf (C.5). Reference ingest stores the received RFC822 + DKIM TXT snapshot in Supabase Storage. Recheck: hash matches the leaf; DNS key is on record. |
 
 ---
 

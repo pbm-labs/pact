@@ -55,7 +55,7 @@ Manual and tool-based paths do not require returning to the site to "confirm" th
 
 ### 2.2 From Report to Proof
 
-When a report arrives, the wrapper RFC822 is DKIM-verified. Authentication metadata is extracted and committed as a leaf in an append-only Merkle tree. The leaf also commits the wrapper witness: keccak256 of the RFC822 and the passing DKIM \`d=\` / selector pairs. The raw report and the wrapper bytes are discarded after that. What remains is hashed signal: domain, period, pass and fail counts, selector and infrastructure identifiers, the reporting organization, and those wrapper openings.
+When a report arrives, the wrapper RFC822 is DKIM-verified. Authentication metadata is extracted and committed as a leaf in an append-only Merkle tree. The leaf also commits the wrapper witness: keccak256 of the RFC822 and the passing DKIM \`d=\` / selector pairs. The XML payload is discarded. The received wrapper and a snapshot of the DKIM TXT that was in DNS are stored off-chain, content-addressed by that keccak256. What remains on the public leaf is hashed signal: domain, period, pass and fail counts, selector and infrastructure identifiers, the reporting organization, and those wrapper openings.
 
 The tree root is published to \`PactRoots\` — a minimal contract that records roots, leaf counts, and timestamps. Roots supersede one another; none can be edited, backdated, or withdrawn once issued. Anyone can call \`getLatestRoot()\` and recompute inclusion proofs against that root without asking PACT's operators.
 
@@ -67,7 +67,7 @@ The first on-chain deployment is **Base Sepolia** (a public testnet), with a per
 
 Anyone can recompute a domain's inclusion proof from the published leaves and check it against the on-chain root, without permission, API keys, or operator involvement for the inclusion check itself.
 
-A trust record that requires trusting its operator for the root is not finished. PACT publishes the root on-chain so that check no longer depends on the operator's database. Remaining operator trust is narrower: leaf availability, a permissioned publisher key, and that the reference implementation does not independently SPF-check the connecting MTA (Cloudflare Email Routing accepted the hop). Report-source authentication requires a passing DKIM signature on the reporter's wrapper mail whose \`d=\` is an allowlisted reporter or forwarding agent. The passing \`d=\` / selector and the wrapper message hash are openings on the public leaf, so a stranger can recompute the commitment without asking ingest to re-verify. Without a copy of the RFC822 they cannot re-run DKIM. The mail itself is not published. Those are honest limits, not hidden ones.
+A trust record that requires trusting its operator for the root is not finished. PACT publishes the root on-chain so that check no longer depends on the operator's database. Remaining operator trust is narrower: leaf availability, a permissioned publisher key, and that the reference implementation does not independently SPF-check the connecting MTA (Cloudflare Email Routing accepted the hop). Report-source authentication requires a passing DKIM signature on the reporter's wrapper mail whose \`d=\` is an allowlisted reporter or forwarding agent. The passing \`d=\` / selector and the wrapper message hash are openings on the public leaf, so a stranger can recompute the commitment without asking ingest to re-verify. RFC 6376 on the Email Worker copy may fail. A checker can still confirm that keccak256 of the stored bytes matches the leaf, and that the DKIM TXT from ingest's DNS lookup is on record. The mail is not on-chain. Those are honest limits, not hidden ones.
 
 ---
 
@@ -112,7 +112,7 @@ PACT never accesses, processes, transmits, or stores message content, subject li
 
 ### 4.2 What Is Public
 
-Each leaf commits to the sending domain, reporting period, aggregate authentication counts, hashed infrastructure identifiers, and the wrapper witness (keccak256 of the RFC822 and passing \`d=\` / selector). Domain names are already public. The wrapper openings are published with the leaf so the commitment can be recomputed. The RFC822 itself is not stored.
+Each leaf commits to the sending domain, reporting period, aggregate authentication counts, hashed infrastructure identifiers, and the wrapper witness (keccak256 of the RFC822 and passing \`d=\` / selector). Domain names are already public. The wrapper openings are published with the leaf so the commitment can be recomputed. The RFC822 is not on-chain. The reference implementation keeps the received wrapper and DKIM TXT snapshot in operator storage, fetchable by hash.
 
 The record proves that a domain was confirmed at a certain volume in a certain period, and which wrapper DKIM signed the report. It reveals nothing about any message body or any person.
 
@@ -185,7 +185,7 @@ The protocol boundary is absolute: PACT Protocol never crosses into message-leve
 - Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools (\`/connect\`)
 - Automatic public-record creation on the first valid aggregate report
 - Ingest fail-closed on reporter-wrapper DKIM (Gmail, Microsoft, Yahoo, Apple, and allowlisted forwarders)
-- Wrapper witness in the leaf: passing \`d=\` / selector and keccak256 of the RFC822 (the mail itself is not published)
+- Wrapper witness in the leaf: passing \`d=\` / selector and keccak256 of the RFC822. Stored copy + DKIM TXT snapshot can be rechecked (hash matches the leaf; DNS key is on record). The mail is not on-chain.
 - Append-only Merkle tree with publicly recomputable inclusion proofs
 - Merkle roots published to \`PactRoots\` on Base Sepolia (testnet; permissioned publisher). First \`publishRoot\` waits on the first leaf after the D1 cutover
 - Off-chain leaf availability via a public HTTP API (Cloudflare D1)

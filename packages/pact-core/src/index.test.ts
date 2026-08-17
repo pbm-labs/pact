@@ -12,6 +12,7 @@ import {
   canonicalizeWrapperDkim,
   hashWrapperMessage,
   hashWrapperMessages,
+  checkWrapperOpening,
   mergeLeafAggregation,
   leafInputFromAggregation,
   addPactRuaToDmarc,
@@ -334,6 +335,39 @@ describe('wrapper witness', () => {
     expect(hash).toMatch(/^0x[a-f0-9]{64}$/);
     expect(hash).toBe(hashWrapperMessage(new TextEncoder().encode('rfc822')));
     expect(hash).not.toBe(hashWrapperMessage(new TextEncoder().encode('rfc823')));
+  });
+
+  it('rechecks stored bytes against the committed hash and DNS key snapshot', () => {
+    const rfc822 = new TextEncoder().encode('rfc822');
+    const expectedHash = hashWrapperMessage(rfc822);
+    expect(
+      checkWrapperOpening({
+        expectedHash,
+        rfc822,
+        dkim: [{ selector: '20230601', txt: ['v=DKIM1; p=abc'] }],
+      }),
+    ).toEqual({ hashMatches: true, computedHash: expectedHash, dkimKeysOnRecord: true });
+    expect(
+      checkWrapperOpening({
+        expectedHash,
+        rfc822: new TextEncoder().encode('other'),
+        dkim: [{ selector: '20230601', txt: ['v=DKIM1; p=abc'] }],
+      }).hashMatches,
+    ).toBe(false);
+    expect(
+      checkWrapperOpening({
+        expectedHash,
+        rfc822,
+        dkim: [{ selector: '20230601', txt: null }],
+      }).dkimKeysOnRecord,
+    ).toBe(false);
+    expect(
+      checkWrapperOpening({
+        expectedHash,
+        rfc822,
+        dkim: [{ selector: '', txt: ['v=DKIM1; p=abc'] }],
+      }).dkimKeysOnRecord,
+    ).toBe(false);
   });
 
   it('canonicalizes wrapper DKIM ids order-independently', () => {

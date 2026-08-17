@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useLocale } from '@/components/locale-provider';
-import type { DomainLeafSummary } from '@/lib/domain-data';
+import type { DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
+import type { Dictionary } from '@/lib/i18n/types';
 import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
 import { panel } from '@/lib/ui';
 
@@ -141,6 +142,7 @@ export function DomainLeavesPanel({
                 <th className={th}>#</th>
                 <th className={th}>{t.domain.colReporter}</th>
                 <th className={th}>{t.domain.colWrapper}</th>
+                <th className={th}>{t.domain.colOpening}</th>
                 <th className={th}>{t.domain.verification}</th>
                 <th className={th}>{t.domain.leafHash}</th>
               </tr>
@@ -155,6 +157,9 @@ export function DomainLeavesPanel({
                     title={leaf.wrapperHashes.join(', ') || undefined}
                   >
                     {formatWrapperDkim(leaf.wrapperDkim)}
+                  </td>
+                  <td className={`${td} ${openingClass(leaf.wrapperOpening)}`} title={openingTitle(leaf.wrapperOpening, t.domain)}>
+                    {openingLabel(leaf.wrapperOpening, t.domain)}
                   </td>
                   <td className={`${td} ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}>
                     {leaf.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
@@ -207,4 +212,30 @@ function formatWrapperDkim(ids: { domain: string; selector: string }[]): string 
   return ids
     .map((id) => (id.selector ? `${id.domain}:${id.selector}` : id.domain))
     .join(', ');
+}
+
+type DomainCopy = Dictionary['domain'];
+
+function openingLabel(opening: WrapperOpeningStatus, t: DomainCopy): string {
+  if (opening.status === 'none') return t.openingNone;
+  if (opening.status === 'missing') return t.openingMissing;
+  if (opening.ok) return t.openingOk;
+  if (!opening.hashMatches && !opening.dkimKeysOnRecord) return t.openingFail;
+  if (!opening.hashMatches) return t.openingHashMismatch;
+  return t.openingNoKey;
+}
+
+function openingTitle(opening: WrapperOpeningStatus, t: DomainCopy): string | undefined {
+  if (opening.status === 'none') return undefined;
+  if (opening.status === 'missing') return t.openingMissingTitle;
+  if (opening.ok) return t.openingOkTitle;
+  if (!opening.hashMatches && !opening.dkimKeysOnRecord) return t.openingFailTitle;
+  if (!opening.hashMatches) return t.openingHashMismatchTitle;
+  return t.openingNoKeyTitle;
+}
+
+function openingClass(opening: WrapperOpeningStatus): string {
+  if (opening.status === 'checked' && opening.ok) return 'text-verified';
+  if (opening.status === 'checked') return 'text-danger';
+  return 'text-muted-2';
 }

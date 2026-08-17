@@ -1,3 +1,5 @@
+import { checkWrapperOpening, type WrapperOpeningCheck } from '@pact/core';
+
 export interface WrapperStoreEnv {
   SUPABASE_URL?: string;
   SUPABASE_SERVICE_ROLE_KEY?: string;
@@ -124,4 +126,46 @@ export async function getWrapperRfc822(
   const res = await getObject(url, key, `${wrapperHash.slice(2)}.rfc822`);
   if (!res) return null;
   return res.arrayBuffer();
+}
+
+export interface StoredWrapperCheck extends WrapperOpeningCheck {
+  stored: true;
+  wrapperHash: `0x${string}`;
+  dkim: {
+    domain: string;
+    selector: string;
+    name: string;
+    hasTxt: boolean;
+    lookedUpAt: string;
+  }[];
+  rfc822: string;
+}
+
+export async function checkStoredWrapper(
+  env: WrapperStoreEnv,
+  wrapperHash: `0x${string}`,
+): Promise<StoredWrapperCheck | null> {
+  const [rfc822, meta] = await Promise.all([
+    getWrapperRfc822(env, wrapperHash),
+    getWrapperMeta(env, wrapperHash),
+  ]);
+  if (!rfc822 || !meta) return null;
+  const opening = checkWrapperOpening({
+    expectedHash: wrapperHash,
+    rfc822: new Uint8Array(rfc822),
+    dkim: meta.dkim,
+  });
+  return {
+    stored: true,
+    wrapperHash,
+    ...opening,
+    dkim: meta.dkim.map((row) => ({
+      domain: row.domain,
+      selector: row.selector,
+      name: row.name,
+      hasTxt: (row.txt?.length ?? 0) > 0,
+      lookedUpAt: row.lookedUpAt,
+    })),
+    rfc822: `/v1/wrappers/${wrapperHash.slice(2)}/rfc822`,
+  };
 }

@@ -7,9 +7,21 @@ import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
 import {
   fetchLedgerDomain,
   fetchLedgerDomains,
+  fetchWrapperChecks,
   ledgerConfigured,
+  type LedgerWrapperCheck,
 } from '@/lib/ledger';
 import { ensureDomainRegisteredAt } from '@/lib/ledger-admin';
+
+export type WrapperOpeningStatus =
+  | { status: 'none' }
+  | { status: 'missing' }
+  | {
+      status: 'checked';
+      hashMatches: boolean;
+      dkimKeysOnRecord: boolean;
+      ok: boolean;
+    };
 
 export interface DomainLeafSummary {
   reporterOrg: string;
@@ -20,6 +32,7 @@ export interface DomainLeafSummary {
   selectors: string[];
   wrapperDkim: { domain: string; selector: string }[];
   wrapperHashes: string[];
+  wrapperOpening: WrapperOpeningStatus;
   receivedAt: string | null;
   leafIndex: number;
   leafHash: Hash;
@@ -171,6 +184,9 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     computedRoot !== null &&
     latestRoot.toLowerCase() === computedRoot.toLowerCase();
   const onChain = payload.onChain != null;
+  const wrapperChecks = await fetchWrapperChecks(
+    leaves.flatMap((leaf) => safeJsonArray(leaf.wrapper_hashes)),
+  );
 
   return {
     status: 'live',
@@ -211,6 +227,10 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
           selectors: safeJsonArray(leaf.selectors),
           wrapperDkim: parseWrapperDkim(leaf.wrapper_dkim),
           wrapperHashes: safeJsonArray(leaf.wrapper_hashes),
+          wrapperOpening: combineWrapperOpening(
+            safeJsonArray(leaf.wrapper_hashes),
+            wrapperChecks,
+          ),
           receivedAt: leaf.created_at ?? null,
           leafIndex: proof.leafIndex,
           leafHash: proof.leafHash,
@@ -223,6 +243,25 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 }
 
 export { ledgerConfigured };
+
+function combineWrapperOpening(
+  hashes: string[],
+  checks: Map<string, LedgerWrapperCheck>,
+): WrapperOpeningStatus {
+  if (hashes.length === 0) return { status: 'none' };
+  const rows = hashes
+    .map((hash) => checks.get(hash.trim().toLowerCase().replace(/^0x/, '')) ?? null)
+    .filter((row): row is LedgerWrapperCheck => row != null);
+  if (rows.length !== hashes.length) return { status: 'missing' };
+  const hashMatches = rows.every((row) => row.hashMatches);
+  const dkimKeysOnRecord = rows.every((row) => row.dkimKeysOnRecord);
+  return {
+    status: 'checked',
+    hashMatches,
+    dkimKeysOnRecord,
+    ok: hashMatches && dkimKeysOnRecord,
+  };
+}
 
 function safeJsonArray(value: string | string[] | null | undefined): string[] {
   if (Array.isArray(value)) return value;
