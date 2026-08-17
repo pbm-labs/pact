@@ -53,6 +53,22 @@ function parseDohTxt(data: string): string {
   return data.replace(/"\s*"/g, '').replace(/^"|"$/g, '');
 }
 
+/** Email Routing often hands the Worker LF-normalized RFC822. DKIM wants CRLF. */
+export function ensureCrlf(raw: Uint8Array): Uint8Array {
+  let extra = 0;
+  for (let i = 0; i < raw.length; i++) {
+    if (raw[i] === 0x0a && (i === 0 || raw[i - 1] !== 0x0d)) extra += 1;
+  }
+  if (!extra) return raw;
+  const out = new Uint8Array(raw.length + extra);
+  let j = 0;
+  for (let i = 0; i < raw.length; i++) {
+    if (raw[i] === 0x0a && (i === 0 || raw[i - 1] !== 0x0d)) out[j++] = 0x0d;
+    out[j++] = raw[i]!;
+  }
+  return out;
+}
+
 /**
  * Cryptographically verify DKIM signatures on the wrapper RFC822 message.
  * Passing `d=` domains are the witness that the report came from that signer.
@@ -61,7 +77,7 @@ export async function verifyWrapperDkim(
   raw: Uint8Array,
   resolver: (name: string) => Promise<string[][]> = resolveTxtDoH,
 ): Promise<DkimCheck> {
-  const verified = await dkimVerify(Buffer.from(raw), {
+  const verified = await dkimVerify(Buffer.from(ensureCrlf(raw)), {
     resolver: async (name: string, type: string) => {
       if (String(type).toUpperCase() !== 'TXT') return [];
       return resolver(name);

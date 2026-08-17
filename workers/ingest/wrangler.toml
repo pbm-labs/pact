@@ -31,7 +31,8 @@ CHAIN_RPC_URL = "https://sepolia.base.org"
 #   LEDGER_WRITE_SECRET    — Bearer token for POST /v1/domains
 
 # After deploy: Cloudflare Email Routing → rua@pact.webuildreal.dev → Send to Worker → pact-ingest
-# Email handler DKIM-verifies the wrapper (RFC 6376) and queues keccak256(RFC822) + passing d=/s=.
+# Email handler tries RFC 6376 on the wrapper, then falls back to DKIM-Signature / envelope
+# so Email Routing rewrites do not drop RUA reports. Queues keccak256(RFC822) + d=/s=.
 # The RFC822 itself is not stored. Leaf encoding: Appendix C.4–C.5.
 # Legacy intake that still reaches the Worker: rua@pact.pbm-labs.com
 # rua@webuildreal.dev does not — apex MX is Proton.

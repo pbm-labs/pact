@@ -4,9 +4,19 @@ export {
   isAllowedForwardingAgent,
   isKnownReporterOrg,
   dkimMatchesReporter,
+  extractEnvelopeDomain,
+  domainSuffixMatches,
   REPORTER_ALLOWLIST,
+  FORWARDING_AGENT_ALLOWLIST,
   type ReportSourceAuth,
 } from './auth/allowlist.js';
+export {
+  parseDkimIdsFromRfc822,
+  resolveWrapperDkimWitness,
+  wrapperDkimFromEnvelope,
+  type WrapperDkimSource,
+  type WrapperDkimWitness,
+} from './auth/wrapper-witness.js';
 export { byteaToHash } from './encoding/bytea.js';
 export { normalizeDomain, normalizeReporter } from './encoding/domain.js';
 export { canonicalizeSelectors, hashSelectors } from './encoding/selectors.js';

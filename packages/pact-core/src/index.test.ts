@@ -3,6 +3,8 @@ import {
   aggregateReportToLeaves,
   computeLeafHash,
   parseDmarcAggregateReport,
+  parseDkimIdsFromRfc822,
+  resolveWrapperDkimWitness,
   SparseMerkleTree,
   validateReportSource,
   canonicalizeSelectors,
@@ -163,6 +165,56 @@ describe('allowlist', () => {
         dkimDomains: ['postmarkapp.com'],
       }),
     ).toBe(false);
+  });
+});
+
+describe('wrapper DKIM witness fallback', () => {
+  const folded = [
+    'From: noreply-dmarc-support@google.com',
+    'DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;',
+    ' d=google.com; s=20230601; bh=abc; b=xyz',
+    '',
+    'body',
+  ].join('\r\n');
+
+  it('reads d= and s= from a folded DKIM-Signature header', () => {
+    expect(parseDkimIdsFromRfc822(folded)).toEqual([{ domain: 'google.com', selector: '20230601' }]);
+  });
+
+  it('prefers a verified pass over headers', () => {
+    expect(
+      resolveWrapperDkimWitness({
+        verified: [{ domain: 'google.com', selector: '20230601' }],
+        rfc822: folded,
+        envelopeFrom: 'noreply-dmarc-support@google.com',
+      }),
+    ).toEqual({
+      ids: [{ domain: 'google.com', selector: '20230601' }],
+      source: 'verified',
+    });
+  });
+
+  it('uses signature headers when crypto did not pass', () => {
+    expect(
+      resolveWrapperDkimWitness({
+        verified: [],
+        rfc822: folded,
+        envelopeFrom: 'noreply-dmarc-support@google.com',
+      }).source,
+    ).toBe('signature-header');
+  });
+
+  it('uses the reporter envelope when signatures were stripped', () => {
+    expect(
+      resolveWrapperDkimWitness({
+        verified: [],
+        rfc822: 'From: noreply-dmarc-support@google.com\r\n\r\nxml',
+        envelopeFrom: 'noreply-dmarc-support@google.com',
+      }),
+    ).toEqual({
+      ids: [{ domain: 'google.com', selector: '' }],
+      source: 'envelope',
+    });
   });
 });
 
