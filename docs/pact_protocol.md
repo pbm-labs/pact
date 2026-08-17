@@ -269,7 +269,7 @@ Fail closed if no signature passes. Transient DNS failures while fetching the DK
 - Transition to community-maintained allowlist with transparent governance is planned for v0.3 (Section 9.4).
 
 
-**Reference implementation (August 2026):** Live ingest tries to DKIM-verify the wrapper (mailauth, DNS-over-HTTPS). Cloudflare Email Routing may rewrite `message.raw`, so a crypto miss does **not** drop the report: ingest then takes `d=` / `s=` from `DKIM-Signature` headers, or from an allowlisted reporter envelope. The Worker hashes the RFC822 (`keccak256`) and queues that hash plus those `d=` / selector pairs — not the wrapper bytes. `validateReportSource` still requires a reporter/`org_name` allowlist match plus envelope-from consistency. The Worker does **not** independently SPF-check the connecting MTA. Reports that are not DMARC XML are discarded. Wrapper openings (`d=` / `s=` and the message hash) are stored on the public leaf. The RFC822 itself is **not** published.
+**Reference implementation (August 2026):** Live ingest tries to DKIM-verify the wrapper (mailauth, DNS-over-HTTPS). Cloudflare Email Routing may rewrite `message.raw`, so a crypto miss does **not** drop the report: ingest then takes `d=` / `s=` from `DKIM-Signature` headers, or from an allowlisted reporter envelope. The Worker stores the received RFC822 and a DNS snapshot of `selector._domainkey.domain`, keyed by `keccak256` of those bytes, then queues the hash plus `d=` / selector pairs. Fetch: `GET /v1/wrappers/{hash}` and `GET /v1/wrappers/{hash}/rfc822`. `validateReportSource` still requires a reporter/`org_name` allowlist match plus envelope-from consistency. The Worker does **not** independently SPF-check the connecting MTA. Reports that are not DMARC XML are discarded. Wrapper openings (`d=` / `s=` and the message hash) are stored on the public leaf. Publishing a CID next to `publishRoot` is not live.
 
 **Anti-abuse:**
 
@@ -888,7 +888,7 @@ An empty list hashes `keccak256('')`. Live ingest MUST NOT accept a report whose
 3. Concatenate with `,` separator.
 4. `wrapper_dkim_hash = keccak256(utf8_bytes(canonical_string))`
 
-**Opening vs availability:** Implementations SHOULD publish the openings (the lists of message hashes and `d=` / selector pairs) with the leaf so anyone can recompute `wrapper_hash` and `wrapper_dkim_hash`. Publishing the RFC822 bytes is not required. The reference implementation does not store the wrapper. A verifier with an independent copy of the same RFC822 can check `keccak256(bytes)` against the published list and re-verify DKIM (RFC 6376) without asking the operator. A verifier without those bytes can still recompute the leaf from the published openings and verify the Merkle proof against the on-chain root.
+**Opening vs availability:** Implementations SHOULD publish the openings (the lists of message hashes and `d=` / selector pairs) with the leaf so anyone can recompute `wrapper_hash` and `wrapper_dkim_hash`. Publishing the RFC822 bytes is not required by the protocol. The reference implementation stores the received wrapper and a DKIM TXT snapshot, keyed by `keccak256`, at `GET https://ledger.webuildreal.dev/v1/wrappers/{hash}`. Those bytes are the Email Worker copy (Email Routing may have rewritten the SMTP message). A CID next to each `publishRoot` is not live.
 
 ---
 
@@ -907,7 +907,7 @@ An empty list hashes `keccak256('')`. Live ingest MUST NOT accept a report whose
 | Interpretation | Not protocol. Applications MAY score published fields; see `docs/examples/scoring.md` |
 | On-chain roots | `PactRoots` on Base Sepolia (testnet, permissioned publisher) |
 | Leaf availability | Off-chain (D1 + HTTP API); roots attest inclusion only |
-| Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked). Wrapper keccak256 and passing `d=` / `s=` are in the leaf (C.5); RFC822 not published |
+| Report source auth | Wrapper DKIM + reporter/`org_name` allowlist (SPF of connecting MTA: not independently checked). Wrapper keccak256 and passing `d=` / `s=` are in the leaf (C.5). Reference ingest stores the received RFC822 + DKIM TXT snapshot, fetchable by hash. |
 
 ---
 

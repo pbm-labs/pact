@@ -8,6 +8,7 @@ import {
   listLeavesSummary,
   upsertDomain,
 } from './ledger.js';
+import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash } from './wrapper-store.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -103,6 +104,29 @@ export async function handleLedgerRequest(
     const domain = normalizeDomain(body.domain);
     await upsertDomain(env.DB, domain, body.domain_registered_at ?? null);
     return json({ ok: true, domain });
+  }
+
+  const wrapperMatch = path.match(/^\/v1\/wrappers\/([^/]+)(?:\/(rfc822))?$/);
+  if (request.method === 'GET' && wrapperMatch) {
+    const wrapperHash = normalizeWrapperHash(decodeURIComponent(wrapperMatch[1]!));
+    if (!wrapperHash) return json({ error: 'invalid_hash' }, 400);
+    if (wrapperMatch[2] === 'rfc822') {
+      const rfc822 = await getWrapperRfc822(env.DB, wrapperHash);
+      if (!rfc822) return json({ error: 'not_found' }, 404);
+      return new Response(rfc822, {
+        headers: {
+          'Content-Type': 'message/rfc822',
+          'Cache-Control': 'public, max-age=31536000, immutable',
+          ...CORS,
+        },
+      });
+    }
+    const meta = await getWrapperMeta(env.DB, wrapperHash);
+    if (!meta) return json({ error: 'not_found' }, 404);
+    return json({
+      ...meta,
+      rfc822: `/v1/wrappers/${wrapperHash.slice(2)}/rfc822`,
+    });
   }
 
   return json({ error: 'not_found' }, 404);

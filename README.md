@@ -256,13 +256,16 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 - [ ] Base mainnet
 
 **Leaf availability**
-- [ ] Content-addressed blobs (public object store) + CID with each `publishRoot`; D1 as query index only
+- [x] Wrapper bytes + DKIM TXT snapshot, content-addressed by keccak256 (`GET /v1/wrappers/{hash}` on the ledger)
+- [ ] R2 object store (account R2 not enabled yet)
+- [ ] CID with each `publishRoot`
 - [ ] IPFS pin of the same bytes
 - [ ] Independent third-party mirrors
 
 **Reporter mail (boundary 2)**
-- [x] DKIM-verify of Gmail/Microsoft wrapper mail (fail closed; forwarding-agent DKIM is weaker than the reporter's own signature)
-- [x] Wrapper witness in the leaf (`d=` / selector + keccak256 of the RFC822; RFC822 not published)
+- [x] DKIM-verify of Gmail/Microsoft wrapper mail when the Email Worker copy still verifies; otherwise DKIM-Signature / allowlisted envelope
+- [x] Wrapper witness in the leaf (`d=` / selector + keccak256 of the RFC822)
+- [x] Received wrapper + DKIM key snapshot stored for later recheck
 
 ## Protocol implementation
 
@@ -272,7 +275,7 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 | Sparse Merkle | [§3.3.1](docs/pact_protocol.md) (32 levels) |
 | On-chain roots | `PactRoots` — [§9](docs/pact_protocol.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Scoring (example, not protocol) | `example-score-0.1` — [docs/examples/scoring.md](docs/examples/scoring.md) |
-| Allowlist + wrapper DKIM | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts`; ingest verifies RFC 6376 when the wrapper bytes still verify, otherwise uses `DKIM-Signature` / allowlisted envelope `d=`, then commits keccak256(RFC822) + those `d=`/`s=` in the leaf (Appendix C.5). The RFC822 is not stored. |
+| Allowlist + wrapper DKIM | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts`; ingest verifies RFC 6376 when the wrapper bytes still verify, otherwise uses `DKIM-Signature` / allowlisted envelope `d=`, then commits keccak256(RFC822) + those `d=`/`s=` in the leaf (Appendix C.5). Received wrapper + DKIM TXT snapshot: `GET /v1/wrappers/{hash}`. |
 
 ## License
 

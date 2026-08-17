@@ -108,3 +108,47 @@ export async function verifyWrapperDkim(
 
   return { passed, results };
 }
+
+export interface DkimKeySnapshot {
+  domain: string;
+  selector: string;
+  name: string;
+  txt: string[] | null;
+  error?: string;
+  lookedUpAt: string;
+}
+
+/** Snapshot `selector._domainkey.domain` TXT at ingest so a later recheck is not stuck on rotated keys. */
+export async function snapshotWrapperDkimKeys(
+  ids: readonly { domain: string; selector: string }[],
+  resolver: (name: string) => Promise<string[][]> = resolveTxtDoH,
+): Promise<DkimKeySnapshot[]> {
+  const out: DkimKeySnapshot[] = [];
+  const seen = new Set<string>();
+  for (const id of ids) {
+    const domain = id.domain.trim().toLowerCase();
+    const selector = id.selector.trim().toLowerCase();
+    if (!domain || !selector) continue;
+    const name = `${selector}._domainkey.${domain}`;
+    if (seen.has(name)) continue;
+    seen.add(name);
+    const lookedUpAt = new Date().toISOString();
+    try {
+      const rows = await resolver(name);
+      const txt = rows.map((row) => row.join('')).filter(Boolean);
+      out.push({
+        domain,
+        selector,
+        name,
+        txt: txt.length ? txt : null,
+        lookedUpAt,
+        ...(txt.length ? {} : { error: 'no key' }),
+      });
+    } catch (err) {
+      const message = String(err);
+      if (message.includes('doh rcode') || message.includes('doh ')) throw err;
+      out.push({ domain, selector, name, txt: null, error: message, lookedUpAt });
+    }
+  }
+  return out;
+}

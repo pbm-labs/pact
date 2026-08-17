@@ -2,7 +2,8 @@ import { hashWrapperMessage, parseDkimIdsFromRfc822, resolveWrapperDkimWitness }
 import { createProcessor, type ReportJob } from './process-report.js';
 import { extractDmarcXmlFromEmail } from './extract-xml.js';
 import { handleLedgerRequest } from './http.js';
-import { verifyWrapperDkim } from './dkim.js';
+import { snapshotWrapperDkimKeys, verifyWrapperDkim } from './dkim.js';
+import { storeWrapperBlob } from './wrapper-store.js';
 
 export interface Env {
   ENVIRONMENT: string;
@@ -68,6 +69,24 @@ export default {
 
       const primary = witness.ids[0]!;
       const wrapperHash = hashWrapperMessage(rawBytes);
+      const dkimKeys = await snapshotWrapperDkimKeys(witness.ids);
+      try {
+        await storeWrapperBlob(env.DB, {
+          wrapperHash,
+          rfc822: rawBytes,
+          meta: {
+            wrapperHash,
+            byteLength: rawBytes.byteLength,
+            receivedAt: new Date().toISOString(),
+            envelopeFrom: message.from,
+            dkimSource: witness.source,
+            dkim: dkimKeys,
+            bytesFrom: 'email-worker',
+          },
+        });
+      } catch (err) {
+        console.error(JSON.stringify({ event: 'wrapper_store_failed', error: String(err), wrapperHash }));
+      }
       await env.REPORT_QUEUE.send({
         envelopeFrom: message.from,
         rawXml: xml,
@@ -86,6 +105,7 @@ export default {
           size: rawBytes.length,
           dkim: witness.ids,
           dkimSource: witness.source,
+          dkimKeys: dkimKeys.length,
           wrapperHash,
         }),
       );

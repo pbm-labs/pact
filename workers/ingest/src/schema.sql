@@ -60,3 +60,13 @@ CREATE TABLE IF NOT EXISTS merkle_roots (
 
 CREATE INDEX IF NOT EXISTS leaves_domain_idx ON leaves (domain);
 CREATE INDEX IF NOT EXISTS merkle_roots_published_at_idx ON merkle_roots (published_at DESC);
+
+-- Content-addressed wrapper copy + DKIM TXT snapshot (keccak256 key).
+-- These RUA messages are small; R2 is the later object-store hop (no IPFS yet).
+CREATE TABLE IF NOT EXISTS wrapper_blobs (
+  wrapper_hash TEXT PRIMARY KEY,
+  rfc822 BLOB NOT NULL,
+  meta_json TEXT NOT NULL,
+  byte_length INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
