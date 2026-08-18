@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
+import { explorerAddressUrl, explorerTxUrl } from '@/lib/explorer';
 import type { Dictionary } from '@/lib/i18n/types';
 import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
 import { panel } from '@/lib/ui';
@@ -20,6 +21,8 @@ interface DomainLeavesPanelProps {
   anchorType: 'staging' | 'base' | null;
   rootMatchesPublished: boolean;
   latestRoot: string | null;
+  rootTxHash: string | null;
+  rootsContract: string | null;
   globalTreeLeafCount: number | null;
 }
 
@@ -30,6 +33,8 @@ export function DomainLeavesPanel({
   anchorType,
   rootMatchesPublished,
   latestRoot,
+  rootTxHash,
+  rootsContract,
   globalTreeLeafCount,
 }: DomainLeavesPanelProps) {
   const { t, locale } = useLocale();
@@ -110,6 +115,12 @@ export function DomainLeavesPanel({
               <MetaRow
                 label={t.domain.anchor}
                 value={anchorType === 'base' ? t.domain.onChain : t.domain.stagingOffChain}
+                href={
+                  anchorType === 'base' && rootsContract
+                    ? explorerAddressUrl(rootsContract)
+                    : null
+                }
+                title={anchorType === 'base' ? t.domain.explorerContract : undefined}
               />
               <MetaRow
                 label={t.domain.rootsMatch}
@@ -124,7 +135,18 @@ export function DomainLeavesPanel({
               <MetaRow
                 label={t.domain.publishedRoot}
                 value={truncateHash(latestRoot)}
-                title={latestRoot ?? undefined}
+                title={
+                  latestRoot && rootTxHash
+                    ? `${latestRoot} — ${t.domain.explorerTx}`
+                    : latestRoot ?? undefined
+                }
+                href={
+                  rootTxHash
+                    ? explorerTxUrl(rootTxHash)
+                    : rootsContract
+                      ? explorerAddressUrl(rootsContract)
+                      : null
+                }
                 mono
               />
             </tbody>
@@ -184,18 +206,32 @@ function MetaRow({
   label,
   value,
   title,
+  href,
   mono = false,
 }: {
   label: string;
   value: string;
   title?: string;
+  href?: string | null;
   mono?: boolean;
 }) {
   return (
     <tr className="border-b border-border last:border-0">
       <th className={`${th} text-muted-2 font-medium w-[9rem]`}>{label}</th>
-      <td className={`${td} ${mono ? 'font-mono break-all' : ''}`} title={title}>
-        {value}
+      <td className={`${td} ${mono ? 'font-mono break-all' : ''}`}>
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent font-semibold no-underline hover:opacity-90"
+            title={title}
+          >
+            {value}
+          </a>
+        ) : (
+          <span title={title}>{value}</span>
+        )}
       </td>
     </tr>
   );

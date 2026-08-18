@@ -189,6 +189,8 @@ export const de: Dictionary = {
     domainLeaves: 'Domain-Leaves',
     globalTree: 'Globaler Baum',
     publishedRoot: 'Veröffentlichter Root',
+    explorerTx: 'publishRoot-Transaktion auf Base Sepolia ansehen',
+    explorerContract: 'PactRoots auf Base Sepolia ansehen',
     proofsShown:
       'Nachweise für die {n} neuesten Leaves. Lade oben ältere Berichte, um frühere Zeiträume zu prüfen.',
     leafHash: 'Leaf-Hash',

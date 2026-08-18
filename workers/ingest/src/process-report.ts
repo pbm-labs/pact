@@ -12,6 +12,7 @@ import {
 import { publishRootOnChain } from './chain.js';
 import {
   findProcessedReport,
+  getTxHashForRoot,
   insertMerkleRoot,
   insertProcessedReport,
   listLeafHashes,
@@ -210,7 +211,10 @@ async function publishAnchoredRoot(env: IngestEnv): Promise<string | null> {
     return `on-chain publish: ${published.error}`;
   }
 
-  const txHash = 'txHash' in published ? published.txHash : null;
+  const txHash =
+    'txHash' in published
+      ? published.txHash
+      : await getTxHashForRoot(env.DB, root);
   await insertMerkleRoot(env.DB, {
     rootHash: root,
     leafCount: leaves.length,

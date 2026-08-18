@@ -155,6 +155,8 @@ function LivePage({ data }: { data: DomainLiveData }) {
           anchorType={data.anchorType}
           rootMatchesPublished={data.rootMatchesPublished}
           latestRoot={data.latestRoot}
+          rootTxHash={data.rootTxHash}
+          rootsContract={data.rootsContract}
           globalTreeLeafCount={data.globalTreeLeafCount}
         />
       </section>

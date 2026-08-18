@@ -2,6 +2,8 @@ import { normalizeDomain } from '@pact/core';
 import { PACT_ROOTS_ADDRESS, readLatestRoot } from './chain.js';
 import {
   getDomain,
+  getLatestBaseRoot,
+  getTxHashForRoot,
   listDomains,
   listLeafHashes,
   listLeavesForDomain,
@@ -21,6 +23,36 @@ function json(data: unknown, status = 200): Response {
     status,
     headers: { 'Content-Type': 'application/json', ...CORS },
   });
+}
+
+function isZeroRoot(root: string): boolean {
+  return /^0x0+$/i.test(root);
+}
+
+async function publicOnChain(env: { DB: D1Database; CHAIN_RPC_URL: string }) {
+  const onChain = await readLatestRoot(env.CHAIN_RPC_URL);
+  if (onChain && !isZeroRoot(onChain.root)) {
+    const txHash = await getTxHashForRoot(env.DB, onChain.root);
+    return {
+      root: onChain.root,
+      leafCount: Number(onChain.leafCount),
+      timestamp: Number(onChain.timestamp),
+      txHash,
+      contract: PACT_ROOTS_ADDRESS,
+    };
+  }
+
+  const stored = await getLatestBaseRoot(env.DB);
+  if (!stored) return null;
+  const txHash = stored.txHash ?? (await getTxHashForRoot(env.DB, stored.rootHash));
+  const publishedMs = Date.parse(stored.publishedAt.replace(' ', 'T') + 'Z');
+  return {
+    root: stored.rootHash,
+    leafCount: stored.leafCount,
+    timestamp: Number.isFinite(publishedMs) ? Math.floor(publishedMs / 1000) : 0,
+    txHash,
+    contract: PACT_ROOTS_ADDRESS,
+  };
 }
 
 export async function handleLedgerRequest(
@@ -49,17 +81,11 @@ export async function handleLedgerRequest(
   }
 
   if (request.method === 'GET' && path === '/v1/root') {
-    const onChain = await readLatestRoot(env.CHAIN_RPC_URL);
+    const onChain = await publicOnChain(env);
     return json({
       contract: PACT_ROOTS_ADDRESS,
       chain: 'base-sepolia',
-      onChain: onChain
-        ? {
-            root: onChain.root,
-            leafCount: Number(onChain.leafCount),
-            timestamp: Number(onChain.timestamp),
-          }
-        : null,
+      onChain,
     });
   }
 
@@ -76,18 +102,12 @@ export async function handleLedgerRequest(
     if (!row) return json({ error: 'not_found' }, 404);
     const domainLeaves = await listLeavesForDomain(env.DB, domain);
     const globalLeaves = await listLeafHashes(env.DB);
-    const onChain = await readLatestRoot(env.CHAIN_RPC_URL);
+    const onChain = await publicOnChain(env);
     return json({
       domain: row,
       leaves: domainLeaves,
       globalLeaves,
-      onChain: onChain
-        ? {
-            root: onChain.root,
-            leafCount: Number(onChain.leafCount),
-            timestamp: Number(onChain.timestamp),
-          }
-        : null,
+      onChain,
     });
   }
 

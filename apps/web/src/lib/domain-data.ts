@@ -50,6 +50,8 @@ export interface DomainLiveData {
   uniqueReporters: number;
   passRate: number;
   latestRoot: string | null;
+  rootTxHash: string | null;
+  rootsContract: string | null;
   rootMatchesPublished: boolean;
   domainLeafCount: number;
   globalTreeLeafCount: number | null;
@@ -200,6 +202,8 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       uniqueReporters: reporters.size,
       passRate,
       latestRoot,
+      rootTxHash: payload.onChain?.txHash ?? null,
+      rootsContract: payload.onChain?.contract ?? null,
       rootMatchesPublished,
       domainLeafCount: leaves.length,
       globalTreeLeafCount: payload.onChain?.leafCount ?? merkleContext?.tree.size ?? null,

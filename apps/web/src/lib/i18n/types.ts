@@ -152,6 +152,8 @@ export type Dictionary = {
     domainLeaves: string;
     globalTree: string;
     publishedRoot: string;
+    explorerTx: string;
+    explorerContract: string;
     proofsShown: string;
     leafHash: string;
     colWrapper: string;

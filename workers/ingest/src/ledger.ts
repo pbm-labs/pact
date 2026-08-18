@@ -242,6 +242,51 @@ export async function listLeafHashes(db: D1Database): Promise<{ leaf_index: numb
   return results ?? [];
 }
 
+export async function getLatestBaseRoot(db: D1Database): Promise<{
+  rootHash: string;
+  leafCount: number;
+  txHash: string | null;
+  publishedAt: string;
+} | null> {
+  const row = await db
+    .prepare(
+      `SELECT root_hash, leaf_count, tx_hash, published_at FROM merkle_roots
+       WHERE anchor_type = 'base'
+       ORDER BY id DESC
+       LIMIT 1`,
+    )
+    .first<{
+      root_hash: string;
+      leaf_count: number;
+      tx_hash: string | null;
+      published_at: string;
+    }>();
+  if (!row) return null;
+  return {
+    rootHash: row.root_hash,
+    leafCount: Number(row.leaf_count),
+    txHash: row.tx_hash,
+    publishedAt: row.published_at,
+  };
+}
+
+export async function getTxHashForRoot(
+  db: D1Database,
+  rootHash: string,
+): Promise<string | null> {
+  const row = await db
+    .prepare(
+      `SELECT tx_hash FROM merkle_roots
+       WHERE tx_hash IS NOT NULL AND tx_hash != ''
+         AND lower(root_hash) = lower(?)
+       ORDER BY id ASC
+       LIMIT 1`,
+    )
+    .bind(rootHash)
+    .first<{ tx_hash: string }>();
+  return row?.tx_hash ?? null;
+}
+
 export async function insertMerkleRoot(
   db: D1Database,
   input: {

@@ -51,6 +51,8 @@ export interface LedgerOnChain {
   root: string;
   leafCount: number;
   timestamp: number;
+  txHash?: string | null;
+  contract?: string;
 }
 
 export async function fetchLedgerDomains(): Promise<{
