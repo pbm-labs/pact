@@ -34,7 +34,6 @@ export interface DomainLeafSummary {
   wrapperDkim: { domain: string; selector: string }[];
   wrapperHashes: string[];
   wrapperOpening: WrapperOpeningStatus;
-  wrapperUrl: string | null;
   wrapperCheckUrl: string | null;
   receivedAt: string | null;
   leafIndex: number;
@@ -241,7 +240,6 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
           wrapperDkim: parseWrapperDkim(leaf.wrapper_dkim),
           wrapperHashes,
           wrapperOpening: combineWrapperOpening(wrapperHashes, wrapperChecks),
-          wrapperUrl: storedWrapper ? ledgerObjectUrl('wrappers', storedWrapper) : null,
           wrapperCheckUrl: storedWrapper
             ? ledgerObjectUrl('wrappers', storedWrapper, '/check')
             : null,

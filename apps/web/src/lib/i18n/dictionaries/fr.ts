@@ -194,7 +194,6 @@ export const fr: Dictionary = {
     explorerTx: 'Voir la transaction publishRoot sur Base Sepolia',
     explorerContract: 'Voir PactRoots sur Base Sepolia',
     leafLedger: 'Voir cette feuille sur le registre public',
-    wrapperLedger: 'Voir le wrapper stocké sur le registre public',
     openingCheck: 'Revérifier les octets stockés contre le hash de la feuille et la clé DNS',
     proofsShown:
       'Preuves affichées pour les {n} feuilles les plus récentes. Chargez les rapports plus anciens ci-dessus pour inspecter les périodes antérieures.',

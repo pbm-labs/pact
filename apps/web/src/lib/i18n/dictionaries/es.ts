@@ -192,7 +192,6 @@ export const es: Dictionary = {
     explorerTx: 'Ver la transacción publishRoot en Base Sepolia',
     explorerContract: 'Ver PactRoots en Base Sepolia',
     leafLedger: 'Ver esta hoja en el registro público',
-    wrapperLedger: 'Ver el wrapper almacenado en el registro público',
     openingCheck: 'Volver a comprobar los bytes almacenados contra el hash de la hoja y la clave DNS',
     proofsShown:
       'Se muestran las pruebas de las {n} hojas más recientes. Carga informes anteriores arriba para inspeccionar periodos previos.',

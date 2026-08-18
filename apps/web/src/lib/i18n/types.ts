@@ -155,7 +155,6 @@ export type Dictionary = {
     explorerTx: string;
     explorerContract: string;
     leafLedger: string;
-    wrapperLedger: string;
     openingCheck: string;
     proofsShown: string;
     leafHash: string;

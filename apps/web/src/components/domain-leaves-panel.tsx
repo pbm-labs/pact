@@ -172,36 +172,26 @@ export function DomainLeavesPanel({
             <tbody>
               {visibleLeaves.map((leaf) => (
                 <tr key={`proof-${leaf.leafIndex}`} className="border-b border-border last:border-0">
-                  <td className={`${td} font-mono tabular-nums text-muted`}>
-                    <LedgerLink href={leaf.leafUrl} title={t.domain.leafLedger}>
-                      #{leaf.leafIndex}
-                    </LedgerLink>
-                  </td>
+                  <td className={`${td} font-mono tabular-nums text-muted`}>#{leaf.leafIndex}</td>
                   <td className={`${td} text-txt`}>{reporterLabel(leaf.reporterOrg)}</td>
                   <td
                     className={`${td} font-mono text-muted-2`}
                     title={leaf.wrapperHashes.join(', ') || undefined}
                   >
-                    <LedgerLink href={leaf.wrapperUrl} title={t.domain.wrapperLedger}>
-                      {formatWrapperDkim(leaf.wrapperDkim)}
-                    </LedgerLink>
+                    {formatWrapperDkim(leaf.wrapperDkim)}
                   </td>
-                  <td className={`${td} ${openingClass(leaf.wrapperOpening)}`} title={openingTitle(leaf.wrapperOpening, t.domain)}>
-                    <LedgerLink
-                      href={leaf.wrapperCheckUrl}
-                      title={t.domain.openingCheck}
-                      accent={false}
-                    >
+                  <td
+                    className={`${td} ${openingClass(leaf.wrapperOpening, Boolean(leaf.wrapperCheckUrl))}`}
+                    title={openingTitle(leaf.wrapperOpening, t.domain)}
+                  >
+                    <LedgerLink href={leaf.wrapperCheckUrl} title={t.domain.openingCheck}>
                       {openingLabel(leaf.wrapperOpening, t.domain)}
                     </LedgerLink>
                   </td>
                   <td className={`${td} ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}>
                     {leaf.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
                   </td>
-                  <td
-                    className={`${td} font-mono text-muted-2`}
-                    title={leaf.leafHash}
-                  >
+                  <td className={`${td} font-mono text-muted-2`} title={leaf.leafHash}>
                     <LedgerLink href={leaf.leafUrl} title={`${leaf.leafHash} — ${t.domain.leafLedger}`}>
                       {truncateHash(leaf.leafHash)}
                     </LedgerLink>
@@ -254,12 +244,10 @@ function MetaRow({
 function LedgerLink({
   href,
   title,
-  accent = true,
   children,
 }: {
   href: string | null;
   title?: string;
-  accent?: boolean;
   children: ReactNode;
 }) {
   if (!href) return children;
@@ -268,7 +256,7 @@ function LedgerLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`${accent ? 'text-accent' : ''} font-semibold no-underline hover:opacity-90`}
+      className="text-accent font-semibold no-underline hover:opacity-90"
       title={title}
     >
       {children}
@@ -309,8 +297,8 @@ function openingTitle(opening: WrapperOpeningStatus, t: DomainCopy): string | un
   return t.openingNoKeyTitle;
 }
 
-function openingClass(opening: WrapperOpeningStatus): string {
-  if (opening.status === 'checked' && opening.ok) return 'text-verified';
-  if (opening.status === 'checked') return 'text-danger';
+function openingClass(opening: WrapperOpeningStatus, linked: boolean): string {
+  if (opening.status === 'checked' && !opening.ok) return 'text-danger';
+  if (linked) return '';
   return 'text-muted-2';
 }

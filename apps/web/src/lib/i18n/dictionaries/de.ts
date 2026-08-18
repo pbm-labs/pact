@@ -192,7 +192,6 @@ export const de: Dictionary = {
     explorerTx: 'publishRoot-Transaktion auf Base Sepolia ansehen',
     explorerContract: 'PactRoots auf Base Sepolia ansehen',
     leafLedger: 'Dieses Leaf im öffentlichen Ledger ansehen',
-    wrapperLedger: 'Den gespeicherten Wrapper im öffentlichen Ledger ansehen',
     openingCheck: 'Gespeicherte Bytes gegen Leaf-Hash und DNS-Schlüssel prüfen',
     proofsShown:
       'Nachweise für die {n} neuesten Leaves. Lade oben ältere Berichte, um frühere Zeiträume zu prüfen.',
