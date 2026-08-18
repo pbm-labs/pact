@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
 import { explorerAddressUrl, explorerTxUrl } from '@/lib/explorer';
@@ -172,16 +172,28 @@ export function DomainLeavesPanel({
             <tbody>
               {visibleLeaves.map((leaf) => (
                 <tr key={`proof-${leaf.leafIndex}`} className="border-b border-border last:border-0">
-                  <td className={`${td} font-mono tabular-nums text-muted`}>#{leaf.leafIndex}</td>
+                  <td className={`${td} font-mono tabular-nums text-muted`}>
+                    <LedgerLink href={leaf.leafUrl} title={t.domain.leafLedger}>
+                      #{leaf.leafIndex}
+                    </LedgerLink>
+                  </td>
                   <td className={`${td} text-txt`}>{reporterLabel(leaf.reporterOrg)}</td>
                   <td
                     className={`${td} font-mono text-muted-2`}
                     title={leaf.wrapperHashes.join(', ') || undefined}
                   >
-                    {formatWrapperDkim(leaf.wrapperDkim)}
+                    <LedgerLink href={leaf.wrapperUrl} title={t.domain.wrapperLedger}>
+                      {formatWrapperDkim(leaf.wrapperDkim)}
+                    </LedgerLink>
                   </td>
                   <td className={`${td} ${openingClass(leaf.wrapperOpening)}`} title={openingTitle(leaf.wrapperOpening, t.domain)}>
-                    {openingLabel(leaf.wrapperOpening, t.domain)}
+                    <LedgerLink
+                      href={leaf.wrapperCheckUrl}
+                      title={t.domain.openingCheck}
+                      accent={false}
+                    >
+                      {openingLabel(leaf.wrapperOpening, t.domain)}
+                    </LedgerLink>
                   </td>
                   <td className={`${td} ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}>
                     {leaf.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
@@ -190,7 +202,9 @@ export function DomainLeavesPanel({
                     className={`${td} font-mono text-muted-2`}
                     title={leaf.leafHash}
                   >
-                    {truncateHash(leaf.leafHash)}
+                    <LedgerLink href={leaf.leafUrl} title={`${leaf.leafHash} — ${t.domain.leafLedger}`}>
+                      {truncateHash(leaf.leafHash)}
+                    </LedgerLink>
                   </td>
                 </tr>
               ))}
@@ -234,6 +248,31 @@ function MetaRow({
         )}
       </td>
     </tr>
+  );
+}
+
+function LedgerLink({
+  href,
+  title,
+  accent = true,
+  children,
+}: {
+  href: string | null;
+  title?: string;
+  accent?: boolean;
+  children: ReactNode;
+}) {
+  if (!href) return children;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${accent ? 'text-accent' : ''} font-semibold no-underline hover:opacity-90`}
+      title={title}
+    >
+      {children}
+    </a>
   );
 }
 

@@ -783,7 +783,7 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 | Queue | Cloudflare Queues (`pact-reports`) |
 | Processing | Cloudflare Workers + `@pact/core` |
 | Leaf availability | Cloudflare D1 (`pact-ledger`) — schema in `workers/ingest/src/schema.sql` |
-| Public ledger API | `GET /v1/root`, `GET /v1/domains`, `GET /v1/domains/:domain`, `GET /v1/wrappers/:hash`, `GET /v1/wrappers/:hash/rfc822`, `GET /v1/wrappers/:hash/check` on the ingest Worker |
+| Public ledger API | `GET /v1/root`, `GET /v1/domains`, `GET /v1/domains/:domain`, `GET /v1/leaves/:hash`, `GET /v1/wrappers/:hash`, `GET /v1/wrappers/:hash/rfc822`, `GET /v1/wrappers/:hash/check` on the ingest Worker |
 | On-chain roots | `PactRoots` on **Base Sepolia** — [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Public pages | Next.js (`apps/web`) at `https://webuildreal.dev` |
 | DNS onboarding | Cloudflare API (OAuth), manual DNS, existing-tool forwarding |

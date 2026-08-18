@@ -3,6 +3,7 @@ import { PACT_ROOTS_ADDRESS, readLatestRoot } from './chain.js';
 import {
   getDomain,
   getLatestBaseRoot,
+  getLeafByHash,
   getTxHashForRoot,
   listDomains,
   listLeafHashes,
@@ -126,6 +127,15 @@ export async function handleLedgerRequest(
     const domain = normalizeDomain(body.domain);
     await upsertDomain(env.DB, domain, body.domain_registered_at ?? null);
     return json({ ok: true, domain });
+  }
+
+  const leafMatch = path.match(/^\/v1\/leaves\/([^/]+)$/);
+  if (request.method === 'GET' && leafMatch) {
+    const leafHash = normalizeWrapperHash(decodeURIComponent(leafMatch[1]!));
+    if (!leafHash) return json({ error: 'invalid_hash' }, 400);
+    const leaf = await getLeafByHash(env.DB, leafHash);
+    if (!leaf) return json({ error: 'not_found' }, 404);
+    return json(leaf);
   }
 
   const wrapperMatch = path.match(/^\/v1\/wrappers\/([^/]+)(?:\/(rfc822|check))?$/);

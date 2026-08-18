@@ -9,6 +9,7 @@ import {
   fetchLedgerDomains,
   fetchWrapperChecks,
   ledgerConfigured,
+  ledgerObjectUrl,
   type LedgerWrapperCheck,
 } from '@/lib/ledger';
 import { ensureDomainRegisteredAt } from '@/lib/ledger-admin';
@@ -33,9 +34,12 @@ export interface DomainLeafSummary {
   wrapperDkim: { domain: string; selector: string }[];
   wrapperHashes: string[];
   wrapperOpening: WrapperOpeningStatus;
+  wrapperUrl: string | null;
+  wrapperCheckUrl: string | null;
   receivedAt: string | null;
   leafIndex: number;
   leafHash: Hash;
+  leafUrl: string | null;
   merkleProof: Hash[];
   merkleProofValid: boolean;
 }
@@ -222,6 +226,11 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
                 proofValid: false,
               };
 
+        const wrapperHashes = safeJsonArray(leaf.wrapper_hashes);
+        const storedWrapper = wrapperHashes.find((hash) =>
+          wrapperChecks.has(hash.trim().toLowerCase().replace(/^0x/, '')),
+        );
+
         return {
           reporterOrg: leaf.reporter_org,
           periodStart: Number(leaf.period_start),
@@ -230,14 +239,16 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
           dkimFailCount: Number(leaf.dkim_fail_count),
           selectors: safeJsonArray(leaf.selectors),
           wrapperDkim: parseWrapperDkim(leaf.wrapper_dkim),
-          wrapperHashes: safeJsonArray(leaf.wrapper_hashes),
-          wrapperOpening: combineWrapperOpening(
-            safeJsonArray(leaf.wrapper_hashes),
-            wrapperChecks,
-          ),
+          wrapperHashes,
+          wrapperOpening: combineWrapperOpening(wrapperHashes, wrapperChecks),
+          wrapperUrl: storedWrapper ? ledgerObjectUrl('wrappers', storedWrapper) : null,
+          wrapperCheckUrl: storedWrapper
+            ? ledgerObjectUrl('wrappers', storedWrapper, '/check')
+            : null,
           receivedAt: leaf.created_at ?? null,
           leafIndex: proof.leafIndex,
           leafHash: proof.leafHash,
+          leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
           merkleProof: proof.proof,
           merkleProofValid: proof.proofValid && rootMatchesPublished,
         };

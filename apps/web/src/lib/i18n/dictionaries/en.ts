@@ -192,6 +192,9 @@ export const en: Dictionary = {
     publishedRoot: 'Published root',
     explorerTx: 'View the publishRoot transaction on Base Sepolia',
     explorerContract: 'View PactRoots on Base Sepolia',
+    leafLedger: 'View this leaf on the public ledger',
+    wrapperLedger: 'View the stored wrapper on the public ledger',
+    openingCheck: 'Recheck stored bytes against the leaf hash and DNS key',
     proofsShown:
       'Proofs shown for the {n} most recent leaves. Load older reports above to inspect earlier periods.',
     leafHash: 'Leaf hash',

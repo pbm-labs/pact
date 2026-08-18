@@ -354,6 +354,16 @@ export async function listLeavesForDomain(db: D1Database, domain: string): Promi
   return results ?? [];
 }
 
+export async function getLeafByHash(db: D1Database, leafHash: `0x${string}`): Promise<LeafRow | null> {
+  const hex = leafHash.slice(2);
+  return (
+    (await db
+      .prepare(`SELECT * FROM leaves WHERE lower(leaf_hash) IN (?, ?) LIMIT 1`)
+      .bind(leafHash.toLowerCase(), hex.toLowerCase())
+      .first<LeafRow>()) ?? null
+  );
+}
+
 export async function listLeavesSummary(db: D1Database): Promise<
   {
     domain: string;

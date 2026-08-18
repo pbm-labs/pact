@@ -6,6 +6,17 @@ export function ledgerConfigured(): boolean {
   return Boolean(process.env.LEDGER_URL);
 }
 
+export function ledgerObjectUrl(
+  collection: 'leaves' | 'wrappers',
+  hash: string,
+  suffix = '',
+): string | null {
+  const base = ledgerUrl();
+  const hex = hash.trim().toLowerCase().replace(/^0x/, '');
+  if (!base || !/^[0-9a-f]{64}$/.test(hex)) return null;
+  return `${base}/v1/${collection}/${hex}${suffix}`;
+}
+
 async function ledgerFetch(path: string, init?: RequestInit): Promise<Response> {
   return fetch(`${ledgerUrl()}${path}`, {
     ...init,

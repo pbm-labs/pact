@@ -220,6 +220,10 @@ Public ledger API (CORS open for GET):
 | GET | `/v1/root` | Latest on-chain root |
 | GET | `/v1/domains` | Domains + leaf summaries |
 | GET | `/v1/domains/:domain` | Domain, leaves, global hashes, on-chain root |
+| GET | `/v1/leaves/:hash` | One leaf by keccak256 |
+| GET | `/v1/wrappers/:hash` | Stored wrapper + DKIM TXT snapshot |
+| GET | `/v1/wrappers/:hash/check` | Hash matches the leaf; DNS key is on record |
+| GET | `/v1/wrappers/:hash/rfc822` | Wrapper bytes |
 | POST | `/v1/domains` | Bearer `LEDGER_WRITE_SECRET` |
 
 ## Testing
