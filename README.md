@@ -252,11 +252,11 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 - [x] OAuth client on `webuildreal.dev` (callback + publisher TXT)
 - [x] Legacy `pact.pbm-labs.com` kept for mail only (no HTTP app route)
 - [x] Merkle inclusion proofs on `/records/{domain}`
-- [ ] End-to-end with live reporter data after D1 cutover (`webuildreal.dev`)
+- [x] End-to-end with live reporter data (`webuildreal.dev`)
 
 **On-chain (boundary 1)**
 - [x] Deploy `PactRoots` on Base Sepolia (`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`)
-- [ ] First `publishRoot` from ingest after a real leaf
+- [x] First `publishRoot` from ingest after a real leaf
 - [ ] Base mainnet
 
 **Leaf availability**

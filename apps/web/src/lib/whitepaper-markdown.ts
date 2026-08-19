@@ -2,14 +2,14 @@ export const LOCAL_WHITEOBER_MARKDOWN = `
 # PACT Protocol
 ## Provenance Attestation and Chain of Trust
 
-**Version 1.9 — August 2026**  
+**Version 1.10 — August 2026**  
 **hello@pbm-labs.com**
 
 ---
 
 ## Abstract
 
-The internet was built without a durable way to tell who is real. Names on screens can be fabricated in minutes. History cannot.
+The internet was built without a durable, independently checkable record of what happened. Names on screens can be fabricated in minutes. History cannot.
 
 Every domain that sends mail already participates in a quiet, global verification loop: outbound messages are cryptographically signed; receiving mail systems check those signatures and emit structured aggregate reports. Those reports have been produced continuously since 2011. They contain no message content and no personal identities — only whether a domain showed up honestly, how often, and through which infrastructure.
 
@@ -23,7 +23,7 @@ The public record is stubbornly boring about what happened: days independently c
 
 ### 1.1 A Foundation Missing in Plain Sight
 
-The internet grew into a civilization of strangers without a shared way to tell who is real. We got used to it. Almost everything that looks like proof on a screen can now be manufactured cheaply: aged domains, polished profiles, perfect paperwork, synthetic documents.
+The internet grew into a civilization of strangers without a shared, independently checkable record of what happened. We got used to it. Almost everything that looks like proof on a screen can now be manufactured cheaply: aged domains, polished profiles, perfect paperwork, synthetic documents.
 
 What cannot be manufactured is yesterday. Real history only accumulates while independent parties are watching. That is the gap PACT exists to close — not as an alarm, and not as another authority's claim, but as a public record of what actually happened.
 
@@ -43,7 +43,7 @@ PACT captures them.
 
 ### 2.1 Connecting a Domain
 
-A domain joins PACT by adding PACT as a report destination in DNS — one field, usually on an existing DMARC record. No software to install. No API to integrate. No change to how mail is sent or received.
+A domain joins PACT by adding PACT as a report destination in DNS — one field, usually on an existing DMARC record. No software to install. No API to integrate. No new ledger, token, or account to join. No change to how mail is sent or received. Independent receiving systems already emit the reports; DNS only points at them.
 
 Paths that work today:
 
@@ -86,7 +86,7 @@ No committee assigns a verdict. No application process gates the record. No regi
 Domain registration age and independently confirmed history are different clocks. They must never be collapsed into one number.
 
 - **Domain registered** answers: how long has this name existed on the internet?
-- **Verified since** answers: how long has independent infrastructure been confirming this domain inside PACT?
+- **Independently confirmed since** answers: how long has independent infrastructure been confirming this domain inside PACT?
 
 An institution that connects late still has a long registration history — and a short independently confirmed history. PACT reports both. Domain age MUST NOT be folded into any application's maturity of PACT history. Inflating that clock with registration age would let a hijacker inherit reputation the moment they seize DNS.
 
@@ -124,23 +124,23 @@ Domain names are not personal data under GDPR. Core protocol processing falls ou
 
 ---
 
-## 5. Proof of Operational Work
+## 5. Temporal Provenance
 
-### 5.1 Consensus Hidden in Plain Sight
+### 5.1 Time is in the evidence
 
 Authenticated institutional mail requires a domain, DNS, signing keys, delivery infrastructure, and continuous receipt by real systems that then certify the result. Those costs compound over time and cannot be trivially manufactured.
 
-Receiving mail systems act as independent validators. They have no relationship with PACT, no incentive to coordinate, and no awareness their reports are being used as provenance. Their uncoordinated agreement over time is the evidence.
+Receiving mail systems already observe ordinary mail for their own reasons. They have no relationship with PACT, no incentive to coordinate, and no awareness their reports are being used as provenance. Calendar time passing while they were already watching is the evidence — not a wait anyone proves they respected.
 
-### 5.2 Why Fabrication Fails
+### 5.2 Why fabrication fails
 
 To forge a strong history, an attacker would need to send authenticated mail at real volume, over a long time, through infrastructure that survives major providers' abuse filters, to recipients spanning many independent reporting organizations — without interruption long enough for maturity to accumulate.
 
-That is not an exploit. That is legitimate operation. Sybil resistance is economic, not bureaucratic.
+That is not an exploit. That is ordinary operation. Sybil resistance is economic, not bureaucratic.
 
-### 5.3 Inherited Trust Is Not Permanent Trust
+### 5.3 Inherited history is not permanent trust
 
-Proof of Operational Work stops attackers building fake history from zero. It does not, by itself, stop an attacker who seizes a domain that already has history.
+That trail stops attackers building fake history from zero. It does not, by itself, stop an attacker who seizes a domain that already has history.
 
 Applications that interpret this history should treat that interpretation as continuously re-evaluated. Leaf data already records infrastructure identifiers (selectors, IP ranges) so discontinuity monitoring can be added without migrating the past. When shipping, abrupt infrastructure breaks should discount inherited reputation until the new pattern stabilizes or is confirmed as intentional. That monitoring layer is on the roadmap (Section 8); the data it needs is already being collected.
 
@@ -160,7 +160,7 @@ The protocol does not answer whether a domain is legitimate. Applications may us
 
 Cryptographic identity solved ownership of identifiers. It did not solve empty containers: a fraudulent entity and a real institution can look identical on day one.
 
-PACT binds real-world operational history to a domain identity without appointing a trusted intermediary as judge. Merkle roots are meant to be consumable by any downstream system. Applications MAY interpret the public record; the protocol does not. The base layer is the public record. What is built on top stays open.
+PACT does not ask a domain to join a new ledger, token, or account. It captures cryptographic exhaust from plumbing that already exists. Merkle roots are published on-chain, outside the operator's database, so the operator cannot quietly publish a different past. Applications MAY interpret the public record; the protocol does not. The base layer is the public record. What is built on top stays open.
 
 ---
 
@@ -187,7 +187,7 @@ The protocol boundary is absolute: PACT Protocol never crosses into message-leve
 - Ingest fail-closed on reporter-wrapper DKIM (Gmail, Microsoft, Yahoo, Apple, and allowlisted forwarders)
 - Wrapper witness in the leaf: passing \`d=\` / selector and keccak256 of the RFC822. Stored copy + DKIM TXT snapshot can be rechecked (hash matches the leaf; DNS key is on record). The mail is not on-chain.
 - Append-only Merkle tree with publicly recomputable inclusion proofs
-- Merkle roots published to \`PactRoots\` on Base Sepolia (testnet; permissioned publisher). First \`publishRoot\` waits on the first leaf after the D1 cutover
+- Merkle roots published to \`PactRoots\` on Base Sepolia (testnet; permissioned publisher), outside this operator
 - Off-chain leaf availability via a public HTTP API (Cloudflare D1)
 - Public records ranked by independently confirmed history (days, then report count)
 - Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge
@@ -195,7 +195,7 @@ The protocol boundary is absolute: PACT Protocol never crosses into message-leve
 
 **Waiting on the world**
 
-- First live leaves after D1 cutover, then the first \`publishRoot\`. Ingest already writes a leaf and publishes a root when a valid report arrives.
+- Further independent reports — history only compounds while new batches arrive.
 
 **Later**
 
@@ -214,6 +214,6 @@ The reference implementation is operated under [we build real](https://webuildre
 ---
 
 *PACT — Provenance Attestation and Chain of Trust*  
-*Whitepaper v1.9 — August 2026*  
+*Whitepaper v1.10 — August 2026*  
 *hello@pbm-labs.com*
 `;

@@ -30,15 +30,15 @@ export const fr: Dictionary = {
     closeVideo: 'Fermer',
     howEyebrow: 'Comment ça marche',
     howTitle: 'De l’évidence que l’on peut revérifier.',
-    howLead: 'Il ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public.',
+    howLead: 'Il ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public. Personne ne rejoint un nouveau réseau — des systèmes indépendants émettent déjà les rapports ; le DNS ne fait que pointer vers eux.',
     howSteps: [
       {
         title: 'Des systèmes indépendants le rapportent',
-        body: 'Chaque entrée vient de systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — qui n’ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu’ils servent d’évidence. Leur accord non coordonné dans le temps est ce que contient le registre.',
+        body: 'Chaque entrée vient de systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — qui n’ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu’ils servent d’évidence. Leur accord non coordonné dans le temps est ce que contient le registre. Ils regardaient déjà pour leurs propres raisons.',
       },
       {
         title: 'N’importe qui peut vérifier le registre',
-        body: 'Le registre public est append-only. N’importe qui peut recalculer ce qui a été publié sans demander la permission. C’est de l’évidence que l’on peut revérifier — pas une affirmation à accepter.',
+        body: 'Le registre public est append-only. Les racines Merkle sont publiées on-chain, hors de cet opérateur, pour que nous ne puissions pas publier en silence un passé différent. N’importe qui peut recalculer l’inclusion sans demander la permission. C’est de l’évidence que l’on peut revérifier — pas une affirmation à accepter.',
       },
       {
         title: 'Hier ne se fabrique pas',
@@ -92,7 +92,7 @@ export const fr: Dictionary = {
     pathToolBadge: 'Outil existant',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
-      "Vous vous connecterez à Cloudflare et nous ajouterons l'enregistrement de vérification pour vous.",
+      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS. Le registre commence à l’arrivée des rapports indépendants — pas à l’enregistrement de la ligne DNS.',
     toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
       'Votre outil vérifie déjà ce domaine. Le pointer ici nous inclut dans cette vérification. Votre fiche publique apparaît automatiquement à l’arrivée du premier rapport (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
@@ -162,11 +162,11 @@ export const fr: Dictionary = {
     passRate: 'Taux de réussite',
     techSummary: 'Ce qui a été publié — rapports et preuves cryptographiques',
     domainRegistered: 'Domaine enregistré',
-    verifiedSince: 'Confirmé depuis',
+    verifiedSince: 'Confirmé de façon indépendante depuis',
     awaitingReport: 'En attente du premier rapport',
     noRecordYet: 'Pas encore de registre public.',
     noRecordHint:
-      "Si vous avez déjà ajouté l'enregistrement de vérification, mettez cette page en favori. Elle se met à jour seule dès que le premier contrôle indépendant revient, généralement sous un jour.",
+      'Si vous avez déjà ajouté la destination de rapports dans le DNS, mettez cette page en favori. Elle se met à jour seule dès l’arrivée du premier rapport indépendant, généralement sous un jour.',
     connectDomain: 'Connecter',
     firstDay: 'Premier jour',
     dayOne: '1 jour',
@@ -239,10 +239,10 @@ export const fr: Dictionary = {
     title: 'De l’évidence, pas de l’autorité',
     intro: 'Une note courte sur pourquoi le registre public publie ce qui s’est passé plutôt que de vous demander de faire confiance à une affirmation.',
     body: [
-      "Chaque façon existante de prouver qu'une entreprise est réelle partage le même défaut : c'est l'*affirmation d'une autorité*, pas de l'*évidence*. Un rapport de bureau de crédit, une inscription au registre, un relevé bancaire, un historique LinkedIn — tous vous demandent de faire confiance à la vérification de quelqu'un d'autre. Aucun ne produit quelque chose qu'un inconnu peut vérifier lui-même, depuis les premiers principes, sans faire confiance à un gardien.",
+      "Chaque façon existante de prouver un historique confirmé de façon indépendante partage le même défaut : c'est l'*affirmation d'une autorité*, pas de l'*évidence*. Un rapport de bureau de crédit, une inscription au registre, un relevé bancaire, un historique LinkedIn — tous vous demandent de faire confiance à la vérification de quelqu'un d'autre. Aucun ne produit quelque chose qu'un inconnu peut vérifier lui-même, depuis les premiers principes, sans faire confiance à un gardien.",
       "Ce défaut était tolérable. Il ne l'est plus. L'IA générative n'a pas créé une nouvelle menace — elle a retiré la dernière chose qui rendait ces signaux chers à falsifier. Un domaine de dix ans, cinq ans de LinkedIn, un relevé convaincant : tout cela se fabrique désormais à bas coût. Les autorités n'ont pas empiré. Le coût de leur mentir s'est effondré.",
       "PACT ne vous demande pas de faire confiance à une autorité. Il vous demande de consulter un registre public.",
-      "Chaque fait du registre vient de systèmes de messagerie destinataires indépendants — Gmail, Outlook, Yahoo et d'autres — qui n'ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu'ils servent d'évidence. Leur accord agrégé et non coordonné dans le temps est ce que contient le registre. Pas parce que PACT le dit. Parce que n'importe qui peut recalculer les feuilles publiées et les preuves d'inclusion contre la racine Merkle on-chain, sans demander la permission à PACT. Les racines sont aujourd'hui sur Base Sepolia (testnet, éditeur permissionné). Le DKIM du wrapper rapporteur est vérifié à l'ingest, et le d=/sélecteur qui passe plus le keccak256 du wrapper sont engagés dans la feuille. Un vérificateur peut confirmer que les octets stockés hasheent vers cette ouverture, et que la clé DKIM du DNS est enregistrée. Le courrier n'est pas on-chain. Ce qui reste est une confiance opérateur plus étroite : disponibilité des feuilles et cette clé d'édition — pas un changement de thèse.",
+      "Chaque fait du registre vient de systèmes de messagerie destinataires indépendants — Gmail, Outlook, Yahoo et d'autres — qui n'ont aucun lien entre eux, aucun motif de se coordonner, et ignorent qu'ils servent d'évidence. Leur accord agrégé et non coordonné dans le temps est ce que contient le registre. Personne ne rejoint un nouveau réseau : ces systèmes émettent déjà les rapports ; le DNS ne fait que pointer vers eux. Pas parce que PACT le dit. Parce que n'importe qui peut recalculer les feuilles publiées et les preuves d'inclusion contre la racine Merkle on-chain, sans demander la permission à PACT. Les racines sont aujourd'hui sur Base Sepolia (testnet, éditeur permissionné), hors de cet opérateur. Le DKIM du wrapper rapporteur est vérifié à l'ingest, et le d=/sélecteur qui passe plus le keccak256 du wrapper sont engagés dans la feuille. Un vérificateur peut confirmer que les octets stockés hasheent vers cette ouverture, et que la clé DKIM du DNS est enregistrée. Le courrier n'est pas on-chain. Ce qui reste est une confiance opérateur plus étroite : disponibilité des feuilles et cette clé d'édition — pas un changement de thèse.",
       "Cette évidence est obstinément ennuyeuse sur ce qui s'est passé. Le jugement reste dehors. Le même historique peut alimenter des politiques d'application différentes. Un témoin plus fort n'hérite toujours pas de la décision.",
       "C'est la propriété que les preuves incumbentes ne peuvent pas greffer. Un bureau de crédit ne peut pas devenir trustless — son modèle *est* l'intermédiaire de confiance. Un registre d'État ne peut pas devenir trustless — c'est une autorité par définition. Un relevé bancaire ne peut pas devenir trustless — c'est un document, et les documents s'éditent. PACT n'est pas une meilleure version de cela. Il est dans une autre catégorie : de l'évidence que l'on peut revérifier, pas une affirmation à accepter.",
       "Voici ce qui rend cela durable, pas seulement différent : **l'historique que PACT mesure ne peut pas être fabriqué après coup, à aucun prix — y compris par les opérateurs de PACT.**",
@@ -262,7 +262,7 @@ export const fr: Dictionary = {
     sections: [
       {
         title: 'Le registre',
-        body: 'Les systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — génèrent déjà des rapports agrégés DMARC. Un domaine rejoint en pointant un champ DNS existant vers cette implémentation. Rien ne change dans la façon dont il envoie du courrier.\n\nLa page publique liste les jours confirmés de façon indépendante, les rapports, les organisations déclarantes, le taux de réussite observé, les feuilles, les preuves Merkle et le DKIM du wrapper. Elle n’affiche pas de score, d’étiquette Proven, ni de verdict.',
+        body: 'Les systèmes de messagerie destinataires — Gmail, Outlook, Yahoo et d’autres — génèrent déjà des rapports agrégés DMARC. Personne ne rejoint un nouveau registre, un jeton ou un compte. Un domaine pointe un champ DNS existant vers cette implémentation pour que ces rapports ne soient pas jetés. Rien ne change dans la façon dont il envoie du courrier.\n\nLa page publique liste les jours confirmés de façon indépendante, les rapports, les organisations déclarantes, le taux de réussite observé, les feuilles, les preuves Merkle et le DKIM du wrapper. Elle n’affiche pas de score, d’étiquette Proven, ni de verdict.',
       },
       {
         title: 'Le jugement reste dehors',
@@ -274,15 +274,14 @@ export const fr: Dictionary = {
       },
       {
         title: 'Comment n’importe qui vérifie',
-        body: 'Recalculez les feuilles publiées et la preuve d’inclusion contre la racine Merkle on-chain. Les ouvertures du wrapper — d=/sélecteur qui passe et keccak256 du RFC822 — sont sur la feuille publique. Un vérificateur confirme que les octets stockés hasheent vers cette ouverture, et que la clé DKIM du DNS est enregistrée.',
+        body: 'Recalculez les feuilles publiées et la preuve d’inclusion contre la racine Merkle on-chain — cette racine est hors de cet opérateur. Les ouvertures du wrapper — d=/sélecteur qui passe et keccak256 du RFC822 — sont sur la feuille publique. Un vérificateur confirme que les octets stockés hasheent vers cette ouverture, et que la clé DKIM du DNS est enregistrée. Ce n’est pas un inconnu qui relance la signature SMTP d’origine.',
       },
     ],
     limitsTitle: 'Limites honnêtes',
     limits: [
       'Les racines sont sur Base Sepolia (testnet), éditeur permissionné — pas mainnet, pas permissionless.',
-      'Le premier publishRoot attend la première feuille live après le basculement D1.',
       'Le DKIM du wrapper rapporteur est vérifié à l’ingest. Le SPF du MTA connectant ne l’est pas. Le DKIM d’un forwarder est plus faible qu’un wrapper signé par le rapporteur.',
-      'RFC 6376 sur la copie Email Worker peut échouer. Les octets stockés peuvent toujours être vérifiés contre le hash de la feuille, et le TXT DKIM du DNS à l’ingest est enregistré.',
+      'RFC 6376 sur la copie Email Worker peut échouer. Les octets stockés peuvent toujours être vérifiés contre le hash de la feuille, et le TXT DKIM du DNS à l’ingest est enregistré. Ce n’est pas un inconnu qui relance la signature SMTP d’origine.',
       'La disponibilité des feuilles est la base de l’opérateur. Les racines attestent l’inclusion, pas la disponibilité.',
     ],
     whyTitle: 'De l’évidence, pas de l’autorité',
@@ -297,7 +296,7 @@ export const fr: Dictionary = {
     eyebrow: 'Docs',
     title: 'État',
     intro:
-      'Le contrat est en ligne. L’ingest est câblé. Le registre public montre ce qui s’est passé. La première racine on-chain attend le premier rapport réel.',
+      'Le contrat est en ligne. L’ingest est câblé. Les racines sont sur Base Sepolia. Le registre public montre ce qui s’est passé.',
     liveTitle: "En ligne aujourd'hui",
     liveItems: [
       'Connexion de domaine via OAuth Cloudflare, DNS manuel ou outils de reporting existants',
@@ -311,7 +310,7 @@ export const fr: Dictionary = {
     ],
     waitingTitle: 'En attente du monde',
     waitingItems: [
-      'Premières feuilles live après le basculement D1, puis le premier publishRoot. L’ingest écrit déjà une feuille et publie une racine à l’arrivée d’un rapport valide.',
+      'D’autres rapports indépendants — l’historique ne s’accumule que tant que de nouveaux lots arrivent.',
     ],
     laterTitle: 'Plus tard',
     laterItems: [

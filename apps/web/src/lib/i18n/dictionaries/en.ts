@@ -31,15 +31,15 @@ export const en: Dictionary = {
     closeVideo: 'Close',
     howEyebrow: 'How it works',
     howTitle: 'Evidence you can recheck.',
-    howLead: 'It does not ask you to trust an authority. It asks you to check a public record.',
+    howLead: 'It does not ask you to trust an authority. It asks you to check a public record. Nobody joins a new network — independent systems already emit the reports; DNS only points at them.',
     howSteps: [
       {
         title: 'Independent systems report it',
-        body: 'Every entry comes from receiving mail systems — Gmail, Outlook, Yahoo, and others — that have no relationship with each other, no incentive to coordinate, and no idea they are being used as evidence. Their uncoordinated agreement over time is what the record contains.',
+        body: 'Every entry comes from receiving mail systems — Gmail, Outlook, Yahoo, and others — that have no relationship with each other, no incentive to coordinate, and no idea they are being used as evidence. Their uncoordinated agreement over time is what the record contains. They were already watching for their own reasons.',
       },
       {
         title: 'Anyone can check the record',
-        body: 'The public record is append-only. Anyone can recompute what was published without asking permission. It is evidence you can recheck — not a claim you must accept.',
+        body: 'The public record is append-only. Merkle roots are published on-chain, outside this operator, so we cannot quietly publish a different past. Anyone can recompute inclusion without asking permission. It is evidence you can recheck — not a claim you must accept.',
       },
       {
         title: 'Yesterday cannot be manufactured',
@@ -93,7 +93,7 @@ export const en: Dictionary = {
     pathToolBadge: 'Existing tool',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add the verification record for you.",
+      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. The record starts when independent reports arrive — not when the DNS line is saved.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
       'Your tool already checks this domain. Pointing it here includes us in that check. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — no extra step here.',
@@ -161,11 +161,11 @@ export const en: Dictionary = {
     passRate: 'Pass rate',
     techSummary: 'What was published — reports and cryptographic proofs',
     domainRegistered: 'Domain registered',
-    verifiedSince: 'Confirmed since',
+    verifiedSince: 'Independently confirmed since',
     awaitingReport: 'Awaiting first report',
     noRecordYet: 'No public record yet.',
     noRecordHint:
-      'If you already added the verification record, bookmark this page. It updates on its own once the first independent check comes back, usually within a day.',
+      'If you already added the report destination in DNS, bookmark this page. It updates on its own once the first independent report arrives, usually within a day.',
     connectDomain: 'Connect',
     firstDay: 'First day',
     dayOne: '1 day',
@@ -248,7 +248,7 @@ export const en: Dictionary = {
     sections: [
       {
         title: 'The record',
-        body: 'Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate DMARC aggregate reports. A domain joins by pointing an existing DNS field at this implementation. Nothing about how it sends mail changes.\n\nThe public page lists days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, a Proven label, or a verdict.',
+        body: 'Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate DMARC aggregate reports. Nobody joins a new ledger, token, or account. A domain points an existing DNS field at this implementation so those reports are not thrown away. Nothing about how it sends mail changes.\n\nThe public page lists days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, a Proven label, or a verdict.',
       },
       {
         title: 'Judgement stays outside',
@@ -260,15 +260,14 @@ export const en: Dictionary = {
       },
       {
         title: 'How anyone checks',
-        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root. Wrapper openings — passing d=/selector and keccak256 of the RFC822 — are on the public leaf. A checker confirms stored bytes hash to that opening, and that the DKIM key from DNS is on record.',
+        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root — that root is outside this operator. Wrapper openings — passing d=/selector and keccak256 of the RFC822 — are on the public leaf. A checker confirms stored bytes hash to that opening, and that the DKIM key from DNS is on record. That is not a stranger re-running the original SMTP signature.',
       },
     ],
     limitsTitle: 'Honest limits',
     limits: [
       'Roots are on Base Sepolia (testnet), permissioned publisher — not mainnet, not permissionless.',
-      'The first publishRoot waits on the first live leaf after the D1 cutover.',
       'Reporter-wrapper DKIM is verified at ingest. SPF of the connecting MTA is not. Forwarder DKIM is weaker than a reporter-signed wrapper.',
-      'RFC 6376 on the Email Worker copy may fail. Stored bytes can still be checked against the leaf hash, and the DKIM TXT from ingest DNS is on record.',
+      'RFC 6376 on the Email Worker copy may fail. Stored bytes can still be checked against the leaf hash, and the DKIM TXT from ingest DNS is on record. That is not a stranger re-running the original SMTP signature.',
       'Leaf availability is the operator’s database. Roots attest inclusion, not availability.',
     ],
     whyTitle: 'Evidence, not authority',
@@ -283,7 +282,7 @@ export const en: Dictionary = {
     eyebrow: 'Docs',
     title: 'Status',
     intro:
-      'The contract is live. Ingest is wired. The public record shows what happened. The first on-chain root waits on the first live report.',
+      'The contract is live. Ingest is wired. Roots are on Base Sepolia. The public record shows what happened.',
     liveTitle: 'Live today',
     liveItems: [
       'Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools',
@@ -297,7 +296,7 @@ export const en: Dictionary = {
     ],
     waitingTitle: 'Waiting on the world',
     waitingItems: [
-      'First live leaves after the D1 cutover, then the first publishRoot. Ingest already writes a leaf and publishes a root when a valid report arrives.',
+      'Further independent reports — history only compounds while new batches arrive.',
     ],
     laterTitle: 'Later',
     laterItems: [

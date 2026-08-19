@@ -30,15 +30,15 @@ export const de: Dictionary = {
     closeVideo: 'Schließen',
     howEyebrow: 'So funktioniert es',
     howTitle: 'Evidenz, die du nachprüfen kannst.',
-    howLead: 'Es bittet dich nicht, einer Autorität zu vertrauen. Es bittet dich, einen öffentlichen Eintrag zu prüfen.',
+    howLead: 'Es bittet dich nicht, einer Autorität zu vertrauen. Es bittet dich, einen öffentlichen Eintrag zu prüfen. Niemand tritt einem neuen Netzwerk bei — unabhängige Systeme senden die Berichte bereits; DNS zeigt nur darauf.',
     howSteps: [
       {
         title: 'Unabhängige Systeme berichten es',
-        body: 'Jeder Eintrag stammt von empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält.',
+        body: 'Jeder Eintrag stammt von empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält. Sie schauten bereits aus eigenen Gründen zu.',
       },
       {
         title: 'Jede Person kann den Eintrag prüfen',
-        body: 'Der öffentliche Eintrag ist append-only. Jede Person kann das Veröffentlichte neu berechnen, ohne um Erlaubnis zu bitten. Evidenz, die du nachprüfen kannst — keine Behauptung, die du akzeptieren musst.',
+        body: 'Der öffentliche Eintrag ist append-only. Merkle-Roots werden on-chain veröffentlicht, außerhalb dieses Betreibers, sodass wir nicht still eine andere Vergangenheit publizieren können. Jede Person kann Inklusion neu berechnen, ohne um Erlaubnis zu bitten. Evidenz, die du nachprüfen kannst — keine Behauptung, die du akzeptieren musst.',
       },
       {
         title: 'Gestern lässt sich nicht herstellen',
@@ -92,7 +92,7 @@ export const de: Dictionary = {
     pathToolBadge: 'Vorhandenes Tool',
     whatDoesThisDo: 'Was bewirkt das?',
     cloudflareExplain:
-      'Du meldest dich bei Cloudflare an, und wir fügen den Verifizierungs-Eintrag für dich hinzu.',
+      'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein. Der Eintrag beginnt, wenn unabhängige Berichte eintreffen — nicht beim Speichern der DNS-Zeile.',
     toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
       'Dein Tool prüft diese Domain bereits. Wenn du es hierher zeigst, sind wir Teil dieser Prüfung. Dein öffentlicher Eintrag erscheint automatisch, sobald der erste Report eintrifft (meist innerhalb von 24–48 Stunden) — hier ist kein weiterer Schritt nötig.',
@@ -160,11 +160,11 @@ export const de: Dictionary = {
     passRate: 'Erfolgsquote',
     techSummary: 'Was veröffentlicht wurde — Berichte und kryptografische Nachweise',
     domainRegistered: 'Domain registriert',
-    verifiedSince: 'Bestätigt seit',
+    verifiedSince: 'Unabhängig bestätigt seit',
     awaitingReport: 'Warte auf ersten Bericht',
     noRecordYet: 'Noch kein öffentlicher Eintrag.',
     noRecordHint:
-      'Wenn du den Verifizierungs-Eintrag bereits hinzugefügt hast, speichere diese Seite. Sie aktualisiert sich von allein, sobald die erste unabhängige Prüfung zurückkommt — meist innerhalb eines Tages.',
+      'Wenn du das Berichtsziel in DNS bereits gesetzt hast, speichere diese Seite. Sie aktualisiert sich von allein, sobald der erste unabhängige Bericht eintrifft — meist innerhalb eines Tages.',
     connectDomain: 'Verbinden',
     firstDay: 'Erster Tag',
     dayOne: '1 Tag',
@@ -237,10 +237,10 @@ export const de: Dictionary = {
     title: 'Evidenz, keine Autorität',
     intro: 'Eine kurze Notiz, warum der öffentliche Eintrag veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
     body: [
-      'Jede bestehende Art zu beweisen, dass ein Unternehmen echt ist, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
+      'Jede bestehende Art, unabhängig bestätigte Historie zu belegen, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
       'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
       'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
-      'Jede Tatsache im Eintrag stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher). DKIM des Reporter-Wrappers wird beim Ingest geprüft, und das bestandene d=/Selektor plus keccak256 des Wrappers sind im Leaf committed. Ein Prüfer kann bestätigen, dass gespeicherte Bytes auf diese Öffnung hashen, und dass der DKIM-Schlüssel aus DNS erfasst ist. Die Mail ist nicht on-chain. Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter und dieser Publisher-Schlüssel — keine Änderung der These.',
+      'Jede Tatsache im Eintrag stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält. Niemand tritt einem neuen Netzwerk bei: diese Systeme senden die Berichte bereits; DNS zeigt nur darauf. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher), außerhalb dieses Betreibers. DKIM des Reporter-Wrappers wird beim Ingest geprüft, und das bestandene d=/Selektor plus keccak256 des Wrappers sind im Leaf committed. Ein Prüfer kann bestätigen, dass gespeicherte Bytes auf diese Öffnung hashen, und dass der DKIM-Schlüssel aus DNS erfasst ist. Die Mail ist nicht on-chain. Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter und dieser Publisher-Schlüssel — keine Änderung der These.',
       'Diese Evidenz ist stur langweilig darüber, was geschehen ist. Das Urteil bleibt draußen. Dieselbe Historie kann unterschiedliche Anwendungspolitiken speisen. Ein stärkerer Zeuge erbt trotzdem nicht die Entscheidung.',
       'Das ist die Eigenschaft, die etablierte Nachweise nicht nachrüsten können. Eine Auskunftei kann nicht trustless werden — ihr Geschäftsmodell *ist* der vertrauenswürdige Mittler. Ein staatliches Register kann nicht trustless werden — es ist definitionsgemäß eine Autorität. Ein Kontoauszug kann nicht trustless werden — er ist ein Dokument, und Dokumente lassen sich ändern. PACT ist keine bessere Version davon. Es sitzt in einer anderen Kategorie: Evidenz, die du nachprüfen kannst, nicht eine Behauptung, die du akzeptieren musst.',
       'Was das dauerhaft macht, nicht nur anders: **die Historie, die PACT misst, lässt sich nachträglich zu keinem Preis herstellen — auch nicht durch PACTs eigene Betreiber.**',
@@ -260,7 +260,7 @@ export const de: Dictionary = {
     sections: [
       {
         title: 'Der Eintrag',
-        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Eine Domain tritt bei, indem sie ein bestehendes DNS-Feld auf diese Implementierung zeigt. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
+        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Niemand tritt einem neuen Ledger, Token oder Konto bei. Eine Domain zeigt ein bestehendes DNS-Feld auf diese Implementierung, damit diese Berichte nicht verworfen werden. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
       },
       {
         title: 'Das Urteil bleibt draußen',
@@ -272,15 +272,14 @@ export const de: Dictionary = {
       },
       {
         title: 'Wie jede Person nachprüft',
-        body: 'Berechne die veröffentlichten Leaves und den Inklusionsnachweis gegen den On-Chain-Merkle-Root neu. Wrapper-Öffnungen — bestandenes d=/Selektor und keccak256 des RFC822 — stehen auf dem öffentlichen Leaf. Ein Prüfer bestätigt, dass gespeicherte Bytes auf diese Öffnung hashen, und dass der DKIM-Schlüssel aus DNS erfasst ist.',
+        body: 'Berechne die veröffentlichten Leaves und den Inklusionsnachweis gegen den On-Chain-Merkle-Root neu — dieser Root liegt außerhalb dieses Betreibers. Wrapper-Öffnungen — bestandenes d=/Selektor und keccak256 des RFC822 — stehen auf dem öffentlichen Leaf. Ein Prüfer bestätigt, dass gespeicherte Bytes auf diese Öffnung hashen, und dass der DKIM-Schlüssel aus DNS erfasst ist. Das ist kein erneutes Ausführen der originalen SMTP-Signatur durch einen Fremden.',
       },
     ],
     limitsTitle: 'Ehrliche Grenzen',
     limits: [
       'Roots sind auf Base Sepolia (Testnet), permissionierter Publisher — nicht Mainnet, nicht permissionless.',
-      'Der erste publishRoot wartet auf das erste Live-Leaf nach dem D1-Cutover.',
       'DKIM des Reporter-Wrappers wird beim Ingest geprüft. SPF des verbindenden MTA nicht. Forwarder-DKIM ist schwächer als ein vom Reporter signierter Wrapper.',
-      'RFC 6376 auf der Email-Worker-Kopie kann fehlschlagen. Gespeicherte Bytes lassen sich trotzdem gegen den Leaf-Hash prüfen, und der DKIM-TXT aus dem Ingest-DNS ist erfasst.',
+      'RFC 6376 auf der Email-Worker-Kopie kann fehlschlagen. Gespeicherte Bytes lassen sich trotzdem gegen den Leaf-Hash prüfen, und der DKIM-TXT aus dem Ingest-DNS ist erfasst. Das ist kein erneutes Ausführen der originalen SMTP-Signatur durch einen Fremden.',
       'Die Verfügbarkeit der Leaves ist die Datenbank des Betreibers. Roots bezeugen Inklusion, nicht Verfügbarkeit.',
     ],
     whyTitle: 'Evidenz, keine Autorität',
@@ -295,7 +294,7 @@ export const de: Dictionary = {
     eyebrow: 'Docs',
     title: 'Status',
     intro:
-      'Der Vertrag ist live. Ingest ist verdrahtet. Der öffentliche Eintrag zeigt, was geschehen ist. Der erste On-Chain-Root wartet auf den ersten Live-Bericht.',
+      'Der Vertrag ist live. Ingest ist verdrahtet. Roots sind auf Base Sepolia. Der öffentliche Eintrag zeigt, was geschehen ist.',
     liveTitle: 'Heute live',
     liveItems: [
       'Domain-Verbindung über Cloudflare OAuth, manuelles DNS oder bestehende Reporting-Tools',
@@ -309,7 +308,7 @@ export const de: Dictionary = {
     ],
     waitingTitle: 'Wartet auf die Welt',
     waitingItems: [
-      'Erste Live-Leaves nach dem D1-Cutover, dann der erste publishRoot. Ingest schreibt bereits ein Leaf und veröffentlicht einen Root, sobald ein gültiger Bericht eintrifft.',
+      'Weitere unabhängige Berichte — die Historie wächst nur, solange neue Chargen eintreffen.',
     ],
     laterTitle: 'Später',
     laterItems: [

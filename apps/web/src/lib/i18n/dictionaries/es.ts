@@ -30,15 +30,15 @@ export const es: Dictionary = {
     closeVideo: 'Cerrar',
     howEyebrow: 'Cómo funciona',
     howTitle: 'Evidencia que puedes volver a comprobar.',
-    howLead: 'No te pide confiar en una autoridad. Te pide revisar un registro público.',
+    howLead: 'No te pide confiar en una autoridad. Te pide revisar un registro público. Nadie se une a una red nueva: los sistemas independientes ya emiten los informes; el DNS solo apunta a ellos.',
     howSteps: [
       {
         title: 'Sistemas independientes lo reportan',
-        body: 'Cada entrada proviene de sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo descoordinado en el tiempo es lo que contiene el registro.',
+        body: 'Cada entrada proviene de sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo descoordinado en el tiempo es lo que contiene el registro. Ya miraban por sus propios motivos.',
       },
       {
         title: 'Cualquiera puede revisar el registro',
-        body: 'El registro público es de solo-append. Cualquiera puede recomputar lo publicado sin pedir permiso. Es evidencia que puedes volver a comprobar — no una afirmación que debas aceptar.',
+        body: 'El registro público es de solo-append. Las raíces Merkle se publican on-chain, fuera de este operador, así que no podemos publicar en silencio un pasado distinto. Cualquiera puede recomputar la inclusión sin pedir permiso. Es evidencia que puedes volver a comprobar — no una afirmación que debas aceptar.',
       },
       {
         title: 'Ayer no se puede fabricar',
@@ -92,7 +92,7 @@ export const es: Dictionary = {
     pathToolBadge: 'Herramienta existente',
     whatDoesThisDo: '¿Qué hace esto?',
     cloudflareExplain:
-      'Iniciarás sesión en Cloudflare y añadiremos el registro de verificación por ti.',
+      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El registro empieza cuando llegan informes independientes — no al guardar la línea DNS.',
     toolIntro: 'En la configuración de tu herramienta, añade esto:',
     toolExplain:
       'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
@@ -160,11 +160,11 @@ export const es: Dictionary = {
     passRate: 'Tasa de acierto',
     techSummary: 'Lo publicado — informes y pruebas criptográficas',
     domainRegistered: 'Dominio registrado',
-    verifiedSince: 'Confirmado desde',
+    verifiedSince: 'Confirmado independientemente desde',
     awaitingReport: 'Esperando el primer informe',
     noRecordYet: 'Aún no hay registro público.',
     noRecordHint:
-      'Si ya añadiste el registro de verificación, guarda esta página. Se actualiza sola cuando llega la primera comprobación independiente, normalmente en un día.',
+      'Si ya añadiste el destino de informes en el DNS, guarda esta página. Se actualiza sola cuando llega el primer informe independiente, normalmente en un día.',
     connectDomain: 'Conectar',
     firstDay: 'Primer día',
     dayOne: '1 día',
@@ -237,10 +237,10 @@ export const es: Dictionary = {
     title: 'Evidencia, no autoridad',
     intro: 'Una nota breve sobre por qué el registro público publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
     body: [
-      'Toda forma existente de probar que un negocio es real comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
+      'Toda forma existente de probar historial confirmado de forma independiente comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
       'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
       'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
-      'Cada hecho del registro proviene de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es lo que contiene el registro. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso). El DKIM del wrapper del reportero se verifica en la ingesta, y el d=/selector que pasa más el keccak256 del wrapper quedan comprometidos en la hoja. Un verificador puede confirmar que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. El correo no está en cadena. Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas y esa clave de publicación — no un cambio de tesis.',
+      'Cada hecho del registro proviene de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es lo que contiene el registro. Nadie se une a una red nueva: esos sistemas ya emiten los informes; el DNS solo apunta a ellos. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso), fuera de este operador. El DKIM del wrapper del reportero se verifica en la ingesta, y el d=/selector que pasa más el keccak256 del wrapper quedan comprometidos en la hoja. Un verificador puede confirmar que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. El correo no está en cadena. Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas y esa clave de publicación — no un cambio de tesis.',
       'Esa evidencia es tercamente aburrida sobre lo que ocurrió. El juicio queda fuera. El mismo historial puede alimentar políticas de aplicación distintas. Un testigo más fuerte sigue sin heredar la decisión.',
       'Esa es la propiedad que las pruebas incumbentes no pueden injertar. Un buró de crédito no puede volverse trustless — su modelo de negocio *es* el intermediario de confianza. Un registro estatal no puede volverse trustless — es una autoridad por definición. Un extracto bancario no puede volverse trustless — es un documento, y los documentos se editan. PACT no es una versión mejor de eso. Está en otra categoría: evidencia que puedes volver a comprobar, no una afirmación que debas aceptar.',
       'Esto es lo que lo hace duradero, no solo distinto: **el historial que PACT mide no se puede fabricar a posteriori, a ningún precio — ni siquiera por los operadores de PACT.**',
@@ -260,7 +260,7 @@ export const es: Dictionary = {
     sections: [
       {
         title: 'El registro',
-        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Un dominio se une apuntando un campo DNS existente a esta implementación. Nada cambia en cómo envía correo.\n\nLa página pública lista días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
+        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Nadie se une a un ledger, un token o una cuenta nueva. Un dominio apunta un campo DNS existente a esta implementación para no tirar esos informes. Nada cambia en cómo envía correo.\n\nLa página pública lista días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
       },
       {
         title: 'El juicio queda fuera',
@@ -272,15 +272,14 @@ export const es: Dictionary = {
       },
       {
         title: 'Cómo lo comprueba cualquiera',
-        body: 'Recomputa las hojas publicadas y la prueba de inclusión contra la raíz Merkle on-chain. Las aperturas del wrapper — d=/selector que pasa y keccak256 del RFC822 — están en la hoja pública. Un verificador confirma que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada.',
+        body: 'Recomputa las hojas publicadas y la prueba de inclusión contra la raíz Merkle on-chain — esa raíz está fuera de este operador. Las aperturas del wrapper — d=/selector que pasa y keccak256 del RFC822 — están en la hoja pública. Un verificador confirma que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. Eso no es que un desconocido vuelva a ejecutar la firma SMTP original.',
       },
     ],
     limitsTitle: 'Límites honestos',
     limits: [
       'Las raíces están en Base Sepolia (testnet), publicador con permiso — no es mainnet, ni publicación sin permiso.',
-      'El primer publishRoot espera a la primera hoja real tras el corte a D1.',
       'El DKIM del wrapper del reportero se verifica en la ingesta. El SPF del MTA que conecta no. El DKIM de un forwarder es más débil que un wrapper firmado por el reportero.',
-      'RFC 6376 sobre la copia del Email Worker puede fallar. Los bytes almacenados aún se pueden comprobar contra el hash de la hoja, y el TXT DKIM del DNS en la ingesta queda registrado.',
+      'RFC 6376 sobre la copia del Email Worker puede fallar. Los bytes almacenados aún se pueden comprobar contra el hash de la hoja, y el TXT DKIM del DNS en la ingesta queda registrado. Eso no es que un desconocido vuelva a ejecutar la firma SMTP original.',
       'La disponibilidad de las hojas es la base de datos del operador. Las raíces atestiguan inclusión, no disponibilidad.',
     ],
     whyTitle: 'Evidencia, no autoridad',
@@ -295,7 +294,7 @@ export const es: Dictionary = {
     eyebrow: 'Docs',
     title: 'Estado',
     intro:
-      'El contrato está en vivo. La ingesta está conectada. El registro público muestra lo que ocurrió. La primera raíz on-chain espera al primer informe real.',
+      'El contrato está en vivo. La ingesta está conectada. Las raíces están en Base Sepolia. El registro público muestra lo que ocurrió.',
     liveTitle: 'En vivo hoy',
     liveItems: [
       'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
@@ -309,7 +308,7 @@ export const es: Dictionary = {
     ],
     waitingTitle: 'Esperando al mundo',
     waitingItems: [
-      'Primeras hojas reales tras el corte a D1, luego el primer publishRoot. La ingesta ya escribe una hoja y publica una raíz cuando llega un informe válido.',
+      'Más informes independientes — el historial solo se acumula mientras llegan nuevos lotes.',
     ],
     laterTitle: 'Más adelante',
     laterItems: [
