@@ -208,7 +208,7 @@ npx wrangler secret put LEDGER_WRITE_SECRET
 pnpm run deploy                             # not `pnpm deploy`
 ```
 
-Worker flow: email handler → `pact-reports` queue → parse/auth/dedup → D1 leaf → `publishRoot` on Base Sepolia `PactRoots`.
+Worker flow: email handler → `pact-reports` queue → parse/auth/dedup → D1 leaf → `publishRoot` on Base Sepolia `PactRoots`. If that tx fails (public RPC blip), ingest still keeps the leaf and a **15-minute cron** retries until the live tree matches the chain. Manual retry: `POST /v1/root/publish` with Bearer `LEDGER_WRITE_SECRET`. Queue retries cannot republish — a redelivered report is already stored, so `processed=0`. GitHub cron would need a second copy of the publisher key; keep it on the Worker.
 
 Google DMARC reports arrive as **ZIP** attachments (`application/zip`); the ingest worker must unzip before parsing XML.
 
@@ -225,6 +225,7 @@ Public ledger API (CORS open for GET):
 | GET | `/v1/wrappers/:hash/check` | Hash matches the leaf; DNS key is on record |
 | GET | `/v1/wrappers/:hash/rfc822` | Wrapper bytes |
 | POST | `/v1/domains` | Bearer `LEDGER_WRITE_SECRET` |
+| POST | `/v1/root/publish` | Bearer `LEDGER_WRITE_SECRET` — publish the live tree if it is ahead of chain |
 
 ## Testing
 

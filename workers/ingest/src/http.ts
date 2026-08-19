@@ -12,6 +12,7 @@ import {
   upsertDomain,
 } from './ledger.js';
 import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash, checkStoredWrapper } from './wrapper-store.js';
+import { publishAnchoredRoot } from './publish-root.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -24,6 +25,15 @@ function json(data: unknown, status = 200): Response {
     status,
     headers: { 'Content-Type': 'application/json', ...CORS },
   });
+}
+
+function requireWriteAuth(request: Request, secret: string | undefined): Response | null {
+  const auth = request.headers.get('Authorization') ?? '';
+  const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
+  if (!secret || token !== secret) {
+    return json({ error: 'unauthorized' }, 401);
+  }
+  return null;
 }
 
 function isZeroRoot(root: string): boolean {
@@ -61,6 +71,7 @@ export async function handleLedgerRequest(
   env: {
     DB: D1Database;
     CHAIN_RPC_URL: string;
+    PUBLISHER_PRIVATE_KEY?: string;
     LEDGER_WRITE_SECRET?: string;
     SUPABASE_URL?: string;
     SUPABASE_SERVICE_ROLE_KEY?: string;
@@ -113,12 +124,8 @@ export async function handleLedgerRequest(
   }
 
   if (request.method === 'POST' && path === '/v1/domains') {
-    const secret = env.LEDGER_WRITE_SECRET;
-    const auth = request.headers.get('Authorization') ?? '';
-    const token = auth.startsWith('Bearer ') ? auth.slice(7) : '';
-    if (!secret || token !== secret) {
-      return json({ error: 'unauthorized' }, 401);
-    }
+    const denied = requireWriteAuth(request, env.LEDGER_WRITE_SECRET);
+    if (denied) return denied;
     const body = (await request.json()) as {
       domain?: string;
       domain_registered_at?: string | null;
@@ -127,6 +134,14 @@ export async function handleLedgerRequest(
     const domain = normalizeDomain(body.domain);
     await upsertDomain(env.DB, domain, body.domain_registered_at ?? null);
     return json({ ok: true, domain });
+  }
+
+  if (request.method === 'POST' && path === '/v1/root/publish') {
+    const denied = requireWriteAuth(request, env.LEDGER_WRITE_SECRET);
+    if (denied) return denied;
+    const result = await publishAnchoredRoot(env);
+    const ok = result.status !== 'staging';
+    return json({ ok, ...result }, ok ? 200 : 503);
   }
 
   const leafMatch = path.match(/^\/v1\/leaves\/([^/]+)$/);

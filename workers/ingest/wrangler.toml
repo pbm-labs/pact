@@ -26,9 +26,14 @@ custom_domain = true
 ENVIRONMENT = "production"
 CHAIN_RPC_URL = "https://sepolia.base.org"
 
+# If publishRoot fails at ingest (RPC blip), retry every 15 minutes.
+# Manual: POST /v1/root/publish with Bearer LEDGER_WRITE_SECRET.
+[triggers]
+crons = ["*/15 * * * *"]
+
 # Secrets (wrangler secret put):
 #   PUBLISHER_PRIVATE_KEY  — PactRoots owner (Signet deployer)
-#   LEDGER_WRITE_SECRET    — Bearer token for POST /v1/domains
+#   LEDGER_WRITE_SECRET    — Bearer token for POST /v1/domains and POST /v1/root/publish
 #   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY — wrapper RFC822 + DKIM TXT snapshots
 
 # After deploy: Cloudflare Email Routing → rua@pact.webuildreal.dev → Send to Worker → pact-ingest

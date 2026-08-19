@@ -5,20 +5,15 @@ import {
   leafInputFromAggregation,
   mergeLeafAggregation,
   parseDmarcAggregateReport,
-  SparseMerkleTree,
   validateReportSource,
-  type Hash,
 } from '@pact/core';
-import { publishRootOnChain } from './chain.js';
 import {
   findProcessedReport,
-  getTxHashForRoot,
-  insertMerkleRoot,
   insertProcessedReport,
-  listLeafHashes,
   loadLeafAggregation,
   upsertLeaf,
 } from './ledger.js';
+import { type IngestEnv, publishAnchoredRoot } from './publish-root.js';
 
 export interface ReportJob {
   envelopeFrom: string;
@@ -40,11 +35,7 @@ export interface ProcessResult {
   errors: string[];
 }
 
-export interface IngestEnv {
-  DB: D1Database;
-  CHAIN_RPC_URL: string;
-  PUBLISHER_PRIVATE_KEY?: string;
-}
+export type { IngestEnv } from './publish-root.js';
 
 function hasWrapperWitness(job: ReportJob): job is ReportJob & {
   wrapperHash: `0x${string}`;
@@ -168,60 +159,14 @@ export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<
     }
   }
 
+  // Queue retry cannot republish: a redelivered job is already processed, so
+  // processed=0 and we never reach here. Cron / POST /v1/root/publish retries.
   if (result.processed > 0) {
-    const rootError = await publishAnchoredRoot(env);
-    if (rootError) result.errors.push(rootError);
+    const published = await publishAnchoredRoot(env);
+    if (published.status === 'staging') result.errors.push(published.reason);
   }
 
   return result;
-}
-
-async function publishAnchoredRoot(env: IngestEnv): Promise<string | null> {
-  const leaves = await listLeafHashes(env.DB);
-  if (!leaves.length) return null;
-
-  const tree = new SparseMerkleTree();
-  for (const leaf of leaves) {
-    tree.insert(leaf.leaf_hash as Hash);
-  }
-  const root = tree.getRoot();
-
-  if (!env.PUBLISHER_PRIVATE_KEY) {
-    await insertMerkleRoot(env.DB, {
-      rootHash: root,
-      leafCount: leaves.length,
-      anchorType: 'staging',
-    });
-    return 'publisher key missing — wrote staging root only';
-  }
-
-  const published = await publishRootOnChain({
-    rpcUrl: env.CHAIN_RPC_URL,
-    privateKey: env.PUBLISHER_PRIVATE_KEY,
-    root,
-    leafCount: leaves.length,
-  });
-
-  if ('error' in published) {
-    await insertMerkleRoot(env.DB, {
-      rootHash: root,
-      leafCount: leaves.length,
-      anchorType: 'staging',
-    });
-    return `on-chain publish: ${published.error}`;
-  }
-
-  const txHash =
-    'txHash' in published
-      ? published.txHash
-      : await getTxHashForRoot(env.DB, root);
-  await insertMerkleRoot(env.DB, {
-    rootHash: root,
-    leafCount: leaves.length,
-    anchorType: 'base',
-    txHash,
-  });
-  return null;
 }
 
 export function createProcessor(env: IngestEnv) {

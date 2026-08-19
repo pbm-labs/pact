@@ -4,6 +4,7 @@ import { extractDmarcXmlFromEmail } from './extract-xml.js';
 import { handleLedgerRequest } from './http.js';
 import { snapshotWrapperDkimKeys, verifyWrapperDkim } from './dkim.js';
 import { storeWrapperBlob } from './wrapper-store.js';
+import { publishAnchoredRoot } from './publish-root.js';
 
 export interface Env {
   ENVIRONMENT: string;
@@ -130,5 +131,10 @@ export default {
         msg.retry();
       }
     }
+  },
+
+  async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
+    const result = await publishAnchoredRoot(env);
+    console.log(JSON.stringify({ event: 'root_publish_scheduled', ...result }));
   },
 } satisfies ExportedHandler<Env>;
