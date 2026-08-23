@@ -3,7 +3,7 @@ import { HomeLanding } from '@/components/home-landing';
 
 const title = 'AI can fake everything. Except yesterday.';
 const description =
-  'History exists first. The claim can be made afterwards.';
+  'History exists first. The claim can be made afterwards. A public record of leftover traces — mail reports and certificate logs.';
 
 export const metadata: Metadata = {
   title,

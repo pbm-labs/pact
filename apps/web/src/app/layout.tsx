@@ -10,7 +10,7 @@ import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 const siteUrl = 'https://webuildreal.dev';
 const title = 'We build real';
 const description =
-  'History exists first. The claim can be made afterwards.';
+  'History exists first. The claim can be made afterwards. A public record of leftover traces — mail reports and certificate logs.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

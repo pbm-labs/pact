@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const domain = decodeURIComponent(raw).toLowerCase().trim();
   const title = `${domain} — public record`;
   const description =
-    'Independently confirmed history anyone can recheck. Impossible to backdate.';
+    'Independently confirmed history — mail reports and certificate first-seen dates. Impossible to backdate.';
   const url = `${siteUrl}${routes.record(domain)}`;
 
   return {

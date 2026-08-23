@@ -38,6 +38,8 @@ export type Dictionary = {
     mockTimeSub: string;
     mockOrgs: string;
     mockOrgsSub: string;
+    mockCt: string;
+    mockCtSub: string;
     recordFoot: string;
     privacyTitle: string;
     privacyBody1: string;

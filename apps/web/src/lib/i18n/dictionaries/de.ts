@@ -30,11 +30,12 @@ export const de: Dictionary = {
     closeVideo: 'Schließen',
     howEyebrow: 'So funktioniert es',
     howTitle: 'Evidenz, die du nachprüfen kannst.',
-    howLead: 'Es bittet dich nicht, einer Autorität zu vertrauen. Es bittet dich, einen öffentlichen Eintrag zu prüfen. Niemand tritt einem neuen Netzwerk bei — unabhängige Systeme senden die Berichte bereits; DNS zeigt nur darauf.',
+    howLead:
+      'Es bittet dich nicht, einer Autorität zu vertrauen. Es bittet dich, einen öffentlichen Eintrag zu prüfen. Niemand tritt einem neuen Netzwerk bei. Unabhängige Systeme emittieren bereits Restspuren — Mailberichte, Zertifikatslogs. DNS zeigt nur auf den Mail-Feed. PACT erfindet keine Zeremonie.',
     howSteps: [
       {
-        title: 'Unabhängige Systeme berichten es',
-        body: 'Jeder Eintrag stammt von empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält. Sie schauten bereits aus eigenen Gründen zu.',
+        title: 'Unabhängige Systeme emittieren es bereits',
+        body: 'Mail-Einträge stammen von Empfangssystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen und nicht wissen, dass sie als Evidenz dienen. Certificate Transparency ist Restexhaust der Web-PKI: Browser haben öffentliche Logs bereits verlangt. Sie können ein Zertifikat auslösen; sie können nicht das Log sein. Beide sitzen als getrennte Arten auf demselben Baum. Sie werden nicht zu einem Score vermischt.',
       },
       {
         title: 'Jede Person kann den Eintrag prüfen',
@@ -48,29 +49,31 @@ export const de: Dictionary = {
     recordEyebrow: 'Hinter jedem Eintrag',
     recordTitle: 'Deine vollständige öffentliche Seite.',
     recordSub:
-      'Jede Person kann sie öffnen. Unabhängig bestätigte Historie — Tage, Berichte und wer sie bestätigt hat.',
+      'Jede Person kann sie öffnen. Unabhängig bestätigte Historie — Mailberichte, Zertifikat-Erstgesehen-Daten und kryptografische Nachweise. Kein Score.',
     mockLabel: 'Beispiel',
     mockTimeSub: 'seit dem ersten Bericht',
     mockOrgs: 'Meldende Orgs.',
     mockOrgsSub: 'unabhängig',
+    mockCt: 'CT zuerst gesehen',
+    mockCtSub: 'öffentliche Logs, kein HTTPS-Siegel',
     recordFoot:
-      'Jeder Eintrag wurde von empfangenden Mailsystemen bestätigt — nicht selbst gemeldet. Dieser Eintrag wächst nur nach vorn.',
+      'Mail wurde von Empfangssystemen bestätigt — nicht selbst gemeldet. Zertifikate lagen bereits in öffentlichen CT-Logs. PACT hat niemanden gebeten, sie auszustellen. Der Eintrag wächst nur nach vorn.',
     privacyTitle: 'Datenschutz by Design.',
     privacyBody1:
-      'Beim Verbinden zeigt ein DNS-Berichtsweg (rua) auf uns. Unabhängige Systeme senden bereits Aggregatberichte für die Domain — Authentifizierungszahlen, Zeitraum und Infrastruktur. Dieser Feed ist die einzige Datenquelle.',
-    privacyBody2: 'Der öffentliche Eintrag ist bestätigte Domain-Historie. Mehr wird nicht erfasst.',
-    privacyTableTitle: 'Was in einem Bericht steht',
+      'Beim Verbinden zeigt ein DNS-Berichtsweg (rua) auf uns, damit Aggregat-Mailberichte nicht verworfen werden. Certificate Transparency ist bereits öffentlich — PACT indexiert Restexhaust der Logs; es bittet keine CA, etwas auszustellen. Keiner der Feeds enthält Nachrichteninhalt oder persönliche Postfächer.',
+    privacyBody2: 'Der öffentliche Eintrag ist bestätigte Domain-Historie aus Restspuren. Mehr wird nicht erfasst.',
+    privacyTableTitle: 'Was im Eintrag steht',
     privacyRows: [
       'Domain',
-      'Berichtszeitraum',
-      'Bestanden / fehlgeschlagen',
+      'Mail-Berichtszeitraum und Bestanden / fehlgeschlagen',
       'Meldende Organisation',
+      'Zertifikat zuerst gesehen (öffentliche CT-Logs)',
     ],
     ctaTitle: 'Starte deinen öffentlichen Eintrag.',
     ctaBody:
-      'Einmal verbinden. Unabhängige Empfangssysteme senden die Berichte. Die Historie wächst nur nach vorn.',
+      'Einmal verbinden, damit Mailberichte behalten werden. Zertifikatslogs werden aus öffentlichem CT indexiert — Restspur, kein neues Ritual. Die Historie wächst nur nach vorn.',
     ctaButton: 'Domain hinzufügen',
-    ctaSub: 'Der Eintrag beginnt, wenn unabhängige Berichte eintreffen.',
+    ctaSub: 'Die Mail-Historie beginnt, wenn unabhängige Berichte eintreffen. CT-Erstgesehen kann früher erscheinen.',
     watchManifesto: 'Das Manifest ansehen',
   },
   connect: {
@@ -78,7 +81,7 @@ export const de: Dictionary = {
     eyebrow: 'Zwei Minuten, weitgehend automatisch',
     title: 'Domain hinzufügen',
     intro:
-      'Kein Papierkram, kein Warten auf andere. Der öffentliche Eintrag beginnt mit dem ersten unabhängigen Bericht.',
+      'Kein Papierkram, kein Warten auf andere. DNS zeigen, damit Mailberichte behalten werden. Certificate Transparency ist Restexhaust öffentlicher Logs — indexiert ohne neue Zeremonie. Die Mail-Historie beginnt mit dem ersten unabhängigen Bericht.',
     yourDomain: 'Deine Domain',
     pathCloudflareTitle: 'Ich nutze Cloudflare',
     pathCloudflareDesc: 'Ein Klick — wir erledigen den Rest.',
@@ -92,7 +95,7 @@ export const de: Dictionary = {
     pathToolBadge: 'Vorhandenes Tool',
     whatDoesThisDo: 'Was bewirkt das?',
     cloudflareExplain:
-      'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein. Der Eintrag beginnt, wenn unabhängige Berichte eintreffen — nicht beim Speichern der DNS-Zeile.',
+      'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein. Die Mail-Historie beginnt, wenn unabhängige Berichte eintreffen — nicht beim Speichern der DNS-Zeile. Certificate Transparency ist Restexhaust öffentlicher Logs, indexiert ohne neue Zeremonie.',
     toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
       'Dein Tool prüft diese Domain bereits. Wenn du es hierher zeigst, sind wir Teil dieser Prüfung. Dein öffentlicher Eintrag erscheint automatisch, sobald der erste Report eintrifft (meist innerhalb von 24–48 Stunden) — hier ist kein weiterer Schritt nötig.',
@@ -120,11 +123,11 @@ export const de: Dictionary = {
     eyebrow: 'Öffentliche Einträge',
     title: 'Domains mit öffentlichem Eintrag',
     intro:
-      'Sortiert nach unabhängig bestätigter Historie — wie lange jede Domain berichtet wurde.',
+      'Sortiert nach unabhängig bestätigter Mail-Historie. Zertifikat-Erstgesehen-Daten stehen auf jeder Domain-Seite — eine getrennte Art, kein vermischter Score.',
     addDomain: 'Domain hinzufügen',
-    rankedBy: 'Sortiert nach unabhängig bestätigter Historie',
+    rankedBy: 'Sortiert nach unabhängig bestätigter Mail-Historie',
     rankedHint:
-      'Längere unabhängig bestätigte Historie steht höher.',
+      'Längere unabhängig bestätigte Mail-Historie steht höher. Zertifikat-Erstgesehen-Daten sind eine getrennte Art auf jeder Domain-Seite — nicht in diese Reihenfolge gemischt.',
     colDomain: 'Domain',
     colHistory: 'Historie',
     verified: 'bestätigt',
@@ -144,10 +147,10 @@ export const de: Dictionary = {
     publicRecord: 'Öffentlicher Eintrag',
     awaitingFirst: 'Warte auf ersten Bericht',
     awaitingIntro:
-      'Registriert. Warte auf die erste unabhängige Bestätigung — meist innerhalb eines Tages.',
+      'Registriert. Warte auf den ersten unabhängigen Mailbericht — meist innerhalb eines Tages. Zertifikatslog-Historie kann früher erscheinen; das ist CT-Restexhaust, kein HTTPS-Siegel.',
     connected: 'Verbunden',
     whatNext: 'Was als Nächstes passiert',
-    next1: 'Empfangende Mailsysteme bemerken diese Domain, meist innerhalb eines Tages.',
+    next1: 'Empfangende Mailsysteme bemerken diese Domain, meist innerhalb eines Tages. Öffentliche CT-Logs werden parallel indexiert.',
     next2: 'Die ersten unabhängigen Berichte treffen ein.',
     next3: 'Diese Seite aktualisiert sich von allein — nichts zu klicken.',
     historyIntro:
@@ -158,13 +161,13 @@ export const de: Dictionary = {
     reportingOrgs: 'Meldende Orgs.',
     independent: 'unabhängig',
     passRate: 'Erfolgsquote',
-    techSummary: 'Was veröffentlicht wurde — Berichte und kryptografische Nachweise',
+    techSummary: 'Was veröffentlicht wurde — Mailberichte, Zertifikatslogs und kryptografische Nachweise',
     domainRegistered: 'Domain registriert',
     verifiedSince: 'Unabhängig bestätigt seit',
     awaitingReport: 'Warte auf ersten Bericht',
     noRecordYet: 'Noch kein öffentlicher Eintrag.',
     noRecordHint:
-      'Wenn du das Berichtsziel in DNS bereits gesetzt hast, speichere diese Seite. Sie aktualisiert sich von allein, sobald der erste unabhängige Bericht eintrifft — meist innerhalb eines Tages.',
+      'Wenn du das Berichtsziel in DNS bereits gesetzt hast, speichere diese Seite. Sie aktualisiert sich, sobald der erste unabhängige Mailbericht eintrifft — meist innerhalb eines Tages. Zertifikatszeilen können zuerst erscheinen.',
     connectDomain: 'Verbinden',
     firstDay: 'Erster Tag',
     dayOne: '1 Tag',
@@ -251,6 +254,7 @@ export const de: Dictionary = {
       'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
       'Jede Tatsache im Eintrag stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält. Niemand tritt einem neuen Netzwerk bei: diese Systeme senden die Berichte bereits; DNS zeigt nur darauf. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher), außerhalb dieses Betreibers. DKIM des Reporter-Wrappers wird beim Ingest geprüft, und das bestandene d=/Selektor plus keccak256 des Wrappers sind im Leaf committed. Ein Prüfer kann bestätigen, dass gespeicherte Bytes auf diese Öffnung hashen, und dass der DKIM-Schlüssel aus DNS erfasst ist. Die Mail ist nicht on-chain. Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter und dieser Publisher-Schlüssel — keine Änderung der These.',
       'Diese Evidenz ist stur langweilig darüber, was geschehen ist. Das Urteil bleibt draußen. Dieselbe Historie kann unterschiedliche Anwendungspolitiken speisen. Ein stärkerer Zeuge erbt trotzdem nicht die Entscheidung.',
+      'Dieselbe Idee reicht über Mail hinaus. Certificate-Transparency-Logs existieren bereits, weil Browser ein öffentliches Tagebuch der Ausstellung verlangt haben. Niemand hat sie für PACT gebaut. Eine Domain, die dort auftaucht, hat ein Erstgesehen-Datum, das jemand anderes notiert hat. Das ist Restspur, kein Ritual, das wir erfunden haben, und kein Beweis, dass HTTPS vertrauenswürdig ist — Let’s Encrypt stellt in Minuten ein echtes Zertifikat aus. Der Test: sie können das Ereignis verursachen; sie können nicht das Log sein. Mail und CT sitzen als getrennte Arten auf demselben Baum. Sie werden nicht zu einem Score vermischt.',
       'Das ist die Eigenschaft, die etablierte Nachweise nicht nachrüsten können. Eine Auskunftei kann nicht trustless werden — ihr Geschäftsmodell *ist* der vertrauenswürdige Mittler. Ein staatliches Register kann nicht trustless werden — es ist definitionsgemäß eine Autorität. Ein Kontoauszug kann nicht trustless werden — er ist ein Dokument, und Dokumente lassen sich ändern. PACT ist keine bessere Version davon. Es sitzt in einer anderen Kategorie: Evidenz, die du nachprüfen kannst, nicht eine Behauptung, die du akzeptieren musst.',
       'Was das dauerhaft macht, nicht nur anders: **die Historie, die PACT misst, lässt sich nachträglich zu keinem Preis herstellen — auch nicht durch PACTs eigene Betreiber.**',
       'Du kannst eine gealterte Domain kaufen. Du kannst eine LinkedIn-Historie fälschen. Du kannst eine Briefkastenfirma mit perfekten Papieren bauen. Was du nicht kannst: gestern früher geschehen lassen. PACTs Historie entsteht aus vergehender Echtzeit, während unabhängige Dritte zusahen. Es gibt keine Abkürzung durch die Zeit. Das ist keine Produktpräferenz. Es ist eine physikalische Grenze, die PACT nutzt.',
@@ -260,16 +264,16 @@ export const de: Dictionary = {
       'Diese Frage hatte nie eine dauerhafte öffentliche Antwort. Ab jetzt hat sie eine.',
     ].join('\n\n'),
     scope:
-      'PACT misst unabhängig verifizierte Domain-Historie aus DMARC-Aggregatberichten. Es ist kein KYC, kein Verdikt dass eine Domain legitim ist, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien. Scores und Schwellen sind Anwendungspolitik auf dieser Historie.',
+      'PACT misst unabhängig verifizierte Domain-Historie aus Restspuren — DMARC-Aggregatberichten und öffentlichen Certificate-Transparency-Logs. Es ist kein KYC, kein Verdikt dass eine Domain legitim ist, kein HTTPS-Siegel, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien. Mail und CT bleiben getrennte Arten. Scores und Schwellen sind Anwendungspolitik auf dieser Historie.',
   },
   docs: {
     title: 'Docs',
     intro:
-      'Der öffentliche Eintrag unabhängig bestätigter Domain-Historie. Das Urteil bleibt draußen. Das Protokoll ist PACT.',
+      'Der öffentliche Eintrag unabhängig bestätigter Domain-Historie aus Restspuren. Das Urteil bleibt draußen. Das Protokoll ist PACT.',
     sections: [
       {
         title: 'Der Eintrag',
-        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Niemand tritt einem neuen Ledger, Token oder Konto bei. Eine Domain zeigt ein bestehendes DNS-Feld auf diese Implementierung, damit diese Berichte nicht verworfen werden. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nDie öffentliche Seite listet unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise und Wrapper-DKIM. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
+        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Niemand tritt einem neuen Ledger, Token oder Konto bei. Eine Domain zeigt ein bestehendes DNS-Feld auf diese Implementierung, damit diese Berichte nicht verworfen werden. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nEin zweiter Strom — Certificate Transparency — ist Restexhaust der Web-PKI. Browser haben öffentliche Logs bereits verlangt. PACT indexiert diese Logs; es erfindet keine neue Zeremonie. Mail und CT bleiben getrennte Arten auf demselben Baum. Sie werden nicht zu einem Score vermischt.\n\nDie öffentliche Seite listet unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise, Wrapper-DKIM und CT-Erstgesehen-Daten. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
       },
       {
         title: 'Das Urteil bleibt draußen',
@@ -277,7 +281,7 @@ export const de: Dictionary = {
       },
       {
         title: 'Wie eine Domain einen Eintrag erhält',
-        body: 'Füge rua@pact.webuildreal.dev als Berichtsziel in DNS hinzu. Unabhängige Systeme senden die Berichte bereits. Der Eintrag erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage.',
+        body: 'Füge rua@pact.webuildreal.dev als Berichtsziel in DNS hinzu. Unabhängige Systeme senden die Mailberichte bereits. Die Mail-Historie erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage. Zertifikatslogs sind öffentlicher Restexhaust — nach dem Verbinden indexiert, ohne neue Zeremonie. Sie sind eine getrennte Art, kein vermischter Score.',
       },
       {
         title: 'Wie jede Person nachprüft',
@@ -350,7 +354,7 @@ export const de: Dictionary = {
       },
       {
         title: '3. Der Dienst',
-        body: 'PACT erfasst DMARC-Aggregat-Authentifizierungsberichte, die empfangende Mail-Systeme bereits erzeugen, schreibt extrahierte Metadaten in einen nur anhängenden Merkle-Baum und veröffentlicht einen öffentlichen Eintrag dieser Historie für verbundene Domains. Das Verbinden einer Domain erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter). Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
+        body: 'PACT erfasst Restspuren, die unabhängige Systeme bereits emittieren, und schreibt sie in einen nur anhängenden Merkle-Baum. Mail-Historie stammt aus DMARC-Aggregat-Authentifizierungsberichten, die empfangende Mail-Systeme bereits erzeugen. Zertifikatshistorie stammt aus öffentlichen Certificate-Transparency-Logs — indexierter Restexhaust, keine neue Ausstellungszeremonie und kein HTTPS-Siegel. Mail und CT bleiben getrennte Arten; sie werden nicht zu einem Score vermischt. Das Verbinden einer Domain erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter), damit Mailberichte behalten werden. CT-Indexierung braucht kein Extra-Ritual. Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
       },
       {
         title: '4. Öffentliche Einträge',
@@ -400,11 +404,11 @@ export const de: Dictionary = {
     privacy: [
       {
         title: '1. Überblick',
-        body: 'Diese Datenschutzerklärung erläutert, wie PBM Labs LLC Informationen verarbeitet, wenn du webuildreal.dev nutzt — das öffentliche Zuhause der Bewegung we build real und der ersten Referenzimplementierung des offenen PACT-Protokolls. PACT ist so gestaltet, dass seine primäre Datenquelle — DMARC-Aggregatberichte — keinen Nachrichteninhalt und keine persönlichen Identitäten enthält.',
+        body: 'Diese Datenschutzerklärung erläutert, wie PBM Labs LLC Informationen verarbeitet, wenn du webuildreal.dev nutzt — das öffentliche Zuhause der Bewegung we build real und der ersten Referenzimplementierung des offenen PACT-Protokolls. PACT erfasst Restspuren: DMARC-Aggregatberichte und Metadaten öffentlicher Certificate-Transparency-Logs. Aggregat-Mailberichte enthalten keinen Nachrichteninhalt und keine persönlichen Identitäten. CT-Daten sind bereits öffentlicher Log-Exhaust.',
       },
       {
         title: '2. Informationen, die wir verarbeiten',
-        body: 'Domain- und Protokolldaten: Domainnamen, die du verbindest; Metadaten aus DMARC-Aggregatberichten (meldende Organisation, Zeitraum, Authentifizierungs-Pass/Fail-Zählungen, Selektor- und Infrastrukturkennungen in gehashter oder zusammengefasster Form); Merkle-Leaves, Roots und öffentliche Verifizierungsdaten. Daten aus dem Verbindungsablauf: Domain-Zeichenketten, die du übermittelst; bei Cloudflare-OAuth Tokens und Zoneninformationen, die nötig sind, um DNS in deinem Namen während dieser Sitzung zu aktualisieren. Browser-Einstellungen: Theme und Sprache im Local Storage deines Geräts. Wir betreiben auf dieser Website keine Verbraucher-Benutzerkonten oder Marketingprofile.',
+        body: 'Domain- und Protokolldaten: Domainnamen, die du verbindest; Metadaten aus DMARC-Aggregatberichten (meldende Organisation, Zeitraum, Authentifizierungs-Pass/Fail-Zählungen, Selektor- und Infrastrukturkennungen in gehashter oder zusammengefasster Form); Certificate-Transparency-Erstgesehen-Metadaten aus öffentlichen Logs (Aussteller, not-before, Log-Zeit, Fingerprint); Merkle-Leaves, Roots und öffentliche Verifizierungsdaten. Daten aus dem Verbindungsablauf: Domain-Zeichenketten, die du übermittelst; bei Cloudflare-OAuth Tokens und Zoneninformationen, die nötig sind, um DNS in deinem Namen während dieser Sitzung zu aktualisieren. Browser-Einstellungen: Theme und Sprache im Local Storage deines Geräts. Wir betreiben auf dieser Website keine Verbraucher-Benutzerkonten oder Marketingprofile.',
       },
       {
         title: '3. Was wir nicht erheben',

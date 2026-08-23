@@ -1,6 +1,6 @@
 export const LOCAL_WHITEOBER_MARKDOWN = `
 # PACT Protocol
-## Provenance Attestation and Chain of Trust
+## Provenance of Accumulated Checkable Traces
 
 **Version 1.10 — August 2026**  
 **hello@pbm-labs.com**
@@ -13,9 +13,11 @@ The internet was built without a durable, independently checkable record of what
 
 Every domain that sends mail already participates in a quiet, global verification loop: outbound messages are cryptographically signed; receiving mail systems check those signatures and emit structured aggregate reports. Those reports have been produced continuously since 2011. They contain no message content and no personal identities — only whether a domain showed up honestly, how often, and through which infrastructure.
 
-PACT is an open protocol that captures those reports, commits them to an append-only Merkle tree anyone can recompute, and publishes a public record of independently confirmed history. PACT does not define a score or a verdict; judgement stays outside. Domains join by pointing an existing DNS field at PACT. Nothing about how they send mail changes. No message is ever read.
+A second leftover stream already exists for the web PKI. Browsers required Certificate Transparency logs. PACT indexes first-seen dates from those logs as a separate kind on the same tree. It does not ask a CA to issue anything, and it does not treat a certificate as an HTTPS badge. Mail and CT are not blended into a score.
 
-The public record is stubbornly boring about what happened: days independently confirmed, reports, reporting organizations, and cryptographic proofs. Judgement stays outside. Merkle roots are published to a public blockchain so a verifier does not have to trust the operator's database for inclusion. Leaves stay off-chain: the chain attests inclusion, not availability.
+PACT is an open protocol that captures leftover traces, commits them to an append-only Merkle tree anyone can recompute, and publishes a public record of independently confirmed history. PACT does not define a score or a verdict; judgement stays outside. Domains join by pointing an existing DNS field at PACT so mail reports are kept. Certificate logs are indexed without a new ceremony. Nothing about how they send mail changes. No message is ever read.
+
+The public record is stubbornly boring about what happened: days independently confirmed, mail reports, reporting organizations, certificate first-seen dates, and cryptographic proofs. Judgement stays outside. Merkle roots are published to a public blockchain so a verifier does not have to trust the operator's database for inclusion. Leaves stay off-chain: the chain attests inclusion, not availability.
 
 ---
 
@@ -43,7 +45,7 @@ PACT captures them.
 
 ### 2.1 Connecting a Domain
 
-A domain joins PACT by adding PACT as a report destination in DNS — one field, usually on an existing DMARC record. No software to install. No API to integrate. No new ledger, token, or account to join. No change to how mail is sent or received. Independent receiving systems already emit the reports; DNS only points at them.
+A domain joins PACT by adding PACT as a report destination in DNS — one field, usually on an existing DMARC record. No software to install. No API to integrate. No new ledger, token, or account to join. No change to how mail is sent or received. Independent receiving systems already emit the mail reports; DNS only points at them. Certificate Transparency is leftover public log exhaust — indexed after connect, without a new ceremony.
 
 Paths that work today:
 
@@ -106,7 +108,7 @@ PACT produces a measurement. It is stubbornly boring about what happened. Judgem
 
 ### 4.1 A Structural Guarantee
 
-PACT's privacy guarantee is architectural. DMARC aggregate reports — the sole data source — contain no personal data by design.
+PACT's privacy guarantee is architectural. Leftover traces are the only inputs: DMARC aggregate reports and public Certificate Transparency log metadata. Neither contains personal mail content. CT data is already public log exhaust.
 
 PACT never accesses, processes, transmits, or stores message content, subject lines, recipient identities, mailbox addresses, or any personally identifiable information. That cannot be changed by policy or breach, because the data never enters the system.
 
@@ -189,8 +191,9 @@ The protocol boundary is absolute: PACT Protocol never crosses into message-leve
 - Append-only Merkle tree with publicly recomputable inclusion proofs
 - Merkle roots published to \`PactRoots\` on Base Sepolia (testnet; permissioned publisher), outside this operator
 - Off-chain leaf availability via a public HTTP API (Cloudflare D1)
-- Public records ranked by independently confirmed history (days, then report count)
-- Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge
+- Public records ranked by independently confirmed mail history (days, then report count)
+- Certificate Transparency as a second leaf kind — first-seen calendar from public logs, not an HTTPS badge
+- Per-domain pages with clocks, observed pass rate, leaves, CT first-seen, and cryptographic proofs — no score, Proven label, or verdict badge
 - Documentation at \`/docs\` on the reference site: what the record is, honest limits, this whitepaper, status, the [protocol specification](https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md), and an [informative scoring example](https://github.com/pbm-labs/pact/blob/main/docs/examples/scoring.md)
 
 **Waiting on the world**

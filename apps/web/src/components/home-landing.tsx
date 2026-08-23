@@ -11,6 +11,7 @@ const MOCK = {
   verifiedDays: 14,
   reports: 12,
   orgs: 4,
+  ctFirstSeen: '2019-03-12',
 };
 
 export function HomeLanding() {
@@ -121,11 +122,12 @@ export function HomeLanding() {
             </h3>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-6">
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
             {[
               { value: `${MOCK.verifiedDays}d`, label: t.domain.timeVerified, sub: t.home.mockTimeSub },
               { value: String(MOCK.reports), label: t.domain.reports, sub: t.domain.allTime },
               { value: String(MOCK.orgs), label: t.home.mockOrgs, sub: t.home.mockOrgsSub },
+              { value: MOCK.ctFirstSeen, label: t.home.mockCt, sub: t.home.mockCtSub },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="text-xl font-bold font-mono leading-none text-txt">

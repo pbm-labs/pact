@@ -31,11 +31,12 @@ export const en: Dictionary = {
     closeVideo: 'Close',
     howEyebrow: 'How it works',
     howTitle: 'Evidence you can recheck.',
-    howLead: 'It does not ask you to trust an authority. It asks you to check a public record. Nobody joins a new network — independent systems already emit the reports; DNS only points at them.',
+    howLead:
+      'It does not ask you to trust an authority. It asks you to check a public record. Nobody joins a new network. Independent systems already emit leftover traces — mail reports, certificate logs. DNS only points at the mail feed. PACT does not invent a ceremony.',
     howSteps: [
       {
-        title: 'Independent systems report it',
-        body: 'Every entry comes from receiving mail systems — Gmail, Outlook, Yahoo, and others — that have no relationship with each other, no incentive to coordinate, and no idea they are being used as evidence. Their uncoordinated agreement over time is what the record contains. They were already watching for their own reasons.',
+        title: 'Independent systems already emit it',
+        body: 'Mail entries come from receiving systems — Gmail, Outlook, Yahoo, and others — that have no relationship with each other and no idea they are being used as evidence. Certificate Transparency is leftover exhaust from the web PKI: browsers already required public logs. They can cause a certificate to be issued; they cannot be the log. Both sit as separate kinds on the same tree. They are not blended into a score.',
       },
       {
         title: 'Anyone can check the record',
@@ -49,29 +50,31 @@ export const en: Dictionary = {
     recordEyebrow: 'Behind every record',
     recordTitle: 'Your full public page.',
     recordSub:
-      'Anyone can open it. Independently confirmed history — days, reports, and who confirmed them.',
+      'Anyone can open it. Independently confirmed history — mail reports, certificate first-seen dates, and cryptographic proofs. Not a score.',
     mockLabel: 'Example',
     mockTimeSub: 'since first report',
     mockOrgs: 'Reporting orgs',
     mockOrgsSub: 'independent',
+    mockCt: 'CT first seen',
+    mockCtSub: 'public logs, not an HTTPS badge',
     recordFoot:
-      'Every entry was confirmed by receiving mail systems — not self-reported. This record only grows forward.',
+      'Mail was confirmed by receiving systems — not self-reported. Certificates were already in public CT logs. PACT did not ask anyone to issue them. The record only grows forward.',
     privacyTitle: 'Privacy by design.',
     privacyBody1:
-      'Connecting points a DNS report address (rua) at us. Independent systems already emit aggregate reports for the domain — authentication counts, period, and infrastructure. That feed is the only data source.',
-    privacyBody2: 'The public record is confirmed domain history. Nothing else is collected.',
-    privacyTableTitle: "What's in a report",
+      'Connecting points a DNS report address (rua) at us so aggregate mail reports are not thrown away. Certificate Transparency is already public — PACT indexes leftover log exhaust; it does not ask a CA to issue anything. Neither feed contains message content or personal mailboxes.',
+    privacyBody2: 'The public record is confirmed domain history from leftover traces. Nothing else is collected.',
+    privacyTableTitle: "What's in the record",
     privacyRows: [
       'Domain',
-      'Reporting period',
-      'Pass / fail counts',
+      'Mail report period and pass / fail counts',
       'Reporting organization',
+      'Certificate first-seen (public CT logs)',
     ],
     ctaTitle: 'Start your public record.',
     ctaBody:
-      'Connect once. Independent receiving systems send the reports. The history only grows forward.',
+      'Connect once so mail reports are kept. Certificate logs are indexed from public CT — leftover, not a new ritual. History only grows forward.',
     ctaButton: 'Add your domain',
-    ctaSub: 'The record starts when independent reports arrive.',
+    ctaSub: 'Mail history starts when independent reports arrive. CT first-seen can appear sooner.',
     watchManifesto: 'Watch The Manifesto',
   },
   connect: {
@@ -79,7 +82,7 @@ export const en: Dictionary = {
     eyebrow: 'Two minutes, mostly automatic',
     title: 'Add your domain',
     intro:
-      'No paperwork, no waiting on anyone. The public record starts when the first independent report arrives.',
+      'No paperwork, no waiting on anyone. Point DNS so mail reports are kept. Certificate Transparency is leftover public log exhaust — indexed without a new ceremony. The mail record starts when the first independent report arrives.',
     yourDomain: 'Your domain',
     pathCloudflareTitle: 'I use Cloudflare',
     pathCloudflareDesc: 'One click — we handle the rest.',
@@ -93,7 +96,7 @@ export const en: Dictionary = {
     pathToolBadge: 'Existing tool',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. The record starts when independent reports arrive — not when the DNS line is saved.",
+      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. Mail history starts when independent reports arrive — not when the DNS line is saved. Certificate Transparency is leftover public log exhaust, indexed without a new ceremony.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
       'Your tool already checks this domain. Pointing it here includes us in that check. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — no extra step here.',
@@ -121,11 +124,11 @@ export const en: Dictionary = {
     eyebrow: 'Public records',
     title: 'Domains with a public record',
     intro:
-      'Ranked by independently confirmed history — how long each domain has been reported.',
+      'Ranked by independently confirmed mail history. Certificate first-seen dates live on each domain page — a separate kind, not a blended score.',
     addDomain: 'Add your domain',
-    rankedBy: 'Ranked by independently confirmed history',
+    rankedBy: 'Ranked by independently confirmed mail history',
     rankedHint:
-      'Longer independently confirmed history ranks higher.',
+      'Longer independently confirmed mail history ranks higher. Certificate first-seen dates are a separate kind on each domain page — not mixed into this order.',
     colDomain: 'Domain',
     colHistory: 'History',
     verified: 'confirmed',
@@ -145,10 +148,10 @@ export const en: Dictionary = {
     publicRecord: 'Public record',
     awaitingFirst: 'Awaiting first report',
     awaitingIntro:
-      'Registered. Waiting for the first independent confirmation — usually within a day.',
+      'Registered. Waiting for the first independent mail report — usually within a day. Certificate log history may appear sooner; that is leftover CT exhaust, not an HTTPS badge.',
     connected: 'Connected',
     whatNext: 'What happens next',
-    next1: 'Receiving mail systems notice this domain, usually within a day.',
+    next1: 'Receiving mail systems notice this domain, usually within a day. Public CT logs are indexed in parallel.',
     next2: 'The first independent reports arrive.',
     next3: 'This page updates on its own — nothing to click.',
     historyIntro:
@@ -159,13 +162,13 @@ export const en: Dictionary = {
     reportingOrgs: 'Reporting orgs',
     independent: 'independent',
     passRate: 'Pass rate',
-    techSummary: 'What was published — reports and cryptographic proofs',
+    techSummary: 'What was published — mail reports, certificate logs, and cryptographic proofs',
     domainRegistered: 'Domain registered',
     verifiedSince: 'Independently confirmed since',
     awaitingReport: 'Awaiting first report',
     noRecordYet: 'No public record yet.',
     noRecordHint:
-      'If you already added the report destination in DNS, bookmark this page. It updates on its own once the first independent report arrives, usually within a day.',
+      'If you already added the report destination in DNS, bookmark this page. It updates when the first independent mail report arrives, usually within a day. Certificate log rows may show up first.',
     connectDomain: 'Connect',
     firstDay: 'First day',
     dayOne: '1 day',
@@ -239,7 +242,7 @@ export const en: Dictionary = {
     eyebrow: 'PACT Protocol',
     title: 'Whitepaper',
     intro:
-      'The open protocol behind the public record — how independently confirmed history is captured and published.',
+      'The open protocol behind the public record — leftover traces, separate kinds, and how independently confirmed history is captured and published. Mail reports and certificate logs are not blended into a score.',
     source: 'Source on GitHub →',
   },
   whyPact: {
@@ -248,12 +251,12 @@ export const en: Dictionary = {
     intro: 'A short note on why the public record publishes what happened instead of asking you to trust a claim.',
     body: WHY_PACT_MARKDOWN,
     scope:
-      'PACT measures independently verified domain history from DMARC aggregate reports. It is not KYC, not a verdict that a domain is legitimate, not a personal credential, and not a replacement for registries or credit bureaus. Scores and thresholds are application policy on top of that history.',
+      'PACT measures independently verified domain history from leftover traces — DMARC aggregate reports and public Certificate Transparency logs. It is not KYC, not a verdict that a domain is legitimate, not an HTTPS badge, not a personal credential, and not a replacement for registries or credit bureaus. Mail and CT stay separate kinds. Scores and thresholds are application policy on top of that history.',
   },
   docs: {
     title: 'Docs',
     intro:
-      'The public record of independently confirmed domain history. Judgement stays outside. The protocol is PACT.',
+      'The public record of independently confirmed domain history from leftover traces. Judgement stays outside. The protocol is PACT.',
     sections: [
       {
         title: 'The record',
@@ -265,11 +268,11 @@ export const en: Dictionary = {
       },
       {
         title: 'How a domain gets a record',
-        body: 'Add rua@pact.webuildreal.dev as a report destination in DNS. Independent systems already emit the reports. The record appears when the first valid aggregate arrives, usually within a day or two.',
+        body: 'Add rua@pact.webuildreal.dev as a report destination in DNS. Independent systems already emit the mail reports. Mail history appears when the first valid aggregate arrives, usually within a day or two. Certificate logs are leftover public exhaust — indexed after connect, without a new ceremony. They are a separate kind, not a blended score.',
       },
       {
         title: 'How anyone checks',
-        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root — that root is outside this operator. Wrapper openings — passing d=/selector and keccak256 of the RFC822 — are on the public leaf. A checker confirms stored bytes hash to that opening, and that the DKIM key from DNS is on record. That is not a stranger re-running the original SMTP signature.',
+        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root — that root is outside this operator. Mail leaves carry wrapper openings — passing d=/selector and keccak256 of the RFC822. CT leaves carry a first-seen calendar from public logs. A checker confirms stored bytes hash to the opening, and that the DKIM key from DNS is on record. That is not a stranger re-running the original SMTP signature. Mail and CT stay separate kinds on the same tree.',
       },
     ],
     limitsTitle: 'Honest limits',
@@ -338,7 +341,7 @@ export const en: Dictionary = {
       },
       {
         title: '3. The Service',
-        body: 'PACT captures DMARC aggregate authentication reports that receiving mail systems already generate, commits extracted metadata to an append-only Merkle tree, and publishes a public record of that history for connected domains. Connecting a domain requires adding PACT as a report destination in DNS (directly or via a supported provider). We do not read message content, recipient identities, or mailbox data.',
+        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Mail history comes from DMARC aggregate authentication reports that receiving mail systems already generate. Certificate history comes from public Certificate Transparency logs — indexed leftover exhaust, not a new issuance ceremony and not an HTTPS badge. Mail and CT stay separate kinds; they are not blended into a score. Connecting a domain requires adding PACT as a report destination in DNS (directly or via a supported provider) so mail reports are kept. CT indexing needs no extra ritual. We do not read message content, recipient identities, or mailbox data.',
       },
       {
         title: '4. Public Records',
@@ -388,11 +391,11 @@ export const en: Dictionary = {
     privacy: [
       {
         title: '1. Overview',
-        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use webuildreal.dev — the public home of the we build real movement and of the first reference implementation of the open PACT protocol. PACT is designed so its primary data source — DMARC aggregate reports — contains no message content and no personal identities.',
+        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use webuildreal.dev — the public home of the we build real movement and of the first reference implementation of the open PACT protocol. PACT records leftover traces: DMARC aggregate reports and public Certificate Transparency log metadata. Aggregate mail reports contain no message content and no personal identities. CT data is already public log exhaust.',
       },
       {
         title: '2. Information We Process',
-        body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
+        body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Certificate Transparency first-seen metadata from public logs (issuer, not-before, log time, fingerprint); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
       },
       {
         title: '3. What We Do Not Collect',

@@ -30,11 +30,12 @@ export const es: Dictionary = {
     closeVideo: 'Cerrar',
     howEyebrow: 'Cómo funciona',
     howTitle: 'Evidencia que puedes volver a comprobar.',
-    howLead: 'No te pide confiar en una autoridad. Te pide revisar un registro público. Nadie se une a una red nueva: los sistemas independientes ya emiten los informes; el DNS solo apunta a ellos.',
+    howLead:
+      'No te pide confiar en una autoridad. Te pide revisar un registro público. Nadie se une a una red nueva. Sistemas independientes ya emiten rastros residuales — informes de correo, registros de certificados. El DNS solo apunta al feed de correo. PACT no inventa una ceremonia.',
     howSteps: [
       {
-        title: 'Sistemas independientes lo reportan',
-        body: 'Cada entrada proviene de sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo descoordinado en el tiempo es lo que contiene el registro. Ya miraban por sus propios motivos.',
+        title: 'Sistemas independientes ya lo emiten',
+        body: 'Las entradas de correo provienen de sistemas receptores — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí y no saben que se usan como evidencia. Certificate Transparency es escape residual de la PKI web: los navegadores ya exigieron registros públicos. Pueden provocar que se emita un certificado; no pueden ser el registro. Ambos quedan como tipos distintos en el mismo árbol. No se mezclan en una puntuación.',
       },
       {
         title: 'Cualquiera puede revisar el registro',
@@ -48,29 +49,31 @@ export const es: Dictionary = {
     recordEyebrow: 'Detrás de cada registro',
     recordTitle: 'Tu página pública completa.',
     recordSub:
-      'Cualquiera puede abrirla. Historial confirmado de forma independiente — días, informes y quién los confirmó.',
+      'Cualquiera puede abrirla. Historial confirmado de forma independiente — informes de correo, fechas de primera aparición de certificados y pruebas criptográficas. No es una puntuación.',
     mockLabel: 'Ejemplo',
     mockTimeSub: 'desde el primer informe',
     mockOrgs: 'Orgs. informantes',
     mockOrgsSub: 'independientes',
+    mockCt: 'CT primera vez',
+    mockCtSub: 'registros públicos, no un sello HTTPS',
     recordFoot:
-      'Cada entrada la confirmaron sistemas de correo receptores — no es autoinformada. Este registro solo crece hacia adelante.',
+      'El correo lo confirmaron sistemas receptores — no es autoinformado. Los certificados ya estaban en registros públicos de CT. PACT no pidió que se emitieran. El registro solo crece hacia adelante.',
     privacyTitle: 'Privacidad por diseño.',
     privacyBody1:
-      'Al conectar, un DNS apunta una dirección de informes (rua) hacia nosotros. Sistemas independientes ya emiten informes agregados del dominio — conteos de autenticación, periodo e infraestructura. Esa fuente es la única.',
-    privacyBody2: 'El registro público es historial de dominio confirmado. No se recoge nada más.',
-    privacyTableTitle: 'Qué hay en un informe',
+      'Al conectar, el DNS apunta una dirección de informes (rua) hacia nosotros para no tirar los informes agregados de correo. Certificate Transparency ya es público — PACT indexa escape residual de los logs; no pide a una CA que emita nada. Ninguna fuente contiene el contenido de mensajes ni buzones personales.',
+    privacyBody2: 'El registro público es historial de dominio confirmado a partir de rastros residuales. No se recoge nada más.',
+    privacyTableTitle: 'Qué hay en el registro',
     privacyRows: [
       'Dominio',
-      'Periodo del informe',
-      'Conteos de acierto / fallo',
+      'Periodo del informe de correo y conteos de acierto / fallo',
       'Organización informante',
+      'Primera aparición del certificado (logs públicos de CT)',
     ],
     ctaTitle: 'Empieza tu registro público.',
     ctaBody:
-      'Conecta una vez. Sistemas receptores independientes envían los informes. El historial solo crece hacia adelante.',
+      'Conecta una vez para conservar los informes de correo. Los logs de certificados se indexan desde CT público — residual, no un rito nuevo. El historial solo crece hacia adelante.',
     ctaButton: 'Añade tu dominio',
-    ctaSub: 'El registro empieza cuando llegan informes independientes.',
+    ctaSub: 'El historial de correo empieza cuando llegan informes independientes. La primera vez de CT puede aparecer antes.',
     watchManifesto: 'Ver el manifiesto',
   },
   connect: {
@@ -78,7 +81,7 @@ export const es: Dictionary = {
     eyebrow: 'Dos minutos, casi automático',
     title: 'Añade tu dominio',
     intro:
-      'Sin papeleo ni esperas. El registro público empieza cuando llega el primer informe independiente.',
+      'Sin papeleo ni esperas. Apunta el DNS para conservar los informes de correo. Certificate Transparency es escape residual de logs públicos — indexado sin una ceremonia nueva. El registro de correo empieza cuando llega el primer informe independiente.',
     yourDomain: 'Tu dominio',
     pathCloudflareTitle: 'Uso Cloudflare',
     pathCloudflareDesc: 'Un clic — nosotros nos ocupamos del resto.',
@@ -92,7 +95,7 @@ export const es: Dictionary = {
     pathToolBadge: 'Herramienta existente',
     whatDoesThisDo: '¿Qué hace esto?',
     cloudflareExplain:
-      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El registro empieza cuando llegan informes independientes — no al guardar la línea DNS.',
+      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El historial de correo empieza cuando llegan informes independientes — no al guardar la línea DNS. Certificate Transparency es escape residual de logs públicos, indexado sin una ceremonia nueva.',
     toolIntro: 'En la configuración de tu herramienta, añade esto:',
     toolExplain:
       'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
@@ -120,11 +123,11 @@ export const es: Dictionary = {
     eyebrow: 'Registros públicos',
     title: 'Dominios con registro público',
     intro:
-      'Ordenados por historial confirmado de forma independiente — cuánto tiempo cada dominio ha sido reportado.',
+      'Ordenados por historial de correo confirmado de forma independiente. Las fechas de primera aparición de certificados están en cada ficha de dominio — un tipo distinto, no una puntuación mezclada.',
     addDomain: 'Añade tu dominio',
-    rankedBy: 'Ordenados por historial confirmado de forma independiente',
+    rankedBy: 'Ordenados por historial de correo confirmado de forma independiente',
     rankedHint:
-      'Un historial confirmado de forma independiente más largo se sitúa más arriba.',
+      'Un historial de correo confirmado de forma independiente más largo se sitúa más arriba. Las fechas de primera aparición de certificados son un tipo distinto en cada ficha — no se mezclan en este orden.',
     colDomain: 'Dominio',
     colHistory: 'Historial',
     verified: 'confirmado',
@@ -144,10 +147,10 @@ export const es: Dictionary = {
     publicRecord: 'Registro público',
     awaitingFirst: 'Esperando el primer informe',
     awaitingIntro:
-      'Registrado. Esperando la primera confirmación independiente — normalmente en un día.',
+      'Registrado. Esperando el primer informe de correo independiente — normalmente en un día. El historial de certificados puede aparecer antes; es escape residual de CT, no un sello HTTPS.',
     connected: 'Conectado',
     whatNext: 'Qué ocurre a continuación',
-    next1: 'Los sistemas de correo receptores detectan este dominio, normalmente en un día.',
+    next1: 'Los sistemas de correo receptores detectan este dominio, normalmente en un día. Los logs públicos de CT se indexan en paralelo.',
     next2: 'Llegan los primeros informes independientes.',
     next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
     historyIntro:
@@ -158,13 +161,13 @@ export const es: Dictionary = {
     reportingOrgs: 'Orgs. informantes',
     independent: 'independientes',
     passRate: 'Tasa de acierto',
-    techSummary: 'Lo publicado — informes y pruebas criptográficas',
+    techSummary: 'Lo publicado — informes de correo, logs de certificados y pruebas criptográficas',
     domainRegistered: 'Dominio registrado',
     verifiedSince: 'Confirmado independientemente desde',
     awaitingReport: 'Esperando el primer informe',
     noRecordYet: 'Aún no hay registro público.',
     noRecordHint:
-      'Si ya añadiste el destino de informes en el DNS, guarda esta página. Se actualiza sola cuando llega el primer informe independiente, normalmente en un día.',
+      'Si ya añadiste el destino de informes en el DNS, guarda esta página. Se actualiza cuando llega el primer informe de correo independiente, normalmente en un día. Las filas de certificados pueden aparecer antes.',
     connectDomain: 'Conectar',
     firstDay: 'Primer día',
     dayOne: '1 día',
@@ -251,6 +254,7 @@ export const es: Dictionary = {
       'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
       'Cada hecho del registro proviene de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es lo que contiene el registro. Nadie se une a una red nueva: esos sistemas ya emiten los informes; el DNS solo apunta a ellos. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso), fuera de este operador. El DKIM del wrapper del reportero se verifica en la ingesta, y el d=/selector que pasa más el keccak256 del wrapper quedan comprometidos en la hoja. Un verificador puede confirmar que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. El correo no está en cadena. Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas y esa clave de publicación — no un cambio de tesis.',
       'Esa evidencia es tercamente aburrida sobre lo que ocurrió. El juicio queda fuera. El mismo historial puede alimentar políticas de aplicación distintas. Un testigo más fuerte sigue sin heredar la decisión.',
+      'La misma idea se extiende más allá del correo. Los registros de Certificate Transparency ya existen porque los navegadores exigieron un diario público de emisión. Nadie los construyó para PACT. Un dominio que aparece ahí tiene una fecha de primera vez que escribió otro. Eso es rastro residual, no un rito que hayamos inventado, y no una prueba de que HTTPS sea de fiar — Let’s Encrypt emite un certificado real en minutos. La prueba es: pueden causar el evento; no pueden ser el testigo. Correo y CT quedan como tipos distintos en el mismo árbol. No se mezclan en una puntuación.',
       'Esa es la propiedad que las pruebas incumbentes no pueden injertar. Un buró de crédito no puede volverse trustless — su modelo de negocio *es* el intermediario de confianza. Un registro estatal no puede volverse trustless — es una autoridad por definición. Un extracto bancario no puede volverse trustless — es un documento, y los documentos se editan. PACT no es una versión mejor de eso. Está en otra categoría: evidencia que puedes volver a comprobar, no una afirmación que debas aceptar.',
       'Esto es lo que lo hace duradero, no solo distinto: **el historial que PACT mide no se puede fabricar a posteriori, a ningún precio — ni siquiera por los operadores de PACT.**',
       'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. Puedes armar una empresa pantalla con papeles perfectos. Lo que no puedes hacer es que ayer ocurra antes. El historial de PACT se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo. No es una preferencia de producto. Es una restricción física que PACT pone a trabajar.',
@@ -260,16 +264,16 @@ export const es: Dictionary = {
       'Esa pregunta nunca tuvo una respuesta pública duradera. A partir de ahora, sí.',
     ].join('\n\n'),
     scope:
-      'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es un veredicto de que un dominio es legítimo, no es una credencial personal y no sustituye registros ni burós de crédito. Las puntuaciones y los umbrales son política de aplicación sobre ese historial.',
+      'PACT mide el historial de dominio verificado de forma independiente a partir de rastros residuales — informes agregados DMARC y registros públicos de Certificate Transparency. No es KYC, no es un veredicto de que un dominio es legítimo, no es un sello HTTPS, no es una credencial personal y no sustituye registros ni burós de crédito. Correo y CT quedan como tipos distintos. Las puntuaciones y los umbrales son política de aplicación sobre ese historial.',
   },
   docs: {
     title: 'Docs',
     intro:
-      'El registro público del historial de dominio confirmado de forma independiente. El juicio queda fuera. El protocolo es PACT.',
+      'El registro público del historial de dominio confirmado de forma independiente a partir de rastros residuales. El juicio queda fuera. El protocolo es PACT.',
     sections: [
       {
         title: 'El registro',
-        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Nadie se une a un ledger, un token o una cuenta nueva. Un dominio apunta un campo DNS existente a esta implementación para no tirar esos informes. Nada cambia en cómo envía correo.\n\nLa página pública lista días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
+        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Nadie se une a un ledger, un token o una cuenta nueva. Un dominio apunta un campo DNS existente a esta implementación para no tirar esos informes. Nada cambia en cómo envía correo.\n\nUn segundo flujo — Certificate Transparency — es escape residual de la PKI web. Los navegadores ya exigieron registros públicos. PACT indexa esos logs; no inventa una ceremonia nueva. Correo y CT quedan como tipos distintos en el mismo árbol. No se mezclan en una puntuación.\n\nLa página pública lista días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle, DKIM del wrapper y fechas de primera aparición en CT. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
       },
       {
         title: 'El juicio queda fuera',
@@ -277,7 +281,7 @@ export const es: Dictionary = {
       },
       {
         title: 'Cómo obtiene un dominio un registro',
-        body: 'Añade rua@pact.webuildreal.dev como destino de informes en DNS. Los sistemas independientes ya emiten los informes. El registro aparece cuando llega el primer agregado válido, normalmente en uno o dos días.',
+        body: 'Añade rua@pact.webuildreal.dev como destino de informes en DNS. Los sistemas independientes ya emiten los informes de correo. El historial de correo aparece cuando llega el primer agregado válido, normalmente en uno o dos días. Los logs de certificados son escape público residual — indexados tras conectar, sin una ceremonia nueva. Son un tipo distinto, no una puntuación mezclada.',
       },
       {
         title: 'Cómo lo comprueba cualquiera',
@@ -350,7 +354,7 @@ export const es: Dictionary = {
       },
       {
         title: '3. El servicio',
-        body: 'PACT captura informes agregados de autenticación DMARC que los sistemas de correo receptores ya generan, registra los metadatos extraídos en un árbol Merkle de solo añadido y publica un registro público de ese historial para los dominios conectados. Conectar un dominio requiere añadir PACT como destino de informes en DNS (directamente o mediante un proveedor compatible). No leemos el contenido de los mensajes, las identidades de los destinatarios ni los datos del buzón.',
+        body: 'PACT captura rastros residuales que sistemas independientes ya emiten y los registra en un árbol Merkle de solo añadido. El historial de correo proviene de informes agregados de autenticación DMARC que los sistemas receptores ya generan. El historial de certificados proviene de registros públicos de Certificate Transparency — escape residual indexado, no una ceremonia de emisión nueva ni un sello HTTPS. Correo y CT quedan como tipos distintos; no se mezclan en una puntuación. Conectar un dominio requiere añadir PACT como destino de informes en DNS (directamente o mediante un proveedor compatible) para conservar los informes de correo. La indexación de CT no pide un rito extra. No leemos el contenido de los mensajes, las identidades de los destinatarios ni los datos del buzón.',
       },
       {
         title: '4. Registros públicos',
@@ -400,11 +404,11 @@ export const es: Dictionary = {
     privacy: [
       {
         title: '1. Resumen',
-        body: 'Esta Política de privacidad explica cómo PBM Labs LLC trata la información cuando usas webuildreal.dev — la casa pública del movimiento we build real y de la primera implementación de referencia del protocolo abierto PACT. PACT está diseñado para que su fuente de datos principal — los informes agregados DMARC — no contenga contenido de mensajes ni identidades personales.',
+        body: 'Esta Política de privacidad explica cómo PBM Labs LLC trata la información cuando usas webuildreal.dev — la casa pública del movimiento we build real y de la primera implementación de referencia del protocolo abierto PACT. PACT registra rastros residuales: informes agregados DMARC y metadatos de registros públicos de Certificate Transparency. Los informes agregados de correo no contienen contenido de mensajes ni identidades personales. Los datos de CT ya son escape público de logs.',
       },
       {
         title: '2. Información que procesamos',
-        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: tema e idioma almacenados en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
+        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); metadatos de primera aparición de Certificate Transparency desde logs públicos (emisor, not-before, hora del log, huella); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: tema e idioma almacenados en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
       },
       {
         title: '3. Qué no recopilamos',
