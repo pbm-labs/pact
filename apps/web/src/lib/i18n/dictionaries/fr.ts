@@ -226,6 +226,15 @@ export const fr: Dictionary = {
     shareX: 'X',
     shareText:
       'L’IA peut tout falsifier. Sauf hier.\n\n{domain} a désormais un registre public que n’importe qui peut revérifier.',
+    ctHistory: 'Historique des certificats',
+    ctHistoryCounts: '{n} certificats issus des journaux CT publics — plus anciens d’abord.',
+    ctIntro:
+      'Ces certificats figuraient déjà dans des journaux publics de Certificate Transparency. PACT n’a demandé à personne de les émettre. La première date est un calendrier, pas un label « HTTPS fiable ». Un nouveau domaine peut obtenir un vrai certificat en quelques minutes.',
+    colIssuer: 'Émetteur',
+    colNotBefore: 'Not before',
+    colLoggedAt: 'Journalisé',
+    colFingerprint: 'Empreinte',
+    ctKindLabel: 'CT',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',
@@ -306,6 +315,7 @@ export const fr: Dictionary = {
       'Arbre de Merkle append-only avec preuves d’inclusion recomputables publiquement',
       'Racines Merkle sur PactRoots / Base Sepolia (testnet, éditeur permissionné)',
       'Registres publics classés par historique confirmé de façon indépendante',
+      'Certificate Transparency comme second type de feuille (`pact-ct-v1`) — calendrier de première apparition dans les journaux publics, pas un badge HTTPS',
       'Pages par domaine avec horloges, taux de réussite observé, feuilles et preuves cryptographiques — pas de score, d’étiquette Proven, ni de verdict',
     ],
     waitingTitle: 'En attente du monde',

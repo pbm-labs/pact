@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { DomainClocks } from '@/components/domain-clocks';
-import { DomainLeavesPanel } from '@/components/domain-leaves-panel';
+import { DomainCtPanel, DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { SharePublicRecord } from '@/components/share-public-record';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
-import type { DomainLiveData, DomainPageState } from '@/lib/domain-data';
+import type { DomainLiveData, DomainPageState, DomainWaitingData } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
 import {
   badgeAmber,
@@ -54,28 +54,15 @@ export function DomainPageView({ domain, state, unconfigured }: DomainPageViewPr
   }
 
   if (state.status === 'waiting') {
-    return (
-      <WaitingPage
-        domain={state.data.domain}
-        connectedSince={state.data.connectedSince}
-        domainRegisteredAt={state.data.domainRegisteredAt}
-      />
-    );
+    return <WaitingPage data={state.data} />;
   }
 
   return <LivePage data={state.data} />;
 }
 
-function WaitingPage({
-  domain,
-  connectedSince,
-  domainRegisteredAt,
-}: {
-  domain: string;
-  connectedSince: string | null;
-  domainRegisteredAt: string | null;
-}) {
+function WaitingPage({ data }: { data: DomainWaitingData }) {
   const { t } = useLocale();
+  const { domain, connectedSince, domainRegisteredAt } = data;
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
@@ -91,7 +78,7 @@ function WaitingPage({
         <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
       </header>
 
-      <section className={`${panel} mb-2`}>
+      <section className={`${panel} mb-4`}>
         <div className={panelBody}>
           <h2 className={panelSectionTitle}>{t.domain.whatNext}</h2>
           <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
@@ -101,6 +88,8 @@ function WaitingPage({
           </ol>
         </div>
       </section>
+
+      <DomainCtPanel certs={data.ct} />
     </PageShell>
   );
 }
@@ -159,6 +148,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
           rootsContract={data.rootsContract}
           globalTreeLeafCount={data.globalTreeLeafCount}
         />
+        <DomainCtPanel certs={data.ct} />
       </section>
     </PageShell>
   );

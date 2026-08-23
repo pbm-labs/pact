@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { useLocale } from '@/components/locale-provider';
-import type { DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
+import type { DomainCtSummary, DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
 import { explorerAddressUrl, explorerTxUrl } from '@/lib/explorer';
 import type { Dictionary } from '@/lib/i18n/types';
 import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
@@ -206,6 +206,66 @@ export function DomainLeavesPanel({
   );
 }
 
+export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
+  const { t, locale } = useLocale();
+  if (!certs.length) return null;
+
+  return (
+    <section className={`${panel} mb-4`}>
+      <div className="px-3 py-2 border-b border-border flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <h2 className="text-sm font-semibold text-txt m-0">{t.domain.ctHistory}</h2>
+        <p className="text-[0.7rem] text-muted-2 m-0">
+          {t.domain.ctHistoryCounts.replace('{n}', certs.length.toLocaleString())}
+        </p>
+      </div>
+      <p className="px-3 py-2 text-xs text-muted leading-relaxed m-0 border-b border-border">
+        {t.domain.ctIntro}
+      </p>
+      <div className="overflow-x-auto thin-scrollbar">
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
+              <th className={th}>#</th>
+              <th className={th}>{t.domain.colIssuer}</th>
+              <th className={th}>{t.domain.colNotBefore}</th>
+              <th className={th}>{t.domain.colLoggedAt}</th>
+              <th className={th}>{t.domain.verification}</th>
+              <th className={th}>{t.domain.colFingerprint}</th>
+              <th className={th}>{t.domain.leafHash}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {certs.map((cert) => (
+              <tr key={`${cert.leafIndex}-${cert.fingerprint}`} className="border-b border-border last:border-0">
+                <td className={`${td} font-mono tabular-nums text-muted`}>#{cert.leafIndex}</td>
+                <td className={`${td} text-txt`} title={cert.issuer || undefined}>
+                  <span className="block max-w-[16rem] truncate">
+                    {shortIssuer(cert.issuer) || cert.commonName || '—'}
+                  </span>
+                  <span className="block text-[0.65rem] text-muted-2 font-mono">{t.domain.ctKindLabel}</span>
+                </td>
+                <td className={`${td} font-mono text-muted`}>{formatUnixDate(cert.notBefore, locale)}</td>
+                <td className={`${td} font-mono text-muted`}>{formatUnixDate(cert.loggedAt, locale)}</td>
+                <td className={`${td} ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}>
+                  {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
+                </td>
+                <td className={`${td} font-mono text-muted-2`} title={cert.fingerprint}>
+                  {truncateHash(cert.fingerprint.startsWith('0x') ? cert.fingerprint : `0x${cert.fingerprint}`)}
+                </td>
+                <td className={`${td} font-mono text-muted-2`} title={cert.leafHash}>
+                  <LedgerLink href={cert.leafUrl} title={`${cert.leafHash} — ${t.domain.leafLedger}`}>
+                    {truncateHash(cert.leafHash)}
+                  </LedgerLink>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
 function MetaRow({
   label,
   value,
@@ -268,6 +328,21 @@ function truncateHash(hash: string | null, head = 10, tail = 6): string {
   if (!hash) return '—';
   if (hash.length <= head + tail + 1) return hash;
   return `${hash.slice(0, head)}…${hash.slice(-tail)}`;
+}
+
+function formatUnixDate(ts: number, locale: string): string {
+  if (!Number.isFinite(ts) || ts <= 0) return '—';
+  return new Date(ts * 1000).toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
+function shortIssuer(issuer: string): string {
+  const cn = issuer.match(/CN=([^,/]+)/i);
+  if (cn?.[1]) return cn[1].trim();
+  return issuer.trim();
 }
 
 function formatWrapperDkim(ids: { domain: string; selector: string }[]): string {

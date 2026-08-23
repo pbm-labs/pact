@@ -5,6 +5,7 @@ import { handleLedgerRequest } from './http.js';
 import { snapshotWrapperDkimKeys, verifyWrapperDkim } from './dkim.js';
 import { storeWrapperBlob } from './wrapper-store.js';
 import { publishAnchoredRoot } from './publish-root.js';
+import { ingestCtBatch, ingestCtForDomain } from './ct-ingest.js';
 
 export interface Env {
   ENVIRONMENT: string;
@@ -18,8 +19,28 @@ export interface Env {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    return handleLedgerRequest(request, env);
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    const response = await handleLedgerRequest(request, env);
+    if (
+      request.method === 'POST' &&
+      new URL(request.url).pathname.replace(/\/$/, '') === '/v1/domains' &&
+      response.ok
+    ) {
+      const body = (await response.clone().json().catch(() => null)) as { domain?: string } | null;
+      if (body?.domain) {
+        const domain = body.domain;
+        ctx.waitUntil(
+          ingestCtForDomain(env.DB, domain)
+            .then((row) =>
+              console.log(JSON.stringify({ event: 'ct_ingest_connect', domain, ...row })),
+            )
+            .catch((err) =>
+              console.error(JSON.stringify({ event: 'ct_ingest_connect_failed', error: String(err) })),
+            ),
+        );
+      }
+    }
+    return response;
   },
 
   async email(message: ForwardableEmailMessage, env: Env): Promise<void> {
@@ -134,6 +155,8 @@ export default {
   },
 
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
+    const ct = await ingestCtBatch(env.DB);
+    console.log(JSON.stringify({ event: 'ct_ingest', ...ct }));
     const result = await publishAnchoredRoot(env);
     console.log(JSON.stringify({ event: 'root_publish_scheduled', ...result }));
   },

@@ -184,6 +184,14 @@ export type Dictionary = {
     shareLinkedIn: string;
     shareX: string;
     shareText: string;
+    ctHistory: string;
+    ctHistoryCounts: string;
+    ctIntro: string;
+    colIssuer: string;
+    colNotBefore: string;
+    colLoggedAt: string;
+    colFingerprint: string;
+    ctKindLabel: string;
   };
   whitepaper: {
     eyebrow: string;

@@ -41,6 +41,14 @@ export {
   type LeafInput,
   type LeafComponents,
 } from './encoding/leaf.js';
+export {
+  CT_KIND_TAG,
+  computeCtLeafHash,
+  ctKindId,
+  fingerprintFromParts,
+  normalizeFingerprint,
+  type CtLeafInput,
+} from './encoding/ct-leaf.js';
 export { SparseMerkleTree, TREE_DEPTH, ZERO_HASHES, type Hash } from './merkle/sparse.js';
 export {
   parseDmarcAggregateReport,

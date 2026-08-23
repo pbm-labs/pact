@@ -195,10 +195,7 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
     return existing.leaf_index;
   }
 
-  const maxRow = await db
-    .prepare(`SELECT COALESCE(MAX(leaf_index), -1) AS max_index FROM leaves`)
-    .first<{ max_index: number }>();
-  const nextIndex = (maxRow?.max_index ?? -1) + 1;
+  const nextIndex = await nextLeafIndex(db);
 
   await db
     .prepare(
@@ -235,9 +232,29 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
   return nextIndex;
 }
 
+export async function nextLeafIndex(db: D1Database): Promise<number> {
+  const maxRow = await db
+    .prepare(
+      `SELECT MAX(leaf_index) AS max_index FROM (
+         SELECT leaf_index FROM leaves
+         UNION ALL
+         SELECT leaf_index FROM ct_certs
+       )`,
+    )
+    .first<{ max_index: number | null }>();
+  return (maxRow?.max_index ?? -1) + 1;
+}
+
 export async function listLeafHashes(db: D1Database): Promise<{ leaf_index: number; leaf_hash: string }[]> {
   const { results } = await db
-    .prepare(`SELECT leaf_index, leaf_hash FROM leaves ORDER BY leaf_index ASC`)
+    .prepare(
+      `SELECT leaf_index, leaf_hash FROM (
+         SELECT leaf_index, leaf_hash FROM leaves
+         UNION ALL
+         SELECT leaf_index, leaf_hash FROM ct_certs
+       )
+       ORDER BY leaf_index ASC`,
+    )
     .all<{ leaf_index: number; leaf_hash: string }>();
   return results ?? [];
 }
@@ -389,6 +406,112 @@ export async function getLeafByHash(db: D1Database, leafHash: `0x${string}`): Pr
       .bind(leafHash.toLowerCase(), hex.toLowerCase())
       .first<LeafRow>()) ?? null
   );
+}
+
+export interface CtCertRow {
+  domain: string;
+  fingerprint: string;
+  leaf_index: number;
+  leaf_hash: string;
+  log_id: string;
+  log_index: number;
+  logged_at: number;
+  not_before: number;
+  not_after: number;
+  issuer: string;
+  common_name: string;
+  created_at: string;
+}
+
+export async function listCtCertsForDomain(db: D1Database, domain: string): Promise<CtCertRow[]> {
+  const { results } = await db
+    .prepare(`SELECT * FROM ct_certs WHERE domain = ? ORDER BY logged_at ASC`)
+    .bind(domain)
+    .all<CtCertRow>();
+  return results ?? [];
+}
+
+export async function getCtCertByHash(db: D1Database, leafHash: `0x${string}`): Promise<CtCertRow | null> {
+  const hex = leafHash.slice(2);
+  return (
+    (await db
+      .prepare(`SELECT * FROM ct_certs WHERE lower(leaf_hash) IN (?, ?) LIMIT 1`)
+      .bind(leafHash.toLowerCase(), hex.toLowerCase())
+      .first<CtCertRow>()) ?? null
+  );
+}
+
+export async function ctFingerprintExists(
+  db: D1Database,
+  domain: string,
+  fingerprint: string,
+): Promise<boolean> {
+  const row = await db
+    .prepare(`SELECT fingerprint FROM ct_certs WHERE domain = ? AND fingerprint = ? LIMIT 1`)
+    .bind(domain, fingerprint)
+    .first();
+  return row != null;
+}
+
+export async function insertCtCert(
+  db: D1Database,
+  input: {
+    domain: string;
+    fingerprint: string;
+    leafHash: string;
+    logId: string;
+    logIndex: number;
+    loggedAt: number;
+    notBefore: number;
+    notAfter: number;
+    issuer: string;
+    commonName: string;
+  },
+): Promise<number | null> {
+  if (await ctFingerprintExists(db, input.domain, input.fingerprint)) return null;
+  const leafIndex = await nextLeafIndex(db);
+  await db
+    .prepare(
+      `INSERT INTO ct_certs (
+        domain, fingerprint, leaf_index, leaf_hash, log_id, log_index,
+        logged_at, not_before, not_after, issuer, common_name
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(
+      input.domain,
+      input.fingerprint,
+      leafIndex,
+      input.leafHash,
+      input.logId,
+      input.logIndex,
+      input.loggedAt,
+      input.notBefore,
+      input.notAfter,
+      input.issuer,
+      input.commonName,
+    )
+    .run();
+  return leafIndex;
+}
+
+export async function listDomainsDueForCt(db: D1Database, limit: number): Promise<string[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT domain FROM domains
+       ORDER BY CASE WHEN ct_synced_at IS NULL OR ct_synced_at = '' THEN 0 ELSE 1 END ASC,
+                ct_synced_at ASC
+       LIMIT ?`,
+    )
+    .bind(limit)
+    .all<{ domain: string }>();
+  return (results ?? []).map((row) => row.domain);
+}
+
+export async function markCtSynced(db: D1Database, domain: string): Promise<void> {
+  await db
+    .prepare(`UPDATE domains SET ct_synced_at = datetime('now') WHERE domain = ?`)
+    .bind(domain)
+    .run();
 }
 
 export async function listLeavesSummary(db: D1Database): Promise<

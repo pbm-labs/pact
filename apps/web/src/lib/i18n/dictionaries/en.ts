@@ -225,6 +225,15 @@ export const en: Dictionary = {
     shareX: 'X',
     shareText:
       'AI can fake everything. Except yesterday.\n\n{domain} now has a public record anyone can recheck.',
+    ctHistory: 'Certificate log history',
+    ctHistoryCounts: '{n} certificates from public CT logs — oldest first.',
+    ctIntro:
+      'These certificates were already in public Certificate Transparency logs. PACT did not ask anyone to issue them. First-seen is a calendar date, not a claim that HTTPS is “good.” A new domain can get a real certificate in minutes.',
+    colIssuer: 'Issuer',
+    colNotBefore: 'Not before',
+    colLoggedAt: 'Logged',
+    colFingerprint: 'Fingerprint',
+    ctKindLabel: 'CT',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',
@@ -248,7 +257,7 @@ export const en: Dictionary = {
     sections: [
       {
         title: 'The record',
-        body: 'Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate DMARC aggregate reports. Nobody joins a new ledger, token, or account. A domain points an existing DNS field at this implementation so those reports are not thrown away. Nothing about how it sends mail changes.\n\nThe public page lists days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, a Proven label, or a verdict.',
+        body: 'Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate DMARC aggregate reports. Nobody joins a new ledger, token, or account. A domain points an existing DNS field at this implementation so those reports are not thrown away. Nothing about how it sends mail changes.\n\nA second stream — Certificate Transparency — is leftover exhaust from the web PKI. Browsers already required public logging. PACT indexes those logs; it does not invent a new ceremony. Mail and CT stay separate kinds on the same tree. They are not blended into a score.\n\nThe public page lists days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, wrapper DKIM, and CT first-seen dates. It does not display a score, a Proven label, or a verdict.',
       },
       {
         title: 'Judgement stays outside',
@@ -292,6 +301,7 @@ export const en: Dictionary = {
       'Append-only Merkle tree with publicly recomputable inclusion proofs',
       'Merkle roots on PactRoots / Base Sepolia (testnet, permissioned publisher)',
       'Public records ranked by independently confirmed history',
+      'Certificate Transparency as a second leaf kind (`pact-ct-v1`) — first-seen calendar from public logs, not an HTTPS badge',
       'Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge',
     ],
     waitingTitle: 'Waiting on the world',

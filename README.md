@@ -1,10 +1,10 @@
 # we build real
 
 **we build real** is a movement for verifiable history.  
-**PACT** is an open protocol (Provenance Attestation and Chain of Trust).  
+**PACT** is an open protocol (Provenance of Accumulated Checkable Traces).  
 **PBM Labs LLC** provides the first reference implementation, hosted at [webuildreal.dev](https://webuildreal.dev).
 
-This repo is that reference implementation: domain provenance from DMARC aggregate reports. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
+This repo is that reference implementation: leftover traces from systems that already exist, bucketed into one Merkle tree. Mail (DMARC aggregate reports) is live. Certificate Transparency is a second leaf kind — first-seen calendar from public logs, not an HTTPS badge. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
 Whitepaper: [webuildreal.dev/docs/whitepaper](https://webuildreal.dev/docs/whitepaper).

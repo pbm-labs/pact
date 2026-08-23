@@ -66,6 +66,21 @@ export interface LedgerOnChain {
   contract?: string;
 }
 
+export interface LedgerCtCertRow {
+  domain: string;
+  fingerprint: string;
+  leaf_index: number;
+  leaf_hash: string;
+  log_id: string;
+  log_index: number;
+  logged_at: number;
+  not_before: number;
+  not_after: number;
+  issuer: string;
+  common_name: string;
+  created_at: string;
+}
+
 export async function fetchLedgerDomains(): Promise<{
   domains: LedgerDomainRow[];
   leaves: LedgerLeafSummary[];
@@ -126,6 +141,7 @@ export async function fetchWrapperChecks(
 export async function fetchLedgerDomain(domain: string): Promise<{
   domain: LedgerDomainRow;
   leaves: LedgerLeafRow[];
+  ct: LedgerCtCertRow[];
   globalLeaves: { leaf_index: number; leaf_hash: string }[];
   onChain: LedgerOnChain | null;
 } | null> {
@@ -133,12 +149,14 @@ export async function fetchLedgerDomain(domain: string): Promise<{
     const res = await ledgerFetch(`/v1/domains/${encodeURIComponent(domain)}`);
     if (res.status === 404) return null;
     if (!res.ok) return null;
-    return (await res.json()) as {
+    const body = (await res.json()) as {
       domain: LedgerDomainRow;
       leaves: LedgerLeafRow[];
+      ct?: LedgerCtCertRow[];
       globalLeaves: { leaf_index: number; leaf_hash: string }[];
       onChain: LedgerOnChain | null;
     };
+    return { ...body, ct: body.ct ?? [] };
   } catch {
     return null;
   }

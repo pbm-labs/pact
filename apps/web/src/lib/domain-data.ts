@@ -43,6 +43,22 @@ export interface DomainLeafSummary {
   merkleProofValid: boolean;
 }
 
+export interface DomainCtSummary {
+  fingerprint: string;
+  issuer: string;
+  commonName: string;
+  logId: string;
+  logIndex: number;
+  loggedAt: number;
+  notBefore: number;
+  notAfter: number;
+  leafIndex: number;
+  leafHash: Hash;
+  leafUrl: string | null;
+  merkleProof: Hash[];
+  merkleProofValid: boolean;
+}
+
 export interface DomainLiveData {
   domain: string;
   connectedSince: string | null;
@@ -61,12 +77,20 @@ export interface DomainLiveData {
   anchorType: 'staging' | 'base' | null;
   staging: boolean;
   leaves: DomainLeafSummary[];
+  ct: DomainCtSummary[];
 }
 
 export interface DomainWaitingData {
   domain: string;
   connectedSince: string | null;
   domainRegisteredAt: string | null;
+  ct: DomainCtSummary[];
+  latestRoot: string | null;
+  rootTxHash: string | null;
+  rootsContract: string | null;
+  rootMatchesPublished: boolean;
+  globalTreeLeafCount: number | null;
+  anchorType: 'staging' | 'base' | null;
 }
 
 export type DomainPageState =
@@ -163,18 +187,33 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   );
 
   const leaves = payload.leaves;
+  const merkleContext = rebuildGlobalMerkleTree(payload.globalLeaves);
+  const latestRootEarly = payload.onChain?.root ?? null;
+  const computedRootEarly = merkleContext?.root ?? null;
+  const rootMatchesEarly =
+    latestRootEarly !== null &&
+    computedRootEarly !== null &&
+    latestRootEarly.toLowerCase() === computedRootEarly.toLowerCase();
+  const ct = mapCtCerts(payload.ct ?? [], merkleContext, rootMatchesEarly);
+
   if (!leaves.length) {
+    const onChain = payload.onChain != null;
     return {
       status: 'waiting',
       data: {
         domain: normalized,
         connectedSince: payload.domain.connected_at,
         domainRegisteredAt,
+        ct,
+        latestRoot: latestRootEarly,
+        rootTxHash: payload.onChain?.txHash ?? null,
+        rootsContract: payload.onChain?.contract ?? null,
+        rootMatchesPublished: rootMatchesEarly,
+        globalTreeLeafCount: payload.onChain?.leafCount ?? merkleContext?.tree.size ?? null,
+        anchorType: onChain ? 'base' : merkleContext ? 'staging' : null,
       },
     };
   }
-
-  const merkleContext = rebuildGlobalMerkleTree(payload.globalLeaves);
   const totalPassCount = leaves.reduce((s, l) => s + Number(l.dkim_pass_count), 0);
   const totalFailCount = leaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
   const reporters = new Set(leaves.map((l) => l.reporter_org));
@@ -212,6 +251,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       globalTreeLeafCount: payload.onChain?.leafCount ?? merkleContext?.tree.size ?? null,
       anchorType: onChain ? 'base' : 'staging',
       staging: !onChain,
+      ct,
       leaves: leaves.map((leaf) => {
         const leafHash = byteaToHash(leaf.leaf_hash);
         const leafIndex = Number(leaf.leaf_index);
@@ -256,6 +296,52 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 }
 
 export { ledgerConfigured };
+
+function mapCtCerts(
+  rows: {
+    fingerprint: string;
+    issuer: string;
+    common_name: string;
+    log_id: string;
+    log_index: number;
+    logged_at: number;
+    not_before: number;
+    not_after: number;
+    leaf_index: number;
+    leaf_hash: string;
+  }[],
+  merkleContext: ReturnType<typeof rebuildGlobalMerkleTree>,
+  rootMatchesPublished: boolean,
+): DomainCtSummary[] {
+  return rows.map((row) => {
+    const leafHash = byteaToHash(row.leaf_hash);
+    const leafIndex = Number(row.leaf_index);
+    const proof =
+      merkleContext != null
+        ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
+        : {
+            leafIndex,
+            leafHash,
+            proof: [] as Hash[],
+            proofValid: false,
+          };
+    return {
+      fingerprint: row.fingerprint,
+      issuer: row.issuer,
+      commonName: row.common_name,
+      logId: row.log_id,
+      logIndex: Number(row.log_index),
+      loggedAt: Number(row.logged_at),
+      notBefore: Number(row.not_before),
+      notAfter: Number(row.not_after),
+      leafIndex: proof.leafIndex,
+      leafHash: proof.leafHash,
+      leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
+      merkleProof: proof.proof,
+      merkleProofValid: proof.proofValid && rootMatchesPublished,
+    };
+  });
+}
 
 function combineWrapperOpening(
   hashes: string[],

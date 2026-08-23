@@ -224,6 +224,15 @@ export const es: Dictionary = {
     shareX: 'X',
     shareText:
       'La IA puede falsificarlo todo. Excepto ayer.\n\n{domain} ya tiene un registro público que cualquiera puede comprobar.',
+    ctHistory: 'Historial de certificados',
+    ctHistoryCounts: '{n} certificados de registros públicos de CT — más antiguos primero.',
+    ctIntro:
+      'Estos certificados ya estaban en registros públicos de Certificate Transparency. PACT no pidió que se emitieran. La primera fecha es un calendario, no un sello de que HTTPS sea “bueno”. Un dominio nuevo puede obtener un certificado real en minutos.',
+    colIssuer: 'Emisor',
+    colNotBefore: 'Not before',
+    colLoggedAt: 'Registrado',
+    colFingerprint: 'Huella',
+    ctKindLabel: 'CT',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',
@@ -304,6 +313,7 @@ export const es: Dictionary = {
       'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
       'Raíces Merkle en PactRoots / Base Sepolia (testnet, publicador con permiso)',
       'Registros públicos ordenados por historial confirmado de forma independiente',
+      'Certificate Transparency como segundo tipo de hoja (`pact-ct-v1`) — calendario de primera aparición en logs públicos, no un sello HTTPS',
       'Páginas por dominio con relojes, tasa de acierto observada, hojas y pruebas criptográficas — sin puntuación, etiqueta Proven ni veredicto',
     ],
     waitingTitle: 'Esperando al mundo',

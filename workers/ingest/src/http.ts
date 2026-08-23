@@ -4,11 +4,13 @@ import {
   getDomain,
   getLatestBaseRoot,
   getLeafByHash,
+  getCtCertByHash,
   getTxHashForRoot,
   listDomains,
   listLeafHashes,
   listLeavesForDomain,
   listLeavesSummary,
+  listCtCertsForDomain,
   upsertDomain,
 } from './ledger.js';
 import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash, checkStoredWrapper } from './wrapper-store.js';
@@ -113,11 +115,13 @@ export async function handleLedgerRequest(
     const row = await getDomain(env.DB, domain);
     if (!row) return json({ error: 'not_found' }, 404);
     const domainLeaves = await listLeavesForDomain(env.DB, domain);
+    const ctCerts = await listCtCertsForDomain(env.DB, domain);
     const globalLeaves = await listLeafHashes(env.DB);
     const onChain = await publicOnChain(env);
     return json({
       domain: row,
       leaves: domainLeaves,
+      ct: ctCerts,
       globalLeaves,
       onChain,
     });
@@ -149,8 +153,10 @@ export async function handleLedgerRequest(
     const leafHash = normalizeWrapperHash(decodeURIComponent(leafMatch[1]!));
     if (!leafHash) return json({ error: 'invalid_hash' }, 400);
     const leaf = await getLeafByHash(env.DB, leafHash);
-    if (!leaf) return json({ error: 'not_found' }, 404);
-    return json(leaf);
+    if (leaf) return json({ kind: 'dmarc', ...leaf });
+    const ct = await getCtCertByHash(env.DB, leafHash);
+    if (!ct) return json({ error: 'not_found' }, 404);
+    return json({ kind: 'ct', ...ct });
   }
 
   const wrapperMatch = path.match(/^\/v1\/wrappers\/([^/]+)(?:\/(rfc822|check))?$/);

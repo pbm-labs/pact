@@ -2,6 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
   aggregateReportToLeaves,
   computeLeafHash,
+  computeCtLeafHash,
+  ctKindId,
+  fingerprintFromParts,
   parseDmarcAggregateReport,
   parseDkimIdsFromRfc822,
   resolveWrapperDkimWitness,
@@ -402,6 +405,26 @@ describe('wrapper witness', () => {
     ).toBe(
       hashWrapperMessages([hashWrapperMessage(new TextEncoder().encode('other')), wrapperHash]),
     );
+  });
+});
+
+describe('CT leaf hash', () => {
+  it('is kind-tagged and distinct from a DMARC leaf of the same domain', () => {
+    const input = {
+      domain: 'example.com',
+      fingerprint: fingerprintFromParts('aa', 'CN=Test', 1_700_000_000n),
+      loggedAt: 1_700_000_100n,
+      notBefore: 1_700_000_000n,
+      notAfter: 1_733_000_000n,
+      logId: 'crt.sh',
+      logIndex: 42n,
+    };
+    const a = computeCtLeafHash(input);
+    const b = computeCtLeafHash(input);
+    expect(a).toBe(b);
+    expect(a).toMatch(/^0x[a-f0-9]{64}$/);
+    expect(ctKindId()).toMatch(/^0x[a-f0-9]{64}$/);
+    expect(computeCtLeafHash({ ...input, logIndex: 43n })).not.toBe(a);
   });
 });
 

@@ -224,6 +224,15 @@ export const de: Dictionary = {
     shareX: 'X',
     shareText:
       'KI kann alles fälschen. Außer gestern.\n\n{domain} hat jetzt einen öffentlichen Eintrag, den jede Person nachprüfen kann.',
+    ctHistory: 'Zertifikatslog-Historie',
+    ctHistoryCounts: '{n} Zertifikate aus öffentlichen CT-Logs — älteste zuerst.',
+    ctIntro:
+      'Diese Zertifikate standen bereits in öffentlichen Certificate-Transparency-Logs. PACT hat niemanden gebeten, sie auszustellen. Erstgesehen ist ein Kalenderdatum, kein Gütesiegel für HTTPS. Eine neue Domain kann in Minuten ein echtes Zertifikat bekommen.',
+    colIssuer: 'Aussteller',
+    colNotBefore: 'Not before',
+    colLoggedAt: 'Geloggt',
+    colFingerprint: 'Fingerprint',
+    ctKindLabel: 'CT',
   },
   whitepaper: {
     eyebrow: 'PACT Protocol',
@@ -304,6 +313,7 @@ export const de: Dictionary = {
       'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
       'Merkle-Roots auf PactRoots / Base Sepolia (Testnet, permissionierter Publisher)',
       'Öffentliche Einträge nach unabhängig bestätigter Historie sortiert',
+      'Certificate Transparency als zweite Leaf-Art (`pact-ct-v1`) — Erstgesehen-Kalender aus öffentlichen Logs, kein HTTPS-Siegel',
       'Domain-Seiten mit Uhren, beobachteter Erfolgsquote, Leaves und kryptografischen Nachweisen — kein Score, kein Proven-Label, kein Verdikt',
     ],
     waitingTitle: 'Wartet auf die Welt',
