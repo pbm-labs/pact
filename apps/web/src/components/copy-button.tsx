@@ -6,11 +6,9 @@ import { useLocale } from '@/components/locale-provider';
 interface CopyableValueProps {
   text: string;
   label?: string;
-  /** Optional caption above the bar (mono uppercase). */
-  caption?: string;
 }
 
-export function CopyableValue({ text, label, caption }: CopyableValueProps) {
+export function CopyableValue({ text, label }: CopyableValueProps) {
   const { t } = useLocale();
   const [copied, setCopied] = useState(false);
   const copyLabel = label ?? t.common.copy;
@@ -27,11 +25,6 @@ export function CopyableValue({ text, label, caption }: CopyableValueProps) {
 
   return (
     <div className="w-full">
-      {caption && (
-        <p className="text-xs text-muted-2 uppercase tracking-widest font-mono mb-2">
-          {caption}
-        </p>
-      )}
       <button
         type="button"
         onClick={handleCopy}

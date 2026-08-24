@@ -223,12 +223,6 @@ export const fr: Dictionary = {
     clockYear: '({n} an)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}j)',
-    shareRecord: 'Registre public',
-    shareEyebrow: 'Partagez le registre',
-    shareLinkedIn: 'LinkedIn',
-    shareX: 'X',
-    shareText:
-      'L’IA peut tout falsifier. Sauf hier.\n\n{domain} a désormais un registre public que n’importe qui peut revérifier.',
     ctHistory: 'Historique des certificats',
     ctHistoryCounts: '{n} certificats issus des journaux CT publics — plus anciens d’abord.',
     ctIntro:

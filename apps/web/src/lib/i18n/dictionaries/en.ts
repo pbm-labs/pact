@@ -222,12 +222,6 @@ export const en: Dictionary = {
     clockYear: '({n} yr)',
     clockMonths: '({n} mo)',
     clockDaysShort: '({n}d)',
-    shareRecord: 'Public record',
-    shareEyebrow: 'Share the record',
-    shareLinkedIn: 'LinkedIn',
-    shareX: 'X',
-    shareText:
-      'AI can fake everything. Except yesterday.\n\n{domain} now has a public record anyone can recheck.',
     ctHistory: 'Certificate log history',
     ctHistoryCounts: '{n} certificates from public CT logs — oldest first.',
     ctIntro:

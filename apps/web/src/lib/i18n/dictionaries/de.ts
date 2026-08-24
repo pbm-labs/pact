@@ -221,12 +221,6 @@ export const de: Dictionary = {
     clockYear: '({n} J.)',
     clockMonths: '({n} Mo.)',
     clockDaysShort: '({n}d)',
-    shareRecord: 'Öffentlicher Eintrag',
-    shareEyebrow: 'Teile den Eintrag',
-    shareLinkedIn: 'LinkedIn',
-    shareX: 'X',
-    shareText:
-      'KI kann alles fälschen. Außer gestern.\n\n{domain} hat jetzt einen öffentlichen Eintrag, den jede Person nachprüfen kann.',
     ctHistory: 'Zertifikatslog-Historie',
     ctHistoryCounts: '{n} Zertifikate aus öffentlichen CT-Logs — älteste zuerst.',
     ctIntro:

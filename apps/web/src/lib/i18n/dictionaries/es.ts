@@ -221,12 +221,6 @@ export const es: Dictionary = {
     clockYear: '({n} a)',
     clockMonths: '({n} mes)',
     clockDaysShort: '({n}d)',
-    shareRecord: 'Registro público',
-    shareEyebrow: 'Comparte el registro',
-    shareLinkedIn: 'LinkedIn',
-    shareX: 'X',
-    shareText:
-      'La IA puede falsificarlo todo. Excepto ayer.\n\n{domain} ya tiene un registro público que cualquiera puede comprobar.',
     ctHistory: 'Historial de certificados',
     ctHistoryCounts: '{n} certificados de registros públicos de CT — más antiguos primero.',
     ctIntro:

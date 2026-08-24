@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainCtPanel, DomainLeavesPanel } from '@/components/domain-leaves-panel';
-import { SharePublicRecord } from '@/components/share-public-record';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import type { DomainLiveData, DomainPageState, DomainWaitingData } from '@/lib/domain-data';
@@ -124,10 +123,6 @@ function LivePage({ data }: { data: DomainLiveData }) {
           label={t.domain.reportingOrgs}
           sub={t.domain.independent}
         />
-      </div>
-
-      <div className="mb-10">
-        <SharePublicRecord domain={data.domain} />
       </div>
 
       <section className="mt-12 pt-10 border-t border-border">

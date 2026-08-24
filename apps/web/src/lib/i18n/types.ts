@@ -181,11 +181,6 @@ export type Dictionary = {
     clockYear: string;
     clockMonths: string;
     clockDaysShort: string;
-    shareRecord: string;
-    shareEyebrow: string;
-    shareLinkedIn: string;
-    shareX: string;
-    shareText: string;
     ctHistory: string;
     ctHistoryCounts: string;
     ctIntro: string;
