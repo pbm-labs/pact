@@ -1,8 +1,8 @@
 import { LOCAL_WHITEPAPER_MARKDOWN } from '@/lib/whitepaper-markdown';
+import { PROTOCOL_SPEC_URL } from '@/lib/routes';
 
-/** Canonical public source — the protocol spec in this repo. The essay is bundled. */
-export const WHITEPAPER_SOURCE_URL =
-  'https://github.com/turnstile-labs/pact/blob/main/docs/pact_protocol.md';
+/** Normative spec. This page renders the public essay; encoding lives in the spec. */
+export const WHITEPAPER_SOURCE_URL = PROTOCOL_SPEC_URL;
 
 /** Drop the italic closing signature block from the published whitepaper. */
 export function stripWhitepaperSignature(markdown: string): string {
