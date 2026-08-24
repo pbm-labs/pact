@@ -155,7 +155,27 @@ export const en: Dictionary = {
     next2: 'The first independent reports arrive.',
     next3: 'This page updates on its own — nothing to click.',
     historyIntro:
-      'Independently confirmed history anyone can recheck.',
+      'Leftover traces on one public Merkle tree. Mail reports and certificate logs are separate kinds — not a score.',
+    kindsEyebrow: 'Leftover kinds',
+    kindMail: 'Mail',
+    kindMailHint:
+      'Independent DMARC aggregate reports. Pass rate is mail-auth only — not a domain score.',
+    kindMailEmpty: 'No mail reports on this record yet.',
+    kindCt: 'Certificate logs',
+    kindCtHint:
+      'Public Certificate Transparency exhaust. First-seen is a leftover calendar date, not an HTTPS badge.',
+    kindNone: 'None on this record yet.',
+    kindFirst: 'First logged',
+    kindLatest: 'Latest',
+    mailAuthRate: 'mail-auth pass',
+    mailAuthRateHint: 'DKIM pass vs fail in these reports — not a score for the domain.',
+    certs: 'Certs',
+    ledgerTitle: 'Shared ledger',
+    ledgerIntro:
+      'Mail and CT are different leftover kinds. Both are leaves on the same append-only Merkle tree.',
+    mailLeaves: 'Mail leaves',
+    ctLeaves: 'CT leaves',
+    mailProofs: 'Mail proofs',
     timeVerified: 'Days confirmed',
     reports: 'Reports',
     allTime: 'all time',
@@ -174,7 +194,7 @@ export const en: Dictionary = {
     dayOne: '1 day',
     days: '{n} days',
     dbNotConfigured: 'Ledger not configured',
-    reportHistory: 'Report history',
+    reportHistory: 'Mail reports',
     reportHistoryCounts:
       '{periods} report periods from {reporters} reporter orgs — newest first.',
     colReporter: 'Reporter',

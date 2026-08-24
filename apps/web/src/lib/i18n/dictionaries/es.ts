@@ -154,7 +154,28 @@ export const es: Dictionary = {
     next2: 'Llegan los primeros informes independientes.',
     next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
     historyIntro:
-      'Historial confirmado de forma independiente que cualquiera puede volver a comprobar.',
+      'Trazas residuales en un único árbol de Merkle público. Los informes de correo y los logs de certificados son tipos distintos — no una puntuación.',
+    kindsEyebrow: 'Tipos distintos',
+    kindMail: 'Correo',
+    kindMailHint:
+      'Informes agregados DMARC independientes. La tasa de acierto es solo autenticación de correo — no una puntuación del dominio.',
+    kindMailEmpty: 'Aún no hay informes de correo en este registro.',
+    kindCt: 'Logs de certificados',
+    kindCtHint:
+      'Escape residual de Certificate Transparency público. La primera fecha es un calendario, no un sello HTTPS.',
+    kindNone: 'Aún no hay ninguno en este registro.',
+    kindFirst: 'Primero registrado',
+    kindLatest: 'Más reciente',
+    mailAuthRate: 'acierto mail-auth',
+    mailAuthRateHint:
+      'DKIM acierto vs fallo en estos informes — no una puntuación del dominio.',
+    certs: 'Certs',
+    ledgerTitle: 'Ledger compartido',
+    ledgerIntro:
+      'Correo y CT son tipos residuales distintos. Ambos son hojas del mismo árbol de Merkle de solo añadido.',
+    mailLeaves: 'Hojas de correo',
+    ctLeaves: 'Hojas CT',
+    mailProofs: 'Pruebas de correo',
     timeVerified: 'Días confirmados',
     reports: 'Informes',
     allTime: 'histórico',
@@ -173,7 +194,7 @@ export const es: Dictionary = {
     dayOne: '1 día',
     days: '{n} días',
     dbNotConfigured: 'Ledger no configurado',
-    reportHistory: 'Historial de informes',
+    reportHistory: 'Informes de correo',
     reportHistoryCounts:
       '{periods} periodos de informe de {reporters} organizaciones reporteras — más recientes primero.',
     colReporter: 'Reporter',

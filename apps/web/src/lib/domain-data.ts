@@ -84,6 +84,7 @@ export interface DomainWaitingData {
   domain: string;
   connectedSince: string | null;
   domainRegisteredAt: string | null;
+  pactHistoryStart: string | null;
   ct: DomainCtSummary[];
   latestRoot: string | null;
   rootTxHash: string | null;
@@ -98,18 +99,39 @@ export type DomainPageState =
   | { status: 'waiting'; data: DomainWaitingData }
   | null;
 
+function earliestTraceMs(mailPeriodStarts: number[], ctLoggedAts: number[]): number | null {
+  let min = Number.POSITIVE_INFINITY;
+  for (const t of mailPeriodStarts) {
+    const ms = Number(t) * 1000;
+    if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
+  }
+  for (const t of ctLoggedAts) {
+    const ms = Number(t) * 1000;
+    if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
+  }
+  return min === Number.POSITIVE_INFINITY ? null : min;
+}
+
 function pactHistoryStartFromLeaves(
   leaves: { period_start: number }[],
   connectedAt: string | null,
 ): Date {
-  const earliest = leaves.reduce((min, l) => {
-    const t = Number(l.period_start) * 1000;
-    return t < min ? t : min;
-  }, Number.POSITIVE_INFINITY);
+  const earliest = earliestTraceMs(
+    leaves.map((l) => Number(l.period_start)),
+    [],
+  );
+  if (earliest != null) return new Date(earliest);
+  if (connectedAt) return new Date(connectedAt);
+  return new Date();
+}
 
-  if (earliest !== Number.POSITIVE_INFINITY) {
-    return new Date(earliest);
-  }
+function pactHistoryStartFromTraces(
+  mailPeriodStarts: number[],
+  ctLoggedAts: number[],
+  connectedAt: string | null,
+): Date {
+  const earliest = earliestTraceMs(mailPeriodStarts, ctLoggedAts);
+  if (earliest != null) return new Date(earliest);
   if (connectedAt) return new Date(connectedAt);
   return new Date();
 }
@@ -198,12 +220,17 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 
   if (!leaves.length) {
     const onChain = payload.onChain != null;
+    const waitingHistoryMs = earliestTraceMs(
+      [],
+      ct.map((row) => row.loggedAt),
+    );
     return {
       status: 'waiting',
       data: {
         domain: normalized,
         connectedSince: payload.domain.connected_at,
         domainRegisteredAt,
+        pactHistoryStart: waitingHistoryMs != null ? new Date(waitingHistoryMs).toISOString() : null,
         ct,
         latestRoot: latestRootEarly,
         rootTxHash: payload.onChain?.txHash ?? null,
@@ -219,7 +246,11 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const reporters = new Set(leaves.map((l) => l.reporter_org));
   const total = totalPassCount + totalFailCount;
   const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
-  const pactHistoryStart = pactHistoryStartFromLeaves(leaves, payload.domain.connected_at);
+  const pactHistoryStart = pactHistoryStartFromTraces(
+    leaves.map((l) => Number(l.period_start)),
+    ct.map((row) => row.loggedAt),
+    payload.domain.connected_at,
+  );
 
   const latestRoot = payload.onChain?.root ?? null;
   const computedRoot = merkleContext?.root ?? null;

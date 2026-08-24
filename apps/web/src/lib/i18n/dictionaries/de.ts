@@ -154,7 +154,28 @@ export const de: Dictionary = {
     next2: 'Die ersten unabhängigen Berichte treffen ein.',
     next3: 'Diese Seite aktualisiert sich von allein — nichts zu klicken.',
     historyIntro:
-      'Unabhängig bestätigte Historie, die jeder nachprüfen kann.',
+      'Restexhaust auf einem öffentlichen Merkle-Baum. Mailberichte und Zertifikatslogs sind getrennte Arten — kein Score.',
+    kindsEyebrow: 'Getrennte Arten',
+    kindMail: 'Mail',
+    kindMailHint:
+      'Unabhängige DMARC-Aggregatberichte. Die Quote gilt nur für Mail-Auth — kein Domain-Score.',
+    kindMailEmpty: 'Noch keine Mailberichte auf diesem Eintrag.',
+    kindCt: 'Zertifikatslogs',
+    kindCtHint:
+      'Öffentlicher Certificate-Transparency-Exhaust. Erstgesehen ist ein Kalenderdatum, kein HTTPS-Siegel.',
+    kindNone: 'Noch keine auf diesem Eintrag.',
+    kindFirst: 'Zuerst geloggt',
+    kindLatest: 'Zuletzt',
+    mailAuthRate: 'Mail-Auth bestanden',
+    mailAuthRateHint:
+      'DKIM bestanden vs. fehlgeschlagen in diesen Berichten — kein Score für die Domain.',
+    certs: 'Zert.',
+    ledgerTitle: 'Gemeinsames Ledger',
+    ledgerIntro:
+      'Mail und CT sind verschiedene Restarten. Beide sind Leaves desselben append-only Merkle-Baums.',
+    mailLeaves: 'Mail-Leaves',
+    ctLeaves: 'CT-Leaves',
+    mailProofs: 'Mail-Nachweise',
     timeVerified: 'Bestätigte Tage',
     reports: 'Berichte',
     allTime: 'gesamt',
@@ -173,7 +194,7 @@ export const de: Dictionary = {
     dayOne: '1 Tag',
     days: '{n} Tage',
     dbNotConfigured: 'Ledger nicht konfiguriert',
-    reportHistory: 'Berichtshistorie',
+    reportHistory: 'Mailberichte',
     reportHistoryCounts:
       '{periods} Berichtszeiträume von {reporters} Reporter-Organisationen — neueste zuerst.',
     colReporter: 'Reporter',

@@ -3,7 +3,6 @@
 import { useState, type ReactNode } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainCtSummary, DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
-import { explorerAddressUrl, explorerTxUrl } from '@/lib/explorer';
 import type { Dictionary } from '@/lib/i18n/types';
 import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
 import { panel } from '@/lib/ui';
@@ -16,27 +15,10 @@ const td = 'px-3 py-1.5';
 
 interface DomainLeavesPanelProps {
   leaves: DomainLeafSummary[];
-  domainLeafCount: number;
   uniqueReporters: number;
-  anchorType: 'staging' | 'base' | null;
-  rootMatchesPublished: boolean;
-  latestRoot: string | null;
-  rootTxHash: string | null;
-  rootsContract: string | null;
-  globalTreeLeafCount: number | null;
 }
 
-export function DomainLeavesPanel({
-  leaves,
-  domainLeafCount,
-  uniqueReporters,
-  anchorType,
-  rootMatchesPublished,
-  latestRoot,
-  rootTxHash,
-  rootsContract,
-  globalTreeLeafCount,
-}: DomainLeavesPanelProps) {
+export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanelProps) {
   const { t, locale } = useLocale();
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const visibleLeaves = leaves.slice(0, visibleCount);
@@ -49,7 +31,7 @@ export function DomainLeavesPanel({
           <h2 className="text-sm font-semibold text-txt m-0">{t.domain.reportHistory}</h2>
           <p className="text-[0.7rem] text-muted-2 m-0">
             {t.domain.reportHistoryCounts
-              .replace('{periods}', domainLeafCount.toLocaleString())
+              .replace('{periods}', leaves.length.toLocaleString())
               .replace('{reporters}', String(uniqueReporters))}
           </p>
         </div>
@@ -107,57 +89,14 @@ export function DomainLeavesPanel({
 
       <section className={`${panel} mb-4`}>
         <div className="px-3 py-2 border-b border-border">
-          <h2 className="text-sm font-semibold text-txt m-0">{t.domain.verification}</h2>
-        </div>
-        <div className="overflow-x-auto thin-scrollbar">
-          <table className="w-full text-xs">
-            <tbody>
-              <MetaRow
-                label={t.domain.anchor}
-                value={anchorType === 'base' ? t.domain.onChain : t.domain.stagingOffChain}
-                href={
-                  anchorType === 'base' && rootsContract
-                    ? explorerAddressUrl(rootsContract)
-                    : null
-                }
-                title={anchorType === 'base' ? t.domain.explorerContract : undefined}
-              />
-              <MetaRow
-                label={t.domain.rootsMatch}
-                value={rootMatchesPublished ? t.domain.yes : t.domain.no}
-              />
-              <MetaRow label={t.domain.domainLeaves} value={domainLeafCount.toLocaleString()} mono />
-              <MetaRow
-                label={t.domain.globalTree}
-                value={globalTreeLeafCount?.toLocaleString() ?? '—'}
-                mono
-              />
-              <MetaRow
-                label={t.domain.publishedRoot}
-                value={truncateHash(latestRoot)}
-                title={
-                  latestRoot && rootTxHash
-                    ? `${latestRoot} — ${t.domain.explorerTx}`
-                    : latestRoot ?? undefined
-                }
-                href={
-                  rootTxHash
-                    ? explorerTxUrl(rootTxHash)
-                    : rootsContract
-                      ? explorerAddressUrl(rootsContract)
-                      : null
-                }
-                mono
-              />
-            </tbody>
-          </table>
+          <h2 className="text-sm font-semibold text-txt m-0">{t.domain.mailProofs}</h2>
         </div>
         {leaves.length > visibleLeaves.length && (
-          <p className="px-3 py-1.5 text-[0.7rem] text-muted-2 border-t border-border m-0">
+          <p className="px-3 py-1.5 text-[0.7rem] text-muted-2 border-b border-border m-0">
             {t.domain.proofsShown.replace('{n}', String(visibleLeaves.length))}
           </p>
         )}
-        <div className="overflow-x-auto thin-scrollbar border-t border-border">
+        <div className="overflow-x-auto thin-scrollbar">
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
@@ -223,84 +162,71 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
       {!certs.length ? (
         <p className="px-3 py-4 text-sm text-muted m-0">{t.domain.ctEmpty}</p>
       ) : (
-      <div className="overflow-x-auto thin-scrollbar">
-        <table className="w-full text-xs">
-          <thead>
-            <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
-              <th className={th}>#</th>
-              <th className={th}>{t.domain.colIssuer}</th>
-              <th className={th}>{t.domain.colNotBefore}</th>
-              <th className={th}>{t.domain.colLoggedAt}</th>
-              <th className={th}>{t.domain.verification}</th>
-              <th className={th}>{t.domain.colFingerprint}</th>
-              <th className={th}>{t.domain.leafHash}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {certs.map((cert) => (
-              <tr key={`${cert.leafIndex}-${cert.fingerprint}`} className="border-b border-border last:border-0">
-                <td className={`${td} font-mono tabular-nums text-muted`}>#{cert.leafIndex}</td>
-                <td className={`${td} text-txt`} title={cert.issuer || undefined}>
-                  <span className="block max-w-[16rem] truncate">
-                    {shortIssuer(cert.issuer) || cert.commonName || '—'}
-                  </span>
-                  <span className="block text-[0.65rem] text-muted-2 font-mono">{t.domain.ctKindLabel}</span>
-                </td>
-                <td className={`${td} font-mono text-muted`}>{formatUnixDate(cert.notBefore, locale)}</td>
-                <td className={`${td} font-mono text-muted`}>{formatUnixDate(cert.loggedAt, locale)}</td>
-                <td className={`${td} ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}>
-                  {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
-                </td>
-                <td className={`${td} font-mono text-muted-2`} title={cert.fingerprint}>
-                  {truncateHash(cert.fingerprint.startsWith('0x') ? cert.fingerprint : `0x${cert.fingerprint}`)}
-                </td>
-                <td className={`${td} font-mono text-muted-2`} title={cert.leafHash}>
-                  <LedgerLink href={cert.leafUrl} title={`${cert.leafHash} — ${t.domain.leafLedger}`}>
-                    {truncateHash(cert.leafHash)}
-                  </LedgerLink>
-                </td>
+        <div className="overflow-x-auto thin-scrollbar">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
+                <th className={th}>#</th>
+                <th className={th}>{t.domain.colIssuer}</th>
+                <th className={th}>{t.domain.colNotBefore}</th>
+                <th className={th}>{t.domain.colLoggedAt}</th>
+                <th className={th}>{t.domain.verification}</th>
+                <th className={th}>{t.domain.colFingerprint}</th>
+                <th className={th}>{t.domain.leafHash}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {certs.map((cert) => {
+                const issuer = shortIssuer(cert.issuer) || cert.commonName || '—';
+                const showCommonName = Boolean(cert.commonName) && cert.commonName !== issuer;
+                return (
+                  <tr
+                    key={`${cert.leafIndex}-${cert.fingerprint}`}
+                    className="border-b border-border last:border-0"
+                  >
+                    <td className={`${td} font-mono tabular-nums text-muted`}>#{cert.leafIndex}</td>
+                    <td className={`${td} text-txt`} title={cert.issuer || undefined}>
+                      <span className="block max-w-[16rem] truncate">{issuer}</span>
+                      {showCommonName && (
+                        <span className="block text-[0.65rem] text-muted-2 font-mono truncate max-w-[16rem]">
+                          {cert.commonName}
+                        </span>
+                      )}
+                    </td>
+                    <td className={`${td} font-mono text-muted`}>
+                      {formatUnixDate(cert.notBefore, locale)}
+                    </td>
+                    <td className={`${td} font-mono text-muted`}>
+                      {formatUnixDate(cert.loggedAt, locale)}
+                    </td>
+                    <td
+                      className={`${td} ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                    >
+                      {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
+                    </td>
+                    <td className={`${td} font-mono text-muted-2`} title={cert.fingerprint}>
+                      {truncateHash(
+                        cert.fingerprint.startsWith('0x')
+                          ? cert.fingerprint
+                          : `0x${cert.fingerprint}`,
+                      )}
+                    </td>
+                    <td className={`${td} font-mono text-muted-2`} title={cert.leafHash}>
+                      <LedgerLink
+                        href={cert.leafUrl}
+                        title={`${cert.leafHash} — ${t.domain.leafLedger}`}
+                      >
+                        {truncateHash(cert.leafHash)}
+                      </LedgerLink>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
-  );
-}
-
-function MetaRow({
-  label,
-  value,
-  title,
-  href,
-  mono = false,
-}: {
-  label: string;
-  value: string;
-  title?: string;
-  href?: string | null;
-  mono?: boolean;
-}) {
-  return (
-    <tr className="border-b border-border last:border-0">
-      <th className={`${th} text-muted-2 font-medium w-[9rem]`}>{label}</th>
-      <td className={`${td} ${mono ? 'font-mono break-all' : ''}`}>
-        {href ? (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-accent font-semibold no-underline hover:opacity-90"
-            title={title}
-          >
-            {value}
-          </a>
-        ) : (
-          <span title={title}>{value}</span>
-        )}
-      </td>
-    </tr>
   );
 }
 

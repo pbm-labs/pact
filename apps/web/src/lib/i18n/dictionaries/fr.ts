@@ -156,7 +156,28 @@ export const fr: Dictionary = {
     next2: 'Les premiers rapports indépendants arrivent.',
     next3: 'Cette page se met à jour toute seule — rien à cliquer.',
     historyIntro:
-      'Historique confirmé de façon indépendante, que chacun peut revérifier.',
+      'Traces résiduelles sur un seul arbre de Merkle public. Rapports de courrier et journaux de certificats sont des types distincts — pas un score.',
+    kindsEyebrow: 'Types distincts',
+    kindMail: 'Courrier',
+    kindMailHint:
+      'Rapports agrégés DMARC indépendants. Le taux ne concerne que l’auth du courrier — pas un score de domaine.',
+    kindMailEmpty: 'Pas encore de rapports de courrier sur ce registre.',
+    kindCt: 'Journaux de certificats',
+    kindCtHint:
+      'Échappement public de Certificate Transparency. La première date est un calendrier, pas un badge HTTPS.',
+    kindNone: 'Aucun sur ce registre pour le moment.',
+    kindFirst: 'Premier journalisé',
+    kindLatest: 'Plus récent',
+    mailAuthRate: 'réussite mail-auth',
+    mailAuthRateHint:
+      'DKIM réussi vs échoué dans ces rapports — pas un score pour le domaine.',
+    certs: 'Certs',
+    ledgerTitle: 'Registre partagé',
+    ledgerIntro:
+      'Courrier et CT sont des types résiduels distincts. Les deux sont des feuilles du même arbre de Merkle append-only.',
+    mailLeaves: 'Feuilles courrier',
+    ctLeaves: 'Feuilles CT',
+    mailProofs: 'Preuves courrier',
     timeVerified: 'Jours confirmés',
     reports: 'Rapports',
     allTime: 'depuis le début',
@@ -175,7 +196,7 @@ export const fr: Dictionary = {
     dayOne: '1 jour',
     days: '{n} jours',
     dbNotConfigured: 'Registre non configuré',
-    reportHistory: 'Historique des rapports',
+    reportHistory: 'Rapports de courrier',
     reportHistoryCounts:
       '{periods} périodes de rapport de {reporters} organisations reporteuses — les plus récentes en premier.',
     colReporter: 'Reporter',

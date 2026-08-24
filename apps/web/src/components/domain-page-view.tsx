@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { DomainClocks } from '@/components/domain-clocks';
+import { DomainKindStrip } from '@/components/domain-kind-strip';
+import { DomainLedgerPanel } from '@/components/domain-ledger-panel';
 import { DomainCtPanel, DomainLeavesPanel } from '@/components/domain-leaves-panel';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
@@ -16,31 +18,12 @@ import {
   panel,
   panelBody,
   panelSectionTitle,
-  statValue,
 } from '@/lib/ui';
 
 interface DomainPageViewProps {
   domain: string;
   state: DomainPageState | null;
   unconfigured: boolean;
-}
-
-function Stat({
-  value,
-  label,
-  sub,
-}: {
-  value: string;
-  label: string;
-  sub?: string;
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-surface px-4 py-4">
-      <p className={`${statValue} text-txt`}>{value}</p>
-      <p className="text-xs font-semibold text-txt mt-2">{label}</p>
-      {sub && <p className="text-xs text-muted-2 mt-0.5 leading-tight">{sub}</p>}
-    </div>
-  );
 }
 
 export function DomainPageView({ domain, state, unconfigured }: DomainPageViewProps) {
@@ -61,21 +44,46 @@ export function DomainPageView({ domain, state, unconfigured }: DomainPageViewPr
 
 function WaitingPage({ data }: { data: DomainWaitingData }) {
   const { t } = useLocale();
-  const { domain, connectedSince, domainRegisteredAt } = data;
+  const range = ctLoggedBounds(data.ct);
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
       <header className="mb-8">
         <span className={`${badgeAmber} mb-3`}>{t.domain.awaitingFirst}</span>
-        <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
+        <h1 className={`${pageTitle} break-all mb-2`}>{data.domain}</h1>
         <p className={pageIntro}>{t.domain.awaitingIntro}</p>
-        {connectedSince && (
+        {data.connectedSince && (
           <p className="text-xs text-muted-2 font-mono mt-3">
-            {t.domain.connected} {new Date(connectedSince).toLocaleDateString()}
+            {t.domain.connected} {new Date(data.connectedSince).toLocaleDateString()}
           </p>
         )}
-        <DomainClocks domainRegisteredAt={domainRegisteredAt} pactHistoryStart={null} />
+        <DomainClocks
+          domainRegisteredAt={data.domainRegisteredAt}
+          pactHistoryStart={data.pactHistoryStart}
+        />
       </header>
+
+      <DomainKindStrip
+        mailCount={0}
+        reporterCount={0}
+        passRate={null}
+        ctCount={data.ct.length}
+        ctFirstLoggedAt={range.first}
+        ctLatestLoggedAt={range.latest}
+      />
+
+      {showLedger(data) && (
+        <DomainLedgerPanel
+          mailLeafCount={0}
+          ctLeafCount={data.ct.length}
+          anchorType={data.anchorType}
+          rootMatchesPublished={data.rootMatchesPublished}
+          latestRoot={data.latestRoot}
+          rootTxHash={data.rootTxHash}
+          rootsContract={data.rootsContract}
+          globalTreeLeafCount={data.globalTreeLeafCount}
+        />
+      )}
 
       <section className={`${panel} mb-4`}>
         <div className={panelBody}>
@@ -95,56 +103,42 @@ function WaitingPage({ data }: { data: DomainWaitingData }) {
 
 function LivePage({ data }: { data: DomainLiveData }) {
   const { t } = useLocale();
-  const verifiedDays = Math.floor(data.pactAgeDays);
+  const range = ctLoggedBounds(data.ct);
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
       <header className="mb-8">
         <p className={`${eyebrow} mb-2`}>{t.domain.publicRecord}</p>
         <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
-        <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">
-          {t.domain.historyIntro}
-        </p>
+        <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">{t.domain.historyIntro}</p>
         <DomainClocks
           domainRegisteredAt={data.domainRegisteredAt}
           pactHistoryStart={data.pactHistoryStart}
         />
       </header>
 
-      <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-10">
-        <Stat value={`${verifiedDays}d`} label={t.domain.timeVerified} />
-        <Stat
-          value={String(data.domainLeafCount)}
-          label={t.domain.reports}
-          sub={t.domain.allTime}
-        />
-        <Stat
-          value={String(data.uniqueReporters)}
-          label={t.domain.reportingOrgs}
-          sub={t.domain.independent}
-        />
-      </div>
+      <DomainKindStrip
+        mailCount={data.leaves.length}
+        reporterCount={data.uniqueReporters}
+        passRate={data.passRate}
+        ctCount={data.ct.length}
+        ctFirstLoggedAt={range.first}
+        ctLatestLoggedAt={range.latest}
+      />
 
-      <section className="mt-12 pt-10 border-t border-border">
-        <p className={`${eyebrow} mb-3`}>{t.domain.techSummary}</p>
+      <DomainLedgerPanel
+        mailLeafCount={data.leaves.length}
+        ctLeafCount={data.ct.length}
+        anchorType={data.anchorType}
+        rootMatchesPublished={data.rootMatchesPublished}
+        latestRoot={data.latestRoot}
+        rootTxHash={data.rootTxHash}
+        rootsContract={data.rootsContract}
+        globalTreeLeafCount={data.globalTreeLeafCount}
+      />
 
-        <div className="mb-8">
-          <Stat value={`${data.passRate.toFixed(1)}%`} label={t.domain.passRate} />
-        </div>
-
-        <DomainLeavesPanel
-          leaves={data.leaves}
-          domainLeafCount={data.domainLeafCount}
-          uniqueReporters={data.uniqueReporters}
-          anchorType={data.anchorType}
-          rootMatchesPublished={data.rootMatchesPublished}
-          latestRoot={data.latestRoot}
-          rootTxHash={data.rootTxHash}
-          rootsContract={data.rootsContract}
-          globalTreeLeafCount={data.globalTreeLeafCount}
-        />
-        <DomainCtPanel certs={data.ct} />
-      </section>
+      <DomainLeavesPanel leaves={data.leaves} uniqueReporters={data.uniqueReporters} />
+      <DomainCtPanel certs={data.ct} />
     </PageShell>
   );
 }
@@ -187,4 +181,23 @@ function UnconfiguredPage({ domain }: { domain: string }) {
       <p className="text-sm text-muted">{t.domain.dbNotConfigured}</p>
     </PageShell>
   );
+}
+
+function ctLoggedBounds(certs: { loggedAt: number }[]): {
+  first: number | null;
+  latest: number | null;
+} {
+  let first: number | null = null;
+  let latest: number | null = null;
+  for (const cert of certs) {
+    const t = cert.loggedAt;
+    if (!Number.isFinite(t) || t <= 0) continue;
+    if (first == null || t < first) first = t;
+    if (latest == null || t > latest) latest = t;
+  }
+  return { first, latest };
+}
+
+function showLedger(data: DomainWaitingData): boolean {
+  return data.anchorType != null || data.latestRoot != null || data.ct.length > 0;
 }
