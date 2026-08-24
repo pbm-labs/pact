@@ -155,8 +155,12 @@ export default {
   },
 
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
-    const ct = await ingestCtBatch(env.DB);
-    console.log(JSON.stringify({ event: 'ct_ingest', ...ct }));
+    try {
+      const ct = await ingestCtBatch(env.DB);
+      console.log(JSON.stringify({ event: 'ct_ingest', ...ct }));
+    } catch (err) {
+      console.error(JSON.stringify({ event: 'ct_ingest_failed', error: String(err) }));
+    }
     const result = await publishAnchoredRoot(env);
     console.log(JSON.stringify({ event: 'root_publish_scheduled', ...result }));
   },

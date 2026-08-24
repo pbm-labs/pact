@@ -33,6 +33,7 @@ docs/                Protocol specification + examples
 ```bash
 pnpm install
 pnpm test                         # pact-core + example-score + web tests
+pnpm typecheck
 pnpm --filter @pact/core build
 pnpm dev:web                      # http://localhost:3000
 pnpm deploy:web                   # Cloudflare Workers (webuildreal.dev)
@@ -79,6 +80,8 @@ D1 schema (once, after creating `pact-ledger`):
 ```bash
 cd workers/ingest
 npx wrangler d1 execute pact-ledger --remote --file=src/schema.sql
+# Existing D1 only (already applied on fresh schema.sql):
+npx wrangler d1 execute pact-ledger --remote --file=src/migrate-ct.sql
 ```
 
 ### Cloudflare OAuth (`/connect`)
@@ -203,6 +206,7 @@ npx wrangler login                          # once
 npx wrangler queues create pact-reports     # once
 npx wrangler d1 create pact-ledger          # once; put database_id in wrangler.toml
 npx wrangler d1 execute pact-ledger --remote --file=src/schema.sql
+npx wrangler d1 execute pact-ledger --remote --file=src/migrate-ct.sql   # existing D1 only
 npx wrangler secret put PUBLISHER_PRIVATE_KEY
 npx wrangler secret put LEDGER_WRITE_SECRET
 pnpm run deploy                             # not `pnpm deploy`
@@ -219,8 +223,8 @@ Public ledger API (CORS open for GET):
 | GET | `/v1/health` | Contract address + chain |
 | GET | `/v1/root` | Latest on-chain root |
 | GET | `/v1/domains` | Domains + leaf summaries |
-| GET | `/v1/domains/:domain` | Domain, leaves, global hashes, on-chain root |
-| GET | `/v1/leaves/:hash` | One leaf by keccak256 |
+| GET | `/v1/domains/:domain` | Domain, mail leaves, CT certs, global hashes, on-chain root |
+| GET | `/v1/leaves/:hash` | One leaf by keccak256 (`kind`: `dmarc` or `ct`) |
 | GET | `/v1/wrappers/:hash` | Stored wrapper + DKIM TXT snapshot |
 | GET | `/v1/wrappers/:hash/check` | Hash matches the leaf; DNS key is on record |
 | GET | `/v1/wrappers/:hash/rfc822` | Wrapper bytes |
@@ -231,7 +235,8 @@ Public ledger API (CORS open for GET):
 
 | Method | What it tests |
 |--------|----------------|
-| `pnpm test` | pact-core and web unit tests |
+| `pnpm test` | pact-core, example-score, and web unit tests |
+| `pnpm typecheck` | All packages including ingest |
 | `forge test` (in `packages/contracts`) | PactRoots (Merkle root publication) |
 | Send mail to `hello@pbm-labs.com` | PBM Labs LLC operator inbox |
 | Wait ~24–48h | **Real** Google/Microsoft DMARC reports |

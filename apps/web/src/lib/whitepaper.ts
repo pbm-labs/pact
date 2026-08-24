@@ -1,8 +1,8 @@
-import { LOCAL_WHITEOBER_MARKDOWN } from '@/lib/whitepaper-markdown';
+import { LOCAL_WHITEPAPER_MARKDOWN } from '@/lib/whitepaper-markdown';
 
 /** Canonical public source — the protocol spec in this repo. The essay is bundled. */
-export const WHITEOBER_SOURCE_URL =
-  'https://github.com/pbm-labs/pact/blob/main/docs/pact_protocol.md';
+export const WHITEPAPER_SOURCE_URL =
+  'https://github.com/turnstile-labs/pact/blob/main/docs/pact_protocol.md';
 
 /** Drop the italic closing signature block from the published whitepaper. */
 export function stripWhitepaperSignature(markdown: string): string {
@@ -24,7 +24,7 @@ export async function loadWhitepaperMarkdown(): Promise<{
   source: 'local';
 }> {
   return {
-    markdown: stripWhitepaperSignature(LOCAL_WHITEOBER_MARKDOWN),
+    markdown: stripWhitepaperSignature(LOCAL_WHITEPAPER_MARKDOWN),
     source: 'local',
   };
 }

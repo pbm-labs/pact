@@ -4,7 +4,10 @@ import {
   computeLeafHash,
   computeCtLeafHash,
   ctKindId,
+  certNamesCoverDomain,
   fingerprintFromParts,
+  fingerprintFromSha256,
+  unixSecondsFromIso,
   parseDmarcAggregateReport,
   parseDkimIdsFromRfc822,
   resolveWrapperDkimWitness,
@@ -425,6 +428,21 @@ describe('CT leaf hash', () => {
     expect(a).toMatch(/^0x[a-f0-9]{64}$/);
     expect(ctKindId()).toMatch(/^0x[a-f0-9]{64}$/);
     expect(computeCtLeafHash({ ...input, logIndex: 43n })).not.toBe(a);
+  });
+
+  it('parses crt.sh timestamps and SHA-256 fingerprints', () => {
+    expect(unixSecondsFromIso('2024-01-15T12:00:00')).toBe(1_705_320_000);
+    expect(unixSecondsFromIso('2024-01-15 12:00:00')).toBe(1_705_320_000);
+    expect(unixSecondsFromIso(undefined)).toBeNull();
+    expect(fingerprintFromSha256('aa'.repeat(32))).toBe(`0x${'aa'.repeat(32)}`);
+    expect(fingerprintFromSha256('not-a-hash')).toBeNull();
+  });
+
+  it('covers the connected domain from SAN/CN including wildcards', () => {
+    expect(certNamesCoverDomain(['example.com', 'www.example.com'], 'example.com')).toBe(true);
+    expect(certNamesCoverDomain(['*.example.com'], 'app.example.com')).toBe(true);
+    expect(certNamesCoverDomain(['*.example.com'], 'example.com')).toBe(true);
+    expect(certNamesCoverDomain(['other.com'], 'example.com')).toBe(false);
   });
 });
 

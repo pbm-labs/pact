@@ -1,4 +1,4 @@
-export const LOCAL_WHITEOBER_MARKDOWN = `
+export const LOCAL_WHITEPAPER_MARKDOWN = `
 # PACT Protocol
 ## Provenance of Accumulated Checkable Traces
 

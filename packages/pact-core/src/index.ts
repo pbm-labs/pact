@@ -43,10 +43,13 @@ export {
 } from './encoding/leaf.js';
 export {
   CT_KIND_TAG,
+  certNamesCoverDomain,
   computeCtLeafHash,
   ctKindId,
   fingerprintFromParts,
+  fingerprintFromSha256,
   normalizeFingerprint,
+  unixSecondsFromIso,
   type CtLeafInput,
 } from './encoding/ct-leaf.js';
 export { SparseMerkleTree, TREE_DEPTH, ZERO_HASHES, type Hash } from './merkle/sparse.js';

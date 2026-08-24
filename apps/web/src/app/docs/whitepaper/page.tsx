@@ -1,5 +1,5 @@
 import { WhitepaperView } from '@/components/whitepaper-view';
-import { WHITEOBER_SOURCE_URL, loadWhitepaperMarkdown } from '@/lib/whitepaper';
+import { WHITEPAPER_SOURCE_URL, loadWhitepaperMarkdown } from '@/lib/whitepaper';
 
 export const metadata = {
   title: 'Whitepaper — We build real',
@@ -10,5 +10,5 @@ export const metadata = {
 export default async function DocsWhitepaperPage() {
   const { markdown } = await loadWhitepaperMarkdown();
 
-  return <WhitepaperView markdown={markdown} sourceUrl={WHITEOBER_SOURCE_URL} />;
+  return <WhitepaperView markdown={markdown} sourceUrl={WHITEPAPER_SOURCE_URL} />;
 }
