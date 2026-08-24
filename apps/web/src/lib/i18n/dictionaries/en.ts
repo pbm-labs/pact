@@ -232,6 +232,8 @@ export const en: Dictionary = {
     ctHistoryCounts: '{n} certificates from public CT logs — oldest first.',
     ctIntro:
       'These certificates were already in public Certificate Transparency logs. PACT did not ask anyone to issue them. First-seen is a calendar date, not a claim that HTTPS is “good.” A new domain can get a real certificate in minutes.',
+    ctEmpty:
+      'No certificate leaves on this record yet. The ledger reads public CT indexes for connected domains; it does not ask anyone to issue a certificate.',
     colIssuer: 'Issuer',
     colNotBefore: 'Not before',
     colLoggedAt: 'Logged',

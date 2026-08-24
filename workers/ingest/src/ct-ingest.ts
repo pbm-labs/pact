@@ -4,30 +4,20 @@ import {
   fingerprintFromParts,
   fingerprintFromSha256,
   normalizeDomain,
+  parseCertSpotterJson,
+  parseCrtShJson,
+  parseLinkRelNext,
   unixSecondsFromIso,
+  type CtIndexCert,
 } from '@pact/core';
 import { insertCtCert, listDomainsDueForCt, markCtSynced } from './ledger.js';
 
-/** crt.sh is a public index over CT logs, not a log operator. Stored as log_id; crt.sh `id` is log_index. */
 const CRT_SH = 'https://crt.sh';
-const LOG_ID = 'crt.sh';
+const CERT_SPOTTER = 'https://api.certspotter.com/v1/issuances';
+const INDEX_UA = 'pact-ingest/0.3 (https://webuildreal.dev)';
 const MAX_DOMAINS_PER_RUN = 4;
 const MAX_NEW_CERTS_PER_DOMAIN = 40;
-
-interface CrtShRow {
-  id?: number;
-  issuer_name?: string;
-  common_name?: string;
-  name_value?: string;
-  entry_timestamp?: string;
-  min_entry_timestamp?: string;
-  not_before?: string;
-  not_after?: string;
-  serial_number?: string;
-  sha256?: string;
-  sha256_cert?: string;
-  cert_sha256?: string;
-}
+const MAX_CERTSPOTTER_PAGES = 5;
 
 export interface CtIngestResult {
   domains: number;
@@ -36,90 +26,134 @@ export interface CtIngestResult {
   errors: string[];
 }
 
-function namesOnCert(row: CrtShRow): string[] {
-  const blob = `${row.name_value ?? ''}\n${row.common_name ?? ''}`;
-  return blob
-    .split(/[\s,]+/)
-    .map((name) => name.trim().toLowerCase().replace(/\.$/, ''))
-    .filter(Boolean);
-}
-
-function loggedAtIso(row: CrtShRow): string | undefined {
-  return row.min_entry_timestamp ?? row.entry_timestamp;
-}
-
-function toFingerprint(row: CrtShRow, notBefore: bigint): `0x${string}` {
+function toFingerprint(cert: CtIndexCert, notBefore: bigint): `0x${string}` {
   return (
-    fingerprintFromSha256(row.sha256) ??
-    fingerprintFromSha256(row.sha256_cert) ??
-    fingerprintFromSha256(row.cert_sha256) ??
-    fingerprintFromParts(row.serial_number ?? String(row.id ?? ''), row.issuer_name ?? '', notBefore)
+    fingerprintFromSha256(cert.sha256) ??
+    fingerprintFromParts(cert.serial ?? cert.logIndex.toString(), cert.issuer, notBefore)
   );
 }
 
-export async function fetchCrtSh(domain: string): Promise<CrtShRow[]> {
-  const url = `${CRT_SH}/?q=${encodeURIComponent(domain)}&output=json`;
+function logIndexNumber(value: bigint): number {
+  const n = Number(value);
+  return Number.isSafeInteger(n) ? n : 0;
+}
+
+async function fetchJson(url: string): Promise<{ status: number; body: unknown; link: string | null }> {
   const res = await fetch(url, {
     headers: {
       Accept: 'application/json',
-      'User-Agent': 'pact-ingest/0.3 (https://webuildreal.dev)',
+      'User-Agent': INDEX_UA,
     },
   });
+  const link = res.headers.get('Link');
   if (!res.ok) {
-    throw new Error(`crt.sh ${res.status}`);
+    throw new Error(`${new URL(url).host} ${res.status}`);
   }
-  const body = await res.json();
-  return Array.isArray(body) ? (body as CrtShRow[]) : [];
+  return { status: res.status, body: await res.json(), link };
+}
+
+async function fetchCrtSh(domain: string): Promise<CtIndexCert[]> {
+  const url = `${CRT_SH}/?q=${encodeURIComponent(domain)}&output=json`;
+  const { body } = await fetchJson(url);
+  return parseCrtShJson(body);
+}
+
+async function fetchCertSpotter(domain: string): Promise<CtIndexCert[]> {
+  const collected: unknown[] = [];
+  let url: string | null =
+    `${CERT_SPOTTER}?domain=${encodeURIComponent(domain)}&include_subdomains=true&expand=dns_names&expand=issuer`;
+  for (let page = 0; page < MAX_CERTSPOTTER_PAGES && url; page += 1) {
+    const { body, link } = await fetchJson(url);
+    if (!Array.isArray(body)) {
+      throw new Error('certspotter: not an array');
+    }
+    collected.push(...body);
+    const next = parseLinkRelNext(link);
+    url = next ? (next.startsWith('http') ? next : `https://api.certspotter.com${next}`) : null;
+  }
+  return parseCertSpotterJson(collected);
+}
+
+/**
+ * Cert Spotter first: crt.sh often 502s Cloudflare Worker user-agents.
+ * log_id records which index we actually read.
+ */
+async function fetchIndexedCerts(domain: string): Promise<{ certs: CtIndexCert[]; source: string }> {
+  try {
+    const certs = await fetchCertSpotter(domain);
+    if (certs.length) return { certs, source: 'certspotter' };
+  } catch (err) {
+    try {
+      const certs = await fetchCrtSh(domain);
+      if (certs.length) return { certs, source: 'crt.sh' };
+      throw err;
+    } catch (crtErr) {
+      throw new Error(`ct index: certspotter ${String(err)}; crt.sh ${String(crtErr)}`);
+    }
+  }
+  try {
+    const certs = await fetchCrtSh(domain);
+    if (certs.length) return { certs, source: 'crt.sh' };
+  } catch {
+    // Cert Spotter returned a valid empty list.
+  }
+  return { certs: [], source: 'certspotter' };
 }
 
 export async function ingestCtForDomain(
   db: D1Database,
   domain: string,
-): Promise<{ inserted: number; skipped: number }> {
+): Promise<{ inserted: number; skipped: number; source: string }> {
   const normalized = normalizeDomain(domain);
-  const rows = await fetchCrtSh(normalized);
-  const matching = rows
-    .filter((row) => certNamesCoverDomain(namesOnCert(row), normalized))
-    .sort((a, b) => (unixSecondsFromIso(loggedAtIso(a)) ?? 0) - (unixSecondsFromIso(loggedAtIso(b)) ?? 0));
+  const { certs, source } = await fetchIndexedCerts(normalized);
+  const matching = certs
+    .filter((cert) => certNamesCoverDomain(cert.names, normalized))
+    .sort(
+      (a, b) =>
+        (unixSecondsFromIso(a.loggedAtIso) ?? unixSecondsFromIso(a.notBeforeIso) ?? 0) -
+        (unixSecondsFromIso(b.loggedAtIso) ?? unixSecondsFromIso(b.notBeforeIso) ?? 0),
+    );
 
   let inserted = 0;
   let skipped = 0;
-  for (const row of matching) {
+  for (const cert of matching) {
     if (inserted >= MAX_NEW_CERTS_PER_DOMAIN) break;
-    const notBefore = unixSecondsFromIso(row.not_before);
-    const notAfter = unixSecondsFromIso(row.not_after);
-    const loggedAt = unixSecondsFromIso(loggedAtIso(row)) ?? notBefore;
+    const notBefore = unixSecondsFromIso(cert.notBeforeIso);
+    const notAfter = unixSecondsFromIso(cert.notAfterIso);
+    const loggedAt = unixSecondsFromIso(cert.loggedAtIso) ?? notBefore;
     if (notBefore == null || notAfter == null || loggedAt == null) {
       skipped += 1;
       continue;
     }
-    const fingerprint = toFingerprint(row, BigInt(notBefore));
+    const fingerprint = toFingerprint(cert, BigInt(notBefore));
+    const logIndex = logIndexNumber(cert.logIndex);
     const leafHash = computeCtLeafHash({
       domain: normalized,
       fingerprint,
       loggedAt: BigInt(loggedAt),
       notBefore: BigInt(notBefore),
       notAfter: BigInt(notAfter),
-      logId: LOG_ID,
-      logIndex: BigInt(row.id ?? 0),
+      logId: cert.logId,
+      logIndex: BigInt(logIndex),
     });
     const index = await insertCtCert(db, {
       domain: normalized,
       fingerprint,
       leafHash,
-      logId: LOG_ID,
-      logIndex: Number(row.id ?? 0),
+      logId: cert.logId,
+      logIndex,
       loggedAt,
       notBefore,
       notAfter,
-      issuer: row.issuer_name ?? '',
-      commonName: row.common_name ?? '',
+      issuer: cert.issuer,
+      commonName: cert.commonName,
     });
     if (index == null) skipped += 1;
     else inserted += 1;
   }
   await markCtSynced(db, normalized);
-  return { inserted, skipped };
+  console.log(JSON.stringify({ event: 'ct_ingest_domain', domain: normalized, source, inserted, skipped }));
+  return { inserted, skipped, source };
 }
 
 export async function ingestCtBatch(db: D1Database): Promise<CtIngestResult> {
@@ -133,7 +167,6 @@ export async function ingestCtBatch(db: D1Database): Promise<CtIngestResult> {
       result.skipped += row.skipped;
     } catch (err) {
       result.errors.push(`${domain}: ${String(err)}`);
-      // Leave ct_synced_at untouched so a downed index is retried next cron.
     }
   }
   return result;

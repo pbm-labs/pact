@@ -231,6 +231,8 @@ export const es: Dictionary = {
     ctHistoryCounts: '{n} certificados de registros públicos de CT — más antiguos primero.',
     ctIntro:
       'Estos certificados ya estaban en registros públicos de Certificate Transparency. PACT no pidió que se emitieran. La primera fecha es un calendario, no un sello de que HTTPS sea “bueno”. Un dominio nuevo puede obtener un certificado real en minutos.',
+    ctEmpty:
+      'Aún no hay hojas de certificado en este registro. El ledger lee índices públicos de CT para los dominios conectados; no pide a nadie que emita un certificado.',
     colIssuer: 'Emisor',
     colNotBefore: 'Not before',
     colLoggedAt: 'Registrado',

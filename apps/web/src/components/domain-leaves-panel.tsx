@@ -208,7 +208,6 @@ export function DomainLeavesPanel({
 
 export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
   const { t, locale } = useLocale();
-  if (!certs.length) return null;
 
   return (
     <section className={`${panel} mb-4`}>
@@ -221,6 +220,9 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
       <p className="px-3 py-2 text-xs text-muted leading-relaxed m-0 border-b border-border">
         {t.domain.ctIntro}
       </p>
+      {!certs.length ? (
+        <p className="px-3 py-4 text-sm text-muted m-0">{t.domain.ctEmpty}</p>
+      ) : (
       <div className="overflow-x-auto thin-scrollbar">
         <table className="w-full text-xs">
           <thead>
@@ -262,6 +264,7 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
           </tbody>
         </table>
       </div>
+      )}
     </section>
   );
 }

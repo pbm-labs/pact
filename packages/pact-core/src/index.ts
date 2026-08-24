@@ -52,6 +52,13 @@ export {
   unixSecondsFromIso,
   type CtLeafInput,
 } from './encoding/ct-leaf.js';
+export {
+  parseCrtShJson,
+  parseCertSpotterJson,
+  parseLinkRelNext,
+  splitCertNames,
+  type CtIndexCert,
+} from './encoding/ct-index.js';
 export { SparseMerkleTree, TREE_DEPTH, ZERO_HASHES, type Hash } from './merkle/sparse.js';
 export {
   parseDmarcAggregateReport,

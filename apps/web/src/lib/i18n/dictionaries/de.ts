@@ -231,6 +231,8 @@ export const de: Dictionary = {
     ctHistoryCounts: '{n} Zertifikate aus öffentlichen CT-Logs — älteste zuerst.',
     ctIntro:
       'Diese Zertifikate standen bereits in öffentlichen Certificate-Transparency-Logs. PACT hat niemanden gebeten, sie auszustellen. Erstgesehen ist ein Kalenderdatum, kein Gütesiegel für HTTPS. Eine neue Domain kann in Minuten ein echtes Zertifikat bekommen.',
+    ctEmpty:
+      'Auf diesem Eintrag gibt es noch keine Zertifikats-Leaves. Das Ledger liest öffentliche CT-Indizes für verbundene Domains; es bittet niemanden, ein Zertifikat auszustellen.',
     colIssuer: 'Aussteller',
     colNotBefore: 'Not before',
     colLoggedAt: 'Geloggt',

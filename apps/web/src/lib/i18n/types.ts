@@ -189,6 +189,7 @@ export type Dictionary = {
     ctHistory: string;
     ctHistoryCounts: string;
     ctIntro: string;
+    ctEmpty: string;
     colIssuer: string;
     colNotBefore: string;
     colLoggedAt: string;

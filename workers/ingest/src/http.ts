@@ -15,6 +15,7 @@ import {
 } from './ledger.js';
 import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash, checkStoredWrapper } from './wrapper-store.js';
 import { publishAnchoredRoot } from './publish-root.js';
+import { ingestCtBatch, ingestCtForDomain } from './ct-ingest.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -146,6 +147,19 @@ export async function handleLedgerRequest(
     const result = await publishAnchoredRoot(env);
     const ok = result.status !== 'staging';
     return json({ ok, ...result }, ok ? 200 : 503);
+  }
+
+  if (request.method === 'POST' && path === '/v1/ct/ingest') {
+    const denied = requireWriteAuth(request, env.LEDGER_WRITE_SECRET);
+    if (denied) return denied;
+    const body = (await request.json().catch(() => ({}))) as { domain?: string };
+    if (body.domain) {
+      const domain = normalizeDomain(body.domain);
+      const row = await ingestCtForDomain(env.DB, domain);
+      return json({ ok: true, domain, ...row });
+    }
+    const batch = await ingestCtBatch(env.DB);
+    return json({ ok: batch.errors.length === 0, ...batch }, batch.errors.length ? 207 : 200);
   }
 
   const leafMatch = path.match(/^\/v1\/leaves\/([^/]+)$/);

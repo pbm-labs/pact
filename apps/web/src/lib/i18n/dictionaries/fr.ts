@@ -233,6 +233,8 @@ export const fr: Dictionary = {
     ctHistoryCounts: '{n} certificats issus des journaux CT publics — plus anciens d’abord.',
     ctIntro:
       'Ces certificats figuraient déjà dans des journaux publics de Certificate Transparency. PACT n’a demandé à personne de les émettre. La première date est un calendrier, pas un label « HTTPS fiable ». Un nouveau domaine peut obtenir un vrai certificat en quelques minutes.',
+    ctEmpty:
+      'Pas encore de feuilles certificat sur ce registre. Le ledger lit des index CT publics pour les domaines connectés ; il ne demande à personne d’émettre un certificat.',
     colIssuer: 'Émetteur',
     colNotBefore: 'Not before',
     colLoggedAt: 'Journalisé',

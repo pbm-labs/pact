@@ -8,6 +8,8 @@ import {
   fingerprintFromParts,
   fingerprintFromSha256,
   unixSecondsFromIso,
+  parseCrtShJson,
+  parseCertSpotterJson,
   parseDmarcAggregateReport,
   parseDkimIdsFromRfc822,
   resolveWrapperDkimWitness,
@@ -443,6 +445,47 @@ describe('CT leaf hash', () => {
     expect(certNamesCoverDomain(['*.example.com'], 'app.example.com')).toBe(true);
     expect(certNamesCoverDomain(['*.example.com'], 'example.com')).toBe(true);
     expect(certNamesCoverDomain(['other.com'], 'example.com')).toBe(false);
+  });
+
+  it('parses fractional crt.sh timestamps', () => {
+    expect(unixSecondsFromIso('2026-08-15T21:13:05.809')).toBe(1_786_828_385);
+  });
+
+  it('maps crt.sh JSON using entry_timestamp', () => {
+    const certs = parseCrtShJson([
+      {
+        id: 28927501752,
+        issuer_name: 'C=US, O=Google Trust Services, CN=WE1',
+        common_name: 'webuildreal.dev',
+        name_value: '*.ledger.webuildreal.dev\nledger.webuildreal.dev\nwebuildreal.dev',
+        entry_timestamp: '2026-08-15T21:13:05.809',
+        not_before: '2026-08-15T20:13:05',
+        not_after: '2026-11-13T21:12:59',
+        serial_number: '00b8e67bb17bc23cbb13e68086408523d0',
+      },
+    ]);
+    expect(certs).toHaveLength(1);
+    expect(certs[0]!.logId).toBe('crt.sh');
+    expect(certs[0]!.logIndex).toBe(28927501752n);
+    expect(certs[0]!.names).toContain('webuildreal.dev');
+    expect(certs[0]!.loggedAtIso).toBe('2026-08-15T21:13:05.809');
+  });
+
+  it('maps Cert Spotter issuances', () => {
+    const certs = parseCertSpotterJson([
+      {
+        id: '16448683971',
+        cert_sha256: '47ded2a373a804fdc1f828a8ad796700279d1d9da692e4bd6cb27adeb9809067',
+        dns_names: ['*.webuildreal.dev', 'webuildreal.dev'],
+        not_before: '2026-08-11T21:34:42Z',
+        not_after: '2026-11-09T22:33:13Z',
+        issuer: { name: 'C=US, O=Google Trust Services, CN=WE1', friendly_name: 'Google Trust Services' },
+      },
+    ]);
+    expect(certs).toHaveLength(1);
+    expect(certs[0]!.logId).toBe('certspotter');
+    expect(certs[0]!.sha256).toMatch(/^47ded2/);
+    expect(certs[0]!.names).toEqual(['*.webuildreal.dev', 'webuildreal.dev']);
   });
 });
 
