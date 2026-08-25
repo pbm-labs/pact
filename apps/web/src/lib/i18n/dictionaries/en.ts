@@ -26,6 +26,7 @@ export const en: Dictionary = {
     heroAccent: 'Except yesterday.',
     heroSub:
       'History exists first. The claim can be made afterwards.',
+    heroSubV2: 'A public record of mail reports and certificate logs. Not a score.',
     manifestoTitle: "The Internet's Identity Problem",
     closeVideo: 'Close',
     howEyebrow: 'How it works',
@@ -73,6 +74,7 @@ export const en: Dictionary = {
     ctaBody:
       'Connect once so mail reports are kept. Certificate logs are indexed from public CT — leftover, not a new ritual. History only grows forward.',
     ctaButton: 'Add your domain',
+    ctaButtonV2: 'Connect',
     ctaSub: 'Mail history starts when independent reports arrive. CT first-seen can appear sooner.',
     watchManifesto: 'Watch The Manifesto',
   },

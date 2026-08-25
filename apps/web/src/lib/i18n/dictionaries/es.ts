@@ -26,6 +26,7 @@ export const es: Dictionary = {
     heroAccent: 'Excepto ayer.',
     heroSub:
       'La historia existe primero. La afirmación puede hacerse después.',
+    heroSubV2: 'Un registro público de informes de correo y logs de certificados. No es una puntuación.',
     manifestoTitle: 'El problema de identidad de Internet',
     closeVideo: 'Cerrar',
     howEyebrow: 'Cómo funciona',
@@ -73,6 +74,7 @@ export const es: Dictionary = {
     ctaBody:
       'Conecta una vez para conservar los informes de correo. Los logs de certificados se indexan desde CT público — residual, no un rito nuevo. El historial solo crece hacia adelante.',
     ctaButton: 'Añade tu dominio',
+    ctaButtonV2: 'Conectar',
     ctaSub: 'El historial de correo empieza cuando llegan informes independientes. La primera vez de CT puede aparecer antes.',
     watchManifesto: 'Ver el manifiesto',
   },

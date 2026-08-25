@@ -25,6 +25,7 @@ export type Dictionary = {
     heroTitle: string;
     heroAccent: string;
     heroSub: string;
+    heroSubV2: string;
     manifestoTitle: string;
     closeVideo: string;
     howEyebrow: string;
@@ -49,6 +50,7 @@ export type Dictionary = {
     ctaTitle: string;
     ctaBody: string;
     ctaButton: string;
+    ctaButtonV2: string;
     ctaSub: string;
     watchManifesto: string;
   };
