@@ -7,17 +7,12 @@ import type { Dictionary } from '@/lib/i18n/types';
 import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
 import { panel } from '@/lib/ui';
 
-const tableScroll =
-  'overflow-auto thin-scrollbar overscroll-contain max-h-[calc(2.15rem+10*1.85rem)]';
-const ctTableScroll =
+const streamScroll =
   'overflow-y-auto overflow-x-hidden thin-scrollbar overscroll-contain max-h-[calc(2.15rem+10*1.85rem)]';
 const tableClass = 'w-full text-xs border-separate border-spacing-0';
 const theadClass = 'sticky top-0 z-[1] bg-surface';
-
-const th = 'text-left font-medium px-3 py-1.5 whitespace-nowrap';
-const td = 'px-3 py-1.5';
-const ctTh = 'text-left font-medium px-2 py-1.5';
-const ctTd = 'px-2 py-1.5 min-w-0';
+const streamTh = 'text-left font-medium px-2 py-1.5';
+const streamTd = 'px-2 py-1.5 min-w-0';
 
 interface DomainLeavesPanelProps {
   leaves: DomainLeafSummary[];
@@ -28,126 +23,119 @@ export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanel
   const { t, locale } = useLocale();
 
   return (
-    <>
-      <section className={`${panel} mb-4`}>
-        <div className="px-3 py-2 border-b border-border flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-          <h2 className="text-sm font-semibold text-txt m-0">{t.domain.reportHistory}</h2>
-          <p className="text-[0.7rem] text-muted-2 m-0">
-            {t.domain.reportHistoryCounts
-              .replace('{periods}', leaves.length.toLocaleString())
-              .replace('{reporters}', String(uniqueReporters))}
-          </p>
-        </div>
-        <div className={tableScroll}>
-          <table className={tableClass}>
-            <thead className={theadClass}>
-              <tr className="font-mono uppercase tracking-widest text-muted-2">
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colReporter}</th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colPeriod}</th>
-                <th className={`${th} border-b border-border bg-surface text-right`}>
-                  {t.domain.colPass}
-                </th>
-                <th className={`${th} border-b border-border bg-surface text-right`}>
-                  {t.domain.colFail}
-                </th>
-                <th className={`${th} border-b border-border bg-surface text-right`}>
-                  {t.domain.colIngested}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaves.map((leaf) => (
+    <section className={`${panel} mb-4`}>
+      <div className="px-3 py-2 border-b border-border flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <h2 className="text-sm font-semibold text-txt m-0">{t.domain.reportHistory}</h2>
+        <p className="text-[0.7rem] text-muted-2 m-0">
+          {t.domain.reportHistoryCounts
+            .replace('{periods}', leaves.length.toLocaleString())
+            .replace('{reporters}', String(uniqueReporters))}
+        </p>
+      </div>
+      <div className={streamScroll}>
+        <table className={`${tableClass} table-fixed`}>
+          <colgroup>
+            <col className="w-11" />
+            <col />
+            <col className="w-[4.5rem]" />
+            <col className="w-[7.5rem]" />
+            <col className="w-[7.25rem]" />
+          </colgroup>
+          <thead className={theadClass}>
+            <tr className="font-mono uppercase tracking-widest text-muted-2">
+              <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colReporter}</th>
+              <th className={`${streamTh} border-b border-border bg-surface text-right`}>
+                {t.domain.colPass}
+              </th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colOpening}</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>
+                {t.domain.verification}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaves.map((leaf) => {
+              const period = formatReportPeriod(leaf.periodStart, leaf.periodEnd);
+              const ingested = leaf.receivedAt
+                ? new Date(leaf.receivedAt).toLocaleDateString(locale, {
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                : null;
+              const wrapper = formatWrapperDkim(leaf.wrapperDkim);
+              return (
                 <tr key={leaf.leafIndex}>
-                  <td className={`${td} border-b border-border text-txt`}>
-                    {reporterLabel(leaf.reporterOrg)}
-                  </td>
-                  <td className={`${td} border-b border-border text-muted font-mono`}>
-                    {formatReportPeriod(leaf.periodStart, leaf.periodEnd)}
-                  </td>
-                  <td className={`${td} border-b border-border text-right font-mono tabular-nums`}>
-                    {leaf.dkimPassCount.toLocaleString()}
-                  </td>
+                    <td className={`${streamTd} border-b border-border font-mono tabular-nums text-muted`}>
+                      #{leaf.leafIndex}
+                    </td>
+                    <td className={`${streamTd} border-b border-border text-txt`}>
+                      <span className="block truncate">{reporterLabel(leaf.reporterOrg)}</span>
+                      <span
+                        className="block font-mono text-[0.65rem] text-muted truncate"
+                        title={`${t.domain.colPeriod} ${period}`}
+                      >
+                        {period}
+                      </span>
+                      {ingested && (
+                        <span
+                          className="block font-mono text-[0.65rem] text-muted-2 truncate"
+                          title={`${t.domain.colIngested} ${ingested}`}
+                        >
+                          {ingested}
+                        </span>
+                      )}
+                    </td>
+                    <td className={`${streamTd} border-b border-border text-right font-mono tabular-nums`}>
+                      <span className="block">{leaf.dkimPassCount.toLocaleString()}</span>
+                      <span
+                        className="block text-[0.65rem] text-muted-2"
+                        title={t.domain.colFail}
+                      >
+                        {leaf.dkimFailCount.toLocaleString()}
+                      </span>
+                    </td>
+                    <td className={`${streamTd} border-b border-border`}>
+                      <span
+                        className={`block truncate ${openingClass(leaf.wrapperOpening, Boolean(leaf.wrapperCheckUrl))}`}
+                        title={openingTitle(leaf.wrapperOpening, t.domain)}
+                      >
+                        <LedgerLink href={leaf.wrapperCheckUrl} title={t.domain.openingCheck}>
+                          {openingLabel(leaf.wrapperOpening, t.domain)}
+                        </LedgerLink>
+                      </span>
+                      <span
+                        className="block font-mono text-[0.65rem] text-muted-2 truncate"
+                        title={leaf.wrapperHashes.join(', ') || `${t.domain.colWrapper} ${wrapper}`}
+                      >
+                        {wrapper}
+                      </span>
+                    </td>
                   <td
-                    className={`${td} border-b border-border text-right font-mono tabular-nums text-muted-2`}
+                    className={`${streamTd} border-b border-border ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}
                   >
-                    {leaf.dkimFailCount.toLocaleString()}
-                  </td>
-                  <td className={`${td} border-b border-border text-right font-mono text-muted-2`}>
-                    {leaf.receivedAt
-                      ? new Date(leaf.receivedAt).toLocaleDateString(locale, {
-                          month: 'short',
-                          day: 'numeric',
-                        })
-                      : '—'}
+                    <span className="block truncate">
+                      {leaf.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
+                    </span>
+                    <span
+                      className="block font-mono text-[0.65rem] text-muted-2 truncate"
+                      title={leaf.leafHash}
+                    >
+                      <LedgerLink
+                        href={leaf.leafUrl}
+                        title={`${leaf.leafHash} — ${t.domain.leafLedger}`}
+                      >
+                        {truncateHash(leaf.leafHash)}
+                      </LedgerLink>
+                    </span>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section className={`${panel} mb-4`}>
-        <div className="px-3 py-2 border-b border-border">
-          <h2 className="text-sm font-semibold text-txt m-0">{t.domain.mailProofs}</h2>
-        </div>
-        <div className={tableScroll}>
-          <table className={tableClass}>
-            <thead className={theadClass}>
-              <tr className="font-mono uppercase tracking-widest text-muted-2">
-                <th className={`${th} border-b border-border bg-surface`}>#</th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colReporter}</th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colWrapper}</th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colOpening}</th>
-                <th className={`${th} border-b border-border bg-surface`}>
-                  {t.domain.verification}
-                </th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaves.map((leaf) => (
-                <tr key={`proof-${leaf.leafIndex}`}>
-                  <td className={`${td} border-b border-border font-mono tabular-nums text-muted`}>
-                    #{leaf.leafIndex}
-                  </td>
-                  <td className={`${td} border-b border-border text-txt`}>
-                    {reporterLabel(leaf.reporterOrg)}
-                  </td>
-                  <td
-                    className={`${td} border-b border-border font-mono text-muted-2`}
-                    title={leaf.wrapperHashes.join(', ') || undefined}
-                  >
-                    {formatWrapperDkim(leaf.wrapperDkim)}
-                  </td>
-                  <td
-                    className={`${td} border-b border-border ${openingClass(leaf.wrapperOpening, Boolean(leaf.wrapperCheckUrl))}`}
-                    title={openingTitle(leaf.wrapperOpening, t.domain)}
-                  >
-                    <LedgerLink href={leaf.wrapperCheckUrl} title={t.domain.openingCheck}>
-                      {openingLabel(leaf.wrapperOpening, t.domain)}
-                    </LedgerLink>
-                  </td>
-                  <td
-                    className={`${td} border-b border-border ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}
-                  >
-                    {leaf.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
-                  </td>
-                  <td
-                    className={`${td} border-b border-border font-mono text-muted-2`}
-                    title={leaf.leafHash}
-                  >
-                    <LedgerLink href={leaf.leafUrl} title={`${leaf.leafHash} — ${t.domain.leafLedger}`}>
-                      {truncateHash(leaf.leafHash)}
-                    </LedgerLink>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }
 
@@ -168,7 +156,7 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
       {!certs.length ? (
         <p className="px-3 py-4 text-sm text-muted m-0">{t.domain.ctEmpty}</p>
       ) : (
-        <div className={ctTableScroll}>
+        <div className={streamScroll}>
           <table className={`${tableClass} table-fixed`}>
             <colgroup>
               <col className="w-11" />
@@ -178,10 +166,10 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
             </colgroup>
             <thead className={theadClass}>
               <tr className="font-mono uppercase tracking-widest text-muted-2">
-                <th className={`${ctTh} border-b border-border bg-surface`}>#</th>
-                <th className={`${ctTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
-                <th className={`${ctTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
-                <th className={`${ctTh} border-b border-border bg-surface`}>
+                <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
+                <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
+                <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
+                <th className={`${streamTh} border-b border-border bg-surface`}>
                   {t.domain.verification}
                 </th>
               </tr>
@@ -195,10 +183,10 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
                   : `0x${cert.fingerprint}`;
                 return (
                   <tr key={`${cert.leafIndex}-${cert.fingerprint}`}>
-                    <td className={`${ctTd} border-b border-border font-mono tabular-nums text-muted`}>
+                    <td className={`${streamTd} border-b border-border font-mono tabular-nums text-muted`}>
                       #{cert.leafIndex}
                     </td>
-                    <td className={`${ctTd} border-b border-border text-txt`}>
+                    <td className={`${streamTd} border-b border-border text-txt`}>
                       <span className="block truncate" title={cert.issuer || undefined}>
                         {issuer}
                       </span>
@@ -217,7 +205,7 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
                         {truncateHash(fingerprint)}
                       </span>
                     </td>
-                    <td className={`${ctTd} border-b border-border font-mono text-muted`}>
+                    <td className={`${streamTd} border-b border-border font-mono text-muted`}>
                       <span
                         className="block truncate"
                         title={`${t.domain.colLoggedAt} ${formatUnixDate(cert.loggedAt, locale)}`}
@@ -232,7 +220,7 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
                       </span>
                     </td>
                     <td
-                      className={`${ctTd} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                      className={`${streamTd} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
                     >
                       <span className="block truncate">
                         {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
