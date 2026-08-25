@@ -94,14 +94,33 @@ export interface LedgerRekorRow {
   created_at: string;
 }
 
+export interface LedgerStreamCountRow {
+  domain: string;
+  count: number;
+  first_logged_at: number;
+}
+
 export async function fetchLedgerDomains(): Promise<{
   domains: LedgerDomainRow[];
   leaves: LedgerLeafSummary[];
+  ct: LedgerStreamCountRow[];
+  rekor: LedgerStreamCountRow[];
 } | null> {
   try {
     const res = await ledgerFetch('/v1/domains');
     if (!res.ok) return null;
-    return (await res.json()) as { domains: LedgerDomainRow[]; leaves: LedgerLeafSummary[] };
+    const body = (await res.json()) as {
+      domains: LedgerDomainRow[];
+      leaves: LedgerLeafSummary[];
+      ct?: LedgerStreamCountRow[];
+      rekor?: LedgerStreamCountRow[];
+    };
+    return {
+      domains: body.domains,
+      leaves: body.leaves,
+      ct: body.ct ?? [],
+      rekor: body.rekor ?? [],
+    };
   } catch {
     return null;
   }

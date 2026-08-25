@@ -57,6 +57,8 @@ export type Dictionary = {
     pathToolTitle: string;
     pathToolDesc: string;
     pathToolBadge: string;
+    streamCards: readonly { title: string; body: string }[];
+    mailStreamHow: string;
     whatDoesThisDo: string;
     cloudflareExplain: string;
     toolIntro: string;
@@ -105,6 +107,7 @@ export type Dictionary = {
     kindCt: string;
     kindNone: string;
     kindRekor: string;
+    streamsLabel: string;
     kindFirst: string;
     kindLatest: string;
     mailAuthRate: string;

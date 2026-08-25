@@ -22,8 +22,9 @@ function rankClass(rank: number | null): string {
 function HistoryCell({ domain }: { domain: DomainSummary }) {
   const { t } = useLocale();
   const days = domain.pactAgeDays ?? 0;
-  const reports = domain.leafCount ?? 0;
-  const orgs = domain.uniqueReporterCount ?? 0;
+  const mail = domain.mailCount ?? 0;
+  const ct = domain.ctCount ?? 0;
+  const rekor = domain.rekorCount ?? 0;
 
   return (
     <div className="text-right">
@@ -34,10 +35,11 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
         {t.records.verified}
       </span>
       <span className="block text-xs font-mono text-muted-2 mt-1.5">
-        {reports} {reports === 1 ? t.records.report : t.records.reports}
-        {orgs > 0
-          ? ` · ${orgs} ${orgs === 1 ? t.records.org : t.records.orgs}`
-          : ''}
+        {mail} {t.domain.kindMail}
+        {' · '}
+        {ct} {t.domain.kindCt}
+        {' · '}
+        {rekor} {t.domain.kindRekor}
       </span>
     </div>
   );

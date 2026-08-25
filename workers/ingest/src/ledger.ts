@@ -641,6 +641,32 @@ export async function listLeavesSummary(db: D1Database): Promise<
   return results ?? [];
 }
 
+export interface StreamCountRow {
+  domain: string;
+  count: number;
+  first_logged_at: number;
+}
+
+export async function listCtSummary(db: D1Database): Promise<StreamCountRow[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT domain, COUNT(*) AS count, MIN(logged_at) AS first_logged_at
+       FROM ct_certs GROUP BY domain`,
+    )
+    .all<StreamCountRow>();
+  return results ?? [];
+}
+
+export async function listRekorSummary(db: D1Database): Promise<StreamCountRow[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT domain, COUNT(*) AS count, MIN(integrated_time) AS first_logged_at
+       FROM rekor_entries GROUP BY domain`,
+    )
+    .all<StreamCountRow>();
+  return results ?? [];
+}
+
 function parseJsonArray<T>(raw: string | null | undefined): T[] {
   if (!raw) return [];
   try {

@@ -4,7 +4,7 @@
 **PACT** is an open protocol (Provenance of Accumulated Checkable Traces).  
 **PBM Labs LLC** provides the first reference implementation, hosted at [webuildreal.dev](https://webuildreal.dev).
 
-This repo is that reference implementation: leftover traces from systems that already exist, bucketed into one Merkle tree. Mail (DMARC aggregate reports) is live. Certificate Transparency is a second leaf kind — first-seen calendar from public logs, not an HTTPS badge. Rekor is a third kind — leftover signature calendar, bound only when the identity covers the domain. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
+This repo is that reference implementation: leftover traces from systems that already exist, recorded as separate streams on one Merkle tree. Mail (DMARC aggregate reports), Certificate Transparency, and Rekor are leftover kinds — never a blended score. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
 Whitepaper: [webuildreal.dev/whitepaper](https://webuildreal.dev/whitepaper).
@@ -226,7 +226,7 @@ Public ledger API (CORS open for GET):
 |--------|------|--------|
 | GET | `/v1/health` | Contract address + chain |
 | GET | `/v1/root` | Latest on-chain root |
-| GET | `/v1/domains` | Domains + leaf summaries |
+| GET | `/v1/domains` | Domains + mail / CT / Rekor stream summaries |
 | GET | `/v1/domains/:domain` | Domain, mail leaves, CT certs, Rekor entries, global hashes, on-chain root |
 | GET | `/v1/leaves/:hash` | One leaf by keccak256 (`kind`: `dmarc`, `ct`, or `rekor`) |
 | GET | `/v1/wrappers/:hash` | Stored wrapper + DKIM TXT snapshot |

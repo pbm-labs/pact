@@ -28,7 +28,11 @@ export function DomainKindStrip({
   const { t, locale } = useLocale();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+    <div className="mb-8">
+      <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 m-0 mb-3">
+        {t.domain.streamsLabel}
+      </p>
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
       <KindCard kind={t.domain.kindMail} value={String(mailCount)} unit={t.domain.reports}>
         {mailCount === 0 ? (
           <p className="text-xs text-muted-2 m-0">{t.domain.kindMailEmpty}</p>
@@ -67,6 +71,7 @@ export function DomainKindStrip({
           </p>
         )}
       </KindCard>
+    </div>
     </div>
   );
 }

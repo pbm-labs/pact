@@ -81,7 +81,7 @@ export interface DomainLiveData {
   pactAgeDays: number;
   totalFailCount: number;
   uniqueReporters: number;
-  passRate: number;
+  passRate: number | null;
   latestRoot: string | null;
   rootTxHash: string | null;
   rootsContract: string | null;
@@ -136,19 +136,6 @@ function earliestTraceMs(
   return min === Number.POSITIVE_INFINITY ? null : min;
 }
 
-function pactHistoryStartFromLeaves(
-  leaves: { period_start: number }[],
-  connectedAt: string | null,
-): Date {
-  const earliest = earliestTraceMs(
-    leaves.map((l) => Number(l.period_start)),
-    [],
-  );
-  if (earliest != null) return new Date(earliest);
-  if (connectedAt) return new Date(connectedAt);
-  return new Date();
-}
-
 function pactHistoryStartFromTraces(
   mailPeriodStarts: number[],
   ctLoggedAts: number[],
@@ -171,7 +158,23 @@ export interface DomainSummary {
   status: 'waiting' | 'live';
   pactAgeDays?: number;
   leafCount?: number;
+  mailCount?: number;
+  ctCount?: number;
+  rekorCount?: number;
   uniqueReporterCount?: number;
+}
+
+function indexStreamCounts(
+  rows: { domain: string; count: number; first_logged_at: number }[],
+): Map<string, { count: number; first: number }> {
+  const map = new Map<string, { count: number; first: number }>();
+  for (const row of rows) {
+    map.set(row.domain, {
+      count: Number(row.count) || 0,
+      first: Number(row.first_logged_at) || 0,
+    });
+  }
+  return map;
 }
 
 export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
@@ -184,29 +187,49 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
     list.push(leaf);
     leavesByDomain.set(leaf.domain, list);
   }
+  const ctByDomain = indexStreamCounts(payload.ct);
+  const rekorByDomain = indexStreamCounts(payload.rekor);
 
   return payload.domains
     .map((row) => {
       const domainLeaves = leavesByDomain.get(row.domain) ?? [];
       const domainRegisteredAt = row.domain_registered_at ?? null;
+      const mailCount = domainLeaves.length;
+      const ctCount = ctByDomain.get(row.domain)?.count ?? 0;
+      const rekorCount = rekorByDomain.get(row.domain)?.count ?? 0;
+      const leafCount = mailCount + ctCount + rekorCount;
+      const ctFirst = ctByDomain.get(row.domain)?.first ?? 0;
+      const rekorFirst = rekorByDomain.get(row.domain)?.first ?? 0;
+      const pactHistoryStart = pactHistoryStartFromTraces(
+        domainLeaves.map((l) => Number(l.period_start)),
+        ctFirst > 0 ? [ctFirst] : [],
+        rekorFirst > 0 ? [rekorFirst] : [],
+        row.connected_at,
+      );
 
-      if (!domainLeaves.length) {
+      if (leafCount === 0) {
         return {
           domain: row.domain,
           domainRegisteredAt,
           status: 'waiting' as const,
+          mailCount: 0,
+          ctCount: 0,
+          rekorCount: 0,
+          leafCount: 0,
         };
       }
 
       const reporters = new Set(domainLeaves.map((l) => l.reporter_org));
-      const pactHistoryStart = pactHistoryStartFromLeaves(domainLeaves, row.connected_at);
 
       return {
         domain: row.domain,
         domainRegisteredAt,
         status: 'live' as const,
         pactAgeDays: pactAgeDaysFrom(pactHistoryStart),
-        leafCount: domainLeaves.length,
+        leafCount,
+        mailCount,
+        ctCount,
+        rekorCount,
         uniqueReporterCount: reporters.size,
       };
     })
@@ -243,8 +266,9 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     latestRootEarly.toLowerCase() === computedRootEarly.toLowerCase();
   const ct = mapCtCerts(payload.ct ?? [], merkleContext, rootMatchesEarly);
   const rekor = mapRekorEntries(payload.rekor ?? [], merkleContext, rootMatchesEarly);
+  const hasTraces = leaves.length > 0 || ct.length > 0 || rekor.length > 0;
 
-  if (!leaves.length) {
+  if (!hasTraces) {
     const onChain = payload.onChain != null;
     const waitingHistoryMs = earliestTraceMs(
       [],
@@ -273,7 +297,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const totalFailCount = leaves.reduce((s, l) => s + Number(l.dkim_fail_count), 0);
   const reporters = new Set(leaves.map((l) => l.reporter_org));
   const total = totalPassCount + totalFailCount;
-  const passRate = total > 0 ? (totalPassCount / total) * 100 : 0;
+  const passRate = total > 0 ? (totalPassCount / total) * 100 : null;
   const pactHistoryStart = pactHistoryStartFromTraces(
     leaves.map((l) => Number(l.period_start)),
     ct.map((row) => row.loggedAt),
@@ -307,7 +331,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       rootTxHash: payload.onChain?.txHash ?? null,
       rootsContract: payload.onChain?.contract ?? null,
       rootMatchesPublished,
-      domainLeafCount: leaves.length,
+      domainLeafCount: leaves.length + ct.length + rekor.length,
       globalTreeLeafCount: payload.onChain?.leafCount ?? merkleContext?.tree.size ?? null,
       anchorType: onChain ? 'base' : 'staging',
       staging: !onChain,

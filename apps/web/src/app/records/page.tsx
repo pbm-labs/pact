@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Records — We build real',
-  description: 'Mail reports and certificate logs.',
+  description: 'Leftover streams as separate kinds on one tree.',
 };
 
 export default async function RecordsPage() {

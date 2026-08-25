@@ -12,6 +12,7 @@ export type HomePreview = {
   pactHistoryStart: string | null;
   mailCount: number;
   ctCount: number;
+  rekorCount: number;
 };
 
 export function HomeLanding({ preview }: { preview: HomePreview | null }) {
@@ -123,7 +124,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
               domainRegisteredAt={preview.domainRegisteredAt}
               pactHistoryStart={preview.pactHistoryStart}
             />
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-6 grid grid-cols-3 gap-3">
               <div>
                 <p className={`${eyebrow} m-0`}>{t.domain.kindMail}</p>
                 <p className={`${statValue} text-txt mt-2 mb-0`}>
@@ -139,6 +140,15 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
                   {preview.ctCount}
                   <span className="ml-2 text-xs font-sans font-semibold text-muted-2 tracking-normal">
                     {t.domain.certs}
+                  </span>
+                </p>
+              </div>
+              <div>
+                <p className={`${eyebrow} m-0`}>{t.domain.kindRekor}</p>
+                <p className={`${statValue} text-txt mt-2 mb-0`}>
+                  {preview.rekorCount}
+                  <span className="ml-2 text-xs font-sans font-semibold text-muted-2 tracking-normal">
+                    {t.domain.sigs}
                   </span>
                 </p>
               </div>

@@ -25,17 +25,17 @@ export const en: Dictionary = {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
     heroSub:
-      'A public record of mail reports and certificate logs — traces independent systems already emit.',
+      'Leftover traces from independent systems, recorded as separate streams on one append-only tree.',
     heroLead:
-      'Point DNS so those reports are kept. Anyone can recheck the ledger. The record does not score the name, and it does not decide that it is legitimate.',
-    howEyebrow: 'How it works',
-    howTitle: 'Evidence you can recheck.',
+      'Connect a name. Public logs are indexed. The mail stream needs DNS so reports are kept. Anyone can recheck the ledger. The record does not score the name, and it does not decide that it is legitimate.',
+    howEyebrow: 'Streams',
+    howTitle: 'Agnostic sources. One tree.',
     howLead:
-      'Nobody joins a new network. Mail systems, certificate logs, and signature logs already produce the traces. This site records them on one append-only tree, as separate kinds, and publishes a root anyone can check.',
+      'This is not a mail product. Independent systems already emit leftover traces. Each source is its own stream. They share a tree so a checker has one root. They are never blended into a score.',
     howSteps: [
       {
-        title: 'Mail, certificates, signatures',
-        body: 'Receiving systems — Gmail, Outlook, Yahoo, and others — already emit aggregate mail reports: whether authenticated mail showed up, how often, and according to whom. Certificate logs already record issuance. Rekor already records signed software metadata. Each sits on the same tree. They are never blended into a score.',
+        title: 'Separate streams',
+        body: 'Mail reports, certificate logs, and signature logs are leftover kinds of different origin. Later sources can be added as tagged kinds. Each keeps its own preimage. The page shows them side by side. It does not add them.',
       },
       {
         title: 'Anyone can check',
@@ -43,35 +43,36 @@ export const en: Dictionary = {
       },
       {
         title: 'Not a verdict',
-        body: 'The page is clocks, reports, organizations, certificate dates, and signature entries. It publishes what happened. Judgement stays outside.',
+        body: 'The page is clocks and streams. It publishes what happened. Judgement stays outside.',
       },
     ],
     recordEyebrow: 'A record',
     recordTitle: 'What the page shows.',
     recordSub:
-      'Each name has registration and confirmation clocks, mail reports, certificate logs, signature logs, and a shared ledger. Open a live record:',
+      'Each name has registration and confirmation clocks, leftover streams, and a shared ledger. Open a live record:',
     privacyTitle: 'Privacy',
     privacyBody1:
-      'Connecting points DNS so aggregate mail reports are kept instead of discarded. Certificate logs and signature logs are already public; this site indexes them. None of the feeds contain messages, subjects, or mailboxes.',
-    privacyBody2: 'The public page is domain history from those feeds. Nothing else is collected.',
+      'Connecting puts the name on the ledger. The mail stream needs DNS so aggregate reports are kept instead of discarded. Certificate and signature streams are already public; this site indexes them. None of the streams contain messages, subjects, or mailboxes.',
+    privacyBody2: 'The public page is domain history from those streams. Nothing else is collected.',
     privacyTableTitle: "What's in the record",
     privacyRows: [
       'Domain',
-      'Mail reports',
-      'Reporting orgs',
-      'Certificates',
-      'Signatures',
+      'Mail stream',
+      'Certificate stream',
+      'Signature stream',
+      'Shared tree',
     ],
     ctaTitle: 'Start a record.',
     ctaButton: 'Connect',
-    ctaSub: 'History starts when the first independent report arrives — not when the DNS line is saved.',
+    ctaSub:
+      'Public streams start when the name is on the ledger. Mail history starts when the first independent report arrives — not when the DNS line is saved.',
   },
   connect: {
     backHome: '← Home',
     eyebrow: 'Connect',
-    title: 'Add your domain',
+    title: 'Connect a domain',
     intro:
-      'Point DNS so independent mail systems send their aggregate reports here. Certificate logs and signature logs are already public; this site indexes them. Mail history starts when the first independent report arrives — not when the DNS line is saved.',
+      'Connecting puts the name on the ledger. Certificate and signature streams are indexed from public logs. The mail stream needs a DNS line so independent reporters keep sending.',
     yourDomain: 'Your domain',
     pathCloudflareTitle: 'I use Cloudflare',
     pathCloudflareDesc: 'One click — we add the DNS line.',
@@ -83,16 +84,31 @@ export const en: Dictionary = {
     pathToolTitle: 'I already use a tool',
     pathToolDesc: 'Postmark or similar — add this address as a report destination.',
     pathToolBadge: 'Existing tool',
+    streamCards: [
+      {
+        title: 'Mail',
+        body: 'Independent receiving systems already emit aggregate reports. A DNS line keeps a copy here.',
+      },
+      {
+        title: 'Certificates',
+        body: 'Public certificate logs are already a diary of issuance. Indexed after the name is on the ledger.',
+      },
+      {
+        title: 'Signatures',
+        body: 'Rekor already records signed software metadata. Indexed the same way. Coverage is often empty.',
+      },
+    ],
+    mailStreamHow: 'Keep the mail stream',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. Mail history starts when independent reports arrive — not when the DNS line is saved. Certificate and signature logs are indexed after the name is on the ledger.",
+      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS so the mail stream is kept. Certificate and signature streams are indexed after the name is on the ledger.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
-      'Your tool already collects reports for this domain. Adding this address includes us in that feed. The public mail record appears when the first independent report arrives (usually within 24–48 hours) — nothing else to submit here.',
+      'Your tool already collects reports for this domain. Adding this address includes us in the mail stream. The public mail record appears when the first independent report arrives (usually within 24–48 hours) — nothing else to submit here.',
     manualIntro:
       "Paste this wherever you manage your website's DNS (ask your host if you're not sure where):",
     manualExplain:
-      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. The public mail record appears when the first independent report arrives (usually within 24–48 hours) — nothing else to submit here.',
+      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. That is the mail stream. The public mail record appears when the first independent report arrives (usually within 24–48 hours).',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or ledger write credentials.',
@@ -112,9 +128,9 @@ export const en: Dictionary = {
     backHome: 'Home',
     title: 'Records',
     addDomain: 'Connect',
-    rankedBy: 'By mail history',
+    rankedBy: 'By confirmed history',
     lead:
-      'Public pages for names on the ledger. Mail reports, certificate logs, and signature logs, as separate kinds.',
+      'Public pages for names on the ledger. Leftover streams as separate kinds — never a score.',
     colDomain: 'Domain',
     colHistory: 'History',
     verified: 'confirmed',
@@ -124,7 +140,7 @@ export const en: Dictionary = {
     orgs: 'orgs',
     emptyTitle: 'No records',
     emptyBody:
-      'Connect a domain so independent mail reports can be kept. Certificate and signature logs are indexed once the name is on the ledger.',
+      'Connect a domain to start recording leftover streams. Certificate and signature logs are indexed once the name is on the ledger. The mail stream needs a DNS line.',
     emptyCta: 'Connect',
     searchPlaceholder: 'Search domain…',
     noMatch: 'No match for "{query}".',
@@ -132,29 +148,30 @@ export const en: Dictionary = {
   },
   domain: {
     backRecords: 'Records',
-    awaitingFirst: 'Awaiting mail',
+    awaitingFirst: 'Awaiting traces',
     connected: 'Connected',
     kindMail: 'Mail',
     kindMailEmpty: 'None',
     kindCt: 'Certificates',
     kindNone: 'None',
     kindRekor: 'Signatures',
+    streamsLabel: 'Streams',
     kindFirst: 'First logged',
     kindLatest: 'Latest',
     mailAuthRate: 'DKIM pass',
     certs: 'Certs',
     sigs: 'Entries',
     ledgerTitle: 'Ledger',
-    mailLeaves: 'Mail leaves',
-    ctLeaves: 'CT leaves',
-    rekorLeaves: 'Rekor leaves',
+    mailLeaves: 'Mail stream',
+    ctLeaves: 'Certificate stream',
+    rekorLeaves: 'Signature stream',
     timeVerified: 'Days confirmed',
     reports: 'Reports',
     allTime: 'all time',
     reportingOrgs: 'Reporting orgs',
     domainRegistered: 'Domain registered',
     verifiedSince: 'Confirmed since',
-    awaitingReport: 'Awaiting mail',
+    awaitingReport: 'Awaiting traces',
     noRecordYet: 'No record.',
     connectDomain: 'Connect',
     firstDay: 'First day',
@@ -238,7 +255,7 @@ export const en: Dictionary = {
       },
       {
         title: '3. The Service',
-        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Mail history comes from DMARC aggregate authentication reports that receiving mail systems already generate. Certificate history comes from public Certificate Transparency logs — indexed leftover exhaust, not a new issuance ceremony and not an HTTPS badge. Signature history comes from the public Rekor log — indexed leftover exhaust, not a signing ceremony. Mail, CT, and Rekor stay separate kinds; they are not blended into a score. Connecting a domain requires adding PACT as a report destination in DNS (directly or via a supported provider) so mail reports are kept. CT and Rekor indexing need no extra ritual. We do not read message content, recipient identities, or mailbox data.',
+        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Each leftover source is a separate stream (kind) on that tree. Mail history comes from DMARC aggregate authentication reports that receiving mail systems already generate. Certificate history comes from public Certificate Transparency logs — indexed leftover exhaust, not a new issuance ceremony and not an HTTPS badge. Signature history comes from the public Rekor log — indexed leftover exhaust, not a signing ceremony. Streams are not blended into a score. Connecting a domain puts the name on the ledger and requires adding PACT as a report destination in DNS (directly or via a supported provider) so the mail stream is kept. CT and Rekor indexing need no extra ritual. We do not read message content, recipient identities, or mailbox data.',
       },
       {
         title: '4. Public Records',

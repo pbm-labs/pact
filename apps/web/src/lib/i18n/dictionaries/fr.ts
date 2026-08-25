@@ -25,17 +25,17 @@ export const fr: Dictionary = {
     heroTitle: 'L’IA peut tout falsifier.',
     heroAccent: 'Sauf hier.',
     heroSub:
-      'Un registre public de rapports de courrier et de journaux de certificats — des traces que des systèmes indépendants émettent déjà.',
+      'Des traces résiduelles de systèmes indépendants, enregistrées comme des flux distincts sur un arbre en ajout seulement.',
     heroLead:
-      'Pointez le DNS pour que ces rapports soient conservés. N’importe qui peut revérifier le ledger. Le registre ne note pas le nom et ne décide pas qu’il est légitime.',
-    howEyebrow: 'Comment ça marche',
-    howTitle: 'De l’évidence que l’on peut revérifier.',
+      'Connectez un nom. Les journaux publics sont indexés. Le flux de courrier a besoin du DNS pour conserver les rapports. N’importe qui peut revérifier le ledger. Le registre ne note pas le nom et ne décide pas qu’il est légitime.',
+    howEyebrow: 'Flux',
+    howTitle: 'Sources agnostiques. Un arbre.',
     howLead:
-      'Personne n’adhère à un nouveau réseau. Les systèmes de courrier, les journaux de certificats et les journaux de signatures produisent déjà les traces. Ce site les enregistre sur un arbre en ajout seulement, comme des types distincts, et publie une racine que n’importe qui peut vérifier.',
+      'Ce n’est pas un produit de courrier. Des systèmes indépendants émettent déjà des traces résiduelles. Chaque source est son propre flux. Ils partagent un arbre pour que qui vérifie ait une racine. Ils ne sont jamais fusionnés en un score.',
     howSteps: [
       {
-        title: 'Courrier, certificats, signatures',
-        body: 'Les systèmes destinataires — Gmail, Outlook, Yahoo et d’autres — émettent déjà des rapports agrégés de courrier : si du courrier authentifié est arrivé, à quelle fréquence, et selon qui. Les journaux de certificats enregistrent déjà l’émission. Rekor enregistre déjà les métadonnées de logiciels signés. Chaque type reste sur le même arbre. Ils ne sont jamais fusionnés en un score.',
+        title: 'Flux séparés',
+        body: 'Les rapports de courrier, les journaux de certificats et les journaux de signatures sont des types résiduels d’origine distincte. D’autres sources peuvent s’ajouter comme types étiquetés. Chaque type garde son propre préimage. La page les montre côte à côte. Elle ne les additionne pas.',
       },
       {
         title: 'N’importe qui peut vérifier',
@@ -43,35 +43,36 @@ export const fr: Dictionary = {
       },
       {
         title: 'Pas un verdict',
-        body: 'La page, ce sont des horloges, des rapports, des organisations, des dates de certificats et des entrées de signature. Elle publie ce qui s’est passé. Le jugement reste dehors.',
+        body: 'La page, ce sont des horloges et des flux. Elle publie ce qui s’est passé. Le jugement reste dehors.',
       },
     ],
     recordEyebrow: 'Un registre',
     recordTitle: 'Ce que la page montre.',
     recordSub:
-      'Chaque nom a des horloges d’enregistrement et de confirmation, des rapports de courrier, des journaux de certificats, des journaux de signatures et un ledger partagé. Ouvrez un registre en direct :',
+      'Chaque nom a des horloges d’enregistrement et de confirmation, des flux résiduels et un ledger partagé. Ouvrez un registre en direct :',
     privacyTitle: 'Confidentialité',
     privacyBody1:
-      'Connecter pointe le DNS pour conserver les rapports agrégés de courrier au lieu de les jeter. Les journaux de certificats et de signatures sont déjà publics ; ce site les indexe. Aucun flux ne contient de messages, d’objets ou de boîtes.',
+      'Connecter place le nom sur le ledger. Le flux de courrier a besoin du DNS pour conserver les rapports agrégés au lieu de les jeter. Les flux de certificats et de signatures sont déjà publics ; ce site les indexe. Aucun flux ne contient de messages, d’objets ou de boîtes.',
     privacyBody2: 'La page publique est l’historique du domaine à partir de ces flux. Rien d’autre n’est collecté.',
     privacyTableTitle: 'Ce qu’il y a dans le registre',
     privacyRows: [
       'Domaine',
-      'Rapports de courrier',
-      'Orgs déclarantes',
-      'Certificats',
-      'Signatures',
+      'Flux de courrier',
+      'Flux de certificats',
+      'Flux de signatures',
+      'Arbre partagé',
     ],
     ctaTitle: 'Commencez un registre.',
     ctaButton: 'Connecter',
-    ctaSub: 'L’historique commence à l’arrivée du premier rapport indépendant — pas quand la ligne DNS est enregistrée.',
+    ctaSub:
+      'Les flux publics commencent une fois le nom sur le ledger. L’historique de courrier commence à l’arrivée du premier rapport indépendant — pas quand la ligne DNS est enregistrée.',
   },
   connect: {
     backHome: '← Accueil',
     eyebrow: 'Connecter',
-    title: 'Ajoutez votre domaine',
+    title: 'Connecter un domaine',
     intro:
-      'Pointez le DNS pour que les systèmes de courrier indépendants envoient ici leurs rapports agrégés. Les journaux de certificats et de signatures sont déjà publics ; ce site les indexe. L’historique de courrier commence à l’arrivée du premier rapport indépendant — pas quand la ligne DNS est enregistrée.',
+      'Connecter place le nom sur le ledger. Les flux de certificats et de signatures sont indexés depuis des journaux publics. Le flux de courrier a besoin d’une ligne DNS pour que les déclarants indépendants continuent d’envoyer.',
     yourDomain: 'Votre domaine',
     pathCloudflareTitle: "J'utilise Cloudflare",
     pathCloudflareDesc: 'Un clic — nous ajoutons la ligne DNS.',
@@ -83,16 +84,31 @@ export const fr: Dictionary = {
     pathToolTitle: "J'utilise déjà un outil",
     pathToolDesc: 'Postmark ou similaire — ajoutez cette adresse comme destination de rapports.',
     pathToolBadge: 'Outil existant',
+    streamCards: [
+      {
+        title: 'Courrier',
+        body: 'Les systèmes destinataires indépendants émettent déjà des rapports agrégés. Une ligne DNS en conserve une copie ici.',
+      },
+      {
+        title: 'Certificats',
+        body: 'Les journaux publics de certificats sont déjà un journal d’émission. Indexés une fois le nom sur le ledger.',
+      },
+      {
+        title: 'Signatures',
+        body: 'Rekor enregistre déjà les métadonnées de logiciels signés. Indexé de la même façon. La couverture est souvent vide.',
+      },
+    ],
+    mailStreamHow: 'Conserver le flux de courrier',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
-      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS. L’historique de courrier commence à l’arrivée des rapports indépendants — pas à l’enregistrement de la ligne DNS. Les journaux de certificats et de signatures sont indexés une fois le nom sur le ledger.',
+      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS pour conserver le flux de courrier. Les flux de certificats et de signatures sont indexés une fois le nom sur le ledger.',
     toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
-      'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut dans ce flux. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
+      'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut dans le flux de courrier. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
     manualIntro:
       "Collez ceci là où vous gérez le DNS de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
     manualExplain:
-      "Une ligne qui permet à des systèmes destinataires indépendants d’envoyer des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h) — rien d’autre à envoyer ici.",
+      "Une ligne qui permet à des systèmes destinataires indépendants d’envoyer des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. C’est le flux de courrier. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h).",
     errors: {
       invalid_domain: 'Saisissez un domaine valide (ex. example.com).',
       server_config:
@@ -114,9 +130,9 @@ export const fr: Dictionary = {
     backHome: 'Accueil',
     title: 'Registres',
     addDomain: 'Connecter',
-    rankedBy: 'Par historique de courrier',
+    rankedBy: 'Par historique confirmé',
     lead:
-      'Pages publiques des noms sur le ledger. Rapports de courrier, journaux de certificats et journaux de signatures, comme types distincts.',
+      'Pages publiques des noms sur le ledger. Flux résiduels comme types distincts — jamais un score.',
     colDomain: 'Domaine',
     colHistory: 'Historique',
     verified: 'confirmé',
@@ -126,7 +142,7 @@ export const fr: Dictionary = {
     orgs: 'orgs',
     emptyTitle: 'Aucun registre',
     emptyBody:
-      'Connectez un domaine pour conserver les rapports de courrier indépendants. Les journaux de certificats et de signatures sont indexés une fois le nom sur le ledger.',
+      'Connectez un domaine pour commencer à enregistrer des flux résiduels. Les journaux de certificats et de signatures sont indexés une fois le nom sur le ledger. Le flux de courrier a besoin d’une ligne DNS.',
     emptyCta: 'Connecter',
     searchPlaceholder: 'Rechercher un domaine…',
     noMatch: 'Aucune correspondance pour « {query} ».',
@@ -134,29 +150,30 @@ export const fr: Dictionary = {
   },
   domain: {
     backRecords: 'Registres',
-    awaitingFirst: 'En attente de courrier',
+    awaitingFirst: 'En attente de traces',
     connected: 'Connecté',
     kindMail: 'Courrier',
     kindMailEmpty: 'Aucun',
     kindCt: 'Certificats',
     kindNone: 'Aucun',
     kindRekor: 'Signatures',
+    streamsLabel: 'Flux',
     kindFirst: 'Premier journalisé',
     kindLatest: 'Plus récent',
     mailAuthRate: 'DKIM réussi',
     certs: 'Certs',
     sigs: 'Entrées',
     ledgerTitle: 'Ledger',
-    mailLeaves: 'Feuilles courrier',
-    ctLeaves: 'Feuilles CT',
-    rekorLeaves: 'Feuilles Rekor',
+    mailLeaves: 'Flux de courrier',
+    ctLeaves: 'Flux de certificats',
+    rekorLeaves: 'Flux de signatures',
     timeVerified: 'Jours confirmés',
     reports: 'Rapports',
     allTime: 'depuis le début',
     reportingOrgs: 'Orgs déclarantes',
     domainRegistered: 'Domaine enregistré',
     verifiedSince: 'Confirmé depuis',
-    awaitingReport: 'En attente de courrier',
+    awaitingReport: 'En attente de traces',
     noRecordYet: 'Aucun registre.',
     connectDomain: 'Connecter',
     firstDay: 'Premier jour',
@@ -241,7 +258,7 @@ export const fr: Dictionary = {
       },
       {
         title: '3. Le service',
-        body: "PACT capture des traces résiduelles déjà émises par des systèmes indépendants et les inscrit dans un arbre de Merkle append-only. L'historique de courrier vient des rapports d'authentification agrégés DMARC que les systèmes destinataires génèrent déjà. L'historique des certificats vient des journaux publics Certificate Transparency — échappement résiduel indexé, pas une nouvelle cérémonie d'émission et pas un badge HTTPS. L'historique des signatures vient du journal public Rekor — échappement résiduel indexé, pas une cérémonie de signature. Courrier, CT et Rekor restent des types distincts ; ils ne sont pas fusionnés en un score. Connecter un domaine nécessite d'ajouter PACT comme destination de rapports dans le DNS (directement ou via un fournisseur pris en charge) pour conserver les rapports de courrier. L'indexation CT et Rekor n'exige aucun rituel supplémentaire. Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
+        body: "PACT capture des traces résiduelles déjà émises par des systèmes indépendants et les inscrit dans un arbre de Merkle append-only. Chaque source résiduelle est un flux (type) distinct sur cet arbre. L'historique de courrier vient des rapports d'authentification agrégés DMARC que les systèmes destinataires génèrent déjà. L'historique des certificats vient des journaux publics Certificate Transparency — échappement résiduel indexé, pas une nouvelle cérémonie d'émission et pas un badge HTTPS. L'historique des signatures vient du journal public Rekor — échappement résiduel indexé, pas une cérémonie de signature. Les flux ne sont pas fusionnés en un score. Connecter un domaine place le nom sur le ledger et nécessite d'ajouter PACT comme destination de rapports dans le DNS (directement ou via un fournisseur pris en charge) pour conserver le flux de courrier. L'indexation CT et Rekor n'exige aucun rituel supplémentaire. Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
       },
       {
         title: '4. Registres publics',

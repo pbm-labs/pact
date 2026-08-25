@@ -5,7 +5,7 @@ import { fetchDomainPageState, fetchDomainSummaries } from '@/lib/domain-data';
 export const dynamic = 'force-dynamic';
 
 const title = 'AI can fake everything. Except yesterday.';
-const description = 'A public record of mail reports and certificate logs.';
+const description = 'Leftover traces as separate streams on one tree.';
 
 export const metadata: Metadata = {
   title,
@@ -42,6 +42,7 @@ async function loadHomePreview(): Promise<HomePreview | null> {
       pactHistoryStart: state.data.pactHistoryStart,
       mailCount: state.data.leaves.length,
       ctCount: state.data.ct.length,
+      rekorCount: state.data.rekor.length,
     };
   }
 
@@ -51,5 +52,6 @@ async function loadHomePreview(): Promise<HomePreview | null> {
     pactHistoryStart: state.data.pactHistoryStart,
     mailCount: 0,
     ctCount: state.data.ct.length,
+    rekorCount: state.data.rekor.length,
   };
 }

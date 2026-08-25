@@ -11,6 +11,8 @@ import {
   listLeafHashes,
   listLeavesForDomain,
   listLeavesSummary,
+  listCtSummary,
+  listRekorSummary,
   listCtCertsForDomain,
   listRekorEntriesForDomain,
   upsertDomain,
@@ -110,7 +112,9 @@ export async function handleLedgerRequest(
   if (request.method === 'GET' && path === '/v1/domains') {
     const domains = await listDomains(env.DB);
     const leaves = await listLeavesSummary(env.DB);
-    return json({ domains, leaves });
+    const ct = await listCtSummary(env.DB);
+    const rekor = await listRekorSummary(env.DB);
+    return json({ domains, leaves, ct, rekor });
   }
 
   const domainMatch = path.match(/^\/v1\/domains\/([^/]+)$/);

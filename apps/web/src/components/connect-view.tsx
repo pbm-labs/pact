@@ -157,6 +157,16 @@ function ConnectFlow({
             )}
 
             {!path ? (
+              <>
+                <div className="grid sm:grid-cols-3 gap-3 mb-8">
+                  {t.connect.streamCards.map((card) => (
+                    <div key={card.title} className={`${panel} p-4`}>
+                      <p className={`${eyebrow} m-0`}>{card.title}</p>
+                      <p className="text-sm text-muted mt-2 m-0 leading-snug">{card.body}</p>
+                    </div>
+                  ))}
+                </div>
+                <p className={`${eyebrow} mb-3`}>{t.connect.mailStreamHow}</p>
               <div className="grid sm:grid-cols-1 gap-3">
                 {PATHS.map((key) => {
                   const item = pathCopy[key];
@@ -181,6 +191,7 @@ function ConnectFlow({
                   );
                 })}
               </div>
+              </>
             ) : (
               <section className={panel}>
                 <div className={panelHeader}>

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { domain: raw } = await params;
   const domain = decodeURIComponent(raw).toLowerCase().trim();
   const title = `${domain} — record`;
-  const description = 'Mail reports and certificate logs.';
+  const description = 'Leftover streams as separate kinds on one tree.';
   const url = `${siteUrl}${routes.record(domain)}`;
 
   return {

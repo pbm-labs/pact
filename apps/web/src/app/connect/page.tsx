@@ -7,8 +7,8 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: 'Add your domain — We build real',
-  description: 'Point DNS so independent mail reports are kept. Certificate logs are already public.',
+  title: 'Connect a domain — We build real',
+  description: 'Put a name on the ledger. Public streams are indexed. The mail stream needs DNS.',
 };
 
 export default async function ConnectPage({ searchParams }: PageProps) {

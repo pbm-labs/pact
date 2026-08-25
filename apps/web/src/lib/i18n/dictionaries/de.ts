@@ -25,17 +25,17 @@ export const de: Dictionary = {
     heroTitle: 'KI kann alles fälschen.',
     heroAccent: 'Außer gestern.',
     heroSub:
-      'Ein öffentlicher Eintrag aus Mailberichten und Zertifikatslogs — Spuren, die unabhängige Systeme bereits emittieren.',
+      'Übrig gebliebene Spuren unabhängiger Systeme, aufgezeichnet als getrennte Streams auf einem append-only Baum.',
     heroLead:
-      'Setze DNS so, dass diese Berichte behalten werden. Jede Person kann das Ledger nachprüfen. Der Eintrag bewertet den Namen nicht und entscheidet nicht, ob er legitim ist.',
-    howEyebrow: 'So funktioniert es',
-    howTitle: 'Evidenz, die du nachprüfen kannst.',
+      'Verbinde einen Namen. Öffentliche Logs werden indexiert. Der Mail-Stream braucht DNS, damit Berichte behalten werden. Jede Person kann das Ledger nachprüfen. Der Eintrag bewertet den Namen nicht und entscheidet nicht, ob er legitim ist.',
+    howEyebrow: 'Streams',
+    howTitle: 'Agnostische Quellen. Ein Baum.',
     howLead:
-      'Niemand tritt einem neuen Netz bei. Mailsysteme, Zertifikatslogs und Signaturlogs erzeugen die Spuren bereits. Diese Seite zeichnet sie auf einem append-only Baum als getrennte Arten auf und veröffentlicht eine Root, die jede Person prüfen kann.',
+      'Das ist kein Mailprodukt. Unabhängige Systeme emittieren bereits Restspuren. Jede Quelle ist ihr eigener Stream. Sie teilen einen Baum, damit eine prüfende Person einen Root hat. Sie werden nie zu einem Score vermischt.',
     howSteps: [
       {
-        title: 'Mail, Zertifikate, Signaturen',
-        body: 'Empfangssysteme — Gmail, Outlook, Yahoo und andere — emittieren bereits aggregierte Mailberichte: ob authentifizierte Mail ankam, wie oft, und laut wem. Zertifikatslogs zeichnen Ausstellung bereits auf. Rekor zeichnet Metadaten signierter Software bereits auf. Jede Art sitzt auf demselben Baum. Sie werden nie zu einem Score vermischt.',
+        title: 'Getrennte Streams',
+        body: 'Mailberichte, Zertifikatslogs und Signaturlogs sind Restarten unterschiedlichen Ursprungs. Spätere Quellen können als getaggte Arten hinzukommen. Jede behält ihr eigenes Preimage. Die Seite zeigt sie nebeneinander. Sie addiert sie nicht.',
       },
       {
         title: 'Jede Person kann prüfen',
@@ -43,35 +43,36 @@ export const de: Dictionary = {
       },
       {
         title: 'Kein Urteil',
-        body: 'Die Seite sind Uhren, Berichte, Organisationen, Zertifikatsdaten und Signatureinträge. Sie veröffentlicht, was geschehen ist. Urteil bleibt draußen.',
+        body: 'Die Seite sind Uhren und Streams. Sie veröffentlicht, was geschehen ist. Urteil bleibt draußen.',
       },
     ],
     recordEyebrow: 'Ein Eintrag',
     recordTitle: 'Was die Seite zeigt.',
     recordSub:
-      'Jeder Name hat Registrierungs- und Bestätigungsuhren, Mailberichte, Zertifikatslogs, Signaturlogs und ein gemeinsames Ledger. Öffne einen Live-Eintrag:',
+      'Jeder Name hat Registrierungs- und Bestätigungsuhren, Reststreams und ein gemeinsames Ledger. Öffne einen Live-Eintrag:',
     privacyTitle: 'Datenschutz',
     privacyBody1:
-      'Verbinden setzt DNS so, dass aggregierte Mailberichte behalten statt verworfen werden. Zertifikatslogs und Signaturlogs sind bereits öffentlich; diese Seite indexiert sie. Keiner der Feeds enthält Nachrichten, Betreffzeilen oder Postfächer.',
-    privacyBody2: 'Die öffentliche Seite ist Domainhistorie aus diesen Feeds. Mehr wird nicht erfasst.',
+      'Verbinden setzt den Namen auf das Ledger. Der Mail-Stream braucht DNS, damit Aggregatberichte behalten statt verworfen werden. Zertifikats- und Signaturstreams sind bereits öffentlich; diese Seite indexiert sie. Keiner der Streams enthält Nachrichten, Betreffzeilen oder Postfächer.',
+    privacyBody2: 'Die öffentliche Seite ist Domainhistorie aus diesen Streams. Mehr wird nicht erfasst.',
     privacyTableTitle: 'Was im Eintrag steht',
     privacyRows: [
       'Domain',
-      'Mailberichte',
-      'Meldende Orgs.',
-      'Zertifikate',
-      'Signaturen',
+      'Mail-Stream',
+      'Zertifikats-Stream',
+      'Signatur-Stream',
+      'Gemeinsamer Baum',
     ],
     ctaTitle: 'Starte einen Eintrag.',
     ctaButton: 'Verbinden',
-    ctaSub: 'Die Historie beginnt, wenn der erste unabhängige Bericht eintrifft — nicht, wenn die DNS-Zeile gespeichert wird.',
+    ctaSub:
+      'Öffentliche Streams beginnen, sobald der Name auf dem Ledger steht. Die Mail-Historie beginnt, wenn der erste unabhängige Bericht eintrifft — nicht, wenn die DNS-Zeile gespeichert wird.',
   },
   connect: {
     backHome: '← Startseite',
     eyebrow: 'Verbinden',
-    title: 'Domain hinzufügen',
+    title: 'Domain verbinden',
     intro:
-      'Setze DNS so, dass unabhängige Mailsysteme ihre Aggregatberichte hierher senden. Zertifikatslogs und Signaturlogs sind bereits öffentlich; diese Seite indexiert sie. Die Mail-Historie beginnt, wenn der erste unabhängige Bericht eintrifft — nicht, wenn die DNS-Zeile gespeichert wird.',
+      'Verbinden setzt den Namen auf das Ledger. Zertifikats- und Signaturstreams werden aus öffentlichen Logs indexiert. Der Mail-Stream braucht eine DNS-Zeile, damit unabhängige Melder weiter senden.',
     yourDomain: 'Deine Domain',
     pathCloudflareTitle: 'Ich nutze Cloudflare',
     pathCloudflareDesc: 'Ein Klick — wir setzen die DNS-Zeile.',
@@ -83,16 +84,31 @@ export const de: Dictionary = {
     pathToolTitle: 'Ich nutze bereits ein Tool',
     pathToolDesc: 'Postmark oder ähnlich — füge diese Adresse als Berichtsziel hinzu.',
     pathToolBadge: 'Vorhandenes Tool',
+    streamCards: [
+      {
+        title: 'Mail',
+        body: 'Unabhängige Empfangssysteme emittieren bereits Aggregatberichte. Eine DNS-Zeile behält eine Kopie hier.',
+      },
+      {
+        title: 'Zertifikate',
+        body: 'Öffentliche Zertifikatslogs sind bereits ein Ausstellungstagebuch. Indexiert, sobald der Name auf dem Ledger steht.',
+      },
+      {
+        title: 'Signaturen',
+        body: 'Rekor zeichnet Metadaten signierter Software bereits auf. Indexiert auf dieselbe Weise. Die Abdeckung ist oft leer.',
+      },
+    ],
+    mailStreamHow: 'Mail-Stream behalten',
     whatDoesThisDo: 'Was bewirkt das?',
     cloudflareExplain:
-      'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein. Die Mail-Historie beginnt, wenn unabhängige Berichte eintreffen — nicht beim Speichern der DNS-Zeile. Zertifikats- und Signaturlogs werden indexiert, sobald der Name auf dem Ledger steht.',
+      'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein, damit der Mail-Stream behalten wird. Zertifikats- und Signaturstreams werden indexiert, sobald der Name auf dem Ledger steht.',
     toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
-      'Dein Tool sammelt bereits Berichte für diese Domain. Diese Adresse nimmt uns in diesen Feed auf. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden) — hier ist kein weiterer Schritt nötig.',
+      'Dein Tool sammelt bereits Berichte für diese Domain. Diese Adresse nimmt uns in den Mail-Stream auf. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden) — hier ist kein weiterer Schritt nötig.',
     manualIntro:
       'Füge dies dort ein, wo du das DNS deiner Website verwaltest (frage deinen Anbieter, wenn du unsicher bist):',
     manualExplain:
-      'Eine Zeile, mit der unabhängige Empfangssysteme Aggregatberichte hierher senden. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden) — hier musst du nichts weiter absenden.',
+      'Eine Zeile, mit der unabhängige Empfangssysteme Aggregatberichte hierher senden. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Das ist der Mail-Stream. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden).',
     errors: {
       invalid_domain: 'Gib eine gültige Domain ein (z. B. example.com).',
       server_config: 'Dem Server fehlen CONNECT_STATE_SECRET oder Ledger-Schreibzugangsdaten.',
@@ -112,9 +128,9 @@ export const de: Dictionary = {
     backHome: 'Startseite',
     title: 'Einträge',
     addDomain: 'Verbinden',
-    rankedBy: 'Nach Mail-Historie',
+    rankedBy: 'Nach bestätigter Historie',
     lead:
-      'Öffentliche Seiten für Namen auf dem Ledger. Mailberichte, Zertifikatslogs und Signaturlogs, als getrennte Arten.',
+      'Öffentliche Seiten für Namen auf dem Ledger. Reststreams als getrennte Arten — nie ein Score.',
     colDomain: 'Domain',
     colHistory: 'Historie',
     verified: 'bestätigt',
@@ -124,7 +140,7 @@ export const de: Dictionary = {
     orgs: 'Orgs.',
     emptyTitle: 'Keine Einträge',
     emptyBody:
-      'Verbinde eine Domain, damit unabhängige Mailberichte behalten werden. Zertifikats- und Signaturlogs werden indexiert, sobald der Name auf dem Ledger steht.',
+      'Verbinde eine Domain, um Reststreams aufzuzeichnen. Zertifikats- und Signaturlogs werden indexiert, sobald der Name auf dem Ledger steht. Der Mail-Stream braucht eine DNS-Zeile.',
     emptyCta: 'Verbinden',
     searchPlaceholder: 'Domain suchen…',
     noMatch: 'Kein Treffer für „{query}“.',
@@ -132,29 +148,30 @@ export const de: Dictionary = {
   },
   domain: {
     backRecords: 'Einträge',
-    awaitingFirst: 'Warte auf Mail',
+    awaitingFirst: 'Warte auf Spuren',
     connected: 'Verbunden',
     kindMail: 'Mail',
     kindMailEmpty: 'Keine',
     kindCt: 'Zertifikate',
     kindNone: 'Keine',
     kindRekor: 'Signaturen',
+    streamsLabel: 'Streams',
     kindFirst: 'Zuerst geloggt',
     kindLatest: 'Zuletzt',
     mailAuthRate: 'DKIM bestanden',
     certs: 'Zert.',
     sigs: 'Einträge',
     ledgerTitle: 'Ledger',
-    mailLeaves: 'Mail-Leaves',
-    ctLeaves: 'CT-Leaves',
-    rekorLeaves: 'Rekor-Leaves',
+    mailLeaves: 'Mail-Stream',
+    ctLeaves: 'Zertifikats-Stream',
+    rekorLeaves: 'Signatur-Stream',
     timeVerified: 'Bestätigte Tage',
     reports: 'Berichte',
     allTime: 'gesamt',
     reportingOrgs: 'Meldende Orgs.',
     domainRegistered: 'Domain registriert',
     verifiedSince: 'Bestätigt seit',
-    awaitingReport: 'Warte auf Mail',
+    awaitingReport: 'Warte auf Spuren',
     noRecordYet: 'Kein Eintrag.',
     connectDomain: 'Verbinden',
     firstDay: 'Erster Tag',
@@ -239,7 +256,7 @@ export const de: Dictionary = {
       },
       {
         title: '3. Der Dienst',
-        body: 'PACT erfasst Restspuren, die unabhängige Systeme bereits emittieren, und schreibt sie in einen nur anhängenden Merkle-Baum. Mail-Historie stammt aus DMARC-Aggregat-Authentifizierungsberichten, die empfangende Mail-Systeme bereits erzeugen. Zertifikatshistorie stammt aus öffentlichen Certificate-Transparency-Logs — indexierter Restexhaust, keine neue Ausstellungszeremonie und kein HTTPS-Siegel. Signaturhistorie stammt aus dem öffentlichen Rekor-Log — indexierter Restexhaust, keine Signaturzeremonie. Mail, CT und Rekor bleiben getrennte Arten; sie werden nicht zu einem Score vermischt. Das Verbinden einer Domain erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter), damit Mailberichte behalten werden. CT- und Rekor-Indexierung braucht kein Extra-Ritual. Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
+        body: 'PACT erfasst Restspuren, die unabhängige Systeme bereits emittieren, und schreibt sie in einen nur anhängenden Merkle-Baum. Jede Restquelle ist ein eigener Stream (eine Art) auf diesem Baum. Mail-Historie stammt aus DMARC-Aggregat-Authentifizierungsberichten, die empfangende Mail-Systeme bereits erzeugen. Zertifikatshistorie stammt aus öffentlichen Certificate-Transparency-Logs — indexierter Restexhaust, keine neue Ausstellungszeremonie und kein HTTPS-Siegel. Signaturhistorie stammt aus dem öffentlichen Rekor-Log — indexierter Restexhaust, keine Signaturzeremonie. Streams werden nicht zu einem Score vermischt. Das Verbinden einer Domain setzt den Namen auf das Ledger und erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter), damit der Mail-Stream behalten wird. CT- und Rekor-Indexierung braucht kein Extra-Ritual. Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
       },
       {
         title: '4. Öffentliche Einträge',
