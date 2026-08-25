@@ -9,11 +9,15 @@ import { panel } from '@/lib/ui';
 
 const tableScroll =
   'overflow-auto thin-scrollbar overscroll-contain max-h-[calc(2.15rem+10*1.85rem)]';
+const ctTableScroll =
+  'overflow-y-auto overflow-x-hidden thin-scrollbar overscroll-contain max-h-[calc(2.15rem+10*1.85rem)]';
 const tableClass = 'w-full text-xs border-separate border-spacing-0';
 const theadClass = 'sticky top-0 z-[1] bg-surface';
 
 const th = 'text-left font-medium px-3 py-1.5 whitespace-nowrap';
 const td = 'px-3 py-1.5';
+const ctTh = 'text-left font-medium px-2 py-1.5';
+const ctTd = 'px-2 py-1.5 min-w-0';
 
 interface DomainLeavesPanelProps {
   leaves: DomainLeafSummary[];
@@ -164,76 +168,86 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
       {!certs.length ? (
         <p className="px-3 py-4 text-sm text-muted m-0">{t.domain.ctEmpty}</p>
       ) : (
-        <div className={tableScroll}>
-          <table className={tableClass}>
+        <div className={ctTableScroll}>
+          <table className={`${tableClass} table-fixed`}>
+            <colgroup>
+              <col className="w-11" />
+              <col />
+              <col className="w-[6.75rem]" />
+              <col className="w-[7.25rem]" />
+            </colgroup>
             <thead className={theadClass}>
               <tr className="font-mono uppercase tracking-widest text-muted-2">
-                <th className={`${th} border-b border-border bg-surface`}>#</th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
-                <th className={`${th} border-b border-border bg-surface`}>
-                  {t.domain.colNotBefore}
-                </th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
-                <th className={`${th} border-b border-border bg-surface`}>
+                <th className={`${ctTh} border-b border-border bg-surface`}>#</th>
+                <th className={`${ctTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
+                <th className={`${ctTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
+                <th className={`${ctTh} border-b border-border bg-surface`}>
                   {t.domain.verification}
                 </th>
-                <th className={`${th} border-b border-border bg-surface`}>
-                  {t.domain.colFingerprint}
-                </th>
-                <th className={`${th} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
               </tr>
             </thead>
             <tbody>
               {certs.map((cert) => {
                 const issuer = shortIssuer(cert.issuer) || cert.commonName || '—';
                 const showCommonName = Boolean(cert.commonName) && cert.commonName !== issuer;
+                const fingerprint = cert.fingerprint.startsWith('0x')
+                  ? cert.fingerprint
+                  : `0x${cert.fingerprint}`;
                 return (
                   <tr key={`${cert.leafIndex}-${cert.fingerprint}`}>
-                    <td className={`${td} border-b border-border font-mono tabular-nums text-muted`}>
+                    <td className={`${ctTd} border-b border-border font-mono tabular-nums text-muted`}>
                       #{cert.leafIndex}
                     </td>
-                    <td
-                      className={`${td} border-b border-border text-txt`}
-                      title={cert.issuer || undefined}
-                    >
-                      <span className="block max-w-[16rem] truncate">{issuer}</span>
+                    <td className={`${ctTd} border-b border-border text-txt`}>
+                      <span className="block truncate" title={cert.issuer || undefined}>
+                        {issuer}
+                      </span>
                       {showCommonName && (
-                        <span className="block text-[0.65rem] text-muted-2 font-mono truncate max-w-[16rem]">
+                        <span
+                          className="block text-[0.65rem] text-muted-2 font-mono truncate"
+                          title={cert.commonName}
+                        >
                           {cert.commonName}
                         </span>
                       )}
-                    </td>
-                    <td className={`${td} border-b border-border font-mono text-muted`}>
-                      {formatUnixDate(cert.notBefore, locale)}
-                    </td>
-                    <td className={`${td} border-b border-border font-mono text-muted`}>
-                      {formatUnixDate(cert.loggedAt, locale)}
-                    </td>
-                    <td
-                      className={`${td} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
-                    >
-                      {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
-                    </td>
-                    <td
-                      className={`${td} border-b border-border font-mono text-muted-2`}
-                      title={cert.fingerprint}
-                    >
-                      {truncateHash(
-                        cert.fingerprint.startsWith('0x')
-                          ? cert.fingerprint
-                          : `0x${cert.fingerprint}`,
-                      )}
-                    </td>
-                    <td
-                      className={`${td} border-b border-border font-mono text-muted-2`}
-                      title={cert.leafHash}
-                    >
-                      <LedgerLink
-                        href={cert.leafUrl}
-                        title={`${cert.leafHash} — ${t.domain.leafLedger}`}
+                      <span
+                        className="block text-[0.65rem] font-mono text-muted-2 truncate"
+                        title={`${t.domain.colFingerprint} ${fingerprint}`}
                       >
-                        {truncateHash(cert.leafHash)}
-                      </LedgerLink>
+                        {truncateHash(fingerprint)}
+                      </span>
+                    </td>
+                    <td className={`${ctTd} border-b border-border font-mono text-muted`}>
+                      <span
+                        className="block truncate"
+                        title={`${t.domain.colLoggedAt} ${formatUnixDate(cert.loggedAt, locale)}`}
+                      >
+                        {formatUnixDate(cert.loggedAt, locale, true)}
+                      </span>
+                      <span
+                        className="block text-[0.65rem] text-muted-2 truncate"
+                        title={`${t.domain.colNotBefore} ${formatUnixDate(cert.notBefore, locale)}`}
+                      >
+                        {formatUnixDate(cert.notBefore, locale, true)}
+                      </span>
+                    </td>
+                    <td
+                      className={`${ctTd} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                    >
+                      <span className="block truncate">
+                        {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
+                      </span>
+                      <span
+                        className="block font-mono text-[0.65rem] text-muted-2 truncate"
+                        title={cert.leafHash}
+                      >
+                        <LedgerLink
+                          href={cert.leafUrl}
+                          title={`${cert.leafHash} — ${t.domain.leafLedger}`}
+                        >
+                          {truncateHash(cert.leafHash)}
+                        </LedgerLink>
+                      </span>
                     </td>
                   </tr>
                 );
@@ -275,10 +289,10 @@ function truncateHash(hash: string | null, head = 10, tail = 6): string {
   return `${hash.slice(0, head)}…${hash.slice(-tail)}`;
 }
 
-function formatUnixDate(ts: number, locale: string): string {
+function formatUnixDate(ts: number, locale: string, compact = false): string {
   if (!Number.isFinite(ts) || ts <= 0) return '—';
   return new Date(ts * 1000).toLocaleDateString(locale, {
-    year: 'numeric',
+    year: compact ? '2-digit' : 'numeric',
     month: 'short',
     day: 'numeric',
   });
