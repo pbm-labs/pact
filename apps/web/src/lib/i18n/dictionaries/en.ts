@@ -1,11 +1,10 @@
 import type { Dictionary } from '../types';
-import { WHY_PACT_MARKDOWN } from '@/lib/why-pact';
 
 export const en: Dictionary = {
   nav: {
     language: 'Language',
     records: 'Records',
-    docs: 'Docs',
+    whitepaper: 'Whitepaper',
     menu: 'Menu',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -217,90 +216,8 @@ export const en: Dictionary = {
     colFingerprint: 'Fingerprint',
   },
   whitepaper: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'PACT',
     title: 'Whitepaper',
-    intro:
-      'The open protocol behind the public record — leftover traces, separate kinds, and how independently confirmed history is captured and published. Mail reports and certificate logs are not blended into a score.',
-    source: 'Source on GitHub →',
-  },
-  whyPact: {
-    eyebrow: 'Docs',
-    title: 'Evidence, not authority',
-    intro: 'A short note on why the public record publishes what happened instead of asking you to trust a claim.',
-    body: WHY_PACT_MARKDOWN,
-    scope:
-      'PACT measures independently verified domain history from leftover traces — DMARC aggregate reports and public Certificate Transparency logs. It is not KYC, not a verdict that a domain is legitimate, not an HTTPS badge, not a personal credential, and not a replacement for registries or credit bureaus. Mail and CT stay separate kinds. Scores and thresholds are application policy on top of that history.',
-  },
-  docs: {
-    title: 'Docs',
-    intro:
-      'The public record of independently confirmed domain history from leftover traces. Judgement stays outside. The protocol is PACT.',
-    sections: [
-      {
-        title: 'The record',
-        body: 'Receiving mail systems — Gmail, Outlook, Yahoo, and others — already generate DMARC aggregate reports. Nobody joins a new ledger, token, or account. A domain points an existing DNS field at this implementation so those reports are not thrown away. Nothing about how it sends mail changes.\n\nA second stream — Certificate Transparency — is leftover exhaust from the web PKI. Browsers already required public logging. PACT indexes those logs; it does not invent a new ceremony. Mail and CT stay separate kinds on the same tree. They are not blended into a score.\n\nThe public page lists days independently confirmed, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, wrapper DKIM, and CT first-seen dates. It does not display a score, a Proven label, or a verdict.',
-      },
-      {
-        title: 'Judgement stays outside',
-        body: 'PACT does not define a score, an activation label, or a verdict. Applications may interpret the published fields; an informative example lives in the repository. The record does not decide that a domain is legitimate.',
-      },
-      {
-        title: 'How a domain gets a record',
-        body: 'Add rua@pact.webuildreal.dev as a report destination in DNS. Independent systems already emit the mail reports. Mail history appears when the first valid aggregate arrives, usually within a day or two. Certificate logs are leftover public exhaust — indexed after connect, without a new ceremony. They are a separate kind, not a blended score.',
-      },
-      {
-        title: 'How anyone checks',
-        body: 'Recompute the published leaves and the inclusion proof against the on-chain Merkle root — that root is outside this operator. Mail leaves carry wrapper openings — passing d=/selector and keccak256 of the RFC822. CT leaves carry a first-seen calendar from public logs. A checker confirms stored bytes hash to the opening, and that the DKIM key from DNS is on record. That is not a stranger re-running the original SMTP signature. Mail and CT stay separate kinds on the same tree.',
-      },
-    ],
-    limitsTitle: 'Honest limits',
-    limits: [
-      'Roots are on Base Sepolia (testnet), permissioned publisher — not mainnet, not permissionless.',
-      'Reporter-wrapper DKIM is verified at ingest. SPF of the connecting MTA is not. Forwarder DKIM is weaker than a reporter-signed wrapper.',
-      'RFC 6376 on the Email Worker copy may fail. Stored bytes can still be checked against the leaf hash, and the DKIM TXT from ingest DNS is on record. That is not a stranger re-running the original SMTP signature.',
-      'Leaf availability is the operator’s database. Roots attest inclusion, not availability.',
-    ],
-    whyTitle: 'Evidence, not authority',
-    whitepaperTitle: 'Whitepaper',
-    protocolTitle: 'Protocol',
-    scoringTitle: 'Example: scoring',
-    statusTitle: 'Status',
-    readWhitepaper: 'Read the whitepaper',
-    readStatus: 'Read status',
-  },
-  roadmap: {
-    eyebrow: 'Docs',
-    title: 'Status',
-    intro:
-      'The contract is live. Ingest is wired. Roots are on Base Sepolia. The public record shows what happened.',
-    liveTitle: 'Live today',
-    liveItems: [
-      'Domain connection via Cloudflare OAuth, manual DNS, or existing reporting tools',
-      'Automatic public-record creation on the first valid aggregate report',
-      'Ingest fail-closed on reporter-wrapper DKIM (Gmail, Microsoft, Yahoo, Apple, and allowlisted forwarders)',
-      'Wrapper witness in the leaf: passing d=/selector and keccak256 of the RFC822. Stored copy + DKIM TXT snapshot can be rechecked (hash matches the leaf; DNS key is on record). The mail is not on-chain.',
-      'Append-only Merkle tree with publicly recomputable inclusion proofs',
-      'Merkle roots on PactRoots / Base Sepolia (testnet, permissioned publisher)',
-      'Public records ranked by independently confirmed history',
-      'Certificate Transparency as a second leaf kind (`pact-ct-v1`) — first-seen calendar from public logs, not an HTTPS badge',
-      'Per-domain pages with clocks, observed pass rate, leaves, and cryptographic proofs — no score, Proven label, or verdict badge',
-    ],
-    waitingTitle: 'Waiting on the world',
-    waitingItems: [
-      'Further independent reports — history only compounds while new batches arrive.',
-    ],
-    laterTitle: 'Later',
-    laterItems: [
-      'Content-addressed leaf blobs — public object store plus a CID with each root; D1 stays the query index. Can ship on Sepolia; leaves do not go in the contract',
-      'IPFS pin of those blobs as a second retrieval path',
-      'Base mainnet for PactRoots',
-      'Permissionless publication',
-      'Independent third-party leaf mirrors',
-      'Velocity as a companion signal for applications',
-      'Infrastructure-discontinuity monitoring (Signal)',
-    ],
-    laterNote:
-      'Waiting on reports is operational, not a code task. Later items shrink remaining operator trust. None of them are required for a record to exist once reports arrive.',
   },
   legal: {
     eyebrow: 'Legal',

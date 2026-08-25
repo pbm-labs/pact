@@ -29,9 +29,11 @@ const nextConfig = {
       { source: '/how-it-works', destination: '/connect', permanent: true },
       { source: '/domains', destination: '/records', permanent: true },
       { source: '/domain/:domain', destination: '/records/:domain', permanent: true },
-      { source: '/why-pact', destination: '/docs/why', permanent: true },
-      { source: '/whitepaper', destination: '/docs/whitepaper', permanent: true },
-      { source: '/roadmap', destination: '/docs/roadmap', permanent: true },
+      { source: '/why-pact', destination: '/whitepaper', permanent: true },
+      { source: '/roadmap', destination: '/whitepaper', permanent: true },
+      { source: '/docs', destination: '/whitepaper', permanent: true },
+      { source: '/docs/why', destination: '/whitepaper', permanent: true },
+      { source: '/docs/roadmap', destination: '/whitepaper', permanent: true },
     ];
   },
 };

@@ -1,14 +1,1 @@
-import { WhitepaperView } from '@/components/whitepaper-view';
-import { WHITEPAPER_SOURCE_URL, loadWhitepaperMarkdown } from '@/lib/whitepaper';
-
-export const metadata = {
-  title: 'Whitepaper — We build real',
-  description:
-    'PACT Protocol: leftover traces as separate kinds — mail reports and certificate logs — on an open provenance layer. Not a blended score.',
-};
-
-export default async function DocsWhitepaperPage() {
-  const { markdown } = await loadWhitepaperMarkdown();
-
-  return <WhitepaperView markdown={markdown} sourceUrl={WHITEPAPER_SOURCE_URL} />;
-}
+export { default, metadata } from '../../whitepaper/page';

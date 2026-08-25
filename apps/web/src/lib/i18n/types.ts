@@ -4,7 +4,7 @@ export type Dictionary = {
   nav: {
     language: string;
     records: string;
-    docs: string;
+    whitepaper: string;
     menu: string;
     openMenu: string;
     closeMenu: string;
@@ -186,41 +186,6 @@ export type Dictionary = {
   whitepaper: {
     eyebrow: string;
     title: string;
-    intro: string;
-    source: string;
-  };
-  whyPact: {
-    eyebrow: string;
-    title: string;
-    intro: string;
-    body: string;
-    scope: string;
-  };
-  docs: {
-    title: string;
-    intro: string;
-    sections: readonly { title: string; body: string }[];
-    limitsTitle: string;
-    limits: readonly string[];
-    whyTitle: string;
-    whitepaperTitle: string;
-    protocolTitle: string;
-    scoringTitle: string;
-    statusTitle: string;
-    readWhitepaper: string;
-    readStatus: string;
-  };
-  roadmap: {
-    eyebrow: string;
-    title: string;
-    intro: string;
-    liveTitle: string;
-    liveItems: readonly string[];
-    waitingTitle: string;
-    waitingItems: readonly string[];
-    laterTitle: string;
-    laterItems: readonly string[];
-    laterNote: string;
   };
   legal: {
     eyebrow: string;

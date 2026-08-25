@@ -7,7 +7,7 @@
 This repo is that reference implementation: leftover traces from systems that already exist, bucketed into one Merkle tree. Mail (DMARC aggregate reports) is live. Certificate Transparency is a second leaf kind — first-seen calendar from public logs, not an HTTPS badge. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
-Whitepaper: [webuildreal.dev/docs/whitepaper](https://webuildreal.dev/docs/whitepaper).
+Whitepaper: [webuildreal.dev/whitepaper](https://webuildreal.dev/whitepaper).
 
 The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
 

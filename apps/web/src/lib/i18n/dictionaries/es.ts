@@ -4,7 +4,7 @@ export const es: Dictionary = {
   nav: {
     language: 'Idioma',
     records: 'Registros',
-    docs: 'Docs',
+    whitepaper: 'Whitepaper',
     menu: 'Menú',
     openMenu: 'Abrir menú',
     closeMenu: 'Cerrar menú',
@@ -217,104 +217,8 @@ export const es: Dictionary = {
     colFingerprint: 'Huella',
   },
   whitepaper: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'PACT',
     title: 'Whitepaper',
-    intro:
-      'El protocolo abierto detrás del registro público — cómo se captura y publica el historial confirmado de forma independiente.',
-    source: 'Código en GitHub →',
-  },
-  whyPact: {
-    eyebrow: 'Docs',
-    title: 'Evidencia, no autoridad',
-    intro: 'Una nota breve sobre por qué el registro público publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
-    body: [
-      'Toda forma existente de probar historial confirmado de forma independiente comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
-      'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
-      'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
-      'Cada hecho del registro proviene de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es lo que contiene el registro. Nadie se une a una red nueva: esos sistemas ya emiten los informes; el DNS solo apunta a ellos. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso), fuera de este operador. El DKIM del wrapper del reportero se verifica en la ingesta, y el d=/selector que pasa más el keccak256 del wrapper quedan comprometidos en la hoja. Un verificador puede confirmar que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. El correo no está en cadena. Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas y esa clave de publicación — no un cambio de tesis.',
-      'Esa evidencia es tercamente aburrida sobre lo que ocurrió. El juicio queda fuera. El mismo historial puede alimentar políticas de aplicación distintas. Un testigo más fuerte sigue sin heredar la decisión.',
-      'La misma idea se extiende más allá del correo. Los registros de Certificate Transparency ya existen porque los navegadores exigieron un diario público de emisión. Nadie los construyó para PACT. Un dominio que aparece ahí tiene una fecha de primera vez que escribió otro. Eso es rastro residual, no un rito que hayamos inventado, y no una prueba de que HTTPS sea de fiar — Let’s Encrypt emite un certificado real en minutos. La prueba es: pueden causar el evento; no pueden ser el testigo. Correo y CT quedan como tipos distintos en el mismo árbol. No se mezclan en una puntuación.',
-      'Esa es la propiedad que las pruebas incumbentes no pueden injertar. Un buró de crédito no puede volverse trustless — su modelo de negocio *es* el intermediario de confianza. Un registro estatal no puede volverse trustless — es una autoridad por definición. Un extracto bancario no puede volverse trustless — es un documento, y los documentos se editan. PACT no es una versión mejor de eso. Está en otra categoría: evidencia que puedes volver a comprobar, no una afirmación que debas aceptar.',
-      'Esto es lo que lo hace duradero, no solo distinto: **el historial que PACT mide no se puede fabricar a posteriori, a ningún precio — ni siquiera por los operadores de PACT.**',
-      'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. Puedes armar una empresa pantalla con papeles perfectos. Lo que no puedes hacer es que ayer ocurra antes. El historial de PACT se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo. No es una preferencia de producto. Es una restricción física que PACT pone a trabajar.',
-      'Por eso PACT no compite hoy en costo ni conveniencia, y no necesita hacerlo. Los métodos existentes son baratos e instantáneos *porque* son lo bastante superficiales para falsificarse barato e instantáneo. PACT es lento de construir *porque* un adversario bien financiado, paciente y con IA sigue sin poder comprar un pasado que no vivió. La lentitud no es una limitación a optimizar. Es el punto.',
-      'Toda otra prueba de legitimidad responde: *¿qué afirmó alguien, y quién lo avala?*',
-      'PACT responde otra pregunta: *¿qué ocurrió de verdad, durante cuánto tiempo, presenciado por cuántas partes independientes que no tenían motivo para mentir?*',
-      'Esa pregunta nunca tuvo una respuesta pública duradera. A partir de ahora, sí.',
-    ].join('\n\n'),
-    scope:
-      'PACT mide el historial de dominio verificado de forma independiente a partir de rastros residuales — informes agregados DMARC y registros públicos de Certificate Transparency. No es KYC, no es un veredicto de que un dominio es legítimo, no es un sello HTTPS, no es una credencial personal y no sustituye registros ni burós de crédito. Correo y CT quedan como tipos distintos. Las puntuaciones y los umbrales son política de aplicación sobre ese historial.',
-  },
-  docs: {
-    title: 'Docs',
-    intro:
-      'El registro público del historial de dominio confirmado de forma independiente a partir de rastros residuales. El juicio queda fuera. El protocolo es PACT.',
-    sections: [
-      {
-        title: 'El registro',
-        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Nadie se une a un ledger, un token o una cuenta nueva. Un dominio apunta un campo DNS existente a esta implementación para no tirar esos informes. Nada cambia en cómo envía correo.\n\nUn segundo flujo — Certificate Transparency — es escape residual de la PKI web. Los navegadores ya exigieron registros públicos. PACT indexa esos logs; no inventa una ceremonia nueva. Correo y CT quedan como tipos distintos en el mismo árbol. No se mezclan en una puntuación.\n\nLa página pública lista días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle, DKIM del wrapper y fechas de primera aparición en CT. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
-      },
-      {
-        title: 'El juicio queda fuera',
-        body: 'PACT no define una puntuación, una etiqueta de activación ni un veredicto. Las aplicaciones pueden interpretar los campos publicados; un ejemplo informativo está en el repositorio. El registro no decide que un dominio sea legítimo.',
-      },
-      {
-        title: 'Cómo obtiene un dominio un registro',
-        body: 'Añade rua@pact.webuildreal.dev como destino de informes en DNS. Los sistemas independientes ya emiten los informes de correo. El historial de correo aparece cuando llega el primer agregado válido, normalmente en uno o dos días. Los logs de certificados son escape público residual — indexados tras conectar, sin una ceremonia nueva. Son un tipo distinto, no una puntuación mezclada.',
-      },
-      {
-        title: 'Cómo lo comprueba cualquiera',
-        body: 'Recomputa las hojas publicadas y la prueba de inclusión contra la raíz Merkle on-chain — esa raíz está fuera de este operador. Las aperturas del wrapper — d=/selector que pasa y keccak256 del RFC822 — están en la hoja pública. Un verificador confirma que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. Eso no es que un desconocido vuelva a ejecutar la firma SMTP original.',
-      },
-    ],
-    limitsTitle: 'Límites honestos',
-    limits: [
-      'Las raíces están en Base Sepolia (testnet), publicador con permiso — no es mainnet, ni publicación sin permiso.',
-      'El DKIM del wrapper del reportero se verifica en la ingesta. El SPF del MTA que conecta no. El DKIM de un forwarder es más débil que un wrapper firmado por el reportero.',
-      'RFC 6376 sobre la copia del Email Worker puede fallar. Los bytes almacenados aún se pueden comprobar contra el hash de la hoja, y el TXT DKIM del DNS en la ingesta queda registrado. Eso no es que un desconocido vuelva a ejecutar la firma SMTP original.',
-      'La disponibilidad de las hojas es la base de datos del operador. Las raíces atestiguan inclusión, no disponibilidad.',
-    ],
-    whyTitle: 'Evidencia, no autoridad',
-    whitepaperTitle: 'Whitepaper',
-    protocolTitle: 'Protocolo',
-    scoringTitle: 'Ejemplo: puntuación',
-    statusTitle: 'Estado',
-    readWhitepaper: 'Leer el whitepaper',
-    readStatus: 'Leer el estado',
-  },
-  roadmap: {
-    eyebrow: 'Docs',
-    title: 'Estado',
-    intro:
-      'El contrato está en vivo. La ingesta está conectada. Las raíces están en Base Sepolia. El registro público muestra lo que ocurrió.',
-    liveTitle: 'En vivo hoy',
-    liveItems: [
-      'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
-      'Creación automática del registro público con el primer informe agregado válido',
-      'Ingesta fail-closed con DKIM del wrapper del reportero (Gmail, Microsoft, Yahoo, Apple y forwarders en la lista)',
-      'Testigo del wrapper en la hoja: d=/selector que pasa y keccak256 del RFC822. La copia almacenada y la instantánea TXT DKIM se pueden volver a comprobar (el hash coincide con la hoja; la clave DNS está registrada). El correo no está en cadena.',
-      'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
-      'Raíces Merkle en PactRoots / Base Sepolia (testnet, publicador con permiso)',
-      'Registros públicos ordenados por historial confirmado de forma independiente',
-      'Certificate Transparency como segundo tipo de hoja (`pact-ct-v1`) — calendario de primera aparición en logs públicos, no un sello HTTPS',
-      'Páginas por dominio con relojes, tasa de acierto observada, hojas y pruebas criptográficas — sin puntuación, etiqueta Proven ni veredicto',
-    ],
-    waitingTitle: 'Esperando al mundo',
-    waitingItems: [
-      'Más informes independientes — el historial solo se acumula mientras llegan nuevos lotes.',
-    ],
-    laterTitle: 'Más adelante',
-    laterItems: [
-      'Hojas direccionadas por contenido — almacén público de blobs y un CID con cada raíz; D1 sigue como índice. Puede ir en Sepolia; las hojas no van al contrato',
-      'Pin IPFS de esos blobs como segunda vía de recuperación',
-      'Base mainnet para PactRoots',
-      'Publicación sin permiso',
-      'Réplicas independientes de las hojas (terceros)',
-      'Velocidad como señal compañera para aplicaciones',
-      'Monitorización de discontinuidades de infraestructura (Signal)',
-    ],
-    laterNote:
-      'Esperar informes es operativo, no una tarea de código. Lo posterior reduce la confianza restante en el operador. Nada de ello es necesario para que exista un registro cuando lleguen informes.',
   },
   legal: {
     eyebrow: 'Legal',

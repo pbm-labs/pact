@@ -4,7 +4,7 @@ export const de: Dictionary = {
   nav: {
     language: 'Sprache',
     records: 'Einträge',
-    docs: 'Docs',
+    whitepaper: 'Whitepaper',
     menu: 'Menü',
     openMenu: 'Menü öffnen',
     closeMenu: 'Menü schließen',
@@ -217,104 +217,8 @@ export const de: Dictionary = {
     colFingerprint: 'Fingerprint',
   },
   whitepaper: {
-    eyebrow: 'PACT Protocol',
+    eyebrow: 'PACT',
     title: 'Whitepaper',
-    intro:
-      'Das offene Protokoll hinter dem öffentlichen Eintrag — wie unabhängig bestätigte Historie erfasst und veröffentlicht wird.',
-    source: 'Quellcode auf GitHub →',
-  },
-  whyPact: {
-    eyebrow: 'Docs',
-    title: 'Evidenz, keine Autorität',
-    intro: 'Eine kurze Notiz, warum der öffentliche Eintrag veröffentlicht, was geschehen ist, statt dich zu bitten, einer Behauptung zu vertrauen.',
-    body: [
-      'Jede bestehende Art, unabhängig bestätigte Historie zu belegen, hat denselben Fehler: Es ist die *Behauptung einer Autorität*, nicht *Evidenz*. Die Auskunft einer Credit-Agency, ein Registereintrag, ein Kontoauszug, eine LinkedIn-Historie — alle verlangen, dass du darauf vertraust, jemand anderes habe korrekt geprüft. Keine davon erzeugt etwas, das ein Fremder selbst nachrechnen kann, von ersten Prinzipien aus, ohne einem Torwächter zu vertrauen.',
-      'Dieser Fehler war hinnehmbar. Das ist vorbei. Generative KI hat keine neue Bedrohung geschaffen — sie hat das Letzte entfernt, das das Fälschen dieser Signale teuer machte. Eine zehn Jahre alte Domain, fünf Jahre LinkedIn, ein überzeugender Kontoauszug: all das lässt sich jetzt billig fabrizieren. Die Autoritäten wurden nicht schlechter. Die Kosten, sie anzulügen, sind zusammengebrochen.',
-      'PACT bittet dich nicht, einer Autorität zu vertrauen. PACT bittet dich, einen öffentlichen Eintrag zu prüfen.',
-      'Jede Tatsache im Eintrag stammt von unabhängigen empfangenden Mailsystemen — Gmail, Outlook, Yahoo und andere — die einander nicht kennen, keinen Anreiz zur Absprache haben und nicht wissen, dass sie als Evidenz dienen. Ihre aggregierte, unkoordinierte Übereinstimmung über die Zeit ist, was der Eintrag enthält. Niemand tritt einem neuen Netzwerk bei: diese Systeme senden die Berichte bereits; DNS zeigt nur darauf. Nicht weil PACT das sagt. Weil jede Person die veröffentlichten Blätter und Inklusionsbeweise gegen den On-Chain-Merkle-Root neu berechnen kann, ohne PACT um Erlaubnis zu bitten. Roots sind heute auf Base Sepolia (Testnet, permissionierter Publisher), außerhalb dieses Betreibers. DKIM des Reporter-Wrappers wird beim Ingest geprüft, und das bestandene d=/Selektor plus keccak256 des Wrappers sind im Leaf committed. Ein Prüfer kann bestätigen, dass gespeicherte Bytes auf diese Öffnung hashen, und dass der DKIM-Schlüssel aus DNS erfasst ist. Die Mail ist nicht on-chain. Was bleibt, ist engere Betreiber-Abhängigkeit: Verfügbarkeit der Blätter und dieser Publisher-Schlüssel — keine Änderung der These.',
-      'Diese Evidenz ist stur langweilig darüber, was geschehen ist. Das Urteil bleibt draußen. Dieselbe Historie kann unterschiedliche Anwendungspolitiken speisen. Ein stärkerer Zeuge erbt trotzdem nicht die Entscheidung.',
-      'Dieselbe Idee reicht über Mail hinaus. Certificate-Transparency-Logs existieren bereits, weil Browser ein öffentliches Tagebuch der Ausstellung verlangt haben. Niemand hat sie für PACT gebaut. Eine Domain, die dort auftaucht, hat ein Erstgesehen-Datum, das jemand anderes notiert hat. Das ist Restspur, kein Ritual, das wir erfunden haben, und kein Beweis, dass HTTPS vertrauenswürdig ist — Let’s Encrypt stellt in Minuten ein echtes Zertifikat aus. Der Test: sie können das Ereignis verursachen; sie können nicht das Log sein. Mail und CT sitzen als getrennte Arten auf demselben Baum. Sie werden nicht zu einem Score vermischt.',
-      'Das ist die Eigenschaft, die etablierte Nachweise nicht nachrüsten können. Eine Auskunftei kann nicht trustless werden — ihr Geschäftsmodell *ist* der vertrauenswürdige Mittler. Ein staatliches Register kann nicht trustless werden — es ist definitionsgemäß eine Autorität. Ein Kontoauszug kann nicht trustless werden — er ist ein Dokument, und Dokumente lassen sich ändern. PACT ist keine bessere Version davon. Es sitzt in einer anderen Kategorie: Evidenz, die du nachprüfen kannst, nicht eine Behauptung, die du akzeptieren musst.',
-      'Was das dauerhaft macht, nicht nur anders: **die Historie, die PACT misst, lässt sich nachträglich zu keinem Preis herstellen — auch nicht durch PACTs eigene Betreiber.**',
-      'Du kannst eine gealterte Domain kaufen. Du kannst eine LinkedIn-Historie fälschen. Du kannst eine Briefkastenfirma mit perfekten Papieren bauen. Was du nicht kannst: gestern früher geschehen lassen. PACTs Historie entsteht aus vergehender Echtzeit, während unabhängige Dritte zusahen. Es gibt keine Abkürzung durch die Zeit. Das ist keine Produktpräferenz. Es ist eine physikalische Grenze, die PACT nutzt.',
-      'Deshalb konkurriert PACT heute nicht über Preis oder Bequemlichkeit — und muss es nicht. Bestehende Methoden sind billig und sofort *weil* sie flach genug sind, um billig und sofort gefälscht zu werden. PACT ist langsam im Aufbau *weil* ein gut finanzierter, geduldiger, KI-ausgestatteter Gegner trotzdem keine Vergangenheit kaufen kann, die er nicht gelebt hat. Die Langsamkeit ist keine Limitierung, die wegoptimiert werden soll. Sie ist der Punkt.',
-      'Jeder andere Legitimitätsnachweis beantwortet: *was hat jemand behauptet, und wer bürgt dafür?*',
-      'PACT beantwortet eine andere Frage: *was ist tatsächlich geschehen, wie lange, bezeugt von wie vielen unabhängigen Parteien, die keinen Grund hatten zu lügen?*',
-      'Diese Frage hatte nie eine dauerhafte öffentliche Antwort. Ab jetzt hat sie eine.',
-    ].join('\n\n'),
-    scope:
-      'PACT misst unabhängig verifizierte Domain-Historie aus Restspuren — DMARC-Aggregatberichten und öffentlichen Certificate-Transparency-Logs. Es ist kein KYC, kein Verdikt dass eine Domain legitim ist, kein HTTPS-Siegel, keine Personen-Credential und kein Ersatz für Register oder Auskunfteien. Mail und CT bleiben getrennte Arten. Scores und Schwellen sind Anwendungspolitik auf dieser Historie.',
-  },
-  docs: {
-    title: 'Docs',
-    intro:
-      'Der öffentliche Eintrag unabhängig bestätigter Domain-Historie aus Restspuren. Das Urteil bleibt draußen. Das Protokoll ist PACT.',
-    sections: [
-      {
-        title: 'Der Eintrag',
-        body: 'Empfangende Mailsysteme — Gmail, Outlook, Yahoo und andere — erzeugen bereits DMARC-Aggregatberichte. Niemand tritt einem neuen Ledger, Token oder Konto bei. Eine Domain zeigt ein bestehendes DNS-Feld auf diese Implementierung, damit diese Berichte nicht verworfen werden. An der Art, wie sie Mail sendet, ändert sich nichts.\n\nEin zweiter Strom — Certificate Transparency — ist Restexhaust der Web-PKI. Browser haben öffentliche Logs bereits verlangt. PACT indexiert diese Logs; es erfindet keine neue Zeremonie. Mail und CT bleiben getrennte Arten auf demselben Baum. Sie werden nicht zu einem Score vermischt.\n\nDie öffentliche Seite listet unabhängig bestätigte Tage, Berichte, meldende Organisationen, beobachtete Erfolgsquote, Leaves, Merkle-Nachweise, Wrapper-DKIM und CT-Erstgesehen-Daten. Sie zeigt keinen Score, kein Proven-Label und kein Verdikt.',
-      },
-      {
-        title: 'Das Urteil bleibt draußen',
-        body: 'PACT definiert keinen Score, kein Aktivierungs-Label und kein Verdikt. Anwendungen dürfen die veröffentlichten Felder interpretieren; ein informatives Beispiel liegt im Repository. Der Eintrag entscheidet nicht, dass eine Domain legitim ist.',
-      },
-      {
-        title: 'Wie eine Domain einen Eintrag erhält',
-        body: 'Füge rua@pact.webuildreal.dev als Berichtsziel in DNS hinzu. Unabhängige Systeme senden die Mailberichte bereits. Die Mail-Historie erscheint, sobald der erste gültige Aggregatbericht eintrifft, meist innerhalb eines oder zweier Tage. Zertifikatslogs sind öffentlicher Restexhaust — nach dem Verbinden indexiert, ohne neue Zeremonie. Sie sind eine getrennte Art, kein vermischter Score.',
-      },
-      {
-        title: 'Wie jede Person nachprüft',
-        body: 'Berechne die veröffentlichten Leaves und den Inklusionsnachweis gegen den On-Chain-Merkle-Root neu — dieser Root liegt außerhalb dieses Betreibers. Wrapper-Öffnungen — bestandenes d=/Selektor und keccak256 des RFC822 — stehen auf dem öffentlichen Leaf. Ein Prüfer bestätigt, dass gespeicherte Bytes auf diese Öffnung hashen, und dass der DKIM-Schlüssel aus DNS erfasst ist. Das ist kein erneutes Ausführen der originalen SMTP-Signatur durch einen Fremden.',
-      },
-    ],
-    limitsTitle: 'Ehrliche Grenzen',
-    limits: [
-      'Roots sind auf Base Sepolia (Testnet), permissionierter Publisher — nicht Mainnet, nicht permissionless.',
-      'DKIM des Reporter-Wrappers wird beim Ingest geprüft. SPF des verbindenden MTA nicht. Forwarder-DKIM ist schwächer als ein vom Reporter signierter Wrapper.',
-      'RFC 6376 auf der Email-Worker-Kopie kann fehlschlagen. Gespeicherte Bytes lassen sich trotzdem gegen den Leaf-Hash prüfen, und der DKIM-TXT aus dem Ingest-DNS ist erfasst. Das ist kein erneutes Ausführen der originalen SMTP-Signatur durch einen Fremden.',
-      'Die Verfügbarkeit der Leaves ist die Datenbank des Betreibers. Roots bezeugen Inklusion, nicht Verfügbarkeit.',
-    ],
-    whyTitle: 'Evidenz, keine Autorität',
-    whitepaperTitle: 'Whitepaper',
-    protocolTitle: 'Protokoll',
-    scoringTitle: 'Beispiel: Scoring',
-    statusTitle: 'Status',
-    readWhitepaper: 'Whitepaper lesen',
-    readStatus: 'Status lesen',
-  },
-  roadmap: {
-    eyebrow: 'Docs',
-    title: 'Status',
-    intro:
-      'Der Vertrag ist live. Ingest ist verdrahtet. Roots sind auf Base Sepolia. Der öffentliche Eintrag zeigt, was geschehen ist.',
-    liveTitle: 'Heute live',
-    liveItems: [
-      'Domain-Verbindung über Cloudflare OAuth, manuelles DNS oder bestehende Reporting-Tools',
-      'Automatische Erstellung des öffentlichen Eintrags beim ersten gültigen Aggregatbericht',
-      'Ingest fail-closed auf DKIM des Reporter-Wrappers (Gmail, Microsoft, Yahoo, Apple und allowlistete Forwarder)',
-      'Wrapper-Zeugnis im Leaf: bestandenes d=/Selektor und keccak256 des RFC822. Gespeicherte Kopie + DKIM-TXT-Snapshot sind nachprüfbar (Hash passt zum Leaf; DNS-Schlüssel ist erfasst). Die Mail ist nicht on-chain.',
-      'Append-only-Merkle-Baum mit öffentlich nachrechenbaren Inklusionsbeweisen',
-      'Merkle-Roots auf PactRoots / Base Sepolia (Testnet, permissionierter Publisher)',
-      'Öffentliche Einträge nach unabhängig bestätigter Historie sortiert',
-      'Certificate Transparency als zweite Leaf-Art (`pact-ct-v1`) — Erstgesehen-Kalender aus öffentlichen Logs, kein HTTPS-Siegel',
-      'Domain-Seiten mit Uhren, beobachteter Erfolgsquote, Leaves und kryptografischen Nachweisen — kein Score, kein Proven-Label, kein Verdikt',
-    ],
-    waitingTitle: 'Wartet auf die Welt',
-    waitingItems: [
-      'Weitere unabhängige Berichte — die Historie wächst nur, solange neue Chargen eintreffen.',
-    ],
-    laterTitle: 'Später',
-    laterItems: [
-      'Content-addressed Leaves — öffentlicher Object Store plus CID mit jedem Root; D1 bleibt der Index. Geht auf Sepolia; Leaves kommen nicht in den Contract',
-      'IPFS-Pin derselben Blobs als zweiter Abrufweg',
-      'Base-Mainnet für PactRoots',
-      'Permissionless Publikation',
-      'Unabhängige Leaf-Spiegel durch Dritte',
-      'Velocity als Begleitsignal für Anwendungen',
-      'Überwachung von Infrastruktur-Diskontinuitäten (Signal)',
-    ],
-    laterNote:
-      'Auf Berichte zu warten ist operativ, keine Code-Aufgabe. Spätere Punkte verringern verbleibendes Betreibervertrauen. Keines davon ist nötig, damit ein Eintrag existiert, sobald Berichte eintreffen.',
   },
   legal: {
     eyebrow: 'Rechtliches',

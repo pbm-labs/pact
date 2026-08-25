@@ -28,9 +28,9 @@ export function MovementHeader() {
       active: pathname === routes.records || pathname.startsWith(`${routes.records}/`),
     },
     {
-      href: routes.docs,
-      label: t.nav.docs,
-      active: pathname === routes.docs || pathname.startsWith(`${routes.docs}/`),
+      href: routes.whitepaper,
+      label: t.nav.whitepaper,
+      active: pathname === routes.whitepaper || pathname.startsWith('/docs'),
     },
   ];
 
