@@ -141,6 +141,7 @@ export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanel
 
 export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
   const { t, locale } = useLocale();
+  if (!certs.length) return null;
 
   return (
     <section className={`${panel} mb-4`}>
@@ -150,100 +151,93 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
           {t.domain.ctHistoryCounts.replace('{n}', certs.length.toLocaleString())}
         </p>
       </div>
-      <p className="px-3 py-2 text-xs text-muted leading-relaxed m-0 border-b border-border">
-        {t.domain.ctIntro}
-      </p>
-      {!certs.length ? (
-        <p className="px-3 py-4 text-sm text-muted m-0">{t.domain.ctEmpty}</p>
-      ) : (
-        <div className={streamScroll}>
-          <table className={`${tableClass} table-fixed`}>
-            <colgroup>
-              <col className="w-11" />
-              <col />
-              <col className="w-[6.75rem]" />
-              <col className="w-[7.25rem]" />
-            </colgroup>
-            <thead className={theadClass}>
-              <tr className="font-mono uppercase tracking-widest text-muted-2">
-                <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
-                <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
-                <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
-                <th className={`${streamTh} border-b border-border bg-surface`}>
-                  {t.domain.verification}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {certs.map((cert) => {
-                const issuer = shortIssuer(cert.issuer) || cert.commonName || '—';
-                const showCommonName = Boolean(cert.commonName) && cert.commonName !== issuer;
-                const fingerprint = cert.fingerprint.startsWith('0x')
-                  ? cert.fingerprint
-                  : `0x${cert.fingerprint}`;
-                return (
-                  <tr key={`${cert.leafIndex}-${cert.fingerprint}`}>
-                    <td className={`${streamTd} border-b border-border font-mono tabular-nums text-muted`}>
-                      #{cert.leafIndex}
-                    </td>
-                    <td className={`${streamTd} border-b border-border text-txt`}>
-                      <span className="block truncate" title={cert.issuer || undefined}>
-                        {issuer}
-                      </span>
-                      {showCommonName && (
-                        <span
-                          className="block text-[0.65rem] text-muted-2 font-mono truncate"
-                          title={cert.commonName}
-                        >
-                          {cert.commonName}
-                        </span>
-                      )}
+      <div className={streamScroll}>
+        <table className={`${tableClass} table-fixed`}>
+          <colgroup>
+            <col className="w-11" />
+            <col />
+            <col className="w-[6.75rem]" />
+            <col className="w-[7.25rem]" />
+          </colgroup>
+          <thead className={theadClass}>
+            <tr className="font-mono uppercase tracking-widest text-muted-2">
+              <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>
+                {t.domain.verification}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {certs.map((cert) => {
+              const issuer = shortIssuer(cert.issuer) || cert.commonName || '—';
+              const showCommonName = Boolean(cert.commonName) && cert.commonName !== issuer;
+              const fingerprint = cert.fingerprint.startsWith('0x')
+                ? cert.fingerprint
+                : `0x${cert.fingerprint}`;
+              return (
+                <tr key={`${cert.leafIndex}-${cert.fingerprint}`}>
+                  <td className={`${streamTd} border-b border-border font-mono tabular-nums text-muted`}>
+                    #{cert.leafIndex}
+                  </td>
+                  <td className={`${streamTd} border-b border-border text-txt`}>
+                    <span className="block truncate" title={cert.issuer || undefined}>
+                      {issuer}
+                    </span>
+                    {showCommonName && (
                       <span
-                        className="block text-[0.65rem] font-mono text-muted-2 truncate"
-                        title={`${t.domain.colFingerprint} ${fingerprint}`}
+                        className="block text-[0.65rem] text-muted-2 font-mono truncate"
+                        title={cert.commonName}
                       >
-                        {truncateHash(fingerprint)}
+                        {cert.commonName}
                       </span>
-                    </td>
-                    <td className={`${streamTd} border-b border-border font-mono text-muted`}>
-                      <span
-                        className="block truncate"
-                        title={`${t.domain.colLoggedAt} ${formatUnixDate(cert.loggedAt, locale)}`}
-                      >
-                        {formatUnixDate(cert.loggedAt, locale, true)}
-                      </span>
-                      <span
-                        className="block text-[0.65rem] text-muted-2 truncate"
-                        title={`${t.domain.colNotBefore} ${formatUnixDate(cert.notBefore, locale)}`}
-                      >
-                        {formatUnixDate(cert.notBefore, locale, true)}
-                      </span>
-                    </td>
-                    <td
-                      className={`${streamTd} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                    )}
+                    <span
+                      className="block text-[0.65rem] font-mono text-muted-2 truncate"
+                      title={`${t.domain.colFingerprint} ${fingerprint}`}
                     >
-                      <span className="block truncate">
-                        {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
-                      </span>
-                      <span
-                        className="block font-mono text-[0.65rem] text-muted-2 truncate"
-                        title={cert.leafHash}
+                      {truncateHash(fingerprint)}
+                    </span>
+                  </td>
+                  <td className={`${streamTd} border-b border-border font-mono text-muted`}>
+                    <span
+                      className="block truncate"
+                      title={`${t.domain.colLoggedAt} ${formatUnixDate(cert.loggedAt, locale)}`}
+                    >
+                      {formatUnixDate(cert.loggedAt, locale, true)}
+                    </span>
+                    <span
+                      className="block text-[0.65rem] text-muted-2 truncate"
+                      title={`${t.domain.colNotBefore} ${formatUnixDate(cert.notBefore, locale)}`}
+                    >
+                      {formatUnixDate(cert.notBefore, locale, true)}
+                    </span>
+                  </td>
+                  <td
+                    className={`${streamTd} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                  >
+                    <span className="block truncate">
+                      {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
+                    </span>
+                    <span
+                      className="block font-mono text-[0.65rem] text-muted-2 truncate"
+                      title={cert.leafHash}
+                    >
+                      <LedgerLink
+                        href={cert.leafUrl}
+                        title={`${cert.leafHash} — ${t.domain.leafLedger}`}
                       >
-                        <LedgerLink
-                          href={cert.leafUrl}
-                          title={`${cert.leafHash} — ${t.domain.leafLedger}`}
-                        >
-                          {truncateHash(cert.leafHash)}
-                        </LedgerLink>
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+                        {truncateHash(cert.leafHash)}
+                      </LedgerLink>
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }

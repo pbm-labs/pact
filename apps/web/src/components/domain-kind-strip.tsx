@@ -22,64 +22,45 @@ export function DomainKindStrip({
   const { t, locale } = useLocale();
 
   return (
-    <div className="mb-8">
-      <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-3">
-        {t.domain.kindsEyebrow}
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <KindCard
-          kind={t.domain.kindMail}
-          hint={t.domain.kindMailHint}
-          value={String(mailCount)}
-          unit={t.domain.reports}
-        >
-          {mailCount === 0 ? (
-            <p className="text-xs text-muted-2 m-0">{t.domain.kindMailEmpty}</p>
-          ) : (
-            <>
-              <p className="text-xs text-muted m-0">
-                {reporterCount} {t.domain.reportingOrgs}
-                <span className="text-muted-2"> · {t.domain.independent}</span>
-              </p>
-              {passRate != null && (
-                <p className="text-xs text-muted m-0 mt-1">
-                  {passRate.toFixed(1)}% {t.domain.mailAuthRate}
-                  <span className="block text-muted-2 mt-0.5">{t.domain.mailAuthRateHint}</span>
-                </p>
-              )}
-            </>
-          )}
-        </KindCard>
-        <KindCard
-          kind={t.domain.kindCt}
-          hint={t.domain.kindCtHint}
-          value={String(ctCount)}
-          unit={t.domain.certs}
-        >
-          {ctCount === 0 ? (
-            <p className="text-xs text-muted-2 m-0">{t.domain.kindNone}</p>
-          ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+      <KindCard kind={t.domain.kindMail} value={String(mailCount)} unit={t.domain.reports}>
+        {mailCount === 0 ? (
+          <p className="text-xs text-muted-2 m-0">{t.domain.kindMailEmpty}</p>
+        ) : (
+          <>
             <p className="text-xs text-muted m-0">
-              {t.domain.kindFirst} {formatLoggedDay(ctFirstLoggedAt, locale)}
-              <span className="text-muted-2"> · </span>
-              {t.domain.kindLatest} {formatLoggedDay(ctLatestLoggedAt, locale)}
+              {reporterCount} {t.domain.reportingOrgs}
             </p>
-          )}
-        </KindCard>
-      </div>
+            {passRate != null && (
+              <p className="text-xs text-muted m-0 mt-1">
+                {passRate.toFixed(1)}% {t.domain.mailAuthRate}
+              </p>
+            )}
+          </>
+        )}
+      </KindCard>
+      <KindCard kind={t.domain.kindCt} value={String(ctCount)} unit={t.domain.certs}>
+        {ctCount === 0 ? (
+          <p className="text-xs text-muted-2 m-0">{t.domain.kindNone}</p>
+        ) : (
+          <p className="text-xs text-muted m-0">
+            {t.domain.kindFirst} {formatLoggedDay(ctFirstLoggedAt, locale)}
+            <span className="text-muted-2"> · </span>
+            {t.domain.kindLatest} {formatLoggedDay(ctLatestLoggedAt, locale)}
+          </p>
+        )}
+      </KindCard>
     </div>
   );
 }
 
 function KindCard({
   kind,
-  hint,
   value,
   unit,
   children,
 }: {
   kind: string;
-  hint: string;
   value: string;
   unit: string;
   children: ReactNode;
@@ -93,8 +74,7 @@ function KindCard({
           {unit}
         </span>
       </p>
-      <p className="text-xs text-muted mt-2 mb-3 leading-snug">{hint}</p>
-      {children}
+      <div className="mt-2">{children}</div>
     </div>
   );
 }

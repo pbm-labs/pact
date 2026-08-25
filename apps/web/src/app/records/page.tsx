@@ -5,8 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Public records — We build real',
-  description:
-    'Independently confirmed mail history, ranked. Certificate first-seen dates live on each domain page — a separate kind, not a blended score.',
+  description: 'Public records — mail reports and certificate logs.',
 };
 
 export default async function RecordsPage() {

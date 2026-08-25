@@ -12,12 +12,8 @@ import { routes } from '@/lib/routes';
 import {
   badgeAmber,
   btnPrimary,
-  eyebrow,
   pageIntro,
   pageTitle,
-  panel,
-  panelBody,
-  panelSectionTitle,
 } from '@/lib/ui';
 
 interface DomainPageViewProps {
@@ -51,7 +47,6 @@ function WaitingPage({ data }: { data: DomainWaitingData }) {
       <header className="mb-8">
         <span className={`${badgeAmber} mb-3`}>{t.domain.awaitingFirst}</span>
         <h1 className={`${pageTitle} break-all mb-2`}>{data.domain}</h1>
-        <p className={pageIntro}>{t.domain.awaitingIntro}</p>
         {data.connectedSince && (
           <p className="text-xs text-muted-2 font-mono mt-3">
             {t.domain.connected} {new Date(data.connectedSince).toLocaleDateString()}
@@ -85,17 +80,6 @@ function WaitingPage({ data }: { data: DomainWaitingData }) {
         />
       )}
 
-      <section className={`${panel} mb-4`}>
-        <div className={panelBody}>
-          <h2 className={panelSectionTitle}>{t.domain.whatNext}</h2>
-          <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
-            <li>{t.domain.next1}</li>
-            <li>{t.domain.next2}</li>
-            <li>{t.domain.next3}</li>
-          </ol>
-        </div>
-      </section>
-
       <DomainCtPanel certs={data.ct} />
     </PageShell>
   );
@@ -108,9 +92,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
       <header className="mb-8">
-        <p className={`${eyebrow} mb-2`}>{t.domain.publicRecord}</p>
         <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
-        <p className="text-sm text-muted mt-3 max-w-xl leading-relaxed">{t.domain.historyIntro}</p>
         <DomainClocks
           domainRegisteredAt={data.domainRegisteredAt}
           pactHistoryStart={data.pactHistoryStart}
@@ -137,7 +119,9 @@ function LivePage({ data }: { data: DomainLiveData }) {
         globalTreeLeafCount={data.globalTreeLeafCount}
       />
 
-      <DomainLeavesPanel leaves={data.leaves} uniqueReporters={data.uniqueReporters} />
+      {data.leaves.length > 0 && (
+        <DomainLeavesPanel leaves={data.leaves} uniqueReporters={data.uniqueReporters} />
+      )}
       <DomainCtPanel certs={data.ct} />
     </PageShell>
   );
@@ -149,21 +133,7 @@ function UnknownDomainPage({ domain }: { domain: string }) {
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords} centered>
       <h1 className={`${pageTitle} break-all mb-2`}>{domain}</h1>
-      <p className={`${pageIntro} mb-2`}>{t.domain.noRecordYet}</p>
-      <p className="text-sm text-muted-2 mb-6 max-w-sm mx-auto leading-relaxed">
-        {t.domain.noRecordHint}
-      </p>
-
-      <section className={`${panel} w-full text-left mb-8`}>
-        <div className={panelBody}>
-          <h2 className={panelSectionTitle}>{t.domain.whatNext}</h2>
-          <ol className="text-sm text-muted space-y-2 pl-4 border-l border-border m-0">
-            <li>{t.domain.next1}</li>
-            <li>{t.domain.next2}</li>
-            <li>{t.domain.next3}</li>
-          </ol>
-        </div>
-      </section>
+      <p className={`${pageIntro} mb-6`}>{t.domain.noRecordYet}</p>
 
       <Link href={`${routes.connect}?domain=${encodeURIComponent(domain)}`} className={btnPrimary}>
         {t.domain.connectDomain} {domain}

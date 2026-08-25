@@ -14,9 +14,8 @@ const siteUrl = 'https://webuildreal.dev';
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { domain: raw } = await params;
   const domain = decodeURIComponent(raw).toLowerCase().trim();
-  const title = `${domain} — public record`;
-  const description =
-    'Independently confirmed history — mail reports and certificate first-seen dates. Impossible to backdate.';
+  const title = `${domain} — record`;
+  const description = 'Mail reports and certificate logs.';
   const url = `${siteUrl}${routes.record(domain)}`;
 
   return {

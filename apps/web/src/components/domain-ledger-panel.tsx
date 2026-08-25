@@ -41,9 +41,6 @@ export function DomainLedgerPanel({
       <div className="px-3 py-2 border-b border-border">
         <h2 className="text-sm font-semibold text-txt m-0">{t.domain.ledgerTitle}</h2>
       </div>
-      <p className="px-3 py-2 text-xs text-muted leading-relaxed m-0 border-b border-border">
-        {t.domain.ledgerIntro}
-      </p>
       <div className="overflow-x-auto thin-scrollbar">
         <table className="w-full text-xs">
           <tbody>

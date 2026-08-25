@@ -81,10 +81,9 @@ export function DomainList({ domains }: DomainListProps) {
   return (
     <div className={panel}>
       <div className={`${panelBody} border-b border-border`}>
-        <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-1">
+        <p className="text-xs font-mono uppercase tracking-widest text-muted-2 m-0">
           {t.records.rankedBy}
         </p>
-        <p className="text-xs text-muted m-0">{t.records.rankedHint}</p>
       </div>
 
       <div className="overflow-x-auto thin-scrollbar">
