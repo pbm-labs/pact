@@ -26,7 +26,6 @@ export const fr: Dictionary = {
     heroAccent: 'Sauf hier.',
     heroSub:
       'L’histoire existe d’abord. L’affirmation peut se faire ensuite.',
-    heroSubV2: 'Un registre public de rapports de courrier et de journaux de certificats. Pas un score.',
     manifestoTitle: 'Le problème d’identité d’Internet',
     closeVideo: 'Fermer',
     howEyebrow: 'Comment ça marche',
@@ -74,7 +73,6 @@ export const fr: Dictionary = {
     ctaBody:
       'Connectez une fois pour conserver les rapports de courrier. Les journaux de certificats sont indexés depuis le CT public — résiduel, pas un rituel nouveau. L’historique ne grandit que vers l’avant.',
     ctaButton: 'Ajoutez votre domaine',
-    ctaButtonV2: 'Connecter',
     ctaSub: 'L’historique de courrier commence à l’arrivée des rapports indépendants. La première vue CT peut apparaître plus tôt.',
     watchManifesto: 'Voir le manifeste',
   },

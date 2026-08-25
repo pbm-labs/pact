@@ -26,7 +26,6 @@ export const de: Dictionary = {
     heroAccent: 'Außer gestern.',
     heroSub:
       'Die Historie existiert zuerst. Die Behauptung kann danach kommen.',
-    heroSubV2: 'Ein öffentlicher Eintrag aus Mailberichten und Zertifikatslogs. Kein Score.',
     manifestoTitle: 'Das Identitätsproblem des Internets',
     closeVideo: 'Schließen',
     howEyebrow: 'So funktioniert es',
@@ -74,7 +73,6 @@ export const de: Dictionary = {
     ctaBody:
       'Einmal verbinden, damit Mailberichte behalten werden. Zertifikatslogs werden aus öffentlichem CT indexiert — Restspur, kein neues Ritual. Die Historie wächst nur nach vorn.',
     ctaButton: 'Domain hinzufügen',
-    ctaButtonV2: 'Verbinden',
     ctaSub: 'Die Mail-Historie beginnt, wenn unabhängige Berichte eintreffen. CT-Erstgesehen kann früher erscheinen.',
     watchManifesto: 'Das Manifest ansehen',
   },
