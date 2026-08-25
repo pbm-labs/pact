@@ -154,19 +154,29 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
       <div className={streamScroll}>
         <table className={`${tableClass} table-fixed`}>
           <colgroup>
-            <col className="w-11" />
-            <col />
+            <col className="w-10" />
+            <col className="w-[6.5rem]" />
             <col className="w-[6.75rem]" />
-            <col className="w-[7.25rem]" />
+            <col className="w-[6.75rem]" />
+            <col className="w-[5.75rem]" />
+            <col />
+            <col />
           </colgroup>
           <thead className={theadClass}>
-            <tr className="font-mono uppercase tracking-widest text-muted-2">
+            <tr className="font-mono uppercase tracking-wide text-muted-2">
               <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
               <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>
+                {t.domain.colNotBefore}
+              </th>
               <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
               <th className={`${streamTh} border-b border-border bg-surface`}>
                 {t.domain.verification}
               </th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>
+                {t.domain.colFingerprint}
+              </th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
             </tr>
           </thead>
           <tbody>
@@ -181,56 +191,41 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
                   <td className={`${streamTd} border-b border-border font-mono tabular-nums text-muted`}>
                     #{cert.leafIndex}
                   </td>
-                  <td className={`${streamTd} border-b border-border text-txt`}>
-                    <span className="block truncate" title={cert.issuer || undefined}>
-                      {issuer}
-                    </span>
+                  <td
+                    className={`${streamTd} border-b border-border text-txt`}
+                    title={cert.issuer || undefined}
+                  >
+                    <span className="block truncate">{issuer}</span>
                     {showCommonName && (
-                      <span
-                        className="block text-[0.65rem] text-muted-2 font-mono truncate"
-                        title={cert.commonName}
-                      >
+                      <span className="block text-[0.65rem] text-muted-2 font-mono truncate">
                         {cert.commonName}
                       </span>
                     )}
-                    <span
-                      className="block text-[0.65rem] font-mono text-muted-2 truncate"
-                      title={`${t.domain.colFingerprint} ${fingerprint}`}
-                    >
-                      {truncateHash(fingerprint)}
-                    </span>
                   </td>
-                  <td className={`${streamTd} border-b border-border font-mono text-muted`}>
-                    <span
-                      className="block truncate"
-                      title={`${t.domain.colLoggedAt} ${formatUnixDate(cert.loggedAt, locale)}`}
-                    >
-                      {formatUnixDate(cert.loggedAt, locale, true)}
-                    </span>
-                    <span
-                      className="block text-[0.65rem] text-muted-2 truncate"
-                      title={`${t.domain.colNotBefore} ${formatUnixDate(cert.notBefore, locale)}`}
-                    >
-                      {formatUnixDate(cert.notBefore, locale, true)}
-                    </span>
+                  <td className={`${streamTd} border-b border-border font-mono text-muted truncate`}>
+                    {formatUnixDate(cert.notBefore, locale)}
+                  </td>
+                  <td className={`${streamTd} border-b border-border font-mono text-muted truncate`}>
+                    {formatUnixDate(cert.loggedAt, locale)}
                   </td>
                   <td
-                    className={`${streamTd} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                    className={`${streamTd} border-b border-border truncate ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
                   >
-                    <span className="block truncate">
-                      {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
-                    </span>
-                    <span
-                      className="block font-mono text-[0.65rem] text-muted-2 truncate"
-                      title={cert.leafHash}
-                    >
-                      <LedgerLink
-                        href={cert.leafUrl}
-                        title={`${cert.leafHash} — ${t.domain.leafLedger}`}
-                      >
-                        {truncateHash(cert.leafHash)}
-                      </LedgerLink>
-                    </span>
+                    {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
+                  </td>
+                  <td
+                    className={`${streamTd} border-b border-border font-mono text-muted-2 truncate`}
+                    title={fingerprint}
+                  >
+                    {truncateHash(fingerprint)}
+                  </td>
+                  <td
+                    className={`${streamTd} border-b border-border font-mono text-muted-2 truncate`}
+                    title={cert.leafHash}
+                  >
+                    <LedgerLink href={cert.leafUrl} title={`${cert.leafHash} — ${t.domain.leafLedger}`}>
+                      {truncateHash(cert.leafHash)}
+                    </LedgerLink>
                   </td>
                 </tr>
               );
@@ -271,10 +266,10 @@ function truncateHash(hash: string | null, head = 10, tail = 6): string {
   return `${hash.slice(0, head)}…${hash.slice(-tail)}`;
 }
 
-function formatUnixDate(ts: number, locale: string, compact = false): string {
+function formatUnixDate(ts: number, locale: string): string {
   if (!Number.isFinite(ts) || ts <= 0) return '—';
   return new Date(ts * 1000).toLocaleDateString(locale, {
-    year: compact ? '2-digit' : 'numeric',
+    year: 'numeric',
     month: 'short',
     day: 'numeric',
   });
