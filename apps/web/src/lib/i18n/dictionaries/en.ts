@@ -31,11 +31,11 @@ export const en: Dictionary = {
     howEyebrow: 'How it works',
     howTitle: 'Evidence you can recheck.',
     howLead:
-      'Nobody joins a new network. Mail systems and certificate logs already produce the traces. This site records them on one append-only tree, as separate kinds, and publishes a root anyone can check.',
+      'Nobody joins a new network. Mail systems, certificate logs, and signature logs already produce the traces. This site records them on one append-only tree, as separate kinds, and publishes a root anyone can check.',
     howSteps: [
       {
-        title: 'Mail and certificates',
-        body: 'Receiving systems — Gmail, Outlook, Yahoo, and others — already emit aggregate mail reports: whether authenticated mail showed up, how often, and according to whom. Certificate logs already record issuance; a name that appears there has a first-seen date someone else wrote down. Both sit on the same tree. They are never blended into a score.',
+        title: 'Mail, certificates, signatures',
+        body: 'Receiving systems — Gmail, Outlook, Yahoo, and others — already emit aggregate mail reports: whether authenticated mail showed up, how often, and according to whom. Certificate logs already record issuance. Rekor already records signed software metadata. Each sits on the same tree. They are never blended into a score.',
       },
       {
         title: 'Anyone can check',
@@ -43,23 +43,24 @@ export const en: Dictionary = {
       },
       {
         title: 'Not a verdict',
-        body: 'The page is clocks, reports, organizations, and certificate dates. It publishes what happened. Judgement stays outside.',
+        body: 'The page is clocks, reports, organizations, certificate dates, and signature entries. It publishes what happened. Judgement stays outside.',
       },
     ],
     recordEyebrow: 'A record',
     recordTitle: 'What the page shows.',
     recordSub:
-      'Each name has registration and confirmation clocks, mail reports, certificate logs, and a shared ledger. Open a live record:',
+      'Each name has registration and confirmation clocks, mail reports, certificate logs, signature logs, and a shared ledger. Open a live record:',
     privacyTitle: 'Privacy',
     privacyBody1:
-      'Connecting points DNS so aggregate mail reports are kept instead of discarded. Certificate logs are already public; this site indexes them. Neither feed contains messages, subjects, or mailboxes.',
-    privacyBody2: 'The public page is domain history from those two feeds. Nothing else is collected.',
+      'Connecting points DNS so aggregate mail reports are kept instead of discarded. Certificate logs and signature logs are already public; this site indexes them. None of the feeds contain messages, subjects, or mailboxes.',
+    privacyBody2: 'The public page is domain history from those feeds. Nothing else is collected.',
     privacyTableTitle: "What's in the record",
     privacyRows: [
       'Domain',
       'Mail reports',
       'Reporting orgs',
       'Certificates',
+      'Signatures',
     ],
     ctaTitle: 'Start a record.',
     ctaButton: 'Connect',
@@ -70,7 +71,7 @@ export const en: Dictionary = {
     eyebrow: 'Connect',
     title: 'Add your domain',
     intro:
-      'Point DNS so independent mail systems send their aggregate reports here. Certificate logs are already public; this site indexes them. Mail history starts when the first independent report arrives — not when the DNS line is saved.',
+      'Point DNS so independent mail systems send their aggregate reports here. Certificate logs and signature logs are already public; this site indexes them. Mail history starts when the first independent report arrives — not when the DNS line is saved.',
     yourDomain: 'Your domain',
     pathCloudflareTitle: 'I use Cloudflare',
     pathCloudflareDesc: 'One click — we add the DNS line.',
@@ -84,7 +85,7 @@ export const en: Dictionary = {
     pathToolBadge: 'Existing tool',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. Mail history starts when independent reports arrive — not when the DNS line is saved. Certificate logs are indexed after the name is on the ledger.",
+      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. Mail history starts when independent reports arrive — not when the DNS line is saved. Certificate and signature logs are indexed after the name is on the ledger.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
       'Your tool already collects reports for this domain. Adding this address includes us in that feed. The public mail record appears when the first independent report arrives (usually within 24–48 hours) — nothing else to submit here.',
@@ -113,7 +114,7 @@ export const en: Dictionary = {
     addDomain: 'Connect',
     rankedBy: 'By mail history',
     lead:
-      'Public pages for names on the ledger. Mail reports and certificate logs, as separate kinds.',
+      'Public pages for names on the ledger. Mail reports, certificate logs, and signature logs, as separate kinds.',
     colDomain: 'Domain',
     colHistory: 'History',
     verified: 'confirmed',
@@ -123,7 +124,7 @@ export const en: Dictionary = {
     orgs: 'orgs',
     emptyTitle: 'No records',
     emptyBody:
-      'Connect a domain so independent mail reports can be kept. Certificate logs are indexed once the name is on the ledger.',
+      'Connect a domain so independent mail reports can be kept. Certificate and signature logs are indexed once the name is on the ledger.',
     emptyCta: 'Connect',
     searchPlaceholder: 'Search domain…',
     noMatch: 'No match for "{query}".',
@@ -137,13 +138,16 @@ export const en: Dictionary = {
     kindMailEmpty: 'None',
     kindCt: 'Certificates',
     kindNone: 'None',
+    kindRekor: 'Signatures',
     kindFirst: 'First logged',
     kindLatest: 'Latest',
     mailAuthRate: 'DKIM pass',
     certs: 'Certs',
+    sigs: 'Entries',
     ledgerTitle: 'Ledger',
     mailLeaves: 'Mail leaves',
     ctLeaves: 'CT leaves',
+    rekorLeaves: 'Rekor leaves',
     timeVerified: 'Days confirmed',
     reports: 'Reports',
     allTime: 'all time',
@@ -206,6 +210,10 @@ export const en: Dictionary = {
     colNotBefore: 'Not before',
     colLoggedAt: 'Logged',
     colFingerprint: 'Fingerprint',
+    rekorHistory: 'Signatures',
+    rekorHistoryCounts: '{n}',
+    colIdentity: 'Identity',
+    colEntryKind: 'Kind',
   },
   whitepaper: {
     eyebrow: 'PACT',
@@ -215,7 +223,7 @@ export const en: Dictionary = {
   },
   legal: {
     eyebrow: 'Legal',
-    lastUpdated: 'Last updated August 16, 2026',
+    lastUpdated: 'Last updated August 25, 2026',
     termsTitle: 'Terms of Service',
     privacyTitle: 'Privacy Policy',
     emailLabel: 'Email',
@@ -230,7 +238,7 @@ export const en: Dictionary = {
       },
       {
         title: '3. The Service',
-        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Mail history comes from DMARC aggregate authentication reports that receiving mail systems already generate. Certificate history comes from public Certificate Transparency logs — indexed leftover exhaust, not a new issuance ceremony and not an HTTPS badge. Mail and CT stay separate kinds; they are not blended into a score. Connecting a domain requires adding PACT as a report destination in DNS (directly or via a supported provider) so mail reports are kept. CT indexing needs no extra ritual. We do not read message content, recipient identities, or mailbox data.',
+        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Mail history comes from DMARC aggregate authentication reports that receiving mail systems already generate. Certificate history comes from public Certificate Transparency logs — indexed leftover exhaust, not a new issuance ceremony and not an HTTPS badge. Signature history comes from the public Rekor log — indexed leftover exhaust, not a signing ceremony. Mail, CT, and Rekor stay separate kinds; they are not blended into a score. Connecting a domain requires adding PACT as a report destination in DNS (directly or via a supported provider) so mail reports are kept. CT and Rekor indexing need no extra ritual. We do not read message content, recipient identities, or mailbox data.',
       },
       {
         title: '4. Public Records',
@@ -280,11 +288,11 @@ export const en: Dictionary = {
     privacy: [
       {
         title: '1. Overview',
-        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use webuildreal.dev — the public home of the we build real movement and of the first reference implementation of the open PACT protocol. PACT records leftover traces: DMARC aggregate reports and public Certificate Transparency log metadata. Aggregate mail reports contain no message content and no personal identities. CT data is already public log exhaust.',
+        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use webuildreal.dev — the public home of the we build real movement and of the first reference implementation of the open PACT protocol. PACT records leftover traces: DMARC aggregate reports, public Certificate Transparency log metadata, and public Rekor log metadata. Aggregate mail reports contain no message content and no personal identities. CT and Rekor data are already public log exhaust, including Rekor identities that were already published in that log.',
       },
       {
         title: '2. Information We Process',
-        body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Certificate Transparency first-seen metadata from public logs (issuer, not-before, log time, fingerprint); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
+        body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Certificate Transparency first-seen metadata from public logs (issuer, not-before, log time, fingerprint); Rekor leftover identities that already cover the connected domain (identity SAN, integrated time, entry id); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
       },
       {
         title: '3. What We Do Not Collect',

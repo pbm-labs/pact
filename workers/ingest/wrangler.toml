@@ -33,7 +33,7 @@ crons = ["*/15 * * * *"]
 
 # Secrets (wrangler secret put):
 #   PUBLISHER_PRIVATE_KEY  — PactRoots owner
-#   LEDGER_WRITE_SECRET    — Bearer token for POST /v1/domains, POST /v1/root/publish, POST /v1/ct/ingest
+#   LEDGER_WRITE_SECRET    — Bearer token for POST /v1/domains, POST /v1/root/publish, POST /v1/ct/ingest, POST /v1/rekor/ingest
 #   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY — wrapper RFC822 + DKIM TXT snapshots
 
 # After deploy: Cloudflare Email Routing → rua@pact.webuildreal.dev → Send to Worker → pact-ingest

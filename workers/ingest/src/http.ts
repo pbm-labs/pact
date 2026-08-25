@@ -5,17 +5,20 @@ import {
   getLatestBaseRoot,
   getLeafByHash,
   getCtCertByHash,
+  getRekorEntryByHash,
   getTxHashForRoot,
   listDomains,
   listLeafHashes,
   listLeavesForDomain,
   listLeavesSummary,
   listCtCertsForDomain,
+  listRekorEntriesForDomain,
   upsertDomain,
 } from './ledger.js';
 import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash, checkStoredWrapper } from './wrapper-store.js';
 import { publishAnchoredRoot } from './publish-root.js';
 import { ingestCtBatch, ingestCtForDomain } from './ct-ingest.js';
+import { ingestRekorBatch, ingestRekorForDomain } from './rekor-ingest.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -117,12 +120,14 @@ export async function handleLedgerRequest(
     if (!row) return json({ error: 'not_found' }, 404);
     const domainLeaves = await listLeavesForDomain(env.DB, domain);
     const ctCerts = await listCtCertsForDomain(env.DB, domain);
+    const rekor = await listRekorEntriesForDomain(env.DB, domain);
     const globalLeaves = await listLeafHashes(env.DB);
     const onChain = await publicOnChain(env);
     return json({
       domain: row,
       leaves: domainLeaves,
       ct: ctCerts,
+      rekor,
       globalLeaves,
       onChain,
     });
@@ -162,6 +167,19 @@ export async function handleLedgerRequest(
     return json({ ok: batch.errors.length === 0, ...batch }, batch.errors.length ? 207 : 200);
   }
 
+  if (request.method === 'POST' && path === '/v1/rekor/ingest') {
+    const denied = requireWriteAuth(request, env.LEDGER_WRITE_SECRET);
+    if (denied) return denied;
+    const body = (await request.json().catch(() => ({}))) as { domain?: string };
+    if (body.domain) {
+      const domain = normalizeDomain(body.domain);
+      const row = await ingestRekorForDomain(env.DB, domain);
+      return json({ ok: true, domain, ...row });
+    }
+    const batch = await ingestRekorBatch(env.DB);
+    return json({ ok: batch.errors.length === 0, ...batch }, batch.errors.length ? 207 : 200);
+  }
+
   const leafMatch = path.match(/^\/v1\/leaves\/([^/]+)$/);
   if (request.method === 'GET' && leafMatch) {
     const leafHash = normalizeWrapperHash(decodeURIComponent(leafMatch[1]!));
@@ -169,8 +187,10 @@ export async function handleLedgerRequest(
     const leaf = await getLeafByHash(env.DB, leafHash);
     if (leaf) return json({ kind: 'dmarc', ...leaf });
     const ct = await getCtCertByHash(env.DB, leafHash);
-    if (!ct) return json({ error: 'not_found' }, 404);
-    return json({ kind: 'ct', ...ct });
+    if (ct) return json({ kind: 'ct', ...ct });
+    const rekor = await getRekorEntryByHash(env.DB, leafHash);
+    if (!rekor) return json({ error: 'not_found' }, 404);
+    return json({ kind: 'rekor', ...rekor });
   }
 
   const wrapperMatch = path.match(/^\/v1\/wrappers\/([^/]+)(?:\/(rfc822|check))?$/);

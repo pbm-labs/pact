@@ -1,7 +1,7 @@
 export const WHITEPAPER_ES = `
 Los identificadores son baratos. Un dominio, un perfil, una insignia — todo eso se puede fabricar esta tarde. El ayer no, si alguien más ya estaba mirando.
 
-PACT es un registro público de trazas que sistemas independientes ya emiten. Los sistemas de correo generan informes agregados de autenticación. Los navegadores ya exigieron logs públicos de certificados. Nadie se une a una red nueva. El DNS solo apunta aquí el flujo de correo. El registro publica lo que ocurrió. No decide lo que significa.
+PACT es un registro público de trazas que sistemas independientes ya emiten. Los sistemas de correo generan informes agregados de autenticación. Los navegadores ya exigieron logs públicos de certificados. La firma de software ya escribe un log público. Nadie se une a una red nueva. El DNS solo apunta aquí el flujo de correo. El registro publica lo que ocurrió. No decide lo que significa.
 
 El nombre es Provenance of Accumulated Checkable Traces — procedencia de trazas acumuladas y comprobables. Procedencia: las trazas tienen una fuente que no es este operador. Acumuladas: el registro crece con el tiempo; no se puede rellenar hacia atrás. Comprobables: cualquiera puede recomputar la inclusión contra una raíz publicada.
 
@@ -11,9 +11,9 @@ Los modelos generativos abaratan identificadores y documentos nuevos. No abarata
 
 Un sistema de identidad nuevo suele pedir al mundo un rito nuevo: instalar una app, acuñar una credencial, pasar una ceremonia, confiar en un emisor nuevo. Esos sistemas fallan a la escala que importa, porque quienes tendrían que unirse no están esperando otra red.
 
-PACT registra el escape residual. Los sistemas receptores de correo ya emiten informes. Los logs públicos de certificados ya existen porque los navegadores exigieron un diario de emisión. Este protocolo no inventa un flujo y le pide al mundo que lo llene. Conserva lo que ya se estaba tirando.
+PACT registra el escape residual. Los sistemas receptores de correo ya emiten informes. Los logs públicos de certificados ya existen porque los navegadores exigieron un diario de emisión. Rekor ya existe porque la cadena de suministro de software quiso un diario de artefactos firmados. Este protocolo no inventa un flujo y le pide al mundo que lo llene. Conserva lo que ya se estaba tirando.
 
-Correo y certificados son tipos residuales de origen distinto. Quedan en el mismo árbol de solo añadido para que quien comprueba tenga una sola raíz contra la que recomputar. Nunca se mezclan en una puntuación. Más adelante puede añadirse otra fuente residual como un tipo etiquetado. Cada tipo conserva su propio preimagen. Las aplicaciones pueden interpretar los campos. Este protocolo no lo hará.
+Correo, certificados y firmas son tipos residuales de origen distinto. Quedan en el mismo árbol de solo añadido para que quien comprueba tenga una sola raíz contra la que recomputar. Nunca se mezclan en una puntuación. Más adelante puede añadirse otra fuente residual como un tipo etiquetado. Cada tipo conserva su propio preimagen. Las aplicaciones pueden interpretar los campos. Este protocolo no lo hará.
 
 ## Informes de correo
 
@@ -33,15 +33,27 @@ Se puede emitir un certificado nuevo en minutos. Eso es un calendario débil, no
 
 Este sitio indexa logs públicos cuando el nombre está en el ledger. No hay un segundo rito. El sujeto puede hacer que se emita un certificado. El sujeto no puede ser el log.
 
-Las hojas de certificados llevan una primera fecha, emisor, ventana de validez y huella. Comparten el árbol y el espacio de índices con las hojas de correo. Nunca se fusionan con ellas.
+Las hojas de certificados llevan una primera fecha, emisor, ventana de validez y huella. Comparten el árbol y el espacio de índices con las hojas de correo y de firma. Nunca se fusionan con ellas.
 
 La ingesta de referencia lee un índice público sobre esos logs, no a un operador de log. Eso es más débil que la cabeza firmada de un log concreto. Sigue siendo calendario residual de una infraestructura que ya existía.
 
-## Un árbol, dos tipos
+## Logs de firmas
 
-Ambos tipos son hojas keccak256 en un árbol Merkle disperso. Los bindings no deben compartir el diseño del preimagen, para que una hoja de correo no pueda colisionar con una de certificado del mismo nombre.
+Rekor ya registra metadatos de software firmado. Existe porque la cadena de suministro de software quiso un diario público, no porque este protocolo pidiera a nadie que registrara.
 
-La página pública muestra ambos. No los suma. No los promedia. No produce una insignia. Quien construya una aplicación encima puede interpretar los campos. Fundirlos en un solo número es decisión de esa aplicación, y no es este protocolo.
+Se puede publicar una firma nueva tan barato como un certificado nuevo. Eso es un calendario débil, no una prueba de que un nombre sea legítimo, ni una afirmación de calidad sobre el software.
+
+Este sitio indexa el log público cuando el nombre está en el ledger. No hay un rito extra. Una identidad se vincula solo cuando su host cubre el dominio conectado. Un URI de github.com no cubre el nombre de un cliente. Las consultas usan solo nombres residuales — el dominio y sus formas www y https. No se buscan buzones adivinados. La cobertura a menudo estará vacía. Eso es lo esperado.
+
+Las hojas de firma llevan una identidad, una hora integrada y un id de entrada. Comparten el árbol y el espacio de índices con las hojas de correo y de certificados. Nunca se fusionan con ellas.
+
+La ingesta de referencia lee un índice público sobre Rekor, no la prueba Merkle de Rekor. Eso es más débil que la cabeza firmada del log. Sigue siendo calendario residual de una infraestructura que ya existía.
+
+## Un árbol, tres tipos
+
+Los tres tipos son hojas keccak256 en un árbol Merkle disperso. Los bindings no deben compartir el diseño del preimagen, para que una hoja de correo no pueda colisionar con una de certificado o de firma del mismo nombre.
+
+La página pública muestra los tres. No los suma. No los promedia. No produce una insignia. Quien construya una aplicación encima puede interpretar los campos. Fundirlos en un solo número es decisión de esa aplicación, y no es este protocolo.
 
 ## Cualquiera puede comprobar
 
@@ -57,11 +69,11 @@ Un nombre de ocho años que se conectó hoy tiene un reloj de registro largo y u
 
 ## Qué muestra la página
 
-La página es aburrida a propósito. Cuánto tiempo llevan los informantes independientes de correo confirmando el nombre. Cuántos informes. De qué organizaciones. Cuándo apareció por primera vez un certificado que cubre el nombre. Relojes, informes, organizaciones, fechas de certificados. Sin puntuación. Sin insignia. Sin veredicto.
+La página es aburrida a propósito. Cuánto tiempo llevan los informantes independientes de correo confirmando el nombre. Cuántos informes. De qué organizaciones. Cuándo apareció por primera vez un certificado que cubre el nombre. Cuándo apareció una firma que cubre el nombre. Relojes, informes, organizaciones, fechas de certificados, entradas de firma. Sin puntuación. Sin insignia. Sin veredicto.
 
 ## Qué no es
 
-No es KYC. No es una afirmación de que un nombre sea legítimo. No es un sello HTTPS. No es una credencial personal. No sustituye a registros ni a burós de crédito. No es un protocolo de autenticación de documentos: responde qué historial confirmado de forma independiente se ha publicado para un dominio, no si un mensaje o un adjunto concreto es auténtico.
+No es KYC. No es una afirmación de que un nombre sea legítimo. No es un sello HTTPS. No es un sello Sigstore. No es una credencial personal. No sustituye a registros ni a burós de crédito. No es un protocolo de autenticación de documentos: responde qué historial confirmado de forma independiente se ha publicado para un dominio, no si un mensaje o un adjunto concreto es auténtico.
 
 El juicio queda fuera.
 

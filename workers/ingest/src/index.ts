@@ -6,6 +6,7 @@ import { snapshotWrapperDkimKeys, verifyWrapperDkim } from './dkim.js';
 import { storeWrapperBlob } from './wrapper-store.js';
 import { publishAnchoredRoot } from './publish-root.js';
 import { ingestCtBatch, ingestCtForDomain } from './ct-ingest.js';
+import { ingestRekorBatch, ingestRekorForDomain } from './rekor-ingest.js';
 
 export interface Env {
   ENVIRONMENT: string;
@@ -30,13 +31,24 @@ export default {
       if (body?.domain) {
         const domain = body.domain;
         ctx.waitUntil(
-          ingestCtForDomain(env.DB, domain)
-            .then((row) =>
-              console.log(JSON.stringify({ event: 'ct_ingest_connect', domain, ...row })),
-            )
-            .catch((err) =>
-              console.error(JSON.stringify({ event: 'ct_ingest_connect_failed', error: String(err) })),
-            ),
+          Promise.allSettled([
+            ingestCtForDomain(env.DB, domain)
+              .then((row) =>
+                console.log(JSON.stringify({ event: 'ct_ingest_connect', domain, ...row })),
+              )
+              .catch((err) =>
+                console.error(JSON.stringify({ event: 'ct_ingest_connect_failed', error: String(err) })),
+              ),
+            ingestRekorForDomain(env.DB, domain)
+              .then((row) =>
+                console.log(JSON.stringify({ event: 'rekor_ingest_connect', domain, ...row })),
+              )
+              .catch((err) =>
+                console.error(
+                  JSON.stringify({ event: 'rekor_ingest_connect_failed', error: String(err) }),
+                ),
+              ),
+          ]),
         );
       }
     }
@@ -160,6 +172,12 @@ export default {
       console.log(JSON.stringify({ event: 'ct_ingest', ...ct }));
     } catch (err) {
       console.error(JSON.stringify({ event: 'ct_ingest_failed', error: String(err) }));
+    }
+    try {
+      const rekor = await ingestRekorBatch(env.DB);
+      console.log(JSON.stringify({ event: 'rekor_ingest', ...rekor }));
+    } catch (err) {
+      console.error(JSON.stringify({ event: 'rekor_ingest_failed', error: String(err) }));
     }
     const result = await publishAnchoredRoot(env);
     console.log(JSON.stringify({ event: 'root_publish_scheduled', ...result }));

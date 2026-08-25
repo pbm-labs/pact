@@ -1,7 +1,7 @@
 export const WHITEPAPER_DE = `
 Identifikatoren sind billig. Eine Domain, ein Profil, ein Badge — all das lässt sich heute Nachmittag herstellen. Gestern nicht, wenn jemand anderes bereits zugesehen hat.
 
-PACT ist ein öffentlicher Eintrag von Spuren, die unabhängige Systeme bereits emittieren. Mailsysteme erzeugen aggregierte Authentifizierungsberichte. Browser haben öffentliche Zertifikatslogs bereits verlangt. Niemand tritt einem neuen Netz bei. DNS zeigt den Mail-Feed nur hierher. Der Eintrag veröffentlicht, was geschehen ist. Er entscheidet nicht, was es bedeutet.
+PACT ist ein öffentlicher Eintrag von Spuren, die unabhängige Systeme bereits emittieren. Mailsysteme erzeugen aggregierte Authentifizierungsberichte. Browser haben öffentliche Zertifikatslogs bereits verlangt. Softwaresignatur schreibt bereits ein öffentliches Log. Niemand tritt einem neuen Netz bei. DNS zeigt den Mail-Feed nur hierher. Der Eintrag veröffentlicht, was geschehen ist. Er entscheidet nicht, was es bedeutet.
 
 Der Name ist Provenance of Accumulated Checkable Traces — Herkunft akkumuliert nachprüfbarer Spuren. Herkunft: die Spuren haben eine Quelle, die nicht dieser Betreiber ist. Akkumuliert: der Eintrag wächst mit der Zeit; er lässt sich nicht rückwärts füllen. Nachprüfbar: jede Person kann Inklusion gegen einen veröffentlichten Root neu berechnen.
 
@@ -11,9 +11,9 @@ Generative Modelle haben neue Identifikatoren und neue Dokumente billig gemacht.
 
 Ein neues Identitätssystem bittet die Welt meist um ein neues Ritual: App installieren, eine Bescheinigung ausstellen, eine Zeremonie bestehen, einem neuen Aussteller vertrauen. Solche Systeme scheitern in der Skala, die zählt, weil die, die beitreten müssten, nicht auf ein weiteres Netz warten.
 
-PACT zeichnet übrig gebliebene Spuren auf. Empfangende Mailsysteme emittieren bereits Berichte. Öffentliche Zertifikatslogs existieren bereits, weil Browser ein Ausstellungstagebuch verlangt haben. Dieses Protokoll erfindet keinen Feed und bittet die Welt nicht, ihn zu füllen. Es behält, was ohnehin weggeworfen wird.
+PACT zeichnet übrig gebliebene Spuren auf. Empfangende Mailsysteme emittieren bereits Berichte. Öffentliche Zertifikatslogs existieren bereits, weil Browser ein Ausstellungstagebuch verlangt haben. Rekor existiert bereits, weil die Software-Lieferkette ein Tagebuch signierter Artefakte wollte. Dieses Protokoll erfindet keinen Feed und bittet die Welt nicht, ihn zu füllen. Es behält, was ohnehin weggeworfen wird.
 
-Mail und Zertifikate sind Restarten unterschiedlichen Ursprungs. Sie sitzen auf demselben append-only Baum, damit eine prüfende Person einen Root hat, gegen den sie neu rechnen kann. Sie werden nie zu einem Score vermischt. Eine spätere Restquelle kann als weitere getaggte Art hinzukommen. Jede Art behält ihr eigenes Preimage. Anwendungen dürfen die Felder interpretieren. Dieses Protokoll tut das nicht.
+Mail, Zertifikate und Signaturen sind Restarten unterschiedlichen Ursprungs. Sie sitzen auf demselben append-only Baum, damit eine prüfende Person einen Root hat, gegen den sie neu rechnen kann. Sie werden nie zu einem Score vermischt. Eine spätere Restquelle kann als weitere getaggte Art hinzukommen. Jede Art behält ihr eigenes Preimage. Anwendungen dürfen die Felder interpretieren. Dieses Protokoll tut das nicht.
 
 ## Mailberichte
 
@@ -33,15 +33,27 @@ Ein neues Zertifikat kann in Minuten ausgestellt werden. Das ist ein schwacher K
 
 Diese Seite indexiert öffentliche Logs, sobald der Name auf dem Ledger steht. Es gibt kein zweites Ritual. Das Subjekt kann bewirken, dass ein Zertifikat ausgestellt wird. Das Subjekt kann nicht das Log sein.
 
-Zertifikats-Leaves tragen ein Erstes-Gesehen-Datum, Aussteller, Gültigkeitsfenster und Fingerprint. Sie teilen Baum und Leaf-Indexraum mit Mail-Leaves. Sie werden nie in Mail-Leaves zusammengeführt.
+Zertifikats-Leaves tragen ein Erstes-Gesehen-Datum, Aussteller, Gültigkeitsfenster und Fingerprint. Sie teilen Baum und Leaf-Indexraum mit Mail- und Signatur-Leaves. Sie werden nie in diese Leaves zusammengeführt.
 
 Die Referenz-Ingest liest einen öffentlichen Index über diese Logs, keinen Log-Betreiber. Das ist schwächer als der signierte Tree Head eines konkreten Logs. Es bleibt Restkalender aus Infrastruktur, die bereits existierte.
 
-## Ein Baum, zwei Arten
+## Signaturlogs
 
-Beide Arten sind keccak256-Leaves in einem sparse Merkle-Baum. Bindings dürfen kein Preimage-Layout teilen, damit ein Mail-Leaf nicht mit einem Zertifikats-Leaf desselben Namens kollidieren kann.
+Rekor zeichnet Metadaten signierter Software bereits auf. Es existiert, weil die Software-Lieferkette ein öffentliches Tagebuch wollte, nicht weil dieses Protokoll jemanden ums Loggen gebeten hat.
 
-Die öffentliche Seite zeigt beide. Sie addiert sie nicht. Sie mittelt sie nicht. Sie erzeugt kein Badge. Wer eine Anwendung darauf baut, darf die Felder interpretieren. Sie in eine Zahl zu falten ist die Wahl dieser Anwendung, und es ist nicht dieses Protokoll.
+Eine neue Signatur kann so billig veröffentlicht werden wie ein neues Zertifikat. Das ist ein schwacher Kalender, kein Beweis, dass ein Name legitim ist, und keine Qualitätsaussage über die Software.
+
+Diese Seite indexiert das öffentliche Log, sobald der Name auf dem Ledger steht. Es gibt kein Extra-Ritual. Eine Identität wird nur gebunden, wenn ihr Host die verbundene Domain abdeckt. Eine github.com-URI deckt den Namen eines Kunden nicht ab. Abfragen nutzen nur übrig gebliebene Subject-Namen — die Domain und ihre www- und https-Formen. Geratene Postfächer werden nicht gesucht. Die Abdeckung ist oft leer. Das ist erwartet.
+
+Signatur-Leaves tragen eine Identität, eine integrierte Zeit und eine Entry-Id. Sie teilen Baum und Leaf-Indexraum mit Mail- und Zertifikats-Leaves. Sie werden nie in diese Leaves zusammengeführt.
+
+Die Referenz-Ingest liest einen öffentlichen Index über Rekor, nicht Rekors eigenen Merkle-Beweis. Das ist schwächer als der signierte Tree Head des Logs. Es bleibt Restkalender aus Infrastruktur, die bereits existierte.
+
+## Ein Baum, drei Arten
+
+Drei Arten sind keccak256-Leaves in einem sparse Merkle-Baum. Bindings dürfen kein Preimage-Layout teilen, damit ein Mail-Leaf nicht mit einem Zertifikats-Leaf oder einem Signatur-Leaf desselben Namens kollidieren kann.
+
+Die öffentliche Seite zeigt alle drei. Sie addiert sie nicht. Sie mittelt sie nicht. Sie erzeugt kein Badge. Wer eine Anwendung darauf baut, darf die Felder interpretieren. Sie in eine Zahl zu falten ist die Wahl dieser Anwendung, und es ist nicht dieses Protokoll.
 
 ## Jede Person kann prüfen
 
@@ -57,11 +69,11 @@ Ein acht Jahre alter Name, der heute verbunden wurde, hat eine lange Registrieru
 
 ## Was die Seite zeigt
 
-Die Seite ist absichtlich langweilig. Wie lange unabhängige Mail-Melder den Namen bestätigen. Wie viele Berichte. Von welchen Organisationen. Wann ein abdeckendes Zertifikat zuerst erschien. Uhren, Berichte, Organisationen, Zertifikatsdaten. Kein Score. Kein Badge. Kein Urteil.
+Die Seite ist absichtlich langweilig. Wie lange unabhängige Mail-Melder den Namen bestätigen. Wie viele Berichte. Von welchen Organisationen. Wann ein abdeckendes Zertifikat zuerst erschien. Wann eine abdeckende Signatur erschien. Uhren, Berichte, Organisationen, Zertifikatsdaten, Signatureinträge. Kein Score. Kein Badge. Kein Urteil.
 
 ## Was es nicht ist
 
-Kein KYC. Keine Behauptung, ein Name sei legitim. Kein HTTPS-Badge. Kein persönlicher Nachweis. Kein Ersatz für Register oder Auskunfteien. Kein Protokoll zur Dokumentauthentifizierung — es beantwortet, welche unabhängig bestätigte Historie für eine Domain veröffentlicht wurde, nicht ob eine bestimmte Nachricht oder ein Anhang echt ist.
+Kein KYC. Keine Behauptung, ein Name sei legitim. Kein HTTPS-Badge. Kein Sigstore-Badge. Kein persönlicher Nachweis. Kein Ersatz für Register oder Auskunfteien. Kein Protokoll zur Dokumentauthentifizierung — es beantwortet, welche unabhängig bestätigte Historie für eine Domain veröffentlicht wurde, nicht ob eine bestimmte Nachricht oder ein Anhang echt ist.
 
 Urteil bleibt draußen.
 

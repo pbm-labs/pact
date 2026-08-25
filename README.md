@@ -4,7 +4,7 @@
 **PACT** is an open protocol (Provenance of Accumulated Checkable Traces).  
 **PBM Labs LLC** provides the first reference implementation, hosted at [webuildreal.dev](https://webuildreal.dev).
 
-This repo is that reference implementation: leftover traces from systems that already exist, bucketed into one Merkle tree. Mail (DMARC aggregate reports) is live. Certificate Transparency is a second leaf kind — first-seen calendar from public logs, not an HTTPS badge. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
+This repo is that reference implementation: leftover traces from systems that already exist, bucketed into one Merkle tree. Mail (DMARC aggregate reports) is live. Certificate Transparency is a second leaf kind — first-seen calendar from public logs, not an HTTPS badge. Rekor is a third kind — leftover signature calendar, bound only when the identity covers the domain. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
 Whitepaper: [webuildreal.dev/whitepaper](https://webuildreal.dev/whitepaper).
@@ -82,6 +82,9 @@ cd workers/ingest
 npx wrangler d1 execute pact-ledger --remote --file=src/schema.sql
 # Existing D1 only (already applied on fresh schema.sql):
 npx wrangler d1 execute pact-ledger --remote --file=src/migrate-ct.sql
+npx wrangler d1 execute pact-ledger --remote --file=src/migrate-rekor.sql
+# migrate-rekor.sql creates rekor_entries. Also run once:
+#   ALTER TABLE domains ADD COLUMN rekor_synced_at TEXT;
 ```
 
 ### Cloudflare OAuth (`/connect`)
@@ -207,12 +210,13 @@ npx wrangler queues create pact-reports     # once
 npx wrangler d1 create pact-ledger          # once; put database_id in wrangler.toml
 npx wrangler d1 execute pact-ledger --remote --file=src/schema.sql
 npx wrangler d1 execute pact-ledger --remote --file=src/migrate-ct.sql   # existing D1 only
+npx wrangler d1 execute pact-ledger --remote --file=src/migrate-rekor.sql # existing D1 only; also ALTER domains ADD COLUMN rekor_synced_at TEXT
 npx wrangler secret put PUBLISHER_PRIVATE_KEY
 npx wrangler secret put LEDGER_WRITE_SECRET
 pnpm run deploy                             # not `pnpm deploy`
 ```
 
-Worker flow: email handler → `pact-reports` queue → parse/auth/dedup → D1 leaf → `publishRoot` on Base Sepolia `PactRoots`. If that tx fails (public RPC blip), ingest still keeps the leaf and a **15-minute cron** retries until the live tree matches the chain. Manual retry: `POST /v1/root/publish` with Bearer `LEDGER_WRITE_SECRET`. Queue retries cannot republish — a redelivered report is already stored, so `processed=0`. GitHub cron would need a second copy of the publisher key; keep it on the Worker.
+Worker flow: email handler → `pact-reports` queue → parse/auth/dedup → D1 leaf → `publishRoot` on Base Sepolia `PactRoots`. The same **15-minute cron** also indexes CT (crt.sh) and Rekor (rekor.sigstore.dev) for connected domains, then publishes if the tree moved. If a `publishRoot` tx fails (public RPC blip), ingest still keeps the leaf and the cron retries until the live tree matches the chain. Manual retry: `POST /v1/root/publish` with Bearer `LEDGER_WRITE_SECRET`. Queue retries cannot republish — a redelivered report is already stored, so `processed=0`. GitHub cron would need a second copy of the publisher key; keep it on the Worker.
 
 Google DMARC reports arrive as **ZIP** attachments (`application/zip`); the ingest worker must unzip before parsing XML.
 
@@ -223,13 +227,15 @@ Public ledger API (CORS open for GET):
 | GET | `/v1/health` | Contract address + chain |
 | GET | `/v1/root` | Latest on-chain root |
 | GET | `/v1/domains` | Domains + leaf summaries |
-| GET | `/v1/domains/:domain` | Domain, mail leaves, CT certs, global hashes, on-chain root |
-| GET | `/v1/leaves/:hash` | One leaf by keccak256 (`kind`: `dmarc` or `ct`) |
+| GET | `/v1/domains/:domain` | Domain, mail leaves, CT certs, Rekor entries, global hashes, on-chain root |
+| GET | `/v1/leaves/:hash` | One leaf by keccak256 (`kind`: `dmarc`, `ct`, or `rekor`) |
 | GET | `/v1/wrappers/:hash` | Stored wrapper + DKIM TXT snapshot |
 | GET | `/v1/wrappers/:hash/check` | Hash matches the leaf; DNS key is on record |
 | GET | `/v1/wrappers/:hash/rfc822` | Wrapper bytes |
 | POST | `/v1/domains` | Bearer `LEDGER_WRITE_SECRET` |
 | POST | `/v1/root/publish` | Bearer `LEDGER_WRITE_SECRET` — publish the live tree if it is ahead of chain |
+| POST | `/v1/ct/ingest` | Bearer `LEDGER_WRITE_SECRET` — index CT for one domain or a batch |
+| POST | `/v1/rekor/ingest` | Bearer `LEDGER_WRITE_SECRET` — index Rekor for one domain or a batch |
 
 ## Testing
 

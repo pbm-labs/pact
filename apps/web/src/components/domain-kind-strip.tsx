@@ -11,6 +11,9 @@ export function DomainKindStrip({
   ctCount,
   ctFirstLoggedAt,
   ctLatestLoggedAt,
+  rekorCount,
+  rekorFirstLoggedAt,
+  rekorLatestLoggedAt,
 }: {
   mailCount: number;
   reporterCount: number;
@@ -18,11 +21,14 @@ export function DomainKindStrip({
   ctCount: number;
   ctFirstLoggedAt: number | null;
   ctLatestLoggedAt: number | null;
+  rekorCount: number;
+  rekorFirstLoggedAt: number | null;
+  rekorLatestLoggedAt: number | null;
 }) {
   const { t, locale } = useLocale();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
       <KindCard kind={t.domain.kindMail} value={String(mailCount)} unit={t.domain.reports}>
         {mailCount === 0 ? (
           <p className="text-xs text-muted-2 m-0">{t.domain.kindMailEmpty}</p>
@@ -47,6 +53,17 @@ export function DomainKindStrip({
             {t.domain.kindFirst} {formatLoggedDay(ctFirstLoggedAt, locale)}
             <span className="text-muted-2"> · </span>
             {t.domain.kindLatest} {formatLoggedDay(ctLatestLoggedAt, locale)}
+          </p>
+        )}
+      </KindCard>
+      <KindCard kind={t.domain.kindRekor} value={String(rekorCount)} unit={t.domain.sigs}>
+        {rekorCount === 0 ? (
+          <p className="text-xs text-muted-2 m-0">{t.domain.kindNone}</p>
+        ) : (
+          <p className="text-xs text-muted m-0">
+            {t.domain.kindFirst} {formatLoggedDay(rekorFirstLoggedAt, locale)}
+            <span className="text-muted-2"> · </span>
+            {t.domain.kindLatest} {formatLoggedDay(rekorLatestLoggedAt, locale)}
           </p>
         )}
       </KindCard>

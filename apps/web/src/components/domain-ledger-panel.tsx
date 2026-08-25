@@ -10,6 +10,7 @@ const td = 'px-3 py-1.5';
 export interface DomainLedgerPanelProps {
   mailLeafCount: number;
   ctLeafCount: number;
+  rekorLeafCount: number;
   anchorType: 'staging' | 'base' | null;
   rootMatchesPublished: boolean;
   latestRoot: string | null;
@@ -21,6 +22,7 @@ export interface DomainLedgerPanelProps {
 export function DomainLedgerPanel({
   mailLeafCount,
   ctLeafCount,
+  rekorLeafCount,
   anchorType,
   rootMatchesPublished,
   latestRoot,
@@ -29,7 +31,7 @@ export function DomainLedgerPanel({
   globalTreeLeafCount,
 }: DomainLedgerPanelProps) {
   const { t } = useLocale();
-  const domainLeaves = mailLeafCount + ctLeafCount;
+  const domainLeaves = mailLeafCount + ctLeafCount + rekorLeafCount;
   const rootHref = rootTxHash
     ? explorerTxUrl(rootTxHash)
     : rootsContract
@@ -66,6 +68,7 @@ export function DomainLedgerPanel({
             />
             <MetaRow label={t.domain.mailLeaves} value={mailLeafCount.toLocaleString()} mono />
             <MetaRow label={t.domain.ctLeaves} value={ctLeafCount.toLocaleString()} mono />
+            <MetaRow label={t.domain.rekorLeaves} value={rekorLeafCount.toLocaleString()} mono />
             <MetaRow label={t.domain.domainLeaves} value={domainLeaves.toLocaleString()} mono />
             <MetaRow
               label={t.domain.globalTree}

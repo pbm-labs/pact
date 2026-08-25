@@ -31,11 +31,11 @@ export const es: Dictionary = {
     howEyebrow: 'Cómo funciona',
     howTitle: 'Evidencia que puedes volver a comprobar.',
     howLead:
-      'Nadie se une a una red nueva. Los sistemas de correo y los logs de certificados ya producen las trazas. Este sitio las registra en un árbol de solo añadido, como tipos distintos, y publica una raíz que cualquiera puede comprobar.',
+      'Nadie se une a una red nueva. Los sistemas de correo, los logs de certificados y los logs de firmas ya producen las trazas. Este sitio las registra en un árbol de solo añadido, como tipos distintos, y publica una raíz que cualquiera puede comprobar.',
     howSteps: [
       {
-        title: 'Correo y certificados',
-        body: 'Los sistemas receptores — Gmail, Outlook, Yahoo y otros — ya emiten informes agregados de correo: si llegó correo autenticado, con qué frecuencia y según quién. Los logs de certificados ya registran la emisión; un nombre que aparece ahí tiene una primera fecha escrita por otro. Ambos quedan en el mismo árbol. Nunca se mezclan en una puntuación.',
+        title: 'Correo, certificados, firmas',
+        body: 'Los sistemas receptores — Gmail, Outlook, Yahoo y otros — ya emiten informes agregados de correo: si llegó correo autenticado, con qué frecuencia y según quién. Los logs de certificados ya registran la emisión. Rekor ya registra metadatos de software firmado. Cada uno queda en el mismo árbol. Nunca se mezclan en una puntuación.',
       },
       {
         title: 'Cualquiera puede comprobar',
@@ -43,23 +43,24 @@ export const es: Dictionary = {
       },
       {
         title: 'No es un veredicto',
-        body: 'La página son relojes, informes, organizaciones y fechas de certificados. Publica lo que ocurrió. El juicio queda fuera.',
+        body: 'La página son relojes, informes, organizaciones, fechas de certificados y entradas de firma. Publica lo que ocurrió. El juicio queda fuera.',
       },
     ],
     recordEyebrow: 'Un registro',
     recordTitle: 'Qué muestra la página.',
     recordSub:
-      'Cada nombre tiene relojes de registro y confirmación, informes de correo, logs de certificados y un ledger compartido. Abre un registro en vivo:',
+      'Cada nombre tiene relojes de registro y confirmación, informes de correo, logs de certificados, logs de firmas y un ledger compartido. Abre un registro en vivo:',
     privacyTitle: 'Privacidad',
     privacyBody1:
-      'Conectar apunta el DNS para conservar los informes agregados de correo en lugar de descartarlos. Los logs de certificados ya son públicos; este sitio los indexa. Ninguna fuente contiene mensajes, asuntos o buzones.',
-    privacyBody2: 'La página pública es historial del dominio a partir de esas dos fuentes. No se recoge nada más.',
+      'Conectar apunta el DNS para conservar los informes agregados de correo en lugar de descartarlos. Los logs de certificados y de firmas ya son públicos; este sitio los indexa. Ninguna fuente contiene mensajes, asuntos o buzones.',
+    privacyBody2: 'La página pública es historial del dominio a partir de esas fuentes. No se recoge nada más.',
     privacyTableTitle: 'Qué hay en el registro',
     privacyRows: [
       'Dominio',
       'Informes de correo',
       'Orgs. informantes',
       'Certificados',
+      'Firmas',
     ],
     ctaTitle: 'Empieza un registro.',
     ctaButton: 'Conectar',
@@ -70,7 +71,7 @@ export const es: Dictionary = {
     eyebrow: 'Conectar',
     title: 'Añade tu dominio',
     intro:
-      'Apunta el DNS para que los sistemas de correo independientes envíen aquí sus informes agregados. Los logs de certificados ya son públicos; este sitio los indexa. El historial de correo empieza cuando llega el primer informe independiente — no cuando se guarda la línea de DNS.',
+      'Apunta el DNS para que los sistemas de correo independientes envíen aquí sus informes agregados. Los logs de certificados y de firmas ya son públicos; este sitio los indexa. El historial de correo empieza cuando llega el primer informe independiente — no cuando se guarda la línea de DNS.',
     yourDomain: 'Tu dominio',
     pathCloudflareTitle: 'Uso Cloudflare',
     pathCloudflareDesc: 'Un clic — añadimos la línea de DNS.',
@@ -84,7 +85,7 @@ export const es: Dictionary = {
     pathToolBadge: 'Herramienta existente',
     whatDoesThisDo: '¿Qué hace esto?',
     cloudflareExplain:
-      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El historial de correo empieza cuando llegan informes independientes — no al guardar la línea DNS. Los logs de certificados se indexan cuando el nombre está en el ledger.',
+      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El historial de correo empieza cuando llegan informes independientes — no al guardar la línea DNS. Los logs de certificados y de firmas se indexan cuando el nombre está en el ledger.',
     toolIntro: 'En la configuración de tu herramienta, añade esto:',
     toolExplain:
       'Tu herramienta ya recoge informes de este dominio. Añadir esta dirección nos incluye en ese flujo. El registro público de correo aparece cuando llega el primer informe independiente (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
@@ -113,7 +114,7 @@ export const es: Dictionary = {
     addDomain: 'Conectar',
     rankedBy: 'Por historial de correo',
     lead:
-      'Páginas públicas de los nombres en el ledger. Informes de correo y logs de certificados, como tipos distintos.',
+      'Páginas públicas de los nombres en el ledger. Informes de correo, logs de certificados y logs de firmas, como tipos distintos.',
     colDomain: 'Dominio',
     colHistory: 'Historial',
     verified: 'confirmado',
@@ -123,7 +124,7 @@ export const es: Dictionary = {
     orgs: 'orgs',
     emptyTitle: 'Sin registros',
     emptyBody:
-      'Conecta un dominio para conservar los informes independientes de correo. Los logs de certificados se indexan cuando el nombre está en el ledger.',
+      'Conecta un dominio para conservar los informes independientes de correo. Los logs de certificados y de firmas se indexan cuando el nombre está en el ledger.',
     emptyCta: 'Conectar',
     searchPlaceholder: 'Buscar dominio…',
     noMatch: 'Sin coincidencias para "{query}".',
@@ -137,13 +138,16 @@ export const es: Dictionary = {
     kindMailEmpty: 'Ninguno',
     kindCt: 'Certificados',
     kindNone: 'Ninguno',
+    kindRekor: 'Firmas',
     kindFirst: 'Primero registrado',
     kindLatest: 'Más reciente',
     mailAuthRate: 'DKIM acierto',
     certs: 'Certs',
+    sigs: 'Entradas',
     ledgerTitle: 'Ledger',
     mailLeaves: 'Hojas de correo',
     ctLeaves: 'Hojas CT',
+    rekorLeaves: 'Hojas Rekor',
     timeVerified: 'Días confirmados',
     reports: 'Informes',
     allTime: 'histórico',
@@ -207,6 +211,10 @@ export const es: Dictionary = {
     colNotBefore: 'No antes de',
     colLoggedAt: 'Registrado',
     colFingerprint: 'Huella',
+    rekorHistory: 'Firmas',
+    rekorHistoryCounts: '{n}',
+    colIdentity: 'Identidad',
+    colEntryKind: 'Tipo',
   },
   whitepaper: {
     eyebrow: 'PACT',
@@ -216,7 +224,7 @@ export const es: Dictionary = {
   },
   legal: {
     eyebrow: 'Legal',
-    lastUpdated: 'Última actualización: 16 de agosto de 2026',
+    lastUpdated: 'Última actualización: 25 de agosto de 2026',
     termsTitle: 'Términos del servicio',
     privacyTitle: 'Política de privacidad',
     emailLabel: 'Email',
@@ -231,7 +239,7 @@ export const es: Dictionary = {
       },
       {
         title: '3. El servicio',
-        body: 'PACT captura rastros residuales que sistemas independientes ya emiten y los registra en un árbol Merkle de solo añadido. El historial de correo proviene de informes agregados de autenticación DMARC que los sistemas receptores ya generan. El historial de certificados proviene de registros públicos de Certificate Transparency — escape residual indexado, no una ceremonia de emisión nueva ni un sello HTTPS. Correo y CT quedan como tipos distintos; no se mezclan en una puntuación. Conectar un dominio requiere añadir PACT como destino de informes en DNS (directamente o mediante un proveedor compatible) para conservar los informes de correo. La indexación de CT no pide un rito extra. No leemos el contenido de los mensajes, las identidades de los destinatarios ni los datos del buzón.',
+        body: 'PACT captura rastros residuales que sistemas independientes ya emiten y los registra en un árbol Merkle de solo añadido. El historial de correo proviene de informes agregados de autenticación DMARC que los sistemas receptores ya generan. El historial de certificados proviene de registros públicos de Certificate Transparency — escape residual indexado, no una ceremonia de emisión nueva ni un sello HTTPS. El historial de firmas proviene del log público Rekor — escape residual indexado, no una ceremonia de firma. Correo, CT y Rekor quedan como tipos distintos; no se mezclan en una puntuación. Conectar un dominio requiere añadir PACT como destino de informes en DNS (directamente o mediante un proveedor compatible) para conservar los informes de correo. La indexación de CT y Rekor no pide un rito extra. No leemos el contenido de los mensajes, las identidades de los destinatarios ni los datos del buzón.',
       },
       {
         title: '4. Registros públicos',
@@ -281,11 +289,11 @@ export const es: Dictionary = {
     privacy: [
       {
         title: '1. Resumen',
-        body: 'Esta Política de privacidad explica cómo PBM Labs LLC trata la información cuando usas webuildreal.dev — la casa pública del movimiento we build real y de la primera implementación de referencia del protocolo abierto PACT. PACT registra rastros residuales: informes agregados DMARC y metadatos de registros públicos de Certificate Transparency. Los informes agregados de correo no contienen contenido de mensajes ni identidades personales. Los datos de CT ya son escape público de logs.',
+        body: 'Esta Política de privacidad explica cómo PBM Labs LLC trata la información cuando usas webuildreal.dev — la casa pública del movimiento we build real y de la primera implementación de referencia del protocolo abierto PACT. PACT registra rastros residuales: informes agregados DMARC, metadatos de registros públicos de Certificate Transparency y metadatos del log público Rekor. Los informes agregados de correo no contienen contenido de mensajes ni identidades personales. Los datos de CT y Rekor ya son escape público de logs, incluidas las identidades Rekor ya publicadas en ese log.',
       },
       {
         title: '2. Información que procesamos',
-        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); metadatos de primera aparición de Certificate Transparency desde logs públicos (emisor, not-before, hora del log, huella); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: tema e idioma almacenados en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
+        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); metadatos de primera aparición de Certificate Transparency desde logs públicos (emisor, not-before, hora del log, huella); identidades residuales de Rekor que ya cubren el dominio conectado (SAN de identidad, hora integrada, id de entrada); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: tema e idioma almacenados en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
       },
       {
         title: '3. Qué no recopilamos',

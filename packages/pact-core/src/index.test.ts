@@ -3,7 +3,13 @@ import {
   aggregateReportToLeaves,
   computeLeafHash,
   computeCtLeafHash,
+  computeRekorLeafHash,
   ctKindId,
+  leftoverRekorSubjects,
+  parseRekorLogEntry,
+  parseRekorUuidList,
+  rekorIdentityCoversDomain,
+  rekorKindId,
   certNamesCoverDomain,
   fingerprintFromParts,
   fingerprintFromSha256,
@@ -514,5 +520,65 @@ describe('sparse merkle tree', () => {
     expect(proof).toHaveLength(32);
     expect(tree.verifyProof(leaf, index, proof, root)).toBe(true);
     expect(tree.verifyProof(leaf, index, proof, `0x${'11'.repeat(32)}`)).toBe(false);
+  });
+});
+
+describe('Rekor leaf hash', () => {
+  it('is kind-tagged and distinct from CT of the same domain', () => {
+    const input = {
+      domain: 'example.com',
+      uuid: 'aa'.repeat(32),
+      identity: 'example.com',
+      integratedTime: 1_700_000_100n,
+      logId: 'rekor.sigstore.dev',
+      logIndex: 42n,
+    };
+    const a = computeRekorLeafHash(input);
+    expect(a).toBe(computeRekorLeafHash(input));
+    expect(a).toMatch(/^0x[a-f0-9]{64}$/);
+    expect(rekorKindId()).toMatch(/^0x[a-f0-9]{64}$/);
+    expect(computeRekorLeafHash({ ...input, logIndex: 43n })).not.toBe(a);
+    expect(ctKindId()).not.toBe(rekorKindId());
+  });
+
+  it('binds leftover identities to the domain and rejects GitHub hosts', () => {
+    expect(rekorIdentityCoversDomain('example.com', 'example.com')).toBe(true);
+    expect(rekorIdentityCoversDomain('https://www.example.com/path', 'example.com')).toBe(true);
+    expect(rekorIdentityCoversDomain('ci@example.com', 'example.com')).toBe(true);
+    expect(rekorIdentityCoversDomain('https://github.com/example/repo', 'example.com')).toBe(false);
+    expect(rekorIdentityCoversDomain('other.com', 'example.com')).toBe(false);
+    expect(leftoverRekorSubjects('Example.COM')).toEqual([
+      'example.com',
+      'www.example.com',
+      'https://example.com',
+      'https://www.example.com',
+    ]);
+  });
+
+  it('parses Rekor UUID lists and log entries', () => {
+    const uuid = 'bb'.repeat(32);
+    expect(parseRekorUuidList([uuid, 'nope', 1])).toEqual([uuid]);
+    const body = btoa(JSON.stringify({ kind: 'hashedrekord', apiVersion: '0.0.1' }));
+    const entry = parseRekorLogEntry(
+      {
+        [uuid]: {
+          body,
+          integratedTime: 1_700_000_100,
+          logIndex: 99,
+        },
+      },
+      'example.com',
+      'example.com',
+    );
+    expect(entry?.uuid).toBe(uuid);
+    expect(entry?.logIndex).toBe(99n);
+    expect(entry?.entryKind).toBe('hashedrekord');
+    expect(
+      parseRekorLogEntry(
+        { [uuid]: { body, integratedTime: 1, logIndex: 1 } },
+        'https://github.com/x',
+        'example.com',
+      ),
+    ).toBeNull();
   });
 });

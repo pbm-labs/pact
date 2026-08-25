@@ -59,6 +59,20 @@ export interface DomainCtSummary {
   merkleProofValid: boolean;
 }
 
+export interface DomainRekorSummary {
+  uuid: string;
+  identity: string;
+  entryKind: string;
+  logId: string;
+  logIndex: number;
+  integratedTime: number;
+  leafIndex: number;
+  leafHash: Hash;
+  leafUrl: string | null;
+  merkleProof: Hash[];
+  merkleProofValid: boolean;
+}
+
 export interface DomainLiveData {
   domain: string;
   connectedSince: string | null;
@@ -78,6 +92,7 @@ export interface DomainLiveData {
   staging: boolean;
   leaves: DomainLeafSummary[];
   ct: DomainCtSummary[];
+  rekor: DomainRekorSummary[];
 }
 
 export interface DomainWaitingData {
@@ -86,6 +101,7 @@ export interface DomainWaitingData {
   domainRegisteredAt: string | null;
   pactHistoryStart: string | null;
   ct: DomainCtSummary[];
+  rekor: DomainRekorSummary[];
   latestRoot: string | null;
   rootTxHash: string | null;
   rootsContract: string | null;
@@ -99,13 +115,21 @@ export type DomainPageState =
   | { status: 'waiting'; data: DomainWaitingData }
   | null;
 
-function earliestTraceMs(mailPeriodStarts: number[], ctLoggedAts: number[]): number | null {
+function earliestTraceMs(
+  mailPeriodStarts: number[],
+  ctLoggedAts: number[],
+  rekorTimes: number[] = [],
+): number | null {
   let min = Number.POSITIVE_INFINITY;
   for (const t of mailPeriodStarts) {
     const ms = Number(t) * 1000;
     if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
   }
   for (const t of ctLoggedAts) {
+    const ms = Number(t) * 1000;
+    if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
+  }
+  for (const t of rekorTimes) {
     const ms = Number(t) * 1000;
     if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
   }
@@ -128,9 +152,10 @@ function pactHistoryStartFromLeaves(
 function pactHistoryStartFromTraces(
   mailPeriodStarts: number[],
   ctLoggedAts: number[],
+  rekorTimes: number[],
   connectedAt: string | null,
 ): Date {
-  const earliest = earliestTraceMs(mailPeriodStarts, ctLoggedAts);
+  const earliest = earliestTraceMs(mailPeriodStarts, ctLoggedAts, rekorTimes);
   if (earliest != null) return new Date(earliest);
   if (connectedAt) return new Date(connectedAt);
   return new Date();
@@ -217,12 +242,14 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     computedRootEarly !== null &&
     latestRootEarly.toLowerCase() === computedRootEarly.toLowerCase();
   const ct = mapCtCerts(payload.ct ?? [], merkleContext, rootMatchesEarly);
+  const rekor = mapRekorEntries(payload.rekor ?? [], merkleContext, rootMatchesEarly);
 
   if (!leaves.length) {
     const onChain = payload.onChain != null;
     const waitingHistoryMs = earliestTraceMs(
       [],
       ct.map((row) => row.loggedAt),
+      rekor.map((row) => row.integratedTime),
     );
     return {
       status: 'waiting',
@@ -232,6 +259,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
         domainRegisteredAt,
         pactHistoryStart: waitingHistoryMs != null ? new Date(waitingHistoryMs).toISOString() : null,
         ct,
+        rekor,
         latestRoot: latestRootEarly,
         rootTxHash: payload.onChain?.txHash ?? null,
         rootsContract: payload.onChain?.contract ?? null,
@@ -249,6 +277,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const pactHistoryStart = pactHistoryStartFromTraces(
     leaves.map((l) => Number(l.period_start)),
     ct.map((row) => row.loggedAt),
+    rekor.map((row) => row.integratedTime),
     payload.domain.connected_at,
   );
 
@@ -283,6 +312,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       anchorType: onChain ? 'base' : 'staging',
       staging: !onChain,
       ct,
+      rekor,
       leaves: leaves.map((leaf) => {
         const leafHash = byteaToHash(leaf.leaf_hash);
         const leafIndex = Number(leaf.leaf_index);
@@ -365,6 +395,48 @@ function mapCtCerts(
       loggedAt: Number(row.logged_at),
       notBefore: Number(row.not_before),
       notAfter: Number(row.not_after),
+      leafIndex: proof.leafIndex,
+      leafHash: proof.leafHash,
+      leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
+      merkleProof: proof.proof,
+      merkleProofValid: proof.proofValid && rootMatchesPublished,
+    };
+  });
+}
+
+function mapRekorEntries(
+  rows: {
+    uuid: string;
+    identity: string;
+    entry_kind: string;
+    log_id: string;
+    log_index: number;
+    integrated_time: number;
+    leaf_index: number;
+    leaf_hash: string;
+  }[],
+  merkleContext: ReturnType<typeof rebuildGlobalMerkleTree>,
+  rootMatchesPublished: boolean,
+): DomainRekorSummary[] {
+  return rows.map((row) => {
+    const leafHash = byteaToHash(row.leaf_hash);
+    const leafIndex = Number(row.leaf_index);
+    const proof =
+      merkleContext != null
+        ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
+        : {
+            leafIndex,
+            leafHash,
+            proof: [] as Hash[],
+            proofValid: false,
+          };
+    return {
+      uuid: row.uuid,
+      identity: row.identity,
+      entryKind: row.entry_kind,
+      logId: row.log_id,
+      logIndex: Number(row.log_index),
+      integratedTime: Number(row.integrated_time),
       leafIndex: proof.leafIndex,
       leafHash: proof.leafHash,
       leafUrl: ledgerObjectUrl('leaves', proof.leafHash),

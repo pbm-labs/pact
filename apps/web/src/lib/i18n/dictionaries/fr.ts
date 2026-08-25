@@ -31,11 +31,11 @@ export const fr: Dictionary = {
     howEyebrow: 'Comment ça marche',
     howTitle: 'De l’évidence que l’on peut revérifier.',
     howLead:
-      'Personne n’adhère à un nouveau réseau. Les systèmes de courrier et les journaux de certificats produisent déjà les traces. Ce site les enregistre sur un arbre en ajout seulement, comme des types distincts, et publie une racine que n’importe qui peut vérifier.',
+      'Personne n’adhère à un nouveau réseau. Les systèmes de courrier, les journaux de certificats et les journaux de signatures produisent déjà les traces. Ce site les enregistre sur un arbre en ajout seulement, comme des types distincts, et publie une racine que n’importe qui peut vérifier.',
     howSteps: [
       {
-        title: 'Courrier et certificats',
-        body: 'Les systèmes destinataires — Gmail, Outlook, Yahoo et d’autres — émettent déjà des rapports agrégés de courrier : si du courrier authentifié est arrivé, à quelle fréquence, et selon qui. Les journaux de certificats enregistrent déjà l’émission ; un nom qui y apparaît a une date de première vue écrite par quelqu’un d’autre. Les deux restent sur le même arbre. Ils ne sont jamais fusionnés en un score.',
+        title: 'Courrier, certificats, signatures',
+        body: 'Les systèmes destinataires — Gmail, Outlook, Yahoo et d’autres — émettent déjà des rapports agrégés de courrier : si du courrier authentifié est arrivé, à quelle fréquence, et selon qui. Les journaux de certificats enregistrent déjà l’émission. Rekor enregistre déjà les métadonnées de logiciels signés. Chaque type reste sur le même arbre. Ils ne sont jamais fusionnés en un score.',
       },
       {
         title: 'N’importe qui peut vérifier',
@@ -43,23 +43,24 @@ export const fr: Dictionary = {
       },
       {
         title: 'Pas un verdict',
-        body: 'La page, ce sont des horloges, des rapports, des organisations et des dates de certificats. Elle publie ce qui s’est passé. Le jugement reste dehors.',
+        body: 'La page, ce sont des horloges, des rapports, des organisations, des dates de certificats et des entrées de signature. Elle publie ce qui s’est passé. Le jugement reste dehors.',
       },
     ],
     recordEyebrow: 'Un registre',
     recordTitle: 'Ce que la page montre.',
     recordSub:
-      'Chaque nom a des horloges d’enregistrement et de confirmation, des rapports de courrier, des journaux de certificats et un ledger partagé. Ouvrez un registre en direct :',
+      'Chaque nom a des horloges d’enregistrement et de confirmation, des rapports de courrier, des journaux de certificats, des journaux de signatures et un ledger partagé. Ouvrez un registre en direct :',
     privacyTitle: 'Confidentialité',
     privacyBody1:
-      'Connecter pointe le DNS pour conserver les rapports agrégés de courrier au lieu de les jeter. Les journaux de certificats sont déjà publics ; ce site les indexe. Aucun flux ne contient de messages, d’objets ou de boîtes.',
-    privacyBody2: 'La page publique est l’historique du domaine à partir de ces deux flux. Rien d’autre n’est collecté.',
+      'Connecter pointe le DNS pour conserver les rapports agrégés de courrier au lieu de les jeter. Les journaux de certificats et de signatures sont déjà publics ; ce site les indexe. Aucun flux ne contient de messages, d’objets ou de boîtes.',
+    privacyBody2: 'La page publique est l’historique du domaine à partir de ces flux. Rien d’autre n’est collecté.',
     privacyTableTitle: 'Ce qu’il y a dans le registre',
     privacyRows: [
       'Domaine',
       'Rapports de courrier',
       'Orgs déclarantes',
       'Certificats',
+      'Signatures',
     ],
     ctaTitle: 'Commencez un registre.',
     ctaButton: 'Connecter',
@@ -70,7 +71,7 @@ export const fr: Dictionary = {
     eyebrow: 'Connecter',
     title: 'Ajoutez votre domaine',
     intro:
-      'Pointez le DNS pour que les systèmes de courrier indépendants envoient ici leurs rapports agrégés. Les journaux de certificats sont déjà publics ; ce site les indexe. L’historique de courrier commence à l’arrivée du premier rapport indépendant — pas quand la ligne DNS est enregistrée.',
+      'Pointez le DNS pour que les systèmes de courrier indépendants envoient ici leurs rapports agrégés. Les journaux de certificats et de signatures sont déjà publics ; ce site les indexe. L’historique de courrier commence à l’arrivée du premier rapport indépendant — pas quand la ligne DNS est enregistrée.',
     yourDomain: 'Votre domaine',
     pathCloudflareTitle: "J'utilise Cloudflare",
     pathCloudflareDesc: 'Un clic — nous ajoutons la ligne DNS.',
@@ -84,7 +85,7 @@ export const fr: Dictionary = {
     pathToolBadge: 'Outil existant',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
-      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS. L’historique de courrier commence à l’arrivée des rapports indépendants — pas à l’enregistrement de la ligne DNS. Les journaux de certificats sont indexés une fois le nom sur le ledger.',
+      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS. L’historique de courrier commence à l’arrivée des rapports indépendants — pas à l’enregistrement de la ligne DNS. Les journaux de certificats et de signatures sont indexés une fois le nom sur le ledger.',
     toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
       'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut dans ce flux. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
@@ -115,7 +116,7 @@ export const fr: Dictionary = {
     addDomain: 'Connecter',
     rankedBy: 'Par historique de courrier',
     lead:
-      'Pages publiques des noms sur le ledger. Rapports de courrier et journaux de certificats, comme types distincts.',
+      'Pages publiques des noms sur le ledger. Rapports de courrier, journaux de certificats et journaux de signatures, comme types distincts.',
     colDomain: 'Domaine',
     colHistory: 'Historique',
     verified: 'confirmé',
@@ -125,7 +126,7 @@ export const fr: Dictionary = {
     orgs: 'orgs',
     emptyTitle: 'Aucun registre',
     emptyBody:
-      'Connectez un domaine pour conserver les rapports de courrier indépendants. Les journaux de certificats sont indexés une fois le nom sur le ledger.',
+      'Connectez un domaine pour conserver les rapports de courrier indépendants. Les journaux de certificats et de signatures sont indexés une fois le nom sur le ledger.',
     emptyCta: 'Connecter',
     searchPlaceholder: 'Rechercher un domaine…',
     noMatch: 'Aucune correspondance pour « {query} ».',
@@ -139,13 +140,16 @@ export const fr: Dictionary = {
     kindMailEmpty: 'Aucun',
     kindCt: 'Certificats',
     kindNone: 'Aucun',
+    kindRekor: 'Signatures',
     kindFirst: 'Premier journalisé',
     kindLatest: 'Plus récent',
     mailAuthRate: 'DKIM réussi',
     certs: 'Certs',
+    sigs: 'Entrées',
     ledgerTitle: 'Ledger',
     mailLeaves: 'Feuilles courrier',
     ctLeaves: 'Feuilles CT',
+    rekorLeaves: 'Feuilles Rekor',
     timeVerified: 'Jours confirmés',
     reports: 'Rapports',
     allTime: 'depuis le début',
@@ -209,6 +213,10 @@ export const fr: Dictionary = {
     colNotBefore: 'Valide dès',
     colLoggedAt: 'Journalisé',
     colFingerprint: 'Empreinte',
+    rekorHistory: 'Signatures',
+    rekorHistoryCounts: '{n}',
+    colIdentity: 'Identité',
+    colEntryKind: 'Type',
   },
   whitepaper: {
     eyebrow: 'PACT',
@@ -218,7 +226,7 @@ export const fr: Dictionary = {
   },
   legal: {
     eyebrow: 'Mentions légales',
-    lastUpdated: 'Dernière mise à jour le 16 août 2026',
+    lastUpdated: 'Dernière mise à jour le 25 août 2026',
     termsTitle: "Conditions d'utilisation",
     privacyTitle: 'Politique de confidentialité',
     emailLabel: 'E-mail',
@@ -233,7 +241,7 @@ export const fr: Dictionary = {
       },
       {
         title: '3. Le service',
-        body: "PACT capture des traces résiduelles déjà émises par des systèmes indépendants et les inscrit dans un arbre de Merkle append-only. L'historique de courrier vient des rapports d'authentification agrégés DMARC que les systèmes destinataires génèrent déjà. L'historique des certificats vient des journaux publics Certificate Transparency — échappement résiduel indexé, pas une nouvelle cérémonie d'émission et pas un badge HTTPS. Courrier et CT restent des types distincts ; ils ne sont pas fusionnés en un score. Connecter un domaine nécessite d'ajouter PACT comme destination de rapports dans le DNS (directement ou via un fournisseur pris en charge) pour conserver les rapports de courrier. L'indexation CT n'exige aucun rituel supplémentaire. Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
+        body: "PACT capture des traces résiduelles déjà émises par des systèmes indépendants et les inscrit dans un arbre de Merkle append-only. L'historique de courrier vient des rapports d'authentification agrégés DMARC que les systèmes destinataires génèrent déjà. L'historique des certificats vient des journaux publics Certificate Transparency — échappement résiduel indexé, pas une nouvelle cérémonie d'émission et pas un badge HTTPS. L'historique des signatures vient du journal public Rekor — échappement résiduel indexé, pas une cérémonie de signature. Courrier, CT et Rekor restent des types distincts ; ils ne sont pas fusionnés en un score. Connecter un domaine nécessite d'ajouter PACT comme destination de rapports dans le DNS (directement ou via un fournisseur pris en charge) pour conserver les rapports de courrier. L'indexation CT et Rekor n'exige aucun rituel supplémentaire. Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
       },
       {
         title: '4. Registres publics',
@@ -283,11 +291,11 @@ export const fr: Dictionary = {
     privacy: [
       {
         title: '1. Vue d\'ensemble',
-        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez webuildreal.dev — le foyer public du mouvement we build real et de la première implémentation de référence du protocole ouvert PACT. PACT enregistre des traces résiduelles : rapports agrégés DMARC et métadonnées des journaux publics Certificate Transparency. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT sont déjà de l'échappement de journaux publics.",
+        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez webuildreal.dev — le foyer public du mouvement we build real et de la première implémentation de référence du protocole ouvert PACT. PACT enregistre des traces résiduelles : rapports agrégés DMARC, métadonnées des journaux publics Certificate Transparency et métadonnées du journal public Rekor. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT et Rekor sont déjà de l'échappement de journaux publics, y compris les identités Rekor déjà publiées dans ce journal.",
       },
       {
         title: '2. Informations que nous traitons',
-        body: "Données de domaine et de protocole : noms de domaine que vous connectez ; métadonnées des rapports agrégés DMARC (organisation déclarante, période, comptes de réussite/échec d'authentification, sélecteurs et identifiants d'infrastructure sous forme hachée ou résumée) ; métadonnées de première vue Certificate Transparency issues de journaux publics (émetteur, not-before, heure du journal, empreinte) ; feuilles Merkle, racines et données de vérification publiques. Données du parcours de connexion : chaînes de domaine que vous soumettez ; si vous utilisez OAuth Cloudflare, jetons et informations de zone nécessaires pour mettre à jour le DNS en votre nom pendant cette session. Préférences du navigateur : thème et langue stockés dans le local storage de votre appareil. Nous n'exploitons pas de comptes utilisateurs grand public ni de profils marketing sur ce site.",
+        body: "Données de domaine et de protocole : noms de domaine que vous connectez ; métadonnées des rapports agrégés DMARC (organisation déclarante, période, comptes de réussite/échec d'authentification, sélecteurs et identifiants d'infrastructure sous forme hachée ou résumée) ; métadonnées de première vue Certificate Transparency issues de journaux publics (émetteur, not-before, heure du journal, empreinte) ; identités résiduelles Rekor qui couvrent déjà le domaine connecté (SAN d'identité, heure intégrée, id d'entrée) ; feuilles Merkle, racines et données de vérification publiques. Données du parcours de connexion : chaînes de domaine que vous soumettez ; si vous utilisez OAuth Cloudflare, jetons et informations de zone nécessaires pour mettre à jour le DNS en votre nom pendant cette session. Préférences du navigateur : thème et langue stockés dans le local storage de votre appareil. Nous n'exploitons pas de comptes utilisateurs grand public ni de profils marketing sur ce site.",
       },
       {
         title: '3. Ce que nous ne collectons pas',

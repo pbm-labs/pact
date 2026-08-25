@@ -31,11 +31,11 @@ export const de: Dictionary = {
     howEyebrow: 'So funktioniert es',
     howTitle: 'Evidenz, die du nachprüfen kannst.',
     howLead:
-      'Niemand tritt einem neuen Netz bei. Mailsysteme und Zertifikatslogs erzeugen die Spuren bereits. Diese Seite zeichnet sie auf einem append-only Baum als getrennte Arten auf und veröffentlicht eine Root, die jede Person prüfen kann.',
+      'Niemand tritt einem neuen Netz bei. Mailsysteme, Zertifikatslogs und Signaturlogs erzeugen die Spuren bereits. Diese Seite zeichnet sie auf einem append-only Baum als getrennte Arten auf und veröffentlicht eine Root, die jede Person prüfen kann.',
     howSteps: [
       {
-        title: 'Mail und Zertifikate',
-        body: 'Empfangssysteme — Gmail, Outlook, Yahoo und andere — emittieren bereits aggregierte Mailberichte: ob authentifizierte Mail ankam, wie oft, und laut wem. Zertifikatslogs zeichnen Ausstellung bereits auf; ein Name, der dort erscheint, hat ein Erstes-Gesehen-Datum, das jemand anderes aufgeschrieben hat. Beide sitzen auf demselben Baum. Sie werden nie zu einem Score vermischt.',
+        title: 'Mail, Zertifikate, Signaturen',
+        body: 'Empfangssysteme — Gmail, Outlook, Yahoo und andere — emittieren bereits aggregierte Mailberichte: ob authentifizierte Mail ankam, wie oft, und laut wem. Zertifikatslogs zeichnen Ausstellung bereits auf. Rekor zeichnet Metadaten signierter Software bereits auf. Jede Art sitzt auf demselben Baum. Sie werden nie zu einem Score vermischt.',
       },
       {
         title: 'Jede Person kann prüfen',
@@ -43,23 +43,24 @@ export const de: Dictionary = {
       },
       {
         title: 'Kein Urteil',
-        body: 'Die Seite sind Uhren, Berichte, Organisationen und Zertifikatsdaten. Sie veröffentlicht, was geschehen ist. Urteil bleibt draußen.',
+        body: 'Die Seite sind Uhren, Berichte, Organisationen, Zertifikatsdaten und Signatureinträge. Sie veröffentlicht, was geschehen ist. Urteil bleibt draußen.',
       },
     ],
     recordEyebrow: 'Ein Eintrag',
     recordTitle: 'Was die Seite zeigt.',
     recordSub:
-      'Jeder Name hat Registrierungs- und Bestätigungsuhren, Mailberichte, Zertifikatslogs und ein gemeinsames Ledger. Öffne einen Live-Eintrag:',
+      'Jeder Name hat Registrierungs- und Bestätigungsuhren, Mailberichte, Zertifikatslogs, Signaturlogs und ein gemeinsames Ledger. Öffne einen Live-Eintrag:',
     privacyTitle: 'Datenschutz',
     privacyBody1:
-      'Verbinden setzt DNS so, dass aggregierte Mailberichte behalten statt verworfen werden. Zertifikatslogs sind bereits öffentlich; diese Seite indexiert sie. Keiner der Feeds enthält Nachrichten, Betreffzeilen oder Postfächer.',
-    privacyBody2: 'Die öffentliche Seite ist Domainhistorie aus diesen zwei Feeds. Mehr wird nicht erfasst.',
+      'Verbinden setzt DNS so, dass aggregierte Mailberichte behalten statt verworfen werden. Zertifikatslogs und Signaturlogs sind bereits öffentlich; diese Seite indexiert sie. Keiner der Feeds enthält Nachrichten, Betreffzeilen oder Postfächer.',
+    privacyBody2: 'Die öffentliche Seite ist Domainhistorie aus diesen Feeds. Mehr wird nicht erfasst.',
     privacyTableTitle: 'Was im Eintrag steht',
     privacyRows: [
       'Domain',
       'Mailberichte',
       'Meldende Orgs.',
       'Zertifikate',
+      'Signaturen',
     ],
     ctaTitle: 'Starte einen Eintrag.',
     ctaButton: 'Verbinden',
@@ -70,7 +71,7 @@ export const de: Dictionary = {
     eyebrow: 'Verbinden',
     title: 'Domain hinzufügen',
     intro:
-      'Setze DNS so, dass unabhängige Mailsysteme ihre Aggregatberichte hierher senden. Zertifikatslogs sind bereits öffentlich; diese Seite indexiert sie. Die Mail-Historie beginnt, wenn der erste unabhängige Bericht eintrifft — nicht, wenn die DNS-Zeile gespeichert wird.',
+      'Setze DNS so, dass unabhängige Mailsysteme ihre Aggregatberichte hierher senden. Zertifikatslogs und Signaturlogs sind bereits öffentlich; diese Seite indexiert sie. Die Mail-Historie beginnt, wenn der erste unabhängige Bericht eintrifft — nicht, wenn die DNS-Zeile gespeichert wird.',
     yourDomain: 'Deine Domain',
     pathCloudflareTitle: 'Ich nutze Cloudflare',
     pathCloudflareDesc: 'Ein Klick — wir setzen die DNS-Zeile.',
@@ -84,7 +85,7 @@ export const de: Dictionary = {
     pathToolBadge: 'Vorhandenes Tool',
     whatDoesThisDo: 'Was bewirkt das?',
     cloudflareExplain:
-      'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein. Die Mail-Historie beginnt, wenn unabhängige Berichte eintreffen — nicht beim Speichern der DNS-Zeile. Zertifikatslogs werden indexiert, sobald der Name auf dem Ledger steht.',
+      'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein. Die Mail-Historie beginnt, wenn unabhängige Berichte eintreffen — nicht beim Speichern der DNS-Zeile. Zertifikats- und Signaturlogs werden indexiert, sobald der Name auf dem Ledger steht.',
     toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
       'Dein Tool sammelt bereits Berichte für diese Domain. Diese Adresse nimmt uns in diesen Feed auf. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden) — hier ist kein weiterer Schritt nötig.',
@@ -113,7 +114,7 @@ export const de: Dictionary = {
     addDomain: 'Verbinden',
     rankedBy: 'Nach Mail-Historie',
     lead:
-      'Öffentliche Seiten für Namen auf dem Ledger. Mailberichte und Zertifikatslogs, als getrennte Arten.',
+      'Öffentliche Seiten für Namen auf dem Ledger. Mailberichte, Zertifikatslogs und Signaturlogs, als getrennte Arten.',
     colDomain: 'Domain',
     colHistory: 'Historie',
     verified: 'bestätigt',
@@ -123,7 +124,7 @@ export const de: Dictionary = {
     orgs: 'Orgs.',
     emptyTitle: 'Keine Einträge',
     emptyBody:
-      'Verbinde eine Domain, damit unabhängige Mailberichte behalten werden. Zertifikatslogs werden indexiert, sobald der Name auf dem Ledger steht.',
+      'Verbinde eine Domain, damit unabhängige Mailberichte behalten werden. Zertifikats- und Signaturlogs werden indexiert, sobald der Name auf dem Ledger steht.',
     emptyCta: 'Verbinden',
     searchPlaceholder: 'Domain suchen…',
     noMatch: 'Kein Treffer für „{query}“.',
@@ -137,13 +138,16 @@ export const de: Dictionary = {
     kindMailEmpty: 'Keine',
     kindCt: 'Zertifikate',
     kindNone: 'Keine',
+    kindRekor: 'Signaturen',
     kindFirst: 'Zuerst geloggt',
     kindLatest: 'Zuletzt',
     mailAuthRate: 'DKIM bestanden',
     certs: 'Zert.',
+    sigs: 'Einträge',
     ledgerTitle: 'Ledger',
     mailLeaves: 'Mail-Leaves',
     ctLeaves: 'CT-Leaves',
+    rekorLeaves: 'Rekor-Leaves',
     timeVerified: 'Bestätigte Tage',
     reports: 'Berichte',
     allTime: 'gesamt',
@@ -207,6 +211,10 @@ export const de: Dictionary = {
     colNotBefore: 'Gültig ab',
     colLoggedAt: 'Geloggt',
     colFingerprint: 'Fingerprint',
+    rekorHistory: 'Signaturen',
+    rekorHistoryCounts: '{n}',
+    colIdentity: 'Identität',
+    colEntryKind: 'Art',
   },
   whitepaper: {
     eyebrow: 'PACT',
@@ -216,7 +224,7 @@ export const de: Dictionary = {
   },
   legal: {
     eyebrow: 'Rechtliches',
-    lastUpdated: 'Zuletzt aktualisiert: 16. August 2026',
+    lastUpdated: 'Zuletzt aktualisiert: 25. August 2026',
     termsTitle: 'Nutzungsbedingungen',
     privacyTitle: 'Datenschutzerklärung',
     emailLabel: 'E-Mail',
@@ -231,7 +239,7 @@ export const de: Dictionary = {
       },
       {
         title: '3. Der Dienst',
-        body: 'PACT erfasst Restspuren, die unabhängige Systeme bereits emittieren, und schreibt sie in einen nur anhängenden Merkle-Baum. Mail-Historie stammt aus DMARC-Aggregat-Authentifizierungsberichten, die empfangende Mail-Systeme bereits erzeugen. Zertifikatshistorie stammt aus öffentlichen Certificate-Transparency-Logs — indexierter Restexhaust, keine neue Ausstellungszeremonie und kein HTTPS-Siegel. Mail und CT bleiben getrennte Arten; sie werden nicht zu einem Score vermischt. Das Verbinden einer Domain erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter), damit Mailberichte behalten werden. CT-Indexierung braucht kein Extra-Ritual. Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
+        body: 'PACT erfasst Restspuren, die unabhängige Systeme bereits emittieren, und schreibt sie in einen nur anhängenden Merkle-Baum. Mail-Historie stammt aus DMARC-Aggregat-Authentifizierungsberichten, die empfangende Mail-Systeme bereits erzeugen. Zertifikatshistorie stammt aus öffentlichen Certificate-Transparency-Logs — indexierter Restexhaust, keine neue Ausstellungszeremonie und kein HTTPS-Siegel. Signaturhistorie stammt aus dem öffentlichen Rekor-Log — indexierter Restexhaust, keine Signaturzeremonie. Mail, CT und Rekor bleiben getrennte Arten; sie werden nicht zu einem Score vermischt. Das Verbinden einer Domain erfordert, PACT als Berichtsziel in DNS hinzuzufügen (direkt oder über einen unterstützten Anbieter), damit Mailberichte behalten werden. CT- und Rekor-Indexierung braucht kein Extra-Ritual. Wir lesen keine Nachrichteninhalte, Empfängeridentitäten oder Postfachdaten.',
       },
       {
         title: '4. Öffentliche Einträge',
@@ -281,11 +289,11 @@ export const de: Dictionary = {
     privacy: [
       {
         title: '1. Überblick',
-        body: 'Diese Datenschutzerklärung erläutert, wie PBM Labs LLC Informationen verarbeitet, wenn du webuildreal.dev nutzt — das öffentliche Zuhause der Bewegung we build real und der ersten Referenzimplementierung des offenen PACT-Protokolls. PACT erfasst Restspuren: DMARC-Aggregatberichte und Metadaten öffentlicher Certificate-Transparency-Logs. Aggregat-Mailberichte enthalten keinen Nachrichteninhalt und keine persönlichen Identitäten. CT-Daten sind bereits öffentlicher Log-Exhaust.',
+        body: 'Diese Datenschutzerklärung erläutert, wie PBM Labs LLC Informationen verarbeitet, wenn du webuildreal.dev nutzt — das öffentliche Zuhause der Bewegung we build real und der ersten Referenzimplementierung des offenen PACT-Protokolls. PACT erfasst Restspuren: DMARC-Aggregatberichte, Metadaten öffentlicher Certificate-Transparency-Logs und Metadaten des öffentlichen Rekor-Logs. Aggregat-Mailberichte enthalten keinen Nachrichteninhalt und keine persönlichen Identitäten. CT- und Rekor-Daten sind bereits öffentlicher Log-Exhaust, einschließlich Rekor-Identitäten, die in diesem Log bereits veröffentlicht waren.',
       },
       {
         title: '2. Informationen, die wir verarbeiten',
-        body: 'Domain- und Protokolldaten: Domainnamen, die du verbindest; Metadaten aus DMARC-Aggregatberichten (meldende Organisation, Zeitraum, Authentifizierungs-Pass/Fail-Zählungen, Selektor- und Infrastrukturkennungen in gehashter oder zusammengefasster Form); Certificate-Transparency-Erstgesehen-Metadaten aus öffentlichen Logs (Aussteller, not-before, Log-Zeit, Fingerprint); Merkle-Leaves, Roots und öffentliche Verifizierungsdaten. Daten aus dem Verbindungsablauf: Domain-Zeichenketten, die du übermittelst; bei Cloudflare-OAuth Tokens und Zoneninformationen, die nötig sind, um DNS in deinem Namen während dieser Sitzung zu aktualisieren. Browser-Einstellungen: Theme und Sprache im Local Storage deines Geräts. Wir betreiben auf dieser Website keine Verbraucher-Benutzerkonten oder Marketingprofile.',
+        body: 'Domain- und Protokolldaten: Domainnamen, die du verbindest; Metadaten aus DMARC-Aggregatberichten (meldende Organisation, Zeitraum, Authentifizierungs-Pass/Fail-Zählungen, Selektor- und Infrastrukturkennungen in gehashter oder zusammengefasster Form); Certificate-Transparency-Erstgesehen-Metadaten aus öffentlichen Logs (Aussteller, not-before, Log-Zeit, Fingerprint); übrig gebliebene Rekor-Identitäten, die die verbundene Domain bereits abdecken (Identitäts-SAN, integrierte Zeit, Entry-Id); Merkle-Leaves, Roots und öffentliche Verifizierungsdaten. Daten aus dem Verbindungsablauf: Domain-Zeichenketten, die du übermittelst; bei Cloudflare-OAuth Tokens und Zoneninformationen, die nötig sind, um DNS in deinem Namen während dieser Sitzung zu aktualisieren. Browser-Einstellungen: Theme und Sprache im Local Storage deines Geräts. Wir betreiben auf dieser Website keine Verbraucher-Benutzerkonten oder Marketingprofile.',
       },
       {
         title: '3. Was wir nicht erheben',

@@ -59,6 +59,23 @@ export {
   splitCertNames,
   type CtIndexCert,
 } from './encoding/ct-index.js';
+export {
+  REKOR_KIND_TAG,
+  computeRekorLeafHash,
+  normalizeRekorUuid,
+  rekorEntryIdHash,
+  rekorIdentityCoversDomain,
+  rekorIdentityHash,
+  rekorKindId,
+  type RekorLeafInput,
+} from './encoding/rekor-leaf.js';
+export {
+  REKOR_PUBLIC_LOG,
+  leftoverRekorSubjects,
+  parseRekorLogEntry,
+  parseRekorUuidList,
+  type RekorIndexEntry,
+} from './encoding/rekor-index.js';
 export { SparseMerkleTree, TREE_DEPTH, ZERO_HASHES, type Hash } from './merkle/sparse.js';
 export {
   parseDmarcAggregateReport,

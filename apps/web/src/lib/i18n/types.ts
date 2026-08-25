@@ -104,13 +104,16 @@ export type Dictionary = {
     kindMailEmpty: string;
     kindCt: string;
     kindNone: string;
+    kindRekor: string;
     kindFirst: string;
     kindLatest: string;
     mailAuthRate: string;
     certs: string;
+    sigs: string;
     ledgerTitle: string;
     mailLeaves: string;
     ctLeaves: string;
+    rekorLeaves: string;
     timeVerified: string;
     reports: string;
     allTime: string;
@@ -173,6 +176,10 @@ export type Dictionary = {
     colNotBefore: string;
     colLoggedAt: string;
     colFingerprint: string;
+    rekorHistory: string;
+    rekorHistoryCounts: string;
+    colIdentity: string;
+    colEntryKind: string;
   };
   whitepaper: {
     eyebrow: string;

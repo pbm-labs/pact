@@ -81,6 +81,19 @@ export interface LedgerCtCertRow {
   created_at: string;
 }
 
+export interface LedgerRekorRow {
+  domain: string;
+  uuid: string;
+  leaf_index: number;
+  leaf_hash: string;
+  log_id: string;
+  log_index: number;
+  integrated_time: number;
+  identity: string;
+  entry_kind: string;
+  created_at: string;
+}
+
 export async function fetchLedgerDomains(): Promise<{
   domains: LedgerDomainRow[];
   leaves: LedgerLeafSummary[];
@@ -142,6 +155,7 @@ export async function fetchLedgerDomain(domain: string): Promise<{
   domain: LedgerDomainRow;
   leaves: LedgerLeafRow[];
   ct: LedgerCtCertRow[];
+  rekor: LedgerRekorRow[];
   globalLeaves: { leaf_index: number; leaf_hash: string }[];
   onChain: LedgerOnChain | null;
 } | null> {
@@ -153,10 +167,11 @@ export async function fetchLedgerDomain(domain: string): Promise<{
       domain: LedgerDomainRow;
       leaves: LedgerLeafRow[];
       ct?: LedgerCtCertRow[];
+      rekor?: LedgerRekorRow[];
       globalLeaves: { leaf_index: number; leaf_hash: string }[];
       onChain: LedgerOnChain | null;
     };
-    return { ...body, ct: body.ct ?? [] };
+    return { ...body, ct: body.ct ?? [], rekor: body.rekor ?? [] };
   } catch {
     return null;
   }

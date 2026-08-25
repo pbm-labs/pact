@@ -4,7 +4,7 @@
 2. **PACT** — an open protocol. Anyone may implement it.
 3. **PBM Labs LLC** — first reference implementation (this repository). Contact: `hello@pbm-labs.com`.
 
-Normative spec: [pact_protocol.md](pact_protocol.md). Leftover traces: mail (v0.2) and Certificate Transparency (v0.3) as separate kinds — not a blended score.  
+Normative spec: [pact_protocol.md](pact_protocol.md). Leftover traces: mail (v0.2), Certificate Transparency (v0.3), and Rekor (v0.4) as separate kinds — not a blended score.  
 Informative scoring example: [examples/scoring.md](examples/scoring.md) (`example-score-0.1`).
 
 Public whitepaper: [webuildreal.dev/whitepaper](https://webuildreal.dev/whitepaper).

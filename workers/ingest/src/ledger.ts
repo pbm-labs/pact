@@ -239,6 +239,8 @@ export async function nextLeafIndex(db: D1Database): Promise<number> {
          SELECT leaf_index FROM leaves
          UNION ALL
          SELECT leaf_index FROM ct_certs
+         UNION ALL
+         SELECT leaf_index FROM rekor_entries
        )`,
     )
     .first<{ max_index: number | null }>();
@@ -252,6 +254,8 @@ export async function listLeafHashes(db: D1Database): Promise<{ leaf_index: numb
          SELECT leaf_index, leaf_hash FROM leaves
          UNION ALL
          SELECT leaf_index, leaf_hash FROM ct_certs
+         UNION ALL
+         SELECT leaf_index, leaf_hash FROM rekor_entries
        )
        ORDER BY leaf_index ASC`,
     )
@@ -510,6 +514,108 @@ export async function listDomainsDueForCt(db: D1Database, limit: number): Promis
 export async function markCtSynced(db: D1Database, domain: string): Promise<void> {
   await db
     .prepare(`UPDATE domains SET ct_synced_at = datetime('now') WHERE domain = ?`)
+    .bind(domain)
+    .run();
+}
+
+export interface RekorEntryRow {
+  domain: string;
+  uuid: string;
+  leaf_index: number;
+  leaf_hash: string;
+  log_id: string;
+  log_index: number;
+  integrated_time: number;
+  identity: string;
+  entry_kind: string;
+  created_at: string;
+}
+
+export async function listRekorEntriesForDomain(
+  db: D1Database,
+  domain: string,
+): Promise<RekorEntryRow[]> {
+  const { results } = await db
+    .prepare(`SELECT * FROM rekor_entries WHERE domain = ? ORDER BY integrated_time ASC`)
+    .bind(domain)
+    .all<RekorEntryRow>();
+  return results ?? [];
+}
+
+export async function getRekorEntryByHash(
+  db: D1Database,
+  leafHash: `0x${string}`,
+): Promise<RekorEntryRow | null> {
+  const hex = leafHash.slice(2);
+  return (
+    (await db
+      .prepare(`SELECT * FROM rekor_entries WHERE lower(leaf_hash) IN (?, ?) LIMIT 1`)
+      .bind(leafHash.toLowerCase(), hex.toLowerCase())
+      .first<RekorEntryRow>()) ?? null
+  );
+}
+
+export async function rekorUuidExists(db: D1Database, domain: string, uuid: string): Promise<boolean> {
+  const row = await db
+    .prepare(`SELECT uuid FROM rekor_entries WHERE domain = ? AND uuid = ? LIMIT 1`)
+    .bind(domain, uuid)
+    .first();
+  return row != null;
+}
+
+export async function insertRekorEntry(
+  db: D1Database,
+  input: {
+    domain: string;
+    uuid: string;
+    leafHash: string;
+    logId: string;
+    logIndex: number;
+    integratedTime: number;
+    identity: string;
+    entryKind: string;
+  },
+): Promise<number | null> {
+  if (await rekorUuidExists(db, input.domain, input.uuid)) return null;
+  const leafIndex = await nextLeafIndex(db);
+  await db
+    .prepare(
+      `INSERT INTO rekor_entries (
+        domain, uuid, leaf_index, leaf_hash, log_id, log_index,
+        integrated_time, identity, entry_kind
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(
+      input.domain,
+      input.uuid,
+      leafIndex,
+      input.leafHash,
+      input.logId,
+      input.logIndex,
+      input.integratedTime,
+      input.identity,
+      input.entryKind,
+    )
+    .run();
+  return leafIndex;
+}
+
+export async function listDomainsDueForRekor(db: D1Database, limit: number): Promise<string[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT domain FROM domains
+       ORDER BY CASE WHEN rekor_synced_at IS NULL OR rekor_synced_at = '' THEN 0 ELSE 1 END ASC,
+                rekor_synced_at ASC
+       LIMIT ?`,
+    )
+    .bind(limit)
+    .all<{ domain: string }>();
+  return (results ?? []).map((row) => row.domain);
+}
+
+export async function markRekorSynced(db: D1Database, domain: string): Promise<void> {
+  await db
+    .prepare(`UPDATE domains SET rekor_synced_at = datetime('now') WHERE domain = ?`)
     .bind(domain)
     .run();
 }

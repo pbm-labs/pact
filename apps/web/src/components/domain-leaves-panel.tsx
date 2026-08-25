@@ -2,7 +2,7 @@
 
 import { type ReactNode } from 'react';
 import { useLocale } from '@/components/locale-provider';
-import type { DomainCtSummary, DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
+import type { DomainCtSummary, DomainLeafSummary, DomainRekorSummary, WrapperOpeningStatus } from '@/lib/domain-data';
 import type { Dictionary } from '@/lib/i18n/types';
 import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
 import { panel } from '@/lib/ui';
@@ -230,6 +230,85 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
                 </tr>
               );
             })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+export function DomainRekorPanel({ entries }: { entries: DomainRekorSummary[] }) {
+  const { t, locale } = useLocale();
+  if (!entries.length) return null;
+
+  return (
+    <section className={`${panel} mb-4`}>
+      <div className="px-3 py-2 border-b border-border flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <h2 className="text-sm font-semibold text-txt m-0">{t.domain.rekorHistory}</h2>
+        <p className="text-[0.7rem] text-muted-2 m-0">
+          {t.domain.rekorHistoryCounts.replace('{n}', entries.length.toLocaleString())}
+        </p>
+      </div>
+      <div className={streamScroll}>
+        <table className={`${tableClass} table-fixed`}>
+          <colgroup>
+            <col className="w-10" />
+            <col />
+            <col className="w-[6.5rem]" />
+            <col className="w-[6.75rem]" />
+            <col className="w-[5.75rem]" />
+            <col />
+          </colgroup>
+          <thead className={theadClass}>
+            <tr className="font-mono uppercase tracking-wide text-muted-2">
+              <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIdentity}</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>
+                {t.domain.colEntryKind}
+              </th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>
+                {t.domain.verification}
+              </th>
+              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.map((entry) => (
+              <tr key={`${entry.leafIndex}-${entry.uuid}`}>
+                <td className={`${streamTd} border-b border-border font-mono tabular-nums text-muted`}>
+                  #{entry.leafIndex}
+                </td>
+                <td
+                  className={`${streamTd} border-b border-border text-txt`}
+                  title={entry.identity}
+                >
+                  <span className="block truncate">{entry.identity}</span>
+                  <span className="block font-mono text-[0.65rem] text-muted-2 truncate">
+                    {entry.uuid.slice(0, 12)}…
+                  </span>
+                </td>
+                <td className={`${streamTd} border-b border-border font-mono text-muted truncate`}>
+                  {entry.entryKind || '—'}
+                </td>
+                <td className={`${streamTd} border-b border-border font-mono text-muted truncate`}>
+                  {formatUnixDate(entry.integratedTime, locale)}
+                </td>
+                <td
+                  className={`${streamTd} border-b border-border truncate ${entry.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                >
+                  {entry.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
+                </td>
+                <td
+                  className={`${streamTd} border-b border-border font-mono text-muted-2 truncate`}
+                  title={entry.leafHash}
+                >
+                  <LedgerLink href={entry.leafUrl} title={`${entry.leafHash} — ${t.domain.leafLedger}`}>
+                    {truncateHash(entry.leafHash)}
+                  </LedgerLink>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

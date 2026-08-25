@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { DomainClocks } from '@/components/domain-clocks';
 import { DomainKindStrip } from '@/components/domain-kind-strip';
 import { DomainLedgerPanel } from '@/components/domain-ledger-panel';
-import { DomainCtPanel, DomainLeavesPanel } from '@/components/domain-leaves-panel';
+import { DomainCtPanel, DomainLeavesPanel, DomainRekorPanel } from '@/components/domain-leaves-panel';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import type { DomainLiveData, DomainPageState, DomainWaitingData } from '@/lib/domain-data';
@@ -41,6 +41,9 @@ export function DomainPageView({ domain, state, unconfigured }: DomainPageViewPr
 function WaitingPage({ data }: { data: DomainWaitingData }) {
   const { t } = useLocale();
   const range = ctLoggedBounds(data.ct);
+  const rekorRange = ctLoggedBounds(
+    data.rekor.map((row) => ({ loggedAt: row.integratedTime })),
+  );
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
@@ -65,12 +68,16 @@ function WaitingPage({ data }: { data: DomainWaitingData }) {
         ctCount={data.ct.length}
         ctFirstLoggedAt={range.first}
         ctLatestLoggedAt={range.latest}
+        rekorCount={data.rekor.length}
+        rekorFirstLoggedAt={rekorRange.first}
+        rekorLatestLoggedAt={rekorRange.latest}
       />
 
       {showLedger(data) && (
         <DomainLedgerPanel
           mailLeafCount={0}
           ctLeafCount={data.ct.length}
+          rekorLeafCount={data.rekor.length}
           anchorType={data.anchorType}
           rootMatchesPublished={data.rootMatchesPublished}
           latestRoot={data.latestRoot}
@@ -81,6 +88,7 @@ function WaitingPage({ data }: { data: DomainWaitingData }) {
       )}
 
       <DomainCtPanel certs={data.ct} />
+      <DomainRekorPanel entries={data.rekor} />
     </PageShell>
   );
 }
@@ -88,6 +96,9 @@ function WaitingPage({ data }: { data: DomainWaitingData }) {
 function LivePage({ data }: { data: DomainLiveData }) {
   const { t } = useLocale();
   const range = ctLoggedBounds(data.ct);
+  const rekorRange = ctLoggedBounds(
+    data.rekor.map((row) => ({ loggedAt: row.integratedTime })),
+  );
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
@@ -106,11 +117,15 @@ function LivePage({ data }: { data: DomainLiveData }) {
         ctCount={data.ct.length}
         ctFirstLoggedAt={range.first}
         ctLatestLoggedAt={range.latest}
+        rekorCount={data.rekor.length}
+        rekorFirstLoggedAt={rekorRange.first}
+        rekorLatestLoggedAt={rekorRange.latest}
       />
 
       <DomainLedgerPanel
         mailLeafCount={data.leaves.length}
         ctLeafCount={data.ct.length}
+        rekorLeafCount={data.rekor.length}
         anchorType={data.anchorType}
         rootMatchesPublished={data.rootMatchesPublished}
         latestRoot={data.latestRoot}
@@ -123,6 +138,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
         <DomainLeavesPanel leaves={data.leaves} uniqueReporters={data.uniqueReporters} />
       )}
       <DomainCtPanel certs={data.ct} />
+      <DomainRekorPanel entries={data.rekor} />
     </PageShell>
   );
 }
@@ -169,5 +185,5 @@ function ctLoggedBounds(certs: { loggedAt: number }[]): {
 }
 
 function showLedger(data: DomainWaitingData): boolean {
-  return data.anchorType != null || data.latestRoot != null || data.ct.length > 0;
+  return data.anchorType != null || data.latestRoot != null || data.ct.length > 0 || data.rekor.length > 0;
 }
