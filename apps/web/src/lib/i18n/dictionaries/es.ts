@@ -24,34 +24,36 @@ export const es: Dictionary = {
   home: {
     heroTitle: 'La IA puede falsificarlo todo.',
     heroAccent: 'Excepto ayer.',
-    heroSub: 'Un registro público de informes de correo y logs de certificados.',
-    manifestoTitle: 'El problema de identidad de Internet',
-    closeVideo: 'Cerrar',
+    heroSub:
+      'Un registro público de informes de correo y logs de certificados — trazas que sistemas independientes ya emiten.',
+    heroLead:
+      'Apunta el DNS para conservar esos informes. Cualquiera puede volver a comprobar el ledger. El registro no puntúa el nombre ni decide que sea legítimo.',
     howEyebrow: 'Cómo funciona',
     howTitle: 'Evidencia que puedes volver a comprobar.',
     howLead:
-      'Sistemas independientes ya emiten informes de correo y logs de certificados. Cualquiera puede revisar el registro. No es una puntuación.',
+      'Nadie se une a una red nueva. Los sistemas de correo y los logs de certificados ya producen las trazas. Este sitio las registra en un árbol de solo añadido, como tipos distintos, y publica una raíz que cualquiera puede comprobar.',
     howSteps: [
       {
         title: 'Correo y certificados',
-        body: 'Los sistemas receptores — Gmail, Outlook, Yahoo y otros — ya emiten informes de correo. Los logs de certificados ya registran la emisión. Ambos quedan en el mismo árbol. Nunca se mezclan en una puntuación.',
+        body: 'Los sistemas receptores — Gmail, Outlook, Yahoo y otros — ya emiten informes agregados de correo: si llegó correo autenticado, con qué frecuencia y según quién. Los logs de certificados ya registran la emisión; un nombre que aparece ahí tiene una primera fecha escrita por otro. Ambos quedan en el mismo árbol. Nunca se mezclan en una puntuación.',
       },
       {
         title: 'Cualquiera puede comprobar',
-        body: 'Cada traza es una hoja. Las raíces se publican on-chain, fuera de este operador. Cualquiera puede recomputar la inclusión.',
+        body: 'Cada traza es una hoja. Las raíces se publican on-chain, fuera de este operador, para que no se pueda cambiar el pasado en silencio. Quien comprueba recomputa la inclusión contra esa raíz sin pedir permiso.',
       },
       {
         title: 'No es un veredicto',
-        body: 'El registro publica lo que ocurrió. No decide que un nombre sea legítimo.',
+        body: 'La página son relojes, informes, organizaciones y fechas de certificados. Publica lo que ocurrió. El juicio queda fuera.',
       },
     ],
     recordEyebrow: 'Un registro',
     recordTitle: 'Qué muestra la página.',
-    recordSub: 'Informes de correo y logs de certificados. Cualquiera puede abrirla.',
+    recordSub:
+      'Cada nombre tiene relojes de registro y confirmación, informes de correo, logs de certificados y un ledger compartido. Abre un registro en vivo:',
     privacyTitle: 'Privacidad',
     privacyBody1:
-      'Conectar apunta el DNS para conservar los informes de correo. Los logs de certificados ya son públicos. Ninguno contiene el contenido de los mensajes.',
-    privacyBody2: 'No se recoge nada más.',
+      'Conectar apunta el DNS para conservar los informes agregados de correo en lugar de descartarlos. Los logs de certificados ya son públicos; este sitio los indexa. Ninguna fuente contiene mensajes, asuntos o buzones.',
+    privacyBody2: 'La página pública es historial del dominio a partir de esas dos fuentes. No se recoge nada más.',
     privacyTableTitle: 'Qué hay en el registro',
     privacyRows: [
       'Dominio',
@@ -61,8 +63,7 @@ export const es: Dictionary = {
     ],
     ctaTitle: 'Empieza un registro.',
     ctaButton: 'Conectar',
-    ctaSub: 'El historial empieza cuando llega el primer informe.',
-    watchManifesto: 'Ver el manifiesto',
+    ctaSub: 'El historial empieza cuando llega el primer informe independiente — no cuando se guarda la línea de DNS.',
   },
   connect: {
     backHome: '← Inicio',

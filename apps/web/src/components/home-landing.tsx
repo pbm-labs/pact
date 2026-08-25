@@ -2,10 +2,9 @@
 
 import Link from 'next/link';
 import { DomainClocks } from '@/components/domain-clocks';
-import { VideoManifesto } from '@/components/video-manifesto';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
-import { btnPrimary, eyebrow, pageIntro, pageTitle, statValue } from '@/lib/ui';
+import { bodyText, btnPrimary, eyebrow, pageIntro, pageTitle, statValue } from '@/lib/ui';
 
 export type HomePreview = {
   domain: string;
@@ -28,12 +27,12 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
               <br />
               <span className="text-accent">{t.home.heroAccent}</span>
             </h1>
-            <p className={`${pageIntro} max-w-md mx-auto mb-10`}>
+            <p className={`${pageIntro} max-w-xl mx-auto mb-4`}>
               {t.home.heroSub}
             </p>
-          </div>
-          <VideoManifesto />
-          <div className="text-center mt-10">
+            <p className={`${bodyText} max-w-xl mx-auto mb-10`}>
+              {t.home.heroLead}
+            </p>
             <Link href={routes.connect} className={btnPrimary}>
               {t.home.ctaButton}
             </Link>
@@ -107,7 +106,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
           <h2 className={`${pageTitle} mb-3`}>
             {t.home.recordTitle}
           </h2>
-          <p className={`${pageIntro} max-w-md mx-auto`}>
+          <p className={`${pageIntro} max-w-xl mx-auto`}>
             {t.home.recordSub}
           </p>
         </div>
@@ -151,14 +150,14 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
 
       <section className="border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-          <div className="max-w-md mx-auto text-center">
-            <h2 className={`${pageTitle} mb-8`}>
+          <div className="max-w-xl mx-auto text-center">
+            <h2 className={`${pageTitle} mb-4`}>
               {t.home.ctaTitle}
             </h2>
+            <p className={`${pageIntro} mb-8`}>{t.home.ctaSub}</p>
             <Link href={routes.connect} className={btnPrimary}>
               {t.home.ctaButton}
             </Link>
-            <p className={`${pageIntro} mt-3 mb-0`}>{t.home.ctaSub}</p>
           </div>
         </div>
       </section>

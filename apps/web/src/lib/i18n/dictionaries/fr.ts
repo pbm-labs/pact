@@ -24,34 +24,36 @@ export const fr: Dictionary = {
   home: {
     heroTitle: 'L’IA peut tout falsifier.',
     heroAccent: 'Sauf hier.',
-    heroSub: 'Un registre public de rapports de courrier et de journaux de certificats.',
-    manifestoTitle: 'Le problème d’identité d’Internet',
-    closeVideo: 'Fermer',
+    heroSub:
+      'Un registre public de rapports de courrier et de journaux de certificats — des traces que des systèmes indépendants émettent déjà.',
+    heroLead:
+      'Pointez le DNS pour que ces rapports soient conservés. N’importe qui peut revérifier le ledger. Le registre ne note pas le nom et ne décide pas qu’il est légitime.',
     howEyebrow: 'Comment ça marche',
     howTitle: 'De l’évidence que l’on peut revérifier.',
     howLead:
-      'Des systèmes indépendants émettent déjà des rapports de courrier et des journaux de certificats. N’importe qui peut vérifier le registre. Ce n’est pas un score.',
+      'Personne n’adhère à un nouveau réseau. Les systèmes de courrier et les journaux de certificats produisent déjà les traces. Ce site les enregistre sur un arbre en ajout seulement, comme des types distincts, et publie une racine que n’importe qui peut vérifier.',
     howSteps: [
       {
         title: 'Courrier et certificats',
-        body: 'Les systèmes destinataires — Gmail, Outlook, Yahoo et d’autres — émettent déjà des rapports de courrier. Les journaux de certificats enregistrent déjà l’émission. Les deux restent sur le même arbre. Ils ne sont jamais fusionnés en un score.',
+        body: 'Les systèmes destinataires — Gmail, Outlook, Yahoo et d’autres — émettent déjà des rapports agrégés de courrier : si du courrier authentifié est arrivé, à quelle fréquence, et selon qui. Les journaux de certificats enregistrent déjà l’émission ; un nom qui y apparaît a une date de première vue écrite par quelqu’un d’autre. Les deux restent sur le même arbre. Ils ne sont jamais fusionnés en un score.',
       },
       {
         title: 'N’importe qui peut vérifier',
-        body: 'Chaque trace est une feuille. Les racines sont publiées on-chain, hors de cet opérateur. N’importe qui peut recalculer l’inclusion.',
+        body: 'Chaque trace est une feuille. Les racines sont publiées on-chain, hors de cet opérateur, pour qu’un autre passé ne puisse pas être substitué en silence. Qui vérifie recalcule l’inclusion contre cette racine sans demander la permission.',
       },
       {
         title: 'Pas un verdict',
-        body: 'Le registre publie ce qui s’est passé. Il ne décide pas qu’un nom est légitime.',
+        body: 'La page, ce sont des horloges, des rapports, des organisations et des dates de certificats. Elle publie ce qui s’est passé. Le jugement reste dehors.',
       },
     ],
     recordEyebrow: 'Un registre',
     recordTitle: 'Ce que la page montre.',
-    recordSub: 'Rapports de courrier et journaux de certificats. N’importe qui peut l’ouvrir.',
+    recordSub:
+      'Chaque nom a des horloges d’enregistrement et de confirmation, des rapports de courrier, des journaux de certificats et un ledger partagé. Ouvrez un registre en direct :',
     privacyTitle: 'Confidentialité',
     privacyBody1:
-      'Connecter pointe le DNS pour conserver les rapports de courrier. Les journaux de certificats sont déjà publics. Aucun ne contient le contenu des messages.',
-    privacyBody2: 'Rien d’autre n’est collecté.',
+      'Connecter pointe le DNS pour conserver les rapports agrégés de courrier au lieu de les jeter. Les journaux de certificats sont déjà publics ; ce site les indexe. Aucun flux ne contient de messages, d’objets ou de boîtes.',
+    privacyBody2: 'La page publique est l’historique du domaine à partir de ces deux flux. Rien d’autre n’est collecté.',
     privacyTableTitle: 'Ce qu’il y a dans le registre',
     privacyRows: [
       'Domaine',
@@ -61,8 +63,7 @@ export const fr: Dictionary = {
     ],
     ctaTitle: 'Commencez un registre.',
     ctaButton: 'Connecter',
-    ctaSub: 'L’historique commence à l’arrivée du premier rapport.',
-    watchManifesto: 'Voir le manifeste',
+    ctaSub: 'L’historique commence à l’arrivée du premier rapport indépendant — pas quand la ligne DNS est enregistrée.',
   },
   connect: {
     backHome: '← Accueil',

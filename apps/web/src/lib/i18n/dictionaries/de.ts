@@ -24,34 +24,36 @@ export const de: Dictionary = {
   home: {
     heroTitle: 'KI kann alles fälschen.',
     heroAccent: 'Außer gestern.',
-    heroSub: 'Ein öffentlicher Eintrag aus Mailberichten und Zertifikatslogs.',
-    manifestoTitle: 'Das Identitätsproblem des Internets',
-    closeVideo: 'Schließen',
+    heroSub:
+      'Ein öffentlicher Eintrag aus Mailberichten und Zertifikatslogs — Spuren, die unabhängige Systeme bereits emittieren.',
+    heroLead:
+      'Setze DNS so, dass diese Berichte behalten werden. Jede Person kann das Ledger nachprüfen. Der Eintrag bewertet den Namen nicht und entscheidet nicht, ob er legitim ist.',
     howEyebrow: 'So funktioniert es',
     howTitle: 'Evidenz, die du nachprüfen kannst.',
     howLead:
-      'Unabhängige Systeme emittieren bereits Mailberichte und Zertifikatslogs. Jede Person kann den Eintrag prüfen. Es ist kein Score.',
+      'Niemand tritt einem neuen Netz bei. Mailsysteme und Zertifikatslogs erzeugen die Spuren bereits. Diese Seite zeichnet sie auf einem append-only Baum als getrennte Arten auf und veröffentlicht eine Root, die jede Person prüfen kann.',
     howSteps: [
       {
         title: 'Mail und Zertifikate',
-        body: 'Empfangssysteme — Gmail, Outlook, Yahoo und andere — emittieren bereits Mailberichte. Zertifikatslogs zeichnen Ausstellung bereits auf. Beide sitzen auf demselben Baum. Sie werden nie zu einem Score vermischt.',
+        body: 'Empfangssysteme — Gmail, Outlook, Yahoo und andere — emittieren bereits aggregierte Mailberichte: ob authentifizierte Mail ankam, wie oft, und laut wem. Zertifikatslogs zeichnen Ausstellung bereits auf; ein Name, der dort erscheint, hat ein Erstes-Gesehen-Datum, das jemand anderes aufgeschrieben hat. Beide sitzen auf demselben Baum. Sie werden nie zu einem Score vermischt.',
       },
       {
         title: 'Jede Person kann prüfen',
-        body: 'Jede Spur ist ein Leaf. Roots werden on-chain veröffentlicht, außerhalb dieses Betreibers. Jede Person kann Inklusion neu berechnen.',
+        body: 'Jede Spur ist ein Leaf. Roots werden on-chain veröffentlicht, außerhalb dieses Betreibers, damit eine andere Vergangenheit nicht still ausgetauscht werden kann. Wer prüft, berechnet Inklusion gegen diese Root neu — ohne um Erlaubnis zu fragen.',
       },
       {
         title: 'Kein Urteil',
-        body: 'Der Eintrag veröffentlicht, was geschehen ist. Er entscheidet nicht, ob ein Name legitim ist.',
+        body: 'Die Seite sind Uhren, Berichte, Organisationen und Zertifikatsdaten. Sie veröffentlicht, was geschehen ist. Urteil bleibt draußen.',
       },
     ],
     recordEyebrow: 'Ein Eintrag',
     recordTitle: 'Was die Seite zeigt.',
-    recordSub: 'Mailberichte und Zertifikatslogs. Jede Person kann sie öffnen.',
+    recordSub:
+      'Jeder Name hat Registrierungs- und Bestätigungsuhren, Mailberichte, Zertifikatslogs und ein gemeinsames Ledger. Öffne einen Live-Eintrag:',
     privacyTitle: 'Datenschutz',
     privacyBody1:
-      'Verbinden setzt DNS so, dass Mailberichte behalten werden. Zertifikatslogs sind bereits öffentlich. Keiner enthält Nachrichteninhalt.',
-    privacyBody2: 'Mehr wird nicht erfasst.',
+      'Verbinden setzt DNS so, dass aggregierte Mailberichte behalten statt verworfen werden. Zertifikatslogs sind bereits öffentlich; diese Seite indexiert sie. Keiner der Feeds enthält Nachrichten, Betreffzeilen oder Postfächer.',
+    privacyBody2: 'Die öffentliche Seite ist Domainhistorie aus diesen zwei Feeds. Mehr wird nicht erfasst.',
     privacyTableTitle: 'Was im Eintrag steht',
     privacyRows: [
       'Domain',
@@ -61,8 +63,7 @@ export const de: Dictionary = {
     ],
     ctaTitle: 'Starte einen Eintrag.',
     ctaButton: 'Verbinden',
-    ctaSub: 'Die Historie beginnt, wenn der erste Bericht eintrifft.',
-    watchManifesto: 'Das Manifest ansehen',
+    ctaSub: 'Die Historie beginnt, wenn der erste unabhängige Bericht eintrifft — nicht, wenn die DNS-Zeile gespeichert wird.',
   },
   connect: {
     backHome: '← Startseite',

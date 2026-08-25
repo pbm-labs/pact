@@ -24,34 +24,36 @@ export const en: Dictionary = {
   home: {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
-    heroSub: 'A public record of mail reports and certificate logs.',
-    manifestoTitle: "The Internet's Identity Problem",
-    closeVideo: 'Close',
+    heroSub:
+      'A public record of mail reports and certificate logs — traces independent systems already emit.',
+    heroLead:
+      'Point DNS so those reports are kept. Anyone can recheck the ledger. The record does not score the name, and it does not decide that it is legitimate.',
     howEyebrow: 'How it works',
     howTitle: 'Evidence you can recheck.',
     howLead:
-      'Independent systems already emit mail reports and certificate logs. Anyone can check the record. It is not a score.',
+      'Nobody joins a new network. Mail systems and certificate logs already produce the traces. This site records them on one append-only tree, as separate kinds, and publishes a root anyone can check.',
     howSteps: [
       {
         title: 'Mail and certificates',
-        body: 'Receiving systems — Gmail, Outlook, Yahoo, and others — already emit mail reports. Certificate logs already record issuance. Both sit on the same tree. They are never blended into a score.',
+        body: 'Receiving systems — Gmail, Outlook, Yahoo, and others — already emit aggregate mail reports: whether authenticated mail showed up, how often, and according to whom. Certificate logs already record issuance; a name that appears there has a first-seen date someone else wrote down. Both sit on the same tree. They are never blended into a score.',
       },
       {
         title: 'Anyone can check',
-        body: 'Each trace is a leaf. Roots are published on-chain, outside this operator. Anyone can recompute inclusion.',
+        body: 'Each trace is a leaf. Roots are published on-chain, outside this operator, so a different past cannot be swapped in quietly. A checker recomputes inclusion against that root without asking permission.',
       },
       {
         title: 'Not a verdict',
-        body: 'The record publishes what happened. It does not decide that a name is legitimate.',
+        body: 'The page is clocks, reports, organizations, and certificate dates. It publishes what happened. Judgement stays outside.',
       },
     ],
     recordEyebrow: 'A record',
     recordTitle: 'What the page shows.',
-    recordSub: 'Mail reports and certificate logs. Anyone can open it.',
+    recordSub:
+      'Each name has registration and confirmation clocks, mail reports, certificate logs, and a shared ledger. Open a live record:',
     privacyTitle: 'Privacy',
     privacyBody1:
-      'Connecting points DNS so mail reports are kept. Certificate logs are already public. Neither contains message content.',
-    privacyBody2: 'Nothing else is collected.',
+      'Connecting points DNS so aggregate mail reports are kept instead of discarded. Certificate logs are already public; this site indexes them. Neither feed contains messages, subjects, or mailboxes.',
+    privacyBody2: 'The public page is domain history from those two feeds. Nothing else is collected.',
     privacyTableTitle: "What's in the record",
     privacyRows: [
       'Domain',
@@ -61,8 +63,7 @@ export const en: Dictionary = {
     ],
     ctaTitle: 'Start a record.',
     ctaButton: 'Connect',
-    ctaSub: 'History starts when the first report arrives.',
-    watchManifesto: 'Watch The Manifesto',
+    ctaSub: 'History starts when the first independent report arrives — not when the DNS line is saved.',
   },
   connect: {
     backHome: '← Home',
