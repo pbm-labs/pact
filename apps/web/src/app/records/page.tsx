@@ -4,8 +4,8 @@ import { fetchDomainSummaries } from '@/lib/domain-data';
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: 'Public records — We build real',
-  description: 'Public records — mail reports and certificate logs.',
+  title: 'Records — We build real',
+  description: 'Mail reports and certificate logs.',
 };
 
 export default async function RecordsPage() {

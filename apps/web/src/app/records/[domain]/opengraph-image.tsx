@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Public record';
+export const alt = 'Record';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -67,7 +67,7 @@ export default async function RecordOgImage({
             color: '#60607a',
           }}
         >
-          Public record
+          Record
         </div>
         <div
           style={{
