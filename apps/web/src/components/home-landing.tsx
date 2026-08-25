@@ -1,20 +1,21 @@
 'use client';
 
 import Link from 'next/link';
+import { DomainClocks } from '@/components/domain-clocks';
 import { VideoManifesto } from '@/components/video-manifesto';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
-import { btnPrimary, eyebrow, pageIntro, pageTitle } from '@/lib/ui';
+import { btnPrimary, eyebrow, pageIntro, pageTitle, statValue } from '@/lib/ui';
 
-const MOCK = {
-  domain: 'acmecorp.com',
-  verifiedDays: 14,
-  reports: 12,
-  orgs: 4,
-  ctFirstSeen: '2019-03-12',
+export type HomePreview = {
+  domain: string;
+  domainRegisteredAt: string | null;
+  pactHistoryStart: string | null;
+  mailCount: number;
+  ctCount: number;
 };
 
-export function HomeLanding() {
+export function HomeLanding({ preview }: { preview: HomePreview | null }) {
   const { t, locale } = useLocale();
 
   return (
@@ -36,7 +37,6 @@ export function HomeLanding() {
             <Link href={routes.connect} className={btnPrimary}>
               {t.home.ctaButton}
             </Link>
-            <p className={`${pageIntro} mt-3 mb-0`}>{t.home.ctaSub}</p>
           </div>
         </div>
       </section>
@@ -112,51 +112,49 @@ export function HomeLanding() {
           </p>
         </div>
 
-        <div className="max-w-xl mx-auto rounded-xl border border-border bg-bg px-5 sm:px-7 py-6">
-          <p className={eyebrow}>
-            {t.home.mockLabel}
-          </p>
-          <div className="mt-2.5">
-            <h3 className="text-xl font-bold text-txt tracking-tight break-all leading-tight">
-              {MOCK.domain}
+        {preview && (
+          <Link
+            href={routes.record(preview.domain)}
+            className="block max-w-xl mx-auto rounded-xl border border-border bg-bg px-5 sm:px-7 py-6 no-underline hover:border-muted-2"
+          >
+            <h3 className="text-xl font-bold text-txt tracking-tight break-all leading-tight m-0">
+              {preview.domain}
             </h3>
-          </div>
-
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
-            {[
-              { value: `${MOCK.verifiedDays}d`, label: t.domain.timeVerified, sub: t.home.mockTimeSub },
-              { value: String(MOCK.reports), label: t.domain.reports, sub: t.domain.allTime },
-              { value: String(MOCK.orgs), label: t.home.mockOrgs, sub: t.home.mockOrgsSub },
-              { value: MOCK.ctFirstSeen, label: t.home.mockCt, sub: t.home.mockCtSub },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-xl font-bold font-mono leading-none text-txt">
-                  {stat.value}
-                </p>
-                <p className="text-xs font-semibold text-muted mt-1.5">{stat.label}</p>
-                <p className="text-xs text-muted-2 mt-0.5 leading-tight">
-                  {stat.sub}
+            <DomainClocks
+              domainRegisteredAt={preview.domainRegisteredAt}
+              pactHistoryStart={preview.pactHistoryStart}
+            />
+            <div className="mt-6 grid grid-cols-2 gap-3">
+              <div>
+                <p className={`${eyebrow} m-0`}>{t.domain.kindMail}</p>
+                <p className={`${statValue} text-txt mt-2 mb-0`}>
+                  {preview.mailCount}
+                  <span className="ml-2 text-xs font-sans font-semibold text-muted-2 tracking-normal">
+                    {t.domain.reports}
+                  </span>
                 </p>
               </div>
-            ))}
-          </div>
-
-          <p className={`${pageIntro} mt-6`}>
-            {t.home.recordFoot}
-          </p>
-        </div>
+              <div>
+                <p className={`${eyebrow} m-0`}>{t.domain.kindCt}</p>
+                <p className={`${statValue} text-txt mt-2 mb-0`}>
+                  {preview.ctCount}
+                  <span className="ml-2 text-xs font-sans font-semibold text-muted-2 tracking-normal">
+                    {t.domain.certs}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </Link>
+        )}
         </div>
       </section>
 
       <section className="border-t border-border">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <div className="max-w-md mx-auto text-center">
-            <h2 className={`${pageTitle} mb-3`}>
+            <h2 className={`${pageTitle} mb-8`}>
               {t.home.ctaTitle}
             </h2>
-            <p className={`${pageIntro} mb-8`}>
-              {t.home.ctaBody}
-            </p>
             <Link href={routes.connect} className={btnPrimary}>
               {t.home.ctaButton}
             </Link>
