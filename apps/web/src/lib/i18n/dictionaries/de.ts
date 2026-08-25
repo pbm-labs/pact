@@ -202,7 +202,6 @@ export const de: Dictionary = {
     colPass: 'Bestanden',
     colFail: 'Fehlgeschlagen',
     colIngested: 'Erfasst',
-    showOlderReports: 'Ältere Berichte anzeigen ({shown} von {total})',
     verification: 'Verifizierung',
     anchor: 'Anker',
     onChain: 'On-chain',
@@ -217,8 +216,6 @@ export const de: Dictionary = {
     explorerContract: 'PactRoots auf Base Sepolia ansehen',
     leafLedger: 'Dieses Leaf im öffentlichen Ledger ansehen',
     openingCheck: 'Gespeicherte Bytes gegen Leaf-Hash und DNS-Schlüssel prüfen',
-    proofsShown:
-      'Nachweise für die {n} neuesten Leaves. Lade oben ältere Berichte, um frühere Zeiträume zu prüfen.',
     leafHash: 'Leaf-Hash',
     colWrapper: 'Wrapper-DKIM',
     colOpening: 'Opening',

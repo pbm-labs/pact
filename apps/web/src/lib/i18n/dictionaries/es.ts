@@ -202,7 +202,6 @@ export const es: Dictionary = {
     colPass: 'Acierto',
     colFail: 'Fallo',
     colIngested: 'Ingerido',
-    showOlderReports: 'Mostrar informes anteriores ({shown} de {total})',
     verification: 'Verificación',
     anchor: 'Ancla',
     onChain: 'En cadena',
@@ -217,8 +216,6 @@ export const es: Dictionary = {
     explorerContract: 'Ver PactRoots en Base Sepolia',
     leafLedger: 'Ver esta hoja en el registro público',
     openingCheck: 'Volver a comprobar los bytes almacenados contra el hash de la hoja y la clave DNS',
-    proofsShown:
-      'Se muestran las pruebas de las {n} hojas más recientes. Carga informes anteriores arriba para inspeccionar periodos previos.',
     leafHash: 'Hash de la hoja',
     colWrapper: 'DKIM del wrapper',
     colOpening: 'Apertura',

@@ -204,7 +204,6 @@ export const fr: Dictionary = {
     colPass: 'Réussi',
     colFail: 'Échoué',
     colIngested: 'Ingesté',
-    showOlderReports: 'Afficher les rapports plus anciens ({shown} sur {total})',
     verification: 'Vérification',
     anchor: 'Ancre',
     onChain: 'On-chain',
@@ -219,8 +218,6 @@ export const fr: Dictionary = {
     explorerContract: 'Voir PactRoots sur Base Sepolia',
     leafLedger: 'Voir cette feuille sur le registre public',
     openingCheck: 'Revérifier les octets stockés contre le hash de la feuille et la clé DNS',
-    proofsShown:
-      'Preuves affichées pour les {n} feuilles les plus récentes. Chargez les rapports plus anciens ci-dessus pour inspecter les périodes antérieures.',
     leafHash: 'Hash de la feuille',
     colWrapper: 'DKIM du wrapper',
     colOpening: 'Ouverture',

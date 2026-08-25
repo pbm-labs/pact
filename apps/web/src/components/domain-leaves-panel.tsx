@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainCtSummary, DomainLeafSummary, WrapperOpeningStatus } from '@/lib/domain-data';
 import type { Dictionary } from '@/lib/i18n/types';
 import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
 import { panel } from '@/lib/ui';
 
-const INITIAL_VISIBLE = 10;
-const LOAD_MORE_STEP = 20;
+const tableScroll =
+  'overflow-auto thin-scrollbar overscroll-contain max-h-[calc(2.15rem+10*1.85rem)]';
+const tableClass = 'w-full text-xs border-separate border-spacing-0';
+const theadClass = 'sticky top-0 z-[1] bg-surface';
 
 const th = 'text-left font-medium px-3 py-1.5 whitespace-nowrap';
 const td = 'px-3 py-1.5';
@@ -20,9 +22,6 @@ interface DomainLeavesPanelProps {
 
 export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanelProps) {
   const { t, locale } = useLocale();
-  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
-  const visibleLeaves = leaves.slice(0, visibleCount);
-  const hasMore = visibleCount < leaves.length;
 
   return (
     <>
@@ -35,31 +34,41 @@ export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanel
               .replace('{reporters}', String(uniqueReporters))}
           </p>
         </div>
-        <div className="overflow-x-auto thin-scrollbar">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
-                <th className={th}>{t.domain.colReporter}</th>
-                <th className={th}>{t.domain.colPeriod}</th>
-                <th className={`${th} text-right`}>{t.domain.colPass}</th>
-                <th className={`${th} text-right`}>{t.domain.colFail}</th>
-                <th className={`${th} text-right`}>{t.domain.colIngested}</th>
+        <div className={tableScroll}>
+          <table className={tableClass}>
+            <thead className={theadClass}>
+              <tr className="font-mono uppercase tracking-widest text-muted-2">
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colReporter}</th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colPeriod}</th>
+                <th className={`${th} border-b border-border bg-surface text-right`}>
+                  {t.domain.colPass}
+                </th>
+                <th className={`${th} border-b border-border bg-surface text-right`}>
+                  {t.domain.colFail}
+                </th>
+                <th className={`${th} border-b border-border bg-surface text-right`}>
+                  {t.domain.colIngested}
+                </th>
               </tr>
             </thead>
             <tbody>
-              {visibleLeaves.map((leaf) => (
-                <tr key={leaf.leafIndex} className="border-b border-border last:border-0">
-                  <td className={`${td} text-txt`}>{reporterLabel(leaf.reporterOrg)}</td>
-                  <td className={`${td} text-muted font-mono`}>
+              {leaves.map((leaf) => (
+                <tr key={leaf.leafIndex}>
+                  <td className={`${td} border-b border-border text-txt`}>
+                    {reporterLabel(leaf.reporterOrg)}
+                  </td>
+                  <td className={`${td} border-b border-border text-muted font-mono`}>
                     {formatReportPeriod(leaf.periodStart, leaf.periodEnd)}
                   </td>
-                  <td className={`${td} text-right font-mono tabular-nums`}>
+                  <td className={`${td} border-b border-border text-right font-mono tabular-nums`}>
                     {leaf.dkimPassCount.toLocaleString()}
                   </td>
-                  <td className={`${td} text-right font-mono tabular-nums text-muted-2`}>
+                  <td
+                    className={`${td} border-b border-border text-right font-mono tabular-nums text-muted-2`}
+                  >
                     {leaf.dkimFailCount.toLocaleString()}
                   </td>
-                  <td className={`${td} text-right font-mono text-muted-2`}>
+                  <td className={`${td} border-b border-border text-right font-mono text-muted-2`}>
                     {leaf.receivedAt
                       ? new Date(leaf.receivedAt).toLocaleDateString(locale, {
                           month: 'short',
@@ -72,65 +81,58 @@ export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanel
             </tbody>
           </table>
         </div>
-        {hasMore && (
-          <div className="px-3 py-2 border-t border-border">
-            <button
-              type="button"
-              className="text-xs font-semibold text-muted hover:text-txt"
-              onClick={() => setVisibleCount((n) => Math.min(n + LOAD_MORE_STEP, leaves.length))}
-            >
-              {t.domain.showOlderReports
-                .replace('{shown}', String(visibleLeaves.length))
-                .replace('{total}', String(leaves.length))}
-            </button>
-          </div>
-        )}
       </section>
 
       <section className={`${panel} mb-4`}>
         <div className="px-3 py-2 border-b border-border">
           <h2 className="text-sm font-semibold text-txt m-0">{t.domain.mailProofs}</h2>
         </div>
-        {leaves.length > visibleLeaves.length && (
-          <p className="px-3 py-1.5 text-[0.7rem] text-muted-2 border-b border-border m-0">
-            {t.domain.proofsShown.replace('{n}', String(visibleLeaves.length))}
-          </p>
-        )}
-        <div className="overflow-x-auto thin-scrollbar">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
-                <th className={th}>#</th>
-                <th className={th}>{t.domain.colReporter}</th>
-                <th className={th}>{t.domain.colWrapper}</th>
-                <th className={th}>{t.domain.colOpening}</th>
-                <th className={th}>{t.domain.verification}</th>
-                <th className={th}>{t.domain.leafHash}</th>
+        <div className={tableScroll}>
+          <table className={tableClass}>
+            <thead className={theadClass}>
+              <tr className="font-mono uppercase tracking-widest text-muted-2">
+                <th className={`${th} border-b border-border bg-surface`}>#</th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colReporter}</th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colWrapper}</th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colOpening}</th>
+                <th className={`${th} border-b border-border bg-surface`}>
+                  {t.domain.verification}
+                </th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
               </tr>
             </thead>
             <tbody>
-              {visibleLeaves.map((leaf) => (
-                <tr key={`proof-${leaf.leafIndex}`} className="border-b border-border last:border-0">
-                  <td className={`${td} font-mono tabular-nums text-muted`}>#{leaf.leafIndex}</td>
-                  <td className={`${td} text-txt`}>{reporterLabel(leaf.reporterOrg)}</td>
+              {leaves.map((leaf) => (
+                <tr key={`proof-${leaf.leafIndex}`}>
+                  <td className={`${td} border-b border-border font-mono tabular-nums text-muted`}>
+                    #{leaf.leafIndex}
+                  </td>
+                  <td className={`${td} border-b border-border text-txt`}>
+                    {reporterLabel(leaf.reporterOrg)}
+                  </td>
                   <td
-                    className={`${td} font-mono text-muted-2`}
+                    className={`${td} border-b border-border font-mono text-muted-2`}
                     title={leaf.wrapperHashes.join(', ') || undefined}
                   >
                     {formatWrapperDkim(leaf.wrapperDkim)}
                   </td>
                   <td
-                    className={`${td} ${openingClass(leaf.wrapperOpening, Boolean(leaf.wrapperCheckUrl))}`}
+                    className={`${td} border-b border-border ${openingClass(leaf.wrapperOpening, Boolean(leaf.wrapperCheckUrl))}`}
                     title={openingTitle(leaf.wrapperOpening, t.domain)}
                   >
                     <LedgerLink href={leaf.wrapperCheckUrl} title={t.domain.openingCheck}>
                       {openingLabel(leaf.wrapperOpening, t.domain)}
                     </LedgerLink>
                   </td>
-                  <td className={`${td} ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}>
+                  <td
+                    className={`${td} border-b border-border ${leaf.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                  >
                     {leaf.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
                   </td>
-                  <td className={`${td} font-mono text-muted-2`} title={leaf.leafHash}>
+                  <td
+                    className={`${td} border-b border-border font-mono text-muted-2`}
+                    title={leaf.leafHash}
+                  >
                     <LedgerLink href={leaf.leafUrl} title={`${leaf.leafHash} — ${t.domain.leafLedger}`}>
                       {truncateHash(leaf.leafHash)}
                     </LedgerLink>
@@ -162,17 +164,23 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
       {!certs.length ? (
         <p className="px-3 py-4 text-sm text-muted m-0">{t.domain.ctEmpty}</p>
       ) : (
-        <div className="overflow-x-auto thin-scrollbar">
-          <table className="w-full text-xs">
-            <thead>
-              <tr className="border-b border-border font-mono uppercase tracking-widest text-muted-2">
-                <th className={th}>#</th>
-                <th className={th}>{t.domain.colIssuer}</th>
-                <th className={th}>{t.domain.colNotBefore}</th>
-                <th className={th}>{t.domain.colLoggedAt}</th>
-                <th className={th}>{t.domain.verification}</th>
-                <th className={th}>{t.domain.colFingerprint}</th>
-                <th className={th}>{t.domain.leafHash}</th>
+        <div className={tableScroll}>
+          <table className={tableClass}>
+            <thead className={theadClass}>
+              <tr className="font-mono uppercase tracking-widest text-muted-2">
+                <th className={`${th} border-b border-border bg-surface`}>#</th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
+                <th className={`${th} border-b border-border bg-surface`}>
+                  {t.domain.colNotBefore}
+                </th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
+                <th className={`${th} border-b border-border bg-surface`}>
+                  {t.domain.verification}
+                </th>
+                <th className={`${th} border-b border-border bg-surface`}>
+                  {t.domain.colFingerprint}
+                </th>
+                <th className={`${th} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
               </tr>
             </thead>
             <tbody>
@@ -180,12 +188,14 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
                 const issuer = shortIssuer(cert.issuer) || cert.commonName || '—';
                 const showCommonName = Boolean(cert.commonName) && cert.commonName !== issuer;
                 return (
-                  <tr
-                    key={`${cert.leafIndex}-${cert.fingerprint}`}
-                    className="border-b border-border last:border-0"
-                  >
-                    <td className={`${td} font-mono tabular-nums text-muted`}>#{cert.leafIndex}</td>
-                    <td className={`${td} text-txt`} title={cert.issuer || undefined}>
+                  <tr key={`${cert.leafIndex}-${cert.fingerprint}`}>
+                    <td className={`${td} border-b border-border font-mono tabular-nums text-muted`}>
+                      #{cert.leafIndex}
+                    </td>
+                    <td
+                      className={`${td} border-b border-border text-txt`}
+                      title={cert.issuer || undefined}
+                    >
                       <span className="block max-w-[16rem] truncate">{issuer}</span>
                       {showCommonName && (
                         <span className="block text-[0.65rem] text-muted-2 font-mono truncate max-w-[16rem]">
@@ -193,25 +203,31 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
                         </span>
                       )}
                     </td>
-                    <td className={`${td} font-mono text-muted`}>
+                    <td className={`${td} border-b border-border font-mono text-muted`}>
                       {formatUnixDate(cert.notBefore, locale)}
                     </td>
-                    <td className={`${td} font-mono text-muted`}>
+                    <td className={`${td} border-b border-border font-mono text-muted`}>
                       {formatUnixDate(cert.loggedAt, locale)}
                     </td>
                     <td
-                      className={`${td} ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
+                      className={`${td} border-b border-border ${cert.merkleProofValid ? 'text-verified' : 'text-danger'}`}
                     >
                       {cert.merkleProofValid ? t.domain.proofVerified : t.domain.proofUnverified}
                     </td>
-                    <td className={`${td} font-mono text-muted-2`} title={cert.fingerprint}>
+                    <td
+                      className={`${td} border-b border-border font-mono text-muted-2`}
+                      title={cert.fingerprint}
+                    >
                       {truncateHash(
                         cert.fingerprint.startsWith('0x')
                           ? cert.fingerprint
                           : `0x${cert.fingerprint}`,
                       )}
                     </td>
-                    <td className={`${td} font-mono text-muted-2`} title={cert.leafHash}>
+                    <td
+                      className={`${td} border-b border-border font-mono text-muted-2`}
+                      title={cert.leafHash}
+                    >
                       <LedgerLink
                         href={cert.leafUrl}
                         title={`${cert.leafHash} — ${t.domain.leafLedger}`}

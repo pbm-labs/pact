@@ -160,7 +160,6 @@ export type Dictionary = {
     colPass: string;
     colFail: string;
     colIngested: string;
-    showOlderReports: string;
     verification: string;
     anchor: string;
     onChain: string;
@@ -175,7 +174,6 @@ export type Dictionary = {
     explorerContract: string;
     leafLedger: string;
     openingCheck: string;
-    proofsShown: string;
     leafHash: string;
     colWrapper: string;
     colOpening: string;
