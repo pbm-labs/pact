@@ -67,31 +67,31 @@ export const es: Dictionary = {
   },
   connect: {
     backHome: '← Inicio',
-    eyebrow: 'Dos minutos, casi automático',
+    eyebrow: 'Conectar',
     title: 'Añade tu dominio',
     intro:
-      'Sin papeleo ni esperas. Apunta el DNS para conservar los informes de correo. Certificate Transparency es escape residual de logs públicos — indexado sin una ceremonia nueva. El registro de correo empieza cuando llega el primer informe independiente.',
+      'Apunta el DNS para que los sistemas de correo independientes envíen aquí sus informes agregados. Los logs de certificados ya son públicos; este sitio los indexa. El historial de correo empieza cuando llega el primer informe independiente — no cuando se guarda la línea de DNS.',
     yourDomain: 'Tu dominio',
     pathCloudflareTitle: 'Uso Cloudflare',
-    pathCloudflareDesc: 'Un clic — nosotros nos ocupamos del resto.',
+    pathCloudflareDesc: 'Un clic — añadimos la línea de DNS.',
     pathCloudflareBadge: 'Más rápido',
     pathManualTitle: 'Añadirlo manualmente',
     pathManualDesc:
-      'Una línea para pegar donde gestiones tu sitio — GoDaddy, Namecheap u otro proveedor.',
+      'Una línea para pegar donde gestiones el DNS — GoDaddy, Namecheap u otro proveedor.',
     pathManualBadge: 'Universal',
     pathToolTitle: 'Ya uso una herramienta',
-    pathToolDesc: 'Postmark o similar — apúntala aquí.',
+    pathToolDesc: 'Postmark o similar — añade esta dirección como destino de informes.',
     pathToolBadge: 'Herramienta existente',
     whatDoesThisDo: '¿Qué hace esto?',
     cloudflareExplain:
-      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El historial de correo empieza cuando llegan informes independientes — no al guardar la línea DNS. Certificate Transparency es escape residual de logs públicos, indexado sin una ceremonia nueva.',
+      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El historial de correo empieza cuando llegan informes independientes — no al guardar la línea DNS. Los logs de certificados se indexan cuando el nombre está en el ledger.',
     toolIntro: 'En la configuración de tu herramienta, añade esto:',
     toolExplain:
-      'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
+      'Tu herramienta ya recoge informes de este dominio. Añadir esta dirección nos incluye en ese flujo. El registro público de correo aparece cuando llega el primer informe independiente (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
     manualIntro:
-      'Pega esto donde gestiones la configuración de tu sitio (pregunta a tu proveedor si no estás seguro):',
+      'Pega esto donde gestiones el DNS de tu sitio (pregunta a tu proveedor si no estás seguro):',
     manualExplain:
-      'Una línea que permite a sistemas receptores independientes enviar informes agregados aquí. Si ya tienes una línea parecida, añade nuestra dirección en lugar de reemplazarla. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
+      'Una línea que permite a sistemas receptores independientes enviar informes agregados aquí. Si ya tienes una línea parecida, añade nuestra dirección en lugar de reemplazarla. El registro público de correo aparece cuando llega el primer informe independiente (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
     errors: {
       invalid_domain: 'Introduce un dominio válido (p. ej. example.com).',
       server_config: 'Falta CONNECT_STATE_SECRET o las credenciales de escritura del ledger.',
@@ -112,6 +112,8 @@ export const es: Dictionary = {
     title: 'Registros',
     addDomain: 'Conectar',
     rankedBy: 'Por historial de correo',
+    lead:
+      'Páginas públicas de los nombres en el ledger. Informes de correo y logs de certificados, como tipos distintos.',
     colDomain: 'Dominio',
     colHistory: 'Historial',
     verified: 'confirmado',
@@ -120,7 +122,8 @@ export const es: Dictionary = {
     org: 'org',
     orgs: 'orgs',
     emptyTitle: 'Sin registros',
-    emptyBody: 'Conecta un dominio.',
+    emptyBody:
+      'Conecta un dominio para conservar los informes independientes de correo. Los logs de certificados se indexan cuando el nombre está en el ledger.',
     emptyCta: 'Conectar',
     searchPlaceholder: 'Buscar dominio…',
     noMatch: 'Sin coincidencias para "{query}".',
@@ -156,7 +159,7 @@ export const es: Dictionary = {
     dbNotConfigured: 'Ledger no configurado',
     reportHistory: 'Informes de correo',
     reportHistoryCounts: '{periods} · {reporters} orgs',
-    colReporter: 'Reporter',
+    colReporter: 'Informante',
     colPeriod: 'Periodo',
     colPass: 'Acierto',
     colFail: 'Fallo',
@@ -201,13 +204,15 @@ export const es: Dictionary = {
     ctHistory: 'Certificados',
     ctHistoryCounts: '{n}',
     colIssuer: 'Emisor',
-    colNotBefore: 'Not before',
+    colNotBefore: 'No antes de',
     colLoggedAt: 'Registrado',
     colFingerprint: 'Huella',
   },
   whitepaper: {
     eyebrow: 'PACT',
     title: 'Whitepaper',
+    subtitle: 'Procedencia de trazas acumuladas y comprobables',
+    updated: 'Agosto de 2026',
   },
   legal: {
     eyebrow: 'Legal',

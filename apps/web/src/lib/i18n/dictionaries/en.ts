@@ -67,31 +67,31 @@ export const en: Dictionary = {
   },
   connect: {
     backHome: '← Home',
-    eyebrow: 'Two minutes, mostly automatic',
+    eyebrow: 'Connect',
     title: 'Add your domain',
     intro:
-      'No paperwork, no waiting on anyone. Point DNS so mail reports are kept. Certificate Transparency is leftover public log exhaust — indexed without a new ceremony. The mail record starts when the first independent report arrives.',
+      'Point DNS so independent mail systems send their aggregate reports here. Certificate logs are already public; this site indexes them. Mail history starts when the first independent report arrives — not when the DNS line is saved.',
     yourDomain: 'Your domain',
     pathCloudflareTitle: 'I use Cloudflare',
-    pathCloudflareDesc: 'One click — we handle the rest.',
+    pathCloudflareDesc: 'One click — we add the DNS line.',
     pathCloudflareBadge: 'Fastest',
     pathManualTitle: 'Add it manually',
     pathManualDesc:
-      'One line to paste wherever you manage your website — GoDaddy, Namecheap, or any other host.',
+      'One line to paste wherever you manage DNS — GoDaddy, Namecheap, or any other host.',
     pathManualBadge: 'Universal',
     pathToolTitle: 'I already use a tool',
-    pathToolDesc: 'Postmark or similar — point it here.',
+    pathToolDesc: 'Postmark or similar — add this address as a report destination.',
     pathToolBadge: 'Existing tool',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. Mail history starts when independent reports arrive — not when the DNS line is saved. Certificate Transparency is leftover public log exhaust, indexed without a new ceremony.",
+      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS. Mail history starts when independent reports arrive — not when the DNS line is saved. Certificate logs are indexed after the name is on the ledger.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
-      'Your tool already checks this domain. Pointing it here includes us in that check. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — no extra step here.',
+      'Your tool already collects reports for this domain. Adding this address includes us in that feed. The public mail record appears when the first independent report arrives (usually within 24–48 hours) — nothing else to submit here.',
     manualIntro:
-      "Paste this wherever you manage your website's settings (ask your host if you're not sure where):",
+      "Paste this wherever you manage your website's DNS (ask your host if you're not sure where):",
     manualExplain:
-      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. Your public record appears automatically when the first report arrives (usually within 24–48 hours) — nothing else to submit here.',
+      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. The public mail record appears when the first independent report arrives (usually within 24–48 hours) — nothing else to submit here.',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or ledger write credentials.',
@@ -112,6 +112,8 @@ export const en: Dictionary = {
     title: 'Records',
     addDomain: 'Connect',
     rankedBy: 'By mail history',
+    lead:
+      'Public pages for names on the ledger. Mail reports and certificate logs, as separate kinds.',
     colDomain: 'Domain',
     colHistory: 'History',
     verified: 'confirmed',
@@ -120,7 +122,8 @@ export const en: Dictionary = {
     org: 'org',
     orgs: 'orgs',
     emptyTitle: 'No records',
-    emptyBody: 'Connect a domain.',
+    emptyBody:
+      'Connect a domain so independent mail reports can be kept. Certificate logs are indexed once the name is on the ledger.',
     emptyCta: 'Connect',
     searchPlaceholder: 'Search domain…',
     noMatch: 'No match for "{query}".',
@@ -207,6 +210,8 @@ export const en: Dictionary = {
   whitepaper: {
     eyebrow: 'PACT',
     title: 'Whitepaper',
+    subtitle: 'Provenance of Accumulated Checkable Traces',
+    updated: 'August 2026',
   },
   legal: {
     eyebrow: 'Legal',

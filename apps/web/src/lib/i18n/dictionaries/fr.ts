@@ -4,7 +4,7 @@ export const fr: Dictionary = {
   nav: {
     language: 'Langue',
     records: 'Registres',
-    whitepaper: 'Whitepaper',
+    whitepaper: 'Livre blanc',
     menu: 'Menu',
     openMenu: 'Ouvrir le menu',
     closeMenu: 'Fermer le menu',
@@ -67,31 +67,31 @@ export const fr: Dictionary = {
   },
   connect: {
     backHome: '← Accueil',
-    eyebrow: 'Deux minutes, presque automatique',
+    eyebrow: 'Connecter',
     title: 'Ajoutez votre domaine',
     intro:
-      'Pas de paperasse, pas d’attente. Pointez le DNS pour conserver les rapports de courrier. Certificate Transparency est l’échappement résiduel de journaux publics — indexé sans nouvelle cérémonie. L’historique de courrier commence à l’arrivée du premier rapport indépendant.',
+      'Pointez le DNS pour que les systèmes de courrier indépendants envoient ici leurs rapports agrégés. Les journaux de certificats sont déjà publics ; ce site les indexe. L’historique de courrier commence à l’arrivée du premier rapport indépendant — pas quand la ligne DNS est enregistrée.',
     yourDomain: 'Votre domaine',
     pathCloudflareTitle: "J'utilise Cloudflare",
-    pathCloudflareDesc: 'Un clic — nous nous occupons du reste.',
+    pathCloudflareDesc: 'Un clic — nous ajoutons la ligne DNS.',
     pathCloudflareBadge: 'Le plus rapide',
     pathManualTitle: 'Ajouter manuellement',
     pathManualDesc:
-      'Une ligne à coller là où vous gérez votre site — GoDaddy, Namecheap ou tout autre hébergeur.',
+      'Une ligne à coller là où vous gérez le DNS — GoDaddy, Namecheap ou tout autre hébergeur.',
     pathManualBadge: 'Universel',
     pathToolTitle: "J'utilise déjà un outil",
-    pathToolDesc: 'Postmark ou similaire — pointez-le ici.',
+    pathToolDesc: 'Postmark ou similaire — ajoutez cette adresse comme destination de rapports.',
     pathToolBadge: 'Outil existant',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
-      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS. L’historique de courrier commence à l’arrivée des rapports indépendants — pas à l’enregistrement de la ligne DNS. Certificate Transparency est l’échappement résiduel de journaux publics, indexé sans nouvelle cérémonie.',
+      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS. L’historique de courrier commence à l’arrivée des rapports indépendants — pas à l’enregistrement de la ligne DNS. Les journaux de certificats sont indexés une fois le nom sur le ledger.',
     toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
-      'Votre outil vérifie déjà ce domaine. Le pointer ici nous inclut dans cette vérification. Votre fiche publique apparaît automatiquement à l’arrivée du premier rapport (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
+      'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut dans ce flux. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
     manualIntro:
-      "Collez ceci là où vous gérez les paramètres de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
+      "Collez ceci là où vous gérez le DNS de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
     manualExplain:
-      "Une ligne qui permet à des systèmes destinataires indépendants d’envoyer des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Votre fiche publique apparaît automatiquement à l’arrivée du premier rapport (souvent sous 24–48 h) — rien d’autre à envoyer ici.",
+      "Une ligne qui permet à des systèmes destinataires indépendants d’envoyer des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h) — rien d’autre à envoyer ici.",
     errors: {
       invalid_domain: 'Saisissez un domaine valide (ex. example.com).',
       server_config:
@@ -114,6 +114,8 @@ export const fr: Dictionary = {
     title: 'Registres',
     addDomain: 'Connecter',
     rankedBy: 'Par historique de courrier',
+    lead:
+      'Pages publiques des noms sur le ledger. Rapports de courrier et journaux de certificats, comme types distincts.',
     colDomain: 'Domaine',
     colHistory: 'Historique',
     verified: 'confirmé',
@@ -122,7 +124,8 @@ export const fr: Dictionary = {
     org: 'org',
     orgs: 'orgs',
     emptyTitle: 'Aucun registre',
-    emptyBody: 'Connectez un domaine.',
+    emptyBody:
+      'Connectez un domaine pour conserver les rapports de courrier indépendants. Les journaux de certificats sont indexés une fois le nom sur le ledger.',
     emptyCta: 'Connecter',
     searchPlaceholder: 'Rechercher un domaine…',
     noMatch: 'Aucune correspondance pour « {query} ».',
@@ -158,7 +161,7 @@ export const fr: Dictionary = {
     dbNotConfigured: 'Registre non configuré',
     reportHistory: 'Rapports de courrier',
     reportHistoryCounts: '{periods} · {reporters} orgs',
-    colReporter: 'Reporter',
+    colReporter: 'Déclarant',
     colPeriod: 'Période',
     colPass: 'Réussi',
     colFail: 'Échoué',
@@ -203,13 +206,15 @@ export const fr: Dictionary = {
     ctHistory: 'Certificats',
     ctHistoryCounts: '{n}',
     colIssuer: 'Émetteur',
-    colNotBefore: 'Not before',
+    colNotBefore: 'Valide dès',
     colLoggedAt: 'Journalisé',
     colFingerprint: 'Empreinte',
   },
   whitepaper: {
     eyebrow: 'PACT',
-    title: 'Whitepaper',
+    title: 'Livre blanc',
+    subtitle: 'Provenance de traces accumulées et vérifiables',
+    updated: 'Août 2026',
   },
   legal: {
     eyebrow: 'Mentions légales',

@@ -81,6 +81,7 @@ export type Dictionary = {
     title: string;
     addDomain: string;
     rankedBy: string;
+    lead: string;
     colDomain: string;
     colHistory: string;
     verified: string;
@@ -176,6 +177,8 @@ export type Dictionary = {
   whitepaper: {
     eyebrow: string;
     title: string;
+    subtitle: string;
+    updated: string;
   };
   legal: {
     eyebrow: string;
