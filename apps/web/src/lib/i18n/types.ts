@@ -17,7 +17,6 @@ export type Dictionary = {
     continue: string;
     copy: string;
     copied: string;
-    open: string;
     loading: string;
     toggleTheme: string;
   };
@@ -32,7 +31,6 @@ export type Dictionary = {
     hintCt: string;
     hintRekor: string;
     identityLabel: string;
-    catalog: string;
     aside: string;
     whitepaperCta: string;
   };

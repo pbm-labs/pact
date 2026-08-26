@@ -3,13 +3,8 @@
 import { useMemo, useState } from 'react';
 import { CopyableValue } from '@/components/copy-button';
 import { useLocale } from '@/components/locale-provider';
-import {
-  EVIDENCE_KINDS,
-  type EvidenceKind,
-  ledgerEvidenceUrl,
-  routes,
-} from '@/lib/routes';
-import { btnPrimary, btnSecondary, input, label } from '@/lib/ui';
+import { EVIDENCE_KINDS, type EvidenceKind, ledgerEvidenceUrl } from '@/lib/routes';
+import { input, label } from '@/lib/ui';
 
 const PLACEHOLDER: Record<EvidenceKind, string> = {
   mail: 'example.com',
@@ -75,16 +70,7 @@ export function EvidenceQuery() {
       />
 
       <div className="mt-4">
-        <CopyableValue text={url} />
-      </div>
-
-      <div className="mt-5 flex flex-col sm:flex-row gap-2">
-        <a href={url} target="_blank" rel="noreferrer" className={btnPrimary}>
-          {t.common.open}
-        </a>
-        <a href={routes.ledgerKinds} target="_blank" rel="noreferrer" className={btnSecondary}>
-          {t.home.catalog}
-        </a>
+        <CopyableValue text={url} href={url} />
       </div>
     </div>
   );
