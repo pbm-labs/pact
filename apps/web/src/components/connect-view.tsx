@@ -134,17 +134,14 @@ function ConnectFlow({
     cloudflare: {
       title: t.connect.pathCloudflareTitle,
       description: t.connect.pathCloudflareDesc,
-      badge: t.connect.pathCloudflareBadge,
     },
     manual: {
       title: t.connect.pathManualTitle,
       description: t.connect.pathManualDesc,
-      badge: t.connect.pathManualBadge,
     },
     'dmarc-tool': {
       title: t.connect.pathToolTitle,
       description: t.connect.pathToolDesc,
-      badge: t.connect.pathToolBadge,
     },
   } as const;
 
@@ -207,10 +204,7 @@ function ConnectFlow({
             )}
 
             {!path ? (
-              <>
-                <p className={`${pageIntro} mb-8`}>{t.connect.note}</p>
-                <p className={`${eyebrow} mb-3`}>{t.connect.mailStreamHow}</p>
-                <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 gap-3">
                   {PATHS.map((key) => {
                     const item = pathCopy[key];
                     return (
@@ -220,28 +214,19 @@ function ConnectFlow({
                         className={pathCard}
                         onClick={() => setPathWithUrl(key)}
                       >
-                        <span className="flex w-full items-center justify-between">
-                          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg/80 text-muted group-hover:text-accent">
-                            <PathIcon kind={key} />
-                          </span>
-                          <span className="text-xs font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
-                            {item.badge}
-                          </span>
+                        <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg/80 text-muted group-hover:text-accent">
+                          <PathIcon kind={key} />
                         </span>
                         <span className="text-base font-semibold text-txt">{item.title}</span>
                         <span className="text-sm text-muted leading-snug">{item.description}</span>
                       </button>
                     );
                   })}
-                </div>
-              </>
+              </div>
             ) : (
               <section className={panel}>
                 <div className={panelHeader}>
                   <h2 className="text-base font-semibold text-txt m-0">{pathCopy[path].title}</h2>
-                  <span className="text-xs font-mono uppercase tracking-widest text-muted-2">
-                    {pathCopy[path].badge}
-                  </span>
                 </div>
 
                 <div className={`${panelBody} space-y-5`}>

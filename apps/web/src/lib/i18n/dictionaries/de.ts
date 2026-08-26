@@ -5,9 +5,6 @@ export const de: Dictionary = {
     language: 'Sprache',
     intake: 'Mail-Intake',
     whitepaper: 'Whitepaper',
-    menu: 'Menü',
-    openMenu: 'Menü öffnen',
-    closeMenu: 'Menü schließen',
   },
   footer: {
     terms: 'Nutzungsbedingungen',
@@ -20,142 +17,39 @@ export const de: Dictionary = {
     continue: 'Weiter',
     copy: 'Kopieren',
     copied: 'Kopiert',
+    open: 'Öffnen',
     loading: 'Laden…',
     toggleTheme: 'Theme umschalten',
   },
   home: {
     heroTitle: 'KI kann alles fälschen.',
     heroAccent: 'Außer gestern.',
-    heroSub: 'we build real ist die Bewegung. PACT ist Leftover für Agenten.',
-    heroLead:
-      'Die Einheit der Evidenz ist Art plus Identität — keine Domain-Seite. Kein Ranking, keine drei Stream-Karten, kein Urteil. Das Urteil bleibt draußen.',
-    primaryCta: 'GET /v1/kinds',
-    secondaryCta: 'GET /v1/evidence',
-    brokeEyebrow: 'Identität',
-    brokeTitle: 'Jede Art hat einen anderen Identitätsschlüssel.',
-    brokeLead:
-      'Ein Agent kann Mail-Leftover einer Gegenpartei und GitHub-förmiges Signatur-Leftover nicht in einem Domain-Aufruf prüfen. Domain ist eine Identität, die Mail und CT oft nutzen — nicht der Typ der ganzen Welt.',
-    identities: [
-      {
-        kind: 'Mail',
-        tag: 'untagged v0.2',
-        identity: 'Absendedomain (header_from)',
-      },
-      {
-        kind: 'Zertifikate',
-        tag: 'pact-ct-v1',
-        identity: 'Hostname in SAN/CN (als CT-Leftover)',
-      },
-      {
-        kind: 'Signaturen',
-        tag: 'pact-rekor-v1',
-        identity: 'Rekor-Leftover-Subjekt — oft eine GitHub-URI oder E-Mail, selten ein Website-Hostname',
-      },
-    ],
-    splitEyebrow: 'Teilung',
-    splitTitle: 'PACT entscheidet nicht.',
-    splitLead:
-      'Der Agent zieht Identitäten, die die Aufgabe wirklich genutzt hat, fragt pro Art und übergibt prüfbare Fakten an Policy. Policy sagt ja, nein oder warten.',
-    splitCards: [
-      {
-        title: 'Jemand anderes',
-        body: 'Policies. Governance. „Ist das erlaubt?“ Entity Resolution (From vs DKIM d= vs GitHub-URI vs Zertifikat-SAN) lebt hier.',
-      },
-      {
-        title: 'PACT',
-        body: 'Restspuren und Beweise. Abfrage nach Art. Inklusion gegen eine benannte Wurzel. Es wiederholt die Identität, die wirklich gesucht wurde.',
-      },
-      {
-        title: 'Jemand anderes',
-        body: 'Ausführung. PACT DARF github.com/acme/pay NICHT als acme.com behandeln. Diese Abbildung ist Interpretation.',
-      },
-    ],
-    queryEyebrow: 'Abfrage',
-    queryTitle: 'Art plus Identität.',
-    queryLead:
-      'Der Agent beginnt nicht mit „öffne diese Domain“. Er fragt Rest-Identitäten des Moments, pro Art. Der Katalog ist maschinenlesbar, damit alte Agenten Arten ignorieren, die sie nicht verstehen.',
-    endpointKinds: 'Katalog',
-    endpointEvidence: 'Abfrage',
-    endpointLeaf: 'Beweis',
-    echoTitle: 'Die wirklich verwendete Identität wiederholen',
-    echoBody:
-      'Eine gültige Antwort über den falschen Schlüssel ist schlimmer als ein Trefferfehler. Inklusion beweist, dass das Blatt im Baum ist, nicht dass der Aufrufer diese Gegenpartei meinte. PACT behebt keine Extraktionsfehler. Es macht sie auditierbar.',
-    emptyTitle: 'Null Zeilen sind eine Antwort',
-    emptyBody:
-      'HTTP 200 mit leerer Liste heißt: dieses Log hat unter dieser Identität kein Leftover. Das ist kein fehlender Setup-Schritt.',
-    proofTitle: 'Benannte gemeinsame Wurzel',
-    proofBody:
-      'Listenzeilen enthalten included — Mitgliedschaft im lebenden gemeinsamen Baum. Der Inklusionsbeweis liegt auf GET /v1/leaves/:hash. Listen DÜRFEN keine Beweis-Arrays dumpen. v1-Beweise nennen type: shared, damit ein späterer Forest Aufrufer nicht bricht.',
-    kindsTitle: 'Kleiner Leftover-only-Katalog',
-    kindsLead:
-      'Jede Art hat eine eingefrorene Kodierung, eine Schlüsselform und ein Stake-Label. Eine Art hinzuzufügen ist eine Produktentscheidung, keine neue Spalte auf einer Domain-Seite.',
-    kinds: [
-      {
-        title: 'Mail',
-        key: 'dns_name',
-        stake: 'accumulated',
-        body: 'Untagged v0.2. Absendedomain (header_from). Unabhängige Empfänger erzeugen weiter Berichte.',
-      },
-      {
-        title: 'Zertifikate',
-        key: 'dns_name',
-        stake: 'calendar',
-        body: 'pact-ct-v1. Hostname in SAN/CN. Ein neues Zertifikat ist billig. Gewicht liegt in der Serie, nicht in einer Tatsache.',
-      },
-      {
-        title: 'Signaturen',
-        key: 'leftover_subject',
-        stake: 'calendar',
-        body: 'pact-rekor-v1. GitHub-URI, E-Mail oder Host — keine verbundene Website. Leeres Hostname-Leftover ist erwartet.',
-      },
-    ],
-    stakeTitle: 'Stake ist eine Eigenschaft der Art',
-    stakeAccumulated:
-      'Leftover wächst nur, wenn unabhängige Dritte aus eigenen Gründen weiterhandeln. Ein Mint erzeugt die Historie nicht.',
-    stakeCalendar:
-      'Ein einzelner Eintrag ist billig. Jedes Gewicht liegt in einer anhaltenden Serie. Ein neues Zertifikat oder eine neue Signatur kann in Minuten erscheinen.',
-    treeTitle: 'Ein Baum, mit einer Naht',
-    treeBody:
-      'Live: ein sparse Merkle-Baum, ein leaf_index-Raum, ein publishRoot. Jede Art deklariert kind_root: { type: "shared" }. Ein Meta-Root kind_id → kind_root ist reserviert. Forest ist v2, ohne v1-Aufrufer zu brechen.',
-    willNotTitle: 'Was PACT nicht tun wird',
-    willNot: [
-      'Score, Aktivierungslabel oder Urteil.',
-      'Arten vermischen.',
-      'Postfächer raten, um Rekor zu durchsuchen.',
-      'github.com/… als Abdeckung einer Kundendomain behandeln.',
-      'Identitäten über Arten hinweg mappen.',
-      'Ein Ritual erfinden, damit eine Art sich füllt — einschließlich „bei Rekor signieren“.',
-    ],
-    pressuresTitle: 'Geschlossene Druckpunkte',
-    pressures: [
-      'Identitätsextraktion — Last beim Aufrufer; PACT wiederholt die wirklich verwendete Identität.',
-      'Artenkatalog — klein, eingefrorene Kodierungen, Laufzeit-Entdeckung, Stake artweise gelabelt.',
-      'Forest gegen einen Baum — Meta-Root plus benannte Beweiswurzel ist die v1-Naht; Forest ist v2, ohne Aufrufer zu brechen.',
-    ],
-    intakeTitle: 'Mail-Leftover braucht weiter DNS.',
-    intakeBody:
-      'Das ist Intake für eine Art, kein Verbraucherprodukt „verbinde deine Domain“. Zertifikat- und Signatur-Leftover werden über die Identität abgefragt, die diese Logs bereits genutzt haben.',
-    intakeCta: 'Mail-Intake',
+    lede: 'PACT erfasst Leftover für Agenten. Die Abfrage ist Art plus Identität. PACT entscheidet nicht.',
+    kindMail: 'Mail',
+    kindCt: 'Zertifikate',
+    kindRekor: 'Signaturen',
+    hintMail: 'Absendedomain (header_from)',
+    hintCt: 'Hostname in SAN/CN',
+    hintRekor: 'Rekor-Leftover-Subjekt — GitHub-URI, E-Mail oder Host',
+    identityLabel: 'Identität',
+    catalog: 'Katalog',
+    aside: 'Kein Score. Keine Mischung. Leer ist eine Antwort. Das Urteil bleibt draußen.',
+    whitepaperCta: 'Whitepaper',
   },
   connect: {
     backHome: '← Start',
     eyebrow: 'Mail-Intake',
     title: 'Mail-Leftover behalten',
     intro:
-      'Das ist kein öffentliches Profil. Eine Absendedomain auf das Ledger zu setzen und ein Berichtsziel hinzuzufügen behält unabhängige DMARC-Aggregatberichte. Zertifikat-Leftover und Rekor-Leftover werden über ihre eigenen Identitäten abgefragt — nicht über dieses Formular.',
-    note: 'PACT zeigt für diesen Namen kein Ranking und keine drei Stream-Karten. Agenten fragen das Ledger pro Art.',
+      'Füge ein Berichtsziel hinzu, damit unabhängige DMARC-Berichte behalten werden. Das ist kein Profil. Zertifikate und Signaturen werden über ihre eigenen Identitäten abgefragt.',
     yourDomain: 'Absendedomain',
     pathCloudflareTitle: 'Ich nutze Cloudflare',
     pathCloudflareDesc: 'Ein Klick — wir setzen die DNS-Zeile.',
-    pathCloudflareBadge: 'Am schnellsten',
     pathManualTitle: 'Manuell hinzufügen',
     pathManualDesc:
       'Eine Zeile zum Einfügen, wo du DNS verwaltest — GoDaddy, Namecheap oder ein anderer Host.',
-    pathManualBadge: 'Universal',
     pathToolTitle: 'Ich nutze schon ein Tool',
     pathToolDesc: 'Postmark oder ähnlich — diese Adresse als Berichtsziel hinzufügen.',
-    pathToolBadge: 'Bestehendes Tool',
-    mailStreamHow: 'Berichte behalten',
     putOnLedger: 'Auf das Ledger setzen',
     ledgerExplain:
       'Registriert die Absendedomain, damit Mailberichte nicht verworfen werden. Es hängt kein GitHub-Leftover und kein Signaturlog an diese Website.',

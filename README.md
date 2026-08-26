@@ -4,7 +4,7 @@
 **PACT** is an open protocol (Provenance of Accumulated Checkable Traces).  
 **PBM Labs LLC** provides the first reference implementation, hosted at [webuildreal.dev](https://webuildreal.dev).
 
-This repo is that reference implementation: leftover traces from systems that already exist, recorded as separate kinds on one Merkle tree. Mail (DMARC aggregate reports), Certificate Transparency, and Rekor are leftover kinds — never a blended score. The public site is the movement home and the agent evidence interface. Mail intake lives at [`/connect`](https://webuildreal.dev/connect).
+This repo is that reference implementation: leftover traces from systems that already exist, recorded as separate kinds on one Merkle tree. Mail (DMARC aggregate reports), Certificate Transparency, and Rekor are leftover kinds — never a blended score. The public site is the movement and the kind-plus-identity query. Mail intake lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
 Agent evidence interface: [docs/agent_evidence.md](docs/agent_evidence.md) (`GET /v1/kinds`, `GET /v1/evidence`).  

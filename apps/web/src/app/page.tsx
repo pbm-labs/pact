@@ -3,7 +3,7 @@ import { HomeLanding } from '@/components/home-landing';
 
 const title = 'AI can fake everything. Except yesterday.';
 const description =
-  'we build real is a movement for verifiable history. PACT is leftover traces for agents — kind plus identity, not a domain profile.';
+  'PACT records leftover traces for agents. Kind plus identity. It does not decide.';
 
 export const metadata: Metadata = {
   title,

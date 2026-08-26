@@ -5,9 +5,6 @@ export const en: Dictionary = {
     language: 'Language',
     intake: 'Mail intake',
     whitepaper: 'Whitepaper',
-    menu: 'Menu',
-    openMenu: 'Open menu',
-    closeMenu: 'Close menu',
   },
   footer: {
     terms: 'Terms',
@@ -20,142 +17,39 @@ export const en: Dictionary = {
     continue: 'Continue',
     copy: 'Copy',
     copied: 'Copied',
+    open: 'Open',
     loading: 'Loading…',
     toggleTheme: 'Toggle theme',
   },
   home: {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
-    heroSub: 'we build real is the movement. PACT is leftover traces for agents.',
-    heroLead:
-      'The unit of evidence is kind plus identity — not a domain page. There is no ranked record, no three stream cards, no verdict. Judgement stays outside.',
-    primaryCta: 'GET /v1/kinds',
-    secondaryCta: 'GET /v1/evidence',
-    brokeEyebrow: 'Identity',
-    brokeTitle: 'Each kind has a different identity key.',
-    brokeLead:
-      'An agent cannot verify a counterparty’s mail leftover and GitHub-shaped signature leftover in one domain call. Domain is one identity mail and CT often use — not the type of the whole world.',
-    identities: [
-      {
-        kind: 'Mail',
-        tag: 'untagged v0.2',
-        identity: 'Sending domain (header_from)',
-      },
-      {
-        kind: 'Certificates',
-        tag: 'pact-ct-v1',
-        identity: 'Hostname in SAN/CN (as CT leftover)',
-      },
-      {
-        kind: 'Signatures',
-        tag: 'pact-rekor-v1',
-        identity: 'Rekor leftover subject — often a GitHub URI or email, rarely a website hostname',
-      },
-    ],
-    splitEyebrow: 'Split',
-    splitTitle: 'PACT does not decide.',
-    splitLead:
-      'The agent extracts identities the task actually used, asks per kind, and hands checkable facts to policy. Policy says yes, no, or wait.',
-    splitCards: [
-      {
-        title: 'Someone else',
-        body: 'Policies. Governance. “Is this allowed?” Entity resolution (From vs DKIM d= vs GitHub URI vs cert SAN) lives here.',
-      },
-      {
-        title: 'PACT',
-        body: 'Leftover traces and proofs. Kind-scoped query. Inclusion against a named root. It echoes the identity it actually looked up.',
-      },
-      {
-        title: 'Someone else',
-        body: 'Execution. PACT MUST NOT treat github.com/acme/pay as acme.com. That map is interpretation.',
-      },
-    ],
-    queryEyebrow: 'Query',
-    queryTitle: 'Kind plus identity.',
-    queryLead:
-      'The agent does not start from “open this domain.” It asks leftover identities from the moment, per kind. The catalog is machine-readable so old agents ignore kinds they do not understand.',
-    endpointKinds: 'Catalog',
-    endpointEvidence: 'Query',
-    endpointLeaf: 'Proof',
-    echoTitle: 'Echo the identity actually used',
-    echoBody:
-      'A valid answer about the wrong key is worse than a miss. Inclusion proves the leaf is in the tree, not that the caller meant that counterparty. PACT does not fix extraction bugs. It makes them auditable.',
-    emptyTitle: 'Zero rows is an answer',
-    emptyBody:
-      'HTTP 200 with an empty list means this log has no leftover under that identity. It is not a missing setup step.',
-    proofTitle: 'Named shared root',
-    proofBody:
-      'List rows include included — membership in the live shared tree. The inclusion proof is on GET /v1/leaves/:hash. Lists MUST NOT dump proof arrays. v1 proofs name type: shared so a later forest does not break callers.',
-    kindsTitle: 'Small leftover-only catalog',
-    kindsLead:
-      'Each kind has a frozen encoding, a key shape, and a stake label. Adding a kind is a product decision, not a new column on a domain page.',
-    kinds: [
-      {
-        title: 'Mail',
-        key: 'dns_name',
-        stake: 'accumulated',
-        body: 'Untagged v0.2. Sending domain (header_from). Independent receivers keep emitting reports.',
-      },
-      {
-        title: 'Certificates',
-        key: 'dns_name',
-        stake: 'calendar',
-        body: 'pact-ct-v1. Hostname in SAN/CN. A new cert is cheap. Weight is a series, not one fact.',
-      },
-      {
-        title: 'Signatures',
-        key: 'leftover_subject',
-        stake: 'calendar',
-        body: 'pact-rekor-v1. GitHub URI, email, or host — not a connected website. Empty hostname leftover is expected.',
-      },
-    ],
-    stakeTitle: 'Stake is a property of the kind',
-    stakeAccumulated:
-      'Leftover only grows if independent third parties keep acting for their own reasons. One mint does not create the history.',
-    stakeCalendar:
-      'A single entry is cheap. Any weight is in a sustained series. A new cert or a new signature can appear in minutes.',
-    treeTitle: 'One tree, with a seam',
-    treeBody:
-      'Live: one sparse Merkle tree, one leaf_index space, one publishRoot. Each kind declares kind_root: { type: "shared" }. A meta-root of kind_id → kind_root is reserved. Forest is v2 without breaking v1 callers.',
-    willNotTitle: 'What PACT will not do',
-    willNot: [
-      'Score, activation label, or verdict.',
-      'Blend kinds.',
-      'Guess mailboxes to search Rekor.',
-      'Treat github.com/… as covering a customer domain.',
-      'Map identities across kinds.',
-      'Invent a ritual so a kind fills — including “sign to Rekor.”',
-    ],
-    pressuresTitle: 'Closed pressures',
-    pressures: [
-      'Identity extraction — burden on the caller; PACT echoes the identity actually used.',
-      'Kind catalog — small, frozen encodings, runtime discovery, stake labeled kind-by-kind.',
-      'Forest vs one tree — meta-root plus named proof root is the v1 seam; forest is v2 without breaking callers.',
-    ],
-    intakeTitle: 'Mail leftover still needs DNS.',
-    intakeBody:
-      'That is intake for one kind, not a consumer “connect your domain” product. Certificate and signature leftover are queried by the identity those logs already used.',
-    intakeCta: 'Mail intake',
+    lede: 'PACT records leftover traces for agents. The query is kind plus identity. PACT does not decide.',
+    kindMail: 'Mail',
+    kindCt: 'Certificates',
+    kindRekor: 'Signatures',
+    hintMail: 'Sending domain (header_from)',
+    hintCt: 'Hostname in SAN/CN',
+    hintRekor: 'Rekor leftover subject — GitHub URI, email, or host',
+    identityLabel: 'Identity',
+    catalog: 'Catalog',
+    aside: 'No score. No blend. Empty is an answer. Judgement stays outside.',
+    whitepaperCta: 'Whitepaper',
   },
   connect: {
     backHome: '← Home',
     eyebrow: 'Mail intake',
     title: 'Keep mail leftover',
     intro:
-      'This is not a public profile. Putting a sending domain on the ledger and adding a report destination keeps independent DMARC aggregate reports. Certificate leftover and Rekor leftover are queried by their own identities — not by this form.',
-    note: 'PACT will not show a ranked record or three stream cards for this name. Agents ask the ledger per kind.',
+      'Add a report destination so independent DMARC reports are kept. This is not a profile. Certificates and signatures are queried by their own identities.',
     yourDomain: 'Sending domain',
     pathCloudflareTitle: 'I use Cloudflare',
     pathCloudflareDesc: 'One click — we add the DNS line.',
-    pathCloudflareBadge: 'Fastest',
     pathManualTitle: 'Add it manually',
     pathManualDesc:
       'One line to paste wherever you manage DNS — GoDaddy, Namecheap, or any other host.',
-    pathManualBadge: 'Universal',
     pathToolTitle: 'I already use a tool',
     pathToolDesc: 'Postmark or similar — add this address as a report destination.',
-    pathToolBadge: 'Existing tool',
-    mailStreamHow: 'How to keep the reports',
     putOnLedger: 'Put on the ledger',
     ledgerExplain:
       'Registers the sending domain so mail reports are not dropped. It does not attach GitHub leftover or a signature log to this website.',

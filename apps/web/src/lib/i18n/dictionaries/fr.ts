@@ -5,9 +5,6 @@ export const fr: Dictionary = {
     language: 'Langue',
     intake: 'Intake courrier',
     whitepaper: 'Livre blanc',
-    menu: 'Menu',
-    openMenu: 'Ouvrir le menu',
-    closeMenu: 'Fermer le menu',
   },
   footer: {
     terms: 'Conditions',
@@ -20,142 +17,39 @@ export const fr: Dictionary = {
     continue: 'Continuer',
     copy: 'Copier',
     copied: 'Copié',
+    open: 'Ouvrir',
     loading: 'Chargement…',
     toggleTheme: 'Changer le thème',
   },
   home: {
     heroTitle: 'L’IA peut tout falsifier.',
     heroAccent: 'Sauf hier.',
-    heroSub: 'we build real est le mouvement. PACT est du leftover pour agents.',
-    heroLead:
-      'L’unité de preuve est type plus identité — pas une page de domaine. Pas de classement, pas trois cartes de flux, pas de verdict. Le jugement reste dehors.',
-    primaryCta: 'GET /v1/kinds',
-    secondaryCta: 'GET /v1/evidence',
-    brokeEyebrow: 'Identité',
-    brokeTitle: 'Chaque type a une clé d’identité différente.',
-    brokeLead:
-      'Un agent ne peut pas vérifier le leftover courrier d’une contrepartie et le leftover de signature en forme GitHub en un seul appel de domaine. Le domaine est une identité que le courrier et CT utilisent souvent — pas le type du monde entier.',
-    identities: [
-      {
-        kind: 'Courrier',
-        tag: 'v0.2 non étiqueté',
-        identity: 'Domaine d’envoi (header_from)',
-      },
-      {
-        kind: 'Certificats',
-        tag: 'pact-ct-v1',
-        identity: 'Nom d’hôte dans SAN/CN (comme leftover CT)',
-      },
-      {
-        kind: 'Signatures',
-        tag: 'pact-rekor-v1',
-        identity: 'Sujet leftover Rekor — souvent une URI GitHub ou un e-mail, rarement le nom d’hôte d’un site',
-      },
-    ],
-    splitEyebrow: 'Partage',
-    splitTitle: 'PACT ne décide pas.',
-    splitLead:
-      'L’agent extrait les identités réellement utilisées par la tâche, interroge par type, et remet des faits vérifiables à la politique. La politique dit oui, non, ou attendre.',
-    splitCards: [
-      {
-        title: 'Quelqu’un d’autre',
-        body: 'Politiques. Gouvernance. « Est-ce autorisé ? » La résolution d’entités (From vs DKIM d= vs URI GitHub vs SAN) vit ici.',
-      },
-      {
-        title: 'PACT',
-        body: 'Traces résiduelles et preuves. Requête par type. Inclusion contre une racine nommée. Il répète l’identité réellement consultée.',
-      },
-      {
-        title: 'Quelqu’un d’autre',
-        body: 'Exécution. PACT NE DOIT PAS traiter github.com/acme/pay comme acme.com. Cette carte est de l’interprétation.',
-      },
-    ],
-    queryEyebrow: 'Requête',
-    queryTitle: 'Type plus identité.',
-    queryLead:
-      'L’agent ne commence pas par « ouvrir ce domaine ». Il interroge les identités résiduelles du moment, par type. Le catalogue est lisible par machine pour que les anciens agents ignorent les types qu’ils ne comprennent pas.',
-    endpointKinds: 'Catalogue',
-    endpointEvidence: 'Requête',
-    endpointLeaf: 'Preuve',
-    echoTitle: 'Répéter l’identité réellement utilisée',
-    echoBody:
-      'Une réponse valide sur la mauvaise clé est pire qu’un manque. L’inclusion prouve que la feuille est dans l’arbre, pas que l’appelant visait cette contrepartie. PACT ne corrige pas les bugs d’extraction. Il les rend auditables.',
-    emptyTitle: 'Zéro ligne est une réponse',
-    emptyBody:
-      'HTTP 200 avec une liste vide signifie que ce journal n’a pas de leftover sous cette identité. Ce n’est pas une étape de configuration manquante.',
-    proofTitle: 'Racine partagée nommée',
-    proofBody:
-      'Les lignes incluent included — appartenance à l’arbre partagé vivant. La preuve d’inclusion est sur GET /v1/leaves/:hash. Les listes NE DOIVENT PAS déverser des tableaux de preuves. Les preuves v1 nomment type: shared pour qu’une forêt ultérieure ne casse pas les appelants.',
-    kindsTitle: 'Petit catalogue leftover-only',
-    kindsLead:
-      'Chaque type a un encodage figé, une forme de clé et une étiquette de stake. Ajouter un type est une décision produit, pas une nouvelle colonne sur une page de domaine.',
-    kinds: [
-      {
-        title: 'Courrier',
-        key: 'dns_name',
-        stake: 'accumulated',
-        body: 'v0.2 non étiqueté. Domaine d’envoi (header_from). Les destinataires indépendants continuent d’émettre des rapports.',
-      },
-      {
-        title: 'Certificats',
-        key: 'dns_name',
-        stake: 'calendar',
-        body: 'pact-ct-v1. Nom d’hôte dans SAN/CN. Un nouveau certificat est bon marché. Le poids est une série, pas un fait.',
-      },
-      {
-        title: 'Signatures',
-        key: 'leftover_subject',
-        stake: 'calendar',
-        body: 'pact-rekor-v1. URI GitHub, e-mail ou hôte — pas un site connecté. Un leftover d’hôte vide est attendu.',
-      },
-    ],
-    stakeTitle: 'Le stake est une propriété du type',
-    stakeAccumulated:
-      'Le leftover ne croît que si des tiers indépendants continuent d’agir pour leurs propres raisons. Un mint ne crée pas l’histoire.',
-    stakeCalendar:
-      'Une seule entrée est bon marché. Tout poids est dans une série soutenue. Un nouveau certificat ou une nouvelle signature peut apparaître en minutes.',
-    treeTitle: 'Un arbre, avec une couture',
-    treeBody:
-      'En direct : un arbre de Merkle creux, un espace leaf_index, un publishRoot. Chaque type déclare kind_root: { type: "shared" }. Une meta-root kind_id → kind_root est réservée. La forêt est v2 sans casser les appelants v1.',
-    willNotTitle: 'Ce que PACT ne fera pas',
-    willNot: [
-      'Score, étiquette d’activation ou verdict.',
-      'Mélanger les types.',
-      'Deviner des boîtes pour chercher dans Rekor.',
-      'Traiter github.com/… comme couvrant le domaine d’un client.',
-      'Mapper les identités entre types.',
-      'Inventer un rituel pour qu’un type se remplisse — y compris « signer sur Rekor ».',
-    ],
-    pressuresTitle: 'Pressions closes',
-    pressures: [
-      'Extraction d’identité — charge sur l’appelant ; PACT répète l’identité réellement utilisée.',
-      'Catalogue de types — petit, encodages figés, découverte à l’exécution, stake étiqueté type par type.',
-      'Forêt contre un arbre — la meta-root plus la racine de preuve nommée est la couture v1 ; la forêt est v2 sans casser les appelants.',
-    ],
-    intakeTitle: 'Le leftover courrier a encore besoin du DNS.',
-    intakeBody:
-      'C’est l’intake d’un type, pas un produit « connecte ton domaine ». Le leftover certificats et signatures s’interroge par l’identité que ces journaux ont déjà utilisée.',
-    intakeCta: 'Intake courrier',
+    lede: 'PACT enregistre le leftover pour les agents. La requête est type plus identité. PACT ne décide pas.',
+    kindMail: 'Courrier',
+    kindCt: 'Certificats',
+    kindRekor: 'Signatures',
+    hintMail: 'Domaine d’envoi (header_from)',
+    hintCt: 'Nom d’hôte dans SAN/CN',
+    hintRekor: 'Sujet leftover Rekor — URI GitHub, e-mail ou hôte',
+    identityLabel: 'Identité',
+    catalog: 'Catalogue',
+    aside: 'Pas de score. Pas de mélange. Vide est une réponse. Le jugement reste dehors.',
+    whitepaperCta: 'Livre blanc',
   },
   connect: {
     backHome: '← Accueil',
     eyebrow: 'Intake courrier',
     title: 'Garder le leftover courrier',
     intro:
-      'Ce n’est pas un profil public. Mettre un domaine d’envoi sur le ledger et ajouter une destination de rapports conserve les rapports agrégés DMARC indépendants. Le leftover certificats et Rekor s’interroge par leurs propres identités — pas par ce formulaire.',
-    note: 'PACT n’affichera ni classement ni trois cartes de flux pour ce nom. Les agents interrogent le ledger par type.',
+      'Ajoute une destination de rapports pour conserver les rapports DMARC indépendants. Ce n’est pas un profil. Certificats et signatures se consultent par leurs propres identités.',
     yourDomain: 'Domaine d’envoi',
     pathCloudflareTitle: 'J’utilise Cloudflare',
     pathCloudflareDesc: 'Un clic — nous ajoutons la ligne DNS.',
-    pathCloudflareBadge: 'Le plus rapide',
     pathManualTitle: 'L’ajouter à la main',
     pathManualDesc:
-      'Une ligne à coller là où vous gérez le DNS — GoDaddy, Namecheap ou un autre hébergeur.',
-    pathManualBadge: 'Universel',
+      'Une ligne à coller là où tu gères le DNS — GoDaddy, Namecheap ou un autre hébergeur.',
     pathToolTitle: 'J’utilise déjà un outil',
-    pathToolDesc: 'Postmark ou similaire — ajoutez cette adresse comme destination de rapports.',
-    pathToolBadge: 'Outil existant',
-    mailStreamHow: 'Comment conserver les rapports',
+    pathToolDesc: 'Postmark ou similaire — ajoute cette adresse comme destination de rapports.',
     putOnLedger: 'Mettre sur le ledger',
     ledgerExplain:
       'Enregistre le domaine d’envoi pour ne pas jeter les rapports de courrier. Cela n’attache pas de leftover GitHub ni un journal de signatures à ce site.',

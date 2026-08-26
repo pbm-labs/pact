@@ -10,7 +10,7 @@ import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 const siteUrl = 'https://webuildreal.dev';
 const title = 'We build real';
 const description =
-  'History exists first. The claim can be made afterwards. PACT is leftover traces for agents — kind plus identity, not a domain profile.';
+  'AI can fake everything. Except yesterday. PACT is leftover traces for agents — kind plus identity.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

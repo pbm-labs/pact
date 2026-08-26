@@ -2,7 +2,7 @@
 
 **Status:** Live on the reference ledger (August 2026). Complements `docs/pact_protocol.md`; does not replace it.
 **Live API:** `GET https://ledger.webuildreal.dev/v1/kinds` and `GET https://ledger.webuildreal.dev/v1/evidence?kind=&identity=`. Domain-scoped `GET /v1/domains` remains for mail/CT connect leftovers.
-**Public site:** [webuildreal.dev](https://webuildreal.dev) is this note, with a movement frame. Mail intake stays at `/connect`. There is no domain profile.
+**Public site:** [webuildreal.dev](https://webuildreal.dev) is the movement and the query. Mail intake stays at `/connect`. There is no domain profile. This note is not the homepage.
 **Audience:** whoever builds a policy / governance / execution layer on top of leftover traces. PACT does not define that layer.
 
 ---
