@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { HomeLanding } from '@/components/home-landing';
 
 const title = 'AI can fake everything. Except yesterday.';
-const description =
-  'Leftover traces for agents. Kind plus identity. Judgement stays outside.';
+const description = 'History exists first. The claim can be made afterwards.';
 
 export const metadata: Metadata = {
   title,

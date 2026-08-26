@@ -24,19 +24,6 @@ export type Dictionary = {
     heroTitle: string;
     heroAccent: string;
     lede: string;
-    kindMail: string;
-    kindCt: string;
-    kindRekor: string;
-    hintMail: string;
-    hintCt: string;
-    hintRekor: string;
-    identityLabel: string;
-    lookup: string;
-    empty: string;
-    invalid: string;
-    echo: string;
-    failed: string;
-    aside: string;
   };
   connect: {
     backHome: string;

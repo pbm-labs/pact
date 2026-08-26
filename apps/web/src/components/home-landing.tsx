@@ -1,6 +1,5 @@
 'use client';
 
-import { EvidenceQuery } from '@/components/evidence-query';
 import { useLocale } from '@/components/locale-provider';
 import { container } from '@/lib/ui';
 
@@ -16,12 +15,6 @@ export function HomeLanding() {
           <span className="text-brand">{t.home.heroAccent}</span>
         </h1>
         <p className="mt-6 mb-0 text-lg text-muted leading-relaxed max-w-xl">{t.home.lede}</p>
-
-        <div className="mt-12 sm:mt-16">
-          <EvidenceQuery />
-        </div>
-
-        <p className="mt-10 mb-0 text-sm text-muted-2 leading-relaxed max-w-xl">{t.home.aside}</p>
       </div>
     </main>
   );
