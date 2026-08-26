@@ -31,7 +31,11 @@ export function buildLeafProof(
   leafIndex: number,
   leafHash: Hash,
 ): LeafMerkleProof {
-  const proof = tree.getProof(leafIndex);
-  const proofValid = tree.verifyProof(leafHash, leafIndex, proof, root);
-  return { leafIndex, leafHash, proof, proofValid };
+  try {
+    const proof = tree.getProof(leafIndex);
+    const proofValid = tree.verifyProof(leafHash, leafIndex, proof, root);
+    return { leafIndex, leafHash, proof, proofValid };
+  } catch {
+    return { leafIndex, leafHash, proof: [], proofValid: false };
+  }
 }

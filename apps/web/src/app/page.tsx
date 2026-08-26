@@ -33,24 +33,13 @@ async function loadHomePreview(): Promise<HomePreview | null> {
   if (!pick) return null;
 
   const state = await fetchDomainPageState(pick.domain);
-  if (!state) return null;
-
-  if (state.status === 'live') {
-    return {
-      domain: state.data.domain,
-      domainRegisteredAt: state.data.domainRegisteredAt,
-      pactHistoryStart: state.data.pactHistoryStart,
-      mailCount: state.data.leaves.length,
-      ctCount: state.data.ct.length,
-      rekorCount: state.data.rekor.length,
-    };
-  }
+  if (state?.status !== 'live') return null;
 
   return {
     domain: state.data.domain,
     domainRegisteredAt: state.data.domainRegisteredAt,
     pactHistoryStart: state.data.pactHistoryStart,
-    mailCount: 0,
+    mailCount: state.data.leaves.length,
     ctCount: state.data.ct.length,
     rekorCount: state.data.rekor.length,
   };

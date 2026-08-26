@@ -83,7 +83,9 @@ npx wrangler d1 execute pact-ledger --remote --file=src/schema.sql
 # Existing D1 only (already applied on fresh schema.sql):
 npx wrangler d1 execute pact-ledger --remote --file=src/migrate-ct.sql
 npx wrangler d1 execute pact-ledger --remote --file=src/migrate-rekor.sql
-# migrate-rekor.sql creates rekor_entries. Also run once:
+# migrate-ct.sql creates ct_certs. Also run once if the column is missing:
+#   ALTER TABLE domains ADD COLUMN ct_synced_at TEXT;
+# migrate-rekor.sql creates rekor_entries. Also run once if the column is missing:
 #   ALTER TABLE domains ADD COLUMN rekor_synced_at TEXT;
 ```
 

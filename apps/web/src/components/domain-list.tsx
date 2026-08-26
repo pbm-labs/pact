@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
@@ -13,12 +12,6 @@ interface DomainListProps {
   domains: DomainSummary[];
 }
 
-function rankClass(rank: number | null): string {
-  if (rank === 1) return 'text-brand font-semibold';
-  if (rank === 2 || rank === 3) return 'text-txt font-semibold';
-  return 'text-muted-2';
-}
-
 function HistoryCell({ domain }: { domain: DomainSummary }) {
   const { t } = useLocale();
   const days = domain.pactAgeDays ?? 0;
@@ -28,7 +21,7 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
 
   return (
     <div className="text-right">
-      <span className="font-mono text-xl font-bold tabular-nums text-txt group-hover:text-accent">
+      <span className="font-mono text-lg font-semibold tabular-nums text-txt group-hover:text-accent">
         {formatVerifiedDays(days, t.domain)}
       </span>
       <span className="block text-xs text-muted-2 mt-1 normal-case tracking-normal font-sans">
@@ -46,7 +39,6 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
 }
 
 export function DomainList({ domains }: DomainListProps) {
-  const router = useRouter();
   const { t, locale } = useLocale();
   const clockLabels = {
     clockUnknown: t.domain.clockUnknown,
@@ -56,15 +48,6 @@ export function DomainList({ domains }: DomainListProps) {
     clockMonths: t.domain.clockMonths,
     clockDaysShort: t.domain.clockDaysShort,
   };
-
-  function openRecord(domain: string, event?: { metaKey?: boolean; ctrlKey?: boolean }) {
-    const href = routes.record(domain);
-    if (event?.metaKey || event?.ctrlKey) {
-      window.open(href, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    router.push(href);
-  }
 
   if (!domains.length) {
     return (
@@ -92,44 +75,41 @@ export function DomainList({ domains }: DomainListProps) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border text-xs font-mono uppercase tracking-widest text-muted-2">
-              <th className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">#</th>
-              <th className="text-left font-medium px-4 sm:px-5 py-2.5">{t.records.colDomain}</th>
-              <th className="text-right font-medium px-4 sm:px-5 py-2.5">{t.records.colHistory}</th>
+              <th scope="col" className="text-left font-medium px-4 sm:px-5 py-2.5 w-10 sm:w-12">
+                #
+              </th>
+              <th scope="col" className="text-left font-medium px-4 sm:px-5 py-2.5">
+                {t.records.colDomain}
+              </th>
+              <th scope="col" className="text-right font-medium px-4 sm:px-5 py-2.5">
+                {t.records.colHistory}
+              </th>
             </tr>
           </thead>
           <tbody>
             {domains.map((d) => {
               const rank = d.status === 'live' ? ++liveRank : null;
+              const href = routes.record(d.domain);
 
               return (
                 <tr
                   key={d.domain}
-                  role="link"
-                  tabIndex={0}
-                  aria-label={d.domain}
-                  className="border-b border-border last:border-0 group hover:bg-surface-2/40 cursor-pointer"
-                  onClick={(event) => openRecord(d.domain, event)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      openRecord(d.domain);
-                    }
-                  }}
+                  className="relative border-b border-border last:border-0 group hover:bg-surface-2/40"
                 >
                   <td className="px-4 sm:px-5 py-3.5">
-                    <span className={`font-mono tabular-nums text-xs ${rankClass(rank)}`}>
+                    <span className="font-mono tabular-nums text-xs text-muted-2">
                       {rank ?? '—'}
                     </span>
                   </td>
-                  <td className="px-4 sm:px-5 py-3.5 min-w-[8rem] max-w-[14rem] sm:max-w-none">
-                    <span
-                      className="font-mono text-sm text-txt group-hover:text-accent break-all sm:truncate sm:block"
-                      title={d.domain}
+                  <td className="px-4 sm:px-5 py-3.5 min-w-0">
+                    <Link
+                      href={href}
+                      className="font-mono text-sm text-txt no-underline group-hover:text-accent break-all after:absolute after:inset-0"
                     >
                       {d.domain}
-                    </span>
+                    </Link>
                     {d.domainRegisteredAt && (
-                      <p className="text-xs font-mono text-muted-2 mt-1 m-0">
+                      <p className="relative z-10 text-xs font-mono text-muted-2 mt-1 m-0">
                         {t.records.registered}{' '}
                         {formatDomainRegisteredAt(d.domainRegisteredAt, locale, clockLabels)}
                       </p>
@@ -139,7 +119,7 @@ export function DomainList({ domains }: DomainListProps) {
                     {d.status === 'live' ? (
                       <HistoryCell domain={d} />
                     ) : (
-                      <span className="font-mono text-sm font-semibold text-muted-2">—</span>
+                      <span className="font-mono text-xs text-muted-2">{t.domain.awaitingFirst}</span>
                     )}
                   </td>
                 </tr>

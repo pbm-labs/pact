@@ -31,24 +31,28 @@ export default {
       if (body?.domain) {
         const domain = body.domain;
         ctx.waitUntil(
-          Promise.allSettled([
-            ingestCtForDomain(env.DB, domain)
-              .then((row) =>
-                console.log(JSON.stringify({ event: 'ct_ingest_connect', domain, ...row })),
-              )
-              .catch((err) =>
-                console.error(JSON.stringify({ event: 'ct_ingest_connect_failed', error: String(err) })),
-              ),
-            ingestRekorForDomain(env.DB, domain)
-              .then((row) =>
-                console.log(JSON.stringify({ event: 'rekor_ingest_connect', domain, ...row })),
-              )
-              .catch((err) =>
-                console.error(
-                  JSON.stringify({ event: 'rekor_ingest_connect_failed', error: String(err) }),
+          (async () => {
+            await Promise.allSettled([
+              ingestCtForDomain(env.DB, domain)
+                .then((row) =>
+                  console.log(JSON.stringify({ event: 'ct_ingest_connect', domain, ...row })),
+                )
+                .catch((err) =>
+                  console.error(JSON.stringify({ event: 'ct_ingest_connect_failed', error: String(err) })),
                 ),
-              ),
-          ]),
+              ingestRekorForDomain(env.DB, domain)
+                .then((row) =>
+                  console.log(JSON.stringify({ event: 'rekor_ingest_connect', domain, ...row })),
+                )
+                .catch((err) =>
+                  console.error(
+                    JSON.stringify({ event: 'rekor_ingest_connect_failed', error: String(err) }),
+                  ),
+                ),
+            ]);
+            const published = await publishAnchoredRoot(env);
+            console.log(JSON.stringify({ event: 'root_publish_connect', domain, ...published }));
+          })(),
         );
       }
     }

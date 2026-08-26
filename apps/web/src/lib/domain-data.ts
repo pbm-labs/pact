@@ -79,7 +79,6 @@ export interface DomainLiveData {
   domainRegisteredAt: string | null;
   pactHistoryStart: string | null;
   pactAgeDays: number;
-  totalFailCount: number;
   uniqueReporters: number;
   passRate: number | null;
   latestRoot: string | null;
@@ -89,7 +88,6 @@ export interface DomainLiveData {
   domainLeafCount: number;
   globalTreeLeafCount: number | null;
   anchorType: 'staging' | 'base' | null;
-  staging: boolean;
   leaves: DomainLeafSummary[];
   ct: DomainCtSummary[];
   rekor: DomainRekorSummary[];
@@ -161,7 +159,6 @@ export interface DomainSummary {
   mailCount?: number;
   ctCount?: number;
   rekorCount?: number;
-  uniqueReporterCount?: number;
 }
 
 function indexStreamCounts(
@@ -219,8 +216,6 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         };
       }
 
-      const reporters = new Set(domainLeaves.map((l) => l.reporter_org));
-
       return {
         domain: row.domain,
         domainRegisteredAt,
@@ -230,7 +225,6 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         mailCount,
         ctCount,
         rekorCount,
-        uniqueReporterCount: reporters.size,
       };
     })
     .sort((a, b) => {
@@ -300,12 +294,8 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     payload.domain.connected_at,
   );
 
-  const latestRoot = payload.onChain?.root ?? null;
-  const computedRoot = merkleContext?.root ?? null;
-  const rootMatchesPublished =
-    latestRoot !== null &&
-    computedRoot !== null &&
-    latestRoot.toLowerCase() === computedRoot.toLowerCase();
+  const latestRoot = latestRootEarly;
+  const rootMatchesPublished = rootMatchesEarly;
   const onChain = payload.onChain != null;
   const wrapperChecks = await fetchWrapperChecks(
     leaves.flatMap((leaf) => safeJsonArray(leaf.wrapper_hashes)),
@@ -319,7 +309,6 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       domainRegisteredAt,
       pactHistoryStart: pactHistoryStart.toISOString(),
       pactAgeDays: pactAgeDaysFrom(pactHistoryStart),
-      totalFailCount,
       uniqueReporters: reporters.size,
       passRate,
       latestRoot,
@@ -329,7 +318,6 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       domainLeafCount: leaves.length + ct.length + rekor.length,
       globalTreeLeafCount: payload.onChain?.leafCount ?? merkleContext?.tree.size ?? null,
       anchorType: onChain ? 'base' : 'staging',
-      staging: !onChain,
       ct,
       rekor,
       leaves: leaves.map((leaf) => {

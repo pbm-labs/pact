@@ -451,6 +451,9 @@ describe('CT leaf hash', () => {
     expect(certNamesCoverDomain(['*.example.com'], 'app.example.com')).toBe(true);
     expect(certNamesCoverDomain(['*.example.com'], 'example.com')).toBe(true);
     expect(certNamesCoverDomain(['other.com'], 'example.com')).toBe(false);
+    expect(certNamesCoverDomain(['münchen.example'], 'xn--mnchen-3ya.example')).toBe(true);
+    expect(certNamesCoverDomain(['xn--mnchen-3ya.example'], 'münchen.example')).toBe(true);
+    expect(certNamesCoverDomain(['*.münchen.example'], 'app.xn--mnchen-3ya.example')).toBe(true);
   });
 
   it('parses fractional crt.sh timestamps', () => {

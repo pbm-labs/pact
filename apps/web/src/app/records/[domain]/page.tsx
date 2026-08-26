@@ -1,3 +1,4 @@
+import { normalizeDomain } from '@pact/core';
 import type { Metadata } from 'next';
 import { DomainPageView } from '@/components/domain-page-view';
 import { fetchDomainPageState, ledgerConfigured } from '@/lib/domain-data';
@@ -13,7 +14,7 @@ const siteUrl = 'https://webuildreal.dev';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { domain: raw } = await params;
-  const domain = decodeURIComponent(raw).toLowerCase().trim();
+  const domain = normalizeDomain(decodeURIComponent(raw));
   const title = `${domain} — record`;
   const description = 'Leftover streams as separate kinds on one tree.';
   const url = `${siteUrl}${routes.record(domain)}`;

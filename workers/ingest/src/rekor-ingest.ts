@@ -9,7 +9,7 @@ import {
 import { insertRekorEntry, listDomainsDueForRekor, markRekorSynced } from './ledger.js';
 
 const REKOR_API = 'https://rekor.sigstore.dev';
-const INDEX_UA = 'pact-ingest/0.3 (https://webuildreal.dev)';
+const INDEX_UA = 'pact-ingest/0.4 (https://webuildreal.dev)';
 const MAX_DOMAINS_PER_RUN = 4;
 const MAX_NEW_PER_DOMAIN = 40;
 const MAX_UUIDS_PER_SUBJECT = 40;

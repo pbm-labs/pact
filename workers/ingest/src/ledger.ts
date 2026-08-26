@@ -1,4 +1,4 @@
-import type { Hash } from '@pact/core';
+import { type Hash } from '@pact/core';
 
 export interface DomainRow {
   domain: string;
@@ -27,6 +27,32 @@ export interface LeafRow {
   wrapper_hashes: string;
   wrapper_dkim: string;
   created_at: string;
+}
+
+const LEAF_TABLES = ['leaves', 'ct_certs', 'rekor_entries'] as const;
+let leafTablesCache: string[] | null = null;
+
+async function leafTables(db: D1Database): Promise<string[]> {
+  if (leafTablesCache) return leafTablesCache;
+  const { results } = await db
+    .prepare(
+      `SELECT name FROM sqlite_master WHERE type = 'table' AND name IN ('leaves', 'ct_certs', 'rekor_entries')`,
+    )
+    .all<{ name: string }>();
+  const present = new Set((results ?? []).map((row) => row.name));
+  leafTablesCache = LEAF_TABLES.filter((name) => present.has(name));
+  if (!leafTablesCache.length) leafTablesCache = ['leaves'];
+  return leafTablesCache;
+}
+
+function nextLeafIndexExpr(tables: string[]): string {
+  const union = tables.map((name) => `SELECT leaf_index FROM ${name}`).join(' UNION ALL ');
+  return `COALESCE((SELECT MAX(leaf_index) FROM (${union})), -1) + 1`;
+}
+
+async function tableExists(db: D1Database, name: string): Promise<boolean> {
+  const tables = await leafTables(db);
+  return tables.includes(name);
 }
 
 export interface InsertLeafInput {
@@ -195,19 +221,18 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
     return existing.leaf_index;
   }
 
-  const nextIndex = await nextLeafIndex(db);
-
-  await db
+  const tables = await leafTables(db);
+  const inserted = await db
     .prepare(
       `INSERT INTO leaves (
         leaf_index, leaf_hash, domain, period_start, period_end, reporter_org,
         dkim_pass_count, dkim_fail_count, domain_hash, reporter_hash,
         selector_hash, source_ip_hash, report_hash, selectors, ip_ranges,
         wrapper_hash, wrapper_dkim_hash, wrapper_hashes, wrapper_dkim
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) SELECT ${nextLeafIndexExpr(tables)}, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+      RETURNING leaf_index`,
     )
     .bind(
-      nextIndex,
       input.leafHash,
       input.domain,
       input.periodStart,
@@ -227,37 +252,25 @@ export async function upsertLeaf(db: D1Database, input: InsertLeafInput): Promis
       wrapperHashes,
       wrapperDkim,
     )
-    .run();
-
-  return nextIndex;
+    .first<{ leaf_index: number }>();
+  if (inserted == null) throw new Error('leaf insert failed');
+  return inserted.leaf_index;
 }
 
 export async function nextLeafIndex(db: D1Database): Promise<number> {
+  const tables = await leafTables(db);
   const maxRow = await db
-    .prepare(
-      `SELECT MAX(leaf_index) AS max_index FROM (
-         SELECT leaf_index FROM leaves
-         UNION ALL
-         SELECT leaf_index FROM ct_certs
-         UNION ALL
-         SELECT leaf_index FROM rekor_entries
-       )`,
-    )
+    .prepare(`SELECT (${nextLeafIndexExpr(tables)}) AS max_index`)
     .first<{ max_index: number | null }>();
-  return (maxRow?.max_index ?? -1) + 1;
+  return maxRow?.max_index ?? 0;
 }
 
 export async function listLeafHashes(db: D1Database): Promise<{ leaf_index: number; leaf_hash: string }[]> {
+  const tables = await leafTables(db);
+  const union = tables.map((name) => `SELECT leaf_index, leaf_hash FROM ${name}`).join(' UNION ALL ');
   const { results } = await db
     .prepare(
-      `SELECT leaf_index, leaf_hash FROM (
-         SELECT leaf_index, leaf_hash FROM leaves
-         UNION ALL
-         SELECT leaf_index, leaf_hash FROM ct_certs
-         UNION ALL
-         SELECT leaf_index, leaf_hash FROM rekor_entries
-       )
-       ORDER BY leaf_index ASC`,
+      `SELECT leaf_index, leaf_hash FROM (${union}) ORDER BY leaf_index ASC`,
     )
     .all<{ leaf_index: number; leaf_hash: string }>();
   return results ?? [];
@@ -428,6 +441,7 @@ export interface CtCertRow {
 }
 
 export async function listCtCertsForDomain(db: D1Database, domain: string): Promise<CtCertRow[]> {
+  if (!(await tableExists(db, 'ct_certs'))) return [];
   const { results } = await db
     .prepare(`SELECT * FROM ct_certs WHERE domain = ? ORDER BY logged_at ASC`)
     .bind(domain)
@@ -473,18 +487,18 @@ export async function insertCtCert(
   },
 ): Promise<number | null> {
   if (await ctFingerprintExists(db, input.domain, input.fingerprint)) return null;
-  const leafIndex = await nextLeafIndex(db);
-  await db
+  const tables = await leafTables(db);
+  const inserted = await db
     .prepare(
       `INSERT INTO ct_certs (
         domain, fingerprint, leaf_index, leaf_hash, log_id, log_index,
         logged_at, not_before, not_after, issuer, common_name
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) SELECT ?, ?, ${nextLeafIndexExpr(tables)}, ?, ?, ?, ?, ?, ?, ?, ?
+      RETURNING leaf_index`,
     )
     .bind(
       input.domain,
       input.fingerprint,
-      leafIndex,
       input.leafHash,
       input.logId,
       input.logIndex,
@@ -494,8 +508,8 @@ export async function insertCtCert(
       input.issuer,
       input.commonName,
     )
-    .run();
-  return leafIndex;
+    .first<{ leaf_index: number }>();
+  return inserted?.leaf_index ?? null;
 }
 
 export async function listDomainsDueForCt(db: D1Database, limit: number): Promise<string[]> {
@@ -535,6 +549,7 @@ export async function listRekorEntriesForDomain(
   db: D1Database,
   domain: string,
 ): Promise<RekorEntryRow[]> {
+  if (!(await tableExists(db, 'rekor_entries'))) return [];
   const { results } = await db
     .prepare(`SELECT * FROM rekor_entries WHERE domain = ? ORDER BY integrated_time ASC`)
     .bind(domain)
@@ -577,18 +592,18 @@ export async function insertRekorEntry(
   },
 ): Promise<number | null> {
   if (await rekorUuidExists(db, input.domain, input.uuid)) return null;
-  const leafIndex = await nextLeafIndex(db);
-  await db
+  const tables = await leafTables(db);
+  const inserted = await db
     .prepare(
       `INSERT INTO rekor_entries (
         domain, uuid, leaf_index, leaf_hash, log_id, log_index,
         integrated_time, identity, entry_kind
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) SELECT ?, ?, ${nextLeafIndexExpr(tables)}, ?, ?, ?, ?, ?, ?
+      RETURNING leaf_index`,
     )
     .bind(
       input.domain,
       input.uuid,
-      leafIndex,
       input.leafHash,
       input.logId,
       input.logIndex,
@@ -596,8 +611,8 @@ export async function insertRekorEntry(
       input.identity,
       input.entryKind,
     )
-    .run();
-  return leafIndex;
+    .first<{ leaf_index: number }>();
+  return inserted?.leaf_index ?? null;
 }
 
 export async function listDomainsDueForRekor(db: D1Database, limit: number): Promise<string[]> {
@@ -648,6 +663,7 @@ export interface StreamCountRow {
 }
 
 export async function listCtSummary(db: D1Database): Promise<StreamCountRow[]> {
+  if (!(await tableExists(db, 'ct_certs'))) return [];
   const { results } = await db
     .prepare(
       `SELECT domain, COUNT(*) AS count, MIN(logged_at) AS first_logged_at
@@ -658,6 +674,7 @@ export async function listCtSummary(db: D1Database): Promise<StreamCountRow[]> {
 }
 
 export async function listRekorSummary(db: D1Database): Promise<StreamCountRow[]> {
+  if (!(await tableExists(db, 'rekor_entries'))) return [];
   const { results } = await db
     .prepare(
       `SELECT domain, COUNT(*) AS count, MIN(integrated_time) AS first_logged_at

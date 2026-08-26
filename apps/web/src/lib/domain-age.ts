@@ -4,6 +4,8 @@
  * Returns null if lookup fails; callers must omit rather than guess.
  */
 
+import { normalizeDomain } from '@pact/core';
+
 const IANA_BOOTSTRAP_URL = 'https://data.iana.org/rdap/dns.json';
 const RDAP_FETCH_TIMEOUT_MS = 10_000;
 const RDAP_RETRIES = 2;
@@ -16,10 +18,6 @@ const REGISTRY_RDAP_FALLBACKS: Record<string, string[]> = {
 type RdapBootstrapService = { tlds: string[]; urls: string[] };
 
 let bootstrapCache: RdapBootstrapService[] | null = null;
-
-function normalizeDomain(domain: string): string {
-  return domain.trim().toLowerCase().replace(/\.$/, '');
-}
 
 function tldCandidates(domain: string): string[] {
   const labels = domain.split('.');

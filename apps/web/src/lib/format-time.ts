@@ -31,7 +31,7 @@ export function formatDomainRegisteredAt(
   return new Date(iso).toLocaleDateString(locale, { month: 'short', year: 'numeric' });
 }
 
-/** Display label for PACT-history start (first verified report). */
+/** Display label for independently confirmed history (earliest leftover trace, any stream). */
 export function formatPactHistoryStart(
   iso: string | null | undefined,
   locale: string,

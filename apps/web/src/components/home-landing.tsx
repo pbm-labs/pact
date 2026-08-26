@@ -112,7 +112,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
           </p>
         </div>
 
-        {preview ? (
+        {preview && (
           <Link
             href={routes.record(preview.domain)}
             className="block max-w-xl mx-auto rounded-xl border border-border bg-bg px-5 sm:px-7 py-6 no-underline hover:border-muted-2"
@@ -154,12 +154,6 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
               </div>
             </div>
           </Link>
-        ) : (
-          <p className={`${pageIntro} text-center max-w-xl mx-auto`}>
-            <Link href={routes.records} className={linkMuted}>
-              {t.records.title} →
-            </Link>
-          </p>
         )}
         <p className="text-center mt-6">
           <Link href={routes.records} className={`${linkMuted} text-xs font-mono`}>

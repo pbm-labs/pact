@@ -62,6 +62,7 @@ export type Dictionary = {
     mailStreamHow: string;
     putOnLedger: string;
     ledgerExplain: string;
+    backToPaths: string;
     whatDoesThisDo: string;
     cloudflareExplain: string;
     toolIntro: string;

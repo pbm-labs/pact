@@ -108,7 +108,7 @@ function MetaRow({
 }) {
   return (
     <tr className="border-b border-border last:border-0">
-      <th className={`${th} text-muted-2 font-medium w-[9rem]`}>{label}</th>
+      <th scope="row" className={`${th} text-muted-2 font-medium w-[9rem]`}>{label}</th>
       <td className={`${td} ${mono ? 'font-mono break-all' : ''}`}>
         {href ? (
           <a

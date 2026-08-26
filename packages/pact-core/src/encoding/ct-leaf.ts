@@ -49,12 +49,18 @@ export function unixSecondsFromIso(value: string | undefined | null): number | n
   return Math.floor(ms / 1000);
 }
 
+function normalizeCertName(value: string): string {
+  const trimmed = value.trim().toLowerCase().replace(/\.$/, '');
+  if (trimmed.startsWith('*.')) return `*.${normalizeDomain(trimmed.slice(2))}`;
+  return normalizeDomain(trimmed);
+}
+
 /** SAN/CN coverage for the connected domain. Wildcards match the base and one label below. */
 export function certNamesCoverDomain(names: readonly string[], domain: string): boolean {
-  const target = domain.trim().toLowerCase().replace(/\.$/, '');
+  const target = normalizeDomain(domain);
   if (!target) return false;
   return names.some((raw) => {
-    const name = raw.trim().toLowerCase().replace(/\.$/, '');
+    const name = normalizeCertName(raw);
     if (!name) return false;
     if (name === target) return true;
     if (name.startsWith('*.')) {

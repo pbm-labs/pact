@@ -8,8 +8,8 @@ import { formatReportPeriod, reporterLabel } from '@/lib/domain-report-utils';
 import { panel } from '@/lib/ui';
 
 const streamScroll =
-  'overflow-y-auto overflow-x-hidden thin-scrollbar overscroll-contain max-h-[calc(2.15rem+10*1.85rem)]';
-const tableClass = 'w-full text-xs border-separate border-spacing-0';
+  'overflow-auto thin-scrollbar overscroll-contain max-h-[calc(2.15rem+10*1.85rem)]';
+const tableClass = 'w-full min-w-[40rem] text-xs border-separate border-spacing-0';
 const theadClass = 'sticky top-0 z-[1] bg-surface';
 const streamTh = 'text-left font-medium px-2 py-1.5';
 const streamTd = 'px-2 py-1.5 min-w-0';
@@ -33,7 +33,7 @@ export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanel
         </p>
       </div>
       <div className={streamScroll}>
-        <table className={`${tableClass} table-fixed`}>
+        <table className={tableClass}>
           <colgroup>
             <col className="w-11" />
             <col />
@@ -43,13 +43,13 @@ export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanel
           </colgroup>
           <thead className={theadClass}>
             <tr className="font-mono uppercase tracking-widest text-muted-2">
-              <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colReporter}</th>
-              <th className={`${streamTh} border-b border-border bg-surface text-right`}>
-                {t.domain.colPass}
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>#</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colReporter}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface text-right`}>
+                {t.domain.colPass} / {t.domain.colFail}
               </th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colOpening}</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colOpening}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>
                 {t.domain.verification}
               </th>
             </tr>
@@ -152,7 +152,7 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
         </p>
       </div>
       <div className={streamScroll}>
-        <table className={`${tableClass} table-fixed`}>
+        <table className={tableClass}>
           <colgroup>
             <col className="w-10" />
             <col className="w-[6.5rem]" />
@@ -164,19 +164,19 @@ export function DomainCtPanel({ certs }: { certs: DomainCtSummary[] }) {
           </colgroup>
           <thead className={theadClass}>
             <tr className="font-mono uppercase tracking-wide text-muted-2">
-              <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>#</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIssuer}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>
                 {t.domain.colNotBefore}
               </th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>
                 {t.domain.verification}
               </th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>
                 {t.domain.colFingerprint}
               </th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
             </tr>
           </thead>
           <tbody>
@@ -250,7 +250,7 @@ export function DomainRekorPanel({ entries }: { entries: DomainRekorSummary[] })
         </p>
       </div>
       <div className={streamScroll}>
-        <table className={`${tableClass} table-fixed`}>
+        <table className={tableClass}>
           <colgroup>
             <col className="w-10" />
             <col />
@@ -261,16 +261,16 @@ export function DomainRekorPanel({ entries }: { entries: DomainRekorSummary[] })
           </colgroup>
           <thead className={theadClass}>
             <tr className="font-mono uppercase tracking-wide text-muted-2">
-              <th className={`${streamTh} border-b border-border bg-surface`}>#</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIdentity}</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>#</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colIdentity}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>
                 {t.domain.colEntryKind}
               </th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.colLoggedAt}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>
                 {t.domain.verification}
               </th>
-              <th className={`${streamTh} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
+              <th scope="col" className={`${streamTh} border-b border-border bg-surface`}>{t.domain.leafHash}</th>
             </tr>
           </thead>
           <tbody>

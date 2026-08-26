@@ -86,7 +86,7 @@ function RegisterOnLedgerForm({
       <label htmlFor="connect-register-domain" className={label}>
         {t.connect.yourDomain}
       </label>
-      <div className="flex items-stretch gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch gap-2">
         <input
           id="connect-register-domain"
           name="domain"
@@ -168,7 +168,7 @@ function ConnectFlow({
                 className={`${linkMuted} text-sm font-mono bg-transparent border-none p-0 cursor-pointer`}
                 onClick={() => setPathWithUrl(null)}
               >
-                ← {t.connect.title}
+                ← {t.connect.backToPaths}
               </button>
             ) : (
               <Link href={routes.home} className={`${linkMuted} text-sm font-mono`}>
@@ -245,7 +245,7 @@ function ConnectFlow({
                         <label htmlFor="connect-cf-domain" className={label}>
                           {t.connect.yourDomain}
                         </label>
-                        <div className="flex items-stretch gap-2 mt-3">
+                        <div className="flex flex-col sm:flex-row items-stretch gap-2 mt-3">
                           <input
                             id="connect-cf-domain"
                             name="domain"

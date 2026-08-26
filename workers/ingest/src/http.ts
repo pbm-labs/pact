@@ -165,9 +165,11 @@ export async function handleLedgerRequest(
     if (body.domain) {
       const domain = normalizeDomain(body.domain);
       const row = await ingestCtForDomain(env.DB, domain);
+      if (row.inserted > 0) await publishAnchoredRoot(env);
       return json({ ok: true, domain, ...row });
     }
     const batch = await ingestCtBatch(env.DB);
+    if (batch.inserted > 0) await publishAnchoredRoot(env);
     return json({ ok: batch.errors.length === 0, ...batch }, batch.errors.length ? 207 : 200);
   }
 
@@ -178,9 +180,11 @@ export async function handleLedgerRequest(
     if (body.domain) {
       const domain = normalizeDomain(body.domain);
       const row = await ingestRekorForDomain(env.DB, domain);
+      if (row.inserted > 0) await publishAnchoredRoot(env);
       return json({ ok: true, domain, ...row });
     }
     const batch = await ingestRekorBatch(env.DB);
+    if (batch.inserted > 0) await publishAnchoredRoot(env);
     return json({ ok: batch.errors.length === 0, ...batch }, batch.errors.length ? 207 : 200);
   }
 

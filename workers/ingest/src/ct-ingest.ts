@@ -14,7 +14,7 @@ import { insertCtCert, listDomainsDueForCt, markCtSynced } from './ledger.js';
 
 const CRT_SH = 'https://crt.sh';
 const CERT_SPOTTER = 'https://api.certspotter.com/v1/issuances';
-const INDEX_UA = 'pact-ingest/0.3 (https://webuildreal.dev)';
+const INDEX_UA = 'pact-ingest/0.4 (https://webuildreal.dev)';
 const MAX_DOMAINS_PER_RUN = 4;
 const MAX_NEW_CERTS_PER_DOMAIN = 40;
 const MAX_CERTSPOTTER_PAGES = 5;

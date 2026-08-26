@@ -1,4 +1,4 @@
-import { SparseMerkleTree, type Hash } from '@pact/core';
+import { SparseMerkleTree, byteaToHash, type Hash } from '@pact/core';
 import { publishRootOnChain } from './chain.js';
 import {
   getLatestMerkleRoot,
@@ -46,7 +46,7 @@ export async function publishAnchoredRoot(env: IngestEnv): Promise<PublishRootRe
 
   const tree = new SparseMerkleTree();
   for (const leaf of leaves) {
-    tree.insert(leaf.leaf_hash as Hash);
+    tree.insert(byteaToHash(leaf.leaf_hash));
   }
   const root = tree.getRoot();
   const leafCount = leaves.length;

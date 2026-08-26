@@ -26,6 +26,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={t.common.toggleTheme}
+      aria-pressed={theme === 'light'}
       className="w-6 h-6 flex items-center justify-center rounded-md border border-border text-muted hover:text-txt hover:border-border-h transition-colors"
     >
       {theme === 'dark' ? (

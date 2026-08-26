@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS ct_certs (
 CREATE INDEX IF NOT EXISTS ct_certs_domain_idx ON ct_certs (domain);
 CREATE INDEX IF NOT EXISTS ct_certs_leaf_hash_idx ON ct_certs (leaf_hash);
 
--- v0.3 Rekor binding. Separate encoding; same tree via leaf_index.
+-- v0.4 Rekor binding. Separate encoding; same tree via leaf_index.
 CREATE TABLE IF NOT EXISTS rekor_entries (
   domain TEXT NOT NULL,
   uuid TEXT NOT NULL,
