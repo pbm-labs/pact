@@ -496,13 +496,13 @@ DOMAIN AGE
   Verifiable independently of PACT, by anyone
 
 INDEPENDENTLY CONFIRMED HISTORY
-  Source: days since the domain's earliest leftover
-  trace on the tree — first mail period start, CT
-  `logged_at`, or Rekor `integrated_time`, whichever
-  is earliest
-  Meaning: how long PACT has been accumulating
-  independently confirmed leftover traces for this
-  domain. Only PACT can attest to this
+  Source: days since the domain name was put on the
+  ledger (connect). Leftover CT `logged_at` and
+  Rekor `integrated_time` may predate connect;
+  those are stream metadata, not this clock.
+  Meaning: how long this name has been accumulating
+  independently confirmed leftover traces in PACT.
+  Only PACT can attest to this
 ```
 
 A domain that has existed for eight years but connected to PACT today has a long domain age and independently confirmed history of zero. This is common and expected. Collapsing these two clocks into a single number would let a hijacker inherit reputation from registration age on day one. Domain age is display context only. It MUST NOT be treated as independently confirmed history, and MUST NOT be folded into any application's maturity of PACT history.
@@ -822,7 +822,7 @@ PACT does not protect against:
 
 **Aggregate report (rua=):** Structured XML from receiving mail servers to domain owners, typically every 24 hours. RFC 7489. No message content.
 
-**Independently confirmed history:** Days since a domain's earliest leftover trace on the tree (first mail period, CT `logged_at`, or Rekor `integrated_time`). Distinct from domain registration age (Section 4.2).
+**Independently confirmed history:** Days since a domain was put on the ledger (connect). Distinct from domain registration age and from leftover log timestamps that predate connect (Section 4.2).
 
 **Leaf key:** `(domain, period_start, period_end, reporter_org)` — unique aggregation slot before hashing.
 

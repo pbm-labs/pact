@@ -13,6 +13,7 @@ import {
   type LedgerWrapperCheck,
 } from '@/lib/ledger';
 import { ensureDomainRegisteredAt } from '@/lib/ledger-admin';
+import { pactAgeDaysFrom, pactHistoryStartFromConnect } from '@/lib/pact-history';
 
 export type WrapperOpeningStatus =
   | { status: 'none' }
@@ -113,43 +114,6 @@ export type DomainPageState =
   | { status: 'waiting'; data: DomainWaitingData }
   | null;
 
-function earliestTraceMs(
-  mailPeriodStarts: number[],
-  ctLoggedAts: number[],
-  rekorTimes: number[] = [],
-): number | null {
-  let min = Number.POSITIVE_INFINITY;
-  for (const t of mailPeriodStarts) {
-    const ms = Number(t) * 1000;
-    if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
-  }
-  for (const t of ctLoggedAts) {
-    const ms = Number(t) * 1000;
-    if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
-  }
-  for (const t of rekorTimes) {
-    const ms = Number(t) * 1000;
-    if (Number.isFinite(ms) && ms > 0 && ms < min) min = ms;
-  }
-  return min === Number.POSITIVE_INFINITY ? null : min;
-}
-
-function pactHistoryStartFromTraces(
-  mailPeriodStarts: number[],
-  ctLoggedAts: number[],
-  rekorTimes: number[],
-  connectedAt: string | null,
-): Date {
-  const earliest = earliestTraceMs(mailPeriodStarts, ctLoggedAts, rekorTimes);
-  if (earliest != null) return new Date(earliest);
-  if (connectedAt) return new Date(connectedAt);
-  return new Date();
-}
-
-function pactAgeDaysFrom(start: Date, asOf = new Date()): number {
-  return Math.max(0, (asOf.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-}
-
 export interface DomainSummary {
   domain: string;
   domainRegisteredAt?: string | null;
@@ -195,14 +159,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
       const ctCount = ctByDomain.get(row.domain)?.count ?? 0;
       const rekorCount = rekorByDomain.get(row.domain)?.count ?? 0;
       const leafCount = mailCount + ctCount + rekorCount;
-      const ctFirst = ctByDomain.get(row.domain)?.first ?? 0;
-      const rekorFirst = rekorByDomain.get(row.domain)?.first ?? 0;
-      const pactHistoryStart = pactHistoryStartFromTraces(
-        domainLeaves.map((l) => Number(l.period_start)),
-        ctFirst > 0 ? [ctFirst] : [],
-        rekorFirst > 0 ? [rekorFirst] : [],
-        row.connected_at,
-      );
+      const pactHistoryStart = pactHistoryStartFromConnect(row.connected_at);
 
       if (leafCount === 0) {
         return {
@@ -287,12 +244,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const reporters = new Set(leaves.map((l) => l.reporter_org));
   const total = totalPassCount + totalFailCount;
   const passRate = total > 0 ? (totalPassCount / total) * 100 : null;
-  const pactHistoryStart = pactHistoryStartFromTraces(
-    leaves.map((l) => Number(l.period_start)),
-    ct.map((row) => row.loggedAt),
-    rekor.map((row) => row.integratedTime),
-    payload.domain.connected_at,
-  );
+  const pactHistoryStart = pactHistoryStartFromConnect(payload.domain.connected_at);
 
   const latestRoot = latestRootEarly;
   const rootMatchesPublished = rootMatchesEarly;

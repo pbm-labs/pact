@@ -31,7 +31,7 @@ export function formatDomainRegisteredAt(
   return new Date(iso).toLocaleDateString(locale, { month: 'short', year: 'numeric' });
 }
 
-/** Display label for independently confirmed history (earliest leftover trace, any stream). */
+/** Display label for independently confirmed history (starts at connect). */
 export function formatPactHistoryStart(
   iso: string | null | undefined,
   locale: string,
