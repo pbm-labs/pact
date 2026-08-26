@@ -5,9 +5,7 @@ export function LocaleScript() {
 (function () {
   try {
     var locale = localStorage.getItem("${STORAGE_KEYS.locale}");
-    if (locale === "en" || locale === "es" || locale === "de" || locale === "fr") {
-      document.documentElement.lang = locale;
-    }
+    document.documentElement.lang = locale === "fr" ? "fr" : "en";
   } catch (e) {}
 })();
 `;

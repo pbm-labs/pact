@@ -1,5 +1,12 @@
 export type LegalSectionCopy = { title: string; body: string };
 
+export type StreamCopy = {
+  name: string;
+  what: string;
+  identity: string;
+  empty: string;
+};
+
 export type Dictionary = {
   nav: {
     language: string;
@@ -21,9 +28,21 @@ export type Dictionary = {
     toggleTheme: string;
   };
   home: {
-    heroTitle: string;
-    heroAccent: string;
+    title: string;
     lede: string;
+    identityLabel: string;
+    stakeLabel: string;
+    emptyLabel: string;
+    agents: string;
+    catalog: string;
+    intakeCta: string;
+    stakeCalendar: string;
+    stakeCounterparty: string;
+    stakeCalendarHint: string;
+    stakeCounterpartyHint: string;
+    unknownWhat: string;
+    unknownEmpty: string;
+    streams: Record<string, StreamCopy>;
   };
   connect: {
     backHome: string;

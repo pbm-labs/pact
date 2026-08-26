@@ -9,7 +9,8 @@ import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 
 const siteUrl = 'https://webuildreal.dev';
 const title = 'We build real';
-const description = 'AI can fake everything. Except yesterday.';
+const description =
+  'Evidence streams. Independent traces, kept apart. Each stream has its own identity.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
