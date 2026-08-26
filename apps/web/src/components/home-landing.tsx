@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { DomainClocks } from '@/components/domain-clocks';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
-import { bodyText, btnPrimary, eyebrow, pageIntro, pageTitle, statValue } from '@/lib/ui';
+import { bodyText, btnPrimary, container, eyebrow, linkMuted, pageIntro, pageTitle, statValue } from '@/lib/ui';
 
 export type HomePreview = {
   domain: string;
@@ -21,7 +21,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
   return (
     <main className="flex-1" key={locale}>
       <section className="relative overflow-hidden">
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16 sm:pb-20">
+        <div className={`relative ${container} pt-20 sm:pt-24 pb-16 sm:pb-20`}>
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-txt leading-[1.1] mb-5">
               {t.home.heroTitle}
@@ -42,7 +42,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
       </section>
 
       <section className="border-t border-border bg-surface">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <div className={`${container} py-16 sm:py-20`}>
         <div className="text-center mb-10">
           <p className={`${eyebrow} mb-3`}>{t.home.howEyebrow}</p>
           <h2 className={`${pageTitle} mb-3`}>
@@ -71,7 +71,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
       </section>
 
       <section className="border-t border-border">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <div className={`${container} py-16 sm:py-20`}>
           <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 items-start">
             <div className="flex-1 min-w-0">
               <h2 className={`${pageTitle} mb-3`}>
@@ -101,7 +101,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
       </section>
 
       <section className="border-t border-border bg-surface">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <div className={`${container} py-16 sm:py-20`}>
         <div className="text-center mb-10">
           <p className={`${eyebrow} mb-3`}>{t.home.recordEyebrow}</p>
           <h2 className={`${pageTitle} mb-3`}>
@@ -112,7 +112,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
           </p>
         </div>
 
-        {preview && (
+        {preview ? (
           <Link
             href={routes.record(preview.domain)}
             className="block max-w-xl mx-auto rounded-xl border border-border bg-bg px-5 sm:px-7 py-6 no-underline hover:border-muted-2"
@@ -124,7 +124,7 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
               domainRegisteredAt={preview.domainRegisteredAt}
               pactHistoryStart={preview.pactHistoryStart}
             />
-            <div className="mt-6 grid grid-cols-3 gap-3">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <p className={`${eyebrow} m-0`}>{t.domain.kindMail}</p>
                 <p className={`${statValue} text-txt mt-2 mb-0`}>
@@ -154,12 +154,23 @@ export function HomeLanding({ preview }: { preview: HomePreview | null }) {
               </div>
             </div>
           </Link>
+        ) : (
+          <p className={`${pageIntro} text-center max-w-xl mx-auto`}>
+            <Link href={routes.records} className={linkMuted}>
+              {t.records.title} →
+            </Link>
+          </p>
         )}
+        <p className="text-center mt-6">
+          <Link href={routes.records} className={`${linkMuted} text-xs font-mono`}>
+            {t.records.title} →
+          </Link>
+        </p>
         </div>
       </section>
 
       <section className="border-t border-border">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        <div className={`${container} py-16 sm:py-20`}>
           <div className="max-w-xl mx-auto text-center">
             <h2 className={`${pageTitle} mb-4`}>
               {t.home.ctaTitle}

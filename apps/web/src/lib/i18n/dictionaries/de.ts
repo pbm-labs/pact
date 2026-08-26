@@ -4,6 +4,7 @@ export const de: Dictionary = {
   nav: {
     language: 'Sprache',
     records: 'Einträge',
+    connect: 'Verbinden',
     whitepaper: 'Whitepaper',
     menu: 'Menü',
     openMenu: 'Menü öffnen',
@@ -99,16 +100,19 @@ export const de: Dictionary = {
       },
     ],
     mailStreamHow: 'Mail-Stream behalten',
+    putOnLedger: 'Auf das Ledger setzen',
+    ledgerExplain:
+      'Setzt den Namen auf das Ledger, damit Zertifikats- und Signaturstreams indexiert werden können. Den Mail-Stream behältst du danach mit DNS unten.',
     whatDoesThisDo: 'Was bewirkt das?',
     cloudflareExplain:
       'Du meldest dich bei Cloudflare an, und wir tragen PACT als Berichtsziel in DNS ein, damit der Mail-Stream behalten wird. Zertifikats- und Signaturstreams werden indexiert, sobald der Name auf dem Ledger steht.',
     toolIntro: 'Füge in den Einstellungen deines Tools dies hinzu:',
     toolExplain:
-      'Dein Tool sammelt bereits Berichte für diese Domain. Diese Adresse nimmt uns in den Mail-Stream auf. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden) — hier ist kein weiterer Schritt nötig.',
+      'Dein Tool sammelt bereits Berichte für diese Domain. Diese Adresse nimmt uns in den Mail-Stream auf. Setze den Namen zuerst auf das Ledger, damit öffentliche Streams indexiert werden können. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden).',
     manualIntro:
       'Füge dies dort ein, wo du das DNS deiner Website verwaltest (frage deinen Anbieter, wenn du unsicher bist):',
     manualExplain:
-      'Eine Zeile, mit der unabhängige Empfangssysteme Aggregatberichte hierher senden. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Das ist der Mail-Stream. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden).',
+      'Eine Zeile, mit der unabhängige Empfangssysteme Aggregatberichte hierher senden. Wenn du bereits eine ähnliche Zeile hast, füge unsere Adresse hinzu, statt sie zu ersetzen. Das ist der Mail-Stream. Setze den Namen zuerst auf das Ledger, damit öffentliche Streams indexiert werden können. Der öffentliche Mail-Eintrag erscheint, wenn der erste unabhängige Bericht eintrifft (meist innerhalb von 24–48 Stunden).',
     errors: {
       invalid_domain: 'Gib eine gültige Domain ein (z. B. example.com).',
       server_config: 'Dem Server fehlen CONNECT_STATE_SECRET oder Ledger-Schreibzugangsdaten.',
@@ -134,10 +138,6 @@ export const de: Dictionary = {
     colDomain: 'Domain',
     colHistory: 'Historie',
     verified: 'bestätigt',
-    report: 'Bericht',
-    reports: 'Berichte',
-    org: 'Org.',
-    orgs: 'Orgs.',
     emptyTitle: 'Keine Einträge',
     emptyBody:
       'Verbinde eine Domain, um Reststreams aufzuzeichnen. Zertifikats- und Signaturlogs werden indexiert, sobald der Name auf dem Ledger steht. Der Mail-Stream braucht eine DNS-Zeile.',
@@ -165,9 +165,7 @@ export const de: Dictionary = {
     mailLeaves: 'Mail-Stream',
     ctLeaves: 'Zertifikats-Stream',
     rekorLeaves: 'Signatur-Stream',
-    timeVerified: 'Bestätigte Tage',
     reports: 'Berichte',
-    allTime: 'gesamt',
     reportingOrgs: 'Meldende Orgs.',
     domainRegistered: 'Domain registriert',
     verifiedSince: 'Bestätigt seit',

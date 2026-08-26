@@ -270,18 +270,13 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 
   if (!hasTraces) {
     const onChain = payload.onChain != null;
-    const waitingHistoryMs = earliestTraceMs(
-      [],
-      ct.map((row) => row.loggedAt),
-      rekor.map((row) => row.integratedTime),
-    );
     return {
       status: 'waiting',
       data: {
         domain: normalized,
         connectedSince: payload.domain.connected_at,
         domainRegisteredAt,
-        pactHistoryStart: waitingHistoryMs != null ? new Date(waitingHistoryMs).toISOString() : null,
+        pactHistoryStart: null,
         ct,
         rekor,
         latestRoot: latestRootEarly,
@@ -338,21 +333,15 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       ct,
       rekor,
       leaves: leaves.map((leaf) => {
-        const leafHash = byteaToHash(leaf.leaf_hash);
-        const leafIndex = Number(leaf.leaf_index);
-        const proof =
-          merkleContext != null
-            ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
-            : {
-                leafIndex,
-                leafHash,
-                proof: [] as Hash[],
-                proofValid: false,
-              };
-
         const wrapperHashes = safeJsonArray(leaf.wrapper_hashes);
         const storedWrapper = wrapperHashes.find((hash) =>
           wrapperChecks.has(hash.trim().toLowerCase().replace(/^0x/, '')),
+        );
+        const proof = leafInclusion(
+          Number(leaf.leaf_index),
+          byteaToHash(leaf.leaf_hash),
+          merkleContext,
+          rootMatchesPublished,
         );
 
         return {
@@ -369,11 +358,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
             ? ledgerObjectUrl('wrappers', storedWrapper, '/check')
             : null,
           receivedAt: leaf.created_at ?? null,
-          leafIndex: proof.leafIndex,
-          leafHash: proof.leafHash,
-          leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
-          merkleProof: proof.proof,
-          merkleProofValid: proof.proofValid && rootMatchesPublished,
+          ...proof,
         };
       }),
     },
@@ -381,6 +366,31 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
 }
 
 export { ledgerConfigured };
+
+function leafInclusion(
+  leafIndex: number,
+  leafHash: Hash,
+  merkleContext: ReturnType<typeof rebuildGlobalMerkleTree>,
+  rootMatchesPublished: boolean,
+): {
+  leafIndex: number;
+  leafHash: Hash;
+  leafUrl: string | null;
+  merkleProof: Hash[];
+  merkleProofValid: boolean;
+} {
+  const proof =
+    merkleContext != null
+      ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
+      : { leafIndex, leafHash, proof: [] as Hash[], proofValid: false };
+  return {
+    leafIndex: proof.leafIndex,
+    leafHash: proof.leafHash,
+    leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
+    merkleProof: proof.proof,
+    merkleProofValid: proof.proofValid && rootMatchesPublished,
+  };
+}
 
 function mapCtCerts(
   rows: {
@@ -398,34 +408,22 @@ function mapCtCerts(
   merkleContext: ReturnType<typeof rebuildGlobalMerkleTree>,
   rootMatchesPublished: boolean,
 ): DomainCtSummary[] {
-  return rows.map((row) => {
-    const leafHash = byteaToHash(row.leaf_hash);
-    const leafIndex = Number(row.leaf_index);
-    const proof =
-      merkleContext != null
-        ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
-        : {
-            leafIndex,
-            leafHash,
-            proof: [] as Hash[],
-            proofValid: false,
-          };
-    return {
-      fingerprint: row.fingerprint,
-      issuer: row.issuer,
-      commonName: row.common_name,
-      logId: row.log_id,
-      logIndex: Number(row.log_index),
-      loggedAt: Number(row.logged_at),
-      notBefore: Number(row.not_before),
-      notAfter: Number(row.not_after),
-      leafIndex: proof.leafIndex,
-      leafHash: proof.leafHash,
-      leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
-      merkleProof: proof.proof,
-      merkleProofValid: proof.proofValid && rootMatchesPublished,
-    };
-  });
+  return rows.map((row) => ({
+    fingerprint: row.fingerprint,
+    issuer: row.issuer,
+    commonName: row.common_name,
+    logId: row.log_id,
+    logIndex: Number(row.log_index),
+    loggedAt: Number(row.logged_at),
+    notBefore: Number(row.not_before),
+    notAfter: Number(row.not_after),
+    ...leafInclusion(
+      Number(row.leaf_index),
+      byteaToHash(row.leaf_hash),
+      merkleContext,
+      rootMatchesPublished,
+    ),
+  }));
 }
 
 function mapRekorEntries(
@@ -442,32 +440,20 @@ function mapRekorEntries(
   merkleContext: ReturnType<typeof rebuildGlobalMerkleTree>,
   rootMatchesPublished: boolean,
 ): DomainRekorSummary[] {
-  return rows.map((row) => {
-    const leafHash = byteaToHash(row.leaf_hash);
-    const leafIndex = Number(row.leaf_index);
-    const proof =
-      merkleContext != null
-        ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
-        : {
-            leafIndex,
-            leafHash,
-            proof: [] as Hash[],
-            proofValid: false,
-          };
-    return {
-      uuid: row.uuid,
-      identity: row.identity,
-      entryKind: row.entry_kind,
-      logId: row.log_id,
-      logIndex: Number(row.log_index),
-      integratedTime: Number(row.integrated_time),
-      leafIndex: proof.leafIndex,
-      leafHash: proof.leafHash,
-      leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
-      merkleProof: proof.proof,
-      merkleProofValid: proof.proofValid && rootMatchesPublished,
-    };
-  });
+  return rows.map((row) => ({
+    uuid: row.uuid,
+    identity: row.identity,
+    entryKind: row.entry_kind,
+    logId: row.log_id,
+    logIndex: Number(row.log_index),
+    integratedTime: Number(row.integrated_time),
+    ...leafInclusion(
+      Number(row.leaf_index),
+      byteaToHash(row.leaf_hash),
+      merkleContext,
+      rootMatchesPublished,
+    ),
+  }));
 }
 
 function combineWrapperOpening(

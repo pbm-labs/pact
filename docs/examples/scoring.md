@@ -7,6 +7,8 @@
 
 PACT publishes independently confirmed history. It does not define a score, an activation label, or a verdict. Applications MAY interpret the published fields. This document is one example of how.
 
+**Scope:** `example-score-0.1` uses **mail-stream fields only** (DKIM pass counts, mail reports, reporting organizations). It does not fold Certificate Transparency or Rekor into the number. Do not treat it as a blended leftover score.
+
 The public reference UI does not display this score.
 
 ## Inputs (public record only)

@@ -4,6 +4,7 @@ export const fr: Dictionary = {
   nav: {
     language: 'Langue',
     records: 'Registres',
+    connect: 'Connecter',
     whitepaper: 'Livre blanc',
     menu: 'Menu',
     openMenu: 'Ouvrir le menu',
@@ -99,16 +100,19 @@ export const fr: Dictionary = {
       },
     ],
     mailStreamHow: 'Conserver le flux de courrier',
+    putOnLedger: 'Mettre sur le ledger',
+    ledgerExplain:
+      'Place le nom sur le ledger pour indexer les flux de certificats et de signatures. Conservez ensuite le flux de courrier avec le DNS ci-dessous.',
     whatDoesThisDo: 'Que fait cela ?',
     cloudflareExplain:
       'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS pour conserver le flux de courrier. Les flux de certificats et de signatures sont indexés une fois le nom sur le ledger.',
     toolIntro: "Dans les paramètres de votre outil, ajoutez ceci :",
     toolExplain:
-      'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut dans le flux de courrier. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h) — rien d’autre à envoyer ici.',
+      'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut dans le flux de courrier. Mettez d’abord le nom sur le ledger pour indexer les flux publics. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h).',
     manualIntro:
       "Collez ceci là où vous gérez le DNS de votre site (demandez à votre hébergeur si vous n'êtes pas sûr) :",
     manualExplain:
-      "Une ligne qui permet à des systèmes destinataires indépendants d’envoyer des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. C’est le flux de courrier. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h).",
+      "Une ligne qui permet à des systèmes destinataires indépendants d’envoyer des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. C’est le flux de courrier. Mettez d’abord le nom sur le ledger pour indexer les flux publics. Le registre public de courrier apparaît à l’arrivée du premier rapport indépendant (souvent sous 24–48 h).",
     errors: {
       invalid_domain: 'Saisissez un domaine valide (ex. example.com).',
       server_config:
@@ -136,10 +140,6 @@ export const fr: Dictionary = {
     colDomain: 'Domaine',
     colHistory: 'Historique',
     verified: 'confirmé',
-    report: 'rapport',
-    reports: 'rapports',
-    org: 'org',
-    orgs: 'orgs',
     emptyTitle: 'Aucun registre',
     emptyBody:
       'Connectez un domaine pour commencer à enregistrer des flux résiduels. Les journaux de certificats et de signatures sont indexés une fois le nom sur le ledger. Le flux de courrier a besoin d’une ligne DNS.',
@@ -167,9 +167,7 @@ export const fr: Dictionary = {
     mailLeaves: 'Flux de courrier',
     ctLeaves: 'Flux de certificats',
     rekorLeaves: 'Flux de signatures',
-    timeVerified: 'Jours confirmés',
     reports: 'Rapports',
-    allTime: 'depuis le début',
     reportingOrgs: 'Orgs déclarantes',
     domainRegistered: 'Domaine enregistré',
     verifiedSince: 'Confirmé depuis',
@@ -186,7 +184,7 @@ export const fr: Dictionary = {
     colPeriod: 'Période',
     colPass: 'Réussi',
     colFail: 'Échoué',
-    colIngested: 'Ingesté',
+    colIngested: 'Ingéré',
     verification: 'Vérification',
     anchor: 'Ancre',
     onChain: 'On-chain',
@@ -222,7 +220,7 @@ export const fr: Dictionary = {
     clockDay1: '(Jour 1)',
     clockYears: '({n} ans)',
     clockYear: '({n} an)',
-    clockMonths: '({n} mo)',
+    clockMonths: '({n} mois)',
     clockDaysShort: '({n}j)',
     ctHistory: 'Certificats',
     ctHistoryCounts: '{n}',

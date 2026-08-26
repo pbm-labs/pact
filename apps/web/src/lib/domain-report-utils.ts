@@ -1,10 +1,6 @@
-export function formatReportPeriod(start: number, end: number): string {
-  const fmt = (ts: number) =>
-    new Date(ts * 1000).toLocaleDateString(undefined, {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
+export function formatReportPeriod(start: number, end: number, locale?: string): string {
+  const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+  const fmt = (ts: number) => new Date(ts * 1000).toLocaleDateString(locale, opts);
   return `${fmt(start)} – ${fmt(end)}`;
 }
 

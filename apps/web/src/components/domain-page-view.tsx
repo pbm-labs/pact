@@ -32,27 +32,37 @@ export function DomainPageView({ domain, state, unconfigured }: DomainPageViewPr
   }
 
   if (state.status === 'waiting') {
-    return <WaitingPage data={state.data} />;
+    return <RecordPage awaiting data={state.data} />;
   }
 
-  return <LivePage data={state.data} />;
+  return <RecordPage awaiting={false} data={state.data} />;
 }
 
-function WaitingPage({ data }: { data: DomainWaitingData }) {
-  const { t } = useLocale();
-  const range = ctLoggedBounds(data.ct);
-  const rekorRange = ctLoggedBounds(
-    data.rekor.map((row) => ({ loggedAt: row.integratedTime })),
-  );
+function RecordPage({
+  awaiting,
+  data,
+}: {
+  awaiting: boolean;
+  data: DomainLiveData | DomainWaitingData;
+}) {
+  const { t, locale } = useLocale();
+  const leaves = 'leaves' in data ? data.leaves : [];
+  const mailCount = leaves.length;
+  const reporterCount = 'uniqueReporters' in data ? data.uniqueReporters : 0;
+  const passRate = 'passRate' in data ? data.passRate : null;
+  const range = loggedBounds(data.ct.map((row) => row.loggedAt));
+  const rekorRange = loggedBounds(data.rekor.map((row) => row.integratedTime));
 
   return (
     <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
       <header className="mb-8">
-        <span className={`${badgeAmber} mb-3`}>{t.domain.awaitingFirst}</span>
-        <h1 className={`${pageTitle} break-all mb-2`}>{data.domain}</h1>
-        {data.connectedSince && (
+        {awaiting && (
+          <span className={`${badgeAmber} mb-3 block w-fit`}>{t.domain.awaitingFirst}</span>
+        )}
+        <h1 className={`${pageTitle} break-all ${awaiting ? 'mb-2' : ''}`}>{data.domain}</h1>
+        {awaiting && data.connectedSince && (
           <p className="text-xs text-muted-2 font-mono mt-3">
-            {t.domain.connected} {new Date(data.connectedSince).toLocaleDateString()}
+            {t.domain.connected} {new Date(data.connectedSince).toLocaleDateString(locale)}
           </p>
         )}
         <DomainClocks
@@ -62,58 +72,9 @@ function WaitingPage({ data }: { data: DomainWaitingData }) {
       </header>
 
       <DomainKindStrip
-        mailCount={0}
-        reporterCount={0}
-        passRate={null}
-        ctCount={data.ct.length}
-        ctFirstLoggedAt={range.first}
-        ctLatestLoggedAt={range.latest}
-        rekorCount={data.rekor.length}
-        rekorFirstLoggedAt={rekorRange.first}
-        rekorLatestLoggedAt={rekorRange.latest}
-      />
-
-      {showLedger(data) && (
-        <DomainLedgerPanel
-          mailLeafCount={0}
-          ctLeafCount={data.ct.length}
-          rekorLeafCount={data.rekor.length}
-          anchorType={data.anchorType}
-          rootMatchesPublished={data.rootMatchesPublished}
-          latestRoot={data.latestRoot}
-          rootTxHash={data.rootTxHash}
-          rootsContract={data.rootsContract}
-          globalTreeLeafCount={data.globalTreeLeafCount}
-        />
-      )}
-
-      <DomainCtPanel certs={data.ct} />
-      <DomainRekorPanel entries={data.rekor} />
-    </PageShell>
-  );
-}
-
-function LivePage({ data }: { data: DomainLiveData }) {
-  const { t } = useLocale();
-  const range = ctLoggedBounds(data.ct);
-  const rekorRange = ctLoggedBounds(
-    data.rekor.map((row) => ({ loggedAt: row.integratedTime })),
-  );
-
-  return (
-    <PageShell backHref={routes.records} backLabel={t.domain.backRecords}>
-      <header className="mb-8">
-        <h1 className={`${pageTitle} break-all`}>{data.domain}</h1>
-        <DomainClocks
-          domainRegisteredAt={data.domainRegisteredAt}
-          pactHistoryStart={data.pactHistoryStart}
-        />
-      </header>
-
-      <DomainKindStrip
-        mailCount={data.leaves.length}
-        reporterCount={data.uniqueReporters}
-        passRate={data.passRate}
+        mailCount={mailCount}
+        reporterCount={reporterCount}
+        passRate={passRate}
         ctCount={data.ct.length}
         ctFirstLoggedAt={range.first}
         ctLatestLoggedAt={range.latest}
@@ -123,7 +84,7 @@ function LivePage({ data }: { data: DomainLiveData }) {
       />
 
       <DomainLedgerPanel
-        mailLeafCount={data.leaves.length}
+        mailLeafCount={mailCount}
         ctLeafCount={data.ct.length}
         rekorLeafCount={data.rekor.length}
         anchorType={data.anchorType}
@@ -134,8 +95,11 @@ function LivePage({ data }: { data: DomainLiveData }) {
         globalTreeLeafCount={data.globalTreeLeafCount}
       />
 
-      {data.leaves.length > 0 && (
-        <DomainLeavesPanel leaves={data.leaves} uniqueReporters={data.uniqueReporters} />
+      {leaves.length > 0 && (
+        <DomainLeavesPanel
+          leaves={leaves}
+          uniqueReporters={'uniqueReporters' in data ? data.uniqueReporters : 0}
+        />
       )}
       <DomainCtPanel certs={data.ct} />
       <DomainRekorPanel entries={data.rekor} />
@@ -169,21 +133,13 @@ function UnconfiguredPage({ domain }: { domain: string }) {
   );
 }
 
-function ctLoggedBounds(certs: { loggedAt: number }[]): {
-  first: number | null;
-  latest: number | null;
-} {
+function loggedBounds(times: number[]): { first: number | null; latest: number | null } {
   let first: number | null = null;
   let latest: number | null = null;
-  for (const cert of certs) {
-    const t = cert.loggedAt;
+  for (const t of times) {
     if (!Number.isFinite(t) || t <= 0) continue;
     if (first == null || t < first) first = t;
     if (latest == null || t > latest) latest = t;
   }
   return { first, latest };
-}
-
-function showLedger(data: DomainWaitingData): boolean {
-  return data.anchorType != null || data.latestRoot != null || data.ct.length > 0 || data.rekor.length > 0;
 }

@@ -11,6 +11,7 @@ import {
   findProcessedReport,
   insertProcessedReport,
   loadLeafAggregation,
+  upsertDomain,
   upsertLeaf,
 } from './ledger.js';
 import { type IngestEnv, publishAnchoredRoot } from './publish-root.js';
@@ -118,6 +119,8 @@ export async function processReportJob(env: IngestEnv, job: ReportJob): Promise<
       const components = buildLeafComponents(leafInput);
       const leafHash = computeLeafHash(leafInput);
 
+      // Leaves FK to domains; first valid report upserts so DNS-only operators are not dropped.
+      await upsertDomain(env.DB, components.domain);
       await upsertLeaf(env.DB, {
         leafHash,
         domain: components.domain,

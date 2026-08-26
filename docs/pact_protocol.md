@@ -15,9 +15,13 @@ This document is the single protocol specification. It supersedes the earlier sp
 
 | Area | Live identifier / location |
 |------|----------------------------|
-| Merkle tree / leaf encoding | §3.3.1 and Appendix C (wrapper witness in the leaf: C.5) |
+| Merkle tree / leaf encoding | §3.3.1 and Appendix C (wrapper witness in the leaf: C.5; CT C.6; Rekor C.7) |
+| Leaf kinds | Mail (untagged v0.2), Certificate Transparency (`pact-ct-v1`), Rekor (`pact-rekor-v1`) |
 | On-chain roots | `PactRoots` on **Base Sepolia** at [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) — testnet, permissioned publisher |
 | Leaves | Off-chain (Cloudflare D1 + public HTTP API). Roots attest **inclusion**, not leaf availability (§9.3) |
+| Hosts | App: `https://webuildreal.dev`. Ledger: `https://ledger.webuildreal.dev` |
+| Connect | Cloudflare OAuth, or `GET /api/connect/register` then `POST /v1/domains`. Mail DNS is a separate step |
+| Root cadence | On ingest, and a **15-minute** cron (`*/15 * * * *`) that also indexes crt.sh and rekor.sigstore.dev |
 | Report source auth | Wrapper DKIM (RFC 6376) + reporter/`org_name` allowlist (§3.1.1). SPF of the connecting MTA is **not** independently checked (Email Routing accepted the hop) |
 
 ---
@@ -28,7 +32,7 @@ PACT (Provenance of Accumulated Checkable Traces) is an open protocol for establ
 
 PACT is source-agnostic. It records exhaust that other systems already emit; it does not invent a ritual and ask the world to perform it. v0.2 binds DMARC aggregate reports. v0.3 adds Certificate Transparency as a second leaf kind on the same Merkle tree. v0.4 adds Rekor (Sigstore) as a third kind. Bindings MUST NOT share a preimage layout. Applications MUST NOT blend kinds into a single score. Further leftover sources MAY be added as tagged kinds.
 
-The result is a decentralized domain provenance layer — the trust cornerstone on which applications requiring richer semantics (document verification, compliance certification, KYC, anti-spam) can be built. PACT itself requires no participation from senders beyond a single DNS field addition, no behavioral change from verifiers, no message content access, and no trusted third party to adjudicate authenticity claims. It is the TCP/IP of institutional email trust: narrow, blind to content, and universally applicable.
+The result is a decentralized domain provenance layer — leftover traces as a common base on which applications requiring richer semantics (document verification, compliance certification, KYC, anti-spam) can be built. PACT itself requires no participation from senders beyond putting a name on the ledger and, for the mail stream, a single DNS field addition. It requires no behavioral change from verifiers, no message content access, and no trusted third party to adjudicate authenticity claims. It is leftover traces as a common layer: narrow, blind to content, and source-agnostic.
 
 This specification is the Merkle / encoding / threat-model work. Scoring is not protocol. Implementation-specific details (D1, Base Sepolia, Cloudflare) are in Appendix B.
 
@@ -110,8 +114,10 @@ LAYER 2 — APPLICATIONS (not standardized in this document)
 
 ──────────────────────────────────────────────────
 LAYER 1 — PACT PROTOCOL (this specification)
-  Domain provenance from DMARC aggregate reports.
-  No message content. No personal data. Ever.
+  Leftover traces as separate kinds on one Merkle tree.
+  Mail (v0.2), Certificate Transparency (v0.3), Rekor (v0.4).
+  No blended score. Judgement stays outside.
+  No message content. No guessed mailboxes. Ever.
   Structurally private. Universally applicable.
 ──────────────────────────────────────────────────
 LAYER 0 — EXISTING INFRASTRUCTURE (unchanged)
@@ -186,15 +192,17 @@ _dmarc.wise.com TXT
        mailto:rua@pact.webuildreal.dev"
 ```
 
-That is the only change required. No software installation. No API integration. No SDK. No behavioral change for any sender or recipient. The receiving mail servers of the world — Gmail, Outlook, Yahoo — continue generating the same aggregate reports they always have. They now send a copy to PACT alongside the domain's existing destination.
+That is the only DNS change for the **mail stream**. No software installation. No API integration. No SDK. No behavioral change for any sender or recipient. The receiving mail servers of the world — Gmail, Outlook, Yahoo — continue generating the same aggregate reports they always have. They now send a copy to PACT alongside the domain's existing destination.
+
+Certificate Transparency and Rekor need no DNS ceremony. The reference implementation puts the domain name on the ledger (`POST /v1/domains`) so those public logs can be indexed after the name is registered — before the first mail report arrives. A valid mail report also upserts the domain row if it is missing (so a DNS-only operator is not dropped by the foreign key on `leaves`).
 
 ### 2.3 Zero-Friction Onboarding
 
-The reference implementation (`webuildreal.dev`) supports three onboarding paths:
+The reference implementation (`webuildreal.dev`) supports three onboarding paths. Connecting has two parts: (1) put the name on the ledger so public logs can be indexed, (2) keep the mail stream via DNS or an existing tool.
 
-- **Cloudflare OAuth** — one confirmation click; PACT adds the rua= field to `_dmarc` via API. Minimum scope: zone-scoped DNS edit for the target domain only.
-- **Manual DNS** — one `_dmarc` field edit at any provider (GoDaddy, Namecheap, Route 53 console, etc.). The domain appears in the public record when the first valid aggregate report arrives — no extra registration step on the site.
-- **Existing-tool forwarding** — add PACT as a report destination in an existing DMARC analytics tool (e.g. Postmark). Forwarded reports are authenticated per Section 3.1.1.
+- **Cloudflare OAuth** — one confirmation click; PACT adds the rua= field to `_dmarc` via API and registers the domain. Minimum scope: zone-scoped DNS edit for the target domain only.
+- **Manual DNS** — put the name on the ledger (`/connect` → `GET /api/connect/register` → `POST /v1/domains`), then one `_dmarc` field edit at any provider (GoDaddy, Namecheap, Route 53 console, etc.). If the operator skips the site form, the first valid aggregate report still upserts the domain row.
+- **Existing-tool forwarding** — same ledger registration, then add PACT as a report destination in an existing DMARC analytics tool (e.g. Postmark). Forwarded reports are authenticated per Section 3.1.1.
 
 OAuth integrations MUST NOT read unrelated DNS records or modify fields other than `_dmarc`.
 
@@ -266,7 +274,7 @@ Fail closed if no signature passes. Transient DNS failures while fetching the DK
 - Initially maintained by the first reference implementation (PBM Labs LLC).
 - MUST include major mailbox providers: Google, Microsoft, Yahoo, Apple, and major ESPs generating DMARC aggregate reports at scale.
 - MUST include approved forwarding agents: Valimail, Postmark, EasyDMARC, Dmarcian, and equivalent services.
-- Transition to community-maintained allowlist with transparent governance is planned for v0.3 (Section 9.4).
+- Transition to a community-maintained allowlist with transparent governance is planned for a later revision (Section 9.4).
 
 
 **Reference implementation (August 2026):** Live ingest tries to DKIM-verify the wrapper (mailauth, DNS-over-HTTPS). Cloudflare Email Routing may rewrite `message.raw`, so a crypto miss does **not** drop the report: ingest then takes `d=` / `s=` from `DKIM-Signature` headers, or from an allowlisted reporter envelope. The Worker stores the received RFC822 and a DNS snapshot of `selector._domainkey.domain` in Supabase Storage, keyed by `keccak256` of those bytes, then queues the hash plus `d=` / selector pairs. Fetch: `GET /v1/wrappers/{hash}`, `GET /v1/wrappers/{hash}/rfc822`, and `GET /v1/wrappers/{hash}/check` (keccak256 of stored bytes vs the leaf hash; every keyed snapshot has TXT). `validateReportSource` still requires a reporter/`org_name` allowlist match plus envelope-from consistency. The Worker does **not** independently SPF-check the connecting MTA. Reports that are not DMARC XML are discarded. Wrapper openings (`d=` / `s=` and the message hash) are stored on the public leaf. Publishing a CID next to `publishRoot` is not live.
@@ -394,7 +402,7 @@ Leaves are inserted into an append-only sparse Merkle tree with the following no
 
 **Inclusion proof format:** An array of `bytes32` sibling hashes from leaf to root, with a `uint32` leaf `index` and the target `root`. Verifiers reconstruct the path using the index bit pattern. Proof length is exactly 32 elements.
 
-**Root publication:** Merkle roots are published on-chain at regular intervals (default: daily, aligned with aggregate report cadence). Once published, a root is immutable.
+**Root publication:** Merkle roots are published on-chain at regular intervals. Once published, a root is immutable. The protocol default is daily, aligned with aggregate report cadence. The reference implementation publishes on ingest and retries every 15 minutes (Appendix B).
 
 **Verification:** Any party can independently verify that a specific leaf is a member of the tree by providing the leaf value, its insertion index, and a Merkle inclusion proof. Verification requires the published on-chain root and the leaf data. It does not require contacting the operating entity.
 
@@ -472,7 +480,7 @@ Lookalike detection is probabilistic, not deterministic. Perfect detection of ho
 
 ### 4.1 What is published
 
-PACT publishes independently confirmed history. The public record lists independently confirmed days, reports, reporting organizations, observed pass rate, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, an activation label, or a verdict.
+PACT publishes independently confirmed history. The public record lists independently confirmed days, leftover streams as separate kinds (mail reports, Certificate Transparency certificates, Rekor entries), reporting organizations and observed pass rate for the mail stream, leaves, Merkle proofs, and wrapper DKIM. It does not display a score, an activation label, or a verdict.
 
 A domain with millions of verified DKIM-pass messages from diverse receiving mail servers over years of continuous history cannot be fabricated retroactively. The cost of attacking the published record is identical to the cost of operating as a legitimate high-volume institutional sender for years.
 
@@ -488,11 +496,13 @@ DOMAIN AGE
   Verifiable independently of PACT, by anyone
 
 INDEPENDENTLY CONFIRMED HISTORY
-  Source: days since the domain's first processed
-  aggregate report
+  Source: days since the domain's earliest leftover
+  trace on the tree — first mail period start, CT
+  `logged_at`, or Rekor `integrated_time`, whichever
+  is earliest
   Meaning: how long PACT has been accumulating
-  verified authentication activity for this domain
-  Only PACT can attest to this
+  independently confirmed leftover traces for this
+  domain. Only PACT can attest to this
 ```
 
 A domain that has existed for eight years but connected to PACT today has a long domain age and independently confirmed history of zero. This is common and expected. Collapsing these two clocks into a single number would let a hijacker inherit reputation from registration age on day one. Domain age is display context only. It MUST NOT be treated as independently confirmed history, and MUST NOT be folded into any application's maturity of PACT history.
@@ -501,7 +511,7 @@ A domain that has existed for eight years but connected to PACT today has a long
 
 PACT does not define a score, an activation label, or a verdict. Implementations MUST NOT treat any scoring formula as required for interoperability.
 
-Applications MAY interpret published fields (independently confirmed days, reports, reporting organizations, pass/fail counts). One informative example is `example-score-0.1` in `docs/examples/scoring.md` and `examples/score/`. It is not part of this specification.
+Applications MAY interpret published fields (independently confirmed days, stream counts, mail reports, reporting organizations, pass/fail counts). One informative example is `example-score-0.1` in `docs/examples/scoring.md` and `examples/score/`. It scores the **mail stream only** and is not part of this specification.
 
 ---
 
@@ -509,7 +519,7 @@ Applications MAY interpret published fields (independently confirmed days, repor
 
 ### 5.1 Structural Privacy Guarantee
 
-PACT's privacy guarantee is structural, not policy-based. The guarantee holds because the data source — DMARC aggregate reports — contains no message content, no recipient addresses, and no sender mailbox identifiers. This cannot be changed by policy or misconfiguration at the message level, because that data never enters the pipeline.
+PACT's privacy guarantee is structural, not policy-based. The mail stream holds because DMARC aggregate reports contain no message content, no recipient addresses, and no sender mailbox identifiers. Certificate Transparency and Rekor are already-public leftover logs: this protocol indexes exhaust that is already on the open internet (certificate metadata; Rekor identities that cover the domain). Implementations MUST NOT guess mailboxes to search Rekor, and MUST NOT blend kinds into a score.
 
 ### 5.2 What Is On-Chain (Public)
 
@@ -538,10 +548,13 @@ IP addresses in DMARC aggregate reports may constitute personal data in some jur
 
 - Any message content (subject, body, attachments)
 - Any recipient email address or identity
-- Any sender email address (only the sending domain)
+- Any sender email address from mail (only the sending domain)
+- Guessed mailboxes used to search Rekor — bind only leftover identities that already cover the domain
 - Any personally identifiable information from message headers
 - Any individual message identifier
 - DMARC forensic report (ruf=) data
+
+Rekor identities that already cover the domain may appear because they are leftover public log exhaust, not because PACT invented a mailbox.
 
 ### 5.5 GDPR and Privacy Regulations
 
@@ -555,9 +568,9 @@ Implementers SHOULD obtain legal counsel confirmation for their jurisdiction and
 
 ### 6.1 The DNS Change
 
-A domain connects to PACT by adding the PACT rua= address as a co-recipient in its DMARC DNS record. This is a standard DMARC mechanism explicitly defined in RFC 7489 — a domain may specify multiple rua= destinations separated by commas.
+A domain connects the **mail stream** to PACT by adding the PACT rua= address as a co-recipient in its DMARC DNS record. This is a standard DMARC mechanism explicitly defined in RFC 7489 — a domain may specify multiple rua= destinations separated by commas.
 
-The domain's existing DMARC policy, reporting destinations, and email operations are entirely unaffected. PACT receives a copy of the same reports that are already being sent to the domain's existing destinations.
+The domain's existing DMARC policy, reporting destinations, and email operations are entirely unaffected. PACT receives a copy of the same reports that are already being sent to the domain's existing destinations. Certificate Transparency and Rekor are not onboarded through DNS.
 
 ### 6.2 External Destination Verification
 
@@ -572,16 +585,16 @@ This record is published once and authorizes all domains to send their DMARC agg
 
 ### 6.3 Onboarding Paths
 
-The reference implementation supports three paths (lowest friction first):
+The reference implementation supports three paths (lowest friction first). All three put the name on the ledger. DNS or an existing tool keeps the mail stream.
 
 **Path A — Cloudflare OAuth**
-Domain operator authorizes zone-scoped DNS edit. PACT reads the existing `_dmarc` record and adds the rua= field automatically.
+Domain operator authorizes zone-scoped DNS edit. PACT reads the existing `_dmarc` record, adds the rua= field, and registers the domain (`POST /v1/domains`).
 
 **Path B — Manual DNS edit**
-Domain operator adds the PACT rua= address (`rua@pact.webuildreal.dev`) to the `rua=` field of their existing `_dmarc` TXT record at any DNS provider. The public record is created automatically on the first valid aggregate report.
+Domain operator registers the name on the site, then adds the PACT rua= address (`rua@pact.webuildreal.dev`) to the `rua=` field of their existing `_dmarc` TXT record at any DNS provider. If they skip the site form, the first valid aggregate report still upserts the domain row.
 
 **Path C — DMARC service forwarding**
-Operator adds PACT as a forwarding destination in an analytics service dashboard. Forwarded reports are authenticated per Section 3.1.1.
+Operator registers the name on the site, then adds PACT as a forwarding destination in an analytics service dashboard. Forwarded reports are authenticated per Section 3.1.1.
 
 **Deferred:** OAuth for other DNS providers (e.g., AWS Route 53 via cross-account IAM).
 
@@ -718,7 +731,7 @@ function getLatestRoot()
 
 Leaf data is stored off-chain by one or more data providers. In v0.2, the reference implementation operates a single data provider. The on-chain root proves the leaf was committed; it does not guarantee that leaf data remains available. Verifiers SHOULD archive proofs they rely on.
 
-**Long-term availability (v0.3):** Canonical leaf preimages as content-addressed blobs in a public object store, with the CID (or equivalent hash) published alongside each root. D1 remains a query index, not the sole copy. IPFS pinning and replicated third-party providers follow. Leaves are not stored in the root contract. Data availability sampling remains under consideration.
+**Long-term availability (later revision):** Canonical leaf preimages as content-addressed blobs in a public object store, with the CID (or equivalent hash) published alongside each root. D1 remains a query index, not the sole copy. IPFS pinning and replicated third-party providers follow. Leaves are not stored in the root contract. Data availability sampling remains under consideration.
 
 ### 9.4 Governance and Permissionless Transition
 
@@ -764,13 +777,13 @@ PACT does not protect against:
 
 **Fake aggregate reports:** Reports without a passing wrapper DKIM `d=` on the reporter or forwarding-agent allowlist are discarded (Section 3.1.1). Deduplication prevents naive replay. The wrapper witness is bound in the leaf (Appendix C.5), so a later verifier is not asked to trust ingest's private logs for `d=` / selector or the wrapper message hash. The reference implementation does not independently SPF-check the connecting MTA. Forwarded reports are witnessed by the forwarder's DKIM, not the original reporter's. RFC 6376 on the Email Worker copy may fail. A checker can still confirm keccak256 of the stored bytes matches the leaf, and that the DKIM TXT from ingest's DNS lookup is on record. The leaf and Merkle proof remain independently recomputable from the published openings.
 
-**Receiver sybil attack:** A domain operator who operates or colludes with a reporting MTA could attempt to inflate published volume and reporter diversity by submitting self-generated reports. Mitigated in v0.2 by the reporter allowlist. v0.3 SHOULD add per-reporter volume caps and reporter reputation weighting.
+**Receiver sybil attack:** A domain operator who operates or colludes with a reporting MTA could attempt to inflate published volume and reporter diversity by submitting self-generated reports. Mitigated in v0.2 by the reporter allowlist. A later revision SHOULD add per-reporter volume caps and reporter reputation weighting.
 
 **Retroactive fabrication:** The Merkle tree is append-only. Leaf commitments use report period timestamps from authenticated reports, but insertion order is monotonic. A permissioned publisher could delay publication but cannot alter published roots.
 
 **DNS hijack window:** Temporary DNS control produces only a short independently confirmed history (Sections 4.2, 6.4).
 
-**Publisher censorship:** A permissioned root publisher could omit leaves. Mitigated in v0.3 by permissionless publication and stake slashing. v0.2 mitigates by publishing daily roots with monotonically increasing `leafCount`, enabling auditors to detect gaps.
+**Publisher censorship:** A permissioned root publisher could omit leaves. Mitigated in a later revision by permissionless publication and stake slashing. v0.2 mitigates by publishing roots with monotonically increasing `leafCount`, enabling auditors to detect gaps. The reference implementation publishes on ingest and every 15 minutes.
 
 ---
 
@@ -795,9 +808,9 @@ PACT does not protect against:
 ## 12. Open Questions for Community Input
 
 1. **Per-reporter volume caps:** What cap prevents sybil inflation without penalizing legitimate high-volume reporters?
-2. **Sub-commitment structure:** Should v0.3 define an internal Merkle tree over selector/IP tuples for selective disclosure?
+2. **Sub-commitment structure:** Should a later revision define an internal Merkle tree over selector/IP tuples for selective disclosure?
 3. **Proof system selection:** ZK proofs for aggregate statistics privacy — Groth16 vs. PLONK vs. STARKs. Not required for v0.2 Merkle proofs.
-4. **Permissionless node operation:** Economic security model, stake size, and slashing conditions for v0.3.
+4. **Permissionless node operation:** Economic security model, stake size, and slashing conditions after mainnet.
 5. **Cross-chain deployment:** Multiple chain root publication and canonical chain selection.
 6. **Decentralized data availability:** IPFS, erasure coding, or DA layer for leaf persistence without a single operator.
 7. **Federation with DMARC analytics services:** Avoid redundant processing by accepting attestations from established DMARC vendors.
@@ -809,7 +822,7 @@ PACT does not protect against:
 
 **Aggregate report (rua=):** Structured XML from receiving mail servers to domain owners, typically every 24 hours. RFC 7489. No message content.
 
-**Independently confirmed history:** Days since a domain's first authenticated aggregate report in PACT. Distinct from domain registration age (Section 4.2).
+**Independently confirmed history:** Days since a domain's earliest leftover trace on the tree (first mail period, CT `logged_at`, or Rekor `integrated_time`). Distinct from domain registration age (Section 4.2).
 
 **Leaf key:** `(domain, period_start, period_end, reporter_org)` — unique aggregation slot before hashing.
 
@@ -831,11 +844,11 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 | Queue | Cloudflare Queues (`pact-reports`) |
 | Processing | Cloudflare Workers + `@pact/core` |
 | Leaf availability | Cloudflare D1 (`pact-ledger`) — schema in `workers/ingest/src/schema.sql` |
-| Public ledger API | `GET /v1/root`, `GET /v1/domains`, `GET /v1/domains/:domain`, `GET /v1/leaves/:hash`, `GET /v1/wrappers/:hash`, `GET /v1/wrappers/:hash/rfc822`, `GET /v1/wrappers/:hash/check` on the ingest Worker. Write: `POST /v1/ct/ingest`, `POST /v1/rekor/ingest` (Bearer). |
+| Public ledger API | `GET /v1/root`, `GET /v1/domains` (`{ domains, leaves, ct, rekor }`), `GET /v1/domains/:domain`, `GET /v1/leaves/:hash`, `GET /v1/wrappers/:hash`, `GET /v1/wrappers/:hash/rfc822`, `GET /v1/wrappers/:hash/check` on the ingest Worker. Write: `POST /v1/domains`, `POST /v1/root/publish`, `POST /v1/ct/ingest`, `POST /v1/rekor/ingest` (Bearer). |
 | CT / Rekor index | Cron + connect `waitUntil`. crt.sh and rekor.sigstore.dev. Empty Rekor coverage is expected. |
 | On-chain roots | `PactRoots` on **Base Sepolia** — [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Public pages | Next.js (`apps/web`) at `https://webuildreal.dev` |
-| DNS onboarding | Cloudflare API (OAuth), manual DNS, existing-tool forwarding |
+| DNS onboarding | Cloudflare API (OAuth) registers the domain and adds rua=. Manual / existing-tool: site form → `POST /v1/domains`, then DNS or tool. First valid mail report upserts the domain if missing. |
 
 **Reference domain:** `webuildreal.dev`
 **App host (movement + first reference UI):** `https://webuildreal.dev`

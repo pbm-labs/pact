@@ -9,7 +9,7 @@ This repo is that reference implementation: leftover traces from systems that al
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
 Whitepaper: [webuildreal.dev/whitepaper](https://webuildreal.dev/whitepaper).
 
-The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer R2/CDN for future media updates.
+The manifesto video under `apps/web/public/` is archival (~11MB, tracked in git). It is not shown on the public landing. Prefer R2/CDN if that media is used again.
 
 **Movement:** [we build real](https://webuildreal.dev)  
 **Intake:** `rua@pact.webuildreal.dev`  
@@ -20,7 +20,7 @@ The manifesto video under `apps/web/public/` is ~11MB and tracked in git; prefer
 ## Monorepo structure
 
 ```
-packages/pact-core   Protocol logic (leaf, merkle, dmarc parser)
+packages/pact-core   Protocol logic (leaf encodings for mail / CT / Rekor, merkle, dmarc parser)
 packages/contracts   Foundry — PactRoots (spec §9). Base Sepolia deployed; mainnet not.
 apps/web             Next.js public record (webuildreal.dev)
 workers/ingest       Cloudflare Email Worker + queue → D1 ledger + on-chain publishRoot
@@ -101,9 +101,9 @@ OAuth is pinned to `webuildreal.dev` only (`redirect_uri` + Client URL). Do not 
 
 Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.example`.
 
-### Manual DNS connect
+### Manual DNS and existing-tool connect
 
-Copy the `_dmarc` snippet on `/connect`, update DNS at any provider. Works for GoDaddy, Namecheap, Google Domains, Route 53 console, etc. Manual and existing-tool paths do **not** submit a domain on the site — the ingest worker auto-creates the domain row on the first valid aggregate report.
+Copy the `_dmarc` snippet or rua address on `/connect`. Those paths also **put the name on the ledger** (`GET /api/connect/register` → `POST /v1/domains`) so Certificate Transparency and Rekor can be indexed immediately. DNS (or the existing tool) keeps the mail stream. If someone only updates DNS and skips the site form, ingest upserts the domain row on the first valid aggregate report so the mail leaf is not dropped.
 
 ## Hostnames
 
@@ -226,7 +226,7 @@ Public ledger API (CORS open for GET):
 |--------|------|--------|
 | GET | `/v1/health` | Contract address + chain |
 | GET | `/v1/root` | Latest on-chain root |
-| GET | `/v1/domains` | Domains + mail / CT / Rekor stream summaries |
+| GET | `/v1/domains` | `{ domains, leaves, ct, rekor }` — domain rows plus per-stream count summaries (`leaves` is mail) |
 | GET | `/v1/domains/:domain` | Domain, mail leaves, CT certs, Rekor entries, global hashes, on-chain root |
 | GET | `/v1/leaves/:hash` | One leaf by keccak256 (`kind`: `dmarc`, `ct`, or `rekor`) |
 | GET | `/v1/wrappers/:hash` | Stored wrapper + DKIM TXT snapshot |
@@ -261,10 +261,17 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 - [x] Parser, dedup, leaves
 - [x] Public page at `/records/{domain}` on `webuildreal.dev`
 - [x] Cloudflare OAuth + manual DNS + existing-tool path (`/connect`)
+- [x] Manual / tool paths register via `GET /api/connect/register` → `POST /v1/domains`
 - [x] OAuth client on `webuildreal.dev` (callback + publisher TXT)
 - [x] Legacy `pact.pbm-labs.com` kept for mail only (no HTTP app route)
 - [x] Merkle inclusion proofs on `/records/{domain}`
+- [x] Domain pages show leftover streams (mail / CT / Rekor) as separate kinds
 - [x] End-to-end with live reporter data (`webuildreal.dev`)
+
+**Streams (CT / Rekor)**
+- [x] D1 `migrate-ct.sql` / `migrate-rekor.sql` (and `rekor_synced_at` on `domains`)
+- [x] 15-minute cron indexes crt.sh and rekor.sigstore.dev for connected domains
+- [x] `GET /v1/domains` includes `ct` and `rekor` summaries
 
 **On-chain (boundary 1)**
 - [x] Deploy `PactRoots` on Base Sepolia (`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`)

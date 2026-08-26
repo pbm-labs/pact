@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import { LEGAL_ENTITY } from '@/lib/legal';
+import { routes } from '@/lib/routes';
 import { eyebrow, pageTitle } from '@/lib/ui';
 
 export function LegalDocument({
@@ -18,7 +19,7 @@ export function LegalDocument({
   const sections = kind === 'terms' ? t.legal.terms : t.legal.privacy;
 
   return (
-    <PageShell backHref="/" backLabel={t.common.home}>
+    <PageShell backHref={routes.home} backLabel={t.common.home}>
       <div className="max-w-2xl">
         <header className="mb-10">
           <p className={`${eyebrow} mb-3`}>{t.legal.eyebrow}</p>

@@ -32,46 +32,46 @@ export function DomainKindStrip({
       <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 m-0 mb-3">
         {t.domain.streamsLabel}
       </p>
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <KindCard kind={t.domain.kindMail} value={String(mailCount)} unit={t.domain.reports}>
-        {mailCount === 0 ? (
-          <p className="text-xs text-muted-2 m-0">{t.domain.kindMailEmpty}</p>
-        ) : (
-          <>
-            <p className="text-xs text-muted m-0">
-              {reporterCount} {t.domain.reportingOrgs}
-            </p>
-            {passRate != null && (
-              <p className="text-xs text-muted m-0 mt-1">
-                {passRate.toFixed(1)}% {t.domain.mailAuthRate}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <KindCard kind={t.domain.kindMail} value={String(mailCount)} unit={t.domain.reports}>
+          {mailCount === 0 ? (
+            <p className="text-xs text-muted-2 m-0">{t.domain.kindMailEmpty}</p>
+          ) : (
+            <>
+              <p className="text-xs text-muted m-0">
+                {reporterCount} {t.domain.reportingOrgs}
               </p>
-            )}
-          </>
-        )}
-      </KindCard>
-      <KindCard kind={t.domain.kindCt} value={String(ctCount)} unit={t.domain.certs}>
-        {ctCount === 0 ? (
-          <p className="text-xs text-muted-2 m-0">{t.domain.kindNone}</p>
-        ) : (
-          <p className="text-xs text-muted m-0">
-            {t.domain.kindFirst} {formatLoggedDay(ctFirstLoggedAt, locale)}
-            <span className="text-muted-2"> · </span>
-            {t.domain.kindLatest} {formatLoggedDay(ctLatestLoggedAt, locale)}
-          </p>
-        )}
-      </KindCard>
-      <KindCard kind={t.domain.kindRekor} value={String(rekorCount)} unit={t.domain.sigs}>
-        {rekorCount === 0 ? (
-          <p className="text-xs text-muted-2 m-0">{t.domain.kindNone}</p>
-        ) : (
-          <p className="text-xs text-muted m-0">
-            {t.domain.kindFirst} {formatLoggedDay(rekorFirstLoggedAt, locale)}
-            <span className="text-muted-2"> · </span>
-            {t.domain.kindLatest} {formatLoggedDay(rekorLatestLoggedAt, locale)}
-          </p>
-        )}
-      </KindCard>
-    </div>
+              {passRate != null && (
+                <p className="text-xs text-muted m-0 mt-1">
+                  {passRate.toFixed(1)}% {t.domain.mailAuthRate}
+                </p>
+              )}
+            </>
+          )}
+        </KindCard>
+        <KindCard kind={t.domain.kindCt} value={String(ctCount)} unit={t.domain.certs}>
+          {ctCount === 0 ? (
+            <p className="text-xs text-muted-2 m-0">{t.domain.kindNone}</p>
+          ) : (
+            <p className="text-xs text-muted m-0">
+              {t.domain.kindFirst} {formatLoggedDay(ctFirstLoggedAt, locale)}
+              <span className="text-muted-2"> · </span>
+              {t.domain.kindLatest} {formatLoggedDay(ctLatestLoggedAt, locale)}
+            </p>
+          )}
+        </KindCard>
+        <KindCard kind={t.domain.kindRekor} value={String(rekorCount)} unit={t.domain.sigs}>
+          {rekorCount === 0 ? (
+            <p className="text-xs text-muted-2 m-0">{t.domain.kindNone}</p>
+          ) : (
+            <p className="text-xs text-muted m-0">
+              {t.domain.kindFirst} {formatLoggedDay(rekorFirstLoggedAt, locale)}
+              <span className="text-muted-2"> · </span>
+              {t.domain.kindLatest} {formatLoggedDay(rekorLatestLoggedAt, locale)}
+            </p>
+          )}
+        </KindCard>
+      </div>
     </div>
   );
 }
@@ -88,7 +88,7 @@ function KindCard({
   children: ReactNode;
 }) {
   return (
-    <div className={`${panel} p-4`}>
+    <div className={`${panel} p-4 min-w-0`}>
       <p className="text-[0.65rem] font-mono uppercase tracking-widest text-muted-2 m-0">{kind}</p>
       <p className={`${statValue} text-txt mt-2 mb-0`}>
         {value}

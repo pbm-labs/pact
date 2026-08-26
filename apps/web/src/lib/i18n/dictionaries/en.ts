@@ -4,6 +4,7 @@ export const en: Dictionary = {
   nav: {
     language: 'Language',
     records: 'Records',
+    connect: 'Connect',
     whitepaper: 'Whitepaper',
     menu: 'Menu',
     openMenu: 'Open menu',
@@ -99,16 +100,19 @@ export const en: Dictionary = {
       },
     ],
     mailStreamHow: 'Keep the mail stream',
+    putOnLedger: 'Put on the ledger',
+    ledgerExplain:
+      'Puts the name on the ledger so certificate and signature streams can be indexed. Then keep the mail stream with DNS below.',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
       "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS so the mail stream is kept. Certificate and signature streams are indexed after the name is on the ledger.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
-      'Your tool already collects reports for this domain. Adding this address includes us in the mail stream. The public mail record appears when the first independent report arrives (usually within 24–48 hours) — nothing else to submit here.',
+      'Your tool already collects reports for this domain. Adding this address includes us in the mail stream. Put the name on the ledger first so public streams can be indexed. The public mail record appears when the first independent report arrives (usually within 24–48 hours).',
     manualIntro:
       "Paste this wherever you manage your website's DNS (ask your host if you're not sure where):",
     manualExplain:
-      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. That is the mail stream. The public mail record appears when the first independent report arrives (usually within 24–48 hours).',
+      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. That is the mail stream. Put the name on the ledger first so public streams can be indexed. The public mail record appears when the first independent report arrives (usually within 24–48 hours).',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or ledger write credentials.',
@@ -134,10 +138,6 @@ export const en: Dictionary = {
     colDomain: 'Domain',
     colHistory: 'History',
     verified: 'confirmed',
-    report: 'report',
-    reports: 'reports',
-    org: 'org',
-    orgs: 'orgs',
     emptyTitle: 'No records',
     emptyBody:
       'Connect a domain to start recording leftover streams. Certificate and signature logs are indexed once the name is on the ledger. The mail stream needs a DNS line.',
@@ -165,9 +165,7 @@ export const en: Dictionary = {
     mailLeaves: 'Mail stream',
     ctLeaves: 'Certificate stream',
     rekorLeaves: 'Signature stream',
-    timeVerified: 'Days confirmed',
     reports: 'Reports',
-    allTime: 'all time',
     reportingOrgs: 'Reporting orgs',
     domainRegistered: 'Domain registered',
     verifiedSince: 'Confirmed since',

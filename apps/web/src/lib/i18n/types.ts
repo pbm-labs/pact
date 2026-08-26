@@ -4,6 +4,7 @@ export type Dictionary = {
   nav: {
     language: string;
     records: string;
+    connect: string;
     whitepaper: string;
     menu: string;
     openMenu: string;
@@ -59,6 +60,8 @@ export type Dictionary = {
     pathToolBadge: string;
     streamCards: readonly { title: string; body: string }[];
     mailStreamHow: string;
+    putOnLedger: string;
+    ledgerExplain: string;
     whatDoesThisDo: string;
     cloudflareExplain: string;
     toolIntro: string;
@@ -87,10 +90,6 @@ export type Dictionary = {
     colDomain: string;
     colHistory: string;
     verified: string;
-    report: string;
-    reports: string;
-    org: string;
-    orgs: string;
     emptyTitle: string;
     emptyBody: string;
     emptyCta: string;
@@ -117,9 +116,7 @@ export type Dictionary = {
     mailLeaves: string;
     ctLeaves: string;
     rekorLeaves: string;
-    timeVerified: string;
     reports: string;
-    allTime: string;
     reportingOrgs: string;
     domainRegistered: string;
     verifiedSince: string;

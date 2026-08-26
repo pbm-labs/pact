@@ -12,6 +12,7 @@ import {
   alertError,
   bodyText,
   btnPrimary,
+  container,
   eyebrow,
   input,
   label,
@@ -71,6 +72,42 @@ function PathIcon({ kind }: { kind: ConnectPath }) {
   );
 }
 
+function RegisterOnLedgerForm({
+  domainPrefill,
+  path,
+}: {
+  domainPrefill: string;
+  path: Exclude<ConnectPath, 'cloudflare'>;
+}) {
+  const { t } = useLocale();
+  return (
+    <form className="space-y-3" action="/api/connect/register" method="GET">
+      <input type="hidden" name="path" value={path} />
+      <label htmlFor="connect-register-domain" className={label}>
+        {t.connect.yourDomain}
+      </label>
+      <div className="flex items-stretch gap-2">
+        <input
+          id="connect-register-domain"
+          name="domain"
+          type="text"
+          placeholder="example.com"
+          defaultValue={domainPrefill}
+          required
+          autoComplete="off"
+          spellCheck={false}
+          autoFocus
+          className={`${input} flex-1`}
+        />
+        <button type="submit" className={`${btnPrimary} shrink-0 px-4 sm:px-5`}>
+          {t.connect.putOnLedger}
+        </button>
+      </div>
+      <p className="text-xs text-muted-2 leading-relaxed m-0">{t.connect.ledgerExplain}</p>
+    </form>
+  );
+}
+
 function ConnectFlow({
   errorKey,
   detail,
@@ -122,7 +159,7 @@ function ConnectFlow({
 
   return (
     <main className="flex-1">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+      <div className={`${container} py-12 sm:py-16`}>
         <div className="max-w-2xl mx-auto">
           <p className="mb-6">
             {path ? (
@@ -158,39 +195,39 @@ function ConnectFlow({
 
             {!path ? (
               <>
-                <div className="grid sm:grid-cols-3 gap-3 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
                   {t.connect.streamCards.map((card) => (
-                    <div key={card.title} className={`${panel} p-4`}>
+                    <div key={card.title} className={`${panel} p-4 min-w-0`}>
                       <p className={`${eyebrow} m-0`}>{card.title}</p>
                       <p className="text-sm text-muted mt-2 m-0 leading-snug">{card.body}</p>
                     </div>
                   ))}
                 </div>
                 <p className={`${eyebrow} mb-3`}>{t.connect.mailStreamHow}</p>
-              <div className="grid sm:grid-cols-1 gap-3">
-                {PATHS.map((key) => {
-                  const item = pathCopy[key];
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      className={pathCard}
-                      onClick={() => setPathWithUrl(key)}
-                    >
-                      <span className="flex w-full items-center justify-between">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg/80 text-muted group-hover:text-accent">
-                          <PathIcon kind={key} />
+                <div className="grid grid-cols-1 gap-3">
+                  {PATHS.map((key) => {
+                    const item = pathCopy[key];
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        className={pathCard}
+                        onClick={() => setPathWithUrl(key)}
+                      >
+                        <span className="flex w-full items-center justify-between">
+                          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg/80 text-muted group-hover:text-accent">
+                            <PathIcon kind={key} />
+                          </span>
+                          <span className="text-xs font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
+                            {item.badge}
+                          </span>
                         </span>
-                        <span className="text-xs font-mono uppercase tracking-widest text-muted-2 bg-bg/80 px-2 py-0.5 rounded-sm">
-                          {item.badge}
-                        </span>
-                      </span>
-                      <span className="text-base font-semibold text-txt">{item.title}</span>
-                      <span className="text-sm text-muted leading-snug">{item.description}</span>
-                    </button>
-                  );
-                })}
-              </div>
+                        <span className="text-base font-semibold text-txt">{item.title}</span>
+                        <span className="text-sm text-muted leading-snug">{item.description}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </>
             ) : (
               <section className={panel}>
@@ -237,6 +274,7 @@ function ConnectFlow({
                     </form>
                   ) : path === 'dmarc-tool' ? (
                     <div className="space-y-5">
+                      <RegisterOnLedgerForm domainPrefill={domainPrefill} path="dmarc-tool" />
                       <div>
                         <p className="text-sm text-muted leading-relaxed mb-4">{t.connect.toolIntro}</p>
                         <CopyableValue text={ruaAddress} />
@@ -251,24 +289,25 @@ function ConnectFlow({
                       </div>
                     </div>
                   ) : (
-                    dmarcSnippet && (
-                      <div className="space-y-5">
+                    <div className="space-y-5">
+                      <RegisterOnLedgerForm domainPrefill={domainPrefill} path="manual" />
+                      {dmarcSnippet && (
                         <div>
                           <p className="text-sm text-muted leading-relaxed mb-4">
                             {t.connect.manualIntro}
                           </p>
                           <CopyableValue text={dmarcSnippet} />
                         </div>
-                        <div>
-                          <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
-                            {t.connect.whatDoesThisDo}
-                          </p>
-                          <p className="text-xs text-muted-2 leading-relaxed m-0">
-                            {t.connect.manualExplain}
-                          </p>
-                        </div>
+                      )}
+                      <div>
+                        <p className="text-xs font-mono uppercase tracking-widest text-muted-2 mb-2">
+                          {t.connect.whatDoesThisDo}
+                        </p>
+                        <p className="text-xs text-muted-2 leading-relaxed m-0">
+                          {t.connect.manualExplain}
+                        </p>
                       </div>
-                    )
+                    </div>
                   )}
                 </div>
               </section>

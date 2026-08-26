@@ -4,9 +4,7 @@ export const container = 'max-w-3xl mx-auto px-4 sm:px-6';
 export const eyebrow = 'text-xs font-mono uppercase tracking-widest text-muted-2';
 export const pageTitle = 'text-2xl sm:text-3xl font-bold tracking-tight text-txt leading-tight';
 export const pageIntro = 'text-sm text-muted leading-relaxed';
-export const sectionTitle = 'text-base font-semibold text-txt';
 export const bodyText = 'text-base text-muted leading-relaxed';
-export const metaText = 'text-xs font-mono text-muted-2';
 
 export const btnPrimary =
   'inline-flex items-center justify-center h-11 px-5 rounded-lg bg-accent text-white text-sm font-semibold tracking-wide hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed no-underline';
@@ -19,8 +17,6 @@ export const panel = 'rounded-xl border border-border bg-surface shadow-sm overf
 export const panelBody = 'p-5';
 export const panelHeader =
   'px-5 py-3.5 border-b border-border flex items-center justify-between gap-3';
-export const panelSectionTitle = `${sectionTitle} mb-4`;
-
 export const alertError =
   'rounded-lg border border-rose-400/30 bg-rose-400/5 px-4 py-3 text-sm font-semibold text-rose-500 mb-6';
 

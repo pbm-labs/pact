@@ -4,7 +4,6 @@ export const routes = {
   connect: '/connect',
   records: '/records',
   record: (domain: string) => `/records/${encodeURIComponent(domain)}`,
-  badge: (domain: string) => `/badge/${encodeURIComponent(domain)}`,
   whitepaper: '/whitepaper',
   terms: '/terms',
   privacy: '/privacy',

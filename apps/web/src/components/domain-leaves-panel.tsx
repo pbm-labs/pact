@@ -56,7 +56,7 @@ export function DomainLeavesPanel({ leaves, uniqueReporters }: DomainLeavesPanel
           </thead>
           <tbody>
             {leaves.map((leaf) => {
-              const period = formatReportPeriod(leaf.periodStart, leaf.periodEnd);
+              const period = formatReportPeriod(leaf.periodStart, leaf.periodEnd, locale);
               const ingested = leaf.receivedAt
                 ? new Date(leaf.receivedAt).toLocaleDateString(locale, {
                     month: 'short',

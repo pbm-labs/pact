@@ -8,6 +8,7 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
+import { container } from '@/lib/ui';
 
 function navClass(active: boolean, mobile = false) {
   return `${mobile ? 'text-base py-2' : 'text-sm'} font-medium no-underline ${
@@ -26,6 +27,11 @@ export function MovementHeader() {
       href: routes.records,
       label: t.nav.records,
       active: pathname === routes.records || pathname.startsWith(`${routes.records}/`),
+    },
+    {
+      href: routes.connect,
+      label: t.nav.connect,
+      active: pathname === routes.connect || pathname.startsWith(`${routes.connect}/`),
     },
     {
       href: routes.whitepaper,
@@ -61,7 +67,7 @@ export function MovementHeader() {
       ref={rootRef}
       className="sticky top-0 z-40 border-b border-border/60 bg-bg/75 backdrop-blur-md"
     >
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div className={`${container} h-14 flex items-center justify-between gap-4`}>
         <Link
           href={routes.home}
           className="flex items-center gap-2.5 no-underline group shrink-0"
@@ -132,7 +138,7 @@ export function MovementHeader() {
           className="sm:hidden border-t border-border/60"
           aria-label={t.nav.menu}
         >
-          <div className="max-w-3xl mx-auto px-4 py-3 flex flex-col">
+          <div className={`${container} py-3 flex flex-col`}>
             {items.map((item) => (
               <Link
                 key={item.href}

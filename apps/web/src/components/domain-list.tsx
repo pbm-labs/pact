@@ -34,12 +34,12 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
       <span className="block text-xs text-muted-2 mt-1 normal-case tracking-normal font-sans">
         {t.records.verified}
       </span>
-      <span className="block text-xs font-mono text-muted-2 mt-1.5">
-        {mail} {t.domain.kindMail}
+      <span className="block text-xs font-mono text-muted-2 mt-1.5 leading-snug">
+        {mail} {t.domain.reports}
         {' · '}
-        {ct} {t.domain.kindCt}
+        {ct} {t.domain.certs}
         {' · '}
-        {rekor} {t.domain.kindRekor}
+        {rekor} {t.domain.sigs}
       </span>
     </div>
   );
