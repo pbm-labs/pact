@@ -23,7 +23,7 @@ export const en: Dictionary = {
   home: {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
-    lede: 'PACT records leftover traces for agents. The query is kind plus identity. PACT does not decide.',
+    lede: 'Leftover traces for agents. The query is kind plus identity. Judgement stays outside.',
     kindMail: 'Mail',
     kindCt: 'Certificates',
     kindRekor: 'Signatures',

@@ -23,7 +23,7 @@ export const de: Dictionary = {
   home: {
     heroTitle: 'KI kann alles fälschen.',
     heroAccent: 'Außer gestern.',
-    lede: 'PACT erfasst Leftover für Agenten. Die Abfrage ist Art plus Identität. PACT entscheidet nicht.',
+    lede: 'Leftover für Agenten. Die Abfrage ist Art plus Identität. Das Urteil bleibt draußen.',
     kindMail: 'Mail',
     kindCt: 'Zertifikate',
     kindRekor: 'Signaturen',

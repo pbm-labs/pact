@@ -23,7 +23,7 @@ export const es: Dictionary = {
   home: {
     heroTitle: 'La IA puede falsificarlo todo.',
     heroAccent: 'Menos el ayer.',
-    lede: 'PACT registra leftover para agentes. La consulta es tipo más identidad. PACT no decide.',
+    lede: 'Leftover para agentes. La consulta es tipo más identidad. El juicio queda fuera.',
     kindMail: 'Correo',
     kindCt: 'Certificados',
     kindRekor: 'Firmas',

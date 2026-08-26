@@ -3,7 +3,7 @@ import { HomeLanding } from '@/components/home-landing';
 
 const title = 'AI can fake everything. Except yesterday.';
 const description =
-  'PACT records leftover traces for agents. Kind plus identity. It does not decide.';
+  'Leftover traces for agents. Kind plus identity. Judgement stays outside.';
 
 export const metadata: Metadata = {
   title,
