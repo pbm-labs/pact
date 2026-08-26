@@ -18,17 +18,15 @@ if (existsSync(envLocal)) {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ['@pact/core'],
-  // PNG badge route reads IBM Plex Mono Bold from disk at runtime for
-  // Satori. File tracing can't infer a sibling `.ttf`, so name it here.
-  outputFileTracingIncludes: {
-    '/badge/[slug]': ['./src/app/badge/fonts/IBMPlexMono-Bold.ttf'],
-  },
   async redirects() {
     return [
       { source: '/v2', destination: '/', permanent: true },
       { source: '/how-it-works', destination: '/connect', permanent: true },
-      { source: '/domains', destination: '/records', permanent: true },
-      { source: '/domain/:domain', destination: '/records/:domain', permanent: true },
+      { source: '/records', destination: '/', permanent: true },
+      { source: '/records/:domain', destination: '/', permanent: true },
+      { source: '/domains', destination: '/', permanent: true },
+      { source: '/domain/:domain', destination: '/', permanent: true },
+      { source: '/badge/:slug*', destination: '/', permanent: true },
       { source: '/why-pact', destination: '/whitepaper', permanent: true },
       { source: '/roadmap', destination: '/whitepaper', permanent: true },
       { source: '/docs', destination: '/whitepaper', permanent: true },

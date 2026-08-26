@@ -11,15 +11,3 @@ export async function registerDomain(
   }
   return registerLedgerDomain(domain, domainRegisteredAt);
 }
-
-export async function ensureDomainRegisteredAt(
-  domain: string,
-  existing: string | null | undefined,
-): Promise<string | null> {
-  if (existing) return existing;
-  const resolved = await resolveDomainRegisteredAt(domain);
-  if (resolved == null) return null;
-  const iso = new Date(resolved).toISOString();
-  await registerLedgerDomain(domain, iso);
-  return iso;
-}

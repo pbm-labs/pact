@@ -24,19 +24,14 @@ export function MovementHeader() {
 
   const items = [
     {
-      href: routes.records,
-      label: t.nav.records,
-      active: pathname === routes.records || pathname.startsWith(`${routes.records}/`),
-    },
-    {
-      href: routes.connect,
-      label: t.nav.connect,
-      active: pathname === routes.connect || pathname.startsWith(`${routes.connect}/`),
-    },
-    {
       href: routes.whitepaper,
       label: t.nav.whitepaper,
       active: pathname === routes.whitepaper || pathname.startsWith('/docs'),
+    },
+    {
+      href: routes.connect,
+      label: t.nav.intake,
+      active: pathname === routes.connect || pathname.startsWith(`${routes.connect}/`),
     },
   ];
 

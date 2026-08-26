@@ -53,7 +53,7 @@ La ingesta de referencia lee un índice público sobre Rekor, no la prueba Merkl
 
 Los tres tipos son hojas keccak256 en un árbol Merkle disperso. Los bindings no deben compartir el diseño del preimagen, para que una hoja de correo no pueda colisionar con una de certificado o de firma del mismo nombre.
 
-La página pública muestra los tres. No los suma. No los promedia. No produce una insignia. Quien construya una aplicación encima puede interpretar los campos. Fundirlos en un solo número es decisión de esa aplicación, y no es este protocolo.
+El catálogo y la consulta por tipo son la interfaz. No suman tipos. No los promedian. No producen una insignia. Quien construya una aplicación encima puede interpretar los campos. Fundirlos en un solo número es decisión de esa aplicación, y no es este protocolo.
 
 ## Cualquiera puede comprobar
 
@@ -67,9 +67,9 @@ El registro es cuánto tiempo existe el nombre. Confirmado desde es cuánto tiem
 
 Un nombre de ocho años que se conectó hoy tiene un reloj de registro largo y un reloj de confirmación en cero. Eso es lo esperado. Apropiarse del DNS hereda la fecha de registro y nada del reloj de correo. Mezclarlos dejaría que un secuestrador tomara prestado el ayer.
 
-## Qué muestra la página
+## Qué consultan los agentes
 
-La página es aburrida a propósito. Cuánto tiempo llevan los informantes independientes de correo confirmando el nombre. Cuántos informes. De qué organizaciones. Cuándo apareció por primera vez un certificado que cubre el nombre. Cuándo apareció una firma que cubre el nombre. Relojes, informes, organizaciones, fechas de certificados, entradas de firma. Sin puntuación. Sin insignia. Sin veredicto.
+Tipo más identidad. Eco de la identidad realmente usada. Cero filas es HTTP 200. Inclusión contra una raíz compartida nombrada. Sin puntuación. Sin insignia. Sin veredicto.
 
 ## Qué no es
 
@@ -81,9 +81,9 @@ El juicio queda fuera.
 
 Las raíces están en Base Sepolia — testnet, un publicador con permiso. Este operador guarda las hojas. Las raíces atestiguan inclusión, no disponibilidad.
 
-Ese es el límite honesto. La tesis no espera a mainnet. Los flujos, el árbol y la página pública ya existen. Cualquiera puede volver a comprobar lo publicado.
+Ese es el límite honesto. La tesis no espera a mainnet. Los flujos, el árbol y la API del ledger ya existen. Cualquiera puede volver a comprobar lo publicado.
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-we build real es el movimiento. PACT es el protocolo abierto. La primera implementación de referencia es este sitio.
+we build real es el movimiento. PACT es el protocolo abierto. La primera implementación de referencia es el ledger. Este sitio es la casa del movimiento y la interfaz para agentes.
 `.trim();

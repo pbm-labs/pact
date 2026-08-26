@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { parseConnectPath } from '@/lib/connect-path';
 import { appOrigin } from '@/lib/connect-state';
 import { registerDomain } from '@/lib/ledger-admin';
-import { routes } from '@/lib/routes';
+import { connectDonePath, routes } from '@/lib/routes';
 
 function redirectWith(
   request: Request,
@@ -42,5 +42,5 @@ export async function GET(request: Request) {
     });
   }
 
-  return NextResponse.redirect(new URL(routes.record(domain), appOrigin(request)));
+  return NextResponse.redirect(new URL(connectDonePath(domain), appOrigin(request)));
 }

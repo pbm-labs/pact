@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
-import { HomeLanding, type HomePreview } from '@/components/home-landing';
-import { fetchDomainSummaries } from '@/lib/domain-data';
-
-export const dynamic = 'force-dynamic';
+import { HomeLanding } from '@/components/home-landing';
 
 const title = 'AI can fake everything. Except yesterday.';
-const description = 'Leftover traces as separate streams on one tree.';
+const description =
+  'we build real is a movement for verifiable history. PACT is leftover traces for agents — kind plus identity, not a domain profile.';
 
 export const metadata: Metadata = {
   title,
@@ -20,24 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function HomePage() {
-  const preview = await loadHomePreview();
-  return <HomeLanding preview={preview} />;
-}
-
-async function loadHomePreview(): Promise<HomePreview | null> {
-  const domains = await fetchDomainSummaries();
-  const pick =
-    domains.find((d) => d.status === 'live' && d.domain === 'webuildreal.dev') ??
-    domains.find((d) => d.status === 'live');
-  if (!pick) return null;
-
-  return {
-    domain: pick.domain,
-    domainRegisteredAt: pick.domainRegisteredAt ?? null,
-    pactHistoryStart: pick.connectedAt ?? null,
-    mailCount: pick.mailCount ?? 0,
-    ctCount: pick.ctCount ?? 0,
-    rekorCount: pick.rekorCount ?? 0,
-  };
+export default function HomePage() {
+  return <HomeLanding />;
 }

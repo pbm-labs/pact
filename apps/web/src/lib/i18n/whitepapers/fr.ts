@@ -53,7 +53,7 @@ L’ingest de référence lit un index public sur Rekor, non la preuve Merkle de
 
 Les trois types sont des feuilles keccak256 dans un arbre de Merkle creux. Les bindings ne doivent pas partager la disposition du préimage, pour qu’une feuille de courrier ne puisse pas collisionner avec une feuille de certificat ou de signature du même nom.
 
-La page publique montre les trois. Elle ne les additionne pas. Elle ne les moyenne pas. Elle ne produit pas de badge. Quiconque construit une application au-dessus peut interpréter les champs. Les fondre en un seul nombre est le choix de cette application, et ce n’est pas ce protocole.
+Le catalogue et la requête par type sont l’interface. Ils n’additionnent pas les types. Ils n’en font pas de moyenne. Ils ne produisent pas de badge. Quiconque construit une application au-dessus peut interpréter les champs. Les fondre en un seul nombre est le choix de cette application, et ce n’est pas ce protocole.
 
 ## N’importe qui peut vérifier
 
@@ -67,9 +67,9 @@ L’enregistrement est depuis combien de temps le nom existe. Confirmé depuis e
 
 Un nom de huit ans connecté aujourd’hui a une longue horloge d’enregistrement et une horloge de confirmation à zéro. C’est attendu. Saisir le DNS hérite la date d’enregistrement et rien de l’horloge de courrier. Les mélanger laisserait un usurpatteur emprunter hier.
 
-## Ce que la page montre
+## Ce que les agents interrogent
 
-La page est ennuyeuse exprès. Depuis combien de temps des déclarants de courrier indépendants confirment le nom. Combien de rapports. De quelles organisations. Quand un certificat couvrant est apparu pour la première fois. Quand une signature couvrante est apparue. Horloges, rapports, organisations, dates de certificats, entrées de signature. Pas de score. Pas de badge. Pas de verdict.
+Type plus identité. Écho de l’identité réellement utilisée. Zéro ligne est HTTP 200. Inclusion contre une racine partagée nommée. Pas de score. Pas de badge. Pas de verdict.
 
 ## Ce que ce n’est pas
 
@@ -81,9 +81,9 @@ Le jugement reste dehors.
 
 Les racines sont sur Base Sepolia — testnet, un publieur autorisé. Cet opérateur détient les feuilles. Les racines attestent l’inclusion, non la disponibilité.
 
-C’est la limite honnête. La thèse n’attend pas le mainnet. Les flux, l’arbre et la page publique existent déjà. N’importe qui peut revérifier ce qui est publié.
+C’est la limite honnête. La thèse n’attend pas le mainnet. Les flux, l’arbre et l’API du ledger existent déjà. N’importe qui peut revérifier ce qui est publié.
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-we build real est le mouvement. PACT est le protocole ouvert. La première implémentation de référence est ce site.
+we build real est le mouvement. PACT est le protocole ouvert. La première implémentation de référence est le ledger. Ce site est le foyer du mouvement et l’interface pour les agents.
 `.trim();

@@ -4,7 +4,7 @@
 **PACT** is an open protocol (Provenance of Accumulated Checkable Traces).  
 **PBM Labs LLC** provides the first reference implementation, hosted at [webuildreal.dev](https://webuildreal.dev).
 
-This repo is that reference implementation: leftover traces from systems that already exist, recorded as separate streams on one Merkle tree. Mail (DMARC aggregate reports), Certificate Transparency, and Rekor are leftover kinds — never a blended score. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
+This repo is that reference implementation: leftover traces from systems that already exist, recorded as separate kinds on one Merkle tree. Mail (DMARC aggregate reports), Certificate Transparency, and Rekor are leftover kinds — never a blended score. The public site is the movement home and the agent evidence interface. Mail intake lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
 Agent evidence interface: [docs/agent_evidence.md](docs/agent_evidence.md) (`GET /v1/kinds`, `GET /v1/evidence`).  
@@ -23,7 +23,7 @@ The manifesto video under `apps/web/public/` is archival (~11MB, tracked in git)
 ```
 packages/pact-core   Protocol logic (leaf encodings for mail / CT / Rekor, merkle, dmarc parser)
 packages/contracts   Foundry — PactRoots (spec §9). Base Sepolia deployed; mainnet not.
-apps/web             Next.js public record (webuildreal.dev)
+apps/web             Next.js movement home + agent evidence interface (webuildreal.dev)
 workers/ingest       Cloudflare Email Worker + queue → D1 ledger + on-chain publishRoot
 examples/score       Informative scoring example (`example-score-0.1`) — not protocol
 docs/                Protocol specification + examples
@@ -102,13 +102,13 @@ Optional: `CLOUDFLARE_OAUTH_SCOPES`, `CONNECT_STATE_SECRET` — see `.env.exampl
 
 ### Manual DNS and existing-tool connect
 
-Copy the `_dmarc` snippet or rua address on `/connect`. Those paths also **put the name on the ledger** (`GET /api/connect/register` → `POST /v1/domains`) so Certificate Transparency and Rekor can be indexed immediately. DNS (or the existing tool) keeps the mail stream. If someone only updates DNS and skips the site form, ingest upserts the domain row on the first valid aggregate report so the mail leaf is not dropped.
+Copy the `_dmarc` snippet or rua address on `/connect`. Those paths also **put the sending domain on the ledger** (`GET /api/connect/register` → `POST /v1/domains`) so mail leftover is not dropped. Certificate leftover and Rekor leftover are queried by the identity those logs already used — not by this form. If someone only updates DNS and skips the site form, ingest upserts the domain row on the first valid aggregate report so the mail leaf is not dropped.
 
 ## Hostnames
 
 | Host | Role |
 |------|------|
-| `webuildreal.dev` / `www` | we build real movement + first PACT reference app (`pact-web` Worker) |
+| `webuildreal.dev` / `www` | we build real movement + agent evidence interface (`pact-web` Worker) |
 | `ledger.webuildreal.dev` | Public ledger HTTP API (`pact-ingest`) |
 | `hello@pbm-labs.com` | Legal / operator contact (PBM Labs LLC) |
 | `rua@pact.webuildreal.dev` | DMARC intake (canonical) |
@@ -258,15 +258,15 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 - [x] Legacy `rua@pact.pbm-labs.com` still routed for existing DMARC records
 - [x] Worker deployed with D1 + queue + publisher key
 
-**Public record**
+**Public site + agent interface**
 - [x] Parser, dedup, leaves
-- [x] Public page at `/records/{domain}` on `webuildreal.dev`
-- [x] Cloudflare OAuth + manual DNS + existing-tool path (`/connect`)
+- [x] Public site is the agent evidence interface (`GET /v1/kinds`, `GET /v1/evidence`) — no domain profile
+- [x] Cloudflare OAuth + manual DNS + existing-tool mail intake (`/connect`)
 - [x] Manual / tool paths register via `GET /api/connect/register` → `POST /v1/domains`
 - [x] OAuth client on `webuildreal.dev` (callback + publisher TXT)
 - [x] Legacy `pact.pbm-labs.com` kept for mail only (no HTTP app route)
-- [x] Merkle inclusion proofs on `/records/{domain}`
-- [x] Domain pages show leftover streams (mail / CT / Rekor) as separate kinds
+- [x] Merkle inclusion proofs on `GET /v1/leaves/:hash` against the named shared root
+- [x] Leftover kinds stay separate (mail / CT / Rekor) — never blended
 - [x] End-to-end with live reporter data (`webuildreal.dev`)
 
 **Streams (CT / Rekor)**

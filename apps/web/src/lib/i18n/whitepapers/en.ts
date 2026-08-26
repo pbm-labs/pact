@@ -53,7 +53,7 @@ The reference ingest reads a public index over Rekor, not Rekor's own Merkle pro
 
 Three kinds are keccak256 leaves in one sparse Merkle tree. Bindings must not share a preimage layout, so a mail leaf cannot collide with a certificate leaf or a signature leaf for the same name.
 
-The public page shows all three. It does not add them. It does not average them. It does not produce a badge. Anyone building an application on top may interpret the fields. Folding them into a single number is that application's choice, and it is not this protocol.
+The catalog and kind-scoped query are the interface. They do not add kinds. They do not average them. They do not produce a badge. Anyone building an application on top may interpret the fields. Folding them into a single number is that application's choice, and it is not this protocol.
 
 ## Anyone can check
 
@@ -67,9 +67,9 @@ Registration is how long the name has existed. Confirmed since is how long this 
 
 A name eight years old that connected today has a long registration clock and a confirmed-since clock of zero. That is expected. Seizing DNS inherits the registration date and none of the mail clock. Mixing the two would let a hijacker borrow yesterday.
 
-## What the page shows
+## What agents query
 
-The page is boring on purpose. How long independent mail reporters have been confirming the name. How many reports. From which organizations. When a covering certificate first appeared. When a covering signature appeared. Clocks, reports, organizations, certificate dates, signature entries. No score. No badge. No verdict.
+Kind plus identity. Echo of the identity actually used. Zero rows is HTTP 200. Inclusion against a named shared root. No score. No badge. No verdict.
 
 ## What it is not
 
@@ -81,9 +81,9 @@ Judgement stays outside.
 
 Roots are on Base Sepolia — testnet, a permissioned publisher. This operator holds the leaves. Roots attest inclusion, not availability.
 
-That is the honest limit. The thesis does not wait on mainnet. The feeds, the tree, and the public page already exist. Anyone can recheck what is published.
+That is the honest limit. The thesis does not wait on mainnet. The feeds, the tree, and the ledger API already exist. Anyone can recheck what is published.
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-we build real is the movement. PACT is the open protocol. The first reference implementation is this site.
+we build real is the movement. PACT is the open protocol. The first reference implementation is the ledger. This site is the movement home and the agent interface.
 `.trim();

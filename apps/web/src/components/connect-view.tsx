@@ -17,6 +17,7 @@ import {
   input,
   label,
   linkMuted,
+  pageIntro,
   pageTitle,
   panel,
   panelBody,
@@ -126,6 +127,8 @@ function ConnectFlow({
   const errorMessage = errorKey
     ? errors[errorKey as ConnectErrorKey] ?? errors.somethingWrong
     : null;
+  const done = searchParams.get('done') === '1';
+  const doneDomain = searchParams.get('domain');
 
   const pathCopy = {
     cloudflare: {
@@ -179,10 +182,20 @@ function ConnectFlow({
 
           <header className="mb-8 sm:mb-10">
             <p className={`${eyebrow} mb-3`}>{t.connect.eyebrow}</p>
-            <h1 className={`${pageTitle} mb-4`}>{t.connect.title}</h1>
-            <p className={bodyText}>{t.connect.intro}</p>
+            <h1 className={`${pageTitle} mb-4`}>{done ? t.connect.doneTitle : t.connect.title}</h1>
+            <p className={bodyText}>{done ? t.connect.doneBody : t.connect.intro}</p>
+            {done && doneDomain ? (
+              <p className={`${pageIntro} mt-3 font-mono`}>{doneDomain}</p>
+            ) : null}
           </header>
 
+          {done ? (
+            <p>
+              <a href={`${routes.ledgerEvidence}?kind=mail&identity=${encodeURIComponent(doneDomain ?? '')}`} className={btnPrimary}>
+                {t.connect.doneNext}
+              </a>
+            </p>
+          ) : (
           <section>
             {errorMessage && (
               <div className={alertError}>
@@ -195,14 +208,7 @@ function ConnectFlow({
 
             {!path ? (
               <>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-                  {t.connect.streamCards.map((card) => (
-                    <div key={card.title} className={`${panel} p-4 min-w-0`}>
-                      <p className={`${eyebrow} m-0`}>{card.title}</p>
-                      <p className="text-sm text-muted mt-2 m-0 leading-snug">{card.body}</p>
-                    </div>
-                  ))}
-                </div>
+                <p className={`${pageIntro} mb-8`}>{t.connect.note}</p>
                 <p className={`${eyebrow} mb-3`}>{t.connect.mailStreamHow}</p>
                 <div className="grid grid-cols-1 gap-3">
                   {PATHS.map((key) => {
@@ -313,6 +319,7 @@ function ConnectFlow({
               </section>
             )}
           </section>
+          )}
         </div>
       </div>
     </main>

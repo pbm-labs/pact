@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation';
-import { routes } from '@/lib/routes';
+import { connectDonePath, routes } from '@/lib/routes';
 
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-/** Old connect-success links land on the domain record. */
+/** Old connect-success links land on mail intake, not a domain profile. */
 export default async function ConnectSuccessRedirect({ searchParams }: PageProps) {
   const params = await searchParams;
   const domain = typeof params.domain === 'string' ? params.domain : '';
-  redirect(domain ? routes.record(domain) : routes.records);
+  redirect(domain ? connectDonePath(domain) : routes.connect);
 }

@@ -9,6 +9,9 @@ export const bodyText = 'text-base text-muted leading-relaxed';
 export const btnPrimary =
   'inline-flex items-center justify-center h-11 px-5 rounded-lg bg-accent text-white text-sm font-semibold tracking-wide hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed no-underline';
 
+export const btnSecondary =
+  'inline-flex items-center justify-center h-11 px-5 rounded-lg border border-border text-sm font-semibold text-txt hover:border-muted-2 no-underline';
+
 export const input =
   'w-full min-w-0 h-11 bg-bg border border-border rounded-lg px-3.5 text-sm font-mono text-txt placeholder:text-muted-2 outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15';
 export const label = 'block text-xs font-mono uppercase tracking-widest text-muted-2';

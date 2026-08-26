@@ -10,7 +10,7 @@ import {
   decodeConnectState,
   oauthCallbackUri,
 } from '@/lib/connect-state';
-import { routes } from '@/lib/routes';
+import { connectDonePath, routes } from '@/lib/routes';
 import { registerDomain } from '@/lib/ledger-admin';
 
 function redirectWith(path: string, params: Record<string, string>) {
@@ -72,5 +72,5 @@ export async function GET(request: Request) {
     });
   }
 
-  return NextResponse.redirect(new URL(routes.record(domain), canonicalOrigin()));
+  return NextResponse.redirect(new URL(connectDonePath(domain), canonicalOrigin()));
 }

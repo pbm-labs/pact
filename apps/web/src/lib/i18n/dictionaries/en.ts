@@ -3,8 +3,7 @@ import type { Dictionary } from '../types';
 export const en: Dictionary = {
   nav: {
     language: 'Language',
-    records: 'Records',
-    connect: 'Connect',
+    intake: 'Mail intake',
     whitepaper: 'Whitepaper',
     menu: 'Menu',
     openMenu: 'Open menu',
@@ -13,6 +12,8 @@ export const en: Dictionary = {
   footer: {
     terms: 'Terms',
     privacy: 'Privacy',
+    ledger: 'Ledger',
+    contact: 'Contact',
   },
   common: {
     home: 'Home',
@@ -25,56 +26,125 @@ export const en: Dictionary = {
   home: {
     heroTitle: 'AI can fake everything.',
     heroAccent: 'Except yesterday.',
-    heroSub:
-      'Leftover traces from independent systems, recorded as separate streams on one append-only tree.',
+    heroSub: 'we build real is the movement. PACT is leftover traces for agents.',
     heroLead:
-      'Connect a name. Public logs are indexed. The mail stream needs DNS so reports are kept. Anyone can recheck the ledger. The record does not score the name, and it does not decide that it is legitimate.',
-    howEyebrow: 'Streams',
-    howTitle: 'Agnostic sources. One tree.',
-    howLead:
-      'This is not a mail product. Independent systems already emit leftover traces. Each source is its own stream. They share a tree so a checker has one root. They are never blended into a score.',
-    howSteps: [
+      'The unit of evidence is kind plus identity — not a domain page. There is no ranked record, no three stream cards, no verdict. Judgement stays outside.',
+    primaryCta: 'GET /v1/kinds',
+    secondaryCta: 'GET /v1/evidence',
+    brokeEyebrow: 'Identity',
+    brokeTitle: 'Each kind has a different identity key.',
+    brokeLead:
+      'An agent cannot verify a counterparty’s mail leftover and GitHub-shaped signature leftover in one domain call. Domain is one identity mail and CT often use — not the type of the whole world.',
+    identities: [
       {
-        title: 'Separate streams',
-        body: 'Mail reports, certificate logs, and signature logs are leftover kinds of different origin. Later sources can be added as tagged kinds. Each keeps its own preimage. The page shows them side by side. It does not add them.',
+        kind: 'Mail',
+        tag: 'untagged v0.2',
+        identity: 'Sending domain (header_from)',
       },
       {
-        title: 'Anyone can check',
-        body: 'Each trace is a leaf. Roots are published on-chain, outside this operator, so a different past cannot be swapped in quietly. A checker recomputes inclusion against that root without asking permission.',
+        kind: 'Certificates',
+        tag: 'pact-ct-v1',
+        identity: 'Hostname in SAN/CN (as CT leftover)',
       },
       {
-        title: 'Not a verdict',
-        body: 'The page is clocks and streams. It publishes what happened. Judgement stays outside.',
+        kind: 'Signatures',
+        tag: 'pact-rekor-v1',
+        identity: 'Rekor leftover subject — often a GitHub URI or email, rarely a website hostname',
       },
     ],
-    recordEyebrow: 'A record',
-    recordTitle: 'What the page shows.',
-    recordSub:
-      'Each name has registration and confirmation clocks, leftover streams, and a shared ledger. Open a live record:',
-    privacyTitle: 'Privacy',
-    privacyBody1:
-      'Connecting puts the name on the ledger. The mail stream needs DNS so aggregate reports are kept instead of discarded. Certificate and signature streams are already public; this site indexes them. None of the streams contain messages, subjects, or mailboxes.',
-    privacyBody2: 'The public page is domain history from those streams. Nothing else is collected.',
-    privacyTableTitle: "What's in the record",
-    privacyRows: [
-      'Domain',
-      'Mail stream',
-      'Certificate stream',
-      'Signature stream',
-      'Shared tree',
+    splitEyebrow: 'Split',
+    splitTitle: 'PACT does not decide.',
+    splitLead:
+      'The agent extracts identities the task actually used, asks per kind, and hands checkable facts to policy. Policy says yes, no, or wait.',
+    splitCards: [
+      {
+        title: 'Someone else',
+        body: 'Policies. Governance. “Is this allowed?” Entity resolution (From vs DKIM d= vs GitHub URI vs cert SAN) lives here.',
+      },
+      {
+        title: 'PACT',
+        body: 'Leftover traces and proofs. Kind-scoped query. Inclusion against a named root. It echoes the identity it actually looked up.',
+      },
+      {
+        title: 'Someone else',
+        body: 'Execution. PACT MUST NOT treat github.com/acme/pay as acme.com. That map is interpretation.',
+      },
     ],
-    ctaTitle: 'Start a record.',
-    ctaButton: 'Connect',
-    ctaSub:
-      'Public streams start when the name is on the ledger. Mail history starts when the first independent report arrives — not when the DNS line is saved.',
+    queryEyebrow: 'Query',
+    queryTitle: 'Kind plus identity.',
+    queryLead:
+      'The agent does not start from “open this domain.” It asks leftover identities from the moment, per kind. The catalog is machine-readable so old agents ignore kinds they do not understand.',
+    endpointKinds: 'Catalog',
+    endpointEvidence: 'Query',
+    endpointLeaf: 'Proof',
+    echoTitle: 'Echo the identity actually used',
+    echoBody:
+      'A valid answer about the wrong key is worse than a miss. Inclusion proves the leaf is in the tree, not that the caller meant that counterparty. PACT does not fix extraction bugs. It makes them auditable.',
+    emptyTitle: 'Zero rows is an answer',
+    emptyBody:
+      'HTTP 200 with an empty list means this log has no leftover under that identity. It is not a missing setup step.',
+    proofTitle: 'Named shared root',
+    proofBody:
+      'List rows include included — membership in the live shared tree. The inclusion proof is on GET /v1/leaves/:hash. Lists MUST NOT dump proof arrays. v1 proofs name type: shared so a later forest does not break callers.',
+    kindsTitle: 'Small leftover-only catalog',
+    kindsLead:
+      'Each kind has a frozen encoding, a key shape, and a stake label. Adding a kind is a product decision, not a new column on a domain page.',
+    kinds: [
+      {
+        title: 'Mail',
+        key: 'dns_name',
+        stake: 'accumulated',
+        body: 'Untagged v0.2. Sending domain (header_from). Independent receivers keep emitting reports.',
+      },
+      {
+        title: 'Certificates',
+        key: 'dns_name',
+        stake: 'calendar',
+        body: 'pact-ct-v1. Hostname in SAN/CN. A new cert is cheap. Weight is a series, not one fact.',
+      },
+      {
+        title: 'Signatures',
+        key: 'leftover_subject',
+        stake: 'calendar',
+        body: 'pact-rekor-v1. GitHub URI, email, or host — not a connected website. Empty hostname leftover is expected.',
+      },
+    ],
+    stakeTitle: 'Stake is a property of the kind',
+    stakeAccumulated:
+      'Leftover only grows if independent third parties keep acting for their own reasons. One mint does not create the history.',
+    stakeCalendar:
+      'A single entry is cheap. Any weight is in a sustained series. A new cert or a new signature can appear in minutes.',
+    treeTitle: 'One tree, with a seam',
+    treeBody:
+      'Live: one sparse Merkle tree, one leaf_index space, one publishRoot. Each kind declares kind_root: { type: "shared" }. A meta-root of kind_id → kind_root is reserved. Forest is v2 without breaking v1 callers.',
+    willNotTitle: 'What PACT will not do',
+    willNot: [
+      'Score, activation label, or verdict.',
+      'Blend kinds.',
+      'Guess mailboxes to search Rekor.',
+      'Treat github.com/… as covering a customer domain.',
+      'Map identities across kinds.',
+      'Invent a ritual so a kind fills — including “sign to Rekor.”',
+    ],
+    pressuresTitle: 'Closed pressures',
+    pressures: [
+      'Identity extraction — burden on the caller; PACT echoes the identity actually used.',
+      'Kind catalog — small, frozen encodings, runtime discovery, stake labeled kind-by-kind.',
+      'Forest vs one tree — meta-root plus named proof root is the v1 seam; forest is v2 without breaking callers.',
+    ],
+    intakeTitle: 'Mail leftover still needs DNS.',
+    intakeBody:
+      'That is intake for one kind, not a consumer “connect your domain” product. Certificate and signature leftover are queried by the identity those logs already used.',
+    intakeCta: 'Mail intake',
   },
   connect: {
     backHome: '← Home',
-    eyebrow: 'Connect',
-    title: 'Connect a domain',
+    eyebrow: 'Mail intake',
+    title: 'Keep mail leftover',
     intro:
-      'Connecting puts the name on the ledger. Certificate and signature streams are indexed from public logs. The mail stream needs a DNS line so independent reporters keep sending.',
-    yourDomain: 'Your domain',
+      'This is not a public profile. Putting a sending domain on the ledger and adding a report destination keeps independent DMARC aggregate reports. Certificate leftover and Rekor leftover are queried by their own identities — not by this form.',
+    note: 'PACT will not show a ranked record or three stream cards for this name. Agents ask the ledger per kind.',
+    yourDomain: 'Sending domain',
     pathCloudflareTitle: 'I use Cloudflare',
     pathCloudflareDesc: 'One click — we add the DNS line.',
     pathCloudflareBadge: 'Fastest',
@@ -85,35 +155,25 @@ export const en: Dictionary = {
     pathToolTitle: 'I already use a tool',
     pathToolDesc: 'Postmark or similar — add this address as a report destination.',
     pathToolBadge: 'Existing tool',
-    streamCards: [
-      {
-        title: 'Mail',
-        body: 'Independent receiving systems already emit aggregate reports. A DNS line keeps a copy here.',
-      },
-      {
-        title: 'Certificates',
-        body: 'Public certificate logs are already a diary of issuance. Indexed after the name is on the ledger.',
-      },
-      {
-        title: 'Signatures',
-        body: 'Rekor already records signed software metadata. Indexed the same way. Coverage is often empty.',
-      },
-    ],
-    mailStreamHow: 'Keep the mail stream',
+    mailStreamHow: 'How to keep the reports',
     putOnLedger: 'Put on the ledger',
     ledgerExplain:
-      'Puts the name on the ledger so certificate and signature streams can be indexed. Then keep the mail stream with DNS below.',
+      'Registers the sending domain so mail reports are not dropped. It does not attach GitHub leftover or a signature log to this website.',
     backToPaths: 'Choose a method',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS so the mail stream is kept. Certificate and signature streams are indexed after the name is on the ledger.",
+      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS so mail leftover is kept. There is no domain profile afterwards.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
-      'Your tool already collects reports for this domain. Adding this address includes us in the mail stream. Put the name on the ledger first so public streams can be indexed. The public mail record appears when the first independent report arrives (usually within 24–48 hours).',
+      'Your tool already collects reports for this domain. Adding this address includes us in the mail leftover. Put the sending domain on the ledger first so reports are kept. History starts when the first independent report arrives (usually within 24–48 hours).',
     manualIntro:
       "Paste this wherever you manage your website's DNS (ask your host if you're not sure where):",
     manualExplain:
-      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. That is the mail stream. Put the name on the ledger first so public streams can be indexed. The public mail record appears when the first independent report arrives (usually within 24–48 hours).',
+      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. Put the sending domain on the ledger first. History starts when the first independent report arrives (usually within 24–48 hours).',
+    doneTitle: 'Mail intake is on.',
+    doneBody:
+      'The sending domain is on the ledger. Keep the DNS line. Mail leftover appears when the first independent report arrives — not when this form is submitted. Query it as kind=mail.',
+    doneNext: 'Query the ledger',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or ledger write credentials.',
@@ -129,107 +189,6 @@ export const en: Dictionary = {
       somethingWrong: 'Something went wrong.',
     },
   },
-  records: {
-    backHome: 'Home',
-    title: 'Records',
-    addDomain: 'Connect',
-    rankedBy: 'By leftover history',
-    lead:
-      'Public pages for names on the ledger. Leftover streams as separate kinds — never a score.',
-    colDomain: 'Domain',
-    colHistory: 'History',
-    verified: 'on record',
-    emptyTitle: 'No records',
-    emptyBody:
-      'Connect a domain to start recording leftover streams. Certificate and signature logs are indexed once the name is on the ledger. The mail stream needs a DNS line.',
-    emptyCta: 'Connect',
-    searchPlaceholder: 'Search domain…',
-    noMatch: 'No match for "{query}".',
-  },
-  domain: {
-    backRecords: 'Records',
-    awaitingFirst: 'On ledger, no traces yet',
-    connected: 'Connected',
-    kindMail: 'Mail',
-    kindMailEmpty: 'None',
-    kindCt: 'Certificates',
-    kindNone: 'None',
-    kindRekor: 'Signatures',
-    streamsLabel: 'Streams',
-    kindFirst: 'First logged',
-    kindLatest: 'Latest',
-    mailAuthRate: 'Mail auth (DKIM pass)',
-    certs: 'Certs',
-    sigs: 'Entries',
-    ledgerTitle: 'Ledger',
-    mailLeaves: 'Mail stream',
-    ctLeaves: 'Certificate stream',
-    rekorLeaves: 'Signature stream',
-    reports: 'Reports',
-    reportingOrgs: 'Reporting orgs',
-    domainRegistered: 'Domain registered',
-    verifiedSince: 'History since',
-    awaitingReport: 'Awaiting first trace',
-    noRecordYet: 'No record.',
-    connectDomain: 'Connect',
-    firstDay: 'First day',
-    dayOne: '1 day',
-    days: '{n} days',
-    dbNotConfigured: 'Ledger not configured',
-    reportHistory: 'Mail stream',
-    reportHistoryCounts: '{periods} · {reporters} orgs',
-    colReporter: 'Reporter',
-    colPeriod: 'Period',
-    colPass: 'Pass',
-    colFail: 'Fail',
-    colIngested: 'Ingested',
-    verification: 'Verification',
-    anchor: 'Anchor',
-    onChain: 'On-chain',
-    stagingOffChain: 'Staging (off-chain)',
-    rootsMatch: 'Roots match',
-    yes: 'Yes',
-    no: 'No',
-    domainLeaves: 'Stream leaves',
-    globalTree: 'Global tree',
-    publishedRoot: 'Published root',
-    explorerTx: 'View transaction',
-    explorerContract: 'View contract',
-    leafLedger: 'View leaf',
-    openingCheck: 'Check stored bytes against the leaf hash and DNS key',
-    leafHash: 'Leaf hash',
-    colWrapper: 'Wrapper DKIM',
-    colOpening: 'Opening',
-    proofVerified: 'Verified',
-    proofUnverified: 'Unverified',
-    openingNone: '—',
-    openingMissing: 'Not stored',
-    openingOk: 'Hash and key',
-    openingHashMismatch: 'Hash mismatch',
-    openingNoKey: 'Key not on record',
-    openingFail: 'Failed',
-    openingOkTitle: 'Stored bytes hash to the leaf; the DKIM TXT from ingest DNS is on record.',
-    openingHashMismatchTitle: 'Stored bytes do not hash to the wrapper hash on the leaf.',
-    openingNoKeyTitle: 'No DKIM TXT snapshot is on record for the selector in the leaf.',
-    openingFailTitle: 'Stored bytes do not match the leaf hash, and no DKIM key is on record.',
-    openingMissingTitle: 'No stored wrapper copy for this leaf hash.',
-    clockUnknown: '—',
-    clockDay1: '(Day 1)',
-    clockYears: '({n} yrs)',
-    clockYear: '({n} yr)',
-    clockMonths: '({n} mo)',
-    clockDaysShort: '({n}d)',
-    ctHistory: 'Certificate stream',
-    ctHistoryCounts: '{n}',
-    colIssuer: 'Issuer',
-    colNotBefore: 'Not before',
-    colLoggedAt: 'Logged',
-    colFingerprint: 'Fingerprint',
-    rekorHistory: 'Signature stream',
-    rekorHistoryCounts: '{n}',
-    colIdentity: 'Identity',
-    colEntryKind: 'Kind',
-  },
   whitepaper: {
     eyebrow: 'PACT',
     title: 'Whitepaper',
@@ -238,34 +197,34 @@ export const en: Dictionary = {
   },
   legal: {
     eyebrow: 'Legal',
-    lastUpdated: 'Last updated August 25, 2026',
+    lastUpdated: 'Last updated August 26, 2026',
     termsTitle: 'Terms of Service',
     privacyTitle: 'Privacy Policy',
     emailLabel: 'Email',
     terms: [
       {
         title: '1. Acceptance of Terms',
-        body: 'By accessing or using this website (webuildreal.dev) and related services of the we build real movement, you agree to these Terms of Service. If you do not agree, do not use the site or connect a domain.',
+        body: 'By accessing or using this website (webuildreal.dev) and related services of the we build real movement, you agree to these Terms of Service. If you do not agree, do not use the site or submit a sending domain for mail intake.',
       },
       {
         title: '2. Who We Are',
-        body: 'This site is the public home of we build real, a movement for verifiable history. PACT is an open protocol. PBM Labs LLC (“we”, “us”), a Wyoming limited liability company, provides the first PACT reference implementation. The site offers public access to that implementation: domain connection, leftover streams as separate kinds on one tree, and related documentation.',
+        body: 'This site is the public home of we build real, a movement for verifiable history. PACT is an open protocol. PBM Labs LLC (“we”, “us”), a Wyoming limited liability company, provides the first PACT reference implementation. The site documents that implementation and offers mail leftover intake. Checkable leftover is on the public ledger API, not a human domain profile.',
       },
       {
         title: '3. The Service',
-        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Each leftover source is a separate stream (kind) on that tree. Mail history comes from DMARC aggregate authentication reports that receiving mail systems already generate. Certificate history comes from public Certificate Transparency logs — indexed leftover exhaust, not a new issuance ceremony and not an HTTPS badge. Signature history comes from the public Rekor log — indexed leftover exhaust, not a signing ceremony. Streams are not blended into a score. Connecting a domain puts the name on the ledger and requires adding PACT as a report destination in DNS (directly or via a supported provider) so the mail stream is kept. CT and Rekor indexing need no extra ritual. We do not read message content, recipient identities, or mailbox data.',
+        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Each leftover source is a separate kind on that tree. Mail leftover comes from DMARC aggregate authentication reports. Certificate leftover comes from public Certificate Transparency logs. Signature leftover comes from the public Rekor log, keyed by leftover subject (GitHub URI, email, or host) — not a connected website. Kinds are not blended into a score. Mail intake puts a sending domain on the ledger and requires adding PACT as a report destination in DNS so reports are kept. We do not read message content, recipient identities, or mailbox data.',
       },
       {
-        title: '4. Public Records',
-        body: 'Information published in the public record — including domain names, independently confirmed history, and cryptographic proofs — is intended to be publicly viewable. Do not connect a domain if you are not authorized to make that domain’s authentication metadata part of a public ledger.',
+        title: '4. Public Ledger',
+        body: 'Information published on the ledger — including leftover identities, independently confirmed history, and cryptographic proofs — is intended to be publicly viewable and queryable by agents. Do not submit a sending domain if you are not authorized to make that domain’s authentication metadata part of a public ledger.',
       },
       {
         title: '5. Your Responsibilities',
-        body: 'You must only connect domains you control or are authorized to manage. You are responsible for the accuracy of DNS changes you make, for complying with your own policies and applicable law, and for not using the service to harass, defraud, or misrepresent others. You may not attempt unauthorized access, interfere with the service, scrape in a way that degrades it, introduce malware, or otherwise misuse the site.',
+        body: 'You must only submit sending domains you control or are authorized to manage. You are responsible for the accuracy of DNS changes you make, for complying with your own policies and applicable law, and for not using the service to harass, defraud, or misrepresent others. You may not attempt unauthorized access, interfere with the service, scrape in a way that degrades it, introduce malware, or otherwise misuse the site.',
       },
       {
         title: '6. No Advice; No Guarantee of Legitimacy',
-        body: 'History summaries and cryptographic proofs are an informational record of leftover traces from independent systems — mail reports, public certificate logs, and public signature logs — as separate kinds. They are not legal, financial, compliance, or business advice, and they do not guarantee that a domain, organization, or person is legitimate, safe to transact with, or free of risk. Judgement stays outside the record. You remain solely responsible for your own decisions.',
+        body: 'History and cryptographic proofs are an informational record of leftover traces from independent systems — mail reports, public certificate logs, and public signature logs — as separate kinds. They are not legal, financial, compliance, or business advice, and they do not guarantee that a name, organization, or person is legitimate, safe to transact with, or free of risk. Judgement stays outside the record. You remain solely responsible for your own decisions.',
       },
       {
         title: '7. No Financial Services',
@@ -285,7 +244,7 @@ export const en: Dictionary = {
       },
       {
         title: '11. Limitation of Liability',
-        body: 'To the maximum extent permitted by law, PBM Labs LLC and its members, officers, and contractors are not liable for indirect, incidental, special, consequential, or punitive damages arising from your use of the site or service, including reliance on public records, even if advised of the possibility of such damages.',
+        body: 'To the maximum extent permitted by law, PBM Labs LLC and its members, officers, and contractors are not liable for indirect, incidental, special, consequential, or punitive damages arising from your use of the site or service, including reliance on the public ledger, even if advised of the possibility of such damages.',
       },
       {
         title: '12. Changes',
@@ -307,7 +266,7 @@ export const en: Dictionary = {
       },
       {
         title: '2. Information We Process',
-        body: 'Domain and protocol data: domain names you connect; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Certificate Transparency first-seen metadata from public logs (issuer, not-before, log time, fingerprint); Rekor leftover subjects as already logged (GitHub URI, email, or host; integrated time; entry id); Merkle leaves, roots, and public verification data. Connection flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
+        body: 'Domain and protocol data: sending domains submitted for mail intake; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Certificate Transparency first-seen metadata from public logs (issuer, not-before, log time, fingerprint); Rekor leftover subjects as already logged (GitHub URI, email, or host; integrated time; entry id); Merkle leaves, roots, and public verification data. Intake flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
       },
       {
         title: '3. What We Do Not Collect',
@@ -315,11 +274,11 @@ export const en: Dictionary = {
       },
       {
         title: '4. How We Use Information',
-        body: 'We use the information above to operate domain connection, ingest and publish independently confirmed history, maintain cryptographic proofs, prevent abuse, and improve reliability of the service. Public record fields are published so anyone can recheck what happened.',
+        body: 'We use the information above to operate mail leftover intake, ingest and publish independently confirmed history, maintain cryptographic proofs, prevent abuse, and improve reliability of the service. Ledger fields are published so anyone — including agents — can recheck what happened.',
       },
       {
-        title: '5. Public Records',
-        body: 'Connected domains and their independently confirmed history and proofs are intended to be public. Do not connect a domain unless you understand that related authentication metadata will appear in a public ledger.',
+        title: '5. Public Ledger',
+        body: 'Leftover identities and their independently confirmed history and proofs are intended to be public on the ledger API. Do not submit a sending domain unless you understand that related authentication metadata will appear in a public ledger. This site does not publish a ranked human evidence profile.',
       },
       {
         title: '6. Service Providers',
@@ -331,7 +290,7 @@ export const en: Dictionary = {
       },
       {
         title: '8. Retention',
-        body: 'Public ledger data is retained to preserve the integrity of the append-only record. Operational logs and connection-session data are retained only as needed to run, secure, and debug the service, and to meet legal obligations.',
+        body: 'Public ledger data is retained to preserve the integrity of the append-only record. Operational logs and intake-session data are retained only as needed to run, secure, and debug the service, and to meet legal obligations.',
       },
       {
         title: '9. Security',

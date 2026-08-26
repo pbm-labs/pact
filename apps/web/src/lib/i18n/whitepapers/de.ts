@@ -53,7 +53,7 @@ Die Referenz-Ingest liest einen öffentlichen Index über Rekor, nicht Rekors ei
 
 Drei Arten sind keccak256-Leaves in einem sparse Merkle-Baum. Bindings dürfen kein Preimage-Layout teilen, damit ein Mail-Leaf nicht mit einem Zertifikats-Leaf oder einem Signatur-Leaf desselben Namens kollidieren kann.
 
-Die öffentliche Seite zeigt alle drei. Sie addiert sie nicht. Sie mittelt sie nicht. Sie erzeugt kein Badge. Wer eine Anwendung darauf baut, darf die Felder interpretieren. Sie in eine Zahl zu falten ist die Wahl dieser Anwendung, und es ist nicht dieses Protokoll.
+Der Katalog und die Art-bezogene Abfrage sind die Schnittstelle. Sie addieren Arten nicht. Sie mitteln sie nicht. Sie erzeugen kein Badge. Wer eine Anwendung darauf baut, darf die Felder interpretieren. Sie in eine Zahl zu falten ist die Wahl dieser Anwendung, und es ist nicht dieses Protokoll.
 
 ## Jede Person kann prüfen
 
@@ -67,9 +67,9 @@ Registrierung ist, wie lange der Name existiert. Bestätigt seit ist, wie lange 
 
 Ein acht Jahre alter Name, der heute verbunden wurde, hat eine lange Registrierungsuhr und eine Bestätigungsuhr bei null. Das ist erwartet. Wer DNS übernimmt, erbt das Registrierungsdatum und nichts von der Mail-Uhr. Beide zu mischen würde einem Entführer gestern leihen.
 
-## Was die Seite zeigt
+## Was Agenten abfragen
 
-Die Seite ist absichtlich langweilig. Wie lange unabhängige Mail-Melder den Namen bestätigen. Wie viele Berichte. Von welchen Organisationen. Wann ein abdeckendes Zertifikat zuerst erschien. Wann eine abdeckende Signatur erschien. Uhren, Berichte, Organisationen, Zertifikatsdaten, Signatureinträge. Kein Score. Kein Badge. Kein Urteil.
+Art plus Identität. Echo der wirklich verwendeten Identität. Null Zeilen sind HTTP 200. Inklusion gegen eine benannte gemeinsame Wurzel. Kein Score. Kein Badge. Kein Urteil.
 
 ## Was es nicht ist
 
@@ -81,9 +81,9 @@ Urteil bleibt draußen.
 
 Roots liegen auf Base Sepolia — Testnet, ein permissionierter Publisher. Dieser Betreiber hält die Leaves. Roots bezeugen Inklusion, nicht Verfügbarkeit.
 
-Das ist die ehrliche Grenze. Die These wartet nicht auf Mainnet. Die Feeds, der Baum und die öffentliche Seite existieren bereits. Jede Person kann nachprüfen, was veröffentlicht ist.
+Das ist die ehrliche Grenze. Die These wartet nicht auf Mainnet. Die Feeds, der Baum und die Ledger-API existieren bereits. Jede Person kann nachprüfen, was veröffentlicht ist.
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-we build real ist die Bewegung. PACT ist das offene Protokoll. Die erste Referenzimplementierung ist diese Seite.
+we build real ist die Bewegung. PACT ist das offene Protokoll. Die erste Referenzimplementierung ist das Ledger. Diese Website ist das Zuhause der Bewegung und die Agentenschnittstelle.
 `.trim();
