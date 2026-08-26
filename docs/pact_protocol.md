@@ -604,7 +604,7 @@ Connecting a domain to PACT demonstrates DNS control at connection time. A party
 
 Mitigations:
 
-- Independently confirmed history only grows forward from the first authenticated report. Domain registration age does not count (Section 4.2).
+- Independently confirmed history only grows forward from connect. Domain registration age does not count, and leftover log timestamps from before connect do not count (Section 4.2).
 - Brief hijack windows produce a short independently confirmed history, not a long one.
 - Removing the rua= entry stops new report flow; existing anchored leaves remain immutable but independently confirmed days stop increasing without new reports.
 
