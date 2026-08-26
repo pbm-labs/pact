@@ -96,7 +96,6 @@ export type Dictionary = {
     emptyCta: string;
     searchPlaceholder: string;
     noMatch: string;
-    registered: string;
   };
   domain: {
     backRecords: string;

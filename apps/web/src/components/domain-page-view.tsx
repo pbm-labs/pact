@@ -8,6 +8,7 @@ import { DomainCtPanel, DomainLeavesPanel, DomainRekorPanel } from '@/components
 import { useLocale } from '@/components/locale-provider';
 import { PageShell } from '@/components/page-shell';
 import type { DomainLiveData, DomainPageState, DomainWaitingData } from '@/lib/domain-data';
+import { formatAbsoluteDate } from '@/lib/format-time';
 import { routes } from '@/lib/routes';
 import {
   badgeAmber,
@@ -62,7 +63,7 @@ function RecordPage({
         <h1 className={`${pageTitle} break-all ${awaiting ? 'mb-2' : ''}`}>{data.domain}</h1>
         {awaiting && data.connectedSince && (
           <p className="text-xs text-muted-2 font-mono mt-3">
-            {t.domain.connected} {new Date(data.connectedSince).toLocaleDateString(locale)}
+            {t.domain.connected} {formatAbsoluteDate(data.connectedSince, locale)}
           </p>
         )}
         <DomainClocks

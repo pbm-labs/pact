@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import type { DomainSummary } from '@/lib/domain-data';
 import { routes } from '@/lib/routes';
-import { formatDomainRegisteredAt } from '@/lib/format-time';
+import { formatAbsoluteDate } from '@/lib/format-time';
 import { formatVerifiedDays } from '@/lib/trust-display';
 import { btnPrimary, panel, panelBody } from '@/lib/ui';
 
@@ -40,14 +40,6 @@ function HistoryCell({ domain }: { domain: DomainSummary }) {
 
 export function DomainList({ domains }: DomainListProps) {
   const { t, locale } = useLocale();
-  const clockLabels = {
-    clockUnknown: t.domain.clockUnknown,
-    clockDay1: t.domain.clockDay1,
-    clockYear: t.domain.clockYear,
-    clockYears: t.domain.clockYears,
-    clockMonths: t.domain.clockMonths,
-    clockDaysShort: t.domain.clockDaysShort,
-  };
 
   if (!domains.length) {
     return (
@@ -108,10 +100,9 @@ export function DomainList({ domains }: DomainListProps) {
                     >
                       {d.domain}
                     </Link>
-                    {d.domainRegisteredAt && (
+                    {d.connectedAt && (
                       <p className="relative z-10 text-xs font-mono text-muted-2 mt-1 m-0">
-                        {t.records.registered}{' '}
-                        {formatDomainRegisteredAt(d.domainRegisteredAt, locale, clockLabels)}
+                        {t.domain.connected} {formatAbsoluteDate(d.connectedAt, locale)}
                       </p>
                     )}
                   </td>

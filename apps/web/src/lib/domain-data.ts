@@ -13,7 +13,11 @@ import {
   type LedgerWrapperCheck,
 } from '@/lib/ledger';
 import { ensureDomainRegisteredAt } from '@/lib/ledger-admin';
-import { pactAgeDaysFrom, pactHistoryStartFromConnect } from '@/lib/pact-history';
+import {
+  pactAgeDaysFrom,
+  pactHistoryStartFromConnect,
+  parseLedgerDateTime,
+} from '@/lib/pact-history';
 
 export type WrapperOpeningStatus =
   | { status: 'none' }
@@ -117,6 +121,7 @@ export type DomainPageState =
 export interface DomainSummary {
   domain: string;
   domainRegisteredAt?: string | null;
+  connectedAt?: string | null;
   status: 'waiting' | 'live';
   pactAgeDays?: number;
   leafCount?: number;
@@ -155,6 +160,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
     .map((row) => {
       const domainLeaves = leavesByDomain.get(row.domain) ?? [];
       const domainRegisteredAt = row.domain_registered_at ?? null;
+      const connectedAt = parseLedgerDateTime(row.connected_at)?.toISOString() ?? null;
       const mailCount = domainLeaves.length;
       const ctCount = ctByDomain.get(row.domain)?.count ?? 0;
       const rekorCount = rekorByDomain.get(row.domain)?.count ?? 0;
@@ -165,6 +171,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
         return {
           domain: row.domain,
           domainRegisteredAt,
+          connectedAt,
           status: 'waiting' as const,
           mailCount: 0,
           ctCount: 0,
@@ -176,6 +183,7 @@ export async function fetchDomainSummaries(): Promise<DomainSummary[]> {
       return {
         domain: row.domain,
         domainRegisteredAt,
+        connectedAt,
         status: 'live' as const,
         pactAgeDays: pactAgeDaysFrom(pactHistoryStart),
         leafCount,
@@ -218,6 +226,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
   const ct = mapCtCerts(payload.ct ?? [], merkleContext, rootMatchesEarly);
   const rekor = mapRekorEntries(payload.rekor ?? [], merkleContext, rootMatchesEarly);
   const hasTraces = leaves.length > 0 || ct.length > 0 || rekor.length > 0;
+  const connectedSince = parseLedgerDateTime(payload.domain.connected_at)?.toISOString() ?? null;
 
   if (!hasTraces) {
     const onChain = payload.onChain != null;
@@ -225,7 +234,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
       status: 'waiting',
       data: {
         domain: normalized,
-        connectedSince: payload.domain.connected_at,
+        connectedSince,
         domainRegisteredAt,
         pactHistoryStart: null,
         ct,
@@ -257,7 +266,7 @@ export async function fetchDomainPageState(domain: string): Promise<DomainPageSt
     status: 'live',
     data: {
       domain: normalized,
-      connectedSince: payload.domain.connected_at ?? null,
+      connectedSince,
       domainRegisteredAt,
       pactHistoryStart: pactHistoryStart.toISOString(),
       pactAgeDays: pactAgeDaysFrom(pactHistoryStart),

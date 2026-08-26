@@ -145,7 +145,6 @@ export const es: Dictionary = {
     emptyCta: 'Conectar',
     searchPlaceholder: 'Buscar dominio…',
     noMatch: 'Sin coincidencias para "{query}".',
-    registered: 'registrado',
   },
   domain: {
     backRecords: 'Registros',

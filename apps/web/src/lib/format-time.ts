@@ -31,6 +31,18 @@ export function formatDomainRegisteredAt(
   return new Date(iso).toLocaleDateString(locale, { month: 'short', year: 'numeric' });
 }
 
+/** Calendar day for connect — no age suffix (history days live in the History column). */
+export function formatAbsoluteDate(iso: string | null | undefined, locale: string): string {
+  if (!iso) return '—';
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return '—';
+  return new Date(iso).toLocaleDateString(locale, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
 /** Display label for independently confirmed history (starts at connect). */
 export function formatPactHistoryStart(
   iso: string | null | undefined,

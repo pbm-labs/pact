@@ -145,7 +145,6 @@ export const en: Dictionary = {
     emptyCta: 'Connect',
     searchPlaceholder: 'Search domain…',
     noMatch: 'No match for "{query}".',
-    registered: 'registered',
   },
   domain: {
     backRecords: 'Records',
