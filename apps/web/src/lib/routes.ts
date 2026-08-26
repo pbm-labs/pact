@@ -22,6 +22,11 @@ export function ledgerEvidenceUrl(kind: EvidenceKind, identity: string): string 
   return url.toString();
 }
 
+export function ledgerLeafUrl(hash: string): string {
+  const hex = hash.trim().toLowerCase().replace(/^0x/, '');
+  return `${LEDGER_ORIGIN}/v1/leaves/${hex}`;
+}
+
 export function connectDonePath(domain: string): string {
   return `${routes.connect}?done=1&domain=${encodeURIComponent(domain)}`;
 }

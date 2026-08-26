@@ -31,8 +31,12 @@ export const fr: Dictionary = {
     hintCt: 'Nom d’hôte dans SAN/CN',
     hintRekor: 'Sujet leftover Rekor — URI GitHub, e-mail ou hôte',
     identityLabel: 'Identité',
+    lookup: 'Chercher',
+    empty: 'Zéro ligne. Ce journal n’a pas de leftover sous cette identité.',
+    invalid: 'Cette identité n’est pas valable pour ce type.',
+    echo: 'Consulté',
+    failed: 'Impossible d’atteindre le ledger.',
     aside: 'Pas de score. Pas de mélange. Vide est une réponse. Le jugement reste dehors.',
-    whitepaperCta: 'Livre blanc',
   },
   connect: {
     backHome: '← Accueil',

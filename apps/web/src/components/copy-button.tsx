@@ -35,7 +35,7 @@ export function CopyableValue({ text, label, href }: CopyableValueProps) {
           href={href}
           target="_blank"
           rel="noreferrer"
-          className="text-sm font-mono font-semibold text-accent truncate min-w-0 no-underline hover:underline"
+          className="text-sm font-mono font-semibold text-accent min-w-0 no-underline hover:underline break-all"
         >
           {text}
         </a>

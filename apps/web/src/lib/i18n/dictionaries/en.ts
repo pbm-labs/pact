@@ -31,8 +31,12 @@ export const en: Dictionary = {
     hintCt: 'Hostname in SAN/CN',
     hintRekor: 'Rekor leftover subject — GitHub URI, email, or host',
     identityLabel: 'Identity',
+    lookup: 'Look up',
+    empty: 'Zero rows. This log has no leftover under that identity.',
+    invalid: 'That identity is not valid for this kind.',
+    echo: 'Looked up',
+    failed: 'Could not reach the ledger.',
     aside: 'No score. No blend. Empty is an answer. Judgement stays outside.',
-    whitepaperCta: 'Whitepaper',
   },
   connect: {
     backHome: '← Home',

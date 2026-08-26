@@ -31,8 +31,12 @@ export type Dictionary = {
     hintCt: string;
     hintRekor: string;
     identityLabel: string;
+    lookup: string;
+    empty: string;
+    invalid: string;
+    echo: string;
+    failed: string;
     aside: string;
-    whitepaperCta: string;
   };
   connect: {
     backHome: string;

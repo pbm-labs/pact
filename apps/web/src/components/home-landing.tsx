@@ -1,9 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { EvidenceQuery } from '@/components/evidence-query';
 import { useLocale } from '@/components/locale-provider';
-import { routes } from '@/lib/routes';
 import { container } from '@/lib/ui';
 
 export function HomeLanding() {
@@ -24,14 +22,6 @@ export function HomeLanding() {
         </div>
 
         <p className="mt-10 mb-0 text-sm text-muted-2 leading-relaxed max-w-xl">{t.home.aside}</p>
-        <p className="mt-6 mb-0">
-          <Link
-            href={routes.whitepaper}
-            className="text-sm font-medium text-txt no-underline hover:text-brand"
-          >
-            {t.home.whitepaperCta} →
-          </Link>
-        </p>
       </div>
     </main>
   );

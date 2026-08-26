@@ -31,8 +31,12 @@ export const es: Dictionary = {
     hintCt: 'Hostname en SAN/CN',
     hintRekor: 'Sujeto residual de Rekor — URI de GitHub, correo o host',
     identityLabel: 'Identidad',
+    lookup: 'Consultar',
+    empty: 'Cero filas. Este log no tiene leftover bajo esa identidad.',
+    invalid: 'Esa identidad no es válida para este tipo.',
+    echo: 'Consultado',
+    failed: 'No se pudo alcanzar el ledger.',
     aside: 'Sin puntuación. Sin mezcla. Vacío es una respuesta. El juicio queda fuera.',
-    whitepaperCta: 'Whitepaper',
   },
   connect: {
     backHome: '← Inicio',

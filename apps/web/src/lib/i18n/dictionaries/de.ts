@@ -31,8 +31,12 @@ export const de: Dictionary = {
     hintCt: 'Hostname in SAN/CN',
     hintRekor: 'Rekor-Leftover-Subjekt — GitHub-URI, E-Mail oder Host',
     identityLabel: 'Identität',
+    lookup: 'Nachschlagen',
+    empty: 'Null Zeilen. Dieses Log hat unter dieser Identität kein Leftover.',
+    invalid: 'Diese Identität gilt nicht für diese Art.',
+    echo: 'Nachgeschlagen',
+    failed: 'Das Ledger war nicht erreichbar.',
     aside: 'Kein Score. Keine Mischung. Leer ist eine Antwort. Das Urteil bleibt draußen.',
-    whitepaperCta: 'Whitepaper',
   },
   connect: {
     backHome: '← Start',
