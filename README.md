@@ -7,6 +7,7 @@
 This repo is that reference implementation: leftover traces from systems that already exist, recorded as separate streams on one Merkle tree. Mail (DMARC aggregate reports), Certificate Transparency, and Rekor are leftover kinds — never a blended score. Connect UX lives at [`/connect`](https://webuildreal.dev/connect).
 
 Protocol specification: [docs/pact_protocol.md](docs/pact_protocol.md).  
+Agent evidence interface (design note): [docs/agent_evidence.md](docs/agent_evidence.md).  
 Whitepaper: [webuildreal.dev/whitepaper](https://webuildreal.dev/whitepaper).
 
 The manifesto video under `apps/web/public/` is archival (~11MB, tracked in git). It is not shown on the public landing. Prefer R2/CDN if that media is used again.
@@ -299,6 +300,7 @@ Real reports must pass wrapper DKIM whose `d=` matches the reporter (or an allow
 | Sparse Merkle | [§3.3.1](docs/pact_protocol.md) (32 levels) |
 | On-chain roots | `PactRoots` — [§9](docs/pact_protocol.md). Base Sepolia: [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Scoring (example, not protocol) | `example-score-0.1` — [docs/examples/scoring.md](docs/examples/scoring.md) |
+| Agent evidence interface (design note) | [docs/agent_evidence.md](docs/agent_evidence.md) |
 | Allowlist + wrapper DKIM | §3.1.1 seed in `packages/pact-core/src/auth/allowlist.ts`; ingest verifies RFC 6376 when the wrapper bytes still verify, otherwise uses `DKIM-Signature` / allowlisted envelope `d=`, then commits keccak256(RFC822) + those `d=`/`s=` in the leaf (Appendix C.5). Received wrapper + DKIM TXT snapshot: `GET /v1/wrappers/{hash}`. Recheck: `GET /v1/wrappers/{hash}/check` (hash matches the leaf; DNS key is on record). |
 
 ## License
