@@ -26,7 +26,7 @@ That was true when the only leftover was mail (DMARC `header_from`). It stops be
 
 An agent cannot verify a counterparty’s **mail leftover** and **GitHub-shaped signature leftover** in one domain call. `/v1/domains/:domain` encodes an assumption the kinds already broke.
 
-A human **domain profile** (`/records/example.com`, Connect a name, three equal stream cards) is the same assumption in the UI. Leftover is not a domain with three badges. Leftover is whatever an independent system already logged. Domain is one identity mail and CT often use — not the type of the whole world.
+Leftover is whatever an independent system already logged. Domain is one identity mail and CT often use — not the type of the whole world. There is no human evidence UI in this design: no domain profile, no ranked records, no three stream cards. The interface is the catalog and kind-scoped query.
 
 ---
 
@@ -80,7 +80,7 @@ A naive caller can still ask the wrong question. They cannot pretend PACT resolv
 
 A catalog is a **standing** cost, not a one-time schema. Each kind needs: identity key, ingest path, coverage rule, empty-is-success, frozen encoding, tests, API, docs — and a ban on blending.
 
-Direction: **small leftover-only catalog**. New leftover MAY be added as tagged kinds. Adding a kind is a product decision, not a column you sprinkle on the domain page.
+Direction: **small leftover-only catalog**. New leftover MAY be added as tagged kinds. Adding a kind is a product decision, not a new column on a domain page.
 
 **Discipline:**
 
@@ -163,27 +163,13 @@ That is how you avoid a surprise migration without paying N chains today.
 - Guess mailboxes to search Rekor.
 - Treat `github.com/…` as covering a customer domain.
 - Map identities across kinds.
-- Invent a ritual so a column fills (Connect is mail intake + listing a name so public leftover *that already uses that host* can be indexed — not “sign to Rekor”).
+- Invent a ritual so a kind fills (mail leftover still needs DNS so reports are kept — that is intake for one kind, not a consumer “connect your domain” product, and not “sign to Rekor”).
 
-Sigstore’s usual identity is the **signer** (GitHub Actions URI, OIDC email), not the website hostname. Empty signature leftover for a domain is the honest record, not a failed connect.
-
----
-
-## 7. Human site vs agent interface
-
-Same leaves. Different shells.
-
-| | Human (today) | Agent (this note) |
-| --- | --- | --- |
-| Front door | Connect a domain | Kind catalog + kind-scoped query |
-| Object | `/records/:domain` | Leftover identity as the log used it |
-| Empty Rekor on a domain page | Looks like a missing stream | “This hostname was not the Rekor subject” |
-
-Connect / DNS stays as **mail intake** (keep aggregate reports). It is not the type of the evidence world.
+Sigstore’s usual identity is the **signer** (GitHub Actions URI, OIDC email), not the website hostname. Empty signature leftover for a hostname is the honest record.
 
 ---
 
-## 8. Closed pressures
+## 7. Closed pressures
 
 1. **Identity extraction** — burden on the caller; PACT echoes the identity actually used.
 2. **Kind catalog** — small, frozen encodings, runtime discovery, stake labeled kind-by-kind.

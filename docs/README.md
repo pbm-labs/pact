@@ -5,7 +5,7 @@
 3. **PBM Labs LLC** — first reference implementation (this repository). Contact: `hello@pbm-labs.com`.
 
 Normative spec: [pact_protocol.md](pact_protocol.md). Leftover traces: mail (v0.2), Certificate Transparency (v0.3), and Rekor (v0.4) as separate kinds — not a blended score. Connect puts the name on the ledger; DNS keeps the mail stream.  
-Agent evidence interface (design note, not live): [agent_evidence.md](agent_evidence.md) — kind-scoped query, identity echo, catalog stake labels, meta-root seam.  
+Agent evidence interface (design note, not live): [agent_evidence.md](agent_evidence.md) — kind-scoped query for agents; no human evidence UI in this design.  
 Informative scoring example: [examples/scoring.md](examples/scoring.md) (`example-score-0.1`, **mail stream only**).
 
 Public whitepaper: [webuildreal.dev/whitepaper](https://webuildreal.dev/whitepaper).
