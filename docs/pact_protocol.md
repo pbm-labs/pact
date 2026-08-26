@@ -298,7 +298,7 @@ The Merkle tree is kind-agnostic. Each leaf is a 32-byte keccak256 digest. Bindi
 | Certificate Transparency | `pact-ct-v1` | v0.3 |
 | Rekor (Sigstore) | `pact-rekor-v1` | v0.4 |
 
-Applications MUST NOT blend kinds into a single score. A CT first-seen date is calendar, not an HTTPS quality claim. A Rekor integrated time is calendar, not a claim that software or a name is legitimate. A new domain can obtain a real certificate or a new signature in minutes.
+Applications MUST NOT blend kinds into a single score. Each kind declares a stake label in the catalog (`GET /v1/kinds`): `calendar` if one actor can extend the series without a counterparty; `counterparty` if the series only grows when independent third parties keep acting for their own reasons. Mail is `counterparty`. Certificate Transparency and Rekor are `calendar`. A CT first-seen date is calendar, not an HTTPS quality claim. A Rekor integrated time is calendar, not a claim that software or a name is legitimate. A new domain can obtain a real certificate or a new signature in minutes.
 
 #### 3.2.1 Leaf Granularity and Aggregation
 
@@ -1017,7 +1017,7 @@ The reference implementation sets `log_id = "rekor.sigstore.dev"` and `log_index
 | v0.2 (June 2026) | Merkle parameters, leaf encoding, reporter allowlist, threat model. Diversity formula in that draft was **not** implemented |
 | This document (August 2026) | Single spec: Merkle/encoding/roots/DKIM. Scoring is not protocol. Base Sepolia `PactRoots` + D1 leaf availability + wrapper DKIM + wrapper witness in the leaf (C.5) |
 | v0.3 (August 2026) | Typed leaf kinds. CT binding `pact-ct-v1` (C.6) on the same tree. DMARC v0.2 encoding frozen. Judgement stays outside; kinds are not blended. |
-| v0.4 (August 2026) | Rekor binding `pact-rekor-v1` (C.7) on the same tree. Keyed by leftover subject (GitHub URI, email, host). Exact leftover; no guessed mailboxes; no connected-domain gate. Index, not Rekor proof. Agent catalog `GET /v1/kinds` + `GET /v1/evidence`. |
+| v0.4 (August 2026) | Rekor binding `pact-rekor-v1` (C.7) on the same tree. Keyed by leftover subject (GitHub URI, email, host). Exact leftover; no guessed mailboxes; no connected-domain gate. Index, not Rekor proof. Agent catalog `GET /v1/kinds` + `GET /v1/evidence`. Kind stake labels: `calendar` \| `counterparty`. |
 
 | Area | This specification |
 |------|-------------------|

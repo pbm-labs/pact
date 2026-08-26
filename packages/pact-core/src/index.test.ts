@@ -622,6 +622,6 @@ describe('kind catalog', () => {
     expect(rekor?.key.shape).toBe('leftover_subject');
     expect(rekor?.stake).toBe('calendar');
     expect(rekor?.kind_root).toEqual({ type: 'shared' });
-    expect(doc.kinds.find((k) => k.id === 'mail')?.stake).toBe('accumulated');
+    expect(doc.kinds.find((k) => k.id === 'mail')?.stake).toBe('counterparty');
   });
 });

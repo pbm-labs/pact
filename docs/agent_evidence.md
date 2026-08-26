@@ -89,14 +89,16 @@ Direction: **small leftover-only catalog**. New leftover MAY be added as tagged 
 - Runtime discovery (`GET /v1/kinds`) so old agents **ignore kinds they do not understand**.
 - Cut rather than pad. BGP, Wayback, guessed mailboxes, forge identities that do not cover a name — not kinds just because they are interesting.
 
-### 4.1 Stake label: `calendar` | `accumulated`
+### 4.1 Stake label: `calendar` | `counterparty`
 
 This is a **static property of the kind**, not an interpretation of a particular name. It replaces a binary “zero stake” test with a more precise one: **what is the series made of?**
 
+A kind is `calendar` if one actor can extend the series without a counterparty. A kind is `counterparty` if the series only grows when independent third parties keep acting for their own reasons.
+
 | Label | Meaning |
 | --- | --- |
-| `accumulated` | Leftover only grows if independent third parties keep acting for their own reasons (report, resolve, depend). One mint does not create the history. |
-| `calendar` | A single entry is cheap. Any weight is in a *sustained series*, not in one fact. A new cert or a new signature can appear in minutes. |
+| `counterparty` | The series is other people acting for their own reasons (report, resolve, depend). You cannot mint it in an empty room. One mint does not create the history. |
+| `calendar` | The series is dates. A single entry is cheap. Any weight is in a *sustained series*, not in one fact. A new cert or a new signature can appear in minutes. |
 
 PACT publishes the flag. The policy engine decides what to do with it. PACT does not score.
 
@@ -104,7 +106,7 @@ PACT publishes the flag. The policy engine decides what to do with it. PACT does
 
 | Kind | Stake |
 | --- | --- |
-| Mail | `accumulated` |
+| Mail | `counterparty` |
 | Certificates | `calendar` |
 | Signatures (Rekor) | `calendar` |
 
@@ -112,8 +114,8 @@ PACT publishes the flag. The policy engine decides what to do with it. PACT does
 
 | Candidate (not live, not promised) | Stake if it were a kind |
 | --- | --- |
-| Passive DNS | `accumulated` (third parties keep resolving) |
-| Package reverse-dependencies / downloads | `accumulated` (third parties keep depending) |
+| Passive DNS | `counterparty` (third parties keep resolving) |
+| Package reverse-dependencies / downloads | `counterparty` (third parties keep depending) |
 | BGP | `calendar` (announcing a route is instant) |
 | Raw GitHub publish / release dates | `calendar` (a push is instant) |
 

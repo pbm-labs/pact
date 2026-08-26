@@ -1,7 +1,7 @@
 /** Runtime catalog for leftover kinds. Proofs name a root; v1 is the shared tree. */
 
 export type KindId = 'mail' | 'ct' | 'rekor';
-export type KindStake = 'calendar' | 'accumulated';
+export type KindStake = 'calendar' | 'counterparty';
 
 export interface KindRootRef {
   type: 'shared';
@@ -25,7 +25,7 @@ export const KIND_CATALOG: readonly KindCatalogEntry[] = [
     tag: null,
     encoding: 'untagged-v0.2',
     key: { shape: 'dns_name' },
-    stake: 'accumulated',
+    stake: 'counterparty',
     kind_root: { type: 'shared' },
   },
   {
