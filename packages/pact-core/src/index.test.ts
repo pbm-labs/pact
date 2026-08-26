@@ -523,6 +523,9 @@ describe('sparse merkle tree', () => {
     expect(proof).toHaveLength(32);
     expect(tree.verifyProof(leaf, index, proof, root)).toBe(true);
     expect(tree.verifyProof(leaf, index, proof, `0x${'11'.repeat(32)}`)).toBe(false);
+    expect(tree.hasLeaf(index, leaf)).toBe(true);
+    expect(tree.hasLeaf(index, `0x${'11'.repeat(32)}`)).toBe(false);
+    expect(tree.hasLeaf(index + 1, leaf)).toBe(false);
   });
 });
 

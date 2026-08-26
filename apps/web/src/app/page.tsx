@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { HomeLanding, type HomePreview } from '@/components/home-landing';
-import { fetchDomainPageState, fetchDomainSummaries } from '@/lib/domain-data';
+import { fetchDomainSummaries } from '@/lib/domain-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,15 +32,12 @@ async function loadHomePreview(): Promise<HomePreview | null> {
     domains.find((d) => d.status === 'live');
   if (!pick) return null;
 
-  const state = await fetchDomainPageState(pick.domain);
-  if (state?.status !== 'live') return null;
-
   return {
-    domain: state.data.domain,
-    domainRegisteredAt: state.data.domainRegisteredAt,
-    pactHistoryStart: state.data.pactHistoryStart,
-    mailCount: state.data.leaves.length,
-    ctCount: state.data.ct.length,
-    rekorCount: state.data.rekor.length,
+    domain: pick.domain,
+    domainRegisteredAt: pick.domainRegisteredAt ?? null,
+    pactHistoryStart: pick.connectedAt ?? null,
+    mailCount: pick.mailCount ?? 0,
+    ctCount: pick.ctCount ?? 0,
+    rekorCount: pick.rekorCount ?? 0,
   };
 }

@@ -3,7 +3,7 @@ import {
   byteaToHash,
   type Hash,
 } from '@pact/core';
-import { buildLeafProof, rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
+import { rebuildGlobalMerkleTree } from '@/lib/merkle-proofs';
 import {
   fetchLedgerDomain,
   fetchLedgerDomains,
@@ -44,7 +44,6 @@ export interface DomainLeafSummary {
   leafIndex: number;
   leafHash: Hash;
   leafUrl: string | null;
-  merkleProof: Hash[];
   merkleProofValid: boolean;
 }
 
@@ -60,7 +59,6 @@ export interface DomainCtSummary {
   leafIndex: number;
   leafHash: Hash;
   leafUrl: string | null;
-  merkleProof: Hash[];
   merkleProofValid: boolean;
 }
 
@@ -74,7 +72,6 @@ export interface DomainRekorSummary {
   leafIndex: number;
   leafHash: Hash;
   leafUrl: string | null;
-  merkleProof: Hash[];
   merkleProofValid: boolean;
 }
 
@@ -325,19 +322,14 @@ function leafInclusion(
   leafIndex: number;
   leafHash: Hash;
   leafUrl: string | null;
-  merkleProof: Hash[];
   merkleProofValid: boolean;
 } {
-  const proof =
-    merkleContext != null
-      ? buildLeafProof(merkleContext.tree, merkleContext.root, leafIndex, leafHash)
-      : { leafIndex, leafHash, proof: [] as Hash[], proofValid: false };
+  const inTree = merkleContext != null && merkleContext.tree.hasLeaf(leafIndex, leafHash);
   return {
-    leafIndex: proof.leafIndex,
-    leafHash: proof.leafHash,
-    leafUrl: ledgerObjectUrl('leaves', proof.leafHash),
-    merkleProof: proof.proof,
-    merkleProofValid: proof.proofValid && rootMatchesPublished,
+    leafIndex,
+    leafHash,
+    leafUrl: ledgerObjectUrl('leaves', leafHash),
+    merkleProofValid: inTree && rootMatchesPublished,
   };
 }
 

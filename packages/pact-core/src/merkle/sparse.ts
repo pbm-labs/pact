@@ -62,6 +62,12 @@ export class SparseMerkleTree {
     return this.nodes.get(nodeKey(TREE_DEPTH, 0)) ?? ZERO_HASHES[TREE_DEPTH]!;
   }
 
+  /** O(1) membership: the leaf we inserted at this index is this hash. */
+  hasLeaf(leafIndex: number, leafHash: Hash): boolean {
+    if (leafIndex < 0 || leafIndex >= this.leafCount) return false;
+    return this.nodes.get(nodeKey(0, leafIndex)) === leafHash;
+  }
+
   getProof(leafIndex: number): Hash[] {
     if (leafIndex < 0 || leafIndex >= this.leafCount) {
       throw new Error(`Leaf index out of range: ${leafIndex}`);
