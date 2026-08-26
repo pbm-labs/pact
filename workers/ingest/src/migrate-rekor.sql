@@ -1,8 +1,6 @@
--- Remote D1: v0.4 Rekor stream.
--- Run once against an existing ledger:
---   ALTER TABLE domains ADD COLUMN rekor_synced_at TEXT;
--- (D1 SQLite has no ADD COLUMN IF NOT EXISTS.)
--- Fresh databases already have this from schema.sql.
+-- Remote D1: v0.4 Rekor stream (domain-keyed).
+-- Superseded by migrate-rekor-subject.sql (leftover subject key, no domains FK).
+-- Do not run this on a database that already has migrate-rekor-subject.sql.
 
 CREATE TABLE IF NOT EXISTS rekor_entries (
   domain TEXT NOT NULL,

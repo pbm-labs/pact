@@ -43,7 +43,7 @@ Rekor ya registra metadatos de software firmado. Existe porque la cadena de sumi
 
 Se puede publicar una firma nueva tan barato como un certificado nuevo. Eso es un calendario débil, no una prueba de que un nombre sea legítimo, ni una afirmación de calidad sobre el software.
 
-Este sitio indexa el log público cuando el nombre está en el ledger. No hay un rito extra. Una identidad se vincula solo cuando su host cubre el dominio conectado. Un URI de github.com no cubre el nombre de un cliente. Las consultas usan solo nombres residuales — el dominio y sus formas www y https. No se buscan buzones adivinados. La cobertura a menudo estará vacía. Eso es lo esperado.
+Este sitio indexa sujetos residuales de Rekor — un URI de GitHub, un correo o un hostname — no un dominio conectado. Un URI de github.com es leftover de primer orden; no cubre el sitio de un cliente. El leftover de host usa ese nombre y sus formas www y https. El leftover de correo es el buzón exacto ya presente en el log. No se buscan buzones adivinados. Un leftover de hostname vacío es lo esperado.
 
 Las hojas de firma llevan una identidad, una hora integrada y un id de entrada. Comparten el árbol y el espacio de índices con las hojas de correo y de certificados. Nunca se fusionan con ellas.
 

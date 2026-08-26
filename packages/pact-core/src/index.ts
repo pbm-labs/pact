@@ -71,11 +71,22 @@ export {
 } from './encoding/rekor-leaf.js';
 export {
   REKOR_PUBLIC_LOG,
+  canonicalRekorIdentity,
   leftoverRekorSubjects,
   parseRekorLogEntry,
   parseRekorUuidList,
+  rekorSearchSubjects,
   type RekorIndexEntry,
 } from './encoding/rekor-index.js';
+export {
+  KIND_CATALOG,
+  kindCatalogDocument,
+  parseKindId,
+  type KindCatalogEntry,
+  type KindId,
+  type KindRootRef,
+  type KindStake,
+} from './kinds.js';
 export { SparseMerkleTree, TREE_DEPTH, ZERO_HASHES, type Hash } from './merkle/sparse.js';
 export {
   parseDmarcAggregateReport,

@@ -1,4 +1,4 @@
-import { normalizeDomain } from '@pact/core';
+import { canonicalRekorIdentity, normalizeDomain } from '@pact/core';
 import { PACT_ROOTS_ADDRESS, readLatestRoot } from './chain.js';
 import {
   getDomain,
@@ -20,7 +20,9 @@ import {
 import { getWrapperMeta, getWrapperRfc822, normalizeWrapperHash, checkStoredWrapper } from './wrapper-store.js';
 import { publishAnchoredRoot } from './publish-root.js';
 import { ingestCtBatch, ingestCtForDomain } from './ct-ingest.js';
-import { ingestRekorBatch, ingestRekorForDomain } from './rekor-ingest.js';
+import { ingestRekorBatch, ingestRekorForIdentity } from './rekor-ingest.js';
+import { handleKindsAndEvidence } from './evidence.js';
+import { leafProof, loadSharedTree } from './merkle.js';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -91,6 +93,9 @@ export async function handleLedgerRequest(
 
   const url = new URL(request.url);
   const path = url.pathname.replace(/\/$/, '') || '/';
+
+  const kindsOrEvidence = await handleKindsAndEvidence(request, env, json, publicOnChain);
+  if (kindsOrEvidence) return kindsOrEvidence;
 
   if (request.method === 'GET' && (path === '/' || path === '/v1/health')) {
     return json({
@@ -176,12 +181,17 @@ export async function handleLedgerRequest(
   if (request.method === 'POST' && path === '/v1/rekor/ingest') {
     const denied = requireWriteAuth(request, env.LEDGER_WRITE_SECRET);
     if (denied) return denied;
-    const body = (await request.json().catch(() => ({}))) as { domain?: string };
-    if (body.domain) {
-      const domain = normalizeDomain(body.domain);
-      const row = await ingestRekorForDomain(env.DB, domain);
+    const body = (await request.json().catch(() => ({}))) as {
+      identity?: string;
+      domain?: string;
+    };
+    const rawIdentity = body.identity ?? body.domain;
+    if (rawIdentity) {
+      const identity = canonicalRekorIdentity(rawIdentity);
+      if (!identity) return json({ error: 'invalid_identity' }, 400);
+      const row = await ingestRekorForIdentity(env.DB, identity);
       if (row.inserted > 0) await publishAnchoredRoot(env);
-      return json({ ok: true, domain, ...row });
+      return json({ ok: true, ...row });
     }
     const batch = await ingestRekorBatch(env.DB);
     if (batch.inserted > 0) await publishAnchoredRoot(env);
@@ -192,13 +202,30 @@ export async function handleLedgerRequest(
   if (request.method === 'GET' && leafMatch) {
     const leafHash = normalizeWrapperHash(decodeURIComponent(leafMatch[1]!));
     if (!leafHash) return json({ error: 'invalid_hash' }, 400);
+    const treeState = await loadSharedTree(env.DB);
+    const onChain = await publicOnChain(env);
+    const root = {
+      type: 'shared' as const,
+      hash: treeState?.root ?? null,
+      leaf_count: treeState?.leafCount ?? 0,
+      contract: PACT_ROOTS_ADDRESS,
+      chain: 'base-sepolia',
+      on_chain: onChain,
+    };
     const leaf = await getLeafByHash(env.DB, leafHash);
-    if (leaf) return json({ kind: 'dmarc', ...leaf });
+    if (leaf) {
+      const incl = leafProof(treeState?.tree, leaf.leaf_index, leaf.leaf_hash);
+      return json({ kind: 'dmarc', ...leaf, root, ...incl });
+    }
     const ct = await getCtCertByHash(env.DB, leafHash);
-    if (ct) return json({ kind: 'ct', ...ct });
+    if (ct) {
+      const incl = leafProof(treeState?.tree, ct.leaf_index, ct.leaf_hash);
+      return json({ kind: 'ct', ...ct, root, ...incl });
+    }
     const rekor = await getRekorEntryByHash(env.DB, leafHash);
     if (!rekor) return json({ error: 'not_found' }, 404);
-    return json({ kind: 'rekor', ...rekor });
+    const incl = leafProof(treeState?.tree, rekor.leaf_index, rekor.leaf_hash);
+    return json({ kind: 'rekor', ...rekor, root, ...incl });
   }
 
   const wrapperMatch = path.match(/^\/v1\/wrappers\/([^/]+)(?:\/(rfc822|check))?$/);

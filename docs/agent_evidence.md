@@ -1,7 +1,7 @@
 # PACT — Evidence interface for agents
 
-**Status:** Design note (August 2026). Not normative. Does not replace `docs/pact_protocol.md`.
-**Live API today:** still domain-scoped (`GET /v1/domains`, `GET /v1/domains/:domain`). This note is the interface that kinds with different key shapes actually require.
+**Status:** Live on the reference ledger (August 2026). Complements `docs/pact_protocol.md`; does not replace it.
+**Live API:** `GET https://ledger.webuildreal.dev/v1/kinds` and `GET https://ledger.webuildreal.dev/v1/evidence?kind=&identity=`. Domain-scoped `GET /v1/domains` remains for mail/CT connect leftovers.
 **Audience:** whoever builds a policy / governance / execution layer on top of leftover traces. PACT does not define that layer.
 
 ---
@@ -50,13 +50,13 @@ PACT MUST NOT correlate identities across kinds (e.g. MUST NOT treat `github.com
 
 The agent does not start from “open this domain.” It extracts leftover identities from the moment, then asks **per kind**.
 
-**Shape (v1 of this interface, not live yet):**
+**Shape (live):**
 
 - Catalog: `GET /v1/kinds`
-- Query: **kind + identity** (not a domain bag)
-- Result: leaves for that kind whose leftover key is that identity, **or zero rows**
+- Query: **kind + identity** (`GET /v1/evidence?kind=mail|ct|rekor&identity=`)
+- Result: leaves for that kind whose leftover key is that identity, **or zero rows** (HTTP 200)
 - Each result **echoes the identity it actually used**
-- Proof: leaf, index, inclusion against a **named root** (`shared` | `kind_id`)
+- Proof: list rows include `included` (membership in the live shared tree). The inclusion proof is on `GET /v1/leaves/:hash` against a **named** root (`shared`). List responses MUST NOT dump proof arrays.
 
 Zero rows is a successful answer: “this log has no leftover under that identity.” It is not a missing setup step.
 
@@ -99,7 +99,7 @@ This is a **static property of the kind**, not an interpretation of a particular
 
 PACT publishes the flag. The policy engine decides what to do with it. PACT does not score.
 
-**Live kinds (when the catalog is built, declare — do not assume):**
+**Live kinds (catalog, `GET /v1/kinds`):**
 
 | Kind | Stake |
 | --- | --- |

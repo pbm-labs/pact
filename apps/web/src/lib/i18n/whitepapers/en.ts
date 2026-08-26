@@ -43,7 +43,7 @@ Rekor already records signed software metadata. It exists because the software s
 
 A new signature can be published as cheaply as a new certificate. That is a weak calendar, not proof that a name is legitimate, and not a quality claim about the software.
 
-This site indexes the public log after the name is on the ledger. There is no extra ritual. An identity is bound only when its host covers the connected domain. A github.com URI does not cover a customer's name. Queries use leftover subject names only — the domain and its www and https forms. Guessed mailboxes are not searched. Coverage will often be empty. That is expected.
+This site indexes leftover Rekor subjects — a GitHub URI, an email, or a hostname — not a connected domain. A github.com URI is first-class leftover; it does not cover a customer's website. Host leftover uses that name and its www and https forms. Email leftover is the exact mailbox already in the log. Guessed mailboxes are not searched. Empty hostname leftover is expected.
 
 Signature leaves carry an identity, an integrated time, and an entry id. They share the tree and the leaf index space with mail and certificate leaves. They are never merged into those leaves.
 

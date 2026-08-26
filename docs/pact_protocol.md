@@ -21,7 +21,8 @@ This document is the single protocol specification. It supersedes the earlier sp
 | Leaves | Off-chain (Cloudflare D1 + public HTTP API). Roots attest **inclusion**, not leaf availability (§9.3) |
 | Hosts | App: `https://webuildreal.dev`. Ledger: `https://ledger.webuildreal.dev` |
 | Connect | Cloudflare OAuth, or `GET /api/connect/register` then `POST /v1/domains`. Mail DNS is a separate step |
-| Root cadence | On ingest, and a **15-minute** cron (`*/15 * * * *`) that also indexes crt.sh and rekor.sigstore.dev |
+| Root cadence | On ingest, and a **15-minute** cron (`*/15 * * * *`) that indexes crt.sh for connected domains and rekor.sigstore.dev for leftover subjects |
+| Agent evidence | `GET /v1/kinds`, `GET /v1/evidence?kind=&identity=` (zero rows is 200) |
 | Report source auth | Wrapper DKIM (RFC 6376) + reporter/`org_name` allowlist (§3.1.1). SPF of the connecting MTA is **not** independently checked (Email Routing accepted the hop) |
 
 ---
@@ -375,11 +376,11 @@ The reference ingest reads **rekor.sigstore.dev**, a public *index* over that lo
 
 A Rekor leaf attests leftover calendar, not "this name is legitimate" and not software quality. A new signature is as cheap as a new certificate.
 
-**Inclusion:** A Rekor identity MUST cover the connected domain. Email host, URI host, or a bare DNS name covers the domain when it equals the domain or is a subdomain of it. Identities whose host is unrelated (including `github.com` and other forges) MUST be dropped.
+**Key:** The leftover subject Rekor already used — a GitHub (or other) URI, an email, or a hostname. That subject is first-class. Implementations MUST NOT require a connected domain, MUST NOT treat `github.com/…` as covering a customer domain, and MUST NOT map a forge URI onto a website.
 
-**Search:** Implementations MUST query leftover subject names only: the connected domain, `www.{domain}`, `https://{domain}`, and `https://www.{domain}`. They MUST NOT guess mailboxes (`admin@`, `security@`, and similar). Rekor v1 `/api/v1/index/retrieve` is experimental; empty results and index errors MUST be tolerated. Coverage will often be empty. That is expected.
+**Search:** For a hostname leftover, query that name, `www.{name}`, `https://{name}`, and `https://www.{name}`. For a URI or email leftover, query that canonical subject only. Implementations MUST NOT guess mailboxes (`admin@`, `security@`, and similar). Rekor v1 `/api/v1/index/retrieve` is experimental; empty results and index errors MUST be tolerated. Empty leftover for a hostname is expected: Sigstore's usual identity is the signer, not the website.
 
-**Dedup:** Primary key is `(domain, uuid)`. `uuid` is Rekor's entry id (64 or 80 lowercase hex characters, no `0x` prefix).
+**Dedup:** Primary key is `(identity, uuid)` with `uuid` unique in the tree. `identity` is the canonical leftover subject. `uuid` is Rekor's entry id (64 or 80 lowercase hex characters, no `0x` prefix).
 
 Rekor leaves share the same sparse Merkle tree and `leaf_index` space as DMARC and CT leaves. They MUST NOT be merged into those leaves.
 
@@ -519,7 +520,7 @@ Applications MAY interpret published fields (independently confirmed days, strea
 
 ### 5.1 Structural Privacy Guarantee
 
-PACT's privacy guarantee is structural, not policy-based. The mail stream holds because DMARC aggregate reports contain no message content, no recipient addresses, and no sender mailbox identifiers. Certificate Transparency and Rekor are already-public leftover logs: this protocol indexes exhaust that is already on the open internet (certificate metadata; Rekor identities that cover the domain). Implementations MUST NOT guess mailboxes to search Rekor, and MUST NOT blend kinds into a score.
+PACT's privacy guarantee is structural, not policy-based. The mail stream holds because DMARC aggregate reports contain no message content, no recipient addresses, and no sender mailbox identifiers. Certificate Transparency and Rekor are already-public leftover logs: this protocol indexes exhaust that is already on the open internet (certificate metadata; Rekor leftover subjects — host, URI, or email — as those logs already recorded them). Implementations MUST NOT guess mailboxes to search Rekor, MUST NOT treat a forge URI as a customer domain, and MUST NOT blend kinds into a score.
 
 ### 5.2 What Is On-Chain (Public)
 
@@ -549,12 +550,12 @@ IP addresses in DMARC aggregate reports may constitute personal data in some jur
 - Any message content (subject, body, attachments)
 - Any recipient email address or identity
 - Any sender email address from mail (only the sending domain)
-- Guessed mailboxes used to search Rekor — bind only leftover identities that already cover the domain
+- Guessed mailboxes used to search Rekor — bind only leftover subjects the log already used (host, URI, or email). MUST NOT invent mailboxes.
 - Any personally identifiable information from message headers
 - Any individual message identifier
 - DMARC forensic report (ruf=) data
 
-Rekor identities that already cover the domain may appear because they are leftover public log exhaust, not because PACT invented a mailbox.
+Rekor leftover subjects (including GitHub URIs and emails already in the public log) may appear because they are leftover public log exhaust, not because PACT invented a mailbox or bound a forge to a website.
 
 ### 5.5 GDPR and Privacy Regulations
 
@@ -844,8 +845,8 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 | Queue | Cloudflare Queues (`pact-reports`) |
 | Processing | Cloudflare Workers + `@pact/core` |
 | Leaf availability | Cloudflare D1 (`pact-ledger`) — schema in `workers/ingest/src/schema.sql` |
-| Public ledger API | `GET /v1/root`, `GET /v1/domains` (`{ domains, leaves, ct, rekor }`), `GET /v1/domains/:domain`, `GET /v1/leaves/:hash`, `GET /v1/wrappers/:hash`, `GET /v1/wrappers/:hash/rfc822`, `GET /v1/wrappers/:hash/check` on the ingest Worker. Write: `POST /v1/domains`, `POST /v1/root/publish`, `POST /v1/ct/ingest`, `POST /v1/rekor/ingest` (Bearer). |
-| CT / Rekor index | Cron + connect `waitUntil`. crt.sh and rekor.sigstore.dev. Empty Rekor coverage is expected. |
+| Public ledger API | `GET /v1/root`, `GET /v1/kinds`, `GET /v1/evidence`, `GET /v1/domains` (`{ domains, leaves, ct, rekor }`), `GET /v1/domains/:domain`, `GET /v1/leaves/:hash` (named shared-root proof), `GET /v1/wrappers/:hash`, `GET /v1/wrappers/:hash/rfc822`, `GET /v1/wrappers/:hash/check` on the ingest Worker. Write: `POST /v1/domains`, `POST /v1/root/publish`, `POST /v1/ct/ingest`, `POST /v1/rekor/ingest` (Bearer). |
+| CT / Rekor index | Cron + connect `waitUntil` (host leftover only). crt.sh and rekor.sigstore.dev. Rekor is keyed by leftover subject. Empty hostname coverage is expected. |
 | On-chain roots | `PactRoots` on **Base Sepolia** — [`0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee`](https://sepolia.basescan.org/address/0x873e76897BC3Fe8EBdfa67cb73404dA75B2d64ee) |
 | Public pages | Next.js (`apps/web`) at `https://webuildreal.dev` |
 | DNS onboarding | Cloudflare API (OAuth) registers the domain and adds rua=. Manual / existing-tool: site form → `POST /v1/domains`, then DNS or tool. First valid mail report upserts the domain if missing. |
@@ -863,7 +864,7 @@ The first PACT reference implementation, provided by PBM Labs LLC and hosted und
 - Report acceptance requires a passing wrapper DKIM `d=` on the reporter (or forwarding-agent) allowlist. SPF of the connecting MTA is not independently checked.
 - The leaf commits the wrapper keccak256 and passing `d=` / selector (Appendix C.5). Those openings are on the public leaf. The RFC822 is not on-chain (size, and envelope headers include reporter mailboxes). The reference implementation stores the Email Worker copy plus a DKIM TXT snapshot in Supabase Storage. A checker confirms keccak256 of those bytes matches the leaf, and that the key from ingest's DNS lookup is on record. RFC 6376 on that copy may fail. A stranger can still recompute the leaf from the published openings and check the Merkle proof, without asking ingest to re-verify.
 - Leaves are available from the operator's D1 / HTTP API. The chain does not store leaves (§9.3).
-- CT and Rekor ingest read public indexes (`crt.sh`, `rekor.sigstore.dev`), not those logs' Merkle proofs. Rekor search is experimental; empty coverage is expected. Kinds are not blended.
+- CT and Rekor ingest read public indexes (`crt.sh`, `rekor.sigstore.dev`), not those logs' Merkle proofs. Rekor search is experimental; empty hostname leftover is expected. GitHub leftover is a first-class identity, not a customer domain. Kinds are not blended.
 
 This stack is not normative. Any implementation producing identical leaf hashes (Appendix C) and compatible Merkle proofs (Section 3.3.1) is interoperable.
 
@@ -982,9 +983,10 @@ The reference implementation sets `log_id = "crt.sh"` and `log_index` to the crt
 
 ```
 kind_id = keccak256(utf8("pact-rekor-v1"))
-domain_hash = keccak256(utf8(normalized_domain))   // C.1
+leftover_hash = keccak256(utf8(canonical leftover identity))
+domain_hash = leftover_hash          // layout slot; not a connected-domain binding
 entry_id_hash = keccak256(utf8(normalized_uuid))   // lowercase hex, 64 or 80 chars, no 0x
-identity_hash = keccak256(utf8(lower(trim(identity))))
+identity_hash = leftover_hash
 log_id_hash = keccak256(utf8(lower(trim(log_id))))
 
 preimage = abi.encodePacked(
@@ -999,9 +1001,11 @@ preimage = abi.encodePacked(
 leaf = keccak256(preimage)
 ```
 
-The v0.2 DMARC preimage (C.4) MUST remain untagged. A Rekor leaf MUST include `kind_id` as the first word so it cannot collide with a DMARC or CT leaf of the same domain.
+Canonical leftover identity: DNS name per C.1; email as lowercase trimmed (no guessed mailboxes); URI as lowercase `https://host/path` (trailing slash stripped). URIs MUST NOT be passed through C.1 domain normalization. For host leftover the leftover identity *is* the DNS name, so this matches a v0.4 host-keyed hash. There were no live Rekor rows at this revision.
 
-The reference implementation sets `log_id = "rekor.sigstore.dev"` and `log_index` to Rekor's numeric `logIndex`. That indexes the public log; it does not reproduce Rekor's Merkle proof. `identity` is the leftover subject used to find the entry and MUST still cover the domain.
+The v0.2 DMARC preimage (C.4) MUST remain untagged. A Rekor leaf MUST include `kind_id` as the first word so it cannot collide with a DMARC or CT leaf of the same leftover key.
+
+The reference implementation sets `log_id = "rekor.sigstore.dev"` and `log_index` to Rekor's numeric `logIndex`. That indexes the public log; it does not reproduce Rekor's Merkle proof. `identity` is the leftover subject used to find the entry. GitHub URIs are first-class leftover identities. Implementations MUST NOT guess mailboxes.
 
 ---
 
@@ -1013,7 +1017,7 @@ The reference implementation sets `log_id = "rekor.sigstore.dev"` and `log_index
 | v0.2 (June 2026) | Merkle parameters, leaf encoding, reporter allowlist, threat model. Diversity formula in that draft was **not** implemented |
 | This document (August 2026) | Single spec: Merkle/encoding/roots/DKIM. Scoring is not protocol. Base Sepolia `PactRoots` + D1 leaf availability + wrapper DKIM + wrapper witness in the leaf (C.5) |
 | v0.3 (August 2026) | Typed leaf kinds. CT binding `pact-ct-v1` (C.6) on the same tree. DMARC v0.2 encoding frozen. Judgement stays outside; kinds are not blended. |
-| v0.4 (August 2026) | Rekor binding `pact-rekor-v1` (C.7) on the same tree. Bind only when identity covers the domain. Exact leftover SANs; no guessed mailboxes. Index, not Rekor proof. |
+| v0.4 (August 2026) | Rekor binding `pact-rekor-v1` (C.7) on the same tree. Keyed by leftover subject (GitHub URI, email, host). Exact leftover; no guessed mailboxes; no connected-domain gate. Index, not Rekor proof. Agent catalog `GET /v1/kinds` + `GET /v1/evidence`. |
 
 | Area | This specification |
 |------|-------------------|

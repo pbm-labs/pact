@@ -43,7 +43,7 @@ Rekor enregistre déjà les métadonnées de logiciels signés. Il existe parce 
 
 Une nouvelle signature peut être publiée aussi bon marché qu’un nouveau certificat. C’est un calendrier faible, non une preuve qu’un nom est légitime, ni une affirmation de qualité sur le logiciel.
 
-Ce site indexe le journal public une fois le nom sur le ledger. Il n’y a pas de rituel extra. Une identité n’est liée que lorsque son hôte couvre le domaine connecté. Un URI github.com ne couvre pas le nom d’un client. Les requêtes n’utilisent que des noms de sujet résiduels — le domaine et ses formes www et https. On ne cherche pas des boîtes devinées. La couverture sera souvent vide. C’est attendu.
+Ce site indexe les sujets Rekor résiduels — un URI GitHub, un e-mail ou un nom d’hôte — pas un domaine connecté. Un URI github.com est un leftover de premier ordre ; il ne couvre pas le site d’un client. Le leftover d’hôte utilise ce nom et ses formes www et https. Le leftover e-mail est la boîte exacte déjà présente dans le journal. On ne cherche pas des boîtes devinées. Un leftover d’hôte vide est attendu.
 
 Les feuilles de signature portent une identité, une heure intégrée et un id d’entrée. Elles partagent l’arbre et l’espace d’index avec les feuilles de courrier et de certificats. Elles ne sont jamais fusionnées avec elles.
 

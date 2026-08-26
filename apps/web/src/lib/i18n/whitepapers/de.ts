@@ -43,7 +43,7 @@ Rekor zeichnet Metadaten signierter Software bereits auf. Es existiert, weil die
 
 Eine neue Signatur kann so billig veröffentlicht werden wie ein neues Zertifikat. Das ist ein schwacher Kalender, kein Beweis, dass ein Name legitim ist, und keine Qualitätsaussage über die Software.
 
-Diese Seite indexiert das öffentliche Log, sobald der Name auf dem Ledger steht. Es gibt kein Extra-Ritual. Eine Identität wird nur gebunden, wenn ihr Host die verbundene Domain abdeckt. Eine github.com-URI deckt den Namen eines Kunden nicht ab. Abfragen nutzen nur übrig gebliebene Subject-Namen — die Domain und ihre www- und https-Formen. Geratene Postfächer werden nicht gesucht. Die Abdeckung ist oft leer. Das ist erwartet.
+Diese Seite indexiert übrig gebliebene Rekor-Subjects — eine GitHub-URI, eine E-Mail oder einen Hostnamen — nicht eine verbundene Domain. Eine github.com-URI ist ein eigenständiges Leftover; sie deckt die Website eines Kunden nicht ab. Host-Leftover nutzt diesen Namen und seine www- und https-Formen. E-Mail-Leftover ist das genaue Postfach, das bereits im Log steht. Geratene Postfächer werden nicht gesucht. Leeres Hostname-Leftover ist erwartet.
 
 Signatur-Leaves tragen eine Identität, eine integrierte Zeit und eine Entry-Id. Sie teilen Baum und Leaf-Indexraum mit Mail- und Zertifikats-Leaves. Sie werden nie in diese Leaves zusammengeführt.
 

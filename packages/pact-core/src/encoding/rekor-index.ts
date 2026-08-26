@@ -1,5 +1,4 @@
 import { normalizeDomain } from './domain.js';
-import { rekorIdentityCoversDomain } from './rekor-leaf.js';
 
 export const REKOR_PUBLIC_LOG = 'rekor.sigstore.dev' as const;
 
@@ -12,7 +11,41 @@ export interface RekorIndexEntry {
   entryKind: string;
 }
 
-/** Exact SAN lookups only. No guessed mailboxes. */
+/** Exact leftover subject as stored and hashed. No guessed mailboxes. */
+export function canonicalRekorIdentity(raw: string): string | null {
+  const s = raw.trim().toLowerCase();
+  if (!s || s.length > 512) return null;
+
+  if (s.includes('@') && !s.includes('://')) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)) return null;
+    return s;
+  }
+
+  const asUrl = s.includes('://') ? s : s.startsWith('github.com/') ? `https://${s}` : null;
+  if (asUrl) {
+    try {
+      const u = new URL(asUrl);
+      if (!u.hostname) return null;
+      const path = u.pathname.replace(/\/+$/, '');
+      return `${u.protocol}//${u.host}${path}${u.search}`;
+    } catch {
+      return null;
+    }
+  }
+
+  const host = normalizeDomain(s);
+  return host || null;
+}
+
+/** Subjects to send to Rekor’s experimental index. Exact email/URI, or host leftover variants. */
+export function rekorSearchSubjects(identity: string): string[] {
+  const id = canonicalRekorIdentity(identity);
+  if (!id) return [];
+  if (id.includes('@') || id.includes('://')) return [id];
+  return leftoverRekorSubjects(id);
+}
+
+/** Host leftover lookups (not GitHub URIs, not guessed mailboxes). */
 export function leftoverRekorSubjects(domain: string): string[] {
   const d = normalizeDomain(domain);
   if (!d) return [];
@@ -56,15 +89,15 @@ function asInt(value: unknown): number | null {
 
 /**
  * One object from GET /api/v1/log/entries/{uuid}.
- * `identity` is the leftover SAN used to find the entry; it MUST still cover the domain.
+ * `identity` is the leftover subject used to find the entry (host, URI, or email).
  */
 export function parseRekorLogEntry(
   raw: unknown,
   identity: string,
-  domain: string,
   logId = REKOR_PUBLIC_LOG,
 ): RekorIndexEntry | null {
-  if (!rekorIdentityCoversDomain(identity, domain)) return null;
+  const leftover = canonicalRekorIdentity(identity);
+  if (!leftover) return null;
   const root = asRecord(raw);
   if (!root) return null;
 
@@ -100,7 +133,7 @@ export function parseRekorLogEntry(
     logId,
     logIndex: BigInt(logIndex),
     integratedTime,
-    identity: identity.trim().toLowerCase(),
+    identity: leftover,
     entryKind,
   };
 }

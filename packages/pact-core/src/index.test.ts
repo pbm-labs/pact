@@ -8,8 +8,12 @@ import {
   leftoverRekorSubjects,
   parseRekorLogEntry,
   parseRekorUuidList,
+  canonicalRekorIdentity,
+  rekorSearchSubjects,
   rekorIdentityCoversDomain,
   rekorKindId,
+  kindCatalogDocument,
+  parseKindId,
   certNamesCoverDomain,
   fingerprintFromParts,
   fingerprintFromSha256,
@@ -545,9 +549,18 @@ describe('Rekor leaf hash', () => {
     expect(rekorKindId()).toMatch(/^0x[a-f0-9]{64}$/);
     expect(computeRekorLeafHash({ ...input, logIndex: 43n })).not.toBe(a);
     expect(ctKindId()).not.toBe(rekorKindId());
+    expect(
+      computeRekorLeafHash({
+        identity: 'https://github.com/acme/app',
+        uuid: 'aa'.repeat(32),
+        integratedTime: 1_700_000_100n,
+        logId: 'rekor.sigstore.dev',
+        logIndex: 42n,
+      }),
+    ).not.toBe(a);
   });
 
-  it('binds leftover identities to the domain and rejects GitHub hosts', () => {
+  it('does not attach GitHub leftover to a customer domain', () => {
     expect(rekorIdentityCoversDomain('example.com', 'example.com')).toBe(true);
     expect(rekorIdentityCoversDomain('https://www.example.com/path', 'example.com')).toBe(true);
     expect(rekorIdentityCoversDomain('ci@example.com', 'example.com')).toBe(true);
@@ -559,6 +572,16 @@ describe('Rekor leaf hash', () => {
       'https://example.com',
       'https://www.example.com',
     ]);
+  });
+
+  it('canonical leftover subjects and search lists', () => {
+    expect(canonicalRekorIdentity('GitHub.com/acme/app')).toBe('https://github.com/acme/app');
+    expect(canonicalRekorIdentity('CI@Example.COM')).toBe('ci@example.com');
+    expect(rekorSearchSubjects('https://github.com/acme/app')).toEqual([
+      'https://github.com/acme/app',
+    ]);
+    expect(rekorSearchSubjects('ci@example.com')).toEqual(['ci@example.com']);
+    expect(rekorSearchSubjects('Example.COM')).toEqual(leftoverRekorSubjects('example.com'));
   });
 
   it('parses Rekor UUID lists and log entries', () => {
@@ -574,17 +597,31 @@ describe('Rekor leaf hash', () => {
         },
       },
       'example.com',
-      'example.com',
     );
     expect(entry?.uuid).toBe(uuid);
     expect(entry?.logIndex).toBe(99n);
     expect(entry?.entryKind).toBe('hashedrekord');
-    expect(
-      parseRekorLogEntry(
-        { [uuid]: { body, integratedTime: 1, logIndex: 1 } },
-        'https://github.com/x',
-        'example.com',
-      ),
-    ).toBeNull();
+    expect(entry?.identity).toBe('example.com');
+    const github = parseRekorLogEntry(
+      { [uuid]: { body, integratedTime: 1, logIndex: 1 } },
+      'https://github.com/acme/app',
+    );
+    expect(github?.identity).toBe('https://github.com/acme/app');
+    expect(github?.uuid).toBe(uuid);
+  });
+});
+
+describe('kind catalog', () => {
+  it('declares leftover key shapes and a shared kind_root', () => {
+    const doc = kindCatalogDocument();
+    expect(doc.tree.type).toBe('shared');
+    expect(parseKindId('dmarc')).toBe('mail');
+    expect(parseKindId('signatures')).toBe('rekor');
+    expect(parseKindId('nope')).toBeNull();
+    const rekor = doc.kinds.find((k) => k.id === 'rekor');
+    expect(rekor?.key.shape).toBe('leftover_subject');
+    expect(rekor?.stake).toBe('calendar');
+    expect(rekor?.kind_root).toEqual({ type: 'shared' });
+    expect(doc.kinds.find((k) => k.id === 'mail')?.stake).toBe('accumulated');
   });
 });

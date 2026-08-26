@@ -1,5 +1,6 @@
 import { encodePacked, keccak256, toBytes, type Hex } from 'viem';
 import { normalizeDomain } from './domain.js';
+import { canonicalRekorIdentity } from './rekor-index.js';
 
 /** Kind tag. DMARC stays untagged. CT uses pact-ct-v1. Rekor MUST prefix this. */
 export const REKOR_KIND_TAG = 'pact-rekor-v1' as const;
@@ -9,10 +10,11 @@ export function rekorKindId(): Hex {
 }
 
 export interface RekorLeafInput {
-  domain: string;
+  /** @deprecated leftover subject is `identity`. Kept so host leftover hashes match v0.4 tests. */
+  domain?: string;
   /** Rekor entry UUID (64 or 80 hex). Hashed into the leaf. */
   uuid: string;
-  /** SAN / email / URI that bound this entry to the domain. */
+  /** Leftover subject as logged (host, URI, or email). Key of the kind. */
   identity: string;
   integratedTime: bigint;
   logId: string;
@@ -42,9 +44,8 @@ function hostCoversDomain(host: string, target: string): boolean {
 }
 
 /**
- * Bind a Rekor identity to a connected domain.
- * Email host, URI host, or bare DNS must cover the domain.
- * github.com (and any other unrelated host) does not cover a customer's name.
+ * Whether a leftover subject’s host is this DNS name.
+ * Used for mail/CT-style host leftover only — not to attach GitHub URIs to a customer domain.
  */
 export function rekorIdentityCoversDomain(identity: string, domain: string): boolean {
   const target = normalizeDomain(domain);
@@ -65,16 +66,20 @@ export function rekorIdentityCoversDomain(identity: string, domain: string): boo
 }
 
 export function computeRekorLeafHash(input: RekorLeafInput): Hex {
-  const domainHash = keccak256(toBytes(normalizeDomain(input.domain)));
+  const leftover =
+    canonicalRekorIdentity(input.identity) ??
+    (input.domain ? normalizeDomain(input.domain) : '');
+  if (!leftover) throw new Error('rekor leftover identity required');
+  const leftoverHash = keccak256(toBytes(leftover));
   const logIdHash = keccak256(toBytes(input.logId.trim().toLowerCase()));
   return keccak256(
     encodePacked(
       ['bytes32', 'bytes32', 'bytes32', 'bytes32', 'uint256', 'bytes32', 'uint256'],
       [
         rekorKindId(),
-        domainHash,
+        leftoverHash,
         rekorEntryIdHash(input.uuid),
-        rekorIdentityHash(input.identity),
+        leftoverHash,
         input.integratedTime,
         logIdHash,
         input.logIndex,
