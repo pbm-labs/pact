@@ -60,9 +60,9 @@ export function StreamCard({
             {t.home.stakeLabel}
           </dt>
           <dd className="m-0 text-txt">
-            <span className="font-mono text-sm">{stake.label}</span>
+            <p className="m-0 font-mono text-sm">{stake.label}</p>
             {stake.hint ? (
-              <span className="block mt-1 text-muted leading-relaxed">{stake.hint}</span>
+              <p className="m-0 mt-1 text-muted leading-relaxed">{stake.hint}</p>
             ) : null}
           </dd>
         </div>

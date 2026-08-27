@@ -7,7 +7,7 @@ import { CopyableValue } from '@/components/copy-button';
 import { useLocale } from '@/components/locale-provider';
 import type { ConnectPath } from '@/lib/connect-path';
 import type { Dictionary } from '@/lib/i18n';
-import { routes } from '@/lib/routes';
+import { recordsPath, routes } from '@/lib/routes';
 import {
   alertError,
   bodyText,
@@ -134,14 +134,17 @@ function ConnectFlow({
     cloudflare: {
       title: t.connect.pathCloudflareTitle,
       description: t.connect.pathCloudflareDesc,
+      effort: t.connect.pathCloudflareEffort,
     },
     manual: {
       title: t.connect.pathManualTitle,
       description: t.connect.pathManualDesc,
+      effort: t.connect.pathManualEffort,
     },
     'dmarc-tool': {
       title: t.connect.pathToolTitle,
       description: t.connect.pathToolDesc,
+      effort: t.connect.pathToolEffort,
     },
   } as const;
 
@@ -186,11 +189,14 @@ function ConnectFlow({
             ) : null}
           </header>
 
-          {done ? (
+            {done ? (
             <p>
-              <a href={`${routes.ledgerEvidence}?kind=mail&identity=${encodeURIComponent(doneDomain ?? '')}`} className={btnPrimary}>
+              <Link
+                href={doneDomain ? recordsPath(doneDomain) : routes.howItWorks}
+                className={btnPrimary}
+              >
                 {t.connect.doneNext}
-              </a>
+              </Link>
             </p>
           ) : (
           <section>
@@ -204,6 +210,7 @@ function ConnectFlow({
             )}
 
             {!path ? (
+              <>
               <div className="grid grid-cols-1 gap-3">
                   {PATHS.map((key) => {
                     const item = pathCopy[key];
@@ -217,12 +224,19 @@ function ConnectFlow({
                         <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg/80 text-muted group-hover:text-accent">
                           <PathIcon kind={key} />
                         </span>
-                        <span className="text-base font-semibold text-txt">{item.title}</span>
+                        <span className="flex items-center gap-2">
+                          <span className="text-base font-semibold text-txt">{item.title}</span>
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-muted-2">
+                            {item.effort}
+                          </span>
+                        </span>
                         <span className="text-sm text-muted leading-snug">{item.description}</span>
                       </button>
                     );
                   })}
               </div>
+              <p className="mt-6 mb-0 text-sm text-muted leading-relaxed">{t.connect.afterOptions}</p>
+              </>
             ) : (
               <section className={panel}>
                 <div className={panelHeader}>

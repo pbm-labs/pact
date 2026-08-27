@@ -13,7 +13,9 @@ export function MovementFooter() {
       <div
         className={`${container} py-4 flex items-center justify-between gap-4 text-xs text-muted-2 font-mono`}
       >
-        <p className="m-0">&copy; {new Date().getFullYear()} we build real</p>
+        <p className="m-0">
+          &copy; {new Date().getFullYear()} we build real · {t.footer.operator}
+        </p>
         <nav className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2">
           <Link href={routes.connect} className="hover:text-muted no-underline">
             {t.nav.intake}

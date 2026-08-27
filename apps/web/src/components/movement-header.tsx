@@ -13,6 +13,7 @@ export function MovementHeader() {
   const { t } = useLocale();
   const pathname = usePathname();
   const whitepaperActive = pathname === routes.whitepaper || pathname.startsWith('/docs');
+  const howItWorksActive = pathname === routes.howItWorks;
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/75 backdrop-blur-md">
@@ -25,7 +26,15 @@ export function MovementHeader() {
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-5">
-          <nav aria-label={t.nav.whitepaper}>
+          <nav className="flex items-center gap-3 sm:gap-5">
+            <Link
+              href={routes.howItWorks}
+              className={`text-sm font-medium no-underline ${
+                howItWorksActive ? 'text-txt' : 'text-muted hover:text-txt'
+              }`}
+            >
+              {t.nav.howItWorks}
+            </Link>
             <Link
               href={routes.whitepaper}
               className={`text-sm font-medium no-underline ${

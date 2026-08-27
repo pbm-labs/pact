@@ -4,6 +4,7 @@ export const LEDGER_ORIGIN = 'https://ledger.webuildreal.dev';
 export const routes = {
   home: '/',
   connect: '/connect',
+  howItWorks: '/how-it-works',
   whitepaper: '/whitepaper',
   terms: '/terms',
   privacy: '/privacy',

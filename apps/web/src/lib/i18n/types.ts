@@ -12,12 +12,14 @@ export type Dictionary = {
     language: string;
     intake: string;
     whitepaper: string;
+    howItWorks: string;
   };
   footer: {
     terms: string;
     privacy: string;
     ledger: string;
     contact: string;
+    operator: string;
   };
   common: {
     home: string;
@@ -44,11 +46,9 @@ export type Dictionary = {
     unknownEmpty: string;
     heroLine1: string;
     heroLine2: string;
-    heroSubline: string;
     turnLine: string;
     howItWorksHeading: string;
-    ctaHeading: string;
-    ctaButton: string;
+    seeHowItWorks: string;
     liveHeading: string;
     liveViewRecord: string;
     proofRoot: string;
@@ -70,6 +70,10 @@ export type Dictionary = {
     pathManualDesc: string;
     pathToolTitle: string;
     pathToolDesc: string;
+    pathCloudflareEffort: string;
+    pathManualEffort: string;
+    pathToolEffort: string;
+    afterOptions: string;
     putOnLedger: string;
     ledgerExplain: string;
     backToPaths: string;

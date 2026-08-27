@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!domain) return { title: 'Record — We build real' };
   return {
     title: `${domain} — We build real`,
-    description: `Leftover streams for ${domain}. Kind plus identity. Judgement stays outside.`,
+    description: `Public record for ${domain}. Separate streams. Empty is an answer.`,
   };
 }
 

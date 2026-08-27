@@ -3,14 +3,16 @@ import type { Dictionary } from '../types';
 export const fr: Dictionary = {
   nav: {
     language: 'Langue',
-    intake: 'Intake courrier',
+    intake: 'Conserver les rapports courrier',
     whitepaper: 'Livre blanc',
+    howItWorks: 'Comment ça marche',
   },
   footer: {
     terms: 'Conditions',
     privacy: 'Confidentialité',
     ledger: 'Ledger',
     contact: 'Contact',
+    operator: 'PBM Labs LLC',
   },
   common: {
     home: 'Accueil',
@@ -33,20 +35,16 @@ export const fr: Dictionary = {
     stakeCounterparty: 'counterparty',
     stakeCalendarHint: 'Un seul acteur peut allonger la série. Le poids est dans les dates, pas dans un fait.',
     stakeCounterpartyHint: 'Ne grandit que lorsque des tiers indépendants continuent d’agir.',
-    unknownWhat: 'Un flux résiduel du catalogue live.',
-    unknownEmpty: 'Zéro ligne est une réponse.',
+    unknownWhat: 'Un flux du catalogue live.',
+    unknownEmpty: 'Vide est une réponse. Pas d’enregistrement public sous cette identité pour l’instant.',
     heroLine1:
       'L’IA peut falsifier un visage, une voix, un CV, une entreprise « établie » depuis dix ans.',
     heroLine2: 'Elle ne peut toujours pas falsifier hier.',
-    heroSubline:
-      'Le temps qui passe vraiment, pendant que des systèmes indépendants qui ne vous doivent rien regardaient déjà — c’est la dernière preuve qu’on ne peut pas faire apparaître par un prompt.',
     turnLine:
-      'Pas une affirmation que vous faites. Un registre public qui se construit tout seul, à partir d’évidence que n’importe qui peut revérifier.',
+      'Pas une affirmation que vous faites. Un registre public qui se construit tout seul, à partir d’évidence que n’importe qui peut revérifier — évidence qui existait avant que quiconque ne demande à regarder.',
     howItWorksHeading: 'Comment ça marche',
-    ctaHeading:
-      'Deux minutes pour connecter. Pas de code. L’historique commence à s’accumuler dès le premier jour — impossible à antidater.',
-    ctaButton: 'Connecter',
-    liveHeading: 'Leftover live',
+    seeHowItWorks: 'Voir comment ça marche',
+    liveHeading: 'Un enregistrement live',
     liveViewRecord: 'Voir le registre',
     proofRoot: 'Racine',
     proofEmpty: 'Zéro ligne.',
@@ -58,28 +56,28 @@ export const fr: Dictionary = {
         name: 'Courrier',
         what: 'Rapports agrégés DMARC indépendants. Pas de contenu de message.',
         identity: 'Domaine d’envoi',
-        empty: 'Pas de leftover sous ce domaine d’envoi.',
+        empty: 'Pas de rapports sous ce domaine d’envoi.',
       },
       ct: {
         name: 'Certificats',
         what: 'Journaux publics Certificate Transparency.',
         identity: 'Nom d’hôte dans SAN/CN',
-        empty: 'Pas de leftover sous ce nom d’hôte.',
+        empty: 'Pas de certificats sous ce nom d’hôte.',
       },
       rekor: {
         name: 'Signatures',
-        what: 'Leftover public Rekor, indexé par sujet — pas un site que vous avez connecté.',
-        identity: 'Sujet résiduel — URI GitHub, e-mail ou hôte',
-        empty: 'Pas de leftover sous ce sujet. Vide pour un nom d’hôte est l’enregistrement honnête.',
+        what: 'Enregistrements publics Rekor et Sigstore, indexés par sujet — pas un site que vous avez connecté.',
+        identity: 'Sujet — URI GitHub, e-mail ou hôte',
+        empty: 'Pas de signatures sous ce sujet. Vide pour un nom d’hôte est l’enregistrement honnête.',
       },
     },
   },
   connect: {
     backHome: '← Accueil',
-    eyebrow: 'Intake courrier',
-    title: 'Garder le leftover courrier',
+    eyebrow: 'Rapports courrier',
+    title: 'Connecter vos rapports courrier',
     intro:
-      'Ajoute une destination de rapports pour conserver les rapports DMARC indépendants. Ce n’est pas un profil. Certificats et signatures se consultent par leurs propres identités.',
+      'Deux minutes. Surtout automatique. Les systèmes destinataires indépendants envoient déjà des rapports agrégés. Ajoutez une destination pour en conserver une copie.',
     yourDomain: 'Domaine d’envoi',
     pathCloudflareTitle: 'J’utilise Cloudflare',
     pathCloudflareDesc: 'Un clic — nous ajoutons la ligne DNS.',
@@ -88,24 +86,28 @@ export const fr: Dictionary = {
       'Une ligne à coller là où tu gères le DNS — GoDaddy, Namecheap ou un autre hébergeur.',
     pathToolTitle: 'J’utilise déjà un outil',
     pathToolDesc: 'Postmark ou similaire — ajoute cette adresse comme destination de rapports.',
-    putOnLedger: 'Mettre sur le ledger',
-    ledgerExplain:
-      'Enregistre le domaine d’envoi pour ne pas jeter les rapports de courrier. Cela n’attache pas de leftover GitHub ni un journal de signatures à ce site.',
+    pathCloudflareEffort: 'Le plus rapide',
+    pathManualEffort: 'Quelques minutes',
+    pathToolEffort: 'Si vous collectez déjà des rapports',
+    afterOptions:
+      'Les rapports commencent à arriver une fois la destination en place. L’historique part de ce moment. Il ne peut pas être antidaté. Quand le premier rapport indépendant arrive — souvent sous 24–48 h — il apparaît sur l’enregistrement de ce domaine d’envoi.',
+    putOnLedger: 'Enregistrer ce domaine',
+    ledgerExplain: 'Enregistre le domaine d’envoi pour ne pas jeter les rapports entrants.',
     backToPaths: 'Choisir une méthode',
     whatDoesThisDo: 'Que fait ceci ?',
     cloudflareExplain:
-      'Vous vous connecterez à Cloudflare et nous ajouterons PACT comme destination de rapports dans le DNS pour conserver le leftover courrier. Il n’y a pas de profil de domaine ensuite.',
+      'Vous vous connecterez à Cloudflare et nous ajouterons une destination de rapports dans le DNS. L’historique commence à l’arrivée du premier rapport indépendant.',
     toolIntro: 'Dans les réglages de votre outil, ajoutez ceci :',
     toolExplain:
-      'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut dans le leftover courrier. Mettez d’abord le domaine d’envoi sur le ledger. L’historique commence à l’arrivée du premier rapport indépendant (souvent 24–48 h).',
+      'Votre outil collecte déjà des rapports pour ce domaine. Ajouter cette adresse nous inclut comme destination. Enregistrez d’abord le domaine d’envoi pour que les rapports soient conservés. L’historique commence à l’arrivée du premier rapport indépendant (souvent 24–48 h).',
     manualIntro:
       'Collez ceci là où vous gérez le DNS de votre site (demandez à l’hébergeur si vous n’êtes pas sûr) :',
     manualExplain:
-      'Une ligne pour que les systèmes destinataires indépendants envoient des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Mettez d’abord le domaine d’envoi sur le ledger. L’historique commence à l’arrivée du premier rapport indépendant (souvent 24–48 h).',
-    doneTitle: 'L’intake courrier est actif.',
+      'Une ligne pour que les systèmes destinataires indépendants envoient des rapports agrégés ici. Si vous avez déjà une ligne similaire, ajoutez notre adresse au lieu de la remplacer. Enregistrez d’abord le domaine d’envoi. L’historique commence à l’arrivée du premier rapport indépendant (souvent 24–48 h).',
+    doneTitle: 'Les rapports courrier sont dirigés ici.',
     doneBody:
-      'Le domaine d’envoi est sur le ledger. Gardez la ligne DNS. Le leftover courrier apparaît à l’arrivée du premier rapport indépendant — pas à l’envoi de ce formulaire. Interrogez-le en kind=mail.',
-    doneNext: 'Interroger le ledger',
+      'Le domaine d’envoi est enregistré. Gardez la ligne DNS. Les rapports apparaissent à l’arrivée du premier rapport indépendant — pas à l’envoi de ce formulaire.',
+    doneNext: 'Voir l’enregistrement',
     errors: {
       invalid_domain: 'Entrez un domaine valide (p. ex. example.com).',
       server_config: 'Il manque CONNECT_STATE_SECRET ou les identifiants d’écriture du ledger.',

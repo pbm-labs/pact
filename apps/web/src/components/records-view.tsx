@@ -33,10 +33,16 @@ export function RecordsView({
 
       <ol className="m-0 p-0 list-none divide-y divide-border border-y border-border">
         {kinds.map((kind) => {
-          const result = byKind.get(kind.id);
+          const result = byKind.get(kind.id) ?? {
+            kind: kind.id,
+            identity: domain,
+            count: 0,
+            truncated: false,
+            leaves: [],
+          };
           return (
             <StreamCard key={kind.id} kind={kind}>
-              {result ? <EvidenceResult result={result} /> : null}
+              <EvidenceResult result={result} />
             </StreamCard>
           );
         })}

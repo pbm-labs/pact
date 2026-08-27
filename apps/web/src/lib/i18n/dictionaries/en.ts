@@ -3,14 +3,16 @@ import type { Dictionary } from '../types';
 export const en: Dictionary = {
   nav: {
     language: 'Language',
-    intake: 'Mail intake',
+    intake: 'Keep mail reports',
     whitepaper: 'Whitepaper',
+    howItWorks: 'How it works',
   },
   footer: {
     terms: 'Terms',
     privacy: 'Privacy',
     ledger: 'Ledger',
     contact: 'Contact',
+    operator: 'PBM Labs LLC',
   },
   common: {
     home: 'Home',
@@ -33,20 +35,16 @@ export const en: Dictionary = {
     stakeCounterparty: 'counterparty',
     stakeCalendarHint: 'One actor can extend the series. Weight is in dates, not one fact.',
     stakeCounterpartyHint: 'Grows only when independent third parties keep acting.',
-    unknownWhat: 'A leftover stream in the live catalog.',
-    unknownEmpty: 'Zero rows is an answer.',
+    unknownWhat: 'A stream in the live catalog.',
+    unknownEmpty: 'Empty is an answer. No public record under that identity yet.',
     heroLine1:
       'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years.',
     heroLine2: "It still can't fake yesterday.",
-    heroSubline:
-      "Real time actually passing, while independent systems that owe you nothing were already watching — that's the last kind of proof that can't be prompted into existence.",
     turnLine:
-      'Not a claim you make. A public record that builds itself, out of evidence anyone can recheck.',
+      'Not a claim you make. A public record that builds itself, out of evidence anyone can recheck — evidence that existed before you asked anyone to look.',
     howItWorksHeading: 'How it works',
-    ctaHeading:
-      'Two minutes to connect. No code. History starts compounding from day one — impossible to backdate.',
-    ctaButton: 'Connect',
-    liveHeading: 'Live leftover',
+    seeHowItWorks: 'See how it works',
+    liveHeading: 'A live record',
     liveViewRecord: 'See the record',
     proofRoot: 'Root',
     proofEmpty: 'Zero rows.',
@@ -58,28 +56,28 @@ export const en: Dictionary = {
         name: 'Mail',
         what: 'Independent DMARC aggregate reports. No message content.',
         identity: 'Sending domain',
-        empty: 'No leftover under that sending domain.',
+        empty: 'No reports under that sending domain.',
       },
       ct: {
         name: 'Certificates',
         what: 'Public Certificate Transparency logs.',
         identity: 'Hostname in SAN/CN',
-        empty: 'No leftover under that hostname.',
+        empty: 'No certificates under that hostname.',
       },
       rekor: {
         name: 'Signatures',
-        what: 'Public Rekor leftover, keyed by subject — not a website you connected.',
-        identity: 'Leftover subject — GitHub URI, email, or host',
-        empty: 'No leftover under that subject. Empty for a hostname is the honest record.',
+        what: 'Public Rekor and Sigstore records, keyed by subject — not a website you connected.',
+        identity: 'Subject — GitHub URI, email, or host',
+        empty: 'No signatures under that subject. Empty for a hostname is the honest record.',
       },
     },
   },
   connect: {
     backHome: '← Home',
-    eyebrow: 'Mail intake',
-    title: 'Keep mail leftover',
+    eyebrow: 'Mail reports',
+    title: 'Connect your mail reports',
     intro:
-      'Add a report destination so independent DMARC reports are kept. This is not a profile. Certificates and signatures are queried by their own identities.',
+      'Two minutes. Mostly automatic. Independent receiving systems already send aggregate reports. Add a destination so a copy is kept.',
     yourDomain: 'Sending domain',
     pathCloudflareTitle: 'I use Cloudflare',
     pathCloudflareDesc: 'One click — we add the DNS line.',
@@ -88,24 +86,28 @@ export const en: Dictionary = {
       'One line to paste wherever you manage DNS — GoDaddy, Namecheap, or any other host.',
     pathToolTitle: 'I already use a tool',
     pathToolDesc: 'Postmark or similar — add this address as a report destination.',
-    putOnLedger: 'Put on the ledger',
-    ledgerExplain:
-      'Registers the sending domain so mail reports are not dropped. It does not attach GitHub leftover or a signature log to this website.',
+    pathCloudflareEffort: 'Fastest',
+    pathManualEffort: 'A few minutes',
+    pathToolEffort: 'If you already collect reports',
+    afterOptions:
+      'Reports start arriving after the destination is in place. History begins from that point. It cannot be backdated. When the first independent report lands — usually within 24–48 hours — it shows on the record for that sending domain.',
+    putOnLedger: 'Register this domain',
+    ledgerExplain: 'Registers the sending domain so incoming reports are not dropped.',
     backToPaths: 'Choose a method',
     whatDoesThisDo: 'What does this do?',
     cloudflareExplain:
-      "You'll sign in to Cloudflare and we'll add PACT as a report destination in DNS so mail leftover is kept. There is no domain profile afterwards.",
+      "You'll sign in to Cloudflare and we'll add a report destination in DNS. History starts when the first independent report arrives.",
     toolIntro: "In your tool's settings, add this:",
     toolExplain:
-      'Your tool already collects reports for this domain. Adding this address includes us in the mail leftover. Put the sending domain on the ledger first so reports are kept. History starts when the first independent report arrives (usually within 24–48 hours).',
+      'Your tool already collects reports for this domain. Adding this address includes us as a destination. Register the sending domain first so reports are kept. History starts when the first independent report arrives (usually within 24–48 hours).',
     manualIntro:
       "Paste this wherever you manage your website's DNS (ask your host if you're not sure where):",
     manualExplain:
-      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. Put the sending domain on the ledger first. History starts when the first independent report arrives (usually within 24–48 hours).',
-    doneTitle: 'Mail intake is on.',
+      'One line that lets independent receiving systems send aggregate reports here. If you already have a similar line, add our address to it instead of replacing it. Register the sending domain first. History starts when the first independent report arrives (usually within 24–48 hours).',
+    doneTitle: 'Mail reports are pointed here.',
     doneBody:
-      'The sending domain is on the ledger. Keep the DNS line. Mail leftover appears when the first independent report arrives — not when this form is submitted. Query it as kind=mail.',
-    doneNext: 'Query the ledger',
+      'The sending domain is registered. Keep the DNS line. Reports appear when the first independent report arrives — not when this form is submitted.',
+    doneNext: 'See the record',
     errors: {
       invalid_domain: 'Enter a valid domain (e.g. example.com).',
       server_config: 'Server is missing CONNECT_STATE_SECRET or ledger write credentials.',

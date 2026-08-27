@@ -7,9 +7,9 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: 'Mail intake — We build real',
+  title: 'Connect your mail reports — We build real',
   description:
-    'Keep mail leftover. This is not a domain profile. Agents query kind plus identity on the ledger.',
+    'Two minutes. Mostly automatic. Add a destination so independent mail reports are kept.',
 };
 
 export default async function ConnectPage({ searchParams }: PageProps) {

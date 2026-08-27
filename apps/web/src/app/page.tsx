@@ -1,9 +1,5 @@
 import type { Metadata } from 'next';
 import { HomeLanding } from '@/components/home-landing';
-import { loadLiveProof, SAMPLE_PROOF_DOMAIN } from '@/lib/evidence';
-import { loadKindCatalog } from '@/lib/kind-catalog';
-
-export const dynamic = 'force-dynamic';
 
 const title = "It still can't fake yesterday.";
 const description =
@@ -22,10 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function HomePage() {
-  const [kinds, liveProof] = await Promise.all([
-    loadKindCatalog(),
-    loadLiveProof(SAMPLE_PROOF_DOMAIN),
-  ]);
-  return <HomeLanding kinds={kinds} liveProof={liveProof} />;
+export default function HomePage() {
+  return <HomeLanding />;
 }
