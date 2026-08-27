@@ -3,6 +3,8 @@ import { HomeLanding } from '@/components/home-landing';
 import { loadLiveProof, SAMPLE_PROOF_DOMAIN } from '@/lib/evidence';
 import { loadKindCatalog } from '@/lib/kind-catalog';
 
+export const dynamic = 'force-dynamic';
+
 const title = "It still can't fake yesterday.";
 const description =
   'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years. It still can\'t fake yesterday.';

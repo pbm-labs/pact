@@ -5,6 +5,8 @@ import { RecordsView } from '@/components/records-view';
 import { fetchEvidence } from '@/lib/evidence';
 import { loadKindCatalog } from '@/lib/kind-catalog';
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   params: Promise<{ domain: string }>;
 }
