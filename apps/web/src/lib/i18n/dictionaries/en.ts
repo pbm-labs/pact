@@ -21,6 +21,8 @@ export const en: Dictionary = {
     copied: 'Copied',
     loading: 'Loading…',
     toggleTheme: 'Toggle theme',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu',
   },
   home: {
     title: 'Evidence streams',

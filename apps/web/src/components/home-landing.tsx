@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
-import { btnPrimary, btnSecondary, container } from '@/lib/ui';
+import { btnPrimary, container } from '@/lib/ui';
 
 export function HomeLanding() {
   const { t, locale } = useLocale();
@@ -20,11 +20,8 @@ export function HomeLanding() {
         <p className="mt-8 mb-0 text-base sm:text-lg text-muted leading-relaxed max-w-xl">
           {t.home.turnLine}
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <Link href={routes.connect} className={btnPrimary}>
-            {t.home.intakeCta}
-          </Link>
-          <Link href={routes.howItWorks} className={btnSecondary}>
+        <div className="mt-10">
+          <Link href={routes.howItWorks} className={btnPrimary}>
             {t.home.seeHowItWorks}
           </Link>
         </div>

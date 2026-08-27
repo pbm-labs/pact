@@ -21,6 +21,8 @@ export const fr: Dictionary = {
     copied: 'Copié',
     loading: 'Chargement…',
     toggleTheme: 'Changer le thème',
+    openMenu: 'Ouvrir le menu',
+    closeMenu: 'Fermer le menu',
   },
   home: {
     title: 'Flux',

@@ -28,6 +28,8 @@ export type Dictionary = {
     copied: string;
     loading: string;
     toggleTheme: string;
+    openMenu: string;
+    closeMenu: string;
   };
   home: {
     title: string;

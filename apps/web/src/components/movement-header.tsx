@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BrandMark } from '@/components/brand-mark';
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useLocale } from '@/components/locale-provider';
 import { routes } from '@/lib/routes';
@@ -26,7 +27,7 @@ export function MovementHeader() {
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-5">
-          <nav className="flex items-center gap-3 sm:gap-5">
+          <nav className="hidden sm:flex items-center gap-3 sm:gap-5">
             <Link
               href={routes.howItWorks}
               className={`text-sm font-medium no-underline ${
@@ -46,6 +47,7 @@ export function MovementHeader() {
           </nav>
           <LanguageSwitcher />
           <ThemeToggle />
+          <MobileMenu />
         </div>
       </div>
     </header>
