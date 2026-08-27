@@ -1,0 +1,175 @@
+export function ledgerUrl(): string {
+  return (process.env.LEDGER_URL ?? '').replace(/\/$/, '');
+}
+
+export function ledgerConfigured(): boolean {
+  return Boolean(process.env.LEDGER_URL);
+}
+
+export function ledgerObjectUrl(
+  collection: 'leaves' | 'wrappers',
+  hash: string,
+  suffix = '',
+): string | null {
+  const base = ledgerUrl();
+  const hex = hash.trim().toLowerCase().replace(/^0x/, '');
+  if (!base || !/^[0-9a-f]{64}$/.test(hex)) return null;
+  return `${base}/v1/${collection}/${hex}${suffix}`;
+}
+
+async function ledgerFetch(path: string, init?: RequestInit): Promise<Response> {
+  return fetch(`${ledgerUrl()}${path}`, {
+    ...init,
+    headers: {
+      Accept: 'application/json',
+      ...init?.headers,
+    },
+    cache: 'no-store',
+  });
+}
+
+export interface LedgerDomainRow {
+  domain: string;
+  connected_at: string;
+  domain_registered_at: string | null;
+}
+
+export interface LedgerLeafSummary {
+  domain: string;
+  dkim_pass_count: number;
+  reporter_org: string;
+  period_start: number;
+}
+
+export interface LedgerLeafRow {
+  leaf_index: number;
+  leaf_hash: string;
+  domain: string;
+  period_start: number;
+  period_end: number;
+  reporter_org: string;
+  dkim_pass_count: number;
+  dkim_fail_count: number;
+  selectors: string;
+  created_at: string;
+  wrapper_hash?: string;
+  wrapper_dkim_hash?: string;
+  wrapper_hashes?: string;
+  wrapper_dkim?: string;
+}
+
+export interface LedgerOnChain {
+  root: string;
+  leafCount: number;
+  timestamp: number;
+  txHash?: string | null;
+  contract?: string;
+}
+
+export async function fetchLedgerDomains(): Promise<{
+  domains: LedgerDomainRow[];
+  leaves: LedgerLeafSummary[];
+} | null> {
+  try {
+    const res = await ledgerFetch('/v1/domains');
+    if (!res.ok) return null;
+    return (await res.json()) as { domains: LedgerDomainRow[]; leaves: LedgerLeafSummary[] };
+  } catch {
+    return null;
+  }
+}
+
+export interface LedgerWrapperCheck {
+  hashMatches: boolean;
+  dkimKeysOnRecord: boolean;
+  ok: boolean;
+}
+
+function wrapperHashHex(hash: string): string | null {
+  const hex = hash.trim().toLowerCase().replace(/^0x/, '');
+  return /^[0-9a-f]{64}$/.test(hex) ? hex : null;
+}
+
+export async function fetchWrapperCheck(hash: string): Promise<LedgerWrapperCheck | null> {
+  const hex = wrapperHashHex(hash);
+  if (!hex) return null;
+  try {
+    const res = await ledgerFetch(`/v1/wrappers/${hex}/check`);
+    if (!res.ok) return null;
+    const body = (await res.json()) as Partial<LedgerWrapperCheck>;
+    if (typeof body.hashMatches !== 'boolean' || typeof body.dkimKeysOnRecord !== 'boolean') {
+      return null;
+    }
+    return {
+      hashMatches: body.hashMatches,
+      dkimKeysOnRecord: body.dkimKeysOnRecord,
+      ok: body.hashMatches && body.dkimKeysOnRecord,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchWrapperChecks(
+  hashes: readonly string[],
+): Promise<Map<string, LedgerWrapperCheck>> {
+  const unique = [...new Set(hashes.map(wrapperHashHex).filter((hex): hex is string => Boolean(hex)))];
+  const rows = await Promise.all(
+    unique.map(async (hex) => {
+      const check = await fetchWrapperCheck(hex);
+      return check ? ([hex, check] as const) : null;
+    }),
+  );
+  return new Map(rows.filter((row): row is [string, LedgerWrapperCheck] => row != null));
+}
+
+export async function fetchLedgerDomain(domain: string): Promise<{
+  domain: LedgerDomainRow;
+  leaves: LedgerLeafRow[];
+  globalLeaves: { leaf_index: number; leaf_hash: string }[];
+  onChain: LedgerOnChain | null;
+} | null> {
+  try {
+    const res = await ledgerFetch(`/v1/domains/${encodeURIComponent(domain)}`);
+    if (res.status === 404) return null;
+    if (!res.ok) return null;
+    return (await res.json()) as {
+      domain: LedgerDomainRow;
+      leaves: LedgerLeafRow[];
+      globalLeaves: { leaf_index: number; leaf_hash: string }[];
+      onChain: LedgerOnChain | null;
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function registerLedgerDomain(
+  domain: string,
+  domainRegisteredAt?: string | null,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const secret = process.env.LEDGER_WRITE_SECRET ?? process.env.CONNECT_STATE_SECRET;
+  if (!secret) {
+    return { ok: false, error: 'Server not configured (missing ledger write secret)' };
+  }
+  try {
+    const res = await ledgerFetch('/v1/domains', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${secret}`,
+      },
+      body: JSON.stringify({
+        domain,
+        domain_registered_at: domainRegisteredAt ?? null,
+      }),
+    });
+    if (!res.ok) {
+      const body = (await res.json().catch(() => ({}))) as { error?: string };
+      return { ok: false, error: body.error ?? `ledger ${res.status}` };
+    }
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: String(err) };
+  }
+}

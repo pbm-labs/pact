@@ -1,10 +1,11 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "pact-web",
+  "name": "pact-web-evidence",
   "account_id": "9deab2b981096c5b012feb4a52546fe6",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-05-05",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": false,
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -12,24 +13,20 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "pact-web"
+      "service": "pact-web-evidence"
     }
   ],
   "routes": [
     {
-      "pattern": "webuildreal.dev/*",
-      "zone_id": "5ffd7c7b499cb8a4dc2df630eafb0351"
-    },
-    {
-      "pattern": "www.webuildreal.dev/*",
-      "zone_id": "5ffd7c7b499cb8a4dc2df630eafb0351"
+      "pattern": "evidence.webuildreal.dev",
+      "custom_domain": true
     }
   ],
   // Non-secret runtime config only. Set secrets via wrangler (see README):
   //   CONNECT_STATE_SECRET, LEDGER_WRITE_SECRET,
   //   CLOUDFLARE_OAUTH_CLIENT_ID, CLOUDFLARE_OAUTH_CLIENT_SECRET
   "vars": {
-    "NEXT_PUBLIC_APP_URL": "https://webuildreal.dev",
+    "NEXT_PUBLIC_APP_URL": "https://evidence.webuildreal.dev",
     "LEDGER_URL": "https://ledger.webuildreal.dev"
   }
 }

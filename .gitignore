@@ -14,6 +14,8 @@ coverage/
 .dev.vars
 apps/web/.env.local
 apps/web/.dev.vars
+apps/web-live/.env.local
+apps/web-live/.dev.vars
 
 # OS & tooling
 .DS_Store

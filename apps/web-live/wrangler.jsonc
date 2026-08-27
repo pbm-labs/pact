@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Public webuildreal.dev. Frozen at git 6b7892554f016836dc13aa16124d298340876e07
+  // (last DMARC-only site before Certificate Transparency).
+  "name": "pact-web",
+  "account_id": "9deab2b981096c5b012feb4a52546fe6",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-05-05",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "pact-web"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "webuildreal.dev/*",
+      "zone_id": "5ffd7c7b499cb8a4dc2df630eafb0351"
+    },
+    {
+      "pattern": "www.webuildreal.dev/*",
+      "zone_id": "5ffd7c7b499cb8a4dc2df630eafb0351"
+    }
+  ],
+  // Non-secret runtime config only. Set secrets via wrangler (see README):
+  //   CONNECT_STATE_SECRET, LEDGER_WRITE_SECRET,
+  //   CLOUDFLARE_OAUTH_CLIENT_ID, CLOUDFLARE_OAUTH_CLIENT_SECRET
+  "vars": {
+    "NEXT_PUBLIC_APP_URL": "https://webuildreal.dev",
+    "LEDGER_URL": "https://ledger.webuildreal.dev"
+  }
+}

@@ -1,0 +1,13 @@
+# Copy to apps/web/.dev.vars for `wrangler preview` / OpenNext local Cloudflare dev.
+# Production secrets: wrangler secret put <NAME>
+#
+#   cp .dev.vars.example .dev.vars
+#
+# Or symlink repo-root .env.local (same keys):
+#   ln -sf ../../.env.local .dev.vars
+
+LEDGER_URL=http://localhost:8787
+LEDGER_WRITE_SECRET=
+CONNECT_STATE_SECRET=
+CLOUDFLARE_OAUTH_CLIENT_ID=
+CLOUDFLARE_OAUTH_CLIENT_SECRET=

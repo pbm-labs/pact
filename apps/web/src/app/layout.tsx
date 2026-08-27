@@ -7,7 +7,7 @@ import { MovementFooter } from '@/components/movement-footer';
 import { MovementHeader } from '@/components/movement-header';
 import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 
-const siteUrl = 'https://webuildreal.dev';
+const siteUrl = 'https://evidence.webuildreal.dev';
 const title = 'We build real';
 const description =
   'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years. It still can\'t fake yesterday.';
@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title,
   description,
   applicationName: 'we build real',
+  robots: { index: false, follow: false },
   alternates: {
     canonical: '/',
   },

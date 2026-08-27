@@ -23,7 +23,8 @@ The manifesto video under `apps/web/public/` is archival (~11MB, tracked in git)
 ```
 packages/pact-core   Protocol logic (leaf encodings for mail / CT / Rekor, merkle, dmarc parser)
 packages/contracts   Foundry — PactRoots (spec §9). Base Sepolia deployed; mainnet not.
-apps/web             Next.js movement home + agent evidence interface (webuildreal.dev)
+apps/web             Next.js stealth/v2 evidence UI (evidence.webuildreal.dev)
+apps/web-live        Frozen public site (webuildreal.dev) @ 6b78925, DMARC-only
 workers/ingest       Cloudflare Email Worker + queue → D1 ledger + on-chain publishRoot
 examples/score       Informative scoring example (`example-score-0.1`) — not protocol
 docs/                Protocol specification + examples
@@ -36,8 +37,9 @@ pnpm install
 pnpm test                         # pact-core + example-score + web tests
 pnpm typecheck
 pnpm --filter @pact/core build
-pnpm dev:web                      # http://localhost:3000
-pnpm deploy:web                   # Cloudflare Workers (webuildreal.dev)
+pnpm dev:web                      # http://localhost:3000 — evidence/v2
+pnpm deploy:web                   # Cloudflare Workers (evidence.webuildreal.dev)
+pnpm deploy:web-live              # Cloudflare Workers (webuildreal.dev, frozen)
 pnpm deploy:ingest                # Email ingest + ledger API (ledger.webuildreal.dev)
 ```
 
@@ -70,9 +72,13 @@ cd apps/web && npx wrangler secret put LEDGER_WRITE_SECRET
 cd apps/web && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_ID
 cd apps/web && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_SECRET
 cd apps/web && npx wrangler secret put CONNECT_STATE_SECRET
+cd apps/web-live && npx wrangler secret put LEDGER_WRITE_SECRET
+cd apps/web-live && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_ID
+cd apps/web-live && npx wrangler secret put CLOUDFLARE_OAUTH_CLIENT_SECRET
+cd apps/web-live && npx wrangler secret put CONNECT_STATE_SECRET
 ```
 
-`LEDGER_URL` is a wrangler **var** on `pact-web` (not a secret): `https://ledger.webuildreal.dev`.
+`LEDGER_URL` is a wrangler **var** on `pact-web` and `pact-web-evidence` (not a secret): `https://ledger.webuildreal.dev`.
 
 Local Cloudflare preview: `cp apps/web/.dev.vars.example apps/web/.dev.vars`
 
@@ -88,7 +94,7 @@ npx wrangler d1 execute pact-ledger --remote --file=src/migrate-rekor-subject.sq
 
 ### Cloudflare OAuth (`/connect`)
 
-OAuth is pinned to `webuildreal.dev` only (`redirect_uri` + Client URL). Do not use `pact.pbm-labs.com` for the OAuth client.
+OAuth is pinned to `webuildreal.dev` only (`redirect_uri` + Client URL). Do not use `pact.pbm-labs.com` for the OAuth client. Cloudflare connect on the public site is `https://webuildreal.dev/connect`. The stealth app at `evidence.webuildreal.dev` needs its own redirect URI (`https://evidence.webuildreal.dev/api/connect/cloudflare/callback`) before that OAuth path works there.
 
 1. Cloudflare dashboard → **Manage Account → OAuth clients → Edit client**
 2. Redirect URL: `https://webuildreal.dev/api/connect/cloudflare/callback`
@@ -108,7 +114,8 @@ Copy the `_dmarc` snippet or rua address on `/connect`. Those paths also **put t
 
 | Host | Role |
 |------|------|
-| `webuildreal.dev` / `www` | we build real movement + agent evidence interface (`pact-web` Worker) |
+| `webuildreal.dev` / `www` | Public movement site, frozen DMARC-only UI (`pact-web` / `apps/web-live`) |
+| `evidence.webuildreal.dev` | Stealth/v2 evidence UI (`pact-web-evidence` / `apps/web`) — noindex |
 | `ledger.webuildreal.dev` | Public ledger HTTP API (`pact-ingest`) |
 | `hello@pbm-labs.com` | Legal / operator contact (PBM Labs LLC) |
 | `rua@pact.webuildreal.dev` | DMARC intake (canonical) |
@@ -133,7 +140,7 @@ Apply primary DNS in Cloudflare on the `webuildreal.dev` zone. Legacy `pact.pbm-
 | TXT `_report._dmarc.pact` `v=DMARC1` | Authorize external reports to canonical rua |
 | Email Routing rule | `rua@pact.webuildreal.dev` → Worker `pact-ingest` |
 
-Worker routes: `webuildreal.dev/*`, `www.webuildreal.dev/*` (`apps/web/wrangler.jsonc`); `ledger.webuildreal.dev` (`workers/ingest/wrangler.toml`).
+Worker routes: `webuildreal.dev/*`, `www.webuildreal.dev/*` (`apps/web-live/wrangler.jsonc`); custom domain `evidence.webuildreal.dev` (`apps/web/wrangler.jsonc`); `ledger.webuildreal.dev` (`workers/ingest/wrangler.toml`).
 
 ## DNS (legacy `pact.pbm-labs.com` only)
 
@@ -197,7 +204,8 @@ New DMARC reports must use `rua@pact.webuildreal.dev` → worker (~24–48h). `r
 ## Deploy PACT web app
 
 ```bash
-pnpm deploy:web   # webuildreal.dev (+ www) — see apps/web/wrangler.jsonc
+pnpm deploy:web        # evidence.webuildreal.dev — apps/web (v2)
+pnpm deploy:web-live   # webuildreal.dev (+ www) — apps/web-live, frozen @ 6b78925
 ```
 
 ## Deploy ingest worker

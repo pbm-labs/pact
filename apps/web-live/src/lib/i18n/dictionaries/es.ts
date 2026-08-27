@@ -1,0 +1,441 @@
+import type { Dictionary } from '../types';
+
+export const es: Dictionary = {
+  nav: {
+    language: 'Idioma',
+    records: 'Registros',
+    docs: 'Docs',
+    menu: 'Menú',
+    openMenu: 'Abrir menú',
+    closeMenu: 'Cerrar menú',
+  },
+  footer: {
+    terms: 'Términos',
+    privacy: 'Privacidad',
+  },
+  common: {
+    home: 'Inicio',
+    continue: 'Continuar',
+    copy: 'Copiar',
+    copied: 'Copiado',
+    loading: 'Cargando…',
+    toggleTheme: 'Cambiar tema',
+  },
+  home: {
+    heroTitle: 'La IA puede falsificarlo todo.',
+    heroAccent: 'Excepto ayer.',
+    heroSub:
+      'La historia existe primero. La afirmación puede hacerse después.',
+    manifestoTitle: 'El problema de identidad de Internet',
+    closeVideo: 'Cerrar',
+    howEyebrow: 'Cómo funciona',
+    howTitle: 'Evidencia que puedes volver a comprobar.',
+    howLead: 'No te pide confiar en una autoridad. Te pide revisar un registro público. Nadie se une a una red nueva: los sistemas independientes ya emiten los informes; el DNS solo apunta a ellos.',
+    howSteps: [
+      {
+        title: 'Sistemas independientes lo reportan',
+        body: 'Cada entrada proviene de sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo descoordinado en el tiempo es lo que contiene el registro. Ya miraban por sus propios motivos.',
+      },
+      {
+        title: 'Cualquiera puede revisar el registro',
+        body: 'El registro público es de solo-append. Las raíces Merkle se publican on-chain, fuera de este operador, así que no podemos publicar en silencio un pasado distinto. Cualquiera puede recomputar la inclusión sin pedir permiso. Es evidencia que puedes volver a comprobar — no una afirmación que debas aceptar.',
+      },
+      {
+        title: 'Ayer no se puede fabricar',
+        body: 'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. No puedes hacer que ayer ocurra antes. Este historial se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo.',
+      },
+    ],
+    recordEyebrow: 'Detrás de cada registro',
+    recordTitle: 'Tu página pública completa.',
+    recordSub:
+      'Cualquiera puede abrirla. Historial confirmado de forma independiente — días, informes y quién los confirmó.',
+    mockLabel: 'Ejemplo',
+    mockTimeSub: 'desde el primer informe',
+    mockOrgs: 'Orgs. informantes',
+    mockOrgsSub: 'independientes',
+    recordFoot:
+      'Cada entrada la confirmaron sistemas de correo receptores — no es autoinformada. Este registro solo crece hacia adelante.',
+    privacyTitle: 'Privacidad por diseño.',
+    privacyBody1:
+      'Al conectar, un DNS apunta una dirección de informes (rua) hacia nosotros. Sistemas independientes ya emiten informes agregados del dominio — conteos de autenticación, periodo e infraestructura. Esa fuente es la única.',
+    privacyBody2: 'El registro público es historial de dominio confirmado. No se recoge nada más.',
+    privacyTableTitle: 'Qué hay en un informe',
+    privacyRows: [
+      'Dominio',
+      'Periodo del informe',
+      'Conteos de acierto / fallo',
+      'Organización informante',
+    ],
+    ctaTitle: 'Empieza tu registro público.',
+    ctaBody:
+      'Conecta una vez. Sistemas receptores independientes envían los informes. El historial solo crece hacia adelante.',
+    ctaButton: 'Añade tu dominio',
+    ctaSub: 'El registro empieza cuando llegan informes independientes.',
+    watchManifesto: 'Ver el manifiesto',
+  },
+  connect: {
+    backHome: '← Inicio',
+    eyebrow: 'Dos minutos, casi automático',
+    title: 'Añade tu dominio',
+    intro:
+      'Sin papeleo ni esperas. El registro público empieza cuando llega el primer informe independiente.',
+    yourDomain: 'Tu dominio',
+    pathCloudflareTitle: 'Uso Cloudflare',
+    pathCloudflareDesc: 'Un clic — nosotros nos ocupamos del resto.',
+    pathCloudflareBadge: 'Más rápido',
+    pathManualTitle: 'Añadirlo manualmente',
+    pathManualDesc:
+      'Una línea para pegar donde gestiones tu sitio — GoDaddy, Namecheap u otro proveedor.',
+    pathManualBadge: 'Universal',
+    pathToolTitle: 'Ya uso una herramienta',
+    pathToolDesc: 'Postmark o similar — apúntala aquí.',
+    pathToolBadge: 'Herramienta existente',
+    whatDoesThisDo: '¿Qué hace esto?',
+    cloudflareExplain:
+      'Iniciarás sesión en Cloudflare y añadiremos PACT como destino de informes en el DNS. El registro empieza cuando llegan informes independientes — no al guardar la línea DNS.',
+    toolIntro: 'En la configuración de tu herramienta, añade esto:',
+    toolExplain:
+      'Tu herramienta ya comprueba este dominio. Apuntarla aquí nos incluye en esa comprobación. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
+    manualIntro:
+      'Pega esto donde gestiones la configuración de tu sitio (pregunta a tu proveedor si no estás seguro):',
+    manualExplain:
+      'Una línea que permite a sistemas receptores independientes enviar informes agregados aquí. Si ya tienes una línea parecida, añade nuestra dirección en lugar de reemplazarla. Tu registro público aparece solo cuando llega el primer informe (suele ser en 24–48 horas) — no hay que enviar nada más aquí.',
+    errors: {
+      invalid_domain: 'Introduce un dominio válido (p. ej. example.com).',
+      server_config: 'Falta CONNECT_STATE_SECRET o las credenciales de escritura del ledger.',
+      oauth_not_configured: 'El inicio de sesión con Cloudflare no está configurado en este servidor.',
+      missing_code: 'El inicio de sesión se canceló o quedó incompleto.',
+      invalid_state: 'La sesión caducó — intenta conectar de nuevo.',
+      token_exchange: 'No se pudo terminar la conexión con Cloudflare.',
+      zone_not_found:
+        'Este dominio no se encontró en la cuenta de Cloudflare que elegiste. Prueba con otra cuenta.',
+      dmarc_update:
+        'No se pudo completar la configuración automáticamente. Prueba la opción manual.',
+      register: 'Casi — el último paso falló. Inténtalo de nuevo.',
+      somethingWrong: 'Algo salió mal.',
+    },
+  },
+  records: {
+    backHome: 'Inicio',
+    eyebrow: 'Registros públicos',
+    title: 'Dominios con registro público',
+    intro:
+      'Ordenados por historial confirmado de forma independiente — cuánto tiempo cada dominio ha sido reportado.',
+    addDomain: 'Añade tu dominio',
+    rankedBy: 'Ordenados por historial confirmado de forma independiente',
+    rankedHint:
+      'Un historial confirmado de forma independiente más largo se sitúa más arriba.',
+    colDomain: 'Dominio',
+    colHistory: 'Historial',
+    verified: 'confirmado',
+    report: 'informe',
+    reports: 'informes',
+    org: 'org',
+    orgs: 'orgs',
+    emptyTitle: 'Aún no hay dominios',
+    emptyBody: 'Añade un dominio para empezar a construir un registro público.',
+    emptyCta: 'Añadir el primer dominio',
+    searchPlaceholder: 'Buscar por dominio…',
+    noMatch: 'Ningún dominio coincide con "{query}".',
+    registered: 'registrado',
+  },
+  domain: {
+    backRecords: 'Registros públicos',
+    publicRecord: 'Registro público',
+    awaitingFirst: 'Esperando el primer informe',
+    awaitingIntro:
+      'Registrado. Esperando la primera confirmación independiente — normalmente en un día.',
+    connected: 'Conectado',
+    whatNext: 'Qué ocurre a continuación',
+    next1: 'Los sistemas de correo receptores detectan este dominio, normalmente en un día.',
+    next2: 'Llegan los primeros informes independientes.',
+    next3: 'Esta página se actualiza sola — no hay que hacer clic en nada.',
+    historyIntro:
+      'Historial confirmado de forma independiente que cualquiera puede volver a comprobar.',
+    timeVerified: 'Días confirmados',
+    reports: 'Informes',
+    allTime: 'histórico',
+    reportingOrgs: 'Orgs. informantes',
+    independent: 'independientes',
+    passRate: 'Tasa de acierto',
+    techSummary: 'Lo publicado — informes y pruebas criptográficas',
+    domainRegistered: 'Dominio registrado',
+    verifiedSince: 'Confirmado independientemente desde',
+    awaitingReport: 'Esperando el primer informe',
+    noRecordYet: 'Aún no hay registro público.',
+    noRecordHint:
+      'Si ya añadiste el destino de informes en el DNS, guarda esta página. Se actualiza sola cuando llega el primer informe independiente, normalmente en un día.',
+    connectDomain: 'Conectar',
+    firstDay: 'Primer día',
+    dayOne: '1 día',
+    days: '{n} días',
+    dbNotConfigured: 'Ledger no configurado',
+    reportHistory: 'Historial de informes',
+    reportHistoryCounts:
+      '{periods} periodos de informe de {reporters} organizaciones reporteras — más recientes primero.',
+    colReporter: 'Reporter',
+    colPeriod: 'Periodo',
+    colPass: 'Acierto',
+    colFail: 'Fallo',
+    colIngested: 'Ingerido',
+    showOlderReports: 'Mostrar informes anteriores ({shown} de {total})',
+    verification: 'Verificación',
+    anchor: 'Ancla',
+    onChain: 'En cadena',
+    stagingOffChain: 'Staging (fuera de cadena)',
+    rootsMatch: 'Las raíces coinciden',
+    yes: 'Sí',
+    no: 'No',
+    domainLeaves: 'Hojas del dominio',
+    globalTree: 'Árbol global',
+    publishedRoot: 'Raíz publicada',
+    explorerTx: 'Ver la transacción publishRoot en Base Sepolia',
+    explorerContract: 'Ver PactRoots en Base Sepolia',
+    leafLedger: 'Ver esta hoja en el registro público',
+    openingCheck: 'Volver a comprobar los bytes almacenados contra el hash de la hoja y la clave DNS',
+    proofsShown:
+      'Se muestran las pruebas de las {n} hojas más recientes. Carga informes anteriores arriba para inspeccionar periodos previos.',
+    leafHash: 'Hash de la hoja',
+    colWrapper: 'DKIM del wrapper',
+    colOpening: 'Apertura',
+    proofVerified: 'Verificada',
+    proofUnverified: 'No verificada',
+    openingNone: '—',
+    openingMissing: 'No almacenado',
+    openingOk: 'Hash y clave',
+    openingHashMismatch: 'Hash no coincide',
+    openingNoKey: 'Clave no registrada',
+    openingFail: 'Falló',
+    openingOkTitle:
+      'Los bytes almacenados hashean a la hoja; el TXT DKIM del DNS en la ingesta está registrado.',
+    openingHashMismatchTitle: 'Los bytes almacenados no hashean al hash del wrapper en la hoja.',
+    openingNoKeyTitle: 'No hay instantánea TXT DKIM registrada para el selector de la hoja.',
+    openingFailTitle: 'Los bytes no coinciden con el hash de la hoja y no hay clave DKIM registrada.',
+    openingMissingTitle: 'No hay copia almacenada del wrapper para este hash.',
+    clockUnknown: '—',
+    clockDay1: '(Día 1)',
+    clockYears: '({n} a)',
+    clockYear: '({n} a)',
+    clockMonths: '({n} mes)',
+    clockDaysShort: '({n}d)',
+    shareRecord: 'Registro público',
+    shareEyebrow: 'Comparte el registro',
+    shareLinkedIn: 'LinkedIn',
+    shareX: 'X',
+    shareText:
+      'La IA puede falsificarlo todo. Excepto ayer.\n\n{domain} ya tiene un registro público que cualquiera puede comprobar.',
+  },
+  whitepaper: {
+    eyebrow: 'PACT Protocol',
+    title: 'Whitepaper',
+    intro:
+      'El protocolo abierto detrás del registro público — cómo se captura y publica el historial confirmado de forma independiente.',
+    source: 'Código en GitHub →',
+  },
+  whyPact: {
+    eyebrow: 'Docs',
+    title: 'Evidencia, no autoridad',
+    intro: 'Una nota breve sobre por qué el registro público publica lo que ocurrió en lugar de pedirte que confíes en una afirmación.',
+    body: [
+      'Toda forma existente de probar historial confirmado de forma independiente comparte el mismo fallo: es la *afirmación de una autoridad*, no *evidencia*. El informe de un buró de crédito, una inscripción registral, un extracto bancario, un historial de LinkedIn — todos te piden confiar en que alguien más verificó bien. Ninguno produce algo que un desconocido pueda comprobar por sí mismo, desde primeros principios, sin confiar en un portero.',
+      'Ese fallo era tolerable. Ya no. La IA generativa no creó una amenaza nueva — quitó lo último que hacía caro falsificar estas señales. Un dominio de diez años, un LinkedIn de cinco, un extracto convincente: todo eso ahora se fabrica barato. Las autoridades no empeoraron. Se derrumbó el costo de mentirles.',
+      'PACT no te pide confiar en una autoridad. Te pide revisar un registro público.',
+      'Cada hecho del registro proviene de sistemas de correo receptores independientes — Gmail, Outlook, Yahoo y otros — que no se relacionan entre sí, no tienen incentivo para coordinarse y no saben que se usan como evidencia. Su acuerdo agregado y descoordinado en el tiempo es lo que contiene el registro. Nadie se une a una red nueva: esos sistemas ya emiten los informes; el DNS solo apunta a ellos. No porque PACT lo diga. Porque cualquiera puede recomputar las hojas publicadas y las pruebas de inclusión contra la raíz Merkle on-chain, sin pedir permiso a PACT. Las raíces están hoy en Base Sepolia (testnet, publicador con permiso), fuera de este operador. El DKIM del wrapper del reportero se verifica en la ingesta, y el d=/selector que pasa más el keccak256 del wrapper quedan comprometidos en la hoja. Un verificador puede confirmar que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. El correo no está en cadena. Lo que queda es confianza de operador más estrecha: disponibilidad de las hojas y esa clave de publicación — no un cambio de tesis.',
+      'Esa evidencia es tercamente aburrida sobre lo que ocurrió. El juicio queda fuera. El mismo historial puede alimentar políticas de aplicación distintas. Un testigo más fuerte sigue sin heredar la decisión.',
+      'Esa es la propiedad que las pruebas incumbentes no pueden injertar. Un buró de crédito no puede volverse trustless — su modelo de negocio *es* el intermediario de confianza. Un registro estatal no puede volverse trustless — es una autoridad por definición. Un extracto bancario no puede volverse trustless — es un documento, y los documentos se editan. PACT no es una versión mejor de eso. Está en otra categoría: evidencia que puedes volver a comprobar, no una afirmación que debas aceptar.',
+      'Esto es lo que lo hace duradero, no solo distinto: **el historial que PACT mide no se puede fabricar a posteriori, a ningún precio — ni siquiera por los operadores de PACT.**',
+      'Puedes comprar un dominio viejo. Puedes fabricar un LinkedIn. Puedes armar una empresa pantalla con papeles perfectos. Lo que no puedes hacer es que ayer ocurra antes. El historial de PACT se construye con tiempo real pasando mientras terceros independientes miraban. No hay atajo por el tiempo. No es una preferencia de producto. Es una restricción física que PACT pone a trabajar.',
+      'Por eso PACT no compite hoy en costo ni conveniencia, y no necesita hacerlo. Los métodos existentes son baratos e instantáneos *porque* son lo bastante superficiales para falsificarse barato e instantáneo. PACT es lento de construir *porque* un adversario bien financiado, paciente y con IA sigue sin poder comprar un pasado que no vivió. La lentitud no es una limitación a optimizar. Es el punto.',
+      'Toda otra prueba de legitimidad responde: *¿qué afirmó alguien, y quién lo avala?*',
+      'PACT responde otra pregunta: *¿qué ocurrió de verdad, durante cuánto tiempo, presenciado por cuántas partes independientes que no tenían motivo para mentir?*',
+      'Esa pregunta nunca tuvo una respuesta pública duradera. A partir de ahora, sí.',
+    ].join('\n\n'),
+    scope:
+      'PACT mide el historial de dominio verificado de forma independiente a partir de informes agregados DMARC. No es KYC, no es un veredicto de que un dominio es legítimo, no es una credencial personal y no sustituye registros ni burós de crédito. Las puntuaciones y los umbrales son política de aplicación sobre ese historial.',
+  },
+  docs: {
+    title: 'Docs',
+    intro:
+      'El registro público del historial de dominio confirmado de forma independiente. El juicio queda fuera. El protocolo es PACT.',
+    sections: [
+      {
+        title: 'El registro',
+        body: 'Los sistemas de correo receptores — Gmail, Outlook, Yahoo y otros — ya generan informes agregados DMARC. Nadie se une a un ledger, un token o una cuenta nueva. Un dominio apunta un campo DNS existente a esta implementación para no tirar esos informes. Nada cambia en cómo envía correo.\n\nLa página pública lista días confirmados de forma independiente, informes, organizaciones informantes, tasa de acierto observada, hojas, pruebas Merkle y DKIM del wrapper. No muestra una puntuación, una etiqueta Proven ni un veredicto.',
+      },
+      {
+        title: 'El juicio queda fuera',
+        body: 'PACT no define una puntuación, una etiqueta de activación ni un veredicto. Las aplicaciones pueden interpretar los campos publicados; un ejemplo informativo está en el repositorio. El registro no decide que un dominio sea legítimo.',
+      },
+      {
+        title: 'Cómo obtiene un dominio un registro',
+        body: 'Añade rua@pact.webuildreal.dev como destino de informes en DNS. Los sistemas independientes ya emiten los informes. El registro aparece cuando llega el primer agregado válido, normalmente en uno o dos días.',
+      },
+      {
+        title: 'Cómo lo comprueba cualquiera',
+        body: 'Recomputa las hojas publicadas y la prueba de inclusión contra la raíz Merkle on-chain — esa raíz está fuera de este operador. Las aperturas del wrapper — d=/selector que pasa y keccak256 del RFC822 — están en la hoja pública. Un verificador confirma que los bytes almacenados hashean a esa apertura, y que la clave DKIM del DNS está registrada. Eso no es que un desconocido vuelva a ejecutar la firma SMTP original.',
+      },
+    ],
+    limitsTitle: 'Límites honestos',
+    limits: [
+      'Las raíces están en Base Sepolia (testnet), publicador con permiso — no es mainnet, ni publicación sin permiso.',
+      'El DKIM del wrapper del reportero se verifica en la ingesta. El SPF del MTA que conecta no. El DKIM de un forwarder es más débil que un wrapper firmado por el reportero.',
+      'RFC 6376 sobre la copia del Email Worker puede fallar. Los bytes almacenados aún se pueden comprobar contra el hash de la hoja, y el TXT DKIM del DNS en la ingesta queda registrado. Eso no es que un desconocido vuelva a ejecutar la firma SMTP original.',
+      'La disponibilidad de las hojas es la base de datos del operador. Las raíces atestiguan inclusión, no disponibilidad.',
+    ],
+    whyTitle: 'Evidencia, no autoridad',
+    whitepaperTitle: 'Whitepaper',
+    protocolTitle: 'Protocolo',
+    scoringTitle: 'Ejemplo: puntuación',
+    statusTitle: 'Estado',
+    readWhitepaper: 'Leer el whitepaper',
+    readStatus: 'Leer el estado',
+  },
+  roadmap: {
+    eyebrow: 'Docs',
+    title: 'Estado',
+    intro:
+      'El contrato está en vivo. La ingesta está conectada. Las raíces están en Base Sepolia. El registro público muestra lo que ocurrió.',
+    liveTitle: 'En vivo hoy',
+    liveItems: [
+      'Conexión de dominio vía OAuth de Cloudflare, DNS manual o herramientas de reporting existentes',
+      'Creación automática del registro público con el primer informe agregado válido',
+      'Ingesta fail-closed con DKIM del wrapper del reportero (Gmail, Microsoft, Yahoo, Apple y forwarders en la lista)',
+      'Testigo del wrapper en la hoja: d=/selector que pasa y keccak256 del RFC822. La copia almacenada y la instantánea TXT DKIM se pueden volver a comprobar (el hash coincide con la hoja; la clave DNS está registrada). El correo no está en cadena.',
+      'Árbol Merkle append-only con pruebas de inclusión públicamente recomputables',
+      'Raíces Merkle en PactRoots / Base Sepolia (testnet, publicador con permiso)',
+      'Registros públicos ordenados por historial confirmado de forma independiente',
+      'Páginas por dominio con relojes, tasa de acierto observada, hojas y pruebas criptográficas — sin puntuación, etiqueta Proven ni veredicto',
+    ],
+    waitingTitle: 'Esperando al mundo',
+    waitingItems: [
+      'Más informes independientes — el historial solo se acumula mientras llegan nuevos lotes.',
+    ],
+    laterTitle: 'Más adelante',
+    laterItems: [
+      'Hojas direccionadas por contenido — almacén público de blobs y un CID con cada raíz; D1 sigue como índice. Puede ir en Sepolia; las hojas no van al contrato',
+      'Pin IPFS de esos blobs como segunda vía de recuperación',
+      'Base mainnet para PactRoots',
+      'Publicación sin permiso',
+      'Réplicas independientes de las hojas (terceros)',
+      'Velocidad como señal compañera para aplicaciones',
+      'Monitorización de discontinuidades de infraestructura (Signal)',
+    ],
+    laterNote:
+      'Esperar informes es operativo, no una tarea de código. Lo posterior reduce la confianza restante en el operador. Nada de ello es necesario para que exista un registro cuando lleguen informes.',
+  },
+  legal: {
+    eyebrow: 'Legal',
+    lastUpdated: 'Última actualización: 16 de agosto de 2026',
+    termsTitle: 'Términos del servicio',
+    privacyTitle: 'Política de privacidad',
+    emailLabel: 'Email',
+    terms: [
+      {
+        title: '1. Aceptación de los términos',
+        body: 'Al acceder o utilizar este sitio web (webuildreal.dev) y los servicios relacionados operados bajo la marca “we build real”, aceptas estos Términos del servicio. Si no estás de acuerdo, no uses el sitio ni conectes un dominio.',
+      },
+      {
+        title: '2. Quiénes somos',
+        body: 'Este sitio es la casa pública de we build real, un movimiento por una historia verificable. PACT es un protocolo abierto. PBM Labs LLC (“nosotros”), una limited liability company de Wyoming, proporciona la primera implementación de referencia de PACT. Ofrece acceso público a esa implementación: conexión de dominios, un registro público del historial de dominios verificado de forma independiente y documentación relacionada.',
+      },
+      {
+        title: '3. El servicio',
+        body: 'PACT captura informes agregados de autenticación DMARC que los sistemas de correo receptores ya generan, registra los metadatos extraídos en un árbol Merkle de solo añadido y publica un registro público de ese historial para los dominios conectados. Conectar un dominio requiere añadir PACT como destino de informes en DNS (directamente o mediante un proveedor compatible). No leemos el contenido de los mensajes, las identidades de los destinatarios ni los datos del buzón.',
+      },
+      {
+        title: '4. Registros públicos',
+        body: 'La información publicada en el registro público — incluidos nombres de dominio, historial confirmado de forma independiente y pruebas criptográficas — está pensada para ser visible públicamente. No conectes un dominio si no estás autorizado a hacer que los metadatos de autenticación de ese dominio formen parte de un libro público.',
+      },
+      {
+        title: '5. Tus responsabilidades',
+        body: 'Solo debes conectar dominios que controles o que estés autorizado a gestionar. Eres responsable de la exactitud de los cambios de DNS que realices, de cumplir tus propias políticas y la legislación aplicable, y de no usar el servicio para acosar, defraudar o falsear a terceros. No puedes intentar acceso no autorizado, interferir con el servicio, hacer scraping de forma que lo degrade, introducir malware ni hacer un uso indebido del sitio.',
+      },
+      {
+        title: '6. Sin asesoramiento; sin garantía de legitimidad',
+        body: 'Los resúmenes de historial y las pruebas criptográficas son un registro informativo de lo que reportaron sistemas receptores independientes. No constituyen asesoramiento legal, financiero, de cumplimiento ni empresarial, y no garantizan que un dominio, organización o persona sea legítimo, seguro para operar o libre de riesgo. El juicio queda fuera del registro. Sigues siendo el único responsable de tus propias decisiones.',
+      },
+      {
+        title: '7. Sin servicios financieros',
+        body: 'No somos un banco, corredor, negocio de servicios monetarios ni institución financiera. No procesamos, retenemos, custodiamos ni transferimos moneda, valores ni activos financieros.',
+      },
+      {
+        title: '8. Propiedad intelectual',
+        body: 'El contenido del sitio, la marca y el diseño de “we build real” son propiedad de PBM Labs LLC o de sus licenciantes, salvo que se indique lo contrario. La especificación del Protocolo PACT y el whitepaper se publican abiertamente para su revisión e implementación; se fomentan implementaciones de terceros del protocolo, sujetas a sus propios términos de licencia cuando corresponda. No se conceden derechos salvo el derecho limitado a usar este sitio según lo previsto.',
+      },
+      {
+        title: '9. Servicios de terceros',
+        body: 'El sitio puede depender de o enlazar a terceros (por ejemplo, proveedores DNS como Cloudflare, infraestructura de hosting y edge, y proveedores de bases de datos). No controlamos los servicios de terceros y no somos responsables de su contenido, disponibilidad o políticas. Tu uso de esos servicios está sujeto a sus términos.',
+      },
+      {
+        title: '10. Exención de garantías',
+        body: 'El sitio y el servicio se proporcionan “tal cual” y “según disponibilidad”, sin garantías de ningún tipo, expresas o implícitas, incluidas las de comerciabilidad, idoneidad para un fin particular y no infracción. No garantizamos que el servicio sea ininterrumpido, libre de errores, completo o seguro, ni que las raíces o pruebas publicadas cumplan tus requisitos.',
+      },
+      {
+        title: '11. Limitación de responsabilidad',
+        body: 'En la máxima medida permitida por la ley, PBM Labs LLC y sus miembros, directivos y contratistas no son responsables de daños indirectos, incidentales, especiales, consecuentes o punitivos derivados de tu uso del sitio o del servicio, incluida la confianza en registros públicos, incluso si se les informó de la posibilidad de tales daños.',
+      },
+      {
+        title: '12. Cambios',
+        body: 'Podemos actualizar estos Términos de vez en cuando. La versión revisada se publicará en esta página con una fecha actualizada. El uso continuado del sitio tras los cambios constituye la aceptación de los Términos revisados.',
+      },
+      {
+        title: '13. Ley aplicable',
+        body: 'Estos Términos se rigen por las leyes del Estado de Wyoming, Estados Unidos, sin tener en cuenta los principios de conflicto de leyes.',
+      },
+      {
+        title: '14. Contacto',
+        body: 'Avisos legales y preguntas sobre estos Términos: hello@pbm-labs.com.',
+      },
+    ],
+    privacy: [
+      {
+        title: '1. Resumen',
+        body: 'Esta Política de privacidad explica cómo PBM Labs LLC trata la información cuando usas webuildreal.dev — la casa pública del movimiento we build real y de la primera implementación de referencia del protocolo abierto PACT. PACT está diseñado para que su fuente de datos principal — los informes agregados DMARC — no contenga contenido de mensajes ni identidades personales.',
+      },
+      {
+        title: '2. Información que procesamos',
+        body: 'Datos de dominio y protocolo: nombres de dominio que conectas; metadatos de informes agregados DMARC (organización informante, periodo, recuentos de acierto/fallo de autenticación, selectores e identificadores de infraestructura en forma hasheada o resumida); hojas y raíces Merkle y datos públicos de verificación. Datos del flujo de conexión: cadenas de dominio que envías; si usas OAuth de Cloudflare, tokens e información de zona necesarios para actualizar DNS en tu nombre durante esa sesión. Preferencias del navegador: tema e idioma almacenados en el almacenamiento local de tu dispositivo. No operamos cuentas de usuario de consumo ni perfiles de marketing en este sitio.',
+      },
+      {
+        title: '3. Qué no recopilamos',
+        body: 'No accedemos, leemos ni almacenamos cuerpos de mensajes de email, asuntos, identidades de destinatarios ni contenidos de buzones a través del Protocolo PACT. Los informes agregados que usa el protocolo no son datos personales por diseño.',
+      },
+      {
+        title: '4. Cómo usamos la información',
+        body: 'Usamos la información anterior para operar la conexión de dominios, ingerir y publicar historial confirmado de forma independiente, mantener pruebas criptográficas, prevenir abusos y mejorar la fiabilidad del servicio. Los campos del registro público se publican para que cualquiera pueda volver a comprobar lo ocurrido.',
+      },
+      {
+        title: '5. Registros públicos',
+        body: 'Los dominios conectados y su historial confirmado de forma independiente y sus pruebas están pensados para ser públicos. No conectes un dominio a menos que entiendas que los metadatos de autenticación relacionados aparecerán en un libro público.',
+      },
+      {
+        title: '6. Proveedores de servicios',
+        body: 'Usamos proveedores de infraestructura para alojar el sitio y almacenar datos del protocolo (incluido hosting edge y servicios de bases de datos). Si te conectas mediante OAuth de Cloudflare, Cloudflare procesa la autenticación y las actualizaciones de DNS bajo sus términos. Los proveedores pueden procesar datos en Estados Unidos u otras jurisdicciones donde operen.',
+      },
+      {
+        title: '7. Cookies y almacenamiento local',
+        body: 'No usamos píxeles de seguimiento publicitario ni de analítica en este sitio. Almacenamos preferencias esenciales (como el tema y el idioma) en el almacenamiento local de tu navegador. Puedes borrarlas en la configuración del navegador.',
+      },
+      {
+        title: '8. Conservación',
+        body: 'Los datos del libro público se conservan para preservar la integridad del registro de solo añadido. Los registros operativos y los datos de sesión de conexión se conservan solo según sea necesario para operar, asegurar y depurar el servicio, y para cumplir obligaciones legales.',
+      },
+      {
+        title: '9. Seguridad',
+        body: 'Aplicamos medidas técnicas y organizativas razonables adecuadas a un servicio público de verificación. Ningún método de transmisión o almacenamiento es completamente seguro.',
+      },
+      {
+        title: '10. Tus derechos',
+        body: 'Según tu ubicación, puedes tener derechos de acceso, rectificación o eliminación de los datos personales que conservemos sobre ti. Los nombres de dominio y las entradas del libro público no se tratan como datos personales en el modelo principal de esta política; contáctanos si crees que conservamos datos personales sobre ti de otra forma. No vendemos datos personales.',
+      },
+      {
+        title: '11. Cambios',
+        body: 'Podemos actualizar esta Política de privacidad de vez en cuando. La versión revisada se publicará en esta página con una fecha actualizada.',
+      },
+      {
+        title: '12. Contacto',
+        body: 'Preguntas de privacidad: hello@pbm-labs.com.',
+      },
+    ],
+  },
+};
