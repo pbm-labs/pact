@@ -27,7 +27,7 @@ const nextConfig = {
     return [
       { source: '/v2', destination: '/', permanent: true },
       { source: '/how-it-works', destination: '/connect', permanent: true },
-      { source: '/domains', destination: '/records', permanent: true },
+      { source: '/domains', destination: '/public-records', permanent: false },
       { source: '/domain/:domain', destination: '/records/:domain', permanent: true },
       { source: '/why-pact', destination: '/docs/why', permanent: true },
       { source: '/whitepaper', destination: '/docs/whitepaper', permanent: true },

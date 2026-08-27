@@ -7,7 +7,7 @@ import { BrandMark } from '@/components/brand-mark';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useLocale } from '@/components/locale-provider';
-import { routes } from '@/lib/routes';
+import { isRecordsNav, routes } from '@/lib/routes';
 
 function navClass(active: boolean, mobile = false) {
   return `${mobile ? 'text-base py-2' : 'text-sm'} font-medium no-underline ${
@@ -25,7 +25,7 @@ export function MovementHeader() {
     {
       href: routes.records,
       label: t.nav.records,
-      active: pathname === routes.records || pathname.startsWith(`${routes.records}/`),
+      active: isRecordsNav(pathname),
     },
     {
       href: routes.docs,
