@@ -1,3 +1,4 @@
+import { ledgerGet } from '@/lib/ledger-get';
 import { routes } from '@/lib/routes';
 
 export type EvidenceLeaf = {
@@ -51,7 +52,7 @@ function asEvidence(raw: unknown): EvidenceResponse | null {
   const leaves = row.leaves.filter((leaf): leaf is EvidenceLeaf => {
     if (!leaf || typeof leaf !== 'object') return false;
     const item = leaf as Record<string, unknown>;
-    return typeof item.leaf_hash === 'string' && typeof item.leaf_index === 'number';
+    return typeof item.leaf_hash === 'string' && Number.isFinite(Number(item.leaf_index));
   });
   return {
     kind: row.kind,
@@ -86,17 +87,7 @@ export async function fetchEvidence(
   kind: string,
   identity: string,
 ): Promise<EvidenceResponse | null> {
-  try {
-    const res = await fetch(ledgerEvidenceUrl(kind, identity), {
-      headers: { Accept: 'application/json' },
-      cache: 'no-store',
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!res.ok) return null;
-    return asEvidence(await res.json());
-  } catch {
-    return null;
-  }
+  return asEvidence(await ledgerGet(ledgerEvidenceUrl(kind, identity)));
 }
 
 export type LiveProofData = {

@@ -1,4 +1,5 @@
 import { KIND_CATALOG } from '@pact/core';
+import { ledgerGet } from '@/lib/ledger-get';
 import { routes } from '@/lib/routes';
 
 /** Live catalog row. Id is not limited to today's kinds — the list grows. */
@@ -44,23 +45,13 @@ export function fallbackKindCatalog(): CatalogKind[] {
 }
 
 export async function loadKindCatalog(): Promise<CatalogKind[]> {
-  try {
-    const res = await fetch(routes.ledgerKinds, {
-      headers: { Accept: 'application/json' },
-      cache: 'no-store',
-      signal: AbortSignal.timeout(4000),
-    });
-    if (!res.ok) return fallbackKindCatalog();
-    const data: unknown = await res.json();
-    const rawKinds =
-      data && typeof data === 'object' && Array.isArray((data as { kinds?: unknown }).kinds)
-        ? (data as { kinds: unknown[] }).kinds
-        : [];
-    const kinds = rawKinds
-      .map(asCatalogKind)
-      .filter((kind): kind is CatalogKind => kind !== null);
-    return kinds.length > 0 ? kinds : fallbackKindCatalog();
-  } catch {
-    return fallbackKindCatalog();
-  }
+  const data = await ledgerGet(routes.ledgerKinds);
+  const rawKinds =
+    data && typeof data === 'object' && Array.isArray((data as { kinds?: unknown }).kinds)
+      ? (data as { kinds: unknown[] }).kinds
+      : [];
+  const kinds = rawKinds
+    .map(asCatalogKind)
+    .filter((kind): kind is CatalogKind => kind !== null);
+  return kinds.length > 0 ? kinds : fallbackKindCatalog();
 }
