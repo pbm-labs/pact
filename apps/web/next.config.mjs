@@ -21,9 +21,8 @@ const nextConfig = {
   async redirects() {
     return [
       { source: '/v2', destination: '/', permanent: true },
-      { source: '/how-it-works', destination: '/connect', permanent: true },
+      { source: '/how-it-works', destination: '/', permanent: false },
       { source: '/records', destination: '/', permanent: true },
-      { source: '/records/:domain', destination: '/', permanent: true },
       { source: '/domains', destination: '/', permanent: true },
       { source: '/domain/:domain', destination: '/', permanent: true },
       { source: '/badge/:slug*', destination: '/', permanent: true },

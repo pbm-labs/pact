@@ -35,6 +35,24 @@ export const fr: Dictionary = {
     stakeCounterpartyHint: 'Ne grandit que lorsque des tiers indépendants continuent d’agir.',
     unknownWhat: 'Un flux résiduel du catalogue live.',
     unknownEmpty: 'Zéro ligne est une réponse.',
+    heroLine1:
+      'L’IA peut falsifier un visage, une voix, un CV, une entreprise « établie » depuis dix ans.',
+    heroLine2: 'Elle ne peut toujours pas falsifier hier.',
+    heroSubline:
+      'Le temps qui passe vraiment, pendant que des systèmes indépendants qui ne vous doivent rien regardaient déjà — c’est la dernière preuve qu’on ne peut pas faire apparaître par un prompt.',
+    turnLine:
+      'Pas une affirmation que vous faites. Un registre public qui se construit tout seul, à partir d’évidence que n’importe qui peut revérifier.',
+    howItWorksHeading: 'Comment ça marche',
+    ctaHeading:
+      'Deux minutes pour connecter. Pas de code. L’historique commence à s’accumuler dès le premier jour — impossible à antidater.',
+    ctaButton: 'Connecter',
+    liveHeading: 'Leftover live',
+    liveViewRecord: 'Voir le registre',
+    proofRoot: 'Racine',
+    proofEmpty: 'Zéro ligne.',
+    proofIncluded: 'inclus',
+    chainBaseSepolia: 'Base Sepolia (testnet)',
+    recordsHeading: 'Record',
     streams: {
       mail: {
         name: 'Courrier',

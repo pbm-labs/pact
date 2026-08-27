@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { HomeLanding } from '@/components/home-landing';
+import { loadLiveProof, SAMPLE_PROOF_DOMAIN } from '@/lib/evidence';
 import { loadKindCatalog } from '@/lib/kind-catalog';
 
-const title = 'Evidence streams';
+const title = "It still can't fake yesterday.";
 const description =
-  'Independent traces, kept apart. Each stream has its own identity. The catalog grows.';
+  'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years. It still can\'t fake yesterday.';
 
 export const metadata: Metadata = {
   title,
@@ -20,6 +21,9 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const kinds = await loadKindCatalog();
-  return <HomeLanding kinds={kinds} />;
+  const [kinds, liveProof] = await Promise.all([
+    loadKindCatalog(),
+    loadLiveProof(SAMPLE_PROOF_DOMAIN),
+  ]);
+  return <HomeLanding kinds={kinds} liveProof={liveProof} />;
 }

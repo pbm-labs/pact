@@ -35,6 +35,24 @@ export const en: Dictionary = {
     stakeCounterpartyHint: 'Grows only when independent third parties keep acting.',
     unknownWhat: 'A leftover stream in the live catalog.',
     unknownEmpty: 'Zero rows is an answer.',
+    heroLine1:
+      'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years.',
+    heroLine2: "It still can't fake yesterday.",
+    heroSubline:
+      "Real time actually passing, while independent systems that owe you nothing were already watching — that's the last kind of proof that can't be prompted into existence.",
+    turnLine:
+      'Not a claim you make. A public record that builds itself, out of evidence anyone can recheck.',
+    howItWorksHeading: 'How it works',
+    ctaHeading:
+      'Two minutes to connect. No code. History starts compounding from day one — impossible to backdate.',
+    ctaButton: 'Connect',
+    liveHeading: 'Live leftover',
+    liveViewRecord: 'See the record',
+    proofRoot: 'Root',
+    proofEmpty: 'Zero rows.',
+    proofIncluded: 'included',
+    chainBaseSepolia: 'Base Sepolia (testnet)',
+    recordsHeading: 'Record',
     streams: {
       mail: {
         name: 'Mail',

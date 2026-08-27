@@ -42,6 +42,20 @@ export type Dictionary = {
     stakeCounterpartyHint: string;
     unknownWhat: string;
     unknownEmpty: string;
+    heroLine1: string;
+    heroLine2: string;
+    heroSubline: string;
+    turnLine: string;
+    howItWorksHeading: string;
+    ctaHeading: string;
+    ctaButton: string;
+    liveHeading: string;
+    liveViewRecord: string;
+    proofRoot: string;
+    proofEmpty: string;
+    proofIncluded: string;
+    chainBaseSepolia: string;
+    recordsHeading: string;
     streams: Record<string, StreamCopy>;
   };
   connect: {

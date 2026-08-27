@@ -15,3 +15,7 @@ export const routes = {
 export function connectDonePath(domain: string): string {
   return `${routes.connect}?done=1&domain=${encodeURIComponent(domain)}`;
 }
+
+export function recordsPath(domain: string): string {
+  return `/records/${encodeURIComponent(domain)}`;
+}
