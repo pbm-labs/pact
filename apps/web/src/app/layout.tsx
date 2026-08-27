@@ -8,9 +8,9 @@ import { MovementHeader } from '@/components/movement-header';
 import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 
 const siteUrl = 'https://evidence.webuildreal.dev';
-const title = 'We build real';
+const title = 'Evidence that outlives the vendor.';
 const description =
-  'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years. It still can\'t fake yesterday.';
+  'A query, not a claim. Independent traces anyone can recheck against a named root. Judgement stays outside.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'we build real — history exists first. The claim can be made afterwards.',
+        alt: 'Evidence that outlives the vendor. A query. Not a claim.',
       },
     ],
   },

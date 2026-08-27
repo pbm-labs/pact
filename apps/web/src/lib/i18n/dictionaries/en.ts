@@ -30,7 +30,7 @@ export const en: Dictionary = {
     identityLabel: 'Identity',
     stakeLabel: 'Stake',
     emptyLabel: 'Empty',
-    agents: 'Agents query kind plus identity.',
+    agents: 'A governed layer queries kind plus identity.',
     catalog: 'Live catalog',
     intakeCta: 'Keep mail reports',
     stakeCalendar: 'calendar',
@@ -39,13 +39,12 @@ export const en: Dictionary = {
     stakeCounterpartyHint: 'Grows only when independent third parties keep acting.',
     unknownWhat: 'A stream in the live catalog.',
     unknownEmpty: 'Empty is an answer. No public record under that identity yet.',
-    heroLine1:
-      'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years.',
-    heroLine2: "It still can't fake yesterday.",
+    heroLine1: 'Evidence that outlives the vendor.',
+    heroLine2: 'A query. Not a claim.',
     turnLine:
-      'Not a claim you make. A public record that builds itself, out of evidence anyone can recheck — evidence that existed before you asked anyone to look.',
+      'Independent traces, kept apart. Anyone can recheck them against a named root — including after we are gone. We do not say what you may conclude, or who may act. That layer reads this.',
     howItWorksHeading: 'How it works',
-    seeHowItWorks: 'See how it works',
+    seeHowItWorks: 'How it works',
     liveHeading: 'A live record',
     liveViewRecord: 'See the record',
     proofRoot: 'Root',
@@ -53,6 +52,16 @@ export const en: Dictionary = {
     proofIncluded: 'included',
     chainBaseSepolia: 'Base Sepolia (testnet)',
     recordsHeading: 'Record',
+    streamLabel: 'Stream',
+    querySubmit: 'Query',
+    queryFailed: 'The ledger did not answer.',
+    queryHint: 'Zero rows is an answer.',
+    outlivesHeading: 'It outlives the vendor',
+    outlivesBody:
+      'The traces come from systems that already existed — receiving mail, public certificate logs, public signatures. They were not produced for us. Inclusion is against a named root published outside this operator. If we disappear, the proofs still check.',
+    governedHeading: 'Judgement stays outside',
+    governedBody:
+      'This is not a score, a claim, or a yes. Each stream has its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
     streams: {
       mail: {
         name: 'Mail',

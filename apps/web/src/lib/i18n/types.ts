@@ -58,6 +58,14 @@ export type Dictionary = {
     proofIncluded: string;
     chainBaseSepolia: string;
     recordsHeading: string;
+    streamLabel: string;
+    querySubmit: string;
+    queryFailed: string;
+    queryHint: string;
+    outlivesHeading: string;
+    outlivesBody: string;
+    governedHeading: string;
+    governedBody: string;
     streams: Record<string, StreamCopy>;
   };
   connect: {

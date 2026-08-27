@@ -30,7 +30,7 @@ export const fr: Dictionary = {
     identityLabel: 'Identité',
     stakeLabel: 'Stake',
     emptyLabel: 'Vide',
-    agents: 'Les agents interrogent kind plus identity.',
+    agents: 'Une couche gouvernée interroge kind plus identity.',
     catalog: 'Catalogue live',
     intakeCta: 'Conserver les rapports courrier',
     stakeCalendar: 'calendar',
@@ -39,13 +39,12 @@ export const fr: Dictionary = {
     stakeCounterpartyHint: 'Ne grandit que lorsque des tiers indépendants continuent d’agir.',
     unknownWhat: 'Un flux du catalogue live.',
     unknownEmpty: 'Vide est une réponse. Pas d’enregistrement public sous cette identité pour l’instant.',
-    heroLine1:
-      'L’IA peut falsifier un visage, une voix, un CV, une entreprise « établie » depuis dix ans.',
-    heroLine2: 'Elle ne peut toujours pas falsifier hier.',
+    heroLine1: 'Une évidence qui survit au prestataire.',
+    heroLine2: 'Une requête. Pas une affirmation.',
     turnLine:
-      'Pas une affirmation que vous faites. Un registre public qui se construit tout seul, à partir d’évidence que n’importe qui peut revérifier — évidence qui existait avant que quiconque ne demande à regarder.',
+      'Traces indépendantes, tenues à part. N’importe qui peut les revérifier contre une racine nommée — y compris après notre disparition. Nous ne disons pas ce que vous pouvez conclure, ni qui peut agir. Cette couche lit ceci.',
     howItWorksHeading: 'Comment ça marche',
-    seeHowItWorks: 'Voir comment ça marche',
+    seeHowItWorks: 'Comment ça marche',
     liveHeading: 'Un enregistrement live',
     liveViewRecord: 'Voir le registre',
     proofRoot: 'Racine',
@@ -53,6 +52,16 @@ export const fr: Dictionary = {
     proofIncluded: 'inclus',
     chainBaseSepolia: 'Base Sepolia (testnet)',
     recordsHeading: 'Record',
+    streamLabel: 'Flux',
+    querySubmit: 'Interroger',
+    queryFailed: 'Le ledger n’a pas répondu.',
+    queryHint: 'Zéro ligne est une réponse.',
+    outlivesHeading: 'Elle survit au prestataire',
+    outlivesBody:
+      'Les traces viennent de systèmes qui existaient déjà — courrier reçu, journaux publics de certificats, signatures publiques. Elles n’ont pas été produites pour nous. L’inclusion se vérifie contre une racine nommée, publiée hors de cet opérateur. Si nous disparaissons, les preuves tiennent encore.',
+    governedHeading: 'Le jugement reste à l’extérieur',
+    governedBody:
+      'Ce n’est ni un score, ni une affirmation, ni un oui. Chaque flux a sa propre identité et un libellé de stake qu’un moteur de politique peut lire. Vide est honnête. Ce qui peut se passer ensuite ne se décide pas ici.',
     streams: {
       mail: {
         name: 'Courrier',

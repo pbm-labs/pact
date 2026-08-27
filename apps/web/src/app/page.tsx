@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import { HomeLanding } from '@/components/home-landing';
+import { loadKindCatalog } from '@/lib/kind-catalog';
 
-const title = "It still can't fake yesterday.";
+export const dynamic = 'force-dynamic';
+
+const title = 'Evidence that outlives the vendor.';
 const description =
-  'AI can fake a face, a voice, a résumé, a company that\'s "been around" for ten years. It still can\'t fake yesterday.';
+  'A query, not a claim. Independent traces anyone can recheck against a named root — including after we are gone. Judgement stays outside.';
 
 export const metadata: Metadata = {
   title,
@@ -18,6 +21,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
-  return <HomeLanding />;
+export default async function HomePage() {
+  const kinds = await loadKindCatalog();
+  return <HomeLanding kinds={kinds} />;
 }

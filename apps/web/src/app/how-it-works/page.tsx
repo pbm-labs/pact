@@ -6,9 +6,9 @@ import { loadKindCatalog } from '@/lib/kind-catalog';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'How it works — We build real',
+  title: 'How it works — Evidence',
   description:
-    'Independent traces, kept apart. Each stream has its own identity. The catalog grows.',
+    'Independent traces, kept apart. They outlive the vendor. Judgement stays outside.',
 };
 
 export default async function HowItWorksPage() {
