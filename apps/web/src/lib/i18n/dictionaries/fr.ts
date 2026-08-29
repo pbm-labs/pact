@@ -149,7 +149,7 @@ export const fr: Dictionary = {
     terms: [
       {
         title: '1. Acceptation des conditions',
-        body: "En accédant à ce site (evidence.webuildreal.dev) et à leftover, ou en les utilisant, vous acceptez les présentes Conditions d'utilisation. Si vous n'êtes pas d'accord, n'utilisez pas le site et ne soumettez pas de domaine d’envoi pour l’intake courrier.",
+        body: "En accédant à ce site (leftover.webuildreal.dev) et à leftover, ou en les utilisant, vous acceptez les présentes Conditions d'utilisation. Si vous n'êtes pas d'accord, n'utilisez pas le site et ne soumettez pas de domaine d’envoi pour l’intake courrier.",
       },
       {
         title: '2. Qui nous sommes',
@@ -207,7 +207,7 @@ export const fr: Dictionary = {
     privacy: [
       {
         title: '1. Vue d\'ensemble',
-        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez leftover sur evidence.webuildreal.dev. leftover enregistre des traces non commandées : rapports agrégés DMARC, métadonnées des journaux publics Certificate Transparency et métadonnées du journal public Rekor. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT et Rekor sont déjà de l'échappement de journaux publics, y compris les identités Rekor déjà publiées dans ce journal.",
+        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez leftover sur leftover.webuildreal.dev. leftover enregistre des traces non commandées : rapports agrégés DMARC, métadonnées des journaux publics Certificate Transparency et métadonnées du journal public Rekor. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT et Rekor sont déjà de l'échappement de journaux publics, y compris les identités Rekor déjà publiées dans ce journal.",
       },
       {
         title: '2. Informations que nous traitons',

@@ -149,7 +149,7 @@ export const en: Dictionary = {
     terms: [
       {
         title: '1. Acceptance of Terms',
-        body: 'By accessing or using this website (evidence.webuildreal.dev) and leftover, you agree to these Terms of Service. If you do not agree, do not use the site or submit a sending domain for mail intake.',
+        body: 'By accessing or using this website (leftover.webuildreal.dev) and leftover, you agree to these Terms of Service. If you do not agree, do not use the site or submit a sending domain for mail intake.',
       },
       {
         title: '2. Who We Are',
@@ -207,7 +207,7 @@ export const en: Dictionary = {
     privacy: [
       {
         title: '1. Overview',
-        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use leftover at evidence.webuildreal.dev. leftover records uncommissioned traces: DMARC aggregate reports, public Certificate Transparency log metadata, and public Rekor log metadata. Aggregate mail reports contain no message content and no personal identities. CT and Rekor data are already public log exhaust, including Rekor identities that were already published in that log.',
+        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use leftover at leftover.webuildreal.dev. leftover records uncommissioned traces: DMARC aggregate reports, public Certificate Transparency log metadata, and public Rekor log metadata. Aggregate mail reports contain no message content and no personal identities. CT and Rekor data are already public log exhaust, including Rekor identities that were already published in that log.',
       },
       {
         title: '2. Information We Process',

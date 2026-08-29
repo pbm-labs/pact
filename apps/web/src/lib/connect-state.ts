@@ -67,7 +67,7 @@ export function appOrigin(request?: Request): string {
 
 /** Public app host — OAuth redirect_uri and post-login redirects. */
 export function canonicalOrigin(): string {
-  return (process.env.NEXT_PUBLIC_APP_URL ?? 'https://evidence.webuildreal.dev').replace(/\/$/, '');
+  return (process.env.NEXT_PUBLIC_APP_URL ?? 'https://leftover.webuildreal.dev').replace(/\/$/, '');
 }
 
 export function oauthCallbackUri(): string {

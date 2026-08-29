@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const HOST = 'evidence.webuildreal.dev';
+const HOST = 'leftover.webuildreal.dev';
+const ALIASES = new Set(['evidence.webuildreal.dev', `www.${HOST}`, 'www.evidence.webuildreal.dev']);
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host')?.split(':')[0]?.toLowerCase();
-  if (host === `www.${HOST}`) {
+  if (host && ALIASES.has(host)) {
     const url = request.nextUrl.clone();
     url.protocol = 'https:';
     url.host = HOST;

@@ -18,6 +18,10 @@
   ],
   "routes": [
     {
+      "pattern": "leftover.webuildreal.dev",
+      "custom_domain": true
+    },
+    {
       "pattern": "evidence.webuildreal.dev",
       "custom_domain": true
     }
@@ -26,7 +30,7 @@
   //   CONNECT_STATE_SECRET, LEDGER_WRITE_SECRET,
   //   CLOUDFLARE_OAUTH_CLIENT_ID, CLOUDFLARE_OAUTH_CLIENT_SECRET
   "vars": {
-    "NEXT_PUBLIC_APP_URL": "https://evidence.webuildreal.dev",
+    "NEXT_PUBLIC_APP_URL": "https://leftover.webuildreal.dev",
     "LEDGER_URL": "https://ledger.webuildreal.dev"
   }
 }
