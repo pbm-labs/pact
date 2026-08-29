@@ -7,6 +7,7 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 import { MobileMenu } from '@/components/mobile-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useLocale } from '@/components/locale-provider';
+import { LEGAL_ENTITY } from '@/lib/legal';
 import { routes } from '@/lib/routes';
 import { container } from '@/lib/ui';
 
@@ -22,7 +23,7 @@ export function MovementHeader() {
         <Link href={routes.home} className="flex items-center gap-2.5 no-underline group shrink-0">
           <BrandMark className="h-5 w-auto shrink-0 opacity-90 group-hover:opacity-100 transition-opacity" />
           <span className="font-brand text-sm text-txt group-hover:text-brand transition-colors">
-            we build real
+            {LEGAL_ENTITY.brand}
           </span>
         </Link>
 

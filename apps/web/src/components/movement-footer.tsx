@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useLocale } from '@/components/locale-provider';
+import { LEGAL_ENTITY } from '@/lib/legal';
 import { routes } from '@/lib/routes';
 import { container } from '@/lib/ui';
 
@@ -13,7 +14,7 @@ export function MovementFooter() {
       <div
         className={`${container} py-4 flex items-center justify-between gap-4 text-xs text-muted-2 font-mono`}
       >
-        <p className="m-0">&copy; {new Date().getFullYear()} we build real</p>
+        <p className="m-0">&copy; {new Date().getFullYear()} {LEGAL_ENTITY.brand}</p>
         <nav className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2">
           <Link href={routes.terms} className="hover:text-muted no-underline">
             {t.footer.terms}

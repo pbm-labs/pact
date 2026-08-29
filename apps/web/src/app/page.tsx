@@ -4,7 +4,7 @@ import { loadKindCatalog } from '@/lib/kind-catalog';
 
 export const dynamic = 'force-dynamic';
 
-const title = 'Evidence that outlives the vendor.';
+const title = 'leftover — uncommissioned evidence';
 const description =
   'A query, not a claim. Independent traces anyone can recheck against a named root — including after we are gone. Judgement stays outside.';
 

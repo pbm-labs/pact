@@ -7,7 +7,7 @@ interface PageProps {
 }
 
 export const metadata = {
-  title: 'Connect your mail reports — We build real',
+  title: 'Connect your mail reports — leftover',
   description:
     'Two minutes. Mostly automatic. Add a destination so independent mail reports are kept.',
 };

@@ -142,18 +142,18 @@ export const fr: Dictionary = {
   },
   legal: {
     eyebrow: 'Mentions légales',
-    lastUpdated: 'Dernière mise à jour le 26 août 2026',
+    lastUpdated: 'Dernière mise à jour le 29 août 2026',
     termsTitle: "Conditions d'utilisation",
     privacyTitle: 'Politique de confidentialité',
     emailLabel: 'E-mail',
     terms: [
       {
         title: '1. Acceptation des conditions',
-        body: "En accédant à ce site (webuildreal.dev) et aux services associés du mouvement we build real, ou en les utilisant, vous acceptez les présentes Conditions d'utilisation. Si vous n'êtes pas d'accord, n'utilisez pas le site et ne soumettez pas de domaine d’envoi pour l’intake courrier.",
+        body: "En accédant à ce site (evidence.webuildreal.dev) et à leftover, ou en les utilisant, vous acceptez les présentes Conditions d'utilisation. Si vous n'êtes pas d'accord, n'utilisez pas le site et ne soumettez pas de domaine d’envoi pour l’intake courrier.",
       },
       {
         title: '2. Qui nous sommes',
-        body: "Ce site est le foyer public de we build real, un mouvement pour une histoire vérifiable. PACT est un protocole ouvert. PBM Labs LLC (« nous »), une limited liability company du Wyoming, fournit la première implémentation de référence de PACT. Le site documente cette implémentation et propose l’intake du leftover courrier. Le leftover vérifiable est sur l’API publique du ledger, pas un profil humain de domaine.",
+        body: "leftover est l’évidence non commandée : des traces que des systèmes indépendants émettent déjà, que personne ne leur a demandé de produire pour nous. PACT est un protocole ouvert. PBM Labs LLC (« nous »), une limited liability company du Wyoming, exploite ce site et le premier ledger de référence PACT. Le leftover vérifiable est sur l’API publique du ledger. C’est une requête, pas une affirmation, et pas un profil humain de domaine.",
       },
       {
         title: '3. Le service',
@@ -177,7 +177,7 @@ export const fr: Dictionary = {
       },
       {
         title: '8. Propriété intellectuelle',
-        body: "Le contenu du site, la marque et le design de « we build real » appartiennent à PBM Labs LLC ou à ses concédants, sauf indication contraire. La spécification du protocole PACT et le whitepaper sont publiés ouvertement pour examen et mise en œuvre ; les implémentations tierces sont encouragées sous réserve de leurs propres licences le cas échéant. Aucun droit n'est concédé sauf le droit limité d'utiliser ce site conformément à sa destination.",
+        body: "Le contenu du site, la marque et le design de leftover appartiennent à PBM Labs LLC ou à ses concédants, sauf indication contraire. La spécification du protocole PACT et le whitepaper sont publiés ouvertement pour examen et mise en œuvre ; les implémentations tierces sont encouragées sous réserve de leurs propres licences le cas échéant. Aucun droit n'est concédé sauf le droit limité d'utiliser ce site conformément à sa destination.",
       },
       {
         title: '9. Services tiers',
@@ -207,7 +207,7 @@ export const fr: Dictionary = {
     privacy: [
       {
         title: '1. Vue d\'ensemble',
-        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez webuildreal.dev — le foyer public du mouvement we build real et de la première implémentation de référence du protocole ouvert PACT. PACT enregistre des traces résiduelles : rapports agrégés DMARC, métadonnées des journaux publics Certificate Transparency et métadonnées du journal public Rekor. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT et Rekor sont déjà de l'échappement de journaux publics, y compris les identités Rekor déjà publiées dans ce journal.",
+        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez leftover sur evidence.webuildreal.dev. leftover enregistre des traces non commandées : rapports agrégés DMARC, métadonnées des journaux publics Certificate Transparency et métadonnées du journal public Rekor. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT et Rekor sont déjà de l'échappement de journaux publics, y compris les identités Rekor déjà publiées dans ce journal.",
       },
       {
         title: '2. Informations que nous traitons',

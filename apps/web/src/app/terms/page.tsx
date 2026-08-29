@@ -1,8 +1,8 @@
 import { LegalDocument } from '@/components/legal-document';
 
 export const metadata = {
-  title: 'Terms of Service — We build real',
-  description: 'Terms for webuildreal.dev and the PACT reference services. Separate evidence streams on one tree.',
+  title: 'Terms of Service — leftover',
+  description: 'Terms for leftover and the PACT leftover query. Separate evidence streams on one tree.',
 };
 
 export default function TermsPage() {

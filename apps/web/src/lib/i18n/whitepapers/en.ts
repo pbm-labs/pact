@@ -85,5 +85,5 @@ That is the honest limit. The thesis does not wait on mainnet. The feeds, the tr
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-we build real is the movement. PACT is the open protocol. The first reference implementation is the ledger. This site is the movement home and the agent interface.
+leftover is uncommissioned evidence. PACT is the open protocol. This site is the query.
 `.trim();

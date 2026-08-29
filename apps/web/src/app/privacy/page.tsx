@@ -1,7 +1,7 @@
 import { LegalDocument } from '@/components/legal-document';
 
 export const metadata = {
-  title: 'Privacy Policy — We build real',
+  title: 'Privacy Policy — leftover',
   description:
     'How mail reports, public Certificate Transparency metadata, and public Rekor identities are handled. No message content, no mailboxes.',
 };

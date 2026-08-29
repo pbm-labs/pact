@@ -5,10 +5,11 @@ import { LocaleProvider } from '@/components/locale-provider';
 import { LocaleScript } from '@/components/locale-script';
 import { MovementFooter } from '@/components/movement-footer';
 import { MovementHeader } from '@/components/movement-header';
+import { LEGAL_ENTITY } from '@/lib/legal';
 import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 
-const siteUrl = 'https://evidence.webuildreal.dev';
-const title = 'Evidence that outlives the vendor.';
+const siteUrl = `https://${LEGAL_ENTITY.site}`;
+const title = 'leftover — uncommissioned evidence';
 const description =
   'A query, not a claim. Independent traces anyone can recheck against a named root. Judgement stays outside.';
 
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title,
   description,
-  applicationName: 'we build real',
+  applicationName: LEGAL_ENTITY.brand,
   robots: { index: false, follow: false },
   alternates: {
     canonical: '/',
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: siteUrl,
-    siteName: 'we build real',
+    siteName: LEGAL_ENTITY.brand,
     title,
     description,
     locale: 'en_US',
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'Evidence that outlives the vendor. A query. Not a claim.',
+        alt: 'leftover — uncommissioned evidence. A query. Not a claim.',
       },
     ],
   },

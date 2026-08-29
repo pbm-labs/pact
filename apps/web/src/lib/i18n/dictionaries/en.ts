@@ -142,18 +142,18 @@ export const en: Dictionary = {
   },
   legal: {
     eyebrow: 'Legal',
-    lastUpdated: 'Last updated August 26, 2026',
+    lastUpdated: 'Last updated August 29, 2026',
     termsTitle: 'Terms of Service',
     privacyTitle: 'Privacy Policy',
     emailLabel: 'Email',
     terms: [
       {
         title: '1. Acceptance of Terms',
-        body: 'By accessing or using this website (webuildreal.dev) and related services of the we build real movement, you agree to these Terms of Service. If you do not agree, do not use the site or submit a sending domain for mail intake.',
+        body: 'By accessing or using this website (evidence.webuildreal.dev) and leftover, you agree to these Terms of Service. If you do not agree, do not use the site or submit a sending domain for mail intake.',
       },
       {
         title: '2. Who We Are',
-        body: 'This site is the public home of we build real, a movement for verifiable history. PACT is an open protocol. PBM Labs LLC (“we”, “us”), a Wyoming limited liability company, provides the first PACT reference implementation. The site documents that implementation and offers mail leftover intake. Checkable leftover is on the public ledger API, not a human domain profile.',
+        body: 'leftover is uncommissioned evidence: traces independent systems already emit, that nobody asked them to produce for us. PACT is an open protocol. PBM Labs LLC (“we”, “us”), a Wyoming limited liability company, operates this site and the first PACT reference ledger. Checkable leftover is on the public ledger API. This is a query, not a claim, and not a human domain profile.',
       },
       {
         title: '3. The Service',
@@ -177,7 +177,7 @@ export const en: Dictionary = {
       },
       {
         title: '8. Intellectual Property',
-        body: 'Site content, branding, and design for “we build real” are owned by PBM Labs LLC or its licensors unless otherwise stated. The PACT Protocol specification and whitepaper are published openly for review and implementation; third-party protocol implementations are encouraged subject to their own license terms where applicable. No rights are granted except the limited right to use this site as intended.',
+        body: 'Site content, branding, and design for leftover are owned by PBM Labs LLC or its licensors unless otherwise stated. The PACT Protocol specification and whitepaper are published openly for review and implementation; third-party protocol implementations are encouraged subject to their own license terms where applicable. No rights are granted except the limited right to use this site as intended.',
       },
       {
         title: '9. Third-Party Services',
@@ -207,7 +207,7 @@ export const en: Dictionary = {
     privacy: [
       {
         title: '1. Overview',
-        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use webuildreal.dev — the public home of the we build real movement and of the first reference implementation of the open PACT protocol. PACT records leftover traces: DMARC aggregate reports, public Certificate Transparency log metadata, and public Rekor log metadata. Aggregate mail reports contain no message content and no personal identities. CT and Rekor data are already public log exhaust, including Rekor identities that were already published in that log.',
+        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use leftover at evidence.webuildreal.dev. leftover records uncommissioned traces: DMARC aggregate reports, public Certificate Transparency log metadata, and public Rekor log metadata. Aggregate mail reports contain no message content and no personal identities. CT and Rekor data are already public log exhaust, including Rekor identities that were already published in that log.',
       },
       {
         title: '2. Information We Process',

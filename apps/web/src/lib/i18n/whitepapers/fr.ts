@@ -85,5 +85,5 @@ C’est la limite honnête. La thèse n’attend pas le mainnet. Les flux, l’a
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-we build real est le mouvement. PACT est le protocole ouvert. La première implémentation de référence est le ledger. Ce site est le foyer du mouvement et l’interface pour les agents.
+leftover est l’évidence non commandée. PACT est le protocole ouvert. Ce site est la requête.
 `.trim();
