@@ -7,13 +7,13 @@ The name is Provenance of Accumulated Checkable Traces. Provenance: the traces h
 
 Generative models made new identifiers and new documents cheap. They did not make yesterday cheap. The only record that survives that is a record someone else was already writing down.
 
-## Leftover traces
+## Uncommissioned traces
 
 A new identity system usually asks the world to perform a new ritual: install an app, mint a credential, pass a ceremony, trust a new issuer. Those systems fail at the scale that matters, because the people who would need to join are not waiting for another network.
 
-PACT records leftover exhaust. Receiving mail systems already emit reports. Public certificate logs already exist because browsers required a diary of issuance. Rekor already exists because software supply-chain tooling wanted a diary of signed artifacts. This protocol does not invent a feed and ask the world to fill it. It keeps what is already being thrown away.
+PACT records uncommissioned traces. Receiving mail systems already emit reports. Public certificate logs already exist because browsers required a diary of issuance. Rekor already exists because software supply-chain tooling wanted a diary of signed artifacts. This protocol does not invent a feed and ask the world to fill it. It keeps what is already being thrown away.
 
-Mail, certificates, and signatures are leftover kinds of different origin. They sit on the same append-only tree so a checker has one root to recompute against. They are never blended into a score. A later leftover source may be added as another tagged kind. Each kind keeps its own preimage. Applications may interpret the fields. This protocol will not.
+Mail, certificates, and signatures are uncommissioned trace kinds. They sit on the same append-only tree so a checker has one root to recompute against. They are never blended into a score. A later new trace source may be added as another tagged kind. Each kind keeps its own preimage. Applications may interpret the fields. This protocol will not.
 
 ## Mail reports
 
@@ -35,7 +35,7 @@ This site indexes public logs after the name is on the ledger. There is no secon
 
 Certificate leaves carry a first-seen date, issuer, validity window, and fingerprint. They share the tree and the leaf index space with mail and signature leaves. They are never merged into those leaves.
 
-The reference ingest reads a public index over those logs, not a log operator. That is weaker than a specific log's signed tree head. It is still leftover calendar from infrastructure that already existed.
+The reference ingest reads a public index over those logs, not a log operator. That is weaker than a specific log's signed tree head. It is still byproduct calendar from infrastructure that already existed.
 
 ## Signature logs
 
@@ -43,11 +43,11 @@ Rekor already records signed software metadata. It exists because the software s
 
 A new signature can be published as cheaply as a new certificate. That is a weak calendar, not proof that a name is legitimate, and not a quality claim about the software.
 
-This site indexes leftover Rekor subjects — a GitHub URI, an email, or a hostname — not a connected domain. A github.com URI is first-class leftover; it does not cover a customer's website. Host leftover uses that name and its www and https forms. Email leftover is the exact mailbox already in the log. Guessed mailboxes are not searched. Empty hostname leftover is expected.
+This site indexes Rekor subjects — a GitHub URI, an email, or a hostname — not a connected domain. A github.com URI is a first-class uncommissioned trace; it does not cover a customer's website. Host traces use that name and its www and https forms. Email traces are the exact mailbox already in the log. Guessed mailboxes are not searched. Empty hostname traces are expected.
 
 Signature leaves carry an identity, an integrated time, and an entry id. They share the tree and the leaf index space with mail and certificate leaves. They are never merged into those leaves.
 
-The reference ingest reads a public index over Rekor, not Rekor's own Merkle proof. That is weaker than the log's signed tree head. It is still leftover calendar from infrastructure that already existed.
+The reference ingest reads a public index over Rekor, not Rekor's own Merkle proof. That is weaker than the log's signed tree head. It is still byproduct calendar from infrastructure that already existed.
 
 ## One tree, three kinds
 
@@ -85,5 +85,5 @@ That is the honest limit. The thesis does not wait on mainnet. The feeds, the tr
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-leftover is uncommissioned evidence. PACT is the open protocol. This site is the query.
+Wake is the query. PACT is the open protocol.
 `.trim();

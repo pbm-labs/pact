@@ -4,9 +4,9 @@ import { loadKindCatalog } from '@/lib/kind-catalog';
 
 export const dynamic = 'force-dynamic';
 
-const title = 'leftover — evidence that outlives the vendor';
+const title = 'Wake — evidence that outlives the vendor';
 const description =
-  'You kept the liability. They kept the evidence. leftover holds uncommissioned traces — queryable after the vendor is gone. Not a score.';
+  'You kept the liability. They kept the evidence. Wake holds uncommissioned traces — queryable after the vendor is gone. Not a score.';
 
 export const metadata: Metadata = {
   title,

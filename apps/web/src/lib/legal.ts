@@ -1,7 +1,7 @@
-/** PBM Labs LLC operates leftover — uncommissioned evidence on the PACT ledger. */
+/** PBM Labs LLC operates Wake — uncommissioned evidence on the PACT ledger. */
 export const LEGAL_ENTITY = {
   name: 'PBM Labs LLC',
-  brand: 'leftover',
+  brand: 'Wake',
   site: 'leftover.webuildreal.dev',
   email: 'hello@pbm-labs.com',
   address: {

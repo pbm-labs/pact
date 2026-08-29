@@ -24,9 +24,9 @@ function parseRecordDomain(raw: string): string | null {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { domain: raw } = await params;
   const domain = parseRecordDomain(raw);
-  if (!domain) return { title: 'Record — leftover' };
+  if (!domain) return { title: 'Record — Wake' };
   return {
-    title: `${domain} — leftover`,
+    title: `${domain} — Wake`,
     description: `Public record for ${domain}. Separate streams. Empty is an answer.`,
   };
 }

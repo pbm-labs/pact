@@ -42,7 +42,7 @@ export const fr: Dictionary = {
     heroLine1: 'Vous avez gardé la responsabilité.',
     heroLine2: 'Eux ont gardé les preuves.',
     turnLine:
-      'Les organisations externalisent l\u2019exécution et conservent la responsabilité juridique. Quand la relation se termine, le prestataire emporte le dossier. leftover conserve une évidence non commandée — des traces que des systèmes indépendants ont produites avant que quiconque ait eu une raison de regarder — et les rend interrogeables après la fin de la relation.',
+      'Les organisations externalisent l\u2019exécution et conservent la responsabilité juridique. Quand la relation se termine, le prestataire emporte le dossier. Wake conserve une évidence non commandée — des traces que des systèmes indépendants ont produites avant que quiconque ait eu une raison de regarder — et les rend interrogeables après la fin de la relation.',
     howItWorksHeading: 'Comment ça marche',
     seeHowItWorks: 'Comment ça marche',
     liveHeading: 'Un enregistrement live',
@@ -61,10 +61,10 @@ export const fr: Dictionary = {
       'Rapports de messagerie, journaux de certificats, signatures de logiciels. Des systèmes indépendants ont produit ces traces en faisant leur propre travail — livrer du courrier, consigner des certificats publics, signer des versions. Le témoin n\u2019avait aucune raison de produire ceci pour vous. Cela existait avant la relation.',
     outlivesHeading: 'Elle survit au prestataire',
     outlivesBody:
-      'Quand la relation se termine, le prestataire emporte le dossier opérationnel. leftover est différent. L\u2019inclusion se vérifie contre une racine nommée publiée hors de cet opérateur. Si nous disparaissons, les preuves tiennent. Si le prestataire disparaît, l\u2019historique est encore là.',
+      'Quand la relation se termine, le prestataire emporte le dossier opérationnel. Wake est différent. L\u2019inclusion se vérifie contre une racine nommée publiée hors de cet opérateur. Si nous disparaissons, les preuves tiennent. Si le prestataire disparaît, l\u2019historique est encore là.',
     governedHeading: 'Pas un score',
     governedBody:
-      'Chaque questionnaire et chaque scanner compresse le fournisseur en un seul chiffre. leftover refuse cela. Chaque flux garde sa propre identité et un libellé de stake qu\u2019un moteur de politique peut lire. Vide est honnête. Ce qui peut se passer ensuite ne se décide pas ici.',
+      'Chaque questionnaire et chaque scanner compresse le fournisseur en un seul chiffre. Wake refuse cela. Chaque flux garde sa propre identité et un libellé de stake qu\u2019un moteur de politique peut lire. Vide est honnête. Ce qui peut se passer ensuite ne se décide pas ici.',
     problemHeading: 'La responsabilité sans les preuves.',
     problemBody:
       'Vous externalisez l\u2019exécution. Vous gardez l\u2019exposition juridique. Un régulateur demande les preuves. Le prestataire les a. Tous les outils de gestion du risque fournisseur sont conçus pour la relation active — et s\u2019arrêtent au moment où le fournisseur part.',
@@ -172,11 +172,11 @@ export const fr: Dictionary = {
       },
       {
         title: '2. Qui nous sommes',
-        body: "leftover est l'évidence non commandée : des traces que des systèmes indépendants émettent déjà, que personne ne leur a demandé de produire pour nous. PACT est un protocole ouvert. PBM Labs LLC (« nous »), une limited liability company du Wyoming, exploite ce site et le premier ledger de référence PACT. Le leftover vérifiable est sur l'API publique du ledger. C'est une requête, pas une affirmation, et pas un profil humain de domaine.",
+        body: "Wake est l'évidence non commandée : des traces que des systèmes indépendants émettent déjà, que personne ne leur a demandé de produire pour nous. PACT est un protocole ouvert. PBM Labs LLC (« nous »), une limited liability company du Wyoming, exploite ce site et le premier ledger de référence PACT. Le L’évidence Wake est sur l'API publique du ledger. C'est une requête, pas une affirmation, et pas un profil humain de domaine.",
       },
       {
         title: '3. Le service',
-        body: "PACT capture des traces résiduelles déjà émises par des systèmes indépendants et les inscrit dans un arbre de Merkle append-only. Chaque source résiduelle est un type distinct sur cet arbre. Le leftover courrier vient des rapports agrégés DMARC. Le leftover certificats vient des journaux publics Certificate Transparency. Le leftover signatures vient du journal public Rekor, indexé par sujet résiduel (URI GitHub, e-mail ou hôte) — pas un site connecté. Les types ne sont pas fusionnés en un score. L'intake courrier place un domaine d'envoi sur le ledger et nécessite d'ajouter PACT comme destination de rapports dans le DNS. Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
+        body: "PACT capture des traces non commandées déjà émises par des systèmes indépendants et les inscrit dans un arbre de Merkle append-only. Chaque source résiduelle est un type distinct sur cet arbre. Le Wake courrier vient des rapports agrégés DMARC. Le Wake certificats vient des journaux publics Certificate Transparency. Le Wake signatures vient du journal public Rekor, indexé par sujet résiduel (URI GitHub, e-mail ou hôte) — pas un site connecté. Les types ne sont pas fusionnés en un score. L'intake courrier place un domaine d'envoi sur le ledger et nécessite d'ajouter PACT comme destination de rapports dans le DNS. Nous ne lisons ni le contenu des messages, ni les identités des destinataires, ni les données de boîte aux lettres.",
       },
       {
         title: '4. Ledger public',
@@ -196,7 +196,7 @@ export const fr: Dictionary = {
       },
       {
         title: '8. Propriété intellectuelle',
-        body: "Le contenu du site, la marque et le design de leftover appartiennent à PBM Labs LLC ou à ses concédants, sauf indication contraire. La spécification du protocole PACT et le whitepaper sont publiés ouvertement pour examen et mise en œuvre ; les implémentations tierces sont encouragées sous réserve de leurs propres licences le cas échéant. Aucun droit n'est concédé sauf le droit limité d'utiliser ce site conformément à sa destination.",
+        body: "Le contenu du site, la marque et le design de Wake appartiennent à PBM Labs LLC ou à ses concédants, sauf indication contraire. La spécification du protocole PACT et le whitepaper sont publiés ouvertement pour examen et mise en œuvre ; les implémentations tierces sont encouragées sous réserve de leurs propres licences le cas échéant. Aucun droit n'est concédé sauf le droit limité d'utiliser ce site conformément à sa destination.",
       },
       {
         title: '9. Services tiers',
@@ -226,7 +226,7 @@ export const fr: Dictionary = {
     privacy: [
       {
         title: '1. Vue d\'ensemble',
-        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez leftover sur leftover.webuildreal.dev. leftover enregistre des traces non commandées : rapports agrégés DMARC, métadonnées des journaux publics Certificate Transparency et métadonnées du journal public Rekor. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT et Rekor sont déjà de l'échappement de journaux publics, y compris les identités Rekor déjà publiées dans ce journal.",
+        body: "Cette Politique de confidentialité explique comment PBM Labs LLC traite les informations lorsque vous utilisez leftover sur leftover.webuildreal.dev. Wake enregistre des traces non commandées : rapports agrégés DMARC, métadonnées des journaux publics Certificate Transparency et métadonnées du journal public Rekor. Les rapports agrégés de courrier ne contiennent ni contenu de message ni identités personnelles. Les données CT et Rekor sont déjà de l'échappement de journaux publics, y compris les identités Rekor déjà publiées dans ce journal.",
       },
       {
         title: '2. Informations que nous traitons',
@@ -238,7 +238,7 @@ export const fr: Dictionary = {
       },
       {
         title: '4. Comment nous utilisons les informations',
-        body: "Nous utilisons les informations ci-dessus pour assurer l'intake du leftover courrier, ingérer et publier l'historique confirmé de façon indépendante, maintenir les preuves cryptographiques, prévenir les abus et améliorer la fiabilité du service. Les champs du ledger sont publiés pour que quiconque — y compris des agents — puisse revérifier ce qui s'est passé.",
+        body: "Nous utilisons les informations ci-dessus pour assurer l'intake du Wake courrier, ingérer et publier l'historique confirmé de façon indépendante, maintenir les preuves cryptographiques, prévenir les abus et améliorer la fiabilité du service. Les champs du ledger sont publiés pour que quiconque — y compris des agents — puisse revérifier ce qui s'est passé.",
       },
       {
         title: '5. Ledger public',

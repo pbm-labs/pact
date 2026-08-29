@@ -6,7 +6,7 @@ import { loadKindCatalog } from '@/lib/kind-catalog';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'How it works — leftover',
+  title: 'How it works — Wake',
   description:
     'Evidence that outlives the vendor. Uncommissioned traces from independent systems — before anyone asked them to look.',
 };

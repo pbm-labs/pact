@@ -2,7 +2,7 @@
 
 import { useLocale } from '@/components/locale-provider';
 
-export function LeftoverPoints() {
+export function WakePoints() {
   const { t } = useLocale();
   const points = [
     { title: t.home.uncommissionedHeading, body: t.home.uncommissionedBody },

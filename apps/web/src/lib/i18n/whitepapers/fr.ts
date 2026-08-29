@@ -7,7 +7,7 @@ Le nom est Provenance of Accumulated Checkable Traces — provenance de traces a
 
 Les modèles génératifs ont rendu bon marché les nouveaux identifiants et les nouveaux documents. Ils n’ont pas rendu hier bon marché. Le seul registre qui survit à cela est un registre que quelqu’un d’autre était déjà en train d’écrire.
 
-## Traces résiduelles
+## Traces non commandées
 
 Un nouveau système d’identité demande en général au monde un rituel nouveau : installer une application, émettre une attestation, passer une cérémonie, faire confiance à un nouvel émetteur. Ces systèmes échouent à l’échelle qui compte, parce que ceux qui devraient adhérer n’attendent pas un autre réseau.
 
@@ -43,7 +43,7 @@ Rekor enregistre déjà les métadonnées de logiciels signés. Il existe parce 
 
 Une nouvelle signature peut être publiée aussi bon marché qu’un nouveau certificat. C’est un calendrier faible, non une preuve qu’un nom est légitime, ni une affirmation de qualité sur le logiciel.
 
-Ce site indexe les sujets Rekor résiduels — un URI GitHub, un e-mail ou un nom d’hôte — pas un domaine connecté. Un URI github.com est un leftover de premier ordre ; il ne couvre pas le site d’un client. Le leftover d’hôte utilise ce nom et ses formes www et https. Le leftover e-mail est la boîte exacte déjà présente dans le journal. On ne cherche pas des boîtes devinées. Un leftover d’hôte vide est attendu.
+Ce site indexe les sujets Rekor — un URI GitHub, un e-mail ou un nom d’hôte — pas un domaine connecté. Un URI github.com est un trace non commandée de premier ordre ; il ne couvre pas le site d’un client. Les traces d’hôte utilisent ce nom et ses formes www et https. Les traces e-mail sont la boîte exacte déjà présente dans le journal. On ne cherche pas des boîtes devinées. Les traces d’hôte vides sont attendues.
 
 Les feuilles de signature portent une identité, une heure intégrée et un id d’entrée. Elles partagent l’arbre et l’espace d’index avec les feuilles de courrier et de certificats. Elles ne sont jamais fusionnées avec elles.
 
@@ -85,5 +85,5 @@ C’est la limite honnête. La thèse n’attend pas le mainnet. Les flux, l’a
 
 PACT — Provenance of Accumulated Checkable Traces.
 
-leftover est l’évidence non commandée. PACT est le protocole ouvert. Ce site est la requête.
+Wake est la requête. PACT est le protocole ouvert.
 `.trim();

@@ -1,6 +1,6 @@
 'use client';
 
-import { LeftoverPoints } from '@/components/leftover-points';
+import { WakePoints } from '@/components/wake-points';
 import { LiveProof } from '@/components/live-proof';
 import { StreamCard } from '@/components/stream-card';
 import { useLocale } from '@/components/locale-provider';
@@ -26,7 +26,7 @@ export function HowItWorksView({
           {t.home.lede}
         </p>
 
-        <LeftoverPoints />
+        <WakePoints />
 
         <ol className="mt-12 sm:mt-16 m-0 p-0 list-none divide-y divide-border border-y border-border">
           {kinds.map((kind) => (

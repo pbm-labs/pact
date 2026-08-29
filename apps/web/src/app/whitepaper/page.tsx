@@ -1,7 +1,7 @@
 import { WhitepaperView } from '@/components/whitepaper-view';
 
 export const metadata = {
-  title: 'Whitepaper — leftover',
+  title: 'Whitepaper — Wake',
   description:
     'PACT — Provenance of Accumulated Checkable Traces. Leftover kinds on one tree. Anyone can recheck. It is not a score.',
 };

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { EvidenceQuery } from '@/components/evidence-query';
-import { LeftoverPoints } from '@/components/leftover-points';
+import { WakePoints } from '@/components/wake-points';
 import { useLocale } from '@/components/locale-provider';
 import type { CatalogKind } from '@/lib/kind-catalog';
 import { routes } from '@/lib/routes';
@@ -16,7 +16,7 @@ export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
 
       {/* ── Hero ─────────────────────────────────────────────── */}
       <div className={`${container} pt-20 sm:pt-28 pb-16 sm:pb-20`}>
-        <p className={`${eyebrow} mb-8`}>leftover</p>
+        <p className={`${eyebrow} mb-8`}>Wake</p>
         <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.08] m-0 text-muted">
           {t.home.heroLine1}
         </h1>
@@ -79,7 +79,7 @@ export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
       {/* ── Three rails: Uncommissioned / Outlives / Not a score */}
       <div className="border-t border-border">
         <div className={`${container} py-14 sm:py-20`}>
-          <LeftoverPoints />
+          <WakePoints />
         </div>
       </div>
 

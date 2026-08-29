@@ -42,7 +42,7 @@ export const en: Dictionary = {
     heroLine1: 'You kept the liability.',
     heroLine2: 'They kept the evidence.',
     turnLine:
-      'Institutions outsource execution and retain legal accountability. When the relationship ends, the supplier takes the record with them. leftover holds uncommissioned evidence — traces independent systems produced before anyone had a reason to look — and makes them queryable after the vendor is gone.',
+      'Institutions outsource execution and retain legal accountability. When the relationship ends, the supplier takes the record with them. Wake holds uncommissioned evidence — traces independent systems produced before anyone had a reason to look — and makes them queryable after the vendor is gone.',
     howItWorksHeading: 'How it works',
     seeHowItWorks: 'How it works',
     liveHeading: 'A live record',
@@ -61,10 +61,10 @@ export const en: Dictionary = {
       'Mail reports, certificate logs, software signatures. Independent systems produced these while doing their own unrelated job — delivering mail, recording public certificates, signing releases. The witness had no reason to produce this for you. It existed before the relationship started.',
     outlivesHeading: 'It outlives the vendor',
     outlivesBody:
-      'When the relationship ends, the supplier takes the operational record. leftover is different. Inclusion is checked against a named root published outside this operator. If we disappear, the proofs still check. If the supplier disappears, the history is still there.',
+      'When the relationship ends, the supplier takes the operational record. Wake is different. Inclusion is checked against a named root published outside this operator. If we disappear, the proofs still check. If the supplier disappears, the history is still there.',
     governedHeading: 'Not a score',
     governedBody:
-      'Every questionnaire and every scanner compresses the vendor down to one number. leftover refuses that. Each stream keeps its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
+      'Every questionnaire and every scanner compresses the vendor down to one number. Wake refuses that. Each stream keeps its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
     problemHeading: 'Accountability without a record.',
     problemBody:
       'You hand off execution. You keep the legal exposure. A regulator asks for the evidence. The supplier has it. Every tool built for third-party risk is designed for the active relationship — and stops the moment the vendor is gone.',
@@ -168,19 +168,19 @@ export const en: Dictionary = {
     terms: [
       {
         title: '1. Acceptance of Terms',
-        body: 'By accessing or using this website (leftover.webuildreal.dev) and leftover, you agree to these Terms of Service. If you do not agree, do not use the site or submit a sending domain for mail intake.',
+        body: 'By accessing or using this website (leftover.webuildreal.dev) and Wake, you agree to these Terms of Service. If you do not agree, do not use the site or submit a sending domain for mail intake.',
       },
       {
         title: '2. Who We Are',
-        body: 'leftover is uncommissioned evidence: traces independent systems already emit, that nobody asked them to produce for us. PACT is an open protocol. PBM Labs LLC (“we”, “us”), a Wyoming limited liability company, operates this site and the first PACT reference ledger. Checkable leftover is on the public ledger API. This is a query, not a claim, and not a human domain profile.',
+        body: 'Wake is uncommissioned evidence: traces independent systems already emit, that nobody asked them to produce for us. PACT is an open protocol. PBM Labs LLC (“we”, “us”), a Wyoming limited liability company, operates this site and the first PACT reference ledger. Wake evidence is on the public ledger API. This is a query, not a claim, and not a human domain profile.',
       },
       {
         title: '3. The Service',
-        body: 'PACT captures leftover traces already emitted by independent systems and commits them to an append-only Merkle tree. Each leftover source is a separate kind on that tree. Mail leftover comes from DMARC aggregate authentication reports. Certificate leftover comes from public Certificate Transparency logs. Signature leftover comes from the public Rekor log, keyed by leftover subject (GitHub URI, email, or host) — not a connected website. Kinds are not blended into a score. Mail intake puts a sending domain on the ledger and requires adding PACT as a report destination in DNS so reports are kept. We do not read message content, recipient identities, or mailbox data.',
+        body: 'PACT captures uncommissioned traces already emitted by independent systems and commits them to an append-only Merkle tree. Each trace source is a separate kind on that tree. Mail traces come from DMARC aggregate authentication reports. Certificate traces come from public Certificate Transparency logs. Signature traces come from the public Rekor log, keyed by subject (GitHub URI, email, or host) — not a connected website. Kinds are not blended into a score. Mail intake puts a sending domain on the ledger and requires adding PACT as a report destination in DNS so reports are kept. We do not read message content, recipient identities, or mailbox data.',
       },
       {
         title: '4. Public Ledger',
-        body: 'Information published on the ledger — including leftover identities, independently confirmed history, and cryptographic proofs — is intended to be publicly viewable and queryable by agents. Do not submit a sending domain if you are not authorized to make that domain’s authentication metadata part of a public ledger.',
+        body: 'Information published on the ledger — including trace identities, independently confirmed history, and cryptographic proofs — is intended to be publicly viewable and queryable by agents. Do not submit a sending domain if you are not authorized to make that domain’s authentication metadata part of a public ledger.',
       },
       {
         title: '5. Your Responsibilities',
@@ -188,7 +188,7 @@ export const en: Dictionary = {
       },
       {
         title: '6. No Advice; No Guarantee of Legitimacy',
-        body: 'History and cryptographic proofs are an informational record of leftover traces from independent systems — mail reports, public certificate logs, and public signature logs — as separate kinds. They are not legal, financial, compliance, or business advice, and they do not guarantee that a name, organization, or person is legitimate, safe to transact with, or free of risk. Judgement stays outside the record. You remain solely responsible for your own decisions.',
+        body: 'History and cryptographic proofs are an informational record of uncommissioned traces from independent systems — mail reports, public certificate logs, and public signature logs — as separate kinds. They are not legal, financial, compliance, or business advice, and they do not guarantee that a name, organization, or person is legitimate, safe to transact with, or free of risk. Judgement stays outside the record. You remain solely responsible for your own decisions.',
       },
       {
         title: '7. No Financial Services',
@@ -196,7 +196,7 @@ export const en: Dictionary = {
       },
       {
         title: '8. Intellectual Property',
-        body: 'Site content, branding, and design for leftover are owned by PBM Labs LLC or its licensors unless otherwise stated. The PACT Protocol specification and whitepaper are published openly for review and implementation; third-party protocol implementations are encouraged subject to their own license terms where applicable. No rights are granted except the limited right to use this site as intended.',
+        body: 'Site content, branding, and design for Wake are owned by PBM Labs LLC or its licensors unless otherwise stated. The PACT Protocol specification and whitepaper are published openly for review and implementation; third-party protocol implementations are encouraged subject to their own license terms where applicable. No rights are granted except the limited right to use this site as intended.',
       },
       {
         title: '9. Third-Party Services',
@@ -226,11 +226,11 @@ export const en: Dictionary = {
     privacy: [
       {
         title: '1. Overview',
-        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use leftover at leftover.webuildreal.dev. leftover records uncommissioned traces: DMARC aggregate reports, public Certificate Transparency log metadata, and public Rekor log metadata. Aggregate mail reports contain no message content and no personal identities. CT and Rekor data are already public log exhaust, including Rekor identities that were already published in that log.',
+        body: 'This Privacy Policy explains how PBM Labs LLC handles information when you use Wake at leftover.webuildreal.dev. Wake records uncommissioned traces: DMARC aggregate reports, public Certificate Transparency log metadata, and public Rekor log metadata. Aggregate mail reports contain no message content and no personal identities. CT and Rekor data are already public log exhaust, including Rekor identities that were already published in that log.',
       },
       {
         title: '2. Information We Process',
-        body: 'Domain and protocol data: sending domains submitted for mail intake; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Certificate Transparency first-seen metadata from public logs (issuer, not-before, log time, fingerprint); Rekor leftover subjects as already logged (GitHub URI, email, or host; integrated time; entry id); Merkle leaves, roots, and public verification data. Intake flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
+        body: 'Domain and protocol data: sending domains submitted for mail intake; DMARC aggregate report metadata (reporting organization, period, authentication pass/fail counts, selector and infrastructure identifiers in hashed or summarized form); Certificate Transparency first-seen metadata from public logs (issuer, not-before, log time, fingerprint); Rekor subjects as already logged (GitHub URI, email, or host; integrated time; entry id); Merkle leaves, roots, and public verification data. Intake flow data: domain strings you submit; if you use Cloudflare OAuth, tokens and zone information needed to update DNS on your behalf during that session. Browser preferences: theme and language stored in local storage on your device. We do not operate consumer user accounts or marketing profiles on this site.',
       },
       {
         title: '3. What We Do Not Collect',
@@ -238,7 +238,7 @@ export const en: Dictionary = {
       },
       {
         title: '4. How We Use Information',
-        body: 'We use the information above to operate mail leftover intake, ingest and publish independently confirmed history, maintain cryptographic proofs, prevent abuse, and improve reliability of the service. Ledger fields are published so anyone — including agents — can recheck what happened.',
+        body: 'We use the information above to operate Wake mail intake, ingest and publish independently confirmed history, maintain cryptographic proofs, prevent abuse, and improve reliability of the service. Ledger fields are published so anyone — including agents — can recheck what happened.',
       },
       {
         title: '5. Public Ledger',
