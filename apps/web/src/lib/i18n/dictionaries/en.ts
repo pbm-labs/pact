@@ -80,7 +80,7 @@ export const en: Dictionary = {
     receiptBody:
       'One query returns a verifiable history — built from uncommissioned traces, checked against a named root published outside this operator. Something you can hand a regulator regardless of what the supplier does next. It exists because independent systems were already doing their own job. Not because the supplier cooperated.',
     queryHeading: 'Query the evidence.',
-    bottomLine: 'Governance designed into execution, not documentation.',
+    bottomLine: 'Evidence that doesn\'t walk off with the supplier.',
     streams: {
       mail: {
         name: 'Mail',

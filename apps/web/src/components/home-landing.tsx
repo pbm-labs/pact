@@ -30,8 +30,8 @@ export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
           <a href="#query" className={btnPrimary}>
             {t.home.queryHeading}
           </a>
-          <Link href={routes.howItWorks} className={btnSecondary}>
-            {t.home.seeHowItWorks}
+          <Link href={routes.connect} className={btnSecondary}>
+            {t.home.intakeCta}
           </Link>
         </div>
       </div>
@@ -115,17 +115,14 @@ export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
           <p className="text-xl sm:text-2xl font-bold tracking-tight text-txt m-0">
             {t.home.bottomLine}
           </p>
-          <p className="mt-6 mb-0">
-            <Link href={routes.howItWorks} className={btnSecondary}>
-              {t.home.seeHowItWorks}
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <Link href={routes.connect} className={btnPrimary}>
+              {t.home.intakeCta}
             </Link>
-          </p>
-          <p className="mt-6 mb-0 text-sm text-muted-2">
-            {t.home.agents}{' '}
-            <a href={routes.ledgerKinds} className={`${linkMuted} font-mono`}>
-              {t.home.catalog}
-            </a>
-          </p>
+            <Link href={routes.howItWorks} className={`${linkMuted} text-sm`}>
+              {t.home.seeHowItWorks} →
+            </Link>
+          </div>
         </div>
       </div>
 

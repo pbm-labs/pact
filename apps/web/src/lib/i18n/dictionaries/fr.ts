@@ -80,7 +80,7 @@ export const fr: Dictionary = {
     receiptBody:
       'Une requête renvoie un historique vérifiable — construit à partir de traces non commandées, vérifié contre une racine nommée publiée hors de cet opérateur. Quelque chose à remettre à un régulateur indépendamment de ce que fait le prestataire ensuite. Il existe parce que des systèmes indépendants faisaient déjà leur propre travail. Pas parce que le prestataire a coopéré.',
     queryHeading: 'Interroger l\u2019évidence.',
-    bottomLine: 'La gouvernance conçue dans l\u2019exécution, pas dans la documentation.',
+    bottomLine: 'Une \u00e9vidence qui ne part pas avec le prestataire.',
     streams: {
       mail: {
         name: 'Courrier',
