@@ -2,7 +2,7 @@
 export const LEGAL_ENTITY = {
   name: 'PBM Labs LLC',
   brand: 'Wake',
-  site: 'leftover.webuildreal.dev',
+  site: 'wake.webuildreal.dev',
   email: 'hello@pbm-labs.com',
   address: {
     line: '30 North Gould Street, Suite N',

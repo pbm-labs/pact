@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const HOST = 'leftover.webuildreal.dev';
-const ALIASES = new Set(['evidence.webuildreal.dev', `www.${HOST}`, 'www.evidence.webuildreal.dev']);
+const HOST = 'wake.webuildreal.dev';
+const ALIASES = new Set([
+  'leftover.webuildreal.dev',
+  'evidence.webuildreal.dev',
+  `www.${HOST}`,
+  'www.leftover.webuildreal.dev',
+  'www.evidence.webuildreal.dev',
+]);
 
 export function middleware(request: NextRequest) {
   const host = request.headers.get('host')?.split(':')[0]?.toLowerCase();
