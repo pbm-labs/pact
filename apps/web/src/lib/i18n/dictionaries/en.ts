@@ -26,7 +26,7 @@ export const en: Dictionary = {
   },
   home: {
     title: 'Evidence streams',
-    lede: 'Independent traces, kept apart. Each stream has its own identity. The catalog grows.',
+    lede: 'Trust starts with a claim, or with evidence that existed before anyone made one. leftover records the second kind. Each stream has its own identity. The catalog grows.',
     identityLabel: 'Identity',
     stakeLabel: 'Stake',
     emptyLabel: 'Empty',
@@ -39,10 +39,10 @@ export const en: Dictionary = {
     stakeCounterpartyHint: 'Grows only when independent third parties keep acting.',
     unknownWhat: 'A stream in the live catalog.',
     unknownEmpty: 'Empty is an answer. No public record under that identity yet.',
-    heroLine1: 'Evidence that outlives the vendor.',
-    heroLine2: 'A query. Not a claim.',
+    heroLine1: 'Trust starts with a claim someone issued.',
+    heroLine2: 'Or with evidence nobody asked for.',
     turnLine:
-      'Independent traces, kept apart. Anyone can recheck them against a named root — including after we are gone. We do not say what you may conclude, or who may act. That layer reads this.',
+      'leftover is the second kind. Mail, certificates, signatures — traces independent systems already throw away while doing something else. Not a score. Not a ritual. A query anyone can recheck after the vendor is gone.',
     howItWorksHeading: 'How it works',
     seeHowItWorks: 'How it works',
     liveHeading: 'A live record',
@@ -56,12 +56,15 @@ export const en: Dictionary = {
     querySubmit: 'Query',
     queryFailed: 'The ledger did not answer.',
     queryHint: 'Zero rows is an answer.',
+    uncommissionedHeading: 'Uncommissioned',
+    uncommissionedBody:
+      'The witness was already at work for its own reasons — delivering mail, logging certificates, signing software. leftover is the accident of that work. A scanner you pay to rate a vendor is still a claim. So is a credential issued this afternoon.',
     outlivesHeading: 'It outlives the vendor',
     outlivesBody:
-      'The traces come from systems that already existed — receiving mail, public certificate logs, public signatures. They were not produced for us. Inclusion is against a named root published outside this operator. If we disappear, the proofs still check.',
-    governedHeading: 'Judgement stays outside',
+      'Accountability usually walks off with the supplier. leftover does not. Inclusion is against a named root published outside this operator. If we disappear, the proofs still check. If they disappear, the history is still there.',
+    governedHeading: 'Not a score',
     governedBody:
-      'This is not a score, a claim, or a yes. Each stream has its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
+      'Rating tools compress everything into a letter. leftover will not. Each stream keeps its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
     streams: {
       mail: {
         name: 'Mail',

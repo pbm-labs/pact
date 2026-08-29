@@ -66,6 +66,8 @@ export type Dictionary = {
     outlivesBody: string;
     governedHeading: string;
     governedBody: string;
+    uncommissionedHeading: string;
+    uncommissionedBody: string;
     streams: Record<string, StreamCopy>;
   };
   connect: {

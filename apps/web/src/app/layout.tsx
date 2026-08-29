@@ -11,7 +11,7 @@ import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 const siteUrl = `https://${LEGAL_ENTITY.site}`;
 const title = 'leftover — uncommissioned evidence';
 const description =
-  'A query, not a claim. Independent traces anyone can recheck against a named root. Judgement stays outside.';
+  'Trust starts with a claim someone issued — or with evidence nobody asked for. leftover is uncommissioned traces. A query, not a score.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'leftover — uncommissioned evidence. A query. Not a claim.',
+        alt: 'leftover — evidence nobody asked for.',
       },
     ],
   },

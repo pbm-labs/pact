@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { EvidenceQuery } from '@/components/evidence-query';
+import { LeftoverPoints } from '@/components/leftover-points';
 import { useLocale } from '@/components/locale-provider';
 import type { CatalogKind } from '@/lib/kind-catalog';
 import { routes } from '@/lib/routes';
@@ -25,7 +26,9 @@ export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
 
         <EvidenceQuery kinds={kinds} />
 
-        <p className="mt-10 mb-0">
+        <LeftoverPoints />
+
+        <p className="mt-12 mb-0">
           <Link href={routes.howItWorks} className={btnSecondary}>
             {t.home.seeHowItWorks}
           </Link>

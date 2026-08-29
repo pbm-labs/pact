@@ -1,5 +1,6 @@
 'use client';
 
+import { LeftoverPoints } from '@/components/leftover-points';
 import { LiveProof } from '@/components/live-proof';
 import { StreamCard } from '@/components/stream-card';
 import { useLocale } from '@/components/locale-provider';
@@ -25,23 +26,7 @@ export function HowItWorksView({
           {t.home.lede}
         </p>
 
-        <section className="mt-12 sm:mt-14">
-          <h2 className="m-0 text-xl font-semibold tracking-tight text-txt">
-            {t.home.outlivesHeading}
-          </h2>
-          <p className="mt-3 mb-0 text-sm sm:text-base text-muted leading-relaxed max-w-xl">
-            {t.home.outlivesBody}
-          </p>
-        </section>
-
-        <section className="mt-10 sm:mt-12">
-          <h2 className="m-0 text-xl font-semibold tracking-tight text-txt">
-            {t.home.governedHeading}
-          </h2>
-          <p className="mt-3 mb-0 text-sm sm:text-base text-muted leading-relaxed max-w-xl">
-            {t.home.governedBody}
-          </p>
-        </section>
+        <LeftoverPoints />
 
         <ol className="mt-12 sm:mt-16 m-0 p-0 list-none divide-y divide-border border-y border-border">
           {kinds.map((kind) => (

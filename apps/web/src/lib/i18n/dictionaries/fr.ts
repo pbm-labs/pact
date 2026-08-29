@@ -26,7 +26,7 @@ export const fr: Dictionary = {
   },
   home: {
     title: 'Flux',
-    lede: 'Traces indépendantes, tenues à part. Chaque flux a sa propre identité. Le catalogue s’agrandit.',
+    lede: 'La confiance part d’une affirmation, ou d’une évidence qui existait avant que quiconque en fasse une. leftover enregistre la seconde. Chaque flux a sa propre identité. Le catalogue s’agrandit.',
     identityLabel: 'Identité',
     stakeLabel: 'Stake',
     emptyLabel: 'Vide',
@@ -39,10 +39,10 @@ export const fr: Dictionary = {
     stakeCounterpartyHint: 'Ne grandit que lorsque des tiers indépendants continuent d’agir.',
     unknownWhat: 'Un flux du catalogue live.',
     unknownEmpty: 'Vide est une réponse. Pas d’enregistrement public sous cette identité pour l’instant.',
-    heroLine1: 'Une évidence qui survit au prestataire.',
-    heroLine2: 'Une requête. Pas une affirmation.',
+    heroLine1: 'La confiance part d’une affirmation émise par quelqu’un.',
+    heroLine2: 'Ou d’une évidence que personne n’a demandée.',
     turnLine:
-      'Traces indépendantes, tenues à part. N’importe qui peut les revérifier contre une racine nommée — y compris après notre disparition. Nous ne disons pas ce que vous pouvez conclure, ni qui peut agir. Cette couche lit ceci.',
+      'leftover enregistre la seconde. Courrier, certificats, signatures — traces que des systèmes indépendants jettent déjà en faisant autre chose. Pas un score. Pas un rituel. Une requête que n’importe qui peut revérifier une fois le prestataire parti.',
     howItWorksHeading: 'Comment ça marche',
     seeHowItWorks: 'Comment ça marche',
     liveHeading: 'Un enregistrement live',
@@ -56,12 +56,15 @@ export const fr: Dictionary = {
     querySubmit: 'Interroger',
     queryFailed: 'Le ledger n’a pas répondu.',
     queryHint: 'Zéro ligne est une réponse.',
+    uncommissionedHeading: 'Non commandée',
+    uncommissionedBody:
+      'Le témoin était déjà au travail pour ses propres raisons — livrer du courrier, consigner des certificats, signer du logiciel. leftover est l’accident de ce travail. Un scanner que vous payez pour noter un prestataire est encore une affirmation. Une attestation émise cet après-midi aussi.',
     outlivesHeading: 'Elle survit au prestataire',
     outlivesBody:
-      'Les traces viennent de systèmes qui existaient déjà — courrier reçu, journaux publics de certificats, signatures publiques. Elles n’ont pas été produites pour nous. L’inclusion se vérifie contre une racine nommée, publiée hors de cet opérateur. Si nous disparaissons, les preuves tiennent encore.',
-    governedHeading: 'Le jugement reste à l’extérieur',
+      'La responsabilité part d’habitude avec le fournisseur. leftover non. L’inclusion se vérifie contre une racine nommée, publiée hors de cet opérateur. Si nous disparaissons, les preuves tiennent. S’ils disparaissent, l’histoire est encore là.',
+    governedHeading: 'Pas un score',
     governedBody:
-      'Ce n’est ni un score, ni une affirmation, ni un oui. Chaque flux a sa propre identité et un libellé de stake qu’un moteur de politique peut lire. Vide est honnête. Ce qui peut se passer ensuite ne se décide pas ici.',
+      'Les outils de notation compressent tout en une lettre. leftover ne le fera pas. Chaque flux garde sa propre identité et un libellé de stake qu’un moteur de politique peut lire. Vide est honnête. Ce qui peut se passer ensuite ne se décide pas ici.',
     streams: {
       mail: {
         name: 'Courrier',

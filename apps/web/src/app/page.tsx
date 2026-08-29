@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 const title = 'leftover — uncommissioned evidence';
 const description =
-  'A query, not a claim. Independent traces anyone can recheck against a named root — including after we are gone. Judgement stays outside.';
+  'Trust starts with a claim someone issued — or with evidence nobody asked for. leftover is uncommissioned traces. A query, not a score.';
 
 export const metadata: Metadata = {
   title,
