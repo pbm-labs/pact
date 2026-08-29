@@ -4,9 +4,9 @@ import { loadKindCatalog } from '@/lib/kind-catalog';
 
 export const dynamic = 'force-dynamic';
 
-const title = 'leftover — uncommissioned evidence';
+const title = 'leftover — evidence that outlives the vendor';
 const description =
-  'Trust starts with a claim someone issued — or with evidence nobody asked for. leftover is uncommissioned traces. A query, not a score.';
+  'You kept the liability. They kept the evidence. leftover holds uncommissioned traces — queryable after the vendor is gone. Not a score.';
 
 export const metadata: Metadata = {
   title,

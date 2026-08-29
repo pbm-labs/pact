@@ -68,6 +68,18 @@ export type Dictionary = {
     governedBody: string;
     uncommissionedHeading: string;
     uncommissionedBody: string;
+    problemHeading: string;
+    problemBody: string;
+    gapHeading: string;
+    gapSelfAttestHeading: string;
+    gapSelfAttestBody: string;
+    gapScannerHeading: string;
+    gapScannerBody: string;
+    gapConclusion: string;
+    receiptHeading: string;
+    receiptBody: string;
+    queryHeading: string;
+    bottomLine: string;
     streams: Record<string, StreamCopy>;
   };
   connect: {

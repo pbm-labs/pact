@@ -11,11 +11,13 @@ export function LeftoverPoints() {
   ];
 
   return (
-    <div className="mt-14 sm:mt-16 divide-y divide-border border-y border-border">
-      {points.map((point) => (
-        <section key={point.title} className="py-8 sm:py-10 first:pt-8">
-          <h2 className="m-0 text-xl font-semibold tracking-tight text-txt">{point.title}</h2>
-          <p className="mt-3 mb-0 text-sm sm:text-base text-muted leading-relaxed max-w-xl">
+    <div className="divide-y divide-border">
+      {points.map((point, i) => (
+        <section key={point.title} className={`${i === 0 ? 'pb-10' : 'py-10'}`}>
+          <h2 className="m-0 text-xl sm:text-2xl font-bold tracking-tight text-txt">
+            {point.title}
+          </h2>
+          <p className="mt-4 mb-0 text-base text-muted leading-relaxed max-w-xl">
             {point.body}
           </p>
         </section>

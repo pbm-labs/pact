@@ -25,8 +25,8 @@ export const en: Dictionary = {
     closeMenu: 'Close menu',
   },
   home: {
-    title: 'Evidence streams',
-    lede: 'Trust starts with a claim, or with evidence that existed before anyone made one. leftover records the second kind. Each stream has its own identity. The catalog grows.',
+    title: 'Evidence that outlives the vendor',
+    lede: 'Evidence that outlives the vendor. Uncommissioned traces from independent systems — before anyone asked them to look.',
     identityLabel: 'Identity',
     stakeLabel: 'Stake',
     emptyLabel: 'Empty',
@@ -39,10 +39,10 @@ export const en: Dictionary = {
     stakeCounterpartyHint: 'Grows only when independent third parties keep acting.',
     unknownWhat: 'A stream in the live catalog.',
     unknownEmpty: 'Empty is an answer. No public record under that identity yet.',
-    heroLine1: 'Trust starts with a claim someone issued.',
-    heroLine2: 'Or with evidence nobody asked for.',
+    heroLine1: 'You kept the liability.',
+    heroLine2: 'They kept the evidence.',
     turnLine:
-      'leftover is the second kind. Mail, certificates, signatures — traces independent systems already throw away while doing something else. Not a score. Not a ritual. A query anyone can recheck after the vendor is gone.',
+      'Institutions outsource execution and retain legal accountability. When the relationship ends, the supplier takes the record with them. leftover holds uncommissioned evidence — traces independent systems produced before anyone had a reason to look — and makes them queryable after the vendor is gone.',
     howItWorksHeading: 'How it works',
     seeHowItWorks: 'How it works',
     liveHeading: 'A live record',
@@ -58,13 +58,29 @@ export const en: Dictionary = {
     queryHint: 'Zero rows is an answer.',
     uncommissionedHeading: 'Uncommissioned',
     uncommissionedBody:
-      'The witness was already at work for its own reasons — delivering mail, logging certificates, signing software. leftover is the accident of that work. A scanner you pay to rate a vendor is still a claim. So is a credential issued this afternoon.',
+      'Mail reports, certificate logs, software signatures. Independent systems produced these while doing their own unrelated job — delivering mail, recording public certificates, signing releases. The witness had no reason to produce this for you. It existed before the relationship started.',
     outlivesHeading: 'It outlives the vendor',
     outlivesBody:
-      'Accountability usually walks off with the supplier. leftover does not. Inclusion is against a named root published outside this operator. If we disappear, the proofs still check. If they disappear, the history is still there.',
+      'When the relationship ends, the supplier takes the operational record. leftover is different. Inclusion is checked against a named root published outside this operator. If we disappear, the proofs still check. If the supplier disappears, the history is still there.',
     governedHeading: 'Not a score',
     governedBody:
-      'Rating tools compress everything into a letter. leftover will not. Each stream keeps its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
+      'Every questionnaire and every scanner compresses the vendor down to one number. leftover refuses that. Each stream keeps its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
+    problemHeading: 'Accountability without a record.',
+    problemBody:
+      'You hand off execution. You keep the legal exposure. A regulator asks for the evidence. The supplier has it. Every tool built for third-party risk is designed for the active relationship — and stops the moment the vendor is gone.',
+    gapHeading: 'Every current tool was built for the active relationship.',
+    gapSelfAttestHeading: 'Self-attestation',
+    gapSelfAttestBody:
+      'Questionnaires, compliance documents, vendor-submitted assessments. AI reviews them faster now. The documents are still written by the party being assessed.',
+    gapScannerHeading: 'External scanning',
+    gapScannerBody:
+      'Security rating services scan a vendor\'s public footprint without their cooperation. Better — but the scan stops when you stop paying. The methodology is proprietary. If the rating company disappears, the score disappears with it.',
+    gapConclusion: 'Both compress everything into one grade. Neither exists after the contract ends.',
+    receiptHeading: 'An accountability receipt.',
+    receiptBody:
+      'One query returns a verifiable history — built from uncommissioned traces, checked against a named root published outside this operator. Something you can hand a regulator regardless of what the supplier does next. It exists because independent systems were already doing their own job. Not because the supplier cooperated.',
+    queryHeading: 'Query the evidence.',
+    bottomLine: 'Governance designed into execution, not documentation.',
     streams: {
       mail: {
         name: 'Mail',

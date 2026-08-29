@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'How it works — leftover',
   description:
-    'Trust starts with a claim, or with evidence that existed before anyone made one. leftover records the second kind. Not a score.',
+    'Evidence that outlives the vendor. Uncommissioned traces from independent systems — before anyone asked them to look.',
 };
 
 export default async function HowItWorksPage() {

@@ -9,9 +9,9 @@ import { LEGAL_ENTITY } from '@/lib/legal';
 import { parseLocale, STORAGE_KEYS } from '@/lib/preferences';
 
 const siteUrl = `https://${LEGAL_ENTITY.site}`;
-const title = 'leftover — uncommissioned evidence';
+const title = 'leftover — evidence that outlives the vendor';
 const description =
-  'Trust starts with a claim someone issued — or with evidence nobody asked for. leftover is uncommissioned traces. A query, not a score.';
+  'You kept the liability. They kept the evidence. leftover holds uncommissioned traces — queryable after the vendor is gone. Not a score.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: '/og.png',
         width: 1200,
         height: 630,
-        alt: 'leftover — evidence nobody asked for.',
+        alt: 'leftover — evidence that outlives the vendor.',
       },
     ],
   },
