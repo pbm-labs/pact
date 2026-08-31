@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
 import { HomeLanding } from '@/components/home-landing';
-import { loadKindCatalog } from '@/lib/kind-catalog';
-
-export const dynamic = 'force-dynamic';
 
 const title = 'Wake — evidence that outlives the vendor';
 const description =
@@ -21,7 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function HomePage() {
-  const kinds = await loadKindCatalog();
-  return <HomeLanding kinds={kinds} />;
+export default function HomePage() {
+  return <HomeLanding />;
 }

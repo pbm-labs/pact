@@ -1,49 +1,36 @@
 'use client';
 
-import Link from 'next/link';
-import { EvidenceQuery } from '@/components/evidence-query';
 import { WakePoints } from '@/components/wake-points';
 import { useLocale } from '@/components/locale-provider';
-import type { CatalogKind } from '@/lib/kind-catalog';
-import { routes } from '@/lib/routes';
-import { btnPrimary, btnSecondary, container, eyebrow, linkMuted } from '@/lib/ui';
+import { container, eyebrow } from '@/lib/ui';
 
-export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
+export function HomeLanding() {
   const { t, locale } = useLocale();
 
   return (
     <main className="flex-1" key={locale}>
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <div className={`${container} pt-20 sm:pt-28 pb-16 sm:pb-20`}>
-        <p className={`${eyebrow} mb-8`}>Wake</p>
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.08] m-0 text-muted">
-          {t.home.heroLine1}
+      <div className={`${container} pt-24 sm:pt-32 pb-20 sm:pb-28`}>
+        <p className={`${eyebrow} mb-10`}>Wake</p>
+        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.06] m-0">
+          <span className="text-muted">{t.home.heroLine1}</span>
+          <br />
+          <span className="text-txt">{t.home.heroLine2}</span>
         </h1>
-        <p className="mt-2 mb-0 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.08] text-txt">
-          {t.home.heroLine2}
-        </p>
-        <p className="mt-8 mb-0 text-base sm:text-lg text-muted leading-relaxed max-w-xl">
+        <p className="mt-10 mb-0 text-base sm:text-xl text-muted leading-relaxed max-w-xl">
           {t.home.turnLine}
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <a href="#query" className={btnPrimary}>
-            {t.home.queryHeading}
-          </a>
-          <Link href={routes.connect} className={btnSecondary}>
-            {t.home.intakeCta}
-          </Link>
-        </div>
       </div>
 
       {/* ── The problem ──────────────────────────────────────── */}
       <div className="border-t border-border">
-        <div className={`${container} py-14 sm:py-20`}>
-          <div className="border-l-2 border-brand/60 pl-6 max-w-2xl">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-txt m-0">
+        <div className={`${container} py-16 sm:py-24`}>
+          <div className="border-l-2 border-brand/60 pl-8 max-w-2xl">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-txt m-0">
               {t.home.problemHeading}
             </h2>
-            <p className="mt-4 mb-0 text-base sm:text-lg text-muted leading-relaxed">
+            <p className="mt-5 mb-0 text-base sm:text-lg text-muted leading-relaxed">
               {t.home.problemBody}
             </p>
           </div>
@@ -52,25 +39,25 @@ export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
 
       {/* ── Gap: why every current tool fails ────────────────── */}
       <div className="border-t border-border bg-surface">
-        <div className={`${container} py-14 sm:py-20`}>
+        <div className={`${container} py-16 sm:py-24`}>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-txt m-0">
             {t.home.gapHeading}
           </h2>
           <div className="mt-8 grid sm:grid-cols-2 gap-5">
-            <div className="rounded-xl border border-border bg-bg p-6">
+            <div className="rounded-xl border border-border bg-bg p-7">
               <p className={`${eyebrow} mb-3`}>{t.home.gapSelfAttestHeading}</p>
               <p className="m-0 text-sm sm:text-base text-muted leading-relaxed">
                 {t.home.gapSelfAttestBody}
               </p>
             </div>
-            <div className="rounded-xl border border-border bg-bg p-6">
+            <div className="rounded-xl border border-border bg-bg p-7">
               <p className={`${eyebrow} mb-3`}>{t.home.gapScannerHeading}</p>
               <p className="m-0 text-sm sm:text-base text-muted leading-relaxed">
                 {t.home.gapScannerBody}
               </p>
             </div>
           </div>
-          <p className="mt-7 mb-0 text-base sm:text-lg font-semibold text-txt">
+          <p className="mt-8 mb-0 text-base sm:text-lg font-semibold text-txt">
             {t.home.gapConclusion}
           </p>
         </div>
@@ -78,50 +65,21 @@ export function HomeLanding({ kinds }: { kinds: CatalogKind[] }) {
 
       {/* ── Three rails: Uncommissioned / Outlives / Not a score */}
       <div className="border-t border-border">
-        <div className={`${container} py-14 sm:py-20`}>
+        <div className={`${container} py-16 sm:py-24`}>
           <WakePoints />
         </div>
       </div>
 
       {/* ── Accountability receipt ───────────────────────────── */}
       <div className="border-t border-border bg-surface">
-        <div className={`${container} py-14 sm:py-20`}>
-          <div className="rounded-2xl border border-brand/25 bg-brand/5 p-7 sm:p-10 max-w-2xl">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-txt m-0">
+        <div className={`${container} py-16 sm:py-24`}>
+          <div className="rounded-2xl border border-brand/25 bg-brand/5 p-8 sm:p-12 max-w-2xl">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-txt m-0">
               {t.home.receiptHeading}
             </h2>
-            <p className="mt-4 mb-0 text-base sm:text-lg text-muted leading-relaxed">
+            <p className="mt-5 mb-0 text-base sm:text-lg text-muted leading-relaxed">
               {t.home.receiptBody}
             </p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Live evidence query ──────────────────────────────── */}
-      <div className="border-t border-border" id="query">
-        <div className={`${container} py-14 sm:py-20`}>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-txt m-0">
-            {t.home.queryHeading}
-          </h2>
-          <div className="mt-8">
-            <EvidenceQuery kinds={kinds} />
-          </div>
-        </div>
-      </div>
-
-      {/* ── Bottom CTA ───────────────────────────────────────── */}
-      <div className="border-t border-border bg-surface">
-        <div className={`${container} py-14 sm:py-16`}>
-          <p className="text-xl sm:text-2xl font-bold tracking-tight text-txt m-0">
-            {t.home.bottomLine}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <Link href={routes.connect} className={btnPrimary}>
-              {t.home.intakeCta}
-            </Link>
-            <Link href={routes.howItWorks} className={`${linkMuted} text-sm`}>
-              {t.home.seeHowItWorks} →
-            </Link>
           </div>
         </div>
       </div>
