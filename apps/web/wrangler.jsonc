@@ -20,14 +20,6 @@
     {
       "pattern": "wake.webuildreal.dev",
       "custom_domain": true
-    },
-    {
-      "pattern": "leftover.webuildreal.dev",
-      "custom_domain": true
-    },
-    {
-      "pattern": "evidence.webuildreal.dev",
-      "custom_domain": true
     }
   ],
   // Non-secret runtime config only. Set secrets via wrangler (see README):
