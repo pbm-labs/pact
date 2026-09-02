@@ -82,24 +82,12 @@ export function HomeLanding() {
 
       {/* ── What follows from it ─────────────────────────────── */}
       <div className={`${container} py-16 sm:py-24`}>
-        <div className="grid sm:grid-cols-2 gap-10 sm:gap-8">
-          <section>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-txt m-0 leading-snug">
-              {t.home.survivesHeading}
-            </h2>
-            <p className="mt-4 mb-0 text-sm sm:text-base text-muted leading-relaxed">
-              {t.home.survivesBody}
-            </p>
-          </section>
-          <section>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-txt m-0 leading-snug">
-              {t.home.notScoreHeading}
-            </h2>
-            <p className="mt-4 mb-0 text-sm sm:text-base text-muted leading-relaxed">
-              {t.home.notScoreBody}
-            </p>
-          </section>
-        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-txt m-0 leading-snug max-w-2xl">
+          {t.home.survivesHeading}
+        </h2>
+        <p className="mt-5 mb-0 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
+          {t.home.survivesBody}
+        </p>
       </div>
 
       {/* ── Close ────────────────────────────────────────────── */}

@@ -80,15 +80,12 @@ export const en: Dictionary = {
     turnEyebrow: 'The turn',
     turnHeading: 'Some evidence was never commissioned at all.',
     turnBody:
-      'Mail servers publish delivery reports because that is how mail works. Certificate logs record every issuance because that is what makes the web verifiable. Signature logs record releases because that is how software supply chains function.',
+      'Mail servers publish delivery reports because that is how mail works. Certificate logs record every issuance because that is what makes the web verifiable.',
     turnBodyClose:
-      'None of it was produced for you. None of it can be switched off by ending a contract. It accumulated as a byproduct of independent systems doing their own unrelated work — and it was already there, before anyone had a reason to look.',
+      'None of it depends on the supplier\'s cooperation. None of it was theirs to switch off — and none of it ends when the contract does.',
     survivesHeading: 'And it does not need us either.',
     survivesBody:
-      'Wake collects those traces and commits them to an append-only record. Inclusion is checked against a root published outside this operator. If the supplier disappears, the history is still there. If Wake disappears, the proofs still verify.',
-    notScoreHeading: 'It does not tell you what to conclude.',
-    notScoreBody:
-      'Every tool in this category ends in a single number. Wake does not. Each stream keeps its own identity and its own history. Zero rows is an answer. The judgement stays yours.',
+      'Wake collects those traces and commits them to an append-only record, checked against a root published outside this operator. If the supplier disappears, the history is still there.',
     receiptHeading: 'An accountability receipt.',
     receiptBody:
       'One query returns a verifiable history you can hand a regulator, years after the vendor stopped returning calls. It exists because independent systems were already doing their own work — not because anyone agreed to cooperate.',

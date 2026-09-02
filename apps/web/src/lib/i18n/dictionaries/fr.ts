@@ -80,15 +80,12 @@ export const fr: Dictionary = {
     turnEyebrow: 'Le basculement',
     turnHeading: 'Certaines évidences n\u2019ont jamais été commandées.',
     turnBody:
-      'Les serveurs de messagerie publient des rapports de remise parce que c\u2019est ainsi que fonctionne le courrier. Les journaux de certificats consignent chaque émission parce que c\u2019est ce qui rend le web vérifiable. Les journaux de signatures consignent les versions parce que c\u2019est ainsi que fonctionnent les chaînes logicielles.',
+      'Les serveurs de messagerie publient des rapports de remise parce que c\u2019est ainsi que fonctionne le courrier. Les journaux de certificats consignent chaque émission parce que c\u2019est ce qui rend le web vérifiable.',
     turnBodyClose:
-      'Rien de tout cela n\u2019a été produit pour vous. Rien ne peut être coupé en mettant fin à un contrat. Cela s\u2019est accumulé comme sous-produit de systèmes indépendants faisant leur propre travail — et c\u2019était déjà là, avant que quiconque ait eu une raison de regarder.',
+      'Rien de tout cela ne dépend de la coopération du prestataire. Rien ne lui appartenait pour qu\u2019il puisse le couper — et rien ne s\u2019arrête quand le contrat se termine.',
     survivesHeading: 'Et elle n\u2019a pas besoin de nous non plus.',
     survivesBody:
-      'Wake collecte ces traces et les inscrit dans un registre append-only. L\u2019inclusion se vérifie contre une racine publiée hors de cet opérateur. Si le prestataire disparaît, l\u2019historique est toujours là. Si Wake disparaît, les preuves se vérifient encore.',
-    notScoreHeading: 'Elle ne vous dit pas quoi conclure.',
-    notScoreBody:
-      'Tous les outils de cette catégorie finissent par un seul chiffre. Pas Wake. Chaque flux garde sa propre identité et son propre historique. Zéro ligne est une réponse. Le jugement reste le vôtre.',
+      'Wake collecte ces traces et les inscrit dans un registre append-only, vérifié contre une racine publiée hors de cet opérateur. Si le prestataire disparaît, l\u2019historique est toujours là.',
     receiptHeading: 'Un reçu de responsabilité.',
     receiptBody:
       'Une requête renvoie un historique vérifiable que vous pouvez remettre à un régulateur, des années après que le prestataire a cessé de répondre. Il existe parce que des systèmes indépendants faisaient déjà leur propre travail — pas parce que quelqu\u2019un a accepté de coopérer.',

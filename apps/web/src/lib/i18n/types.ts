@@ -82,8 +82,6 @@ export type Dictionary = {
     turnBodyClose: string;
     survivesHeading: string;
     survivesBody: string;
-    notScoreHeading: string;
-    notScoreBody: string;
     receiptHeading: string;
     receiptBody: string;
     streams: Record<string, StreamCopy>;
