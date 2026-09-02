@@ -42,7 +42,7 @@ export const en: Dictionary = {
     heroLine1: 'You kept the liability.',
     heroLine2: 'They kept the evidence.',
     turnLine:
-      'Every outsourcing arrangement splits those two apart. You stay accountable. They hold the record of what actually happened. Nobody notices until the relationship ends.',
+      'You hired a vendor to check something on your behalf — a customer, a payment, a shipment. They ran the check and kept the only record of what they found. You\'re the one who has to answer for it later.',
     howItWorksHeading: 'How it works',
     seeHowItWorks: 'How it works',
     liveHeading: 'A live record',
@@ -67,10 +67,10 @@ export const en: Dictionary = {
       'Every questionnaire and every scanner compresses the vendor down to one number. Wake refuses that. Each stream keeps its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
     sceneHeading: 'Three years later, someone asks.',
     sceneBody:
-      'The contract ended. The team moved on. Their systems were decommissioned, migrated, or sold to somebody else. What you have is a folder of documents they wrote about themselves. What you need is proof of what actually happened — and the only party who held it is gone.',
+      'A regulator, an auditor, a lawyer in a case you didn\'t start — someone wants to know exactly what happened on a specific day: which check ran, what it found, who signed off. The vendor who ran it is gone — acquired, shut down, or just not returning calls. What\'s in your files is a PDF they wrote about themselves, for a different reason, at a different time. It doesn\'t answer the question, and there\'s nothing to check it against.',
     gapHeading: 'Every existing fix depends on someone who might not be there anymore.',
     gapIntro:
-      'Third-party risk has three standard tools today. Look closely at any of them and the same weakness shows up: each one only works while the vendor is still around to ask, still being paid to watch, or still in business to answer a subpoena.',
+      'Ask any institution how it checks on a vendor today and you\'ll hear one of three answers. Look closely at any of them and the same weakness shows up: each one only works while the vendor is still around to ask, still being paid to watch, or still in business to answer a subpoena.',
     gapSelfAttestHeading: 'Self-attestation',
     gapSelfAttestBody:
       'Questionnaires and compliance packets. The vendor writes them about themselves, files them once, and has no reason to keep writing them after the contract ends. AI reads the documents faster now — it still did not write them.',

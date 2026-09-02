@@ -42,7 +42,7 @@ export const fr: Dictionary = {
     heroLine1: 'Vous avez gardé la responsabilité.',
     heroLine2: 'Eux ont gardé les preuves.',
     turnLine:
-      'Toute externalisation sépare les deux. Vous restez responsable. Eux détiennent le dossier de ce qui s\u2019est réellement passé. Personne ne le remarque avant la fin de la relation.',
+      'Vous avez engagé un prestataire pour vérifier quelque chose en votre nom — un client, un paiement, une expédition. Il a effectué la vérification et conservé la seule trace de ce qu\u2019il a constaté. C\u2019est vous qui devrez en répondre plus tard.',
     howItWorksHeading: 'Comment ça marche',
     seeHowItWorks: 'Comment ça marche',
     liveHeading: 'Un enregistrement live',
@@ -67,10 +67,10 @@ export const fr: Dictionary = {
       'Chaque questionnaire et chaque scanner compresse le fournisseur en un seul chiffre. Wake refuse cela. Chaque flux garde sa propre identité et un libellé de stake qu\u2019un moteur de politique peut lire. Vide est honnête. Ce qui peut se passer ensuite ne se décide pas ici.',
     sceneHeading: 'Trois ans plus tard, on vous demande des comptes.',
     sceneBody:
-      'Le contrat est terminé. L\u2019équipe est partie. Leurs systèmes ont été démantelés, migrés ou revendus à quelqu\u2019un d\u2019autre. Ce que vous avez : un dossier de documents qu\u2019ils ont rédigés sur eux-mêmes. Ce qu\u2019il vous faut : la preuve de ce qui s\u2019est réellement passé — et le seul acteur qui la détenait n\u2019est plus là.',
+      'Un régulateur, un auditeur, un avocat dans une affaire que vous n\u2019avez pas déclenchée — quelqu\u2019un veut savoir exactement ce qui s\u2019est passé un jour précis : quelle vérification a été faite, ce qu\u2019elle a révélé, qui l\u2019a validée. Le prestataire qui l\u2019a effectuée n\u2019est plus là — racheté, fermé, ou simplement injoignable. Ce que vous avez dans vos dossiers, c\u2019est un PDF qu\u2019il a rédigé sur lui-même, pour une autre raison, à un autre moment. Il ne répond pas à la question, et il n\u2019y a rien pour le vérifier.',
     gapHeading: 'Chaque solution existante dépend de quelqu\u2019un qui n\u2019est peut-être plus là.',
     gapIntro:
-      'La gestion du risque fournisseur repose aujourd\u2019hui sur trois outils standards. Examinez-les de près et la même faiblesse apparaît : chacun ne fonctionne que si le prestataire est encore là pour répondre, si quelqu\u2019un est encore payé pour surveiller, ou si l\u2019entreprise existe encore pour répondre à une assignation.',
+      'Demandez à n\u2019importe quelle institution comment elle surveille un prestataire aujourd\u2019hui, et vous entendrez l\u2019une de ces trois réponses. Regardez-les de près et la même faiblesse apparaît : chacune ne fonctionne que si le prestataire est encore là pour répondre, si quelqu\u2019un est encore payé pour surveiller, ou si l\u2019entreprise existe encore pour répondre à une assignation.',
     gapSelfAttestHeading: 'Auto-attestation',
     gapSelfAttestBody:
       'Questionnaires et dossiers de conformité. Le prestataire les rédige sur lui-même, les dépose une fois, et n\u2019a aucune raison de continuer après la fin du contrat. L\u2019IA lit les documents plus vite aujourd\u2019hui — elle ne les a toujours pas écrits.',
