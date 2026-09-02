@@ -42,7 +42,7 @@ export const fr: Dictionary = {
     heroLine1: 'Vous avez gardé la responsabilité.',
     heroLine2: 'Eux ont gardé les preuves.',
     turnLine:
-      'Les organisations externalisent l\u2019exécution et conservent la responsabilité juridique. Quand la relation se termine, le prestataire emporte le dossier. Wake conserve une évidence non commandée — des traces que des systèmes indépendants ont produites avant que quiconque ait eu une raison de regarder — et les rend interrogeables après la fin de la relation.',
+      'Toute externalisation sépare les deux. Vous restez responsable. Eux détiennent le dossier de ce qui s\u2019est réellement passé. Personne ne le remarque avant la fin de la relation.',
     howItWorksHeading: 'Comment ça marche',
     seeHowItWorks: 'Comment ça marche',
     liveHeading: 'Un enregistrement live',
@@ -65,22 +65,33 @@ export const fr: Dictionary = {
     governedHeading: 'Pas un score',
     governedBody:
       'Chaque questionnaire et chaque scanner compresse le fournisseur en un seul chiffre. Wake refuse cela. Chaque flux garde sa propre identité et un libellé de stake qu\u2019un moteur de politique peut lire. Vide est honnête. Ce qui peut se passer ensuite ne se décide pas ici.',
-    problemHeading: 'La responsabilité sans les preuves.',
-    problemBody:
-      'Vous externalisez l\u2019exécution. Vous gardez l\u2019exposition juridique. Un régulateur demande les preuves. Le prestataire les a. Tous les outils de gestion du risque fournisseur sont conçus pour la relation active — et s\u2019arrêtent au moment où le fournisseur part.',
-    gapHeading: 'Tous les outils actuels sont conçus pour la relation active.',
+    sceneHeading: 'Trois ans plus tard, on vous demande des comptes.',
+    sceneBody:
+      'Le contrat est terminé. L\u2019équipe est partie. Leurs systèmes ont été démantelés, migrés ou revendus à quelqu\u2019un d\u2019autre. Ce que vous avez : un dossier de documents qu\u2019ils ont rédigés sur eux-mêmes. Ce qu\u2019il vous faut : la preuve de ce qui s\u2019est réellement passé — et le seul acteur qui la détenait n\u2019est plus là.',
+    gapHeading: 'Tout ce qui existe pour ce problème a été commandé par quelqu\u2019un.',
     gapSelfAttestHeading: 'Auto-attestation',
     gapSelfAttestBody:
-      'Questionnaires, documents de conformité, évaluations soumises par le fournisseur. L\u2019IA les examine plus vite aujourd\u2019hui. Les documents sont toujours rédigés par la partie évaluée.',
+      'Questionnaires et dossiers de conformité. Le prestataire les rédige sur lui-même. L\u2019IA les lit plus vite aujourd\u2019hui — cela ne change pas qui les a écrits.',
     gapScannerHeading: 'Analyse externe',
     gapScannerBody:
-      'Les services de notation de sécurité analysent l\u2019empreinte publique d\u2019un fournisseur sans leur coopération. Mieux — mais l\u2019analyse s\u2019arrête quand vous cessez de payer. La méthodologie est propriétaire. Si la société de notation disparaît, le score disparaît avec elle.',
-    gapConclusion: 'Les deux compriment tout en une seule note. Aucun n\u2019existe après la fin du contrat.',
+      'Les services de notation analysent l\u2019empreinte publique d\u2019un prestataire sans lui demander la permission. Réellement mieux — jusqu\u2019à ce que vous cessiez de payer. L\u2019analyse s\u2019arrête, et la note disparaît avec elle.',
+    gapConclusion:
+      'Les deux existent parce que quelqu\u2019un a payé pour qu\u2019ils existent. Une évidence qui ne dure que tant que vous la financez n\u2019est pas un dossier. C\u2019est un abonnement.',
+    turnEyebrow: 'Le basculement',
+    turnHeading: 'Certaines évidences n\u2019ont jamais été commandées.',
+    turnBody:
+      'Les serveurs de messagerie publient des rapports de remise parce que c\u2019est ainsi que fonctionne le courrier. Les journaux de certificats consignent chaque émission parce que c\u2019est ce qui rend le web vérifiable. Les journaux de signatures consignent les versions parce que c\u2019est ainsi que fonctionnent les chaînes logicielles.',
+    turnBodyClose:
+      'Rien de tout cela n\u2019a été produit pour vous. Rien ne peut être coupé en mettant fin à un contrat. Cela s\u2019est accumulé comme sous-produit de systèmes indépendants faisant leur propre travail — et c\u2019était déjà là, avant que quiconque ait eu une raison de regarder.',
+    survivesHeading: 'Et elle n\u2019a pas besoin de nous non plus.',
+    survivesBody:
+      'Wake collecte ces traces et les inscrit dans un registre append-only. L\u2019inclusion se vérifie contre une racine publiée hors de cet opérateur. Si le prestataire disparaît, l\u2019historique est toujours là. Si Wake disparaît, les preuves se vérifient encore.',
+    notScoreHeading: 'Elle ne vous dit pas quoi conclure.',
+    notScoreBody:
+      'Tous les outils de cette catégorie finissent par un seul chiffre. Pas Wake. Chaque flux garde sa propre identité et son propre historique. Zéro ligne est une réponse. Le jugement reste le vôtre.',
     receiptHeading: 'Un reçu de responsabilité.',
     receiptBody:
-      'Une requête renvoie un historique vérifiable — construit à partir de traces non commandées, vérifié contre une racine nommée publiée hors de cet opérateur. Quelque chose à remettre à un régulateur indépendamment de ce que fait le prestataire ensuite. Il existe parce que des systèmes indépendants faisaient déjà leur propre travail. Pas parce que le prestataire a coopéré.',
-    queryHeading: 'Interroger l\u2019évidence.',
-    bottomLine: 'Une \u00e9vidence qui ne part pas avec le prestataire.',
+      'Une requête renvoie un historique vérifiable que vous pouvez remettre à un régulateur, des années après que le prestataire a cessé de répondre. Il existe parce que des systèmes indépendants faisaient déjà leur propre travail — pas parce que quelqu\u2019un a accepté de coopérer.',
     streams: {
       mail: {
         name: 'Courrier',

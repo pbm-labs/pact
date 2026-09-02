@@ -68,18 +68,24 @@ export type Dictionary = {
     governedBody: string;
     uncommissionedHeading: string;
     uncommissionedBody: string;
-    problemHeading: string;
-    problemBody: string;
+    sceneHeading: string;
+    sceneBody: string;
     gapHeading: string;
     gapSelfAttestHeading: string;
     gapSelfAttestBody: string;
     gapScannerHeading: string;
     gapScannerBody: string;
     gapConclusion: string;
+    turnEyebrow: string;
+    turnHeading: string;
+    turnBody: string;
+    turnBodyClose: string;
+    survivesHeading: string;
+    survivesBody: string;
+    notScoreHeading: string;
+    notScoreBody: string;
     receiptHeading: string;
     receiptBody: string;
-    queryHeading: string;
-    bottomLine: string;
     streams: Record<string, StreamCopy>;
   };
   connect: {

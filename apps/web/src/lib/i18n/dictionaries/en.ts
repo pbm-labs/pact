@@ -42,7 +42,7 @@ export const en: Dictionary = {
     heroLine1: 'You kept the liability.',
     heroLine2: 'They kept the evidence.',
     turnLine:
-      'Institutions outsource execution and retain legal accountability. When the relationship ends, the supplier takes the record with them. Wake holds uncommissioned evidence — traces independent systems produced before anyone had a reason to look — and makes them queryable after the vendor is gone.',
+      'Every outsourcing arrangement splits those two apart. You stay accountable. They hold the record of what actually happened. Nobody notices until the relationship ends.',
     howItWorksHeading: 'How it works',
     seeHowItWorks: 'How it works',
     liveHeading: 'A live record',
@@ -65,22 +65,33 @@ export const en: Dictionary = {
     governedHeading: 'Not a score',
     governedBody:
       'Every questionnaire and every scanner compresses the vendor down to one number. Wake refuses that. Each stream keeps its own identity and a stake label a policy engine can read. Empty is honest. What may happen next is not decided here.',
-    problemHeading: 'Accountability without a record.',
-    problemBody:
-      'You hand off execution. You keep the legal exposure. A regulator asks for the evidence. The supplier has it. Every tool built for third-party risk is designed for the active relationship — and stops the moment the vendor is gone.',
-    gapHeading: 'Every current tool was built for the active relationship.',
+    sceneHeading: 'Three years later, someone asks.',
+    sceneBody:
+      'The contract ended. The team moved on. Their systems were decommissioned, migrated, or sold to somebody else. What you have is a folder of documents they wrote about themselves. What you need is proof of what actually happened — and the only party who held it is gone.',
+    gapHeading: 'Everything built for this problem was commissioned by someone.',
     gapSelfAttestHeading: 'Self-attestation',
     gapSelfAttestBody:
-      'Questionnaires, compliance documents, vendor-submitted assessments. AI reviews them faster now. The documents are still written by the party being assessed.',
+      'Questionnaires and compliance packets. The vendor writes them about themselves. AI reads them faster now — that does not change who wrote them.',
     gapScannerHeading: 'External scanning',
     gapScannerBody:
-      'Security rating services scan a vendor\'s public footprint without their cooperation. Better — but the scan stops when you stop paying. The methodology is proprietary. If the rating company disappears, the score disappears with it.',
-    gapConclusion: 'Both compress everything into one grade. Neither exists after the contract ends.',
+      'Security ratings scan a vendor\'s public footprint without asking permission. Genuinely better — until you stop paying. Then the scanning stops, and the score goes with it.',
+    gapConclusion:
+      'Both exist because someone paid for them to exist. Evidence that only lasts as long as you fund it is not a record. It is a subscription.',
+    turnEyebrow: 'The turn',
+    turnHeading: 'Some evidence was never commissioned at all.',
+    turnBody:
+      'Mail servers publish delivery reports because that is how mail works. Certificate logs record every issuance because that is what makes the web verifiable. Signature logs record releases because that is how software supply chains function.',
+    turnBodyClose:
+      'None of it was produced for you. None of it can be switched off by ending a contract. It accumulated as a byproduct of independent systems doing their own unrelated work — and it was already there, before anyone had a reason to look.',
+    survivesHeading: 'And it does not need us either.',
+    survivesBody:
+      'Wake collects those traces and commits them to an append-only record. Inclusion is checked against a root published outside this operator. If the supplier disappears, the history is still there. If Wake disappears, the proofs still verify.',
+    notScoreHeading: 'It does not tell you what to conclude.',
+    notScoreBody:
+      'Every tool in this category ends in a single number. Wake does not. Each stream keeps its own identity and its own history. Zero rows is an answer. The judgement stays yours.',
     receiptHeading: 'An accountability receipt.',
     receiptBody:
-      'One query returns a verifiable history — built from uncommissioned traces, checked against a named root published outside this operator. Something you can hand a regulator regardless of what the supplier does next. It exists because independent systems were already doing their own job. Not because the supplier cooperated.',
-    queryHeading: 'Query the evidence.',
-    bottomLine: 'Evidence that doesn\'t walk off with the supplier.',
+      'One query returns a verifiable history you can hand a regulator, years after the vendor stopped returning calls. It exists because independent systems were already doing their own work — not because anyone agreed to cooperate.',
     streams: {
       mail: {
         name: 'Mail',
