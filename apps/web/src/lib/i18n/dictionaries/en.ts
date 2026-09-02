@@ -68,27 +68,20 @@ export const en: Dictionary = {
     sceneHeading: 'Three years later, someone asks.',
     sceneBody:
       'The contract ended. The team moved on. Their systems were decommissioned, migrated, or sold to somebody else. What you have is a folder of documents they wrote about themselves. What you need is proof of what actually happened — and the only party who held it is gone.',
-    gapHeading: 'Everything built for this problem was commissioned by someone.',
+    gapHeading: 'Every existing fix depends on someone who might not be there anymore.',
+    gapIntro:
+      'Third-party risk has three standard tools today. Look closely at any of them and the same weakness shows up: each one only works while the vendor is still around to ask, still being paid to watch, or still in business to answer a subpoena.',
     gapSelfAttestHeading: 'Self-attestation',
     gapSelfAttestBody:
-      'Questionnaires and compliance packets. The vendor writes them about themselves. AI reads them faster now — that does not change who wrote them.',
+      'Questionnaires and compliance packets. The vendor writes them about themselves, files them once, and has no reason to keep writing them after the contract ends. AI reads the documents faster now — it still did not write them.',
     gapScannerHeading: 'External scanning',
     gapScannerBody:
-      'Security ratings scan a vendor\'s public footprint without asking permission. Genuinely better — until you stop paying. Then the scanning stops, and the score goes with it.',
+      'Security ratings scan a vendor\'s public footprint without asking permission — genuinely better, since the vendor cannot shape what gets measured. But the scanning is a paid service. Stop paying and the scan stops. The score you were shown does not persist anywhere you control.',
+    gapAuditHeading: 'Contractual audit rights',
+    gapAuditBody:
+      'A right-to-audit clause, an escrow agreement, an SLA with teeth. All of it is only as good as a vendor who is still reachable to be audited, still holding the systems named in the clause, still in business to be sued. Once they have wound down or been acquired, the clause has nothing left to point at.',
     gapConclusion:
-      'Both exist because someone paid for them to exist. Evidence that only lasts as long as you fund it is not a record. It is a subscription.',
-    turnEyebrow: 'The turn',
-    turnHeading: 'Some evidence was never commissioned at all.',
-    turnBody:
-      'Mail servers publish delivery reports because that is how mail works. Certificate logs record every issuance because that is what makes the web verifiable.',
-    turnBodyClose:
-      'None of it depends on the supplier\'s cooperation. None of it was theirs to switch off — and none of it ends when the contract does.',
-    survivesHeading: 'And it does not need us either.',
-    survivesBody:
-      'Wake collects those traces and commits them to an append-only record, checked against a root published outside this operator. If the supplier disappears, the history is still there.',
-    receiptHeading: 'An accountability receipt.',
-    receiptBody:
-      'One query returns a verifiable history you can hand a regulator, years after the vendor stopped returning calls. It exists because independent systems were already doing their own work — not because anyone agreed to cooperate.',
+      'All three depend on someone still being there: still being paid, still cooperating, still solvent. The moment the vendor exits is exactly the moment you need the evidence — and exactly the moment all three go quiet.',
     streams: {
       mail: {
         name: 'Mail',

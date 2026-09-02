@@ -68,27 +68,20 @@ export const fr: Dictionary = {
     sceneHeading: 'Trois ans plus tard, on vous demande des comptes.',
     sceneBody:
       'Le contrat est terminé. L\u2019équipe est partie. Leurs systèmes ont été démantelés, migrés ou revendus à quelqu\u2019un d\u2019autre. Ce que vous avez : un dossier de documents qu\u2019ils ont rédigés sur eux-mêmes. Ce qu\u2019il vous faut : la preuve de ce qui s\u2019est réellement passé — et le seul acteur qui la détenait n\u2019est plus là.',
-    gapHeading: 'Tout ce qui existe pour ce problème a été commandé par quelqu\u2019un.',
+    gapHeading: 'Chaque solution existante dépend de quelqu\u2019un qui n\u2019est peut-être plus là.',
+    gapIntro:
+      'La gestion du risque fournisseur repose aujourd\u2019hui sur trois outils standards. Examinez-les de près et la même faiblesse apparaît : chacun ne fonctionne que si le prestataire est encore là pour répondre, si quelqu\u2019un est encore payé pour surveiller, ou si l\u2019entreprise existe encore pour répondre à une assignation.',
     gapSelfAttestHeading: 'Auto-attestation',
     gapSelfAttestBody:
-      'Questionnaires et dossiers de conformité. Le prestataire les rédige sur lui-même. L\u2019IA les lit plus vite aujourd\u2019hui — cela ne change pas qui les a écrits.',
+      'Questionnaires et dossiers de conformité. Le prestataire les rédige sur lui-même, les dépose une fois, et n\u2019a aucune raison de continuer après la fin du contrat. L\u2019IA lit les documents plus vite aujourd\u2019hui — elle ne les a toujours pas écrits.',
     gapScannerHeading: 'Analyse externe',
     gapScannerBody:
-      'Les services de notation analysent l\u2019empreinte publique d\u2019un prestataire sans lui demander la permission. Réellement mieux — jusqu\u2019à ce que vous cessiez de payer. L\u2019analyse s\u2019arrête, et la note disparaît avec elle.',
+      'Les services de notation analysent l\u2019empreinte publique d\u2019un prestataire sans lui demander la permission — réellement mieux, puisque le prestataire ne peut pas orienter ce qui est mesuré. Mais l\u2019analyse est un service payant. Cessez de payer et l\u2019analyse s\u2019arrête. La note qui vous a été montrée ne subsiste nulle part que vous contrôlez.',
+    gapAuditHeading: 'Droits d\u2019audit contractuels',
+    gapAuditBody:
+      'Une clause de droit d\u2019audit, un accord d\u2019entiercement, un SLA avec des dents. Tout cela ne vaut que si le prestataire est encore joignable pour être audité, détient encore les systèmes nommés dans la clause, existe encore pour être poursuivi. Une fois qu\u2019il a cessé son activité ou a été racheté, la clause n\u2019a plus rien à quoi se raccrocher.',
     gapConclusion:
-      'Les deux existent parce que quelqu\u2019un a payé pour qu\u2019ils existent. Une évidence qui ne dure que tant que vous la financez n\u2019est pas un dossier. C\u2019est un abonnement.',
-    turnEyebrow: 'Le basculement',
-    turnHeading: 'Certaines évidences n\u2019ont jamais été commandées.',
-    turnBody:
-      'Les serveurs de messagerie publient des rapports de remise parce que c\u2019est ainsi que fonctionne le courrier. Les journaux de certificats consignent chaque émission parce que c\u2019est ce qui rend le web vérifiable.',
-    turnBodyClose:
-      'Rien de tout cela ne dépend de la coopération du prestataire. Rien ne lui appartenait pour qu\u2019il puisse le couper — et rien ne s\u2019arrête quand le contrat se termine.',
-    survivesHeading: 'Et elle n\u2019a pas besoin de nous non plus.',
-    survivesBody:
-      'Wake collecte ces traces et les inscrit dans un registre append-only, vérifié contre une racine publiée hors de cet opérateur. Si le prestataire disparaît, l\u2019historique est toujours là.',
-    receiptHeading: 'Un reçu de responsabilité.',
-    receiptBody:
-      'Une requête renvoie un historique vérifiable que vous pouvez remettre à un régulateur, des années après que le prestataire a cessé de répondre. Il existe parce que des systèmes indépendants faisaient déjà leur propre travail — pas parce que quelqu\u2019un a accepté de coopérer.',
+      'Les trois dépendent de quelqu\u2019un qui doit encore être là : encore payé, encore coopératif, encore solvable. Le moment où le prestataire part est exactement le moment où vous avez besoin des preuves — et exactement le moment où les trois se taisent.',
     streams: {
       mail: {
         name: 'Courrier',

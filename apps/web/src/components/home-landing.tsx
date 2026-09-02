@@ -39,10 +39,13 @@ export function HomeLanding() {
       {/* ── Why nothing built for this survives it ───────────── */}
       <div className="border-t border-border bg-surface">
         <div className={`${container} py-16 sm:py-24`}>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-txt m-0 max-w-2xl">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-txt m-0 max-w-2xl leading-tight">
             {t.home.gapHeading}
           </h2>
-          <div className="mt-8 grid sm:grid-cols-2 gap-5">
+          <p className="mt-5 mb-0 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
+            {t.home.gapIntro}
+          </p>
+          <div className="mt-10 grid sm:grid-cols-3 gap-5">
             <div className="rounded-xl border border-border bg-bg p-6 sm:p-7">
               <p className={`${eyebrow} mb-3`}>{t.home.gapSelfAttestHeading}</p>
               <p className="m-0 text-sm sm:text-base text-muted leading-relaxed">
@@ -55,52 +58,16 @@ export function HomeLanding() {
                 {t.home.gapScannerBody}
               </p>
             </div>
+            <div className="rounded-xl border border-border bg-bg p-6 sm:p-7">
+              <p className={`${eyebrow} mb-3`}>{t.home.gapAuditHeading}</p>
+              <p className="m-0 text-sm sm:text-base text-muted leading-relaxed">
+                {t.home.gapAuditBody}
+              </p>
+            </div>
           </div>
-          <p className="mt-8 mb-0 text-lg sm:text-xl font-semibold tracking-tight text-txt leading-snug max-w-2xl">
+          <p className="mt-10 mb-0 text-lg sm:text-xl font-semibold tracking-tight text-txt leading-snug max-w-2xl">
             {t.home.gapConclusion}
           </p>
-        </div>
-      </div>
-
-      {/* ── The turn ─────────────────────────────────────────── */}
-      <div className="border-y border-brand/20 bg-brand/5">
-        <div className={`${container} py-20 sm:py-28`}>
-          <p className="text-xs font-mono uppercase tracking-widest text-brand mb-8">
-            {t.home.turnEyebrow}
-          </p>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-txt m-0 leading-[1.1] max-w-2xl">
-            {t.home.turnHeading}
-          </h2>
-          <p className="mt-8 mb-0 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-            {t.home.turnBody}
-          </p>
-          <p className="mt-5 mb-0 text-base sm:text-lg text-txt leading-relaxed max-w-2xl">
-            {t.home.turnBodyClose}
-          </p>
-        </div>
-      </div>
-
-      {/* ── What follows from it ─────────────────────────────── */}
-      <div className={`${container} py-16 sm:py-24`}>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-txt m-0 leading-snug max-w-2xl">
-          {t.home.survivesHeading}
-        </h2>
-        <p className="mt-5 mb-0 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-          {t.home.survivesBody}
-        </p>
-      </div>
-
-      {/* ── Close ────────────────────────────────────────────── */}
-      <div className="border-t border-border bg-surface">
-        <div className={`${container} py-16 sm:py-24`}>
-          <div className="rounded-2xl border border-brand/25 bg-brand/5 p-8 sm:p-12 max-w-2xl">
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-txt m-0 leading-tight">
-              {t.home.receiptHeading}
-            </h2>
-            <p className="mt-5 mb-0 text-base sm:text-lg text-muted leading-relaxed">
-              {t.home.receiptBody}
-            </p>
-          </div>
         </div>
       </div>
 

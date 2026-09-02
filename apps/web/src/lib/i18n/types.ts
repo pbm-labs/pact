@@ -71,19 +71,14 @@ export type Dictionary = {
     sceneHeading: string;
     sceneBody: string;
     gapHeading: string;
+    gapIntro: string;
     gapSelfAttestHeading: string;
     gapSelfAttestBody: string;
     gapScannerHeading: string;
     gapScannerBody: string;
+    gapAuditHeading: string;
+    gapAuditBody: string;
     gapConclusion: string;
-    turnEyebrow: string;
-    turnHeading: string;
-    turnBody: string;
-    turnBodyClose: string;
-    survivesHeading: string;
-    survivesBody: string;
-    receiptHeading: string;
-    receiptBody: string;
     streams: Record<string, StreamCopy>;
   };
   connect: {
