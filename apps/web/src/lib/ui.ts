@@ -16,6 +16,14 @@ export const input =
   'w-full min-w-0 h-11 bg-bg border border-border rounded-lg px-3.5 text-sm font-mono text-txt placeholder:text-muted-2 outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15';
 export const label = 'block text-xs font-mono uppercase tracking-widest text-muted-2';
 
+/** Prose form fields (free text, not domain/code-like) — sans-serif, not mono. */
+export const textField =
+  'w-full min-w-0 h-11 bg-bg border border-border rounded-lg px-3.5 text-sm font-sans text-txt placeholder:text-muted-2 outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15';
+export const textArea =
+  'w-full min-w-0 bg-bg border border-border rounded-lg px-3.5 py-3 text-sm font-sans text-txt placeholder:text-muted-2 outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15 resize-none';
+export const selectField =
+  'w-full min-w-0 h-11 bg-bg border border-border rounded-lg px-3.5 text-sm font-sans text-txt outline-none focus:border-accent/60 focus:ring-2 focus:ring-accent/15 appearance-none';
+
 export const panel = 'rounded-xl border border-border bg-surface shadow-sm overflow-hidden';
 export const panelBody = 'p-5';
 export const panelHeader =

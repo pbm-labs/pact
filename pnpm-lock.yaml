@@ -36,6 +36,9 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
     devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20250525.0
+        version: 4.20260615.1
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.1
@@ -59,7 +62,7 @@ importers:
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.16.9)(tsx@4.22.4)(yaml@2.9.0)
       wrangler:
         specifier: ^4.101.0
-        version: 4.101.0
+        version: 4.101.0(@cloudflare/workers-types@4.20260615.1)
 
   apps/web-live:
     dependencies:
@@ -108,7 +111,7 @@ importers:
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.16.9)(tsx@4.22.4)(yaml@2.9.0)
       wrangler:
         specifier: ^4.101.0
-        version: 4.101.0
+        version: 4.101.0(@cloudflare/workers-types@4.20260615.1)
 
   examples/score:
     devDependencies:
@@ -4669,7 +4672,7 @@ snapshots:
       glob: 12.0.0
       next: 15.5.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       ts-tqdm: 0.8.6
-      wrangler: 4.101.0
+      wrangler: 4.101.0(@cloudflare/workers-types@4.20260615.1)
       yargs: 18.0.0
     transitivePeerDependencies:
       - encoding
@@ -7048,7 +7051,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  wrangler@4.101.0:
+  wrangler@4.101.0(@cloudflare/workers-types@4.20260615.1):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.5.0
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260616.1)
@@ -7059,6 +7062,7 @@ snapshots:
       unenv: 2.0.0-rc.24
       workerd: 1.20260616.1
     optionalDependencies:
+      '@cloudflare/workers-types': 4.20260615.1
       fsevents: 2.3.3
     transitivePeerDependencies:
       - bufferutil

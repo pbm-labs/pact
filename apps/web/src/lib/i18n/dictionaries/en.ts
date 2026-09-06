@@ -41,8 +41,10 @@ export const en: Dictionary = {
     unknownEmpty: 'Empty is an answer. No public record under that identity yet.',
     heroLine1: 'You kept the liability.',
     heroLine2: 'They kept the evidence.',
+    heroLine3: 'Then they disappeared.',
+    heroScrollHint: 'See what this looks like for one supplier',
     turnLine:
-      'You hired a vendor to check something on your behalf — a customer, a payment, a shipment. They ran the check and kept the only record of what they found. You\'re the one who has to answer for it later.',
+      'For teams whose card issuer, payment processor, or compliance vendor could vanish tomorrow. When someone finally asks what happened, a PDF the vendor wrote about itself won\'t answer it — and there\'ll be nothing left to check it against.',
     howItWorksHeading: 'How it works',
     seeHowItWorks: 'How it works',
     liveHeading: 'A live record',
@@ -68,6 +70,8 @@ export const en: Dictionary = {
     sceneHeading: 'Three years later, someone asks.',
     sceneBody:
       'A regulator, an auditor, a lawyer in a case you didn\'t start — someone wants to know exactly what happened on a specific day: which check ran, what it found, who signed off. The vendor who ran it is gone — acquired, shut down, or just not returning calls. What\'s in your files is a PDF they wrote about themselves, for a different reason, at a different time. It doesn\'t answer the question, and there\'s nothing to check it against.',
+    sceneProof:
+      'Not hypothetical — when a fintech\'s ledger provider collapsed in 2024, the bank left holding the accounts paid a forensics firm months and a large invoice to reconstruct exactly this, after the fact. It could have already existed.',
     gapHeading: 'Every existing fix depends on someone who might not be there anymore.',
     gapIntro:
       'Ask any institution how it checks on a vendor today and you\'ll hear one of three answers. Look closely at any of them and the same weakness shows up: each one only works while the vendor is still around to ask, still being paid to watch, or still in business to answer a subpoena.',
@@ -82,6 +86,72 @@ export const en: Dictionary = {
       'A right-to-audit clause, an escrow agreement, an SLA with teeth. All of it is only as good as a vendor who is still reachable to be audited, still holding the systems named in the clause, still in business to be sued. Once they have wound down or been acquired, the clause has nothing left to point at.',
     gapConclusion:
       'All three depend on someone still being there: still being paid, still cooperating, still solvent. The moment the vendor exits is exactly the moment you need the evidence — and exactly the moment all three go quiet.',
+    mechanismHeading: 'What\'s already standing when the vendor isn\'t.',
+    mechanismIntro:
+      'Wake keeps a record built from evidence nobody produced for you — signals independent systems already generate while doing their own unrelated job. None of it depends on the vendor\'s cooperation, and none of it stops the moment they do.',
+    mechanismItems: [
+      {
+        label: 'Mail authentication history',
+        note: 'Independent mail providers already log whether a domain passed authentication — for their own delivery decisions, every day, not for anyone checking on it later.',
+        status: 'live',
+      },
+      {
+        label: 'Certificate history',
+        note: 'Public certificate logs already record every certificate issued to a domain, because browsers require the log to exist — not because anyone asked on your behalf.',
+        status: 'live',
+      },
+      {
+        label: 'Signature history',
+        note: 'Public signature logs already record when a team signed a software release, for their own build process — not as a favor to you.',
+        status: 'live',
+      },
+      {
+        label: 'Regulator license status',
+        note: 'Regulators already publish who\'s licensed to operate, as their own statutory record, not as a lookup service for you.',
+        status: 'planned',
+      },
+      {
+        label: 'Court and insolvency filings',
+        note: 'Courts and company registries already record when a business enters administration or dissolves, as a byproduct of the legal process.',
+        status: 'planned',
+      },
+      {
+        label: 'Breach notifications',
+        note: 'Breach laws already force disclosure when something goes wrong — compelled by statute, not offered voluntarily.',
+        status: 'planned',
+      },
+    ],
+    mechanismLiveTag: 'Live',
+    mechanismPlannedTag: 'Next',
+    mechanismMarker: 'The moment the vendor disappears',
+    mechanismAfterMarker:
+      'Everything above keeps standing. Nothing that depends on the vendor still being reachable does.',
+    mechanismConclusion:
+      'None of it was written about you, for you, or because you asked. That\'s exactly why it\'s still there once everything the vendor wrote about itself is not.',
+    offerHeading: 'See it for one supplier, before you need it.',
+    offerBody:
+      'Pick one process you depend on a third party for — a card issuer, a payments processor, a compliance vendor, anything with a name attached to your liability. We\'ll show you exactly what independent evidence already exists that they operated, and what disappears the moment they do. One process, no build required, no cost.',
+    offerFieldStageLabel: 'Company stage',
+    offerStageOptions: [
+      { value: 'seed', label: 'Seed' },
+      { value: 'series-a', label: 'Series A' },
+      { value: 'series-b-plus', label: 'Series B+' },
+      { value: 'other', label: 'Other' },
+    ],
+    offerFieldDependencyLabel: 'The supplier or process in question',
+    offerFieldDependencyPlaceholder: 'e.g. our card issuer, our KYC vendor, our payments processor',
+    offerFieldUseLabel: 'What would this tell you that you don\'t already know?',
+    offerFieldUsePlaceholder: 'A sentence or two is plenty.',
+    offerSubmit: 'Request the diagnostic',
+    offerSubmitting: 'Sending…',
+    offerSuccessHeading: 'Received.',
+    offerSuccessBody:
+      'We read every one of these ourselves. If it\'s a fit, we\'ll follow up within a few days — this isn\'t automated.',
+    offerError: 'Something went wrong. Try again, or email hello@pbm-labs.com directly.',
+    offerDisclaimer: 'No build required on your end. No spam — a diagnostic or a no, nothing in between.',
+    closeHeading:
+      'Trust that starts with a claim depends on who\'s still around to back it up. Trust that starts with evidence doesn\'t.',
+    closeCta: 'Request the diagnostic',
     streams: {
       mail: {
         name: 'Mail',

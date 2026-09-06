@@ -7,6 +7,14 @@ export type StreamCopy = {
   empty: string;
 };
 
+export type EvidenceItemCopy = {
+  label: string;
+  note: string;
+  status: 'live' | 'planned';
+};
+
+export type StageOptionCopy = { value: string; label: string };
+
 export type Dictionary = {
   nav: {
     language: string;
@@ -48,6 +56,8 @@ export type Dictionary = {
     unknownEmpty: string;
     heroLine1: string;
     heroLine2: string;
+    heroLine3: string;
+    heroScrollHint: string;
     turnLine: string;
     howItWorksHeading: string;
     seeHowItWorks: string;
@@ -70,6 +80,7 @@ export type Dictionary = {
     uncommissionedBody: string;
     sceneHeading: string;
     sceneBody: string;
+    sceneProof: string;
     gapHeading: string;
     gapIntro: string;
     gapSelfAttestHeading: string;
@@ -79,6 +90,30 @@ export type Dictionary = {
     gapAuditHeading: string;
     gapAuditBody: string;
     gapConclusion: string;
+    mechanismHeading: string;
+    mechanismIntro: string;
+    mechanismItems: EvidenceItemCopy[];
+    mechanismLiveTag: string;
+    mechanismPlannedTag: string;
+    mechanismMarker: string;
+    mechanismAfterMarker: string;
+    mechanismConclusion: string;
+    offerHeading: string;
+    offerBody: string;
+    offerFieldStageLabel: string;
+    offerStageOptions: StageOptionCopy[];
+    offerFieldDependencyLabel: string;
+    offerFieldDependencyPlaceholder: string;
+    offerFieldUseLabel: string;
+    offerFieldUsePlaceholder: string;
+    offerSubmit: string;
+    offerSubmitting: string;
+    offerSuccessHeading: string;
+    offerSuccessBody: string;
+    offerError: string;
+    offerDisclaimer: string;
+    closeHeading: string;
+    closeCta: string;
     streams: Record<string, StreamCopy>;
   };
   connect: {

@@ -41,8 +41,10 @@ export const fr: Dictionary = {
     unknownEmpty: 'Vide est une réponse. Pas d\u2019enregistrement public sous cette identité pour l\u2019instant.',
     heroLine1: 'Vous avez gardé la responsabilité.',
     heroLine2: 'Eux ont gardé les preuves.',
+    heroLine3: 'Puis ils ont disparu.',
+    heroScrollHint: 'Voir à quoi ça ressemble pour un prestataire',
     turnLine:
-      'Vous avez engagé un prestataire pour vérifier quelque chose en votre nom — un client, un paiement, une expédition. Il a effectué la vérification et conservé la seule trace de ce qu\u2019il a constaté. C\u2019est vous qui devrez en répondre plus tard.',
+      'Pour les équipes dont l\u2019émetteur de cartes, le prestataire de paiement ou le prestataire de conformité pourrait disparaître demain. Quand quelqu\u2019un finit par demander ce qui s\u2019est passé, un PDF que le prestataire a écrit sur lui-même n\u2019y répondra pas — et il ne restera rien pour le vérifier.',
     howItWorksHeading: 'Comment ça marche',
     seeHowItWorks: 'Comment ça marche',
     liveHeading: 'Un enregistrement live',
@@ -68,6 +70,8 @@ export const fr: Dictionary = {
     sceneHeading: 'Trois ans plus tard, on vous demande des comptes.',
     sceneBody:
       'Un régulateur, un auditeur, un avocat dans une affaire que vous n\u2019avez pas déclenchée — quelqu\u2019un veut savoir exactement ce qui s\u2019est passé un jour précis : quelle vérification a été faite, ce qu\u2019elle a révélé, qui l\u2019a validée. Le prestataire qui l\u2019a effectuée n\u2019est plus là — racheté, fermé, ou simplement injoignable. Ce que vous avez dans vos dossiers, c\u2019est un PDF qu\u2019il a rédigé sur lui-même, pour une autre raison, à un autre moment. Il ne répond pas à la question, et il n\u2019y a rien pour le vérifier.',
+    sceneProof:
+      'Ce n\u2019est pas hypothétique — quand le prestataire de tenue de registre d\u2019une fintech s\u2019est effondré en 2024, la banque qui gérait les comptes a payé un cabinet d\u2019expertise forensique pendant des mois, à grands frais, pour reconstituer exactement cela, après coup. Ça aurait pu déjà exister.',
     gapHeading: 'Chaque solution existante dépend de quelqu\u2019un qui n\u2019est peut-être plus là.',
     gapIntro:
       'Demandez à n\u2019importe quelle institution comment elle surveille un prestataire aujourd\u2019hui, et vous entendrez l\u2019une de ces trois réponses. Regardez-les de près et la même faiblesse apparaît : chacune ne fonctionne que si le prestataire est encore là pour répondre, si quelqu\u2019un est encore payé pour surveiller, ou si l\u2019entreprise existe encore pour répondre à une assignation.',
@@ -82,6 +86,73 @@ export const fr: Dictionary = {
       'Une clause de droit d\u2019audit, un accord d\u2019entiercement, un SLA avec des dents. Tout cela ne vaut que si le prestataire est encore joignable pour être audité, détient encore les systèmes nommés dans la clause, existe encore pour être poursuivi. Une fois qu\u2019il a cessé son activité ou a été racheté, la clause n\u2019a plus rien à quoi se raccrocher.',
     gapConclusion:
       'Les trois dépendent de quelqu\u2019un qui doit encore être là : encore payé, encore coopératif, encore solvable. Le moment où le prestataire part est exactement le moment où vous avez besoin des preuves — et exactement le moment où les trois se taisent.',
+    mechanismHeading: 'Ce qui tient encore debout quand le prestataire n\u2019y est plus.',
+    mechanismIntro:
+      'Wake conserve un dossier construit à partir de preuves que personne n\u2019a produites pour vous — des signaux que des systèmes indépendants génèrent déjà en faisant leur propre travail, sans rapport avec vous. Rien de tout cela ne dépend de la coopération du prestataire, et rien ne s\u2019arrête au moment où il disparaît.',
+    mechanismItems: [
+      {
+        label: 'Historique d\u2019authentification du courrier',
+        note: 'Les prestataires de messagerie indépendants enregistrent déjà si un domaine passe l\u2019authentification — pour leurs propres décisions de livraison, chaque jour, pas pour quelqu\u2019un qui vérifierait plus tard.',
+        status: 'live',
+      },
+      {
+        label: 'Historique des certificats',
+        note: 'Les journaux publics de certificats enregistrent déjà chaque certificat émis pour un domaine, parce que les navigateurs exigent que ce journal existe — pas parce que quelqu\u2019un l\u2019a demandé en votre nom.',
+        status: 'live',
+      },
+      {
+        label: 'Historique des signatures',
+        note: 'Les journaux publics de signatures enregistrent déjà quand une équipe a signé une version logicielle, pour son propre processus de build — pas comme une faveur pour vous.',
+        status: 'live',
+      },
+      {
+        label: 'Statut d\u2019agrément du régulateur',
+        note: 'Les régulateurs publient déjà qui est agréé pour opérer, comme registre statutaire qui leur est propre — pas comme service de consultation pour vous.',
+        status: 'planned',
+      },
+      {
+        label: 'Actes judiciaires et de faillite',
+        note: 'Les tribunaux et les registres d\u2019entreprises enregistrent déjà quand une société entre en redressement ou est dissoute, comme sous-produit de la procédure judiciaire.',
+        status: 'planned',
+      },
+      {
+        label: 'Notifications de violation de données',
+        note: 'Les lois sur les violations de données imposent déjà la divulgation quand quelque chose va mal — sous contrainte légale, pas offerte volontairement.',
+        status: 'planned',
+      },
+    ],
+    mechanismLiveTag: 'Disponible',
+    mechanismPlannedTag: 'À venir',
+    mechanismMarker: 'Le moment où le prestataire disparaît',
+    mechanismAfterMarker:
+      'Tout ce qui précède reste debout. Rien de ce qui dépend du prestataire encore joignable ne l\u2019est.',
+    mechanismConclusion:
+      'Rien de tout cela n\u2019a été écrit sur vous, pour vous, ou parce que vous l\u2019avez demandé. C\u2019est exactement pour ça que ça reste là une fois que tout ce que le prestataire a écrit sur lui-même a disparu.',
+    offerHeading: 'Voyez-le pour un prestataire, avant d\u2019en avoir besoin.',
+    offerBody:
+      'Choisissez un processus qui dépend d\u2019un tiers — un émetteur de cartes, un prestataire de paiement, un prestataire de conformité, n\u2019importe quoi dont le nom est attaché à votre responsabilité. Nous vous montrerons exactement quelles preuves indépendantes existent déjà attestant qu\u2019il a opéré, et ce qui disparaît au moment où il disparaît. Un processus, sans développement requis, sans coût.',
+    offerFieldStageLabel: 'Stade de l\u2019entreprise',
+    offerStageOptions: [
+      { value: 'seed', label: 'Amorçage' },
+      { value: 'series-a', label: 'Série A' },
+      { value: 'series-b-plus', label: 'Série B+' },
+      { value: 'other', label: 'Autre' },
+    ],
+    offerFieldDependencyLabel: 'Le prestataire ou processus en question',
+    offerFieldDependencyPlaceholder:
+      'ex. notre émetteur de cartes, notre prestataire KYC, notre prestataire de paiement',
+    offerFieldUseLabel: 'Qu\u2019est-ce que ça vous apprendrait que vous ne savez pas déjà ?',
+    offerFieldUsePlaceholder: 'Une phrase ou deux suffisent.',
+    offerSubmit: 'Demander le diagnostic',
+    offerSubmitting: 'Envoi…',
+    offerSuccessHeading: 'Reçu.',
+    offerSuccessBody:
+      'Nous lisons chacune de ces demandes nous-mêmes. Si ça correspond, nous vous recontacterons dans les prochains jours — ce n\u2019est pas automatisé.',
+    offerError: 'Une erreur s\u2019est produite. Réessayez, ou écrivez directement à hello@pbm-labs.com.',
+    offerDisclaimer: 'Aucun développement requis de votre côté. Pas de spam — un diagnostic ou un non, rien entre les deux.',
+    closeHeading:
+      'La confiance qui part d\u2019une affirmation dépend de qui reste là pour la confirmer. La confiance qui part d\u2019une preuve n\u2019en dépend pas.',
+    closeCta: 'Demander le diagnostic',
     streams: {
       mail: {
         name: 'Courrier',

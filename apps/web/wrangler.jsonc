@@ -16,6 +16,12 @@
       "service": "pact-web-evidence"
     }
   ],
+  "kv_namespaces": [
+    {
+      "binding": "DIAGNOSTIC_KV",
+      "id": "91ed587195db416e88566a9cf5ae4823"
+    }
+  ],
   "routes": [
     {
       "pattern": "wake.webuildreal.dev",
