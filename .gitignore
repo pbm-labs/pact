@@ -30,6 +30,9 @@ packages/contracts/broadcast/
 # Editor / local
 .cursor/
 
+# Private strategy notes — never commit or push
+private/
+
 # Secrets / keys (never commit)
 *.pem
 *.key
