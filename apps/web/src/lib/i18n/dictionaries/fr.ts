@@ -107,17 +107,17 @@ export const fr: Dictionary = {
       {
         label: 'Statut d\u2019agrément du régulateur',
         note: 'Les régulateurs publient déjà qui est agréé pour opérer, comme registre statutaire qui leur est propre — pas comme service de consultation pour vous.',
-        status: 'planned',
+        status: 'live',
       },
       {
         label: 'Actes judiciaires et de faillite',
         note: 'Les tribunaux et les registres d\u2019entreprises enregistrent déjà quand une société entre en redressement ou est dissoute, comme sous-produit de la procédure judiciaire.',
-        status: 'planned',
+        status: 'live',
       },
       {
         label: 'Notifications de violation de données',
         note: 'Les lois sur les violations de données imposent déjà la divulgation quand quelque chose va mal — sous contrainte légale, pas offerte volontairement.',
-        status: 'planned',
+        status: 'live',
       },
     ],
     mechanismLiveTag: 'Disponible',
@@ -129,7 +129,7 @@ export const fr: Dictionary = {
       'Rien de tout cela n\u2019a été écrit sur vous, pour vous, ou parce que vous l\u2019avez demandé. C\u2019est exactement pour ça que ça reste là une fois que tout ce que le prestataire a écrit sur lui-même a disparu.',
     mechanismDemoHeading: 'Ce n\u2019est pas une maquette.',
     mechanismDemoBody:
-      'Interrogez l\u2019historique de courrier, de certificats ou de signatures pour n\u2019importe quel domaine — y compris le nôtre. Vrai registre, vraies preuves, en ce moment. Les trois flux marqués Disponible ci-dessus ; le reste est ce qu\u2019on construirait ensuite.',
+      'Interrogez l\u2019historique de courrier, de certificats ou de signatures pour n\u2019importe quel domaine — y compris le nôtre. Vrai registre, vraies preuves, en ce moment.',
     offerHeading: 'Voyez-le pour un prestataire, avant d\u2019en avoir besoin.',
     offerBody:
       'Choisissez un processus qui dépend d\u2019un tiers — un émetteur de cartes, un prestataire de paiement, un prestataire de conformité, n\u2019importe quoi dont le nom est attaché à votre responsabilité. Nous vous montrerons exactement quelles preuves indépendantes existent déjà attestant qu\u2019il a opéré, et ce qui disparaît au moment où il disparaît. Un processus, sans développement requis, sans coût.',

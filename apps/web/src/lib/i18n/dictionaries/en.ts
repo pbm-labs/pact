@@ -107,17 +107,17 @@ export const en: Dictionary = {
       {
         label: 'Regulator license status',
         note: 'Regulators already publish who\'s licensed to operate, as their own statutory record, not as a lookup service for you.',
-        status: 'planned',
+        status: 'live',
       },
       {
         label: 'Court and insolvency filings',
         note: 'Courts and company registries already record when a business enters administration or dissolves, as a byproduct of the legal process.',
-        status: 'planned',
+        status: 'live',
       },
       {
         label: 'Breach notifications',
         note: 'Breach laws already force disclosure when something goes wrong — compelled by statute, not offered voluntarily.',
-        status: 'planned',
+        status: 'live',
       },
     ],
     mechanismLiveTag: 'Live',
@@ -129,7 +129,7 @@ export const en: Dictionary = {
       'None of it was written about you, for you, or because you asked. That\'s exactly why it\'s still there once everything the vendor wrote about itself is not.',
     mechanismDemoHeading: 'This isn\'t a mockup.',
     mechanismDemoBody:
-      'Query mail, certificate, or signature history for any domain — including ours. Real ledger, real proofs, right now. The three kinds tagged Live above; the rest is what we\'d build next.',
+      'Query mail, certificate, or signature history for any domain — including ours. Real ledger, real proofs, right now.',
     offerHeading: 'See it for one supplier, before you need it.',
     offerBody:
       'Pick one process you depend on a third party for — a card issuer, a payments processor, a compliance vendor, anything with a name attached to your liability. We\'ll show you exactly what independent evidence already exists that they operated, and what disappears the moment they do. One process, no build required, no cost.',
