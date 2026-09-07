@@ -42,7 +42,6 @@ export const fr: Dictionary = {
     heroLine1: 'Vous avez gardé la responsabilité.',
     heroLine2: 'Eux ont gardé les preuves.',
     heroLine3: 'Puis ils ont disparu.',
-    heroScrollHint: 'Voir à quoi ça ressemble pour un prestataire',
     turnLine:
       'Pour les équipes dont l\u2019émetteur de cartes, le prestataire de paiement ou le prestataire de conformité pourrait disparaître demain. Quand quelqu\u2019un finit par demander ce qui s\u2019est passé, un PDF que le prestataire a écrit sur lui-même n\u2019y répondra pas — et il ne restera rien pour le vérifier.',
     howItWorksHeading: 'Comment ça marche',

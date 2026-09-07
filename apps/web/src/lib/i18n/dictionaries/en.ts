@@ -42,7 +42,6 @@ export const en: Dictionary = {
     heroLine1: 'You kept the liability.',
     heroLine2: 'They kept the evidence.',
     heroLine3: 'Then they disappeared.',
-    heroScrollHint: 'See what this looks like for one supplier',
     turnLine:
       'For teams whose card issuer, payment processor, or compliance vendor could vanish tomorrow. When someone finally asks what happened, a PDF the vendor wrote about itself won\'t answer it — and there\'ll be nothing left to check it against.',
     howItWorksHeading: 'How it works',

@@ -34,13 +34,6 @@ export function HomeLanding({
         <p className="mt-10 mb-0 text-base sm:text-xl text-muted leading-relaxed max-w-xl">
           {t.home.turnLine}
         </p>
-        <a
-          href="#diagnostic"
-          className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-txt hover:text-brand no-underline"
-        >
-          {t.home.heroScrollHint}
-          <span aria-hidden="true">↓</span>
-        </a>
       </div>
 
       {/* ── The moment it breaks ─────────────────────────────── */}

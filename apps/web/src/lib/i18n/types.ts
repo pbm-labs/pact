@@ -57,7 +57,6 @@ export type Dictionary = {
     heroLine1: string;
     heroLine2: string;
     heroLine3: string;
-    heroScrollHint: string;
     turnLine: string;
     howItWorksHeading: string;
     seeHowItWorks: string;
