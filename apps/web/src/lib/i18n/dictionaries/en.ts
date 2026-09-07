@@ -128,6 +128,9 @@ export const en: Dictionary = {
       'Everything above keeps standing. Nothing that depends on the vendor still being reachable does.',
     mechanismConclusion:
       'None of it was written about you, for you, or because you asked. That\'s exactly why it\'s still there once everything the vendor wrote about itself is not.',
+    mechanismDemoHeading: 'This isn\'t a mockup.',
+    mechanismDemoBody:
+      'Query mail, certificate, or signature history for any domain — including ours. Real ledger, real proofs, right now. The three kinds tagged Live above; the rest is what we\'d build next.',
     offerHeading: 'See it for one supplier, before you need it.',
     offerBody:
       'Pick one process you depend on a third party for — a card issuer, a payments processor, a compliance vendor, anything with a name attached to your liability. We\'ll show you exactly what independent evidence already exists that they operated, and what disappears the moment they do. One process, no build required, no cost.',

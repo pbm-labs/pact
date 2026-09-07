@@ -98,6 +98,8 @@ export type Dictionary = {
     mechanismMarker: string;
     mechanismAfterMarker: string;
     mechanismConclusion: string;
+    mechanismDemoHeading: string;
+    mechanismDemoBody: string;
     offerHeading: string;
     offerBody: string;
     offerFieldStageLabel: string;

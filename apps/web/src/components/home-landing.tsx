@@ -2,10 +2,20 @@
 
 import { useLocale } from '@/components/locale-provider';
 import { DiagnosticForm } from '@/components/diagnostic-form';
+import { EvidenceQuery } from '@/components/evidence-query';
 import { EvidenceTimeline } from '@/components/evidence-timeline';
+import { LiveProof } from '@/components/live-proof';
+import type { LiveProofData } from '@/lib/evidence';
+import type { CatalogKind } from '@/lib/kind-catalog';
 import { btnPrimary, container, eyebrow } from '@/lib/ui';
 
-export function HomeLanding() {
+export function HomeLanding({
+  kinds,
+  liveProof,
+}: {
+  kinds: CatalogKind[];
+  liveProof: LiveProofData | null;
+}) {
   const { t, locale } = useLocale();
 
   return (
@@ -114,6 +124,20 @@ export function HomeLanding() {
           <p className="mt-2 mb-0 text-lg sm:text-xl font-semibold tracking-tight text-txt leading-snug max-w-2xl">
             {t.home.mechanismConclusion}
           </p>
+
+          <div className="mt-14 sm:mt-16 max-w-2xl rounded-xl border border-border bg-surface p-6 sm:p-8">
+            <h3 className="m-0 text-lg sm:text-xl font-bold tracking-tight text-txt">
+              {t.home.mechanismDemoHeading}
+            </h3>
+            <p className="mt-2.5 mb-0 text-sm sm:text-base text-muted leading-relaxed">
+              {t.home.mechanismDemoBody}
+            </p>
+
+            <div className="[&>section]:!mt-6 [&>section+section]:!mt-10">
+              {liveProof ? <LiveProof domain={liveProof.domain} results={liveProof.results} /> : null}
+              <EvidenceQuery kinds={kinds} />
+            </div>
+          </div>
         </div>
       </div>
 

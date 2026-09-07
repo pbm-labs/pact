@@ -128,6 +128,9 @@ export const fr: Dictionary = {
       'Tout ce qui précède reste debout. Rien de ce qui dépend du prestataire encore joignable ne l\u2019est.',
     mechanismConclusion:
       'Rien de tout cela n\u2019a été écrit sur vous, pour vous, ou parce que vous l\u2019avez demandé. C\u2019est exactement pour ça que ça reste là une fois que tout ce que le prestataire a écrit sur lui-même a disparu.',
+    mechanismDemoHeading: 'Ce n\u2019est pas une maquette.',
+    mechanismDemoBody:
+      'Interrogez l\u2019historique de courrier, de certificats ou de signatures pour n\u2019importe quel domaine — y compris le nôtre. Vrai registre, vraies preuves, en ce moment. Les trois flux marqués Disponible ci-dessus ; le reste est ce qu\u2019on construirait ensuite.',
     offerHeading: 'Voyez-le pour un prestataire, avant d\u2019en avoir besoin.',
     offerBody:
       'Choisissez un processus qui dépend d\u2019un tiers — un émetteur de cartes, un prestataire de paiement, un prestataire de conformité, n\u2019importe quoi dont le nom est attaché à votre responsabilité. Nous vous montrerons exactement quelles preuves indépendantes existent déjà attestant qu\u2019il a opéré, et ce qui disparaît au moment où il disparaît. Un processus, sans développement requis, sans coût.',
